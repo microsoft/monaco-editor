@@ -1,0 +1,33 @@
+
+"use strict";
+function Person(age) {
+	if (age) {
+		this.age = age;
+	}
+}
+Person.prototype.getAge = function () {
+	return this.age;
+};
+
+function Student(age, grade) {
+	Person.call(this, age);
+	this.grade = grade;
+}
+Student.prototype = new Person();
+Student.prototype.getGrade = function () {
+	return this.grade;
+};
+
+var s = new Student(24, 5.75);
+//var age = s.
+
+//delete s.age;
+//s.getAge = function() { return {foo:"bar"}; };
+//s.
+//s.getAge().
+
+
+
+
+
+

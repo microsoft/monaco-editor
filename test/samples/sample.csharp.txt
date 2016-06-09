@@ -1,0 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VS
+{
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			ProcessStartInfo si = new ProcessStartInfo();
+			float load= 3.2e02f;
+
+			si.FileName = @"tools\\node.exe";
+			si.Arguments = "tools\\simpleserver.js";
+
+			Process.Start(si);
+		}
+	}
+}

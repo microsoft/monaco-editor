@@ -1,0 +1,44 @@
+var container = document.getElementById("container");
+var cssCode = [
+	'body {',
+	'	margin: 0px;',
+	'	padding: 0px;',
+	'}'
+].join('\n');
+
+Monaco.Editor.create(container, {
+	value: cssCode,
+	mode: "text/css"
+});
+
+require(['vs/platform/platform', 'vs/editor/modes/modesExtensions'], 
+	function (Platform, ModesExtensions) {
+		var modesRegistry = Platform.Registry.as(ModesExtensions.Extensions.EditorModes);
+		
+		// Try 'ignore', 'warning', and 'error'
+		modesRegistry.configureMode('text/css', {
+			"validationSettings": {
+				"lint": {
+					compatibleVendorPrefixes": "warning",
+					vendorPrefix": "warning",
+					duplicateProperties": "warning",
+					emptyRules": "warning",
+					importStatement": "ignore",
+					boxModel": "ignore",
+					universalSelector": "warning",
+					zeroUnits": "ignore",
+					fontFaceProperties": "warning",
+					hexColorLength": "error",
+					argumentsInColorFunction": "error",
+					unknownProperties": "warning",
+					unknownVendorSpecificProperties": "warning",
+					propertyIgnoredDueToDisplay": "warning",
+					important": "ignore",
+					float": "ignore",
+					idSelector": "ignore"
+				}
+			}
+		});
+	}
+);
+

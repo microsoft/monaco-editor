@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" href="./index.css" />
+</head>
+<body>
+
+<h2>Monaco Editor (running from multiple sources)</h2>
+
+<a href="./index.html">[MULTIPLE SOURCES]</a>
+&nbsp;|&nbsp;
+<a href="./index-release.html">[RELEASED]</a>
+&nbsp;|&nbsp;
+<a href="./smoketest-release.html">[SMOKETEST]</a>
+<br/><br/>
+
+<div id="bar" style="margin-bottom: 6px;"></div>
+<div style="clear:both"></div>
+<div id="container" style="float:left;width:800px;height:450px;border: 1px solid grey"></div>
+<div id="options" style="float:left;width:220px;height:450px;border: 1px solid grey"></div>
+<div style="clear:both"></div>
+
+<script src="../metadata.js"></script>
+
+<script>
+	var RUN_EDITOR_FROM_SOURCE = false; // should run the editor from source? (or from the node module)
+	var RUN_PLUGINS_FROM_SOURCE = {}; // should run the editor plugins from source? (or from node modules)
+	RUN_PLUGINS_FROM_SOURCE['monaco-typescript'] = false;
+	RUN_PLUGINS_FROM_SOURCE['monaco-languages'] = false;
+
+	// Resolve paths
+	if (RUN_EDITOR_FROM_SOURCE) {
+		METADATA.CORE.path = METADATA.CORE.srcPath;
+	} else {
+		METADATA.CORE.path = '/monaco-editor/' + METADATA.CORE.path;
+	}
+	METADATA.PLUGINS.forEach(function(plugin) {
+		if (RUN_PLUGINS_FROM_SOURCE[plugin.name]) {
+			plugin.path = plugin.srcPath;
+		} else {
+			plugin.path = '/monaco-editor/' + plugin.path;
+		}
+	});
+</script>
+
+<script>document.write('<script src="' + METADATA.CORE.path + '/loader.js"><'+'/script>');</script>
+
+<script>
+	var pathsConfig = {};
+	METADATA.PLUGINS.forEach(function(plugin) {
+		pathsConfig[plugin.modulePrefix] = plugin.path;
+	});
+	pathsConfig['vs'] = METADATA.CORE.path;
+
+	require.config({
+		paths: pathsConfig
+	});
+
+	require(['vs/editor/editor.main'], function() {
+		// At this point we've loaded the monaco-editor-core
+		require(METADATA.PLUGINS.map(function(plugin) { return plugin.contrib; }), function() {
+			// At this point we've loaded all the plugins
+			require(['./index'], function() {});
+		});
+	});
+
+</script>
+</body>
+</html>

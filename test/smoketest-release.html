@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<style>
+		#errors {
+			position:fixed;
+			top:0;
+			right:0;
+			font-size: 20px;
+			width: 100px;
+			height: 100px;
+		}
+		body {
+			height: 100%;
+		}
+		#editor {
+			float:left;
+			width: 1250px;
+		}
+	</style>
+</head>
+<body>
+
+<h2>Smoke Test (running from release)</h2>
+
+<a href="./index.html">[MULTIPLE SOURCES]</a>
+&nbsp;|&nbsp;
+<a href="./index-release.html">[RELEASED]</a>
+&nbsp;|&nbsp;
+<a href="./smoketest-release.html">[SMOKETEST]</a>
+<br/><br/>
+
+<div id="control"></div>
+<div id="editor"></div>
+<div id="errors"></div>
+<div style="clear:both"></div>
+
+<script src="../release/min/vs/loader.js"></script>
+<script>
+	require.config({
+		paths: {
+			'vs': '../release/min/vs'
+		}
+	});
+	require(['vs/editor/editor.main'], function() {
+		require(['./smoketest'], function() {});
+	});
+</script>
+
+</body>
+</html>

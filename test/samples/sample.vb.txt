@@ -1,0 +1,59 @@
+Imports System
+Imports System.Collections.Generic
+
+Module Module1
+
+    Sub Main()
+        Dim a As New M8Ball
+
+        Do While True
+
+            Dim q As String = ""
+            Console.Write("ask me about the future... ")
+            q = Console.ReadLine()
+
+            If q.Trim <> "" Then
+                Console.WriteLine("the answer is... {0}", a.getAnswer(q))
+            Else
+                Exit Do
+            End If
+        Loop
+
+    End Sub
+
+End Module
+
+Class M8Ball
+
+    Public Answers As System.Collections.Generic.Dictionary(Of Integer, String)
+
+    Public Sub New()
+        Answers = New System.Collections.Generic.Dictionary(Of Integer, String)
+        Answers.Add(0, "It is certain")
+        Answers.Add(1, "It is decidedly so")
+        Answers.Add(2, "Without a doubt")
+        Answers.Add(3, "Yes, definitely")
+        Answers.Add(4, "You may rely on ")
+        Answers.Add(5, "As I see it, yes")
+        Answers.Add(6, "Most likely")
+        Answers.Add(7, "Outlook good")
+        Answers.Add(8, "Signs point to yes")
+        Answers.Add(9, "Yes")
+        Answers.Add(10, "Reply hazy, try again")
+        Answers.Add(11, "Ask again later")
+        Answers.Add(12, "Better not tell you now")
+        Answers.Add(13, "Cannot predict now")
+        Answers.Add(14, "Concentrate and ask again")
+        Answers.Add(15, "Don't count on it")
+        Answers.Add(16, "My reply is no")
+        Answers.Add(17, "My sources say no")
+        Answers.Add(18, "Outlook not so")
+        Answers.Add(19, "Very doubtful")
+    End Sub
+
+    Public Function getAnswer(theQuestion As String) As String
+        Dim r As New Random
+        Return Answers(r.Next(0, 19))
+    End Function
+
+End Class
