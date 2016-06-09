@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "outDir": "out",
+    "target": "es5"
+  },
+  "filesGlob": [
+    "src/*.ts",
+    "test/*.ts",
+    "lib/*.d.ts",
+    "node_modules/monaco-editor-core/monaco.d.ts"
+  ],
+  "files": [
+    "src/languageFeatures.ts",
+    "src/mode.ts",
+    "src/monaco.contribution.ts",
+    "src/tokenization.ts",
+    "src/typescript.ts",
+    "src/worker.ts",
+    "src/workerManager.ts",
+    "test/assert.d.ts",
+    "test/mocha.d.ts",
+    "test/tokenization.test.ts",
+    "lib/lib-es6-ts.d.ts",
+    "lib/lib-ts.d.ts",
+    "lib/typescriptServices.d.ts",
+    "node_modules/monaco-editor-core/monaco.d.ts"
+  ]
+}
