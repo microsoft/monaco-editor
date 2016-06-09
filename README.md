@@ -34,4 +34,4 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * bundle with `npm run prepublish`
 
 ## License
-[MIT](https://github.com/Microsoft/monaco-typescript/blob/master/LICENSE.md)
+[MIT](https://github.com/Microsoft/monaco-languages/blob/master/LICENSE.md)
