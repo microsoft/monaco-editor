@@ -1,0 +1,59 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Segoe UI",Arial,"HelveticaNeue-Light", sans-serif;
+	font-size: 13px;
+	overflow: hidden;
+}
+
+select {
+	width: initial;
+}
+
+.title {
+	font-family: "Segoe UI Light","HelveticaNeue-UltraLight", sans-serif;
+	font-weight: 100;
+	font-size: 1.8em;
+}
+
+.tabArea {
+	height: 20px;
+	box-sizing: border-box;
+	border-bottom: 1px solid #999;
+}
+.tab {
+	height: 20px;
+	line-height: 20px;
+	box-sizing: border-box;
+	color: #999;
+	padding: 0 8px;
+	border: 1px solid #999;
+	border-bottom: 0;
+	cursor: pointer;
+	float: left;
+}
+.tab.active {
+	color: black;
+	border-bottom: 1px solid white;
+}
+.action {
+	height: 20px;
+	line-height: 20px;
+	box-sizing: border-box;
+	color: black;
+	padding: 0 5px;
+	border: 1px solid #999;
+	border-bottom: 0;
+	cursor: pointer;
+	float: right;
+	padding-left: 16px;
+}
+.action.run {
+	background: url('run.png') no-repeat left center;
+}
+.editor-container {
+	border: 1px solid #999;
+	border-top: 0;
+}
+
+

@@ -1,0 +1,308 @@
+.try [class*="span"] {
+	-webkit-box-sizing:	border-box;
+	-o-box-sizing:		border-box;
+	-moz-box-sizing:	border-box;
+	-ms-box-sizing:		border-box;
+	box-sizing:			border-box;
+	word-wrap:          break-word;
+}
+
+.try .drops {
+	margin: 0;
+	list-style: none;
+	float: right;
+}
+
+.try .drops li {
+	float: left;
+	width: auto;
+	height: auto;
+	text-indent: 0;
+	font-size: 26px;
+	line-height: normal;
+	margin: 0 12px;
+	cursor: pointer;
+}
+
+.try .drops li a:hover,
+.try .drops li a:focus {
+	text-decoration: none;
+}
+
+.try .drops li h4 {
+	color: #999;
+}
+
+.try .drops li.active h4,
+.try .drops li.active:hover h4 {
+	color: #0072C6;
+}
+
+.try .drops li:hover h4 {
+	color: rgba(0, 114, 198, .5);
+}
+
+.try .editor.row {
+	padding: 18px 0
+}
+
+.try .row h4 {
+	padding-bottom: 6px;
+}
+
+.try .tile {
+	position: relative;
+	height: 72px;
+	border: 1px solid #ddd;
+	text-align: right;
+	overflow: hidden;
+	cursor: pointer;
+
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+
+	-webkit-box-sizing:	border-box;
+	-o-box-sizing:		border-box;
+	-moz-box-sizing:	border-box;
+	-ms-box-sizing:		border-box;
+	box-sizing:			border-box;
+}
+
+.try .tile:hover {
+	-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+}
+
+.try .tile h4 {
+	margin: 0;
+	position: absolute;
+	right: 12px;
+	bottom: 12px;
+	z-index: 1;
+}
+
+.try .tile .glyph {
+	position: absolute;
+	left: 12px;
+	bottom: -6px;
+	background: url('../img/cloud.png') no-repeat;
+	background-size: 80px 43px;
+	height: 43px;
+	width: 80px;
+
+	opacity: .5;
+	transition: opacity .5s ease, bottom .5s ease;
+	-webkit-transition: opacity .5s ease, bottom .5s ease;
+}
+
+.try .tile:hover .glyph {
+	opacity: 1;
+	bottom: -2px;
+}
+
+.try .editor.row h4 small {
+	color: #555;
+}
+
+.try .editor.row .control-label {
+	display: inline-block;
+	position: relative;
+	top: -4px;
+	margin-right: 4px;
+}
+
+.try .editor.row .monaco-editor .find-widget input[type="text"] {
+	margin-bottom: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	transition: none;
+}
+
+.try .editor.row .monaco-editor .find-widget .monaco-checkbox .label {
+	min-height: 20px;
+	min-width: 20px;
+}
+
+.try .editor.row .monaco-editor .find-widget .close {
+	float: none;
+	opacity: 1;
+}
+
+.try .editor.row .bootstrap-select {
+	width: 200px;
+}
+
+.try .editor.row .bootstrap-select .btn {
+	background: none;
+	color: #555;
+	border: 1px solid #ddd;
+	width: 100%;
+}
+
+.try .editor.row .bootstrap-select .open .btn {
+	background-color: #0072C6;
+	color: #FFF;
+}
+
+.try .editor.row .bootstrap-select .open .btn .caret {
+	border-top-color: #FFF;
+}
+
+.try .editor.row .bootstrap-select .btn:focus {
+	outline: 0 auto #0072C6 !important;
+}
+
+.try .editor.row .bootstrap-select .btn:active,
+.try .editor.row .bootstrap-select.btn-group.open .dropdown-toggle {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.try .editor.row .bootstrap-select .dropdown-menu > li > a {
+	color: #555;
+}
+
+.try .editor.row .bootstrap-select .dropdown-menu > li > a:hover {
+	background: none;
+	background-color: #CDE7F9;
+}
+
+.try .editor .editor-frame {
+	position: relative;
+}
+
+.try .editor .editor-frame #editor,
+.try .editor .editor-frame #diff-editor {
+	height: 400px;
+	margin-bottom: 10px;
+	border: 1px solid #eee;
+}
+
+.try .editor .editor-frame .loading {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(255, 255, 255, .5);
+	margin: 0 auto;
+	display: none;
+	z-index: 100;
+}
+
+.try .editor .editor-frame .progress {
+	width: 50%;
+	margin: 15% auto 0;
+}
+
+.try .editor .editor-frame .progress .bar {
+	width: 100%;
+	background-color: #4bb1cf;
+}
+
+.try .editor .editor-frame #editor .alert,
+.try .editor .editor-frame #diff-editor .alert {
+	margin: 18% auto 0;
+	width: 30%;
+	text-align: center;
+	color: #b94a48;
+	background-color: #f2dede;
+	border-color: #eed3d7;
+}
+
+.try .editor #editor .monaco-editor .row,
+.try .editor #diff-editor .monaco-editor .row {
+	margin-left: 0;
+}
+
+.try .editor .vs.monaco-editor .context-view.monaco-menu-container a {
+	color: #646465;
+}
+
+.try .editor .vs-dark.monaco-editor .context-view.monaco-menu-container a {
+	color: #BBB;
+}
+
+@media (max-width: 767px) {
+	.try .container {
+		margin: 0 24px;
+	}
+
+	.try .tile h4 {
+		right: 6px;
+	}
+
+	.try .editor > .span9 .row .span4 {
+		float: left;
+		width: 50%;
+	}
+
+	.try .editor > .span9 .row .bootstrap-select {
+		display: block;
+		width: 90%;
+	}
+
+	.try .editor > .span9 .row .bootstrap-select .btn {
+		width: 90%;
+	}
+
+	.try .editor h4 {
+		margin-top: 0;
+	}
+}
+
+@media (max-width: 520px) {
+	.try .editor > .span3 p,
+	.try .editor > .span3 h4 {
+		display: none;
+	}
+}
+
+@media (max-width: 320px) {
+	.try .editor > .span9 {
+		display: none;
+	}
+}
+
+/* ------- BEGIN bootstrap fixes for the editor ------- */
+
+.monaco-editor .container:before, .monaco-editor .row:before {
+	content: "";
+	display: inherit;
+}
+
+.monaco-editor .container:after, .monaco-editor .row:after {
+	clear: inherit;
+}
+
+.monaco-editor .container {
+	width: auto;
+	margin: inherit;
+	padding: inherit;
+}
+
+.monaco-editor .close {
+	float: none;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	color: inherit;
+	text-shadow: inherit;
+	opacity: inherit;
+	filter: inherit;
+}
+
+.monaco-editor .row {
+	margin: inherit;
+}
+
+.monaco-editor .invisible {
+	visibility: visible;
+}
+
+/* ------- END bootstrap fixes for the editor ------- */

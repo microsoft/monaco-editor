@@ -1,4 +1,9 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-	"files.trimTrailingWhitespace": true
+	"files.trimTrailingWhitespace": true,
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/release": true
+	}
 }

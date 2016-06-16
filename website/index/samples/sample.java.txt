@@ -1,0 +1,14 @@
+import java.util.ArrayList;
+import org.junit.Test;
+
+public class Example {
+    @Test 
+    public void method() {
+       org.junit.Assert.assertTrue( "isEmpty", new ArrayList<Integer>().isEmpty());
+    }
+	
+   @Test(timeout=100) public void infinity() {
+       while(true);
+    }
+ }
+ 

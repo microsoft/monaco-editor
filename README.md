@@ -6,6 +6,8 @@ The Monaco Editor is the code editor that powers [VS Code](https://github.com/Mi
 
 ## Issues
 
+Please mention the version of the editor when creating issues and the browser you're having trouble in.
+
 This repository contains only the scripts to glue things together, please create issues against the actual repositories where the source code lives:
  * monaco-editor-core: [Issues](https://github.com/Microsoft/vscode) -- [npm module](https://www.npmjs.com/package/monaco-editor-core) (Issues with the editor itself)
  * monaco-typescript: [Issues](https://github.com/Microsoft/monaco-typescript) -- [npm module](https://www.npmjs.com/package/monaco-typescript) (Issues with JavaScript or TypeScript language support)

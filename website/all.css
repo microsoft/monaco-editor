@@ -1,0 +1,274 @@
+body {
+	padding: 54px 0 40px 0;
+	overflow-y: scroll;
+}
+
+body.home {
+	padding-top: 0;
+}
+
+body,
+input,
+button,
+select,
+textarea,
+.navbar-search .search-query {
+  font: 400 14px/1.4em "Segoe UI", "Open Sans", Calibri, Candara, Arial, sans-serif;
+}
+
+.navbar .nav {
+	float: left;
+	margin-right: 0;
+}
+
+a {
+	color: #0066cc;
+	cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	letter-spacing: -0.01em;
+	margin: 0;
+	line-height: normal;
+}
+
+/***** Bootstrap Cosmo Overrides *****/
+h1, h2 {
+	font-family: "Segoe UI Light", "Segoe UI", "Open Sans", Calibri, Candara, Arial, sans-serif;
+	font-weight: 300;
+}
+h1 {
+	font-size: 72px;
+	letter-spacing: -0.02em;
+}
+
+.hero-unit h1 {
+	font-size: 48px;
+}
+
+h2 {
+	font-size: 26px;
+}
+
+h3 {
+	font-size: 26px;
+}
+
+h4 {
+	font-size: 16px;
+}
+
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small {
+  color: #999;
+}
+
+.alert-heading,
+.alert h1,
+.alert h2,
+.alert h3,
+.alert h4,
+.alert h5,
+.alert h6 {
+  color: inherit;
+}
+
+.alert-info {
+  color: #3a87ad;
+  background-color: #d9edf7;
+}
+
+.navbar-inverse .navbar-inner {
+	background-color: #68217A;
+	filter: none;
+}
+
+.navbar-inverse.home .navbar-inner {
+	background-color: transparent;
+}
+
+.navbar-inverse .btn-navbar {
+	background: transparent;
+	margin-top: 14px;
+}
+
+.navbar-inverse .btn-navbar:hover,
+.navbar-inverse .btn-navbar:focus,
+.navbar-inverse .btn-navbar:active,
+.navbar-inverse .btn-navbar.active,
+.navbar-inverse .btn-navbar.disabled,
+.navbar-inverse .btn-navbar[disabled] {
+	background: #442359;
+}
+
+.btn-primary {
+	background-color: #0072C6;
+}
+
+.home .hero-unit {
+	margin-top: -54px;
+	position: relative;
+	z-index: 100;
+}
+
+.hero-unit {
+	font-weight: normal;
+}
+
+.hero-unit h1 {
+	margin: 0 0 6px;
+}
+
+.nav-tabs > li > a {
+	color: #999;
+}
+
+.nav-tabs > li > a:hover {
+	color: #555;
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+	color: #0072C6;
+}
+
+/***** General *****/
+
+body > section > .container {
+	padding-top: 12px;
+}
+
+.masthead {
+	background-color: #0072C6;
+	color: white;
+}
+
+.masthead .hero-unit {
+	padding: 30px 0 0;
+	background: none;
+}
+
+.navbar.home {
+	position: relative;
+	z-index: 500;
+}
+
+.navbar .nav>li>a {
+	text-shadow: none;
+	padding-top: 18px;
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+.navbar-inverse .nav-collapse .nav>li>a {
+	color: white;
+	padding-left: 0;
+}
+
+.navbar-inverse .nav>li>a.nav-item:focus, .navbar-inverse .nav>li>a.nav-item:hover {
+	background-color: rgba(0,0,0,.12);
+}
+
+.navbar-inverse .nav .active>a.nav-item, .navbar-inverse .nav .active>a.nav-item:hover, .navbar-inverse .nav .active>a.nav-item:focus {
+	color:#fff;
+	background-color: rgba(0,0,0,.24);
+	box-shadow: none;
+}
+
+.navbar .logo {
+	/*background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOSI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIxIDBsLTExIDEyLTcuMzMzLTUuNjY2LTIuNjY3IDEuNjgydjEzLjk4NGwyLjY2NyAxLjY2NiA3LjMzMy01LjY2NiAxMSAxMSA3LTN2LTIyLjMzM2wtNy0zLjY2N3ptLTE4IDE5di05bDQgNS00IDR6bTExLTRsNy02djEybC03LTZ6Ii8+PC9zdmc+") left center no-repeat;*/
+	/*padding: 16px 12px 0 34px;*/
+	padding: 16px 12px 0 0px;
+	height: 35px;
+	display: block;
+	float: left;
+}
+
+.navbar .logo a {
+	color: #fff;
+	font-size: 24px;
+	letter-spacing: -1px;
+}
+
+.navbar-fixed-top {
+	z-index: 500;
+}
+
+.flgroup:after {
+	content: "";
+	display: block;
+	visibility: hidden;
+	height: 0;
+	clear: both;
+}
+
+/* Controls */
+
+/* Media Queries */
+@media (min-width: 1200px) {
+	h1, h2 {
+		letter-spacing: -0.04em;
+	}
+
+	.hero-unit h1 {
+		font-size: 72px;
+	}
+
+	h2 {
+		font-size: 36px;
+	}
+
+}
+
+@media (min-width: 980px) {
+	.navbar .nav {
+		float: right;
+	}
+
+	.navbar-inverse .nav-collapse .nav>li>a {
+		padding-left: 15px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+	h1 {
+		letter-spacing: -0.02em;
+	}
+}
+
+@media (max-width: 979px) {
+	body {
+		padding: inherit;
+	}
+
+	.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+		margin-right: inherit;
+		margin-left: inherit;
+		margin-bottom: 0;
+	}
+
+	.navbar-fixed-top .navbar-inner {
+		padding: 0 20px;
+	}
+
+	.navbar .container {
+		width: 724px;
+	}
+}
+
+@media (max-width: 767px) {
+	.navbar .container {
+		width: 100%;
+	}
+}
+
+@media (max-width: 480px) {
+	.navbar .logo a {
+		display: none;
+	}
+}

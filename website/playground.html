@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+
+	<title>Monaco Editor Playground</title>
+
+	<link href="./lib/bootstrap-cosmo.css" rel="stylesheet">
+	<link href="./lib/bootstrap-responsive.min.css" rel="stylesheet">
+	<link href="./all.css" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="./playground/spinner.css" />
+	<link rel="stylesheet" href="./playground/playground.css" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="logo">
+					<a href="#">Monaco Editor</a>
+				</div>
+				<!-- collapse button for smaller screens -->
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+
+				<!-- navbar title -->
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a class="nav-item" href="index.html">Home</a></li>
+						<li><a class="nav-item" href="playground.html">Playground</a></li>
+						<li><a class="nav-item" href="monarch.html">Monarch</a></li>
+						<li><a class="nav-item" href="https://www.npmjs.com/package/monaco-editor">Download</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div id="loading">
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+		</div>
+	</div>
+
+	<section id="playground">
+	</section>
+
+	<footer class="container">
+		<hr>
+		<p class="text-center">
+			<small>&copy; 2016 Microsoft</small>
+		</p>
+	</footer>
+
+	<script src="./lib/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="./lib/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="../release/min/vs/loader.js"></script>
+	<script type="text/javascript">
+		window.MonacoEnvironment = {
+			getWorkerUrl: function(workerId, label) {
+				return 'worker-loader-proxy.js';
+			}
+		};
+		require.config({
+			paths: {
+				vs: "../release/min/vs"
+			}
+		});
+	</script>
+	<script type="text/javascript" src="./playground/samples/all.js"></script>
+	<script type="text/javascript" src="./playground/playground.js"></script>
+</body>
+</html>
