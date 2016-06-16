@@ -122,6 +122,7 @@ const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ noSemanticValidation: true, noSyntaxValidation: false });
 
 
+// Export API
 function createAPI(): typeof monaco.languages.typescript {
 	return {
 		ModuleKind: ModuleKind,
@@ -133,6 +134,7 @@ function createAPI(): typeof monaco.languages.typescript {
 		javascriptDefaults: javascriptDefaults
 	}
 }
+monaco.languages.typescript = createAPI();
 
 // --- Registration to monaco editor ---
 

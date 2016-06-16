@@ -16,7 +16,6 @@
     "src/monaco.contribution.ts",
     "src/monaco.d.ts",
     "src/tokenization.ts",
-    "src/typescript.ts",
     "src/worker.ts",
     "src/workerManager.ts",
     "test/assert.d.ts",

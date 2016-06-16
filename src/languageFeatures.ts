@@ -464,7 +464,7 @@ outlineTypeTable[Kind.localFunction] = monaco.languages.SymbolKind.Function;
 // --- formatting ----
 
 export abstract class FormatHelper extends Adapter {
-	protected static _convertOptions(options: monaco.languages.IFormattingOptions): ts.FormatCodeOptions {
+	protected static _convertOptions(options: monaco.languages.FormattingOptions): ts.FormatCodeOptions {
 		return {
 			ConvertTabsToSpaces: options.insertSpaces,
 			TabSize: options.tabSize,
@@ -494,7 +494,7 @@ export abstract class FormatHelper extends Adapter {
 
 export class FormatAdapter extends FormatHelper implements monaco.languages.DocumentRangeFormattingEditProvider {
 
-	provideDocumentRangeFormattingEdits(model: monaco.editor.IReadOnlyModel, range: Range, options: monaco.languages.IFormattingOptions, token: CancellationToken): Thenable<monaco.editor.ISingleEditOperation[]> {
+	provideDocumentRangeFormattingEdits(model: monaco.editor.IReadOnlyModel, range: Range, options: monaco.languages.FormattingOptions, token: CancellationToken): Thenable<monaco.editor.ISingleEditOperation[]> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => {
@@ -516,7 +516,7 @@ export class FormatOnTypeAdapter extends FormatHelper implements monaco.language
 		return [';', '}', '\n'];
 	}
 
-	provideOnTypeFormattingEdits(model: monaco.editor.IReadOnlyModel, position: Position, ch: string, options: monaco.languages.IFormattingOptions, token: CancellationToken): Thenable<monaco.editor.ISingleEditOperation[]> {
+	provideOnTypeFormattingEdits(model: monaco.editor.IReadOnlyModel, position: Position, ch: string, options: monaco.languages.FormattingOptions, token: CancellationToken): Thenable<monaco.editor.ISingleEditOperation[]> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => {

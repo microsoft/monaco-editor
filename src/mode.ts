@@ -55,7 +55,7 @@ function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language
 	disposables.push(monaco.languages.setTokensProvider(modeId, createTokenizationSupport(language)));
 }
 
-const richEditConfiguration:monaco.languages.IRichLanguageConfiguration = {
+const richEditConfiguration:monaco.languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 
 	comments: {

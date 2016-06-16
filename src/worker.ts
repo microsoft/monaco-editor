@@ -44,12 +44,12 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	}
 
 	getScriptFileNames(): string[] {
-		let models = monaco.worker.mirrorModels.map(model => model.uri.toString());
+		let models = monaco.worker.getMirrorModels().map(model => model.uri.toString());
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
 	private _getModel(fileName:string): monaco.worker.IMirrorModel {
-		let models = monaco.worker.mirrorModels;
+		let models = monaco.worker.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			if (models[i].uri.toString() === fileName) {
 				return models[i];
