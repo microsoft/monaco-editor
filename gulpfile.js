@@ -145,6 +145,8 @@ function addPluginDTS() {
 
 		contents += '\n' + extraContent.join('\n');
 		data.contents = new Buffer(contents);
+
+		fs.writeFileSync('website/playground/samples/editor.d.ts.txt', contents);
 		this.emit('data', data);
 	});
 }

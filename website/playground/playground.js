@@ -1,30 +1,27 @@
+/// <reference path="../../release/monaco.d.ts" />
+
 (function() {
 
 'use strict';
 
 window.onload = function() {
-	require(['require', 'vs/editor/editor.main'], function(require) {
+	require(['vs/editor/editor.main'], function() {
+		xhr('playground/samples/editor.d.ts.txt').then(function(response) {
+			monaco.languages.typescript.javascriptDefaults.addExtraLib(response.responseText, 'editor.d.ts');
+			monaco.languages.typescript.javascriptDefaults.addExtraLib([
+				'declare var require: {',
+				'	toUrl(path: string): string;',
+				'	(moduleName: string): any;',
+				'	(dependencies: string[], callback: (...args: any[]) => any, errorback?: (err: any) => void): any;',
+				'	config(data: any): any;',
+				'	onError: Function;',
+				'};',
+			].join('\n'), 'require.d.ts');
 
-		// require(['vs/languages/typescript/common/typescript'], function() {
-		// 	var mode = require('vs/languages/typescript/common/typescript');
-		// 	var winjs = require('vs/base/common/winjs.base');
-		// 	winjs.xhr({ url: 'playground/samples/editor.d.ts.txt' }).then(function(response) {
-		// 		mode.javaScriptDefaults.addExtraLib(response.responseText, 'editor.d.ts');
-		// 		mode.javaScriptDefaults.addExtraLib([
-		// 			'declare var require: {',
-		// 			'	toUrl(path: string): string;',
-		// 			'	(moduleName: string): any;',
-		// 			'	(dependencies: string[], callback: (...args: any[]) => any, errorback?: (err: any) => void): any;',
-		// 			'	config(data: any): any;',
-		// 			'	onError: Function;',
-		// 			'};',
-		// 		].join('\n'), 'require.d.ts');
-
-				var loading = document.getElementById('loading');
-				loading.parentNode.removeChild(loading);
-				load();
-		// 	});
-		// });
+			var loading = document.getElementById('loading');
+			loading.parentNode.removeChild(loading);
+			load();
+		});
 	});
 };
 
@@ -308,6 +305,35 @@ function doRun(runContainer) {
 
 	runIframe.addEventListener('load', function(e) {
 		runIframe.contentWindow.load(getLang('js'), getLang('html'), getLang('css'));
+	});
+}
+
+function xhr(url) {
+	var req = null;
+	return new monaco.Promise(function(c,e,p) {
+		req = new XMLHttpRequest();
+		req.onreadystatechange = function () {
+			if (req._canceled) { return; }
+
+			if (req.readyState === 4) {
+				if ((req.status >= 200 && req.status < 300) || req.status === 1223) {
+					c(req);
+				} else {
+					e(req);
+				}
+				req.onreadystatechange = function () { };
+			} else {
+				p(req);
+			}
+		};
+
+		req.open("GET", url, true );
+		req.responseType = "";
+
+		req.send(null);
+	}, function () {
+		req._canceled = true;
+		req.abort();
 	});
 }
 
