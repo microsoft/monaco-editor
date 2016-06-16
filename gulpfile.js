@@ -35,7 +35,7 @@ gulp.task('release', ['clean-release'], function() {
 			'node_modules/monaco-editor-core/monaco.d.ts',
 			'node_modules/monaco-editor-core/ThirdPartyNotices.txt',
 			'README.md'
-		]).pipe(gulp.dest('release'))
+		]).pipe(addPluginDTS()).pipe(gulp.dest('release'))
 	)
 });
 
@@ -46,13 +46,6 @@ function releaseOne(type) {
 			.pipe(gulp.dest('release/' + type)),
 		pluginStreams('release/' + type + '/')
 	)
-}
-
-function mergePluginsContribsIntoCore(coreStream) {
-	return (
-		coreStream
-		.pipe(addPluginContribs())
-	);
 }
 
 function pluginStreams(destinationPath) {
@@ -123,6 +116,34 @@ function addPluginContribs() {
 		}
 		contents = contents.substring(0, insertIndex) + '\n' + extraContent.join('\n') + '\n' + contents.substring(insertIndex);
 
+		data.contents = new Buffer(contents);
+		this.emit('data', data);
+	});
+}
+
+/**
+ * Edit monaco.d.ts:
+ * - append monaco.d.ts from plugins
+ */
+function addPluginDTS() {
+	return es.through(function(data) {
+		if (!/monaco\.d\.ts$/.test(data.path)) {
+			this.emit('data', data);
+			return;
+		}
+		var contents = data.contents.toString();
+
+		var extraContent = [];
+		metadata.METADATA.PLUGINS.forEach(function(plugin) {
+			var dtsPath = path.join(plugin.path, 'monaco.d.ts');
+			try {
+				extraContent.push(fs.readFileSync(dtsPath).toString());
+			} catch (err) {
+				return;
+			}
+		});
+
+		contents += '\n' + extraContent.join('\n');
 		data.contents = new Buffer(contents);
 		this.emit('data', data);
 	});
