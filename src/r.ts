@@ -5,7 +5,7 @@
 
 'use strict';
 
-import IRichLanguageConfiguration = monaco.languages.IRichLanguageConfiguration;
+import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 export var conf:IRichLanguageConfiguration = {

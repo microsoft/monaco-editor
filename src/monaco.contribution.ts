@@ -14,7 +14,7 @@ interface ILang extends monaco.languages.ILanguageExtensionPoint {
 }
 
 interface ILangImpl {
-	conf: monaco.languages.IRichLanguageConfiguration;
+	conf: monaco.languages.LanguageConfiguration;
 	language: monaco.languages.IMonarchLanguage;
 }
 
