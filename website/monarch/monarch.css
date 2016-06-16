@@ -1,0 +1,219 @@
+
+
+/* common extra token classes */
+.monaco-editor .token.invalid     { border-bottom: red dotted 1px }
+.monaco-editor .token.identifier  { }
+.monaco-editor .token.comment.doc { font-style: normal; }
+
+.monaco-editor .token.type            { color: teal; }
+.monaco-editor .token.type.delimiter  { color: teal; }
+.monaco-editor .token.predefined      { color: navy; }
+.monaco-editor .token.namespace       { color: navy; }
+.monaco-editor .token.constructor     { color: purple; }
+
+/* theme all the new token classes */
+
+.monaco-editor.vs-dark .token.type                     { color: darkcyan;}
+.monaco-editor.vs-dark .token.predefined               { color: darkorchid;}
+.monaco-editor.vs-dark .token.namespace                { color: lightsteelblue; }
+.monaco-editor.vs-dark .token.constructor              { color: palegoldenrod; }
+
+.monaco-editor.high-contrast-black .token.type         { color: darkcyan;}
+.monaco-editor.high-contrast-black .token.predefined   { color: aquamarine;}
+.monaco-editor.high-contrast-black .token.namespace    { color: lightsteelblue; }
+.monaco-editor.high-contrast-black .token.constructor  { color: palegoldenrod; }
+
+/* specials for functional languages */
+.token.keyword.dot                { color: black; }
+.token.typeparam                  { color: #555;  }
+.token.typevar                    { font-style: italic; }
+
+
+
+
+
+
+
+
+.monaco-editor .current-line,
+.monaco-editor.vs .current-line,
+.monaco-editor.monaco .current-line { border: none; }
+.monaco-editor.vs .key.js           { color: navy;}
+
+.monaco-editor.vs .token.string.escape,
+.token.regexp.escape                { color: dimgray; }
+.token.regexp.escape.control        { color: black; }
+
+.token.emphasis         { font-style: italic;}
+.token.strong           { font-weight: bold; }
+.token.header           { color: navy ;}
+
+/* -------------------------------------------
+    Workbench UI style
+--------------------------------------------*/
+#editor, #langPane {
+  height: 60ex;
+  border: 1px solid #ccc
+}
+
+#langPane {
+  height: 72ex;
+}
+
+#main {
+  font-family: "Segoe UI Light", "Segoe UI", Arial, "HelveticaNeue-Light", sans-serif;
+  font-size: 12pt;
+  width: 94%;
+  padding: 0pt;
+  margin: 1% 3% 5ex 3%;
+}
+
+#leftPane {
+  float: left;
+  width: 58%;
+  margin: 0pt;
+  margin-bottom: 2ex;
+}
+
+#rightPane {
+  width: 40%;
+  float: right;
+  margin: 0pt;
+}
+
+#header, #footer {
+  clear: both;
+  font-size: 18pt;
+  margin-bottom: 1ex;
+}
+
+#logo {
+  margin: 0pt 0pt 5pt -17px;
+  padding: 0pt;
+  width: 17px;
+}
+
+#commandbar {
+  margin-top: 4px;
+  height: 90%;
+}
+
+
+#monarchConsole {
+  color: black;
+  overflow: auto;
+  height: 100px;
+  border: lightgray 1px solid;
+  padding-left: 1ex;
+  margin-top: 10px;
+  white-space: pre-wrap;
+}
+
+#sampleselect {
+  width: 15ex;
+}
+#themeselect, #sampleselect {
+  padding: 0;
+  margin: 0;
+  height: auto;
+}
+
+.paneheader {
+  margin-bottom: 0.5ex;
+  font-size: 14pt;
+}
+
+.selectbox {
+  float: right;
+  font-size: smaller;
+}
+
+.button {
+  border: 1px solid lightgray;
+  cursor: pointer;
+  padding: 0ex 0.5ex 0ex 0.5ex;
+}
+
+.button:hover {
+  background-color: lightgray;
+  border-color: dimgray;
+}
+
+.touchbutton:hover {
+  background-color: #F8F8F8;
+}
+
+.touchbutton {
+  border: 1px solid;
+  border-radius: 1000px; /* circle */
+  height: 3ex;
+  width: 3ex;            /* needed for safari */
+  cursor: pointer;
+}
+
+.touchbutton:hover {
+  background-color: #F8F8F8;
+}
+
+.arrowdown {
+  font-size: 10pt;
+}
+
+/*-------------------------------------------------------------------
+   documentation style
+-------------------------------------------------------------------*/
+  #documentation {
+  clear: both;
+  border: lightgray 1px solid;
+  padding: 1ex 4ex 1ex 3ex;
+  font-family: "Segoe UI", Arial, "HelveticaNeue-Light", sans-serif;
+}
+
+#documentation a {
+  color: navy;
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+
+#documentation .monaco-editor.monaco .current-line,
+#documentation .monaco-editor     { background-color: #fafafa }
+#documentation .string.escape     { color: dimgray;}
+
+h1,h2,h3,h4
+      { font-weight: normal;
+        margin-top: 0pt;
+        margin-left: -1.5ex;
+        margin-bottom: 0pt;
+      }
+
+h2    { font-size: 16pt;}
+h3    { font-size: 120%;}
+
+ul    { padding-left: 1.5em
+      ; margin-left: 0pt
+      }
+
+.options,
+pre   { border: 1px solid #888
+      ; padding: 1ex
+      ; background: #F8F8F8
+      ; font-size: 10pt;
+      }
+
+
+code, pre,dt { font-family: Consolas }
+
+strong    { color: black }
+
+td      { vertical-align: top }
+img     { margin: 2ex }
+
+
+dt    { color: navy; margin-top: 2ex; padding: 2px;}
+.dt   { color: navy }
+.adv  { color: maroon; }
+
+dl dl dt { margin-top: 1ex;}
+
+#documentation .keyword  { color: blue; }
+#documentation .tag      { color: navy; }
