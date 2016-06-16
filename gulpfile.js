@@ -6,6 +6,9 @@ var path = require('path');
 var fs = require('fs');
 var rimraf = require('rimraf');
 
+var SAMPLES_MDOC_PATH = path.join(__dirname, 'website/playground/playground.mdoc');
+var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/samples');
+
 gulp.task('clean-release', function(cb) { rimraf('release', { maxBusyTries: 1 }, cb); });
 gulp.task('release', ['clean-release'], function() {
 	return es.merge(
@@ -146,7 +149,146 @@ function addPluginDTS() {
 		contents += '\n' + extraContent.join('\n');
 		data.contents = new Buffer(contents);
 
-		fs.writeFileSync('website/playground/samples/editor.d.ts.txt', contents);
+		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
 		this.emit('data', data);
 	});
 }
+
+
+// --- website
+
+gulp.task('clean-playground-samples', function(cb) { rimraf(WEBSITE_GENERATED_PATH, { maxBusyTries: 1 }, cb); });
+gulp.task('playground-samples', ['clean-playground-samples'], function() {
+	function toFolderName(name) {
+		var result = name.toLowerCase().replace(/[^a-z0-9\-_]/g, '-');
+
+		while (result.indexOf('--') >= 0) {
+			result = result.replace(/--/, '-');
+		}
+
+		while (result.charAt(result.length - 1) === '-') {
+			result = result.substring(result, result.length - 1);
+		}
+
+		return result;
+	}
+
+	function parse(txt) {
+		function startsWith(haystack, needle) {
+			return haystack.substring(0, needle.length) === needle;
+		}
+
+		var CHAPTER_MARKER = "=";
+		var SAMPLE_MARKER = "==";
+		var SNIPPET_MARKER = "=======================";
+
+		var lines = txt.split(/\r\n|\n|\r/);
+		var result = [];
+		var currentChapter = null;
+		var currentSample = null;
+		var currentSnippet = null;
+
+		for (var i = 0; i < lines.length; i++) {
+			var line = lines[i];
+
+			if (startsWith(line, SNIPPET_MARKER)) {
+				var snippetType = line.substring(SNIPPET_MARKER.length).trim();
+
+				if (snippetType === 'HTML' || snippetType === 'JS' || snippetType === 'CSS') {
+					currentSnippet = currentSample[snippetType];
+				} else {
+					currentSnippet = null;
+				}
+				continue;
+			}
+
+			if (startsWith(line, SAMPLE_MARKER)) {
+				currentSnippet = null;
+				currentSample = {
+					name: line.substring(SAMPLE_MARKER.length).trim(),
+					JS: [],
+					HTML: [],
+					CSS: []
+				};
+				currentChapter.samples.push(currentSample);
+				continue;
+			}
+
+			if (startsWith(line, CHAPTER_MARKER)) {
+				currentSnippet = null;
+				currentSample = null;
+				currentChapter = {
+					name: line.substring(CHAPTER_MARKER.length).trim(),
+					samples: []
+				};
+				result.push(currentChapter);
+				continue;
+			}
+
+			if (currentSnippet) {
+				currentSnippet.push(line);
+				continue;
+			}
+
+			if (line === '') {
+				continue;
+			}
+
+			// ignore inter-sample content
+			console.warn('IGNORING INTER-SAMPLE CONTENT: ' + line);
+		}
+
+		return result;
+	}
+
+	var chapters = parse(fs.readFileSync(SAMPLES_MDOC_PATH).toString());
+
+	var allSamples = [];
+
+	fs.mkdirSync(WEBSITE_GENERATED_PATH);
+
+	chapters.forEach(function(chapter) {
+		var chapterFolderName = toFolderName(chapter.name);
+
+		chapter.samples.forEach(function(sample) {
+			var sampleId = toFolderName(chapter.name + '-' + sample.name);
+
+			sample.sampleId = sampleId;
+
+			var js = [
+				'//---------------------------------------------------',
+				'// ' + chapter.name + ' > ' + sample.name,
+				'//---------------------------------------------------',
+				'',
+			].concat(sample.JS)
+			var sampleOut = {
+				id: sampleId,
+				js: js.join('\n'),
+				html: sample.HTML.join('\n'),
+				css: sample.CSS.join('\n')
+			};
+
+			allSamples.push({
+				chapter: chapter.name,
+				name: sample.name,
+				sampleId: sampleId
+			});
+
+var content =
+`// This is a generated file. Please do not edit directly.
+var SAMPLES = this.SAMPLES || [];
+SAMPLES.push(${JSON.stringify(sampleOut)});
+`
+
+			fs.writeFileSync(path.join(WEBSITE_GENERATED_PATH, sampleId + '.js'), content);
+		});
+	});
+
+	var content =
+`// This is a generated file. Please do not edit directly.
+this.SAMPLES = [];
+this.ALL_SAMPLES = ${JSON.stringify(allSamples)};`
+
+	fs.writeFileSync(path.join(WEBSITE_GENERATED_PATH, 'all.js'), content);
+
+});

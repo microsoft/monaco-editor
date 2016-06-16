@@ -1,0 +1,3 @@
+// This is a generated file. Please do not edit directly.
+var SAMPLES = this.SAMPLES || [];
+SAMPLES.push({"id":"creating-the-diffeditor-hello-diff-world","js":"//---------------------------------------------------\n// Creating the DiffEditor > Hello diff world!\n//---------------------------------------------------\n\nvar originalModel = monaco.editor.createModel(\"heLLo world!\", \"text/plain\");\nvar modifiedModel = monaco.editor.createModel(\"hello orlando!\", \"text/plain\");\n\nvar diffEditor = monaco.editor.createDiffEditor(document.getElementById(\"container\"));\ndiffEditor.setModel({\n\toriginal: originalModel,\n\tmodified: modifiedModel\n});\n","html":"<div id=\"container\" style=\"height:100%;\"></div>\n","css":""});

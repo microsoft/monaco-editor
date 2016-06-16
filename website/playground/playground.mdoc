@@ -4,15 +4,12 @@
 =======================JS
 // The Monaco Editor can be easily created, given an
 // empty container and an options literal.
-// Two members of the literal are "value" and "mode".
+// Two members of the literal are "value" and "language".
 // The editor takes the full size of its container.
 
-var container = document.getElementById("container");
-var jsCode = "function hello() {\n\talert('Hello world!');\n}";
-
-Monaco.Editor.create(container, {
-	value: jsCode,
-	mode: "text/javascript"
+monaco.editor.create(document.getElementById("container"), {
+	value: "function hello() {\n\talert('Hello world!');\n}",
+	language: "javascript"
 });
 
 =======================HTML
@@ -26,53 +23,24 @@ Monaco.Editor.create(container, {
 == Editor basic options
 =======================JS
 // Through the options literal, the behaviour of the editor can be easily customized.
+// Here are a few examples of config options that can be passed to the editor.
+// You can also call editor.updateOptions at any time to change the options.
 
-var container = document.getElementById("container");
-var jsCode = "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line";
+var editor = monaco.editor.create(document.getElementById("container"), {
+	value: "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line",
+	language: "javascript",
 
-// Here are the available config options that can be passed
-// to the editor and their default values. Try changing them!
-var editor = Monaco.Editor.create(container, {
-	value: jsCode,
-
-	mode: "text/javascript",
-
-	// Show line numbers in the gutter ?
-	lineNumbers: true,
-
-	// Tab size in characters
-	tabSize: "auto",
-
-	// Insert spaces instead of tabs ?
-	insertSpaces: "auto",
-
-	// Rounded corners for rendering selection ?
-	roundedSelection: true,
-
-	// Scrolling one page after the last line ?
-	scrollBeyondLastLine: true,
-
-	// Scrollbars rendering
-	scrollbar: {
-		// other values are "visible" or "hidden"
-		vertical: "auto",
-		horizontal: "auto"
-	},
-
-	// Automatic Layout: Should a timer be installed
-	// which fires every 100ms to scan the editor's
-	// container for size changes ?
-	// Setting to true has a severe performance penalty.
-	// One can call .layout() on the editor manually.
-	automaticLayout: false,
-
-	// Is the editor in read only mode ?
+	lineNumbers: false,
+	roundedSelection: false,
+	scrollBeyondLastLine: false,
 	readOnly: false,
-
-	// What theme should be used ?
-	// Values supported: vs, vs-dark
-	theme: "vs",
+	theme: "vs-dark",
 });
+setTimeout(function() {
+	editor.updateOptions({
+		lineNumbers: true
+	});
+}, 2000);
 
 =======================HTML
 <div id="container" style="height:100%;"></div>
@@ -85,12 +53,11 @@ var editor = Monaco.Editor.create(container, {
 == Hard wrapping
 
 =======================JS
-var container = document.getElementById("container");
-var jsCode = "// jqeuery-min excerpt:\n//       1         2         3         4\n//34567890123456789012345678901234567890\n(function(e,t){var n,r,i=typeof t,o=e.document,a=e.location,s=e.jQuery,u=e.$,l={},c=[],p=\"1.9.1\",f=c.concat,d=c.push,h=c.slice,g=c.indexOf,m=l.toString,y=l.hasOwnProperty,v=p.trim,b=function(e,t){return new b.fn.init(e,t,r)},x=/[+-]?(?:\\d*\\.|)\\d+(?:[eE][+-]?\\d+|)/.source,w=/\\S+/g,T=/^[\\s\\uFEFF\\xA0]+|[\\s\\uFEFF\\xA0]+$/g,N=/^(?:(<[\\w\\W]+>)[^>]*|#([\\w-]*))$/,C=/^<(\\w+)\\s*\\/?>(?:<\\/\\1>|)$/,k=/^[\\],:{}\\s]*$/,E=/(?:^|:|,)(?:\\s*\\[)+/g,S=/\\\\(?:[\"\\\\\\/bfnrt]|u[\\da-fA-F]{4})/g,A=/\"[^\"\\\\\\r\\n]*\"|true|false|null|-?(?:\\d+\\.|)\\d+(?:[eE][+-]?\\d+|)/g,j=/^-ms-/,D=/-([\\da-z])/gi,L=function(e,t){return t.toUpperCase()},H=function(e){(o.addEventListener||\"load\"===e.type||\"complete\"===o.readyState)&&(q(),b.ready())},q=function(){o.addEventListener?(o.removeEventListener(\"DOMContentLoaded\",H,!1),e.removeEventListener(\"load\",H,!1)):(o.detachEvent(\"onreadystatechange\",H),e.detachEvent(\"onload\",H))};b.fn=b.prototype={jquery:p,constructor:b,init:function(e,n,r){var i,a;if(!e)return this;if(\"string\"==typeof e){if(i=\"<\"===e.charAt(0)&&\">\"===e.charAt(e.length-1)&&e.length>=3?[null,e,null]:N.exec(e),!i||!i[1]&&n)return!n||n.jquery?(n||r).find(e):this.constructor(n).find(e);if(i[1]){if(n=n instanceof b?n[0]:n,b.merge(this,b.parseHTML(i[1],n&&n.nodeType?n.ownerDocument||n:o,!0)),C.test(i[1])&&b.isPlainObject(n))for(i in n)b.isFunction(this[i])?this[i](n[i]):this.attr(i,n[i]);return this}if(a=o.getElemen";
+var jsCode = "// jqeuery excerpt:\n//       1         2         3         4\n//34567890123456789012345678901234567890\n\/*!\r\n * Sizzle CSS Selector Engine v2.3.0\r\n * https:\/\/sizzlejs.com\/\r\n *\r\n * Copyright jQuery Foundation and other contributors\r\n * Released under the MIT license\r\n * http:\/\/jquery.org\/license\r\n *\r\n * Date: 2016-01-04\r\n *\/\r\n(function( window ) {\r\n\r\nvar i,\r\n\tsupport,\r\n\tExpr,\r\n\tgetText,\r\n\tisXML,\r\n\ttokenize,\r\n\tcompile,\r\n\tselect,\r\n\toutermostContext,\r\n\tsortInput,\r\n\thasDuplicate,\r\n\r\n\t\/\/ Local document vars\r\n\tsetDocument,\r\n\tdocument,\r\n\tdocElem,\r\n\tdocumentIsHTML,\r\n\trbuggyQSA,\r\n\trbuggyMatches,\r\n\tmatches,\r\n\tcontains,\r\n\r\n\t\/\/ Instance-specific data\r\n\texpando = \"sizzle\" + 1 * new Date(),\r\n\tpreferredDoc = window.document,\r\n\tdirruns = 0,\r\n\tdone = 0,\r\n\tclassCache = createCache(),\r\n\ttokenCache = createCache(),\r\n\tcompilerCache = createCache(),\r\n\tsortOrder = function( a, b ) {\r\n\t\tif ( a === b ) {\r\n\t\t\thasDuplicate = true;\r\n\t\t}\r\n\t\treturn 0;\r\n\t},\r\n\r\n\t\/\/ Instance methods\r\n\thasOwn = ({}).hasOwnProperty,\r\n\tarr = [],\r\n\tpop = arr.pop,\r\n\tpush_native = arr.push,\r\n\tpush = arr.push,\r\n\tslice = arr.slice,\r\n\t\/\/ Use a stripped-down indexOf as it\'s faster than native\r\n\t\/\/ https:\/\/jsperf.com\/thor-indexof-vs-for\/5\r\n\tindexOf = function( list, elem ) {\r\n\t\tvar i = 0,\r\n\t\t\tlen = list.length;\r\n\t\tfor ( ; i < len; i++ ) {\r\n\t\t\tif ( list[i] === elem ) {\r\n\t\t\t\treturn i;\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn -1;\r\n\t},\r\n\r\n\tbooleans = \"checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped\",\r\n\r\n\t\/\/ Regular expressions\r\n\r\n\t\/\/ http:\/\/www.w3.org\/TR\/css3-selectors\/#whitespace\r\n\twhitespace = \"[\\\\x20\\\\t\\\\r\\\\n\\\\f]\",\r\n\r\n\t\/\/ http:\/\/www.w3.org\/TR\/CSS21\/syndata.html#value-def-identifier\r\n\tidentifier = \"(?:\\\\\\\\.|[\\\\w-]|[^\\0-\\\\xa0])+\",\r\n\r\n\t\/\/ Attribute selectors: http:\/\/www.w3.org\/TR\/selectors\/#attribute-selectors\r\n\tattributes = \"\\\\[\" + whitespace + \"*(\" + identifier + \")(?:\" + whitespace +\r\n\t\t\/\/ Operator (capture 2)\r\n\t\t\"*([*^$|!~]?=)\" + whitespace +\r\n\t\t\/\/ \"Attribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]\"\r\n\t\t\"*(?:\'((?:\\\\\\\\.|[^\\\\\\\\\'])*)\'|\\\"((?:\\\\\\\\.|[^\\\\\\\\\\\"])*)\\\"|(\" + identifier + \"))|)\" + whitespace +\r\n\t\t\"*\\\\]\",\r\n\r\n\tpseudos = \":(\" + identifier + \")(?:\\\\((\" +\r\n\t\t\/\/ To reduce the number of selectors needing tokenize in the preFilter, prefer arguments:\r\n\t\t\/\/ 1. quoted (capture 3; capture 4 or capture 5)\r\n\t\t\"(\'((?:\\\\\\\\.|[^\\\\\\\\\'])*)\'|\\\"((?:\\\\\\\\.|[^\\\\\\\\\\\"])*)\\\")|\" +\r\n\t\t\/\/ 2. simple (capture 6)\r\n\t\t\"((?:\\\\\\\\.|[^\\\\\\\\()[\\\\]]|\" + attributes + \")*)|\" +\r\n\t\t\/\/ 3. anything else (capture 2)\r\n\t\t\".*\" +\r\n\t\t\")\\\\)|)\",\r\n\r\n\t\/\/ Leading and non-escaped trailing whitespace, capturing some non-whitespace characters preceding the latter\r\n\trwhitespace = new RegExp( whitespace + \"+\", \"g\" ),\r\n\trtrim = new RegExp( \"^\" + whitespace + \"+|((?:^|[^\\\\\\\\])(?:\\\\\\\\.)*)\" + whitespace + \"+$\", \"g\" ),\r\n\r\n\trcomma = new RegExp( \"^\" + whitespace + \"*,\" + whitespace + \"*\" ),\r\n\trcombinators = new RegExp( \"^\" + whitespace + \"*([>+~]|\" + whitespace + \")\" + whitespace + \"*\" ),\r\n\r\n\trattributeQuotes = new RegExp( \"=\" + whitespace + \"*([^\\\\]\'\\\"]*?)\" + whitespace + \"*\\\\]\", \"g\" ),\r\n\r\n\trpseudo = new RegExp( pseudos ),\r\n\tridentifier = new RegExp( \"^\" + identifier + \"$\" ),\r\n\r\n\tmatchExpr = {\r\n\t\t\"ID\": new RegExp( \"^#(\" + identifier + \")\" ),\r\n\t\t\"CLASS\": new RegExp( \"^\\\\.(\" + identifier + \")\" ),\r\n\t\t\"TAG\": new RegExp( \"^(\" + identifier + \"|[*])\" ),\r\n\t\t\"ATTR\": new RegExp( \"^\" + attributes ),\r\n\t\t\"PSEUDO\": new RegExp( \"^\" + pseudos ),\r\n\t\t\"CHILD\": new RegExp( \"^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\\\(\" + whitespace +\r\n\t\t\t\"*(even|odd|(([+-]|)(\\\\d*)n|)\" + whitespace + \"*(?:([+-]|)\" + whitespace +\r\n\t\t\t\"*(\\\\d+)|))\" + whitespace + \"*\\\\)|)\", \"i\" ),\r\n\t\t\"bool\": new RegExp( \"^(?:\" + booleans + \")$\", \"i\" ),\r\n\t\t\/\/ For use in libraries implementing .is()\r\n\t\t\/\/ We use this for POS matching in `select`\r\n\t\t\"needsContext\": new RegExp( \"^\" + whitespace + \"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\\\(\" +\r\n\t\t\twhitespace + \"*((?:-\\\\d)?\\\\d*)\" + whitespace + \"*\\\\)|)(?=[^-]|$)\", \"i\" )\r\n\t},\r\n\r\n\trinputs = \/^(?:input|select|textarea|button)$\/i,\r\n\trheader = \/^h\\d$\/i,\r\n\r\n\trnative = \/^[^{]+\\{\\s*\\[native \\w\/,\r\n\r\n\t\/\/ Easily-parseable\/retrievable ID or TAG or CLASS selectors\r\n\trquickExpr = \/^(?:#([\\w-]+)|(\\w+)|\\.([\\w-]+))$\/,\r\n\r\n\trsibling = \/[+~]\/,\r\n\r\n\t\/\/ CSS escapes\r\n\t\/\/ http:\/\/www.w3.org\/TR\/CSS21\/syndata.html#escaped-characters\r\n\trunescape = new RegExp( \"\\\\\\\\([\\\\da-f]{1,6}\" + whitespace + \"?|(\" + whitespace + \")|.)\", \"ig\" ),\r\n\tfunescape = function( _, escaped, escapedWhitespace ) {\r\n\t\tvar high = \"0x\" + escaped - 0x10000;\r\n\t\t\/\/ NaN means non-codepoint\r\n\t\t\/\/ Support: Firefox<24\r\n\t\t\/\/ Workaround erroneous numeric interpretation of +\"0x\"\r\n\t\treturn high !== high || escapedWhitespace ?\r\n\t\t\tescaped :\r\n\t\t\thigh < 0 ?\r\n\t\t\t\t\/\/ BMP codepoint\r\n\t\t\t\tString.fromCharCode( high + 0x10000 ) :\r\n\t\t\t\t\/\/ Supplemental Plane codepoint (surrogate pair)\r\n\t\t\t\tString.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );\r\n\t},\r\n\r\n\t\/\/ CSS string\/identifier serialization\r\n\t\/\/ https:\/\/drafts.csswg.org\/cssom\/#common-serializing-idioms\r\n\trcssescape = \/([\\0-\\x1f\\x7f]|^-?\\d)|^-$|[^\\x80-\\uFFFF\\w-]\/g,\r\n\tfcssescape = function( ch, asCodePoint ) {\r\n\t\tif ( asCodePoint ) {\r\n\r\n\t\t\t\/\/ U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER\r\n\t\t\tif ( ch === \"\\0\" ) {\r\n\t\t\t\treturn \"\\uFFFD\";\r\n\t\t\t}\r\n\r\n\t\t\t\/\/ Control characters and (dependent upon position) numbers get escaped as code points\r\n\t\t\treturn ch.slice( 0, -1 ) + \"\\\\\" + ch.charCodeAt( ch.length - 1 ).toString( 16 ) + \" \";\r\n\t\t}\r\n\r\n\t\t\/\/ Other potentially-special ASCII characters get backslash-escaped\r\n\t\treturn \"\\\\\" + ch;\r\n\t},\r\n\r\n\t\/\/ Used for iframes\r\n\t\/\/ See setDocument()\r\n\t\/\/ Removing the function wrapper causes a \"Permission Denied\"\r\n\t\/\/ error in IE\r\n\tunloadHandler = function() {\r\n\t\tsetDocument();\r\n\t},\r\n\r\n\tdisabledAncestor = addCombinator(\r\n\t\tfunction( elem ) {\r\n\t\t\treturn elem.disabled === true;\r\n\t\t},\r\n\t\t{ dir: \"parentNode\", next: \"legend\" }\r\n\t);})";
 
-var editor = Monaco.Editor.create(container, {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
-	mode: "text/javascript",
+	language: "javascript",
 
 	// If `wrappingColumn` is -1, then no wrapping occurs and
 	// long lines are rendered on one line. However, this might
@@ -100,11 +67,8 @@ var editor = Monaco.Editor.create(container, {
 	// Defaults to 300
 	wrappingColumn: 40,
 
-	// If more than half of the lines are on lines longer than
-	// `longLineBoundary`, the editor forces viewport width wrapping
-	// By default the value is 300, but here we're using a larger
-	// value to circumvent this default behavior
-	longLineBoundary: 1e4
+	// try "same", "indent" or "none"
+	wrappingIndent: "indent"
 });
 
 =======================HTML
@@ -117,14 +81,10 @@ var editor = Monaco.Editor.create(container, {
 
 == Syntax highlighting for HTML elements
 =======================JS
-// The syntax highlighting functionality can be used independently of the editor.
-require(["vs/editor/editor.main"], function ($) {
-
-	// The colorizeElement-function will read the data-lang-attribute
-	// from the element to select the correct language mode. In this
-	// sample it is text/css.
-	Monaco.Editor.colorizeElement(document.getElementById('code'));
-});
+// The colorizeElement-function will read the data-lang-attribute
+// from the element to select the correct language mode. In this
+// sample it is text/css.
+monaco.editor.colorizeElement(document.getElementById('code'));
 
 =======================HTML
 <pre id="code" data-lang="text/css" style="width:500px;">
@@ -177,36 +137,32 @@ code {
 
 = Interacting with the editor
 
-== Adding a command
+== Adding a command to an editor instance
 
 =======================JS
-var KeyMod = require('vs/base/common/keyCodes').KeyMod;
-var KeyCode = require('vs/base/common/keyCodes').KeyCode;
-
-var container = document.getElementById("container");
 var jsCode = [
-    '"use strict";',
-    'function Person(age) {',
-    '	if (age) {',
-    '		this.age = age;',
-    '	}',
-    '}',
-    'Person.prototype.getAge = function () {',
-    '	return this.age;',
-    '};'
+	'"use strict";',
+	'function Person(age) {',
+	'	if (age) {',
+	'		this.age = age;',
+	'	}',
+	'}',
+	'Person.prototype.getAge = function () {',
+	'	return this.age;',
+	'};'
 ].join('\n');
 
-var editor = Monaco.Editor.create(container, {
-    value: jsCode,
-    mode: "text/javascript"
+var editor = monaco.editor.create(document.getElementById("container"), {
+	value: jsCode,
+	language: "javascript"
 });
 
 var myCondition1 = editor.createContextKey(/*key name*/'myCondition1', /*default value*/false);
 var myCondition2 = editor.createContextKey(/*key name*/'myCondition2', /*default value*/false);
 
-editor.addCommand(KeyCode.Tab, function(ctx, args) {
+editor.addCommand(monaco.KeyCode.Tab, function() {
     // services available in `ctx`
-    alert('my command is executing with context: ' + JSON.stringify(args.context));
+    alert('my command is executing!');
 
 }, 'myCondition1 && myCondition2')
 
@@ -222,16 +178,10 @@ setTimeout(function() {
 
 =======================END
 
-== Adding an action
+== Adding an action to an editor instance
 
 =======================JS
-var KeyMod = require('vs/base/common/keyCodes').KeyMod;
-var KeyCode = require('vs/base/common/keyCodes').KeyCode;
-
-var container = document.getElementById("container");
-var jsCode = "var array = [3, 4, 5];\n";
-
-var editor = Monaco.Editor.create(container, {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: [
 		'',
 		'class Example {',
@@ -242,7 +192,7 @@ var editor = Monaco.Editor.create(container, {
 		'\t}',
 		'}'
 	].join('\n'),
-	mode: "text/typescript"
+	language: "typescript"
 });
 
 // Explanation:
@@ -260,7 +210,7 @@ editor.addAction({
 	label: 'My Label!!!',
 
 	// An optional array of keybindings for the action.
-	keybindings: [KeyMod.CtrlCmd | KeyCode.F10],
+	keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10],
 
 	keybindingContext: null,
 
@@ -314,46 +264,9 @@ editor.addAction({
 
 
 
-== Inserting a code snippet
-=======================JS
-// There is a way to insert a snippet. The snippet syntax is very easy, use {{ and }} to indicate a placeholder.
-// Use the same value inside {{ and }} to have linked editing! That value will be the default entered text.
-// Use an empty placeholder {{}} to indicate the end position of the cursor if the user hits Enter.
-var container = document.getElementById("container");
-var jsCode = "var array = [3, 4, 5];\n";
-
-var editor = Monaco.Editor.create(container, {
-	value: jsCode,
-	mode: "text/javascript"
-});
-
-var snippet = require("vs/editor/contrib/snippet/common/snippet");
-
-var template =
-	'for (var {{index}} = 0; {{index}} < {{array}}.length; {{index}}++) {\n' +
-	'\tvar {{element}} = {{array}}[{{index}}];\n' +
-	'\t{{}}\n' +
-	'}';
-
-editor.setPosition({ lineNumber: 2, column :1 });
-
-snippet.getSnippetController(editor).run(new snippet.CodeSnippet(template), 0, 0);
-
-editor.focus();
-
-
-=======================HTML
-<div id="container" style="height:100%;"></div>
-
-=======================END
-
-
-
-
 == Revealing a position
 
 =======================JS
-var container = document.getElementById("container");
 var jsCodeArr = [
 	'// ------------------------------',
 	'// ------------------------------',
@@ -375,20 +288,25 @@ jsCodeArr = jsCodeArr.concat(jsCodeArr.slice(0));
 
 jsCodeArr[49] += 'And this is some long line. And this is some long line. And this is some long line. And this is some long line. And this is some long line. ';
 
-var jsCode = jsCodeArr.join('\n');
-
-var editor = Monaco.Editor.create(container, {
-	value: jsCode,
-	mode: "text/javascript"
+var editor = monaco.editor.create(document.getElementById("container"), {
+	value: jsCodeArr.join('\n'),
+	language: "javascript"
 });
 
-var shouldRevealLineInCenterOfViewport = true;
-var shouldRevealColumn = true;
-
-editor.revealPosition({
-	lineNumber: 50,
-	column: 120
-}, shouldRevealLineInCenterOfViewport, shouldRevealColumn);
+editor.revealPositionInCenter({ lineNumber: 50, column: 120 });
+// Also see:
+// - editor.revealLine
+// - editor.revealLineInCenter
+// - editor.revealLineInCenterIfOutsideViewport
+// - editor.revealLines
+// - editor.revealLinesInCenter
+// - editor.revealLinesInCenterIfOutsideViewport
+// - editor.revealPosition
+// - editor.revealPositionInCenter
+// - editor.revealPositionInCenterIfOutsideViewport
+// - editor.revealRange
+// - editor.revealRangeInCenter
+// - editor.revealRangeInCenterIfOutsideViewport
 
 =======================HTML
 <div id="container" style="height:100%;"></div>
@@ -401,7 +319,6 @@ editor.revealPosition({
 == Rendering glyphs in the margin
 
 =======================JS
-var container = document.getElementById("container");
 var jsCode = [
 	'"use strict";',
 	'function Person(age) {',
@@ -414,9 +331,9 @@ var jsCode = [
 	'};'
 ].join('\n');
 
-var editor = Monaco.Editor.create(container, {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
-	mode: "text/javascript",
+	language: "javascript",
 	glyphMargin: true
 });
 
@@ -455,7 +372,6 @@ var decorationId = editor.changeDecorations(function(changeAccessor) {
 == Line and Inline decorations
 
 =======================JS
-var container = document.getElementById("container");
 var jsCode = [
 	'"use strict";',
 	'function Person(age) {',
@@ -468,9 +384,9 @@ var jsCode = [
 	'};'
 ].join('\n');
 
-var editor = Monaco.Editor.create(container, {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
-	mode: "text/javascript"
+	language: "javascript"
 });
 
 var lineDecorationId = editor.changeDecorations(function(changeAccessor) {
@@ -529,7 +445,6 @@ function lineNumbersFunc(originalLineNumber) {
 	return originalLineNumber;
 }
 
-var container = document.getElementById("container");
 var jsCode = [
 	'"use strict";',
 	'function Person(age) {',
@@ -542,9 +457,9 @@ var jsCode = [
 	'};'
 ].join('\n');
 
-var editor = Monaco.Editor.create(container, {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
-	mode: "text/javascript",
+	language: "javascript",
 	lineNumbers: lineNumbersFunc
 });
 
@@ -559,187 +474,9 @@ var editor = Monaco.Editor.create(container, {
 
 
 
-== Customizing the hover
+== Listening to mouse events
 
 =======================JS
-require([
-	'require',
-	'vs/base/common/winjs.base',
-	'vs/editor/common/core/range',
-	'vs/editor/contrib/hover/browser/hoverOperation',
-	'vs/editor/contrib/hover/browser/hoverWidgets'
-], function(require, WinJS) {
-
-	var Range = require('vs/editor/common/core/range').Range;
-	var HoverOperation = require('vs/editor/contrib/hover/browser/hoverOperation').HoverOperation;
-	var ContentHoverWidget = require('vs/editor/contrib/hover/browser/hoverWidgets').ContentHoverWidget;
-
-	var ContentComputer = WinJS.Class.define(function ContentComputer(range, text, tokenType) {
-	}, {
-
-		setContext: function (range, text, tokenType) {
-			this.a = range.startLineNumber;
-			this.b = range.startColumn;
-			this.result = [
-				'Text: ' + text,
-				'Token type: ' + tokenType
-			];
-		},
-
-		computeAsync: function () {
-			return WinJS.Promise.timeout(500).then(function() {
-				return this.a + ' x ' + this.b + ' = ' + (this.a * this.b);
-			}.bind(this));
-		},
-
-		computeSync: function () {
-			return this.a + ' + ' + this.b + ' = ' + (this.a + this.b);
-		},
-
-		onResult: function(r) {
-			this.result.push(r);
-		},
-
-		getResult: function() {
-			return this.result;
-		}
-	});
-
-	var ContentWidget = WinJS.Class.derive(ContentHoverWidget, function ContentWidget(editor) {
-		ContentHoverWidget.call(this, 'my.hover.widget.id', editor);
-		this.lastRange = null;
-		this.computer = new ContentComputer();
-		this.hoverOperation = new HoverOperation(
-			this.computer,
-			this.withResult.bind(this),
-			null,
-			this.withResult.bind(this)
-		);
-	}, {
-
-		startShowingAt: function (range, text, tokenType) {
-			if (this.lastRange && this.lastRange.equalsRange(range)) {
-				// We have to show the widget at the exact same range as before, so no work is needed
-				return;
-			}
-
-			this.hoverOperation.cancel();
-			this.hide();
-
-			this.lastRange = range;
-			this.computer.setContext(range, text, tokenType);
-			this.hoverOperation.start();
-		},
-
-		hide: function () {
-			this.lastRange = null;
-			if (this.hoverOperation) {
-				this.hoverOperation.cancel();
-			}
-			ContentHoverWidget.prototype.hide.call(this);
-		},
-
-		withResult: function (someResult) {
-			this._domNode.innerHTML = someResult.join('<br/>');
-			this.showAt({
-				lineNumber: this.lastRange.startLineNumber,
-				column: this.lastRange.startColumn
-			});
-		}
-	});
-
-	var addCustomHoverTo = (function() {
-
-		var editor = null;
-		var contentWidget = null;
-
-		function hide() {
-			contentWidget.hide();
-		}
-
-		function onMouseMove(e) {
-			var targetType = e.target.type;
-
-			if (targetType === Monaco.Editor.MouseTargetType.CONTENT_WIDGET && e.target.detail === 'my.hover.widget.id') {
-				// mouse moved on top of content hover widget
-				return;
-			}
-
-			if (targetType === Monaco.Editor.MouseTargetType.CONTENT_TEXT) {
-				// Extract current token under cursor
-				var currentTokenInfo = null;
-				editor.getModel().tokenIterator(e.target.position, function (it) {
-					currentTokenInfo = it.next();
-				});
-
-				if(currentTokenInfo) {
-					var showRange = new Range(currentTokenInfo.lineNumber, currentTokenInfo.startColumn, currentTokenInfo.lineNumber, currentTokenInfo.endColumn);
-
-					contentWidget.startShowingAt(showRange, editor.getModel().getValueInRange(showRange), currentTokenInfo.token.type);
-				}
-			} else {
-				hide();
-			}
-		}
-
-		function setup(ed) {
-			editor = ed;
-			contentWidget = new ContentWidget(editor);
-
-			editor.addListener(Monaco.Editor.EventType.MouseMove, onMouseMove);
-			editor.addListener(Monaco.Editor.EventType.MouseLeave, hide);
-			editor.addListener(Monaco.Editor.EventType.KeyDown, hide);
-			editor.addListener(Monaco.Editor.EventType.ModelChanged, hide);
-			editor.addListener('scroll', hide);
-		}
-
-		return setup;
-	})();
-
-
-	var editor = createEditor();
-	addCustomHoverTo(editor);
-});
-
-function createEditor() {
-
-	var container = document.getElementById("container");
-	var jsCode = [
-		'"use strict";',
-		'function Person(age) {',
-		'	if (age) {',
-		'		this.age = age;',
-		'	}',
-		'}',
-		'Person.prototype.getAge = function () {',
-		'	return this.age;',
-		'};'
-	].join('\n');
-
-	return Monaco.Editor.create(container, {
-		value: jsCode,
-		mode: "text/javascript",
-		glyphMargin: true,
-		hover: false
-	});
-
-}
-
-=======================HTML
-<div id="container" style="height:100%"></div>
-
-=======================CSS
-
-
-=======================END
-
-
-
-
-== Listening to Mouse Events
-
-=======================JS
-var container = document.getElementById("container");
 var jsCode = [
 	'"use strict";',
 	'function Person(age) {',
@@ -752,9 +489,9 @@ var jsCode = [
 	'};'
 ].join('\n');
 
-var editor = Monaco.Editor.create(container, {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
-	mode: "text/javascript",
+	language: "javascript",
 	glyphMargin: true,
 	nativeContextMenu: false
 });
@@ -804,7 +541,7 @@ var contentWidget = {
 				lineNumber: 7,
 				column: 8
 			},
-			preference: [Monaco.Editor.ContentWidgetPositionPreference.ABOVE, Monaco.Editor.ContentWidgetPositionPreference.BELOW]
+			preference: [monaco.editor.ContentWidgetPositionPreference.ABOVE, monaco.editor.ContentWidgetPositionPreference.BELOW]
 		};
 	}
 };
@@ -843,16 +580,16 @@ function showEvent(str) {
 
 
 
-editor.addListener(Monaco.Editor.EventType.MouseMove, function (e) {
+editor.onMouseMove(function (e) {
 	showEvent('mousemove - ' + e.target.toString());
 });
-editor.addListener(Monaco.Editor.EventType.MouseDown, function (e) {
+editor.onMouseDown(function (e) {
 	showEvent('mousedown - ' + e.target.toString());
 });
-editor.addListener(Monaco.Editor.EventType.ContextMenu, function (e) {
+editor.onContextMenu(function (e) {
 	showEvent('contextmenu - ' + e.target.toString());
 });
-editor.addListener(Monaco.Editor.EventType.MouseLeave, function (e) {
+editor.onMouseLeave(function (e) {
 	showEvent('mouseleave');
 });
 
@@ -874,27 +611,17 @@ editor.addListener(Monaco.Editor.EventType.MouseLeave, function (e) {
 
 
 
-== Listening on keydown events
+== Listening to key events
 
 =======================JS
-var KeyMod = require('vs/base/common/keyCodes').KeyMod;
-var KeyCode = require('vs/base/common/keyCodes').KeyCode;
-
-var container = document.getElementById("container");
-var jsCode = "function hello() {\n\talert('Hello world!');\n}";
-
-var editor = Monaco.Editor.create(container, {
-	value: jsCode,
-	mode: "text/javascript"
+var editor = monaco.editor.create(document.getElementById("container"), {
+	value: "function hello() {\n\talert('Hello world!');\n}",
+	language: "javascript"
 });
 
-function onF9() {
+var myBinding = editor.addCommand(monaco.KeyCode.F9, function() {
 	alert('F9 pressed!');
-	// prevent default
-	return true;
-}
-
-var myBinding = editor.addCommand(KeyCode.F9, onF9);
+});
 
 // When cleaning up remember to call myBinding.dispose()
 
@@ -911,32 +638,24 @@ var myBinding = editor.addCommand(KeyCode.F9, onF9);
 == Exposed CSS classes
 =======================JS
 // The editor exposes a set of CSS classes that can be overwritten.
-var container = document.getElementById("container");
-Monaco.Editor.create(container, {
+monaco.editor.create(document.getElementById("container"), {
 	value: "My to-do list:\n* buy milk\n* buy coffee\n* write awesome code",
-	mode: "text/plain"
+	language: "text/plain",
+	fontFamily: "Arial",
+	fontSize: 20
 });
 
 =======================HTML
 <div id="container" style="height:100%;"></div>
 
 =======================CSS
-/* The editor */
-.monaco-editor {
-	font-family: Arial;
-	font-size: 20px;
-	line-height: inherit;
-	background: #EDF9FA;
-}
-
-/* The editor's background */
-.monaco-editor-background {
+.monaco-editor, .monaco-editor-background {
 	background: #EDF9FA;
 }
 
 /* Cursor */
 .monaco-editor .cursor {
-	background: darkblue;
+	background: darkred !important;
 }
 
 /* Current line */
@@ -956,20 +675,11 @@ Monaco.Editor.create(container, {
 }
 
 /* Selection */
-.monaco-editor .dynamic.focused > .selections-layer > .selected-text {
+.monaco-editor .view-overlays.focused .selected-text {
 	background: rgba(128, 0, 0, 0.2) !important;
 }
-.monaco-editor .dynamic > .selections-layer > .selected-text {
+.monaco-editor .view-overlays .selected-text {
 	background: rgba(128, 0, 0, 0.1) !important;
-}
-
-/* Word Highlight */
-.monaco-editor .wordHighlight {
-	background-color: rgba(0, 0, 0, 0);
-	-webkit-animation: none;
-	-moz-animation: none;
-	-ms-animation: none;
-	animation: none;
 }
 
 =======================END
@@ -981,12 +691,11 @@ Monaco.Editor.create(container, {
 
 =======================JS
 // Remember to check out the CSS too!
-var container = document.getElementById("container");
-var htmlCode = "<html><!--long linelong linelong linelong linelong linelong linelong linelong linelong linelong line-->\n<head>\n	<!-- HTML comment -->\n	<style type=\"text/css\">\n		/* CSS comment */\n	</style>\n	<script type=\"text/javascript\">\n		// JavaScript comment\n	</"+"script>\n</head>\n<body></body>\n</html>";
+var htmlCode = "<html><!--long linelong linelong linelong linelong linelong linelong linelong linelong linelong line-->\n<head>\n	<!-- HTML comment -->\n	<style type=\"text/css\">\n		/* CSS comment */\n	</style>\n	<script type=\"javascript\">\n		// JavaScript comment\n	</"+"script>\n</head>\n<body></body>\n</html>";
 
-Monaco.Editor.create(container, {
+monaco.editor.create(document.getElementById("container"), {
 	value: htmlCode,
-	mode: "text/html",
+	language: "text/html",
 	theme: "vs",
 	scrollbar: {
 		// Subtle shadows to the left & top. Defaults to true.
@@ -1035,12 +744,11 @@ Monaco.Editor.create(container, {
 == Tokens and colors
 =======================JS
 // This example shows how to integrate the editor with a certain theme and then customize the token colors of that theme.
-var container = document.getElementById("container");
-var htmlCode = "<html>\n<head>\n	<!-- HTML comment -->\n	<style type=\"text/css\">\n		/* CSS comment */\n	</style>\n	<script type=\"text/javascript\">\n		// JavaScript comment\n	</"+"script>\n</head>\n<body></body>\n</html>";
+var htmlCode = "<html>\n<head>\n	<!-- HTML comment -->\n	<style type=\"text/css\">\n		/* CSS comment */\n	</style>\n	<script type=\"javascript\">\n		// JavaScript comment\n	</"+"script>\n</head>\n<body></body>\n</html>";
 
-Monaco.Editor.create(container, {
+monaco.editor.create(document.getElementById("container"), {
 	value: htmlCode,
-	mode: "text/html",
+	language: "text/html",
 	theme: "vs"
 });
 
@@ -1073,11 +781,10 @@ b) inspecting the dom elements rendered by the editor;
 == Hello diff world!
 
 =======================JS
-var originalModel = Monaco.Editor.createModel("heLLo world!", "text/plain");
-var modifiedModel = Monaco.Editor.createModel("hello orlando!", "text/plain");
+var originalModel = monaco.editor.createModel("heLLo world!", "text/plain");
+var modifiedModel = monaco.editor.createModel("hello orlando!", "text/plain");
 
-var container = document.getElementById("container");
-var diffEditor = Monaco.Editor.createDiffEditor(container);
+var diffEditor = monaco.editor.createDiffEditor(document.getElementById("container"));
 diffEditor.setModel({
 	original: originalModel,
 	modified: modifiedModel
@@ -1094,11 +801,10 @@ diffEditor.setModel({
 == Multi-line example
 
 =======================JS
-var originalModel = Monaco.Editor.createModel("This line is removed on the right.\njust some text\nabcd\nefgh\nSome more text", "text/plain");
-var modifiedModel = Monaco.Editor.createModel("just some text\nabcz\nzzzzefgh\nSome more text.\nThis line is removed on the left.", "text/plain");
+var originalModel = monaco.editor.createModel("This line is removed on the right.\njust some text\nabcd\nefgh\nSome more text", "text/plain");
+var modifiedModel = monaco.editor.createModel("just some text\nabcz\nzzzzefgh\nSome more text.\nThis line is removed on the left.", "text/plain");
 
-var container = document.getElementById("container");
-var diffEditor = Monaco.Editor.createDiffEditor(container, {
+var diffEditor = monaco.editor.createDiffEditor(document.getElementById("container"), {
 	// You can optionally disable the resizing
 	enableSplitViewResizing: false
 });
@@ -1118,11 +824,10 @@ diffEditor.setModel({
 == Inline Diff Example
 
 =======================JS
-var originalModel = Monaco.Editor.createModel("This line is removed on the right.\njust some text\nabcd\nefgh\nSome more text", "text/plain");
-var modifiedModel = Monaco.Editor.createModel("just some text\nabcz\nzzzzefgh\nSome more text\nThis line is removed on the left.", "text/plain");
+var originalModel = monaco.editor.createModel("This line is removed on the right.\njust some text\nabcd\nefgh\nSome more text", "text/plain");
+var modifiedModel = monaco.editor.createModel("just some text\nabcz\nzzzzefgh\nSome more text\nThis line is removed on the left.", "text/plain");
 
-var container = document.getElementById("container");
-var diffEditor = Monaco.Editor.createDiffEditor(container, {
+var diffEditor = monaco.editor.createDiffEditor(document.getElementById("container"), {
 	// You can optionally disable the resizing
 	enableSplitViewResizing: false,
 
@@ -1145,21 +850,17 @@ diffEditor.setModel({
 == Navigating a Diff
 =======================JS
 // The diff editor offers a navigator to jump between changes. Once the diff is computed the <em>next()</em> and <em>previous()</em> method allow navigation. By default setting the selection in the editor manually resets the navigation state.
-var originalModel = Monaco.Editor.createModel("just some text\n\nHello World\n\nSome more text", "text/plain");
-var modifiedModel = Monaco.Editor.createModel("just some Text\n\nHello World\n\nSome more changes", "text/plain");
+var originalModel = monaco.editor.createModel("just some text\n\nHello World\n\nSome more text", "text/plain");
+var modifiedModel = monaco.editor.createModel("just some Text\n\nHello World\n\nSome more changes", "text/plain");
 
 
-var container = document.getElementById("container");
-var diffEditor = Monaco.Editor.createDiffEditor(container);
+var diffEditor = monaco.editor.createDiffEditor(document.getElementById("container"));
 diffEditor.setModel({
 	original: originalModel,
 	modified: modifiedModel
 });
 
-
-var diffNavigation = require("vs/editor/contrib/diffNavigator/common/diffNavigator"); // note: amd has been loaded upfront
-
-var navi = new diffNavigation.DiffNavigator(diffEditor, {
+var navi = monaco.editor.createDiffNavigator(diffEditor, {
 	followsCaret: true, // resets the navigator state when the user selects something in the editor
 	ignoreCharChanges: true // jump from line to line
 });
@@ -1184,58 +885,50 @@ window.setInterval(function() {
 
 == Custom languages
 =======================JS
-// It is easy to create a custom language mode from a Monarch description
-// See http://monacotools.azurewebsites.net/Content/monarch/monarch-documentation.html.
+monaco.languages.register({ id: 'mySpecialLanguage' });
 
-var container = document.getElementById("container");
-var code = getCode();
-
-// See http://monacotools.azurewebsites.net/Content/monarch/monarch-documentation.html
-var modeDescriptor = {
-	name: 'custom.1.',
-	mimeTypes: [],
+monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
 	tokenizer: {
 		root: [
 			[/\[error.*/, "custom-error"],
 			[/\[notice.*/, "custom-notice"],
 			[/\[info.*/, "custom-info"],
 			[/\[[a-zA-Z 0-9:]+\]/, "custom-date"],
-		],
-	},
-	suggestSupport: {
-		textualCompletions: false,
-		triggerCharacters: ['.', ' '],
-		snippets: [
-			'simpleText',
+		]
+	}
+});
+
+monaco.languages.registerCompletionItemProvider('mySpecialLanguage', {
+	provideCompletionItems: () => {
+		return [
 			{
-				type: 'keyword',
+				label: 'simpleText',
+				kind: monaco.languages.CompletionItemKind.Text
+			}, {
 				label: 'testing',
-				codeSnippet: 'testing({{condition}})',
-				documentationLabel: "Testing"
+				kind: monaco.languages.CompletionItemKind.Keyword,
+				insertText:'testing({{condition}})'
 			},
 			{
-				type: 'snippet',
 				label: 'ifelse',
-				codeSnippet: [
+				kind: monaco.languages.CompletionItemKind.Snippet,
+				insertText: [
 					'if ({{condition}}) {',
 					'\t{{}}',
 					'} else {',
 					'\t',
 					'}'
 				].join('\n'),
-				documentationLabel: "If-Else Statement"
-			},
+				documentation: 'If-Else Statement'
+			}
 		]
 	}
-};
-Monaco.Editor.create(container, {
-	value: code,
-	mode: modeDescriptor
 });
 
-// Alternatively, you can use:
-// var model = Monaco.Editor.createModel(code, modeDescriptor);
-// var mode = Monaco.Editor.createCustomMode(modeDescriptor);
+monaco.editor.create(document.getElementById("container"), {
+	value: getCode(),
+	language: 'mySpecialLanguage'
+});
 
 function getCode() {
 	return [
@@ -1319,259 +1012,50 @@ function getCode() {
 
 == Configure JavaScript defaults
 =======================JS
-// Add additonal d.ts files to the JavaScript language service and change. Also change the default compilation options.
-// The sample below show how a class Facts is declared and introduced to the system and how the compiler is told to use ES6 (target=2).
-var container = document.getElementById("container");
-var jsCode = [
-'"use strict";',
+// Add additonal d.ts files to the JavaScript language service and change.
+// Also change the default compilation options.
+// The sample below shows how a class Facts is declared and introduced
+// to the system and how the compiler is told to use ES6 (target=2).
 
-"class Chuck {",
-"    greet() {",
-"        return Facts.next();",
-"    }",
-"}",
-
-].join('\n');
-
-Monaco.Editor.create(container, {
-	value: jsCode,
-	mode: "text/javascript"
+// validation settings
+monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+	noSemanticValidation: true,
+	noSyntaxValidation: false
 });
 
-require(['vs/languages/typescript/common/typescript'], function(mode) {
-
-	// validation settings
-	mode.javaScriptDefaults.setDiagnosticsOptions({
-		noSemanticValidation: true,
-		noSyntaxValidation: false
-	});
-
-	// typescript compiler options
-	mode.javaScriptDefaults.setCompilerOptions({
-		target: 2,
-		allowNonTsExtensions: true
-	});
-
-	// extra libraries
-	mode.javaScriptDefaults.addExtraLib([
-		'declare class Facts {',
-		'    /**',
-		'     * Returns the next fact',
-		'     */',
-		'    static next():string',
-		'}',
-	].join('\n'), 'filename/facts.d.ts');
+// compiler options
+monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+	target: monaco.languages.typescript.ScriptTarget.ES6,
+	allowNonTsExtensions: true
 });
 
-=======================HTML
-<div id="container" style="height:100%;"></div>
-
-=======================END
-
-
-
-
-== Configure JSON validation
-=======================JS
-// Configures a JSON schema for a JSON editor.
-// This enables information hovers, intellisense and validation.
-var container = document.getElementById("container");
-var jsonCode = [
-				'{',
-				'        "tabSize": 4,',
-				'        "missingSemicolon": "warning"',
-				'}'
-].join('\n');
-
-var model = Monaco.Editor.createModel(jsonCode, 'json', 'inmemory://model/jsonexample.json');
-Monaco.Editor.create(container, { model: model });
-
-Monaco.Editor.configureMode('json', {
-	schemas: [
-		{
-			"fileMatch": ["jsonexample.json"],
-			"url": "http://myschemastore.org/myschema",
-			"schema": {
-				"title": "My JSON schema",
-				"type": "object",
-				"properties": {
-					"tabSize": {
-						"description": "The tab size in characters",
-						"type": "number"
-					},
-					"missingSemicolon": {
-						"enum": ["ignore", "warning", "error"],
-						"default": "warning",
-						"description": "Warning level for missing semicolons"
-					}
-				}
-			}
-		}
-	]
-});
-
-=======================HTML
-<div id="container" style="height:100%;"></div>
-
-=======================END
-
-
-
-
-== Configure CSS validation
-=======================JS
-// Configure the rules to be used after you have created the editor.
-// The example disables the "zero-units" CSS rule.
-var container = document.getElementById("container");
-var cssCode = [
-	'body {',
+// extra libraries
+monaco.languages.typescript.javascriptDefaults.addExtraLib([
+	'declare class Facts {',
+	'    /**',
+	'     * Returns the next fact',
+	'     */',
+	'    static next():string',
 	'}',
+].join('\n'), 'filename/facts.d.ts');
+
+var jsCode = [
+	'"use strict";',
 	'',
-	'#header {',
-	'	-webkit-transition: opacity 100ms linear;',
-	'}'
+	"class Chuck {",
+	"    greet() {",
+	"        return Facts.next();",
+	"    }",
+	"}"
 ].join('\n');
 
-Monaco.Editor.create(container, {
-	value: cssCode,
-	mode: "text/css"
+monaco.editor.create(document.getElementById("container"), {
+	value: jsCode,
+	language: "javascript"
 });
-
-var lintOpts = {
-	hexColorLength: 'error',					// Hex colors must consist of three or six hex numbers
-	argumentsInColorFunction: 'error',			// Invalid number of parameters
-
-	compatibleVendorPrefixes: 'warning',		// When using a vendor-specific prefix make sure to also include all other vendor-specific properties
-	vendorPrefix: 'warning',					// When using a vendor-specific prefix also include the standard property
-	duplicateProperties: 'warning',				// Do not use duplicate style definitions
-	emptyRules: 'warning',						// Do not use empty rulesets
-	universalSelector: 'warning',				// The universal selector (*) is known to be slow
-	fontFaceProperties: 'warning',				// @font-face rule must define 'src' and 'font-family' properties
-	unknownProperties: 'warning',				// Unknown property.
-	unknownVendorSpecificProperties: 'warning',	// Unknown vendor specific property.
-	propertyIgnoredDueToDisplay: 'warning',		// Property is ignored due to the display. E.g. with 'display: inline', the width, height, margin-top, margin-bottom, and float properties have no effect
-
-	importStatement: 'ignore',					// Import statements do not load in parallel
-	boxModel: 'ignore',							// Do not use width or height when using padding or border
-	zeroUnits: 'ignore',						// No unit for zero needed
-	important: 'ignore',						// Avoid using !important. It is an indication that the specificity of the entire CSS has gotten out of control and needs to be refactored.
-	float: 'ignore',							// Avoid using 'float'. Floats lead to fragile CSS that is easy to break if one aspect of the layout changes.
-	idSelector: 'ignore'						// Selectors should not contain IDs because these rules are too tightly coupled with the HTML.
-}
-
-// Try 'ignore', 'warning', and 'error'
-Monaco.Editor.configureMode('css', {
-	"lint": lintOpts
-});
-
 =======================HTML
 <div id="container" style="height:100%;"></div>
 
 =======================END
-
-
-
-
-== Participating in Code Validation
-=======================JS
-// The editor lets you participate in code validation. All you need to do is to register a validation participant with the platform
-// and publish markers from the participant.
-// <ul>
-// <li>The markers API provided through the class IMarkerPublisher and IMarkerService now supports groups. Groups are independent units of markers associated with a resource. When computed they get published even if another group on the same resource is still pending. This allows for example to update // markers on a resource in a fast and a slow computation independently. To support this feature we needed to change and break some existing API around markers. The changes are:
-// <ul>
-// <li>Markers don't have an ownerId anymore. If you want to associate a set of markers for a given resource with a certain owner, group those markers into a separate group. The interfaces and the functions on the module markers to create markers have been updated.</li>
-// <li>Markers have an optional id. This can be used to identify a marker inside a group. By default the id is undefined.</li>
-// <li>The interface to change and read markers on a marker publisher has been renamed to IMarkerReadAccessor and IMarkerChangeAccessor.</li>
-// <li>The methods on a IMarkerPublisher to get a read or change accessor have been renamed to readMarkers and changeMarkers (the Set in the name got removed sine you don't read or change sets anymore).</li>
-// <li>Both method have an optional parameter id. If passed in a group with that id is created if it doesn't exist and read or changed, respectively. If id is omitted the group with the id 'defaultGroup' is accessed.</li>
-// </ul>
-// Register a worker participant to the javascript language service
-// You can find the source code of the participant here:
-// http://monacotools.azurewebsites.net/Docs/examples/validateParticipant.js
-Monaco.Editor.registerWorkerParticipant('javascript', '../../../../../Docs/examples/validateParticipant', 'ValidateParticipant');
-
-// Create a javascript model and identify it with a url
-var jsCode = [
-	"function HelloWorld() {",
-	"    console.log('Hello World');",
-	"}",
-].join('\n');
-var model = Monaco.Editor.createModel(jsCode, 'javascript', 'http://myhost:port/myfile');
-
-// Create the editor
-var textEditor = Monaco.Editor.create(document.getElementById("container"));
-
-function log(str) {
-	var output = document.getElementById("output");
-	output.innerHTML += str + '<br/>';
-	output.scrollTop = 1000;
-}
-
-// Get marker service & subscribe to marker events
-var markerService = textEditor.getMarkerService();
-markerService.onMarkerChanged.add(function(resources) {
-	resources.forEach(function(resource) {
-		log('- Markers changed for resource \'' + resource.toString() + '\'');
-
-		// Read all markers for this resource
-		var markers = markerService.read({
-			resource: resource, // filter markers by resource
-//				owner: 'id', // filter markers by owner/creator
-//				take: 100, // how markers should be read
-		});
-		markers.forEach(function(marker) {
-			log('-- Marker: ' + marker.message + '@(' + marker.startLineNumber + ',' + marker.startColumn  + ')');
-		});
-	});
-});
-
-// Set editor model
-textEditor.setModel(model);
-
-=======================HTML
-<div id="output" style="height:29%;font-family:'Courier New', monospace;">Output:<br/></div>
-<div style="background:#ccc;height:1%"></div>
-<div id="container" style="height:70%;"></div>
-
-=======================END
-
-
-
-
-== Participating in Intellisense
-=======================JS
-// The editor lets you participate in computing and filtering Intellisense proposals. All you need to do is to register a suggest participant with the platform
-// and return suggest proposals or filter out suggestions.
-// Try typing conLog and Ctrl-Space for intellisense
-
-// Register a worker participant to the javascript language service
-// You can find the source code of the participant here:
-// http://monacotools.azurewebsites.net/Docs/examples/suggestParticipant.js
-Monaco.Editor.registerWorkerParticipant('javascript', '../../../../../Docs/examples/suggestParticipant', 'SuggestParticipant');
-
-// Create a javascript model and identify it with a url
-var jsCode = [
-	"function HelloWorld() {",
-	"    console.log('Hello World');",
-	"}",
-].join('\n');
-var model = Monaco.Editor.createModel(jsCode, 'javascript', 'http://myhost:port/myfile');
-
-// Create the editor
-var textEditor = Monaco.Editor.create(document.getElementById("container"));
-
-// Set editor model
-textEditor.setModel(model);
-
-=======================HTML
-<div id="container" style="height:100%;"></div>
-
-=======================END
-
-
-
-
-
-
 
 

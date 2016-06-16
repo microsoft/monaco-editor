@@ -1,0 +1,3 @@
+// This is a generated file. Please do not edit directly.
+var SAMPLES = this.SAMPLES || [];
+SAMPLES.push({"id":"creating-the-editor-hello-world","js":"//---------------------------------------------------\n// Creating the editor > Hello world!\n//---------------------------------------------------\n\n// The Monaco Editor can be easily created, given an\n// empty container and an options literal.\n// Two members of the literal are \"value\" and \"language\".\n// The editor takes the full size of its container.\n\nmonaco.editor.create(document.getElementById(\"container\"), {\n\tvalue: \"function hello() {\\n\\talert('Hello world!');\\n}\",\n\tlanguage: \"javascript\"\n});\n","html":"<div id=\"container\" style=\"height:100%;\"></div>\n","css":""});

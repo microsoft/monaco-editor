@@ -1,0 +1,3 @@
+// This is a generated file. Please do not edit directly.
+var SAMPLES = this.SAMPLES || [];
+SAMPLES.push({"id":"interacting-with-the-editor-listening-to-key-events","js":"//---------------------------------------------------\n// Interacting with the editor > Listening to key events\n//---------------------------------------------------\n\nvar editor = monaco.editor.create(document.getElementById(\"container\"), {\n\tvalue: \"function hello() {\\n\\talert('Hello world!');\\n}\",\n\tlanguage: \"javascript\"\n});\n\nvar myBinding = editor.addCommand(monaco.KeyCode.F9, function() {\n\talert('F9 pressed!');\n});\n\n// When cleaning up remember to call myBinding.dispose()\n","html":"<div id=\"container\" style=\"height:100%\"></div>\n","css":"\n"});
