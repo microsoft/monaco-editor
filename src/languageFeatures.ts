@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {LanguageServiceDefaults} from './typescript';
+import {LanguageServiceDefaultsImpl} from './monaco.contribution';
 import * as ts from '../lib/typescriptServices';
 import {TypeScriptWorker} from './worker';
 
@@ -47,7 +47,7 @@ export class DiagnostcsAdapter extends Adapter {
 	private _disposables: IDisposable[] = [];
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
 
-	constructor(private _defaults: LanguageServiceDefaults, private _selector: string,
+	constructor(private _defaults: LanguageServiceDefaultsImpl, private _selector: string,
 		worker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>
 	) {
 		super(worker);

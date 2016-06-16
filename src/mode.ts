@@ -5,32 +5,32 @@
 'use strict';
 
 import {Language, createTokenizationSupport} from './tokenization';
-import {LanguageServiceDefaults, typeScriptDefaults, javaScriptDefaults, LanguageServiceMode} from './typescript';
 import {WorkerManager} from './workerManager';
 import {TypeScriptWorker} from './worker';
+import {LanguageServiceDefaultsImpl} from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 
 import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 import IDisposable = monaco.IDisposable;
 
-export function setupTypeScript(): void {
+export function setupTypeScript(defaults:LanguageServiceDefaultsImpl): void {
 	setupMode(
-		typeScriptDefaults,
+		defaults,
 		'typescript',
 		Language.TypeScript
 	);
 }
 
-export function setupJavaScript(): void {
+export function setupJavaScript(defaults:LanguageServiceDefaultsImpl): void {
 	setupMode(
-		javaScriptDefaults,
+		defaults,
 		'javascript',
 		Language.EcmaScript5
 	);
 }
 
-function setupMode(defaults:LanguageServiceDefaults, modeId:string, language:Language): void {
+function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language:Language): void {
 
 	let disposables: IDisposable[] = [];
 

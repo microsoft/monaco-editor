@@ -47,6 +47,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 	}
 
 	return merge(
+		merge(
 			bundleOne('src/monaco.contribution'),
 			bundleOne('lib/typescriptServices'),
 			bundleOne('src/mode', ['vs/language/typescript/lib/typescriptServices']),
@@ -62,7 +63,10 @@ gulp.task('release', ['clean-release','compile'], function() {
 			);
 			this.emit('data', data);
 		}))
-		.pipe(gulp.dest('./release/'));
+		.pipe(gulp.dest('./release/')),
+
+		gulp.src('src/monaco.d.ts').pipe(gulp.dest('./release/'))
+	);
 });
 
 

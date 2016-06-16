@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {LanguageServiceMode, LanguageServiceDefaults} from './typescript';
+import {LanguageServiceDefaultsImpl} from './monaco.contribution';
 import {TypeScriptWorker} from './worker';
 
 import Promise = monaco.Promise;
@@ -15,7 +15,7 @@ const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
 export class WorkerManager {
 
-	private _defaults: LanguageServiceDefaults;
+	private _defaults: LanguageServiceDefaultsImpl;
 	private _idleCheckInterval: number;
 	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
@@ -23,7 +23,7 @@ export class WorkerManager {
 	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker>;
 	private _client: Promise<TypeScriptWorker>;
 
-	constructor(defaults: LanguageServiceDefaults) {
+	constructor(defaults: LanguageServiceDefaultsImpl) {
 		this._defaults = defaults;
 		this._worker = null;
 		this._idleCheckInterval = setInterval(() => this._checkIfIdle(), 30 * 1000);
