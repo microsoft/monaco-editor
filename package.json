@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "simpleserver": "node_modules/.bin/http-server -c-1 ../",
-    "release": "node_modules/.bin/gulp release"
+    "release": "node_modules/.bin/gulp release",
+    "website": "node_modules/.bin/gulp website"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,7 @@
     "http-server": "^0.9.0",
     "monaco-editor-core": "0.4.2",
     "monaco-languages": "0.2.0",
-    "monaco-typescript": "0.2.0",
+    "monaco-typescript": "0.2.1",
     "rimraf": "^2.5.2"
   }
 }

@@ -5,6 +5,7 @@ var es = require('event-stream');
 var path = require('path');
 var fs = require('fs');
 var rimraf = require('rimraf');
+var cp = require('child_process');
 
 var SAMPLES_MDOC_PATH = path.join(__dirname, 'website/playground/playground.mdoc');
 var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/samples');
@@ -290,5 +291,36 @@ this.SAMPLES = [];
 this.ALL_SAMPLES = ${JSON.stringify(allSamples)};`
 
 	fs.writeFileSync(path.join(WEBSITE_GENERATED_PATH, 'all.js'), content);
+
+});
+
+gulp.task('clean-website', function(cb) { rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb); });
+gulp.task('website', ['clean-website', 'playground-samples'], function() {
+
+	return (
+		gulp.src('website/**/*')
+		.pipe(es.through(function(data) {
+			if (!data.contents || !/\.(js|html)$/.test(data.path)) {
+				return this.emit('data', data);
+			}
+
+			var contents = data.contents.toString();
+			contents = contents.replace(/\.\.\/release\/min/g, 'node_modules/monaco-editor/min');
+			// contents = contents.replace('&copy; 2016 Microsoft', '&copy; 2016 Microsoft [' + builtTime + ']');
+
+			data.contents = new Buffer(contents);
+
+			this.emit('data', data);
+		}))
+		.pipe(gulp.dest('../monaco-editor-website'))
+		.pipe(es.through(function(data) {
+			this.emit('data', data);
+		}, function() {
+			cp.execSync('npm install monaco-editor', {
+				cwd: path.join(__dirname, '../monaco-editor-website')
+			});
+			this.emit('end');
+		}))
+	);
 
 });
