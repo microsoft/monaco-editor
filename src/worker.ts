@@ -24,17 +24,13 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	// --- model sync -----------------------
 
-	// private _models: { [uri: string]: MirrorModel2 } = Object.create(null);
 	private _extraLibs: { [fileName: string]: string } = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 
-	// --- default ---------
-
-	acceptDefaults(options:ts.CompilerOptions, extraLibs:{ [path: string]: string }): Promise<void> {
-		this._compilerOptions = options;
-		this._extraLibs = extraLibs;
-		return;
+	constructor(createData:ICreateData) {
+		this._compilerOptions = createData.compilerOptions;
+		this._extraLibs = createData.extraLibs;
 	}
 
 	// --- language service host ---------------
@@ -176,6 +172,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	}
 }
 
-export function create(): TypeScriptWorker {
-	return new TypeScriptWorker();
+export interface ICreateData {
+	compilerOptions:ts.CompilerOptions;
+	extraLibs:{ [path: string]: string };
+}
+
+export function create(createData:ICreateData): TypeScriptWorker {
+	return new TypeScriptWorker(createData);
 }

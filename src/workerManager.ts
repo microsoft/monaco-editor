@@ -60,20 +60,18 @@ export class WorkerManager {
 
 		if (!this._client) {
 			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
+
+				// module that exports the create() method and returns a `TypeScriptWorker` instance
 				moduleId: 'vs/language/typescript/src/worker',
+
+				// passed in to the create() method
+				createData: {
+					compilerOptions: this._defaults.compilerOptions,
+					extraLibs: this._defaults.extraLibs
+				}
 			});
 
-			let _client:TypeScriptWorker = null;
-
-			// avoid cancellation
-			this._client = toShallowCancelPromise(
-				this._worker.getProxy().then((client) => {
-					_client = client;
-				}).then(_ => {
-					const {compilerOptions, extraLibs} = this._defaults;
-					return _client.acceptDefaults(compilerOptions, extraLibs);
-				}).then(_ => _client)
-			);
+			this._client = this._worker.getProxy();
 		}
 
 		return this._client;
@@ -81,11 +79,13 @@ export class WorkerManager {
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<TypeScriptWorker> {
 		let _client:TypeScriptWorker;
-		return this._getClient().then((client) => {
-			_client = client
-		}).then(_ => {
-			return this._worker.withSyncedResources(resources)
-		}).then(_ => _client);
+		return toShallowCancelPromise(
+			this._getClient().then((client) => {
+				_client = client
+			}).then(_ => {
+				return this._worker.withSyncedResources(resources)
+			}).then(_ => _client)
+		);
 	}
 }
 
