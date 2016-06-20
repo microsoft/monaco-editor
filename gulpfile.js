@@ -56,6 +56,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/jade'),
 			bundleOne('src/java'),
 			bundleOne('src/lua'),
+			bundleOne('src/markdown'),
 			bundleOne('src/objective-c'),
 			bundleOne('src/powershell'),
 			bundleOne('src/python'),

@@ -33,6 +33,7 @@ requirejs([
 		'out/test/jade.test',
 		'out/test/java.test',
 		'out/test/lua.test',
+		'out/test/markdown.test',
 		'out/test/objective-c.test',
 		'out/test/powershell.test',
 		'out/test/python.test',
