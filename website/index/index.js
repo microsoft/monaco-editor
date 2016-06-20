@@ -35,7 +35,7 @@ $(document).ready(function() {
 			changeTheme(this.selectedIndex);
 		});
 		$('.theme-picker').selectpicker({
-			size: 2
+			size: 3
 		});
 
 		loadDiffSample();
@@ -137,7 +137,7 @@ function loadDiffSample() {
 }
 
 function changeTheme(theme) {
-	var newTheme = (theme === 1 ? 'vs-dark' : 'vs');
+	var newTheme = (theme === 1 ? 'vs-dark' : ( theme === 0 ? 'vs' : 'hc-black' ));
 	if (editor) {
 		editor.updateOptions({ 'theme' : newTheme });
 	}
