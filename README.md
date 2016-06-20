@@ -119,21 +119,97 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 > Q: What is the relationship between VS Code and the Monaco Editor?<br/>
 > A: The Monaco Editor is generated straight from VS Code's sources with some shims around services the code needs to make it run in a web browser outside of its home.
 
-<br/>
+
 > Q: What is the relationship between VS Code's version and the Monaco Editor's version?<br/>
 > A: None. The Monaco Editor is a library and it reflects directly the source code.
 
-<br/>
+
 > Q: I've written an extension for VS Code, will it work on the Monaco Editor in a browser?<br/>
 > A: No.
 
-<br/>
+
 > Q: Why all these web workers and why should I care?<br/>
 > A: Language services create web workers to compute heavy stuff outside the UI thread. They cost hardly anything in terms of resource overhead and you shouldn't worry too much about them, as long as you get them to work (see above the cross-domain case).
 
-<br/>
+
 > Q: What is this `loader.js`? Can I use `require.js`?<br/>
 > A: It is an AMD loader that we use in VS Code. Yes.
+
+## Dev
+
+### Cheat Sheet
+
+* simpleserver with `npm run simpleserver`
+* release with `npm run release`
+* website with `npm run website`
+
+### Running monaco-editor-core from source
+
+* clone https://github.com/Microsoft/vscode in `$/src/vscode/` (next to this repo)
+* run `$/src/vscode> gulp watch`
+* run `$/src/monaco-editor> npm run simpleserver`
+* edit `$/src/monaco-editor/test/index.html` and set `var RUN_EDITOR_FROM_SOURCE = true;`
+* open http://localhost:8080/monaco-editor/test/
+
+### Running a plugin (e.g. monaco-typescript) from source
+
+* clone https://github.com/Microsoft/monaco-typescript in `$/src/monaco-typescript` (next to this repo)
+* run `$/src/monaco-typescript> npm run watch`
+* run `$/src/monaco-editor> npm run simpleserver`
+* edit `$/src/monaco-editor/test/index.html` and set `RUN_PLUGINS_FROM_SOURCE['monaco-typescript'] = true;`
+* open http://localhost:8080/monaco-editor/test/
+
+---
+
+### Shipping a new `monaco-editor` version
+
+#### Ship a new `monaco-editor-core` version (if necessary)
+* bump version in https://github.com/Microsoft/vscode/blob/master/build/monaco/package.json
+ * if there is a breaking API change, bump the major (or the minor for 0.x.y)
+* push all local changes to the remote
+* generate npm package `$/src/vscode> gulp editor-distro`
+* publish npm package `$/src/vscode/out-monaco-editor-core> npm publish`
+
+#### Adopt new `monaco-editor-core` in plugins (if necessary)
+* https://github.com/Microsoft/monaco-typescript
+* https://github.com/Microsoft/monaco-languages
+
+#### Adopt new `monaco-editor-core`
+* edit `$/src/monaco-editor/package.json` and update the version for (as necessary):
+ * `monaco-editor-core`
+ * `monaco-typescript`
+ * `monaco-languages`
+* update the version in `$/src/monaco-editor/package.json`
+ * I try to keep it similar to `monaco-editor-core`, maybe just vary the patch version.
+* fetch latest deps by running `$/src/monaco-editor> npm install .`
+
+#### Package `monaco-editor`
+* run `$/src/monaco-editor> npm run release`
+
+#### Try out packaged bits
+* open http://localhost:8080/monaco-editor/test/index-release.html
+* open http://localhost:8080/monaco-editor/test/smoketest-release.html
+
+#### Publish packaged bits
+* run `$/src/monaco-editor/release> npm publish`
+
+---
+
+### Running the website from its source
+
+* run `$/src/monaco-editor> npm run release`
+* open http://localhost:8080/monaco-editor/website/
+
+### Generating the playground samples
+
+* edit `$/src/monaco-editor/website/playground/playground.mdoc`
+* run `$/src/monaco-editor> gulp playground-samples`
+
+### Publishing the website
+
+* run `$/src/monaco-editor> npm run website`
+* force-push the gh-pages branch: `$/src/monaco-editor-website> git push origin gh-pages --force`
+
 
 ## License
 [MIT](https://github.com/Microsoft/monaco-editor/blob/master/LICENSE.md)
