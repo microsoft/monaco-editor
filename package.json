@@ -6,9 +6,9 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "scripts": {
-    "simpleserver": "node_modules/.bin/http-server -c-1 ../",
-    "release": "node_modules/.bin/gulp release",
-    "website": "node_modules/.bin/gulp website"
+    "simpleserver": "http-server -c-1 ../",
+    "release": "gulp release",
+    "website": "gulp website"
   },
   "repository": {
     "type": "git",
