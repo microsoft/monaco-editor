@@ -71,7 +71,7 @@ If you are hosting your `.js` on a different domain (e.g. on a CDN) than the HTM
 <!--
 	Assuming the HTML lives on www.mydomain.com and that the editor is hosted on www.mycdn.com
 -->
-<script type="text/javascript" src="http://www.mycdn.com/monaco-editor/vs/loader.js"></script>
+<script type="text/javascript" src="http://www.mycdn.com/monaco-editor/min/vs/loader.js"></script>
 <script>
 	require.config({ paths: { 'vs': 'http://www.mycdn.com/monaco-editor/min/vs' }});
 
@@ -93,9 +93,9 @@ If you are hosting your `.js` on a different domain (e.g. on a CDN) than the HTM
 <!--
 	Create http://www.mydomain.com/monaco-editor-worker-loader-proxy.js with the following content:
 		self.MonacoEnvironment = {
-			baseUrl: 'http://www.mycdn.com/monaco-editor/'
+			baseUrl: 'http://www.mycdn.com/monaco-editor/min/'
 		};
-		importScripts('www.mycdn.com/monaco-editor/vs/base/worker/workerMain.js');
+		importScripts('www.mycdn.com/monaco-editor/min/vs/base/worker/workerMain.js');
 	That's it. You're good to go! :)
 -->
 ```
