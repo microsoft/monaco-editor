@@ -66,11 +66,20 @@ function loadSample(mode) {
 			$('.loading.editor').show();
 		},
 		error: function () {
+			if (editor) {
+				if (editor.getModel()) {
+					editor.getModel().dispose();
+				}
+				editor.dispose();
+				editor = null;
+			}
 			$('.loading.editor').fadeOut({ duration: 200 });
-			$('#editor').append('<p class="alert alert-error">Failed to load ' + mode.name + ' sample</p>');
+			$('#editor').empty();
+			$('#editor').append('<p class="alert alert-error">Failed to load ' + mode.modeId + ' sample</p>');
 		}
 	}).done(function (data) {
 		if (!editor) {
+			$('#editor').empty();
 			editor = monaco.editor.create(document.getElementById('editor'), {
 				model: null,
 			});
