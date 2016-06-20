@@ -32,6 +32,7 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * initial setup with `npm install .`
 * compile with `npm run watch`
 * test with `npm run test`
+ * There is a problem with nls.js while running under the test environment. If you get `Uncaught Error: Evaluating node_modules/monaco-editor-core/dev/vs/nls.js as module "vs/nls" failed with error: TypeError: Cannot read property 'Plugin' of undefined` you must edit for now `$/node_modules/monaco-editor-core/dev/vs/nls.js` and around line 27 use `var global = _nlsPluginGlobal || {};`. A fix will come soon.
 * bundle with `npm run prepublish`
 
 ## Dev: Running monaco-languages from source
