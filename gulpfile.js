@@ -58,13 +58,10 @@ gulp.task('release', ['clean-release','compile'], function() {
 
 	return merge(
 		merge(
-			bundleOne('monaco.contribution', ['vs/language/css/mode']),
-			bundleOne('mode'),
-			bundleOne('worker')
+			bundleOne('monaco.contribution', ['vs/language/css/cssMode']),
+			bundleOne('cssMode'),
+			bundleOne('cssWorker')
 		)
-	//	.pipe(uglify({
-	//		preserveComments: 'some'
-	//	}))
 		.pipe(es.through(function(data) {
 			data.contents = new Buffer(
 				BUNDLED_FILE_HEADER
@@ -72,9 +69,12 @@ gulp.task('release', ['clean-release','compile'], function() {
 			);
 			this.emit('data', data);
 		}))
-		.pipe(gulp.dest('./release/')),
-
-		gulp.src('src/monaco.d.ts').pipe(gulp.dest('./release/'))
+		.pipe(gulp.dest('./release/dev'))
+		.pipe(uglify({
+			preserveComments: 'some'
+		}))
+		.pipe(gulp.dest('./release/min')),
+		gulp.src('src/monaco.d.ts').pipe(gulp.dest('./release/min'))
 	);
 });
 

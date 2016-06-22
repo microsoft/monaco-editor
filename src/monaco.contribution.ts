@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import * as mode from './mode';
+import * as mode from './cssMode';
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
@@ -85,7 +85,7 @@ monaco.languages.css = createAPI();
 // --- Registration to monaco editor ---
 
 function withMode(callback:(module:typeof mode)=>void): void {
-	require<typeof mode>(['vs/language/css/mode'], callback);
+	require<typeof mode>(['vs/language/css/cssMode'], callback);
 }
 
 monaco.languages.register({

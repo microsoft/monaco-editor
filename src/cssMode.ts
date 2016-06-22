@@ -5,7 +5,7 @@
 'use strict';
 
 import {WorkerManager} from './workerManager';
-import {CSSWorker} from './worker';
+import {CSSWorker} from './cssWorker';
 import {LanguageServiceDefaultsImpl} from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 

@@ -5,7 +5,7 @@
 'use strict';
 
 import {LanguageServiceDefaultsImpl} from './monaco.contribution';
-import {CSSWorker} from './worker';
+import {CSSWorker} from './cssWorker';
 
 import * as ls from 'vscode-languageserver-types';
 
