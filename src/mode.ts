@@ -38,7 +38,6 @@ export function setupCSS(defaults:LanguageServiceDefaultsImpl): void {
 
 	setupMode(
 		defaults,
-		'css',
 		cssLanguageConfiguration
 	);
 }
@@ -63,7 +62,6 @@ export function setupLESS(defaults:LanguageServiceDefaultsImpl): void {
 
 	setupMode(
 		defaults,
-		'less',
 		lessLanguageConfiguration
 	);
 }
@@ -88,12 +86,11 @@ export function setupSCSS(defaults:LanguageServiceDefaultsImpl): void {
 
 	setupMode(
 		defaults,
-		'scss',
 		scssLanguageConfiguration
 	);
 }
 
-function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, languageConfiguration: monaco.languages.LanguageConfiguration): void {
+function setupMode(defaults:LanguageServiceDefaultsImpl, languageConfiguration: monaco.languages.LanguageConfiguration): void {
 
 	let disposables: IDisposable[] = [];
 
@@ -104,15 +101,17 @@ function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language
 		return client.getLanguageServiceWorker(...[first].concat(more));
 	};
 
-	disposables.push(monaco.languages.registerCompletionItemProvider(modeId, new languageFeatures.CompletionAdapter(worker)));
-	disposables.push(monaco.languages.registerHoverProvider(modeId, new languageFeatures.HoverAdapter(worker)));
-	disposables.push(monaco.languages.registerDocumentHighlightProvider(modeId, new languageFeatures.DocumentHighlightAdapter(worker)));
-	disposables.push(monaco.languages.registerDefinitionProvider(modeId, new languageFeatures.DefinitionAdapter(worker)));
-	disposables.push(monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(worker)));
-	disposables.push(monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.DocumentSymbolAdapter(worker)));
-	disposables.push(monaco.languages.registerRenameProvider(modeId, new languageFeatures.RenameAdapter(worker)));
-	disposables.push(new languageFeatures.DiagnostcsAdapter(defaults, modeId, worker));
-	disposables.push(monaco.languages.setLanguageConfiguration(modeId, languageConfiguration));
+	let languageId = defaults.languageId;
+
+	disposables.push(monaco.languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker)));
+	disposables.push(monaco.languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker)));
+	disposables.push(monaco.languages.registerDocumentHighlightProvider(languageId, new languageFeatures.DocumentHighlightAdapter(worker)));
+	disposables.push(monaco.languages.registerDefinitionProvider(languageId, new languageFeatures.DefinitionAdapter(worker)));
+	disposables.push(monaco.languages.registerReferenceProvider(languageId, new languageFeatures.ReferenceAdapter(worker)));
+	disposables.push(monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker)));
+	disposables.push(monaco.languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker)));
+	disposables.push(new languageFeatures.DiagnostcsAdapter(languageId, worker));
+	disposables.push(monaco.languages.setLanguageConfiguration(languageId, languageConfiguration));
 }
 
 

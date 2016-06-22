@@ -24,9 +24,9 @@ gulp.task('release', ['clean-release','compile'], function() {
 	var BUNDLED_FILE_HEADER = [
 		'/*!-----------------------------------------------------------------------------',
 		' * Copyright (c) Microsoft Corporation. All rights reserved.',
-		' * monaco-typescript version: ' + headerVersion,
+		' * monaco-css version: ' + headerVersion,
 		' * Released under the MIT license',
-		' * https://github.com/Microsoft/monaco-typescript/blob/master/LICENSE.md',
+		' * https://github.com/Microsoft/monaco-css/blob/master/LICENSE.md',
 		' *-----------------------------------------------------------------------------*/',
 		''
 	].join('\n');
@@ -38,22 +38,33 @@ gulp.task('release', ['clean-release','compile'], function() {
 			out: moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/language/css': __dirname + '/out',
-				'vscode-css-languageservice/lib': __dirname + '/node_modules/vscode-css-languageservice/lib',
-				'vscode-languageserver-types/lib': __dirname + '/node_modules/vscode-languageserver-types/lib'
-			}
+				'vs/language/css': __dirname + '/out'
+			},
+			packages: [{
+				name: 'vscode-css-languageservice',
+				location: __dirname + '/node_modules/vscode-css-languageservice/lib',
+				main: 'cssLanguageService'
+			}, {
+				name: 'vscode-languageserver-types',
+				location: __dirname + '/node_modules/vscode-languageserver-types/lib',
+				main: 'main'
+			}, {
+				name: 'vscode-nls',
+				location: __dirname + '/out/fillers',
+				main: 'vscode-nls'
+			}]
 		})
 	}
 
 	return merge(
 		merge(
-			bundleOne('monaco.contribution'),
+			bundleOne('monaco.contribution', ['vs/language/css/mode']),
 			bundleOne('mode'),
 			bundleOne('worker')
 		)
-		.pipe(uglify({
-			preserveComments: 'some'
-		}))
+	//	.pipe(uglify({
+	//		preserveComments: 'some'
+	//	}))
 		.pipe(es.through(function(data) {
 			data.contents = new Buffer(
 				BUNDLED_FILE_HEADER

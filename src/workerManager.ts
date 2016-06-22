@@ -62,11 +62,12 @@ export class WorkerManager {
 			this._worker = monaco.editor.createWebWorker<CSSWorker>({
 
 				// module that exports the create() method and returns a `CSSWorker` instance
-				moduleId: 'vs/language/css/src/worker',
+				moduleId: 'vs/language/css/worker',
 
 				// passed in to the create() method
 				createData: {
-					languageSettings: this._defaults.diagnosticsOptions
+					languageSettings: this._defaults.diagnosticsOptions,
+					languageId: this._defaults.languageId
 				}
 			});
 

@@ -18,13 +18,19 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.css.Languag
 
 	private _onDidChange = new Emitter<monaco.languages.css.LanguageServiceDefaults>();
 	private _diagnosticsOptions: monaco.languages.css.DiagnosticsOptions;
+	private _languageId: string;
 
-	constructor(diagnosticsOptions: monaco.languages.css.DiagnosticsOptions) {
+	constructor(languageId: string, diagnosticsOptions: monaco.languages.css.DiagnosticsOptions) {
+		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
 	}
 
 	get onDidChange(): IEvent<monaco.languages.css.LanguageServiceDefaults>{
 		return this._onDidChange.event;
+	}
+
+	get languageId(): string {
+		return this._languageId;
 	}
 
 	get diagnosticsOptions(): monaco.languages.css.DiagnosticsOptions {
@@ -61,9 +67,9 @@ const diagnosticDefault : monaco.languages.css.DiagnosticsOptions = {
 	}
 }
 
-const cssDefaults = new LanguageServiceDefaultsImpl(diagnosticDefault);
-const scssDefaults = new LanguageServiceDefaultsImpl(diagnosticDefault);
-const lessDefaults = new LanguageServiceDefaultsImpl(diagnosticDefault);
+const cssDefaults = new LanguageServiceDefaultsImpl('css', diagnosticDefault);
+const scssDefaults = new LanguageServiceDefaultsImpl('scss', diagnosticDefault);
+const lessDefaults = new LanguageServiceDefaultsImpl('less', diagnosticDefault);
 
 
 // Export API

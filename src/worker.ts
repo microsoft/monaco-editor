@@ -6,8 +6,8 @@
 
 import Promise = monaco.Promise;
 
-import * as cssService from 'vscode-css-languageservice/lib/cssLanguageService';
-import * as ls from 'vscode-languageserver-types/lib/main';
+import * as cssService from 'vscode-css-languageservice';
+import * as ls from 'vscode-languageserver-types';
 
 export class CSSWorker {
 

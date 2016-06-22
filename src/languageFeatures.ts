@@ -7,9 +7,7 @@
 import {LanguageServiceDefaultsImpl} from './monaco.contribution';
 import {CSSWorker} from './worker';
 
-import * as cssService from 'vscode-css-languageservice/lib/cssLanguageService';
-import * as ls from 'vscode-languageserver-types/lib/main';
-
+import * as ls from 'vscode-languageserver-types';
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;
@@ -20,6 +18,10 @@ import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
 
 
+export interface WorkerAccessor {
+	(first: Uri, ...more: Uri[]): Promise<CSSWorker>
+}
+
 // --- diagnostics --- ---
 
 export class DiagnostcsAdapter {
@@ -27,10 +29,7 @@ export class DiagnostcsAdapter {
 	private _disposables: IDisposable[] = [];
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
 
-	constructor(private _defaults: LanguageServiceDefaultsImpl, private _languageId: string,
-		private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>
-	) {
-
+	constructor(private _languageId: string, private _worker: WorkerAccessor) {
 		const onModelAdd = (model: monaco.editor.IModel): void => {
 			let modeId = model.getModeId();
 			if (modeId !== this._languageId) {
@@ -112,7 +111,7 @@ function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarke
 	};
 }
 
-// --- suggest ------
+// --- completion ------
 
 function fromPosition(position: Position): ls.Position {
 	if (!position) {
@@ -174,7 +173,7 @@ function toTextEdit(textEdit: ls.TextEdit): monaco.editor.ISingleEditOperation {
 
 export class CompletionAdapter implements monaco.languages.CompletionItemProvider {
 
-	constructor(private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>) {
+	constructor(private _worker: WorkerAccessor) {
 	}
 
 	public get triggerCharacters(): string[] {
@@ -193,7 +192,8 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 			}
 			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
 				return {
-					label: entry.insertText,
+					label: entry.label,
+					insertText: entry.insertText,
 					sortText: entry.sortText,
 					filterText: entry.filterText,
 					documentation: entry.documentation,
@@ -238,7 +238,7 @@ function toHTMLContentElements(contents: ls.MarkedString | ls.MarkedString[]): m
 
 export class HoverAdapter implements monaco.languages.HoverProvider {
 
-	constructor(private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>) {
+	constructor(private _worker: WorkerAccessor) {
 	}
 
 	provideHover(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Hover> {
@@ -258,7 +258,7 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 	}
 }
 
-// --- occurrences ------
+// --- document highlights ------
 
 function toDocumentHighlightKind(kind: number): monaco.languages.DocumentHighlightKind {
 	switch (kind) {
@@ -272,7 +272,7 @@ function toDocumentHighlightKind(kind: number): monaco.languages.DocumentHighlig
 
 export class DocumentHighlightAdapter implements monaco.languages.DocumentHighlightProvider {
 
-	constructor(private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>) {
+	constructor(private _worker: WorkerAccessor) {
 	}
 
 	public provideDocumentHighlights(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.DocumentHighlight[]> {
@@ -305,7 +305,7 @@ function toLocation(location: ls.Location): monaco.languages.Location {
 
 export class DefinitionAdapter {
 
-	constructor(private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>) {
+	constructor(private _worker: WorkerAccessor) {
 	}
 
 	public provideDefinition(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Definition> {
@@ -326,7 +326,7 @@ export class DefinitionAdapter {
 
 export class ReferenceAdapter implements monaco.languages.ReferenceProvider {
 
-	constructor(private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>) {
+	constructor(private _worker: WorkerAccessor) {
 	}
 
 	provideReferences(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.ReferenceContext, token: CancellationToken): Thenable<monaco.languages.Location[]> {
@@ -349,11 +349,11 @@ function toWorkspaceEdit(edit: ls.WorkspaceEdit): monaco.languages.WorkspaceEdit
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
-	let resourceEdits : monaco.languages.IResourceEdit[] = [];
+	let resourceEdits: monaco.languages.IResourceEdit[] = [];
 	for (let uri in edit.changes) {
 		let edits = edit.changes[uri];
 		for (let e of edits) {
-			resourceEdits.push({resource: Uri.parse(uri), range: toRange(e.range), newText: e.newText });
+			resourceEdits.push({ resource: Uri.parse(uri), range: toRange(e.range), newText: e.newText });
 		}
 
 	}
@@ -365,7 +365,7 @@ function toWorkspaceEdit(edit: ls.WorkspaceEdit): monaco.languages.WorkspaceEdit
 
 export class RenameAdapter implements monaco.languages.RenameProvider {
 
-	constructor(private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>) {
+	constructor(private _worker: WorkerAccessor) {
 	}
 
 	provideRenameEdits(model: monaco.editor.IReadOnlyModel, position: Position, newName: string, token: CancellationToken): Thenable<monaco.languages.WorkspaceEdit> {
@@ -379,7 +379,7 @@ export class RenameAdapter implements monaco.languages.RenameProvider {
 	}
 }
 
-// --- outline ------
+// --- document symbols ------
 
 function toSymbolKind(kind: ls.SymbolKind): monaco.languages.SymbolKind {
 	let lsKind = ls.SymbolKind;
@@ -411,7 +411,7 @@ function toSymbolKind(kind: ls.SymbolKind): monaco.languages.SymbolKind {
 
 export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolProvider {
 
-	constructor(private _worker: (first: Uri, ...more: Uri[]) => Promise<CSSWorker>) {
+	constructor(private _worker: WorkerAccessor) {
 	}
 
 	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.SymbolInformation[]> {
