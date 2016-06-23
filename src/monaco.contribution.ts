@@ -183,3 +183,24 @@ registerLanguage({
 	mimetypes: ['text/xml', 'application/xml', 'application/xaml+xml', 'application/xml-dtd'],
 	module: './xml'
 });
+registerLanguage({
+	id: 'less',
+	extensions: ['.less'],
+	aliases: ['Less', 'less'],
+	mimetypes: ['text/x-less', 'text/less'],
+	module: './less'
+});
+registerLanguage({
+	id: 'scss',
+	extensions: ['.scss'],
+	aliases: ['Sass', 'sass', 'scss'],
+	mimetypes: ['text/x-scss', 'text/scss'],
+	module: './scss'
+});
+registerLanguage({
+	id: 'css',
+	extensions: ['.css'],
+	aliases: ['CSS', 'css'],
+	mimetypes: ['text/css'],
+	module: './css'
+});

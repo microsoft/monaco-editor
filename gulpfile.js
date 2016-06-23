@@ -46,6 +46,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 	return merge(
 			bundleOne('src/monaco.contribution'),
 			bundleOne('src/bat'),
+			bundleOne('src/css'),
 			bundleOne('src/coffee'),
 			bundleOne('src/cpp'),
 			bundleOne('src/csharp'),
@@ -55,6 +56,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/ini'),
 			bundleOne('src/jade'),
 			bundleOne('src/java'),
+			bundleOne('src/less'),
 			bundleOne('src/lua'),
 			bundleOne('src/markdown'),
 			bundleOne('src/objective-c'),
@@ -62,6 +64,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/python'),
 			bundleOne('src/r'),
 			bundleOne('src/ruby'),
+			bundleOne('src/scss'),
 			bundleOne('src/sql'),
 			bundleOne('src/swift'),
 			bundleOne('src/vb'),
