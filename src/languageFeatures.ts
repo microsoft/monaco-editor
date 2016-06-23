@@ -135,28 +135,27 @@ function toRange(range: ls.Range): Range {
 }
 
 function toCompletionItemKind(kind: number): monaco.languages.CompletionItemKind {
-	let lsItemKind = ls.CompletionItemKind;
 	let mItemKind = monaco.languages.CompletionItemKind;
 
 	switch (kind) {
-		case lsItemKind.Text: return mItemKind.Text;
-		case lsItemKind.Method: return mItemKind.Method;
-		case lsItemKind.Function: return mItemKind.Function;
-		case lsItemKind.Constructor: return mItemKind.Constructor;
-		case lsItemKind.Field: return mItemKind.Field;
-		case lsItemKind.Variable: return mItemKind.Variable;
-		case lsItemKind.Class: return mItemKind.Class;
-		case lsItemKind.Interface: return mItemKind.Interface;
-		case lsItemKind.Module: return mItemKind.Module;
-		case lsItemKind.Property: return mItemKind.Property;
-		case lsItemKind.Unit: return mItemKind.Unit;
-		case lsItemKind.Value: return mItemKind.Value;
-		case lsItemKind.Enum: return mItemKind.Enum;
-		case lsItemKind.Keyword: return mItemKind.Keyword;
-		case lsItemKind.Snippet: return mItemKind.Snippet;
-		case lsItemKind.Color: return mItemKind.Color;
-		case lsItemKind.File: return mItemKind.File;
-		case lsItemKind.Reference: return mItemKind.Reference;
+		case ls.CompletionItemKind.Text: return mItemKind.Text;
+		case ls.CompletionItemKind.Method: return mItemKind.Method;
+		case ls.CompletionItemKind.Function: return mItemKind.Function;
+		case ls.CompletionItemKind.Constructor: return mItemKind.Constructor;
+		case ls.CompletionItemKind.Field: return mItemKind.Field;
+		case ls.CompletionItemKind.Variable: return mItemKind.Variable;
+		case ls.CompletionItemKind.Class: return mItemKind.Class;
+		case ls.CompletionItemKind.Interface: return mItemKind.Interface;
+		case ls.CompletionItemKind.Module: return mItemKind.Module;
+		case ls.CompletionItemKind.Property: return mItemKind.Property;
+		case ls.CompletionItemKind.Unit: return mItemKind.Unit;
+		case ls.CompletionItemKind.Value: return mItemKind.Value;
+		case ls.CompletionItemKind.Enum: return mItemKind.Enum;
+		case ls.CompletionItemKind.Keyword: return mItemKind.Keyword;
+		case ls.CompletionItemKind.Snippet: return mItemKind.Snippet;
+		case ls.CompletionItemKind.Color: return mItemKind.Color;
+		case ls.CompletionItemKind.File: return mItemKind.File;
+		case ls.CompletionItemKind.Reference: return mItemKind.Reference;
 	}
 	return mItemKind.Property;
 }
@@ -382,28 +381,27 @@ export class RenameAdapter implements monaco.languages.RenameProvider {
 // --- document symbols ------
 
 function toSymbolKind(kind: ls.SymbolKind): monaco.languages.SymbolKind {
-	let lsKind = ls.SymbolKind;
 	let mKind = monaco.languages.SymbolKind;
 
 	switch (kind) {
-		case lsKind.File: return mKind.Array;
-		case lsKind.Module: return mKind.Module;
-		case lsKind.Namespace: return mKind.Namespace;
-		case lsKind.Package: return mKind.Package;
-		case lsKind.Class: return mKind.Class;
-		case lsKind.Method: return mKind.Method;
-		case lsKind.Property: return mKind.Property;
-		case lsKind.Field: return mKind.Field;
-		case lsKind.Constructor: return mKind.Constructor;
-		case lsKind.Enum: return mKind.Enum;
-		case lsKind.Interface: return mKind.Interface;
-		case lsKind.Function: return mKind.Function;
-		case lsKind.Variable: return mKind.Variable;
-		case lsKind.Constant: return mKind.Constant;
-		case lsKind.String: return mKind.String;
-		case lsKind.Number: return mKind.Number;
-		case lsKind.Boolean: return mKind.Boolean;
-		case lsKind.Array: return mKind.Array;
+		case ls.SymbolKind.File: return mKind.Array;
+		case ls.SymbolKind.Module: return mKind.Module;
+		case ls.SymbolKind.Namespace: return mKind.Namespace;
+		case ls.SymbolKind.Package: return mKind.Package;
+		case ls.SymbolKind.Class: return mKind.Class;
+		case ls.SymbolKind.Method: return mKind.Method;
+		case ls.SymbolKind.Property: return mKind.Property;
+		case ls.SymbolKind.Field: return mKind.Field;
+		case ls.SymbolKind.Constructor: return mKind.Constructor;
+		case ls.SymbolKind.Enum: return mKind.Enum;
+		case ls.SymbolKind.Interface: return mKind.Interface;
+		case ls.SymbolKind.Function: return mKind.Function;
+		case ls.SymbolKind.Variable: return mKind.Variable;
+		case ls.SymbolKind.Constant: return mKind.Constant;
+		case ls.SymbolKind.String: return mKind.String;
+		case ls.SymbolKind.Number: return mKind.Number;
+		case ls.SymbolKind.Boolean: return mKind.Boolean;
+		case ls.SymbolKind.Array: return mKind.Array;
 	}
 	return mKind.Function;
 }

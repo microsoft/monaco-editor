@@ -10,7 +10,7 @@ import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
 import IDisposable = monaco.IDisposable;
 
-declare var require:<T>(moduleId:[string], callback:(module:T)=>void)=>void;
+declare var require: <T>(moduleId: [string], callback: (module: T) => void) => void;
 
 // --- CSS configuration and defaults ---------
 
@@ -25,7 +25,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.css.Languag
 		this.setDiagnosticsOptions(diagnosticsOptions);
 	}
 
-	get onDidChange(): IEvent<monaco.languages.css.LanguageServiceDefaults>{
+	get onDidChange(): IEvent<monaco.languages.css.LanguageServiceDefaults> {
 		return this._onDidChange.event;
 	}
 
@@ -43,7 +43,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.css.Languag
 	}
 }
 
-const diagnosticDefault : monaco.languages.css.DiagnosticsOptions = {
+const diagnosticDefault: monaco.languages.css.DiagnosticsOptions = {
 	validate: true,
 	lint: {
 		compatibleVendorPrefixes: 'ignore',
@@ -84,7 +84,7 @@ monaco.languages.css = createAPI();
 
 // --- Registration to monaco editor ---
 
-function withMode(callback:(module:typeof mode)=>void): void {
+function withMode(callback: (module: typeof mode) => void): void {
 	require<typeof mode>(['vs/language/css/cssMode'], callback);
 }
 

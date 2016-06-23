@@ -13,7 +13,7 @@ import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 import IDisposable = monaco.IDisposable;
 
-export function setupMode(defaults:LanguageServiceDefaultsImpl): void {
+export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 
 	let disposables: IDisposable[] = [];
 

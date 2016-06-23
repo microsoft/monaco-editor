@@ -13,11 +13,11 @@ export class CSSWorker {
 
 	// --- model sync -----------------------
 
-	private _languageService : cssService.LanguageService;
+	private _languageService: cssService.LanguageService;
 	private _languageSettings: cssService.LanguageSettings;
 	private _languageId: string;
 
-	constructor(createData:ICreateData) {
+	constructor(createData: ICreateData) {
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
 		switch (this._languageId) {
@@ -98,7 +98,7 @@ export class CSSWorker {
 		let renames = this._languageService.doRename(document, position, newName, stylesheet);
 		return Promise.as(renames);
 	}
-	private _getTextDocument(uri:string): ls.TextDocument {
+	private _getTextDocument(uri: string): ls.TextDocument {
 		let models = monaco.worker.getMirrorModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {
@@ -114,6 +114,6 @@ export interface ICreateData {
 	languageSettings: cssService.LanguageSettings;
 }
 
-export function create(createData:ICreateData): CSSWorker {
+export function create(createData: ICreateData): CSSWorker {
 	return new CSSWorker(createData);
 }

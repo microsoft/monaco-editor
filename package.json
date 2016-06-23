@@ -1,11 +1,11 @@
 {
   "name": "monaco-css",
-  "version": "0.0.1",
-  "description": "CSS, LESS and SCSS support for Monaco Editor",
+  "version": "1.0.0",
+  "description": "CSS, LESS and SCSS plugin for the Monaco Editor",
   "scripts": {
-    "test": "node_modules/.bin/mocha",
-    "watch": "node_modules/.bin/gulp watch",
-    "prepublish": "node_modules/.bin/gulp release"
+    "compile": "gulp compile",
+    "watch": "gulp watch",
+    "prepublish": "gulp release"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -17,8 +17,8 @@
     "url": "https://github.com/Microsoft/monaco-css/issues"
   },
   "dependencies": {
-    "vscode-css-languageservice": "file:../vscode-css-languageservice",
-    "vscode-languageserver-types": "1.0.0"
+    "vscode-css-languageservice": "^1.0.1",
+    "vscode-languageserver-types": "^1.0.1"
   },
   "devDependencies": {
     "event-stream": "^3.3.2",
@@ -27,7 +27,6 @@
     "gulp-tsb": "^1.10.4",
     "gulp-uglify": "^1.5.3",
     "merge-stream": "^1.0.0",
-    "mocha": "^2.5.3",
     "monaco-editor-core": "^0.4.0",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",

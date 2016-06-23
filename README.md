@@ -1,5 +1,7 @@
-# monaco-css
-CSS language support for the Monaco Editor.
+# Monaco CSS
+
+CSS language plugin for the Monaco Editor.
+
 
 ## Installing
 
