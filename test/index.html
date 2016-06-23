@@ -25,19 +25,20 @@
 <script src="../metadata.js"></script>
 
 <script>
-	var RUN_EDITOR_FROM_SOURCE = false; // should run the editor from source? (or from the node module)
-	var RUN_PLUGINS_FROM_SOURCE = {}; // should run the editor plugins from source? (or from node modules)
-	RUN_PLUGINS_FROM_SOURCE['monaco-typescript'] = false;
-	RUN_PLUGINS_FROM_SOURCE['monaco-languages'] = false;
+	function getQueryStringValue (key) {
+		return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+	}
 
 	// Resolve paths
-	if (RUN_EDITOR_FROM_SOURCE) {
+	// should run the editor and/or plugins from source? (or from the node module)
+	if (getQueryStringValue('editor') === 'dev') {
 		METADATA.CORE.path = METADATA.CORE.srcPath;
 	} else {
 		METADATA.CORE.path = '/monaco-editor/' + METADATA.CORE.path;
 	}
 	METADATA.PLUGINS.forEach(function(plugin) {
-		if (RUN_PLUGINS_FROM_SOURCE[plugin.name]) {
+		// should run the editor plugins from source? (or from node modules)
+		if (plugin.srcPath && getQueryStringValue(plugin.name) === 'dev') {
 			plugin.path = plugin.srcPath;
 		} else {
 			plugin.path = '/monaco-editor/' + plugin.path;
