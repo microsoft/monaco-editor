@@ -135,6 +135,10 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 > Q: What is this `loader.js`? Can I use `require.js`?<br/>
 > A: It is an AMD loader that we use in VS Code. Yes.
 
+
+> Q: I see the warning "Could not create web worker". What should I do?<br/>
+> A: HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross domain case above.
+
 ## Dev
 
 ### Cheat Sheet
