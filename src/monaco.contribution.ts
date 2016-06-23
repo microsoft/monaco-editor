@@ -88,32 +88,14 @@ function withMode(callback:(module:typeof mode)=>void): void {
 	require<typeof mode>(['vs/language/css/cssMode'], callback);
 }
 
-monaco.languages.register({
-	id: 'less',
-	extensions: ['.less'],
-	aliases: ['Less', 'less'],
-	mimetypes: ['text/x-less', 'text/less']
-});
 monaco.languages.onLanguage('less', () => {
-	withMode((mode) => mode.setupLESS(lessDefaults));
+	withMode(mode => mode.setupMode(lessDefaults));
 });
 
-monaco.languages.register({
-	id: 'scss',
-	extensions: ['.scss'],
-	aliases: ['Sass', 'sass', 'scss'],
-	mimetypes: ['text/x-scss', 'text/scss']
-});
 monaco.languages.onLanguage('scss', () => {
-	withMode((mode) => mode.setupSCSS(scssDefaults));
+	withMode(mode => mode.setupMode(scssDefaults));
 });
 
-monaco.languages.register({
-	id: 'css',
-	extensions: ['.css'],
-	aliases: ['CSS', 'css'],
-	mimetypes: ['text/css']
-});
 monaco.languages.onLanguage('css', () => {
-	withMode((mode) => mode.setupCSS(cssDefaults));
+	withMode(mode => mode.setupMode(cssDefaults));
 });

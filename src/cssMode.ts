@@ -13,84 +13,7 @@ import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 import IDisposable = monaco.IDisposable;
 
-export function setupCSS(defaults:LanguageServiceDefaultsImpl): void {
-	const cssLanguageConfiguration: monaco.languages.LanguageConfiguration = {
-		wordPattern: /(#?-?\d*\.\d\w*%?)|((::|[@#.!:])?[\w-?]+%?)|::|[@#.!:]/g,
-
-		comments: {
-			blockComment: ['/*', '*/']
-		},
-
-		brackets: [
-			['{', '}'],
-			['[', ']'],
-			['(', ')']
-		],
-
-		autoClosingPairs: [
-			{ open: '{', close: '}' },
-			{ open: '[', close: ']' },
-			{ open: '(', close: ')' },
-			{ open: '"', close: '"', notIn: ['string'] },
-			{ open: '\'', close: '\'', notIn: ['string'] }
-		]
-	};
-
-	setupMode(
-		defaults,
-		cssLanguageConfiguration
-	);
-}
-
-export function setupLESS(defaults:LanguageServiceDefaultsImpl): void {
-	const lessLanguageConfiguration: monaco.languages.LanguageConfiguration = {
-		wordPattern: /(#?-?\d*\.\d\w*%?)|([@#!.:]?[\w-?]+%?)|[@#!.]/g,
-		comments: {
-			blockComment: ['/*', '*/'],
-			lineComment: '//'
-		},
-		brackets: [['{','}'], ['[',']'], ['(',')'], ['<','>']],
-		autoClosingPairs: [
-			{ open: '"', close: '"', notIn: ['string', 'comment'] },
-			{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-			{ open: '{', close: '}', notIn: ['string', 'comment'] },
-			{ open: '[', close: ']', notIn: ['string', 'comment'] },
-			{ open: '(', close: ')', notIn: ['string', 'comment'] },
-			{ open: '<', close: '>', notIn: ['string', 'comment'] },
-		]
-	};
-
-	setupMode(
-		defaults,
-		lessLanguageConfiguration
-	);
-}
-
-export function setupSCSS(defaults:LanguageServiceDefaultsImpl): void {
-	const scssLanguageConfiguration: monaco.languages.LanguageConfiguration = {
-		wordPattern: /(#?-?\d*\.\d\w*%?)|([@#!.:]?[\w-?]+%?)|[@#!.]/g,
-		comments: {
-			blockComment: ['/*', '*/'],
-			lineComment: '//'
-		},
-		brackets: [['{','}'], ['[',']'], ['(',')'], ['<','>']],
-		autoClosingPairs: [
-			{ open: '"', close: '"', notIn: ['string', 'comment'] },
-			{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-			{ open: '{', close: '}', notIn: ['string', 'comment'] },
-			{ open: '[', close: ']', notIn: ['string', 'comment'] },
-			{ open: '(', close: ')', notIn: ['string', 'comment'] },
-			{ open: '<', close: '>', notIn: ['string', 'comment'] },
-		]
-	};
-
-	setupMode(
-		defaults,
-		scssLanguageConfiguration
-	);
-}
-
-function setupMode(defaults:LanguageServiceDefaultsImpl, languageConfiguration: monaco.languages.LanguageConfiguration): void {
+export function setupMode(defaults:LanguageServiceDefaultsImpl): void {
 
 	let disposables: IDisposable[] = [];
 
@@ -111,7 +34,6 @@ function setupMode(defaults:LanguageServiceDefaultsImpl, languageConfiguration: 
 	disposables.push(monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker)));
 	disposables.push(monaco.languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker)));
 	disposables.push(new languageFeatures.DiagnostcsAdapter(languageId, worker));
-	disposables.push(monaco.languages.setLanguageConfiguration(languageId, languageConfiguration));
 }
 
 
