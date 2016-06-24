@@ -37,10 +37,20 @@ gulp.task('release', ['clean-release'], function() {
 		// other files
 		gulp.src([
 			'node_modules/monaco-editor-core/LICENSE',
+			'node_modules/monaco-editor-core/CHANGELOG.md',
 			'node_modules/monaco-editor-core/monaco.d.ts',
 			'node_modules/monaco-editor-core/ThirdPartyNotices.txt',
 			'README.md'
-		]).pipe(addPluginDTS()).pipe(gulp.dest('release'))
+		])
+		.pipe(es.through(function(data) {
+			if (/CHANGELOG\.md$/.test(data.path)) {
+				fs.writeFileSync('CHANGELOG.md', data.contents);
+			}
+			this.emit('data', data);
+		}))
+		.pipe(addPluginDTS())
+		.pipe(addPluginThirdPartyNotices())
+		.pipe(gulp.dest('release'))
 	)
 });
 
@@ -66,7 +76,8 @@ function pluginStream(plugin, destinationPath) {
 	return (
 		gulp.src([
 			plugin.path + '/**/*',
-			'!' + contribPath
+			'!' + contribPath,
+			'!' + plugin.path + '/**/monaco.d.ts'
 		])
 		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
 	);
@@ -152,6 +163,37 @@ function addPluginDTS() {
 		data.contents = new Buffer(contents);
 
 		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
+		this.emit('data', data);
+	});
+}
+
+/**
+ * Edit ThirdPartyNotices.txt:
+ * - append ThirdPartyNotices.txt from plugins
+ */
+function addPluginThirdPartyNotices() {
+	return es.through(function(data) {
+		if (!/ThirdPartyNotices\.txt$/.test(data.path)) {
+			this.emit('data', data);
+			return;
+		}
+		var contents = data.contents.toString();
+
+		var extraContent = [];
+		metadata.METADATA.PLUGINS.forEach(function(plugin) {
+			var thirdPartyNoticePath = path.join(path.dirname(plugin.path), 'ThirdPartyNotices.txt');
+			try {
+				var thirdPartyNoticeContent = fs.readFileSync(thirdPartyNoticePath).toString();
+				thirdPartyNoticeContent = thirdPartyNoticeContent.split('\n').slice(8).join('\n');
+				extraContent.push(thirdPartyNoticeContent);
+			} catch (err) {
+				return;
+			}
+		});
+
+		contents += '\n' + extraContent.join('\n');
+		data.contents = new Buffer(contents);
+
 		this.emit('data', data);
 	});
 }
@@ -276,7 +318,7 @@ gulp.task('playground-samples', ['clean-playground-samples'], function() {
 				sampleId: sampleId
 			});
 
-var content =
+			var content =
 `// This is a generated file. Please do not edit directly.
 var SAMPLES = this.SAMPLES || [];
 SAMPLES.push(${JSON.stringify(sampleOut)});

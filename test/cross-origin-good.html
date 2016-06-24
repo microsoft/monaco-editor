@@ -15,7 +15,7 @@
 <script src="../metadata.js"></script>
 <script src="dev-setup.js"></script>
 <script>
-	window.GlobalEnvironment = {
+	window.MonacoEnvironment = {
 		getWorkerUrl: function() {
 			return loadDevEditor() ? 'cross-origin-worker-proxy-dev.js' : 'cross-origin-worker-proxy.js';
 		}
@@ -26,7 +26,7 @@
 	loadEditor(function() {
 		monaco.editor.create(document.getElementById('container'), {
 			value: document.documentElement.innerHTML,
-			language: 'xml'
+			language: 'css'
 		});
 	}, 'http://localhost:8088');
 </script>

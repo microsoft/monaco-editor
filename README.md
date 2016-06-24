@@ -9,9 +9,10 @@ The Monaco Editor is the code editor that powers [VS Code](https://github.com/Mi
 Please mention the version of the editor when creating issues and the browser you're having trouble in.
 
 This repository contains only the scripts to glue things together, please create issues against the actual repositories where the source code lives:
- * monaco-editor-core: [Issues](https://github.com/Microsoft/vscode) -- [npm module](https://www.npmjs.com/package/monaco-editor-core) (Issues with the editor itself)
- * monaco-typescript: [Issues](https://github.com/Microsoft/monaco-typescript) -- [npm module](https://www.npmjs.com/package/monaco-typescript) (Issues with JavaScript or TypeScript language support)
- * monaco-languages: [Issues](https://github.com/Microsoft/monaco-languages) -- [npm module](https://www.npmjs.com/package/monaco-languages) (Issues with bat, coffee script, cpp, csharp, fsharp, go, ini, jade, lua, objective-c, powershell, python, r, ruby, sql, swift, vb or xml)
+ * [monaco-editor-core](https://github.com/Microsoft/vscode) -- (the editor itself)
+ * [monaco-typescript](https://github.com/Microsoft/monaco-typescript) -- (JavaScript or TypeScript language support)
+ * [monaco-css](https://github.com/Microsoft/monaco-css) -- (CSS, LESS or SCSS advanced language support)
+ * [monaco-languages](https://github.com/Microsoft/monaco-languages) -- (bat, coffee script, cpp, csharp, fsharp, go, ini, jade, lua, objective-c, powershell, python, r, ruby, sql, swift, vb or xml colorizers)
 
 ## Known issues
 In IE, the editor must be completely surrounded in the body element, otherwise the hit testing we do for mouse operations does not work. You can inspect this using F12 and clicking on the body element and confirm that visually it surrounds the editor.
@@ -152,16 +153,14 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 * clone https://github.com/Microsoft/vscode in `$/src/vscode/` (next to this repo)
 * run `$/src/vscode> gulp watch`
 * run `$/src/monaco-editor> npm run simpleserver`
-* edit `$/src/monaco-editor/test/index.html` and set `var RUN_EDITOR_FROM_SOURCE = true;`
-* open http://localhost:8080/monaco-editor/test/
+* open http://localhost:8080/monaco-editor/test/?editor=dev
 
 ### Running a plugin (e.g. monaco-typescript) from source
 
 * clone https://github.com/Microsoft/monaco-typescript in `$/src/monaco-typescript` (next to this repo)
 * run `$/src/monaco-typescript> npm run watch`
 * run `$/src/monaco-editor> npm run simpleserver`
-* edit `$/src/monaco-editor/test/index.html` and set `RUN_PLUGINS_FROM_SOURCE['monaco-typescript'] = true;`
-* open http://localhost:8080/monaco-editor/test/
+* open http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev
 
 ---
 
@@ -177,11 +176,13 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 #### Adopt new `monaco-editor-core` in plugins (if necessary)
 * https://github.com/Microsoft/monaco-typescript
 * https://github.com/Microsoft/monaco-languages
+* https://github.com/Microsoft/monaco-css
 
 #### Adopt new `monaco-editor-core`
 * edit `$/src/monaco-editor/package.json` and update the version for (as necessary):
  * `monaco-editor-core`
  * `monaco-typescript`
+ * `monaco-css`
  * `monaco-languages`
 * update the version in `$/src/monaco-editor/package.json`
  * I try to keep it similar to `monaco-editor-core`, maybe just vary the patch version.
