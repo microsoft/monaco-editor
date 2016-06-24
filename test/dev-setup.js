@@ -1,11 +1,16 @@
-(function() {
-	function getQueryStringValue (key) {
-		return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-	}
 
+function loadDevEditor() {
+	return (getQueryStringValue('editor') === 'dev');
+}
+
+function getQueryStringValue (key) {
+	return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
+
+(function() {
 	// Resolve paths
 	// should run the editor and/or plugins from source? (or from the node module)
-	if (getQueryStringValue('editor') === 'dev') {
+	if (loadDevEditor()) {
 		METADATA.CORE.path = METADATA.CORE.srcPath;
 	} else {
 		METADATA.CORE.path = '/monaco-editor/' + METADATA.CORE.path;
@@ -20,12 +25,15 @@
 	});
 })();
 
-function loadEditor(callback) {
+function loadEditor(callback, PATH_PREFIX) {
+	PATH_PREFIX = PATH_PREFIX || '';
 	var pathsConfig = {};
 	METADATA.PLUGINS.forEach(function(plugin) {
-		pathsConfig[plugin.modulePrefix] = plugin.path;
+		pathsConfig[plugin.modulePrefix] = PATH_PREFIX + plugin.path;
 	});
-	pathsConfig['vs'] = METADATA.CORE.path;
+	pathsConfig['vs'] = PATH_PREFIX + METADATA.CORE.path;
+
+	// console.log(JSON.stringify(pathsConfig, null, '\t'));
 
 	require.config({
 		paths: pathsConfig

@@ -15,16 +15,10 @@
 <script>document.write('<script src="' + METADATA.CORE.path + '/loader.js"><'+'/script>');</script>
 <script>
 	loadEditor(function() {
-		var ed =monaco.editor.create(document.getElementById('Editor'), {
-			value: document.documentElement.innerHTML.split(/\n|></).join('\n'),
+		monaco.editor.create(document.getElementById('Editor'), {
+			value: document.documentElement.innerHTML,
 			language: 'xml'
 		});
-		ed.deltaDecorations([], [{
-			range: { startLineNumber:1, startColumn:1, endLineNumber:Number.MAX_VALUE, endColumn:Number.MAX_VALUE },
-			options: {
-				hoverMessage: 'come on'
-			}
-		}])
 	});
 </script>
 </body>

@@ -6,7 +6,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "scripts": {
-    "simpleserver": "http-server -c-1 ../",
+    "simpleserver": "gulp simpleserver",
     "release": "gulp release",
     "website": "gulp website"
   },

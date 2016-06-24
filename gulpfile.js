@@ -6,6 +6,7 @@ var path = require('path');
 var fs = require('fs');
 var rimraf = require('rimraf');
 var cp = require('child_process');
+var httpServer = require('http-server');
 
 var SAMPLES_MDOC_PATH = path.join(__dirname, 'website/playground/playground.mdoc');
 var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/samples');
@@ -339,4 +340,10 @@ gulp.task('website', ['clean-website', 'playground-samples'], function() {
 		}))
 	);
 
+});
+
+gulp.task('simpleserver', function(cb) {
+	httpServer.createServer({ root: '../' }).listen(8080);
+	httpServer.createServer({ root: '../' }).listen(8088);
+	console.log('LISTENING on 8080 and 8088');
 });
