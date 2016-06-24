@@ -21,16 +21,14 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * run `$/src/monaco-typescript> npm run watch`
 * clone https://github.com/Microsoft/monaco-editor in `$/src/monaco-editor`
 * run `$/src/monaco-editor> npm run simpleserver`
-* edit `$/src/monaco-editor/test/index.html` and set `RUN_PLUGINS_FROM_SOURCE['monaco-typescript'] = true;`
-* open http://localhost:8080/monaco-editor/test/
+* open http://localhost:8080/monaco-editor/test/?monaco-typescript=dev
 
 ### [Optional] Running monaco-editor-core from source
 
 * this is only needed when you want to make changes also in `monaco-editor-core`.
 * clone https://github.com/Microsoft/vscode in `$/src/vscode/`
 * run `$/src/vscode> gulp watch`
-* edit `$/src/monaco-editor/test/index.html` and set `var RUN_EDITOR_FROM_SOURCE = true;`
-* open http://localhost:8080/monaco-editor/test/
+* open http://localhost:8080/monaco-editor/test/?monaco-typescript=dev&editor=dev
 
 ## License
 [MIT](https://github.com/Microsoft/monaco-typescript/blob/master/LICENSE.md)

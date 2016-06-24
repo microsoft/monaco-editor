@@ -9,6 +9,7 @@ import {contents as libdts} from '../lib/lib-ts';
 import {contents as libes6ts} from '../lib/lib-es6-ts';
 
 import Promise = monaco.Promise;
+import IWorkerContext = monaco.worker.IWorkerContext;
 
 const DEFAULT_LIB = {
 	NAME: 'defaultLib:lib.d.ts',
@@ -24,11 +25,13 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	// --- model sync -----------------------
 
+	private _ctx:IWorkerContext;
 	private _extraLibs: { [fileName: string]: string } = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 
-	constructor(createData:ICreateData) {
+	constructor(ctx:IWorkerContext, createData:ICreateData) {
+		this._ctx = ctx;
 		this._compilerOptions = createData.compilerOptions;
 		this._extraLibs = createData.extraLibs;
 	}
@@ -40,12 +43,12 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	}
 
 	getScriptFileNames(): string[] {
-		let models = monaco.worker.getMirrorModels().map(model => model.uri.toString());
+		let models = this._ctx.getMirrorModels().map(model => model.uri.toString());
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
 	private _getModel(fileName:string): monaco.worker.IMirrorModel {
-		let models = monaco.worker.getMirrorModels();
+		let models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			if (models[i].uri.toString() === fileName) {
 				return models[i];
@@ -69,7 +72,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		let model = this._getModel(fileName);
 		if (model) {
 			// a true editor model
-			text = model.getText();
+			text = model.getValue();
 
 		} else if (fileName in this._extraLibs) {
 			// static extra lib
@@ -177,6 +180,6 @@ export interface ICreateData {
 	extraLibs:{ [path: string]: string };
 }
 
-export function create(createData:ICreateData): TypeScriptWorker {
-	return new TypeScriptWorker(createData);
+export function create(ctx:IWorkerContext, createData:ICreateData): TypeScriptWorker {
+	return new TypeScriptWorker(ctx, createData);
 }

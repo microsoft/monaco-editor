@@ -288,9 +288,10 @@ export class QuickInfoAdapter extends Adapter implements monaco.languages.HoverP
 			if (!info) {
 				return;
 			}
-			return <monaco.languages.Hover>{
+			let contents = ts.displayPartsToString(info.displayParts);
+			return {
 				range: this._textSpanToRange(resource, info.textSpan),
-				htmlContent: [{ text: ts.displayPartsToString(info.displayParts) }]
+				contents: [contents]
 			};
 		}));
 	}
