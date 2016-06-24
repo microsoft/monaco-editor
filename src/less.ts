@@ -8,7 +8,7 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var lessLanguageConfiguration: IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
     wordPattern: /(#?-?\d*\.\d\w*%?)|([@#!.:]?[\w-?]+%?)|[@#!.]/g,
     comments: {
         blockComment: ['/*', '*/'],
