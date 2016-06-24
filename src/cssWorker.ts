@@ -5,6 +5,7 @@
 'use strict';
 
 import Promise = monaco.Promise;
+import IWorkerContext = monaco.worker.IWorkerContext;
 
 import * as cssService from 'vscode-css-languageservice';
 import * as ls from 'vscode-languageserver-types';
@@ -13,11 +14,13 @@ export class CSSWorker {
 
 	// --- model sync -----------------------
 
+	private _ctx:IWorkerContext;
 	private _languageService: cssService.LanguageService;
 	private _languageSettings: cssService.LanguageSettings;
 	private _languageId: string;
 
-	constructor(createData: ICreateData) {
+	constructor(ctx:IWorkerContext, createData: ICreateData) {
+		this._ctx = ctx;
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
 		switch (this._languageId) {
@@ -99,10 +102,10 @@ export class CSSWorker {
 		return Promise.as(renames);
 	}
 	private _getTextDocument(uri: string): ls.TextDocument {
-		let models = monaco.worker.getMirrorModels();
+		let models = this._ctx.getMirrorModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {
-				return ls.TextDocument.create(uri, this._languageId, model.version, model.getText());
+				return ls.TextDocument.create(uri, this._languageId, model.version, model.getValue());
 			}
 		}
 		return null;
@@ -114,6 +117,6 @@ export interface ICreateData {
 	languageSettings: cssService.LanguageSettings;
 }
 
-export function create(createData: ICreateData): CSSWorker {
-	return new CSSWorker(createData);
+export function create(ctx:IWorkerContext, createData: ICreateData): CSSWorker {
+	return new CSSWorker(ctx, createData);
 }

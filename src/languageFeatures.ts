@@ -210,26 +210,14 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 	}
 }
 
-function toHTMLContentElements(contents: ls.MarkedString | ls.MarkedString[]): monaco.IHTMLContentElement[] {
+function toMarkedStringArray(contents: ls.MarkedString | ls.MarkedString[]): monaco.MarkedString[] {
 	if (!contents) {
 		return void 0;
 	}
-	let toHTMLContentElement = (ms: ls.MarkedString): monaco.IHTMLContentElement => {
-		if (typeof ms === 'string') {
-			return { text: ms };
-		}
-		return {
-			code: {
-				value: ms['value'],
-				language: ms['language']
-			}
-		};
-	};
-
 	if (Array.isArray(contents)) {
-		return (<ls.MarkedString[]>contents).map(toHTMLContentElement);
+		return (<ls.MarkedString[]>contents);
 	}
-	return [toHTMLContentElement(<ls.MarkedString>contents)];
+	return [<ls.MarkedString>contents];
 }
 
 
@@ -251,7 +239,7 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 			}
 			return <monaco.languages.Hover>{
 				range: toRange(info.range),
-				htmlContent: toHTMLContentElements(info.contents)
+				contents: toMarkedStringArray(info.contents)
 			};
 		}));
 	}
