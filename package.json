@@ -1,6 +1,6 @@
 {
   "name": "monaco-typescript",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
     "test": "node_modules/.bin/mocha",
