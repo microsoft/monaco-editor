@@ -385,7 +385,7 @@ gulp.task('website', ['clean-website', 'playground-samples'], function() {
 });
 
 gulp.task('simpleserver', function(cb) {
-	httpServer.createServer({ root: '../' }).listen(8080);
-	httpServer.createServer({ root: '../' }).listen(8088);
+	httpServer.createServer({ root: '../', cache: 5 }).listen(8080);
+	httpServer.createServer({ root: '../', cache: 5 }).listen(8088);
 	console.log('LISTENING on 8080 and 8088');
 });
