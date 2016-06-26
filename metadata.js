@@ -12,12 +12,18 @@
 			modulePrefix: 'vs/language/typescript',
 			path: 'node_modules/monaco-typescript/release',
 			srcPath: '/monaco-typescript/out'
-		}, {
+		},{
 			name: 'monaco-css',
 			contrib: 'vs/language/css/monaco.contribution',
 			modulePrefix: 'vs/language/css',
 			path: 'node_modules/monaco-css/release/min',
 			srcPath: '/monaco-css/release/dev'
+		},{
+			name: 'monaco-json',
+			contrib: 'vs/language/json/monaco.contribution',
+			modulePrefix: 'vs/language/json',
+			path: 'node_modules/monaco-json/release/min',
+			srcPath: '/monaco-json/release/dev'
 		},{
 			name: 'monaco-languages',
 			contrib: 'vs/basic-languages/src/monaco.contribution',
