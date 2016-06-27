@@ -6,11 +6,11 @@
 declare module monaco.languages.json {
     export interface DiagnosticsOptions {
         /**
-         * If set, the validator will return syntax errors.
+         * If set, the validator will be enabled and perform syntax validation as well as schema based validation.
          */
         validate?: boolean;
         /**
-         * If set, comments are toleranted. If not set, a syntax error is emmited for comments.
+         * If set, comments are tolerated. If set to false, syntax errors will be emmited for comments.
          */
         allowComments?: boolean;
         /**
