@@ -8,12 +8,12 @@ JSON language plugin for the Monaco Editor. It provides the following features w
 * Document Symbols
 * Syntax highlighting
 
-Schemas can be provided by configuration. See ([here](https://github.com/Microsoft/monaco-json/blob/master/src/monaco.d.ts) for the API that the
-JSON plugin offers to configure the JSON language support.
+Schemas can be provided by configuration. See [here](https://github.com/Microsoft/monaco-json/blob/master/src/monaco.d.ts) 
+for the API that the JSON plugin offers to configure the JSON language support.
 
 Internally the JSON plugin uses the [vscode-json-languageservice](https://github.com/Microsoft/vscode-json-languageservice)
 node module, providing the implementation of the functionally listed above. The same module is also used
-in [VSCode](https://github.com/Microsoft/vscode) to power the JSON editing experience.
+in [Visual Studio Code](https://github.com/Microsoft/vscode) to power the JSON editing experience.
 
 ## Installing
 
