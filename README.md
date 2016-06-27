@@ -12,6 +12,7 @@ This repository contains only the scripts to glue things together, please create
  * [monaco-editor-core](https://github.com/Microsoft/vscode) -- (the editor itself)
  * [monaco-typescript](https://github.com/Microsoft/monaco-typescript) -- (JavaScript or TypeScript language support)
  * [monaco-css](https://github.com/Microsoft/monaco-css) -- (CSS, LESS or SCSS advanced language support)
+ * [monaco-json](https://github.com/Microsoft/monaco-json) -- (JSON advanced language support)
  * [monaco-languages](https://github.com/Microsoft/monaco-languages) -- (bat, coffee script, cpp, csharp, fsharp, go, ini, jade, lua, objective-c, powershell, python, r, ruby, sql, swift, vb or xml colorizers)
 
 ## Known issues
@@ -177,12 +178,14 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 * https://github.com/Microsoft/monaco-typescript
 * https://github.com/Microsoft/monaco-languages
 * https://github.com/Microsoft/monaco-css
+* https://github.com/Microsoft/monaco-json
 
 #### Adopt new `monaco-editor-core`
 * edit `$/src/monaco-editor/package.json` and update the version for (as necessary):
  * `monaco-editor-core`
  * `monaco-typescript`
  * `monaco-css`
+ * `monaco-json`
  * `monaco-languages`
 * update the version in `$/src/monaco-editor/package.json`
  * I try to keep it similar to `monaco-editor-core`, maybe just vary the patch version.
