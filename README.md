@@ -8,7 +8,7 @@ JSON language plugin for the Monaco Editor. It provides the following features w
 * Document Symbols
 * Syntax highlighting
 
-Schemas can be provided by configuration. See [here](https://github.com/Microsoft/monaco-json/blob/master/src/monaco.d.ts) 
+Schemas can be provided by configuration. See [here](https://github.com/Microsoft/monaco-json/blob/master/src/monaco.d.ts)
 for the API that the JSON plugin offers to configure the JSON language support.
 
 Internally the JSON plugin uses the [vscode-json-languageservice](https://github.com/Microsoft/vscode-json-languageservice)
@@ -19,19 +19,20 @@ in [Visual Studio Code](https://github.com/Microsoft/vscode) to power the JSON e
 
 This npm module is bundled and distributed in the [monaco-editor](https://www.npmjs.com/package/monaco-editor) npm module.
 
-## Dev: cheat sheet
 * change to your favorite source folder (`/src/`)
-* run `git clone https://github.com/Microsoft/monaco-json` and change directory to `monaco-json`
-* initial setup with `npm install .`
-* compile with `npm run watch`
-* bundle with `npm run prepublish`
-
-## Dev: Running monaco-json from source
-* change to your favorite source folder (`/src/`). Important: both monaco repositories must have the same parent folder.
-* `git clone https://github.com/Microsoft/monaco-json` (this will create `$/src/monaco-json`)
 * `git clone https://github.com/Microsoft/monaco-editor` (this will create `$/src/monaco-editor`)
-* in folder `monaco-json` run `npm run watch`
-* in folder `monaco-editor` run `npm run simpleserver`
+* in folder `monaco-editor` run `npm install` and run `npm run simpleserver`
+* open http://localhost:8080/monaco-editor/test/index.html#sample - json
+
+## Development
+
+### Dev: Running monaco-json from source
+* change to your favorite source folder (`/src/`).
+* if you haven't done so: `git clone https://github.com/Microsoft/monaco-editor` (this will create `$/src/monaco-editor`)
+* `git clone https://github.com/Microsoft/monaco-json` (this will create `$/src/monaco-json`)
+* Important: both monaco repositories must have the same parent folder.
+* in folder `monaco-json` run `npm install` and run `npm run watch`
+* in folder `monaco-editor` run `npm install` and run `npm run simpleserver`
 * open http://localhost:8080/monaco-editor/test/?monaco-json=dev
 
 ### [Optional] Running monaco-editor-core from source
@@ -42,7 +43,6 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * read [here](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#installing-prerequisites) on how to initialize the VS code source repository.
 * in folder `vscode` run `gulp watch`
 * open http://localhost:8080/monaco-editor/test/?monaco-json=dev&editor=dev
-
 
 ## License
 [MIT](https://github.com/Microsoft/monaco-json/blob/master/LICENSE.md)
