@@ -31,7 +31,19 @@ gulp.task('release', ['clean-release','compile'], function() {
 		''
 	].join('\n');
 
+	var jsoncLocation = __dirname + '/node_modules/jsonc-parser/lib';
+	if (!fs.existsSync(jsoncLocation)) {
+		var oldJsconcLocation = __dirname + '/node_modules/vscode-json-languageservice/node_modules/jsonc-parser/lib';
+		if (!fs.existsSync(oldJsconcLocation)) {
+			console.error('Unable to find jsonc node module at ' + jsoncLocation + ' or ' + oldJsconcLocation);
+			return;
+		}
+		jsoncLocation = oldJsconcLocation;
+	}
+
 	function bundleOne(moduleId, exclude) {
+
+
 		return rjs({
 			baseUrl: '/out/',
 			name: 'vs/language/json/' + moduleId,
@@ -50,7 +62,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 				main: 'main'
 			}, {
 				name: 'jsonc-parser',
-				location: __dirname + '/node_modules/jsonc-parser/lib',
+				location: jsoncLocation,
 				main: 'main'
 			}, {
 				name: 'vscode-nls',
