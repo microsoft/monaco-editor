@@ -30,5 +30,10 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * run `$/src/vscode> gulp watch`
 * open http://localhost:8080/monaco-editor/test/?monaco-typescript=dev&editor=dev
 
+## Code of Conduct
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+
 ## License
 [MIT](https://github.com/Microsoft/monaco-typescript/blob/master/LICENSE.md)
