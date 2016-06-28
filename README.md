@@ -20,24 +20,27 @@ in [Visual Studio Code](https://github.com/Microsoft/vscode) to power the JSON e
 This npm module is bundled and distributed in the [monaco-editor](https://www.npmjs.com/package/monaco-editor) npm module.
 
 ## Dev: cheat sheet
-
+* change to your favorite source folder (`/src/`)
+* run `git clone https://github.com/Microsoft/monaco-json` and change directory to `monaco-json`
 * initial setup with `npm install .`
 * compile with `npm run watch`
 * bundle with `npm run prepublish`
 
 ## Dev: Running monaco-json from source
-
-* clone https://github.com/Microsoft/monaco-json in `$/src/monaco-json`
-* run `$/src/monaco-json> npm run watch`
-* clone https://github.com/Microsoft/monaco-editor in `$/src/monaco-editor`
-* run `$/src/monaco-editor> npm run simpleserver`
+* change to your favorite source folder (`/src/`). Important: both monaco repositories must have the same parent folder.
+* `git clone https://github.com/Microsoft/monaco-json` (this will create `$/src/monaco-json`)
+* `git clone https://github.com/Microsoft/monaco-editor` (this will create `$/src/monaco-editor`)
+* in folder `monaco-json` run `npm run watch`
+* in folder `monaco-editor` run `npm run simpleserver`
 * open http://localhost:8080/monaco-editor/test/?monaco-json=dev
 
 ### [Optional] Running monaco-editor-core from source
 
 * this is only needed when you want to make changes also in `monaco-editor-core`.
-* clone https://github.com/Microsoft/vscode in `$/src/vscode/`
-* run `$/src/vscode> gulp watch`
+* change to the same favorite source folder (`/src/`) that already contains `monaco-json` and `monaco-editor`
+* `git clone https://github.com/Microsoft/vscode` (this will create `$/src/vscode/`)
+* read [here](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#installing-prerequisites) on how to initialize the VS code source repository.
+* in folder `vscode` run `gulp watch`
 * open http://localhost:8080/monaco-editor/test/?monaco-json=dev&editor=dev
 
 
