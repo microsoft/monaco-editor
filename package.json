@@ -1,6 +1,6 @@
 {
   "name": "monaco-css",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CSS, LESS and SCSS plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
@@ -17,7 +17,7 @@
     "url": "https://github.com/Microsoft/monaco-css/issues"
   },
   "dependencies": {
-    "vscode-css-languageservice": "^1.0.1",
+    "vscode-css-languageservice": "1.0.4",
     "vscode-languageserver-types": "^1.0.1"
   },
   "devDependencies": {
