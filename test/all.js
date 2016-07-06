@@ -35,6 +35,7 @@ requirejs([
 		'out/test/lua.test',
 		'out/test/markdown.test',
 		'out/test/objective-c.test',
+		'out/test/postiats.test',
 		'out/test/powershell.test',
 		'out/test/python.test',
 		'out/test/r.test',

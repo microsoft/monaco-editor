@@ -130,6 +130,12 @@ registerLanguage({
 	aliases: [ 'Objective-C'],
 	module: './objective-c'
 });
+ registerLanguage({
+	id: 'postiats',
+	extensions: [ '.dats', '.sats', '.hats' ],
+	aliases: [ 'ATS', 'ATS/Postiats' ],
+	module: './postiats'
+});
 registerLanguage({
 	id: 'powershell',
 	extensions: [ '.ps1', '.psm1', '.psd1' ],
