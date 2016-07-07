@@ -147,7 +147,7 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 
 ### Cheat Sheet
 
-* simpleserver with `npm run simpleserver`
+* simpleserver with `npm run simpleserver`, open [http://localhost:8080/monaco-editor/website/](http://localhost:8080/monaco-editor/website/)
 * release with `npm run release`
 * website with `npm run website`
 
