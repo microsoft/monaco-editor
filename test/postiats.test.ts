@@ -178,6 +178,12 @@ testTokenization('postiats', [
 	]}],
 
 	[{
+	line: '(* ****** ****** *)',
+	tokens: [
+		{ startIndex: 0, type: 'comment.pats' }
+	]}],
+
+	[{
 	line: 'var x : int = (* a simple comment *) 1;',
 	tokens: [
 		{ startIndex: 0, type: 'keyword.pats' },

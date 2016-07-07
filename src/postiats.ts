@@ -610,7 +610,7 @@ export var language = <ILanguage> {
       [/\(\*/, 'comment', '@push' ],
       [/\(\*/, 'comment.invalid' ],
       [/\*\)/, 'comment', '@pop' ],
-      [/.*/, 'invalid']
+      [/\*/, 'comment']
     ],
     lexing_COMMENT_block_c: [
       [/[^\/*]+/, 'comment' ],
