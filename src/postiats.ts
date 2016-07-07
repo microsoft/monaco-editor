@@ -1,8 +1,9 @@
-// see: https://microsoft.github.io/monaco-editor/monarch.html
-
-// ATS/Postiats lexical syntax definition
-// Written by Artyom Shalkhakov over the week of 20th - 27th of June, 2016.
-// License: BSD v3 (but probably GPL, since ATS/Postiats lexer is GPL? not a lawyer!)
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Artyom Shalkhakov. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *
+ *  Based on the ATS/Postiats lexer by Hongwei Xi.
+ *--------------------------------------------------------------------------------------------*/
 
 'use strict';
 
@@ -26,14 +27,14 @@ export var conf:IRichLanguageConfiguration = {
 export var language = <ILanguage> {
   tokenPostfix: '.pats',
 
-// TODO: staload and dynload are followed by a special kind of string literals
-// with {$IDENTIFER} variables, and it also may make sense to highlight
-// the punctuation (. and / and \) differently.
+  // TODO: staload and dynload are followed by a special kind of string literals
+  // with {$IDENTIFER} variables, and it also may make sense to highlight
+  // the punctuation (. and / and \) differently.
 
   // Set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: 'invalid',
 
-  // reference: https://github.com/githwxi/ATS-Postiats/blob/master/src/pats_lexing_token.dats
+  // keyword reference: https://github.com/githwxi/ATS-Postiats/blob/master/src/pats_lexing_token.dats
 
   keywords: [
 //
@@ -462,6 +463,7 @@ export var language = <ILanguage> {
   start: 'root',
 
   // The main tokenizer for ATS/Postiats
+  // reference: https://github.com/githwxi/ATS-Postiats/blob/master/src/pats_lexing.dats
   tokenizer: {
     root: [
       // lexing_blankseq0
@@ -604,7 +606,6 @@ export var language = <ILanguage> {
     ],
 
     lexing_COMMENT_block_ml: [
-        //{regex: /\(\*(?!\))|\*\)/, action: { cases: { '\\(\\*': {token: 'comment', next: '@push'}, '@default': {token: 'comment', next: '@pop'} } }},
       [/[^\(\*]+/, 'comment'],
       [/\(\*/, 'comment', '@push' ],
       [/\(\*/, 'comment.invalid' ],
@@ -613,8 +614,8 @@ export var language = <ILanguage> {
     ],
     lexing_COMMENT_block_c: [
       [/[^\/*]+/, 'comment' ],
-      // [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
-      // [/\/\*/,    'comment.invalid' ],	// this breaks block comments in the shape of /* //*/
+      // [/\/\*/, 'comment', '@push' ],    // nested C-style block comments not allowed
+      // [/\/\*/,    'comment.invalid' ],	// NOTE: this breaks block comments in the shape of /* //*/
       [/\*\//,    'comment', '@pop'  ],
       [/[\/*]/,   'comment' ]
     ],

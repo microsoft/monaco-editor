@@ -89,7 +89,7 @@ testTokenization('postiats', [
 		{ startIndex: 0, type: 'keyword.pats' },
 		{ startIndex: 3, type: '' },
 		{ startIndex: 4, type: 'identifier.pats' },
-        { startIndex: 5, type: 'keyword.pats'}
+        { startIndex: 5, type: 'keyword.pats'},
 		{ startIndex: 6, type: 'type.pats' },
 		{ startIndex: 9, type: '' },
 		{ startIndex: 10, type: 'keyword.pats' },
@@ -415,6 +415,18 @@ testTokenization('postiats', [
 		{ startIndex: 4, type: 'number.decimal.pats' }
 	]}],
 
+	// hi-lighting of variables in staload/dynload
+	[{
+	line: '"{$LIBATSCC2JS}/staloadall.hats"',
+	tokens: [
+		{ startIndex: 0, type: 'string.quote.pats' },
+		{ startIndex: 1, type: 'string.escape.pats' },
+		{ startIndex: 3, type: 'identifier.pats' },
+		{ startIndex: 14, type: 'string.escape.pats' },
+		{ startIndex: 15, type: 'string.pats' },
+		{ startIndex: 31, type: 'string.quote.pats' }
+	]}],
+
 	// Monarch Generated
 	[{
 	line: '#include "/path/to/my/file.h"',
@@ -536,7 +548,7 @@ testTokenization('postiats', [
         { startIndex: 13, type: 'delimiter.comma.pats' },
         { startIndex: 14, type: '' },
         { startIndex: 15, type: 'number.decimal.pats' },
-        { startIndex: 16, type: 'delimiter.parenthesis.pats' }
+        { startIndex: 16, type: 'delimiter.parenthesis.pats' },
         { startIndex: 17, type: '' },
         { startIndex: 18, type: 'keyword.pats' },
         { startIndex: 20, type: '' },
@@ -611,9 +623,9 @@ testTokenization('postiats', [
         { startIndex: 31, type: 'identifier.pats' },
         { startIndex: 32, type: 'delimiter.parenthesis.pats' },
         { startIndex: 33,  type: '' },
-	    { startIndex: 34, type: 'keyword.pats' }
+	    { startIndex: 34, type: 'keyword.pats' },
         { startIndex: 35, type: '' },
-        { startIndex: 36, type: 'delimiter.square.pats' }
+        { startIndex: 36, type: 'delimiter.square.pats' },
         { startIndex: 37, type: 'identifier.pats' },
         { startIndex: 38, type: 'keyword.pats' },
         { startIndex: 39, type: 'type.pats' },
