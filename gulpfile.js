@@ -359,9 +359,14 @@ gulp.task('website', ['clean-website', 'playground-samples'], function() {
 		.pipe(es.through(function(data) {
 			this.emit('data', data);
 		}, function() {
+
+			// temporarily create package.json so that npm install doesn't bark
+			fs.writeFileSync('../monaco-editor-website/package.json', '{}');
 			cp.execSync('npm install monaco-editor', {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
+			fs.unlink('../monaco-editor-website/package.json');
+
 			cp.execSync('git init', {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
