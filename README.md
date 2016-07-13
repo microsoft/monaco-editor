@@ -23,6 +23,12 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * vb
 * xml
 
+Also `css` dialects: 
+
+* css
+* less
+* scss
+
 ## Installing
 
 This npm module is bundled and distributed in the [monaco-editor](https://www.npmjs.com/package/monaco-editor) npm module.
