@@ -6,6 +6,14 @@ The Monaco Editor is the code editor that powers [VS Code](https://github.com/Mi
 
 ![image](https://cloud.githubusercontent.com/assets/5047891/15751937/4267b918-28ec-11e6-9fbd-d6cd2973c770.png)
 
+## Try it out
+
+See the editor in action [here](https://microsoft.github.io/monaco-editor/index.html).
+
+Learn how to extend the editor and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
+
+Browse the latest editor API at [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
+
 ## Issues
 
 Please mention the version of the editor when creating issues and the browser you're having trouble in.
@@ -104,16 +112,9 @@ If you are hosting your `.js` on a different domain (e.g. on a CDN) than the HTM
 -->
 ```
 
-## Documentation
-
-Please program against the API described in `monaco.d.ts`.
-
-See the editor in action [here](https://microsoft.github.io/monaco-editor/index.html).
+# More documentation
 
 Find full HTML samples [here](https://github.com/Microsoft/monaco-editor-samples).
-
-Explore API samples [here](https://microsoft.github.io/monaco-editor/playground.html).
-![image](https://cloud.githubusercontent.com/assets/5047891/16143056/9909d2d6-346a-11e6-86dc-f4f75c94ed2b.png)
 
 Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/monarch.html).
 ![image](https://cloud.githubusercontent.com/assets/5047891/16143041/840ced64-346a-11e6-98f3-3c68bf61884a.png)
