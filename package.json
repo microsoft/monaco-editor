@@ -21,8 +21,8 @@
     "monaco-editor-core": "0.5.3",
     "monaco-languages": "0.3.1",
     "monaco-typescript": "0.5.0",
-    "monaco-css": "1.1.1",
-    "monaco-json": "1.0.2",
+    "monaco-css": "1.1.2",
+    "monaco-json": "1.0.3",
     "rimraf": "^2.5.2"
   }
 }
