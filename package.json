@@ -1,6 +1,6 @@
 {
   "name": "monaco-json",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
@@ -17,7 +17,7 @@
     "url": "https://github.com/Microsoft/monaco-json/issues"
   },
   "dependencies": {
-    "vscode-json-languageservice": "1.1.2",
+    "vscode-json-languageservice": "1.1.4",
     "vscode-languageserver-types": "^1.0.1"
   },
   "devDependencies": {
