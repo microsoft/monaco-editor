@@ -107,6 +107,6 @@ declare module monaco.languages.typescript {
     export var typescriptDefaults: LanguageServiceDefaults;
     export var javascriptDefaults: LanguageServiceDefaults;
 
-    export var getTypeScriptWorker: () => monaco.Promise<Worker>;
-    export var getJavaScriptWorker: () => monaco.Promise<Worker>;
+    export var getTypeScriptWorker: () => monaco.Promise<any>;
+    export var getJavaScriptWorker: () => monaco.Promise<any>;
 }

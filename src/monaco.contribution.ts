@@ -121,7 +121,7 @@ const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false });
 
-function getTypeScriptWorker(): monaco.Promise<Worker> {
+function getTypeScriptWorker(): monaco.Promise<any> {
 	return new monaco.Promise((resolve, reject) => {
  		withMode((mode) => {
  			mode.getTypeScriptWorker()
@@ -130,7 +130,7 @@ function getTypeScriptWorker(): monaco.Promise<Worker> {
  	});
 }
 
-function getJavaScriptWorker(): monaco.Promise<Worker> {
+function getJavaScriptWorker(): monaco.Promise<any> {
 	return new monaco.Promise((resolve, reject) => {
  		withMode((mode) => {
  			mode.getJavaScriptWorker()
