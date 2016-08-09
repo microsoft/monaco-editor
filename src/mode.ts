@@ -14,8 +14,11 @@ import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 import IDisposable = monaco.IDisposable;
 
+let javaScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
+let typeScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
+
 export function setupTypeScript(defaults:LanguageServiceDefaultsImpl): void {
-	setupMode(
+	typeScriptWorker = setupMode(
 		defaults,
 		'typescript',
 		Language.TypeScript
@@ -23,14 +26,34 @@ export function setupTypeScript(defaults:LanguageServiceDefaultsImpl): void {
 }
 
 export function setupJavaScript(defaults:LanguageServiceDefaultsImpl): void {
-	setupMode(
+	javaScriptWorker = setupMode(
 		defaults,
 		'javascript',
 		Language.EcmaScript5
 	);
 }
 
-function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language:Language): void {
+export function getJavaScriptWorker(): Promise<TypeScriptWorker> {
+	return new monaco.Promise((resolve, reject) => {
+		if (!javaScriptWorker) {
+			return reject("JavaScript not registered!");
+		}
+
+		resolve(javaScriptWorker);
+	});
+}
+
+export function getTypeScriptWorker(): Promise<TypeScriptWorker> {
+	return new monaco.Promise((resolve, reject) => {
+		if (!typeScriptWorker) {
+			return reject("TypeScript not registered!");
+		}
+
+		resolve(typeScriptWorker);
+	});
+}
+
+function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language:Language): (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker> {
 
 	let disposables: IDisposable[] = [];
 
@@ -53,6 +76,8 @@ function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language
 	disposables.push(new languageFeatures.DiagnostcsAdapter(defaults, modeId, worker));
 	disposables.push(monaco.languages.setLanguageConfiguration(modeId, richEditConfiguration));
 	disposables.push(monaco.languages.setTokensProvider(modeId, createTokenizationSupport(language)));
+
+	return worker;
 }
 
 const richEditConfiguration:monaco.languages.LanguageConfiguration = {

@@ -121,6 +121,23 @@ const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false });
 
+function getTypeScriptWorker(): monaco.Promise<Worker> {
+	return new monaco.Promise((resolve, reject) => {
+ 		withMode((mode) => {
+ 			mode.getTypeScriptWorker()
+ 				.then(resolve, reject);
+ 		});
+ 	});
+}
+
+function getJavaScriptWorker(): monaco.Promise<Worker> {
+	return new monaco.Promise((resolve, reject) => {
+ 		withMode((mode) => {
+ 			mode.getJavaScriptWorker()
+ 				.then(resolve, reject);
+ 		});
+ 	});
+}
 
 // Export API
 function createAPI(): typeof monaco.languages.typescript {
@@ -131,7 +148,9 @@ function createAPI(): typeof monaco.languages.typescript {
 		ScriptTarget: ScriptTarget,
 		ModuleResolutionKind: ModuleResolutionKind,
 		typescriptDefaults: typescriptDefaults,
-		javascriptDefaults: javascriptDefaults
+		javascriptDefaults: javascriptDefaults,
+		getTypeScriptWorker: getTypeScriptWorker,
+		getJavaScriptWorker: getJavaScriptWorker
 	}
 }
 monaco.languages.typescript = createAPI();
