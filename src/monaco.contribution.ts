@@ -32,7 +32,11 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	}
 
 	get extraLibs(): { [path: string]: string; } {
-		return Object.freeze(this._extraLibs);
+		const result = Object.create(null);
+		for (var key in this._extraLibs) {
+			result[key] = this._extraLibs[key];
+		}
+		return Object.freeze(result);
 	}
 
 	addExtraLib(content: string, filePath?: string): IDisposable {
