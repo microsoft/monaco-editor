@@ -46,6 +46,7 @@ export class DiagnostcsAdapter {
 		};
 
 		const onModelRemoved = (model: monaco.editor.IModel): void => {
+			monaco.editor.setModelMarkers(model, this._languageId, []);
 			delete this._listener[model.uri.toString()];
 		};
 
