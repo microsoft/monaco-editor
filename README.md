@@ -14,6 +14,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * jade
 * lua
 * objective-c
+* postiats
 * powershell
 * python
 * r
