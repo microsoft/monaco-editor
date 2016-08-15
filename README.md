@@ -157,14 +157,14 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 * clone https://github.com/Microsoft/vscode in `$/src/vscode/` (next to this repo)
 * run `$/src/vscode> gulp watch`
 * run `$/src/monaco-editor> npm run simpleserver`
-* open http://localhost:8080/monaco-editor/test/?editor=dev
+* open [http://localhost:8080/monaco-editor/test/?editor=dev](http://localhost:8080/monaco-editor/test/?editor=dev)
 
 ### Running a plugin (e.g. monaco-typescript) from source
 
 * clone https://github.com/Microsoft/monaco-typescript in `$/src/monaco-typescript` (next to this repo)
 * run `$/src/monaco-typescript> npm run watch`
 * run `$/src/monaco-editor> npm run simpleserver`
-* open http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev
+* open [http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev](http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev)
 
 ---
 
