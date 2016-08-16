@@ -201,7 +201,7 @@ pre   { border: 1px solid #888
       }
 
 
-code, pre,dt { font-family: Consolas }
+code, pre,dt { font-family: Consolas, monospace }
 
 strong    { color: black }
 
