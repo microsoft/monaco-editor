@@ -10,6 +10,7 @@
     "release": "gulp release",
     "website": "gulp website"
   },
+  "typings": "./monaco.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/Microsoft/monaco-editor"
