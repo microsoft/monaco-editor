@@ -43,8 +43,12 @@
 		});
 		pathsConfig['vs'] = PATH_PREFIX + RESOLVED_CORE_PATH;
 
-		console.log('LOADER PATH CONFIGURATION: ');
-		console.log(JSON.stringify(pathsConfig, null, '\t'));
+		var loaderInfo = document.createElement('div');
+		loaderInfo.style.position = 'fixed';
+		loaderInfo.style.top = 0;
+		loaderInfo.style.right = 0;
+		loaderInfo.innerHTML = 'LOADER PATH CONFIGURATION: ' + '<br/><pre>' + JSON.stringify(pathsConfig, null, '\t') + '</pre>';
+		document.body.appendChild(loaderInfo);
 
 		require.config({
 			paths: pathsConfig
