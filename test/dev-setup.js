@@ -39,6 +39,35 @@
 	Component.prototype.generateLoaderConfig = function(dest) {
 		dest[this.modulePrefix] = this.getResolvedPath();
 	};
+	Component.prototype.generateUrlForPath = function(pathName) {
+		var NEW_LOADER_OPTS = {};
+		Object.keys(LOADER_OPTS).forEach(function(key) {
+			NEW_LOADER_OPTS[key] = (LOADER_OPTS[key] === 'npm' ? undefined : LOADER_OPTS[key]);
+		});
+		NEW_LOADER_OPTS[this.name] = (pathName === 'npm' ? undefined : pathName);
+
+		var search = Object.keys(NEW_LOADER_OPTS).map(function(key) {
+			var value = NEW_LOADER_OPTS[key];
+			if (value) {
+				return key + '=' + value;
+			}
+			return '';
+		}).filter(function(assignment) { return !!assignment; }).join('&');
+		if (search.length > 0) {
+			search = '?' + search;
+		}
+		var result = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + window.location.pathname + search + window.location.hash;
+		// console.log(result);
+		return result;
+	};
+	Component.prototype.renderLoadingOptions = function() {
+		return '<strong style="width:130px;display:inline-block;">' + this.name + '</strong>:&nbsp;&nbsp;&nbsp;' + Object.keys(this.paths).map(function(pathName) {
+			if (pathName === this.selectedPath) {
+				return '<strong>' + pathName + '</strong>';
+			}
+			return '<a href="' + this.generateUrlForPath(pathName) + '">' + pathName + '</a>';
+		}.bind(this)).join('&nbsp;&nbsp;&nbsp;');
+	};
 
 
 	var RESOLVED_CORE = new Component('editor', 'vs', METADATA.CORE.paths);
@@ -57,6 +86,22 @@
 		script.src = path;
 		document.head.appendChild(script);
 	}
+
+
+	(function() {
+		var allComponents = [RESOLVED_CORE].concat(RESOLVED_PLUGINS);
+
+		var div = document.createElement('div');
+		div.style.position = 'fixed';
+		div.style.top = 0;
+		div.style.right = 0;
+		div.style.background = 'lightgray';
+		div.style.padding = '5px 20px 5px 5px';
+
+		div.innerHTML = '<ul><li>' + allComponents.map(function(component) { return component.renderLoadingOptions(); }).join('</li><li>') + '</li></ul>';
+
+		document.body.appendChild(div);
+	})();
 
 
 	self.loadEditor = function(callback, PATH_PREFIX) {
