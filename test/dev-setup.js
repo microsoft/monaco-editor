@@ -1,6 +1,6 @@
 (function() {
 
-	function parseLoaderOptions() {
+	var LOADER_OPTS = (function() {
 		function parseQueryString() {
 			var str = window.location.search;
 			str = str.replace(/^\?/, '');
@@ -19,63 +19,76 @@
 			result[plugin.name] = overwrites[plugin.name] || 'npm';
 		});
 		return result;
-	}
-	var LOADER_OPTS = parseLoaderOptions();
+	})();
 
-	// console.log(JSON.stringify(LOADER_OPTS, null, '\t'));
+
+	function Component(name, modulePrefix, paths, contrib) {
+		this.name = name;
+		this.modulePrefix = modulePrefix;
+		this.paths = paths;
+		this.contrib = contrib;
+		this.selectedPath = LOADER_OPTS[name];
+	}
+	Component.prototype.getResolvedPath = function() {
+		var resolvedPath = this.paths[this.selectedPath];
+		if (this.selectedPath === 'npm') {
+			resolvedPath = '/monaco-editor/' + resolvedPath;
+		}
+		return resolvedPath;
+	};
+	Component.prototype.generateLoaderConfig = function(dest) {
+		dest[this.modulePrefix] = this.getResolvedPath();
+	};
+
+
+	var RESOLVED_CORE = new Component('editor', 'vs', METADATA.CORE.paths);
+	var RESOLVED_PLUGINS = METADATA.PLUGINS.map(function(plugin) {
+		return new Component(plugin.name, plugin.modulePrefix, plugin.paths, plugin.contrib);
+	});
+	self.METADATA = null;
+
+
+	function loadScript(path, callback) {
+		var script = document.createElement('script');
+		script.onload = callback;
+		script.async = true;
+		script.type = 'text/javascript';
+		script.src = path;
+		document.head.appendChild(script);
+	}
+
 
 	self.loadDevEditor = function() {
 		return (getQueryStringValue('editor') === 'dev');
 	}
-
 	function getQueryStringValue (key) {
 		return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 	}
 
 
-	function resolvePath(paths, selectedPath) {
-		if (selectedPath === 'npm') {
-			return '/monaco-editor/' + paths[selectedPath];
-		} else {
-			return paths[selectedPath];
-		}
-	}
-	self.RESOLVED_CORE_PATH = resolvePath(METADATA.CORE.paths, LOADER_OPTS['editor']);
-	var RESOLVED_PLUGINS = METADATA.PLUGINS.map(function(plugin) {
-		return {
-			name: plugin.name,
-			contrib: plugin.contrib,
-			modulePrefix: plugin.modulePrefix,
-			path: resolvePath(plugin.paths, LOADER_OPTS[plugin.name])
-		};
-	});
-	self.METADATA = null;
-
 	self.loadEditor = function(callback, PATH_PREFIX) {
 		PATH_PREFIX = PATH_PREFIX || '';
-		var pathsConfig = {};
-		RESOLVED_PLUGINS.forEach(function(plugin) {
-			pathsConfig[plugin.modulePrefix] = PATH_PREFIX + plugin.path;
-		});
-		pathsConfig['vs'] = PATH_PREFIX + RESOLVED_CORE_PATH;
 
-		var loaderInfo = document.createElement('div');
-		loaderInfo.style.position = 'fixed';
-		loaderInfo.style.top = 0;
-		loaderInfo.style.right = 0;
-		loaderInfo.innerHTML = 'LOADER PATH CONFIGURATION: ' + '<br/><pre>' + JSON.stringify(pathsConfig, null, '\t') + '</pre>';
-		document.body.appendChild(loaderInfo);
+		loadScript(PATH_PREFIX + RESOLVED_CORE.getResolvedPath() + '/loader.js', function() {
+			var loaderPathsConfig = {};
+			RESOLVED_PLUGINS.forEach(function(plugin) {
+				plugin.generateLoaderConfig(loaderPathsConfig);
+			});
+			RESOLVED_CORE.generateLoaderConfig(loaderPathsConfig);
 
-		require.config({
-			paths: pathsConfig
-		});
+			console.log('LOADER CONFIG: ');
+			console.log(JSON.stringify(loaderPathsConfig, null, '\t'));
 
-		require(['vs/editor/editor.main'], function() {
-			// At this point we've loaded the monaco-editor-core
-			require(RESOLVED_PLUGINS.map(function(plugin) { return plugin.contrib; }), function() {
-				// At this point we've loaded all the plugins
-				callback();
-				// require(['./index'], function() {});
+			require.config({
+				paths: loaderPathsConfig
+			});
+
+			require(['vs/editor/editor.main'], function() {
+				// At this point we've loaded the monaco-editor-core
+				require(RESOLVED_PLUGINS.map(function(plugin) { return plugin.contrib; }), function() {
+					// At this point we've loaded all the plugins
+					callback();
+				});
 			});
 		});
 	}
