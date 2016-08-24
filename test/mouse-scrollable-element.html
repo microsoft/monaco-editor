@@ -123,7 +123,7 @@
 
 <script src="../metadata.js"></script>
 <script src="dev-setup.js"></script>
-<script>document.write('<script src="' + METADATA.CORE.path + '/loader.js"><'+'/script>');</script>
+<script>document.write('<script src="' + RESOLVED_CORE_PATH + '/loader.js"><'+'/script>');</script>
 <script>
 	loadEditor(function() {
 		monaco.editor.create(document.getElementById('editor'), {
