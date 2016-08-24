@@ -1,5 +1,7 @@
 (function() {
 
+	var IS_FILE_PROTOCOL = (window.location.protocol === 'file:');
+
 	var LOADER_OPTS = (function() {
 		function parseQueryString() {
 			var str = window.location.search;
@@ -32,7 +34,15 @@
 	Component.prototype.getResolvedPath = function() {
 		var resolvedPath = this.paths[this.selectedPath];
 		if (this.selectedPath === 'npm') {
-			resolvedPath = '/monaco-editor/' + resolvedPath;
+			if (IS_FILE_PROTOCOL) {
+				resolvedPath = '../' + resolvedPath;
+			} else {
+				resolvedPath = '/monaco-editor/' + resolvedPath;
+			}
+		} else {
+			if (IS_FILE_PROTOCOL) {
+				resolvedPath = '../..' + resolvedPath;
+			}
 		}
 		return resolvedPath;
 	};
