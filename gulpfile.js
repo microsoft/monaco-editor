@@ -389,7 +389,22 @@ gulp.task('website', ['clean-website', 'playground-samples'], function() {
 
 });
 
-gulp.task('simpleserver', function(cb) {
+gulp.task('generate-test-samples', function() {
+	var sampleNames = fs.readdirSync(path.join(__dirname, 'test/samples'));
+	var samples = sampleNames.map(function(sampleName) {
+		var samplePath = path.join(__dirname, 'test/samples', sampleName);
+		var sampleContent = fs.readFileSync(samplePath).toString();
+		return {
+			name: sampleName,
+			content: sampleContent
+		};
+	});
+	var prefix = '//This is a generated file via gulp generate-test-samples\ndefine([], function() { return';
+	var suffix = '; });'
+	fs.writeFileSync(path.join(__dirname, 'test/samples-all.js'), prefix + JSON.stringify(samples, null, '\t') + suffix );
+});
+
+gulp.task('simpleserver', ['generate-test-samples'], function(cb) {
 	httpServer.createServer({ root: '../', cache: 5 }).listen(8080);
 	httpServer.createServer({ root: '../', cache: 5 }).listen(8088);
 	console.log('LISTENING on 8080 and 8088');
