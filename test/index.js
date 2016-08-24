@@ -219,6 +219,12 @@ function createOptions(editor) {
 		editor.updateOptions({ theme: newValue ? 'vs-dark' : 'vs' });
 	}));
 
+	options.appendChild(createOptionToggle(editor, 'hc-black', function(config) {
+		return config.viewInfo.theme === 'hc-black';
+	}, function(editor, newValue) {
+		editor.updateOptions({ theme: newValue ? 'hc-black' : 'vs' });
+	}));
+
 	options.appendChild(createOptionToggle(editor, 'readOnly', function(config) {
 		return config.readOnly;
 	}, function(editor, newValue) {
