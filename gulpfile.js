@@ -72,12 +72,12 @@ function pluginStreams(destinationPath) {
 }
 
 function pluginStream(plugin, destinationPath) {
-	var contribPath = path.join(plugin.path, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
+	var contribPath = path.join(plugin.paths.npm, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 	return (
 		gulp.src([
-			plugin.path + '/**/*',
+			plugin.paths.npm + '/**/*',
 			'!' + contribPath,
-			'!' + plugin.path + '/**/monaco.d.ts'
+			'!' + plugin.paths.npm + '/**/monaco.d.ts'
 		])
 		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
 	);
@@ -105,7 +105,7 @@ function addPluginContribs() {
 
 		metadata.METADATA.PLUGINS.forEach(function(plugin) {
 			allPluginsModuleIds.push(plugin.contrib);
-			var contribPath = path.join(__dirname, plugin.path, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
+			var contribPath = path.join(__dirname, plugin.paths.npm, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 			var contribContents = fs.readFileSync(contribPath).toString();
 
 			var contribDefineIndex = contribContents.indexOf('define("' + plugin.contrib);
@@ -151,7 +151,7 @@ function addPluginDTS() {
 
 		var extraContent = [];
 		metadata.METADATA.PLUGINS.forEach(function(plugin) {
-			var dtsPath = path.join(plugin.path, 'monaco.d.ts');
+			var dtsPath = path.join(plugin.paths.npm, 'monaco.d.ts');
 			try {
 				extraContent.push(fs.readFileSync(dtsPath).toString());
 			} catch (err) {
@@ -181,7 +181,7 @@ function addPluginThirdPartyNotices() {
 
 		var extraContent = [];
 		metadata.METADATA.PLUGINS.forEach(function(plugin) {
-			var thirdPartyNoticePath = path.join(path.dirname(plugin.path), 'ThirdPartyNotices.txt');
+			var thirdPartyNoticePath = path.join(path.dirname(plugin.paths.npm), 'ThirdPartyNotices.txt');
 			try {
 				var thirdPartyNoticeContent = fs.readFileSync(thirdPartyNoticePath).toString();
 				thirdPartyNoticeContent = thirdPartyNoticeContent.split('\n').slice(8).join('\n');

@@ -10,17 +10,17 @@
 
 	function resolveCorePath(core) {
 		if (loadDevEditor()) {
-			return core.srcPath;
+			return core.paths.dev;
 		} else {
-			return '/monaco-editor/' + core.path;
+			return '/monaco-editor/' + core.paths.npm;
 		}
 	}
 
 	function resolvePluginPath(plugin) {
-		if (plugin.srcPath && getQueryStringValue(plugin.name) === 'dev') {
-			return plugin.srcPath;
+		if (plugin.paths.dev && getQueryStringValue(plugin.name) === 'dev') {
+			return plugin.paths.dev;
 		} else {
-			return '/monaco-editor/' + plugin.path;
+			return '/monaco-editor/' + plugin.paths.npm;
 		}
 	}
 
