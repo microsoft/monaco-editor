@@ -1,5 +1,29 @@
 (function() {
 
+	function parseLoaderOptions() {
+		function parseQueryString() {
+			var str = window.location.search;
+			str = str.replace(/^\?/, '');
+			var pieces = str.split(/&/);
+			var result = {};
+			pieces.forEach(function(piece) {
+				var config = piece.split(/=/);
+				result[config[0]] = config[1];
+			});
+			return result;
+		}
+		var overwrites = parseQueryString();
+		var result = {};
+		result['editor'] = overwrites['editor'] || 'npm';
+		METADATA.PLUGINS.map(function(plugin) {
+			result[plugin.name] = overwrites[plugin.name] || 'npm';
+		});
+		return result;
+	}
+	var LOADER_OPTS = parseLoaderOptions();
+
+	// console.log(JSON.stringify(LOADER_OPTS, null, '\t'));
+
 	self.loadDevEditor = function() {
 		return (getQueryStringValue('editor') === 'dev');
 	}
@@ -8,29 +32,21 @@
 		return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 	}
 
-	function resolveCorePath(core) {
-		if (loadDevEditor()) {
-			return core.paths.dev;
+
+	function resolvePath(paths, selectedPath) {
+		if (selectedPath === 'npm') {
+			return '/monaco-editor/' + paths[selectedPath];
 		} else {
-			return '/monaco-editor/' + core.paths.npm;
+			return paths[selectedPath];
 		}
 	}
-
-	function resolvePluginPath(plugin) {
-		if (plugin.paths.dev && getQueryStringValue(plugin.name) === 'dev') {
-			return plugin.paths.dev;
-		} else {
-			return '/monaco-editor/' + plugin.paths.npm;
-		}
-	}
-
-	self.RESOLVED_CORE_PATH = resolveCorePath(METADATA.CORE);
+	self.RESOLVED_CORE_PATH = resolvePath(METADATA.CORE.paths, LOADER_OPTS['editor']);
 	var RESOLVED_PLUGINS = METADATA.PLUGINS.map(function(plugin) {
 		return {
 			name: plugin.name,
 			contrib: plugin.contrib,
 			modulePrefix: plugin.modulePrefix,
-			path: resolvePluginPath(plugin)
+			path: resolvePath(plugin.paths, LOADER_OPTS[plugin.name])
 		};
 	});
 	self.METADATA = null;
