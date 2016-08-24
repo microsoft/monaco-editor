@@ -42,10 +42,11 @@
 
 
 	var RESOLVED_CORE = new Component('editor', 'vs', METADATA.CORE.paths);
+	self.RESOLVED_CORE_PATH = RESOLVED_CORE.getResolvedPath();
 	var RESOLVED_PLUGINS = METADATA.PLUGINS.map(function(plugin) {
 		return new Component(plugin.name, plugin.modulePrefix, plugin.paths, plugin.contrib);
 	});
-	self.METADATA = null;
+	METADATA = null;
 
 
 	function loadScript(path, callback) {
@@ -55,14 +56,6 @@
 		script.type = 'text/javascript';
 		script.src = path;
 		document.head.appendChild(script);
-	}
-
-
-	self.loadDevEditor = function() {
-		return (getQueryStringValue('editor') === 'dev');
-	}
-	function getQueryStringValue (key) {
-		return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 	}
 
 

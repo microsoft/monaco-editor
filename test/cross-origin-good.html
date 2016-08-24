@@ -17,7 +17,7 @@
 <script>
 	window.MonacoEnvironment = {
 		getWorkerUrl: function() {
-			return loadDevEditor() ? 'cross-origin-worker-proxy-dev.js' : 'cross-origin-worker-proxy.js';
+			return 'cross-origin-worker-proxy.js#http://localhost:8088' + RESOLVED_CORE_PATH;
 		}
 	};
 </script>

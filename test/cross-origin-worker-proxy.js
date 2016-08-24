@@ -1,4 +1,10 @@
+var baseUrl = self.location.hash;
+baseUrl = baseUrl.replace(/^#/, '');
+baseUrl = baseUrl.replace(/vs$/, '');
+
+console.log('WORKER BASE_URL: ' + baseUrl);
+
 self.MonacoEnvironment = {
-	baseUrl: 'http://localhost:8088/monaco-editor/node_modules/monaco-editor-core/min/'
+	baseUrl: baseUrl
 };
-importScripts('http://localhost:8088/monaco-editor/node_modules/monaco-editor-core/min/vs/base/worker/workerMain.js');
+importScripts(baseUrl + 'vs/base/worker/workerMain.js');
