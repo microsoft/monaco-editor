@@ -1,6 +1,15 @@
 (function() {
 
 	var IS_FILE_PROTOCOL = (window.location.protocol === 'file:');
+	var DIRNAME = null;
+	if (IS_FILE_PROTOCOL) {
+		var port = window.location.port;
+		if (port.length > 0) {
+			port = ':' + port;
+		}
+		DIRNAME = window.location.protocol + '//' + window.location.hostname + port + window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/'));
+	}
+	console.log(DIRNAME);
 
 	var LOADER_OPTS = (function() {
 		function parseQueryString() {
@@ -35,13 +44,13 @@
 		var resolvedPath = this.paths[this.selectedPath];
 		if (this.selectedPath === 'npm') {
 			if (IS_FILE_PROTOCOL) {
-				resolvedPath = '../' + resolvedPath;
+				resolvedPath = DIRNAME + '/../' + resolvedPath;
 			} else {
 				resolvedPath = '/monaco-editor/' + resolvedPath;
 			}
 		} else {
 			if (IS_FILE_PROTOCOL) {
-				resolvedPath = '../..' + resolvedPath;
+				resolvedPath = DIRNAME + '/../..' + resolvedPath;
 			}
 		}
 		return resolvedPath;
@@ -66,7 +75,11 @@
 		if (search.length > 0) {
 			search = '?' + search;
 		}
-		var result = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + window.location.pathname + search + window.location.hash;
+		var port = window.location.port;
+		if (port.length > 0) {
+			port = ':' + port;
+		}
+		var result = window.location.protocol + '//' + window.location.hostname + port + window.location.pathname + search + window.location.hash;
 		// console.log(result);
 		return result;
 	};
