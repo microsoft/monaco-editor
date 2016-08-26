@@ -95,12 +95,8 @@ declare module monaco.languages.typescript {
     }
 
     export interface LanguageServiceDefaults {
-        onDidChange: IEvent<LanguageServiceDefaults>;
-        extraLibs: { [path:string]: string; };
         addExtraLib(content: string, filePath?: string): IDisposable;
-        compilerOptions: CompilerOptions;
         setCompilerOptions(options: CompilerOptions): void;
-        diagnosticsOptions: DiagnosticsOptions;
         setDiagnosticsOptions(options: DiagnosticsOptions): void;
     }
 
