@@ -58,16 +58,27 @@ export class DiagnostcsAdapter extends Adapter {
 			}
 
 			let handle: number;
-			this._listener[model.uri.toString()] = model.onDidChangeContent(() => {
+			const changeSubscription = model.onDidChangeContent(() => {
 				clearTimeout(handle);
 				handle = setTimeout(() => this._doValidate(model.uri), 500);
 			});
+
+			this._listener[model.uri.toString()] = {
+				dispose() {
+					changeSubscription.dispose();
+					clearTimeout(handle);
+				}
+			};
 
 			this._doValidate(model.uri);
 		};
 
 		const onModelRemoved = (model: monaco.editor.IModel): void => {
-			delete this._listener[model.uri.toString()];
+			const key = model.uri.toString();
+			if (this._listener[key]) {
+				this._listener[key].dispose();
+				delete this._listener[key];
+			}
 		};
 
 		this._disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
