@@ -18,11 +18,13 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	private _onDidChange = new Emitter<monaco.languages.typescript.LanguageServiceDefaults>();
 	private _extraLibs: { [path: string]: string };
+	private _workerMaxIdleTime: number;
 	private _compilerOptions: monaco.languages.typescript.CompilerOptions;
 	private _diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions;
 
 	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
 		this._extraLibs = Object.create(null);
+		this._workerMaxIdleTime = 2 * 60 * 1000;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
 	}
@@ -31,7 +33,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		return this._onDidChange.event;
 	}
 
-	get extraLibs(): { [path: string]: string; } {
+	getExtraLibs(): { [path: string]: string; } {
 		const result = Object.create(null);
 		for (var key in this._extraLibs) {
 			result[key] = this._extraLibs[key];
@@ -60,7 +62,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		};
 	}
 
-	get compilerOptions(): monaco.languages.typescript.CompilerOptions {
+	getCompilerOptions(): monaco.languages.typescript.CompilerOptions {
 		return this._compilerOptions;
 	}
 
@@ -69,13 +71,23 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		this._onDidChange.fire(this);
 	}
 
-	get diagnosticsOptions(): monaco.languages.typescript.DiagnosticsOptions {
+	getDiagnosticsOptions(): monaco.languages.typescript.DiagnosticsOptions {
 		return this._diagnosticsOptions;
 	}
 
 	setDiagnosticsOptions(options: monaco.languages.typescript.DiagnosticsOptions): void {
 		this._diagnosticsOptions = options || Object.create(null);
 		this._onDidChange.fire(this);
+	}
+
+	setMaximunWorkerIdleTime(value: number): void {
+		// doesn't fire an event since no
+		// worker restart is required here
+		this._workerMaxIdleTime = value;
+	}
+
+	getWorkerMaxIdleTime() {
+		return this._workerMaxIdleTime;
 	}
 }
 

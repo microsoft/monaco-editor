@@ -95,9 +95,36 @@ declare module monaco.languages.typescript {
     }
 
     export interface LanguageServiceDefaults {
+        /**
+         * Add an additional source file to the language service. Use this
+         * for typescript (definition) files that won't be loaded as editor
+         * document, like `jquery.d.ts`.
+         *
+         * @param content The file content
+         * @param filePath An optional file path
+         * @returns A disposabled which will remove the file from the
+         * language service upon disposal.
+         */
         addExtraLib(content: string, filePath?: string): IDisposable;
+
+        /**
+         * Set TypeScript compiler options.
+         */
         setCompilerOptions(options: CompilerOptions): void;
+
+        /**
+         * Configure whether syntactic and/or semantic validation should
+         * be performed
+         */
         setDiagnosticsOptions(options: DiagnosticsOptions): void;
+
+        /**
+         * Configure when the worker shuts down. By default that is 2mins.
+         *
+         * @param value The maximun idle time in milliseconds. Values less than one
+         * mean never shut down.
+         */
+        setMaximunWorkerIdleTime(value: number): void;
     }
 
     export var typescriptDefaults: LanguageServiceDefaults;

@@ -11,8 +11,6 @@ import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
 
-const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
-
 export class WorkerManager {
 
 	private _defaults: LanguageServiceDefaultsImpl;
@@ -49,8 +47,9 @@ export class WorkerManager {
 		if (!this._worker) {
 			return;
 		}
-		let timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
-		if (timePassedSinceLastUsed > STOP_WHEN_IDLE_FOR) {
+		const maxIdleTime = this._defaults.getWorkerMaxIdleTime();
+		const timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
+		if (maxIdleTime > 0 && timePassedSinceLastUsed > maxIdleTime) {
 			this._stopWorker();
 		}
 	}
@@ -66,8 +65,8 @@ export class WorkerManager {
 
 				// passed in to the create() method
 				createData: {
-					compilerOptions: this._defaults.compilerOptions,
-					extraLibs: this._defaults.extraLibs
+					compilerOptions: this._defaults.getCompilerOptions(),
+					extraLibs: this._defaults.getExtraLibs()
 				}
 			});
 

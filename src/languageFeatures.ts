@@ -95,11 +95,12 @@ export class DiagnostcsAdapter extends Adapter {
 
 	private _doValidate(resource: Uri): void {
 		this._worker(resource).then(worker => {
-			let promises: Promise<ts.Diagnostic[]>[] = [];
-			if (!this._defaults.diagnosticsOptions.noSyntaxValidation) {
+			const promises: Promise<ts.Diagnostic[]>[] = [];
+			const {noSyntaxValidation, noSemanticValidation} = this._defaults.getDiagnosticsOptions();
+			if (!noSyntaxValidation) {
 				promises.push(worker.getSyntacticDiagnostics(resource.toString()));
 			}
-			if (!this._defaults.diagnosticsOptions.noSemanticValidation) {
+			if (!noSemanticValidation) {
 				promises.push(worker.getSemanticDiagnostics(resource.toString()));
 			}
 			return Promise.join(promises);
