@@ -389,7 +389,7 @@ export class OutlineAdapter extends Adapter implements monaco.languages.Document
 				return;
 			}
 
-			function convert(bucket: monaco.languages.SymbolInformation[], item: ts.NavigationBarItem, containerLabel?: string): void {
+			const convert = (bucket: monaco.languages.SymbolInformation[], item: ts.NavigationBarItem, containerLabel?: string): void => {
 				let result: monaco.languages.SymbolInformation = {
 					name: item.text,
 					kind: outlineTypeTable[item.kind] || monaco.languages.SymbolKind.Variable,
