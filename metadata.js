@@ -6,6 +6,8 @@
 				npm: 'node_modules/monaco-editor-core/min/vs',
 				dev: '/vscode/out/vs',
 				built: '/vscode/out-monaco-editor-core/min/vs',
+				releaseDev: 'release/dev/vs',
+				releaseMin: 'release/min/vs',
 			}
 		},
 		PLUGINS: [{

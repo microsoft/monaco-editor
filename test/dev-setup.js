@@ -9,7 +9,7 @@
 		}
 		DIRNAME = window.location.protocol + '//' + window.location.hostname + port + window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/'));
 	}
-	console.log(DIRNAME);
+
 
 	var LOADER_OPTS = (function() {
 		function parseQueryString() {
@@ -31,6 +31,13 @@
 		});
 		return result;
 	})();
+	function toHREF(search) {
+		var port = window.location.port;
+		if (port.length > 0) {
+			port = ':' + port;
+		}
+		return window.location.protocol + '//' + window.location.hostname + port + window.location.pathname + search + window.location.hash;
+	}
 
 
 	function Component(name, modulePrefix, paths, contrib) {
@@ -40,9 +47,12 @@
 		this.contrib = contrib;
 		this.selectedPath = LOADER_OPTS[name];
 	}
+	Component.prototype.isRelease = function() {
+		return /release/.test(this.selectedPath);
+	};
 	Component.prototype.getResolvedPath = function() {
 		var resolvedPath = this.paths[this.selectedPath];
-		if (this.selectedPath === 'npm') {
+		if (this.selectedPath === 'npm' || this.isRelease()) {
 			if (IS_FILE_PROTOCOL) {
 				resolvedPath = DIRNAME + '/../' + resolvedPath;
 			} else {
@@ -75,13 +85,7 @@
 		if (search.length > 0) {
 			search = '?' + search;
 		}
-		var port = window.location.port;
-		if (port.length > 0) {
-			port = ':' + port;
-		}
-		var result = window.location.protocol + '//' + window.location.hostname + port + window.location.pathname + search + window.location.hash;
-		// console.log(result);
-		return result;
+		return toHREF(search);
 	};
 	Component.prototype.renderLoadingOptions = function() {
 		return '<strong style="width:130px;display:inline-block;">' + this.name + '</strong>:&nbsp;&nbsp;&nbsp;' + Object.keys(this.paths).map(function(pathName) {
@@ -112,7 +116,10 @@
 
 
 	(function() {
-		var allComponents = [RESOLVED_CORE].concat(RESOLVED_PLUGINS);
+		var allComponents = [RESOLVED_CORE];
+		if (!RESOLVED_CORE.isRelease()) {
+			allComponents = allComponents.concat(RESOLVED_PLUGINS);
+		}
 
 		var div = document.createElement('div');
 		div.style.position = 'fixed';
@@ -132,9 +139,11 @@
 
 		loadScript(PATH_PREFIX + RESOLVED_CORE.getResolvedPath() + '/loader.js', function() {
 			var loaderPathsConfig = {};
-			RESOLVED_PLUGINS.forEach(function(plugin) {
-				plugin.generateLoaderConfig(loaderPathsConfig);
-			});
+			if (!RESOLVED_CORE.isRelease()) {
+				RESOLVED_PLUGINS.forEach(function(plugin) {
+					plugin.generateLoaderConfig(loaderPathsConfig);
+				});
+			}
 			RESOLVED_CORE.generateLoaderConfig(loaderPathsConfig);
 
 			console.log('LOADER CONFIG: ');
@@ -145,11 +154,15 @@
 			});
 
 			require(['vs/editor/editor.main'], function() {
-				// At this point we've loaded the monaco-editor-core
-				require(RESOLVED_PLUGINS.map(function(plugin) { return plugin.contrib; }), function() {
-					// At this point we've loaded all the plugins
+				if (!RESOLVED_CORE.isRelease()) {
+					// At this point we've loaded the monaco-editor-core
+					require(RESOLVED_PLUGINS.map(function(plugin) { return plugin.contrib; }), function() {
+						// At this point we've loaded all the plugins
+						callback();
+					});
+				} else {
 					callback();
-				});
+				}
 			});
 		});
 	}
