@@ -1,5 +1,10 @@
 /// <reference path="../node_modules/monaco-editor-core/monaco.d.ts" />
-define([], function() {
+define(['./samples-all'], function(ALL_SAMPLES) {
+
+var XHR_SAMPLES = {};
+ALL_SAMPLES.forEach(function(sample) {
+	XHR_SAMPLES[sample.name] = sample.content;
+});
 
 var actions = (function() {
 	"use strict";
@@ -88,11 +93,9 @@ function createEditor(container, mode) {
 	editors[mode] = monaco.editor.create(container, {
 		value: mode
 	});
-	xhr('samples/sample.' + mode + '.txt').then(function(response) {
-		var value = mode + '\n' + response.responseText;
-		var model = monaco.editor.createModel(value, mode);
-		editors[mode].setModel(model);
-	});
+	var value = mode + '\n' + XHR_SAMPLES['sample.' + mode + '.txt'];
+	var model = monaco.editor.createModel(value, mode);
+	editors[mode].setModel(model);
 }
 
 function createEditors(modes) {
@@ -132,34 +135,5 @@ function createActions(actions) {
 
 createEditors(getAllModes());
 createActions(actions);
-
-function xhr(url) {
-	var req = null;
-	return new monaco.Promise(function(c,e,p) {
-		req = new XMLHttpRequest();
-		req.onreadystatechange = function () {
-			if (req._canceled) { return; }
-
-			if (req.readyState === 4) {
-				if ((req.status >= 200 && req.status < 300) || req.status === 1223) {
-					c(req);
-				} else {
-					e(req);
-				}
-				req.onreadystatechange = function () { };
-			} else {
-				p(req);
-			}
-		};
-
-		req.open("GET", url, true );
-		req.responseType = "";
-
-		req.send(null);
-	}, function () {
-		req._canceled = true;
-		req.abort();
-	});
-}
 
 });

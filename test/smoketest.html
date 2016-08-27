@@ -23,21 +23,17 @@
 </head>
 <body>
 
-<h2>Smoke Test (running from release)</h2>
+<h2>Smoke Test</h2>
 
 <div id="control"></div>
 <div id="editor"></div>
 <div id="errors"></div>
 <div style="clear:both"></div>
 
-<script src="../release/min/vs/loader.js"></script>
+<script src="../metadata.js"></script>
+<script src="dev-setup.js"></script>
 <script>
-	require.config({
-		paths: {
-			'vs': '../release/min/vs'
-		}
-	});
-	require(['vs/editor/editor.main'], function() {
+	loadEditor(function() {
 		require(['./smoketest'], function() {});
 	});
 </script>
