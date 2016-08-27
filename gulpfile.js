@@ -343,7 +343,7 @@ gulp.task('website', ['clean-website', 'playground-samples'], function() {
 	return (
 		gulp.src('website/**/*', { dot: true })
 		.pipe(es.through(function(data) {
-			if (!data.contents || !/\.(js|html)$/.test(data.path)) {
+			if (!data.contents || !/\.(html)$/.test(data.path)) {
 				return this.emit('data', data);
 			}
 

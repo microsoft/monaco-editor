@@ -4297,11 +4297,6 @@ return {
 
 	<script type="text/javascript" src="../release/min/vs/loader.js"></script>
 	<script type="text/javascript">
-		window.MonacoEnvironment = {
-			getWorkerUrl: function(workerId, label) {
-				return 'worker-loader-proxy.js';
-			}
-		};
 		require.config({
 			paths: {
 				vs: "../release/min/vs"
