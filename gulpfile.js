@@ -348,7 +348,7 @@ gulp.task('website', ['clean-website', 'playground-samples'], function() {
 			}
 
 			var contents = data.contents.toString();
-			contents = contents.replace(/\.\.\/release\/min/g, 'node_modules/monaco-editor/min');
+			contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
 			// contents = contents.replace('&copy; 2016 Microsoft', '&copy; 2016 Microsoft [' + builtTime + ']');
 
 			data.contents = new Buffer(contents);
