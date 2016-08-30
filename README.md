@@ -15,6 +15,10 @@ Internally the JSON plugin uses the [vscode-json-languageservice](https://github
 node module, providing the implementation of the functionally listed above. The same module is also used
 in [Visual Studio Code](https://github.com/Microsoft/vscode) to power the JSON editing experience.
 
+## Issues
+
+Please file issues concering `monaco-json` in the [`monaco-editor`-repository](https://github.com/Microsoft/monaco-editor/issues).
+
 ## Installing
 
 This npm module is bundled and distributed in the [monaco-editor](https://www.npmjs.com/package/monaco-editor) npm module.
