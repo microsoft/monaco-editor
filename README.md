@@ -14,6 +14,10 @@ Internally the CSS plugin uses the [vscode-css-languageservice](https://github.c
 node module, providing the implementation of the functionally listed above. The same module is also used
 in [Visual Studio Code](https://github.com/Microsoft/vscode) to power the CSS, LESS and SCSS editing experience.
 
+## Issues
+
+Please file issues concering `monaco-css` in the [`monaco-editor`-repository](https://github.com/Microsoft/monaco-editor/issues).
+
 ## Installing
 
 This npm module is bundled and distributed in the [monaco-editor](https://www.npmjs.com/package/monaco-editor) npm module.
