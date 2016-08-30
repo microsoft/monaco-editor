@@ -1,11 +1,13 @@
 {
   "name": "monaco-json",
-  "version": "1.0.3",
+  "version": "1.0.5-next.1",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
     "watch": "gulp watch",
-    "prepublish": "gulp release"
+    "prepublish": "gulp release",
+    "install-service-next": "npm install vscode-json-languageservice@next -f -S",
+    "install-service-local": "npm install ../vscode-json-languageservice -f -S"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -17,7 +19,7 @@
     "url": "https://github.com/Microsoft/monaco-json/issues"
   },
   "dependencies": {
-    "vscode-json-languageservice": "1.1.4",
+    "vscode-json-languageservice": "^1.1.5-next.1",
     "vscode-languageserver-types": "^1.0.1"
   },
   "devDependencies": {
