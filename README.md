@@ -141,6 +141,11 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 > Q: I see the warning "Could not create web worker". What should I do?<br/>
 > A: HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross domain case above.
 
+
+> Q: Is the editor supported in mobile browsers or mobile web app frameworks?<br/>
+> A: No.
+
+
 ## Dev
 
 ### Cheat Sheet
