@@ -20,7 +20,6 @@ Please mention the version of the editor when creating issues and the browser yo
 
 This repository contains only the scripts to glue things together, please create issues against the actual repositories where the source code lives:
  * [monaco-editor-core](https://github.com/Microsoft/vscode) -- (the editor itself)
- * [monaco-typescript](https://github.com/Microsoft/monaco-typescript) -- (JavaScript or TypeScript language support)
  * [monaco-css](https://github.com/Microsoft/monaco-css) -- (CSS, LESS or SCSS advanced language support)
  * [monaco-json](https://github.com/Microsoft/monaco-json) -- (JSON advanced language support)
  * [monaco-languages](https://github.com/Microsoft/monaco-languages) -- (bat, coffee script, cpp, csharp, fsharp, go, ini, jade, lua, objective-c, powershell, python, r, ruby, sql, swift, vb or xml colorizers)
