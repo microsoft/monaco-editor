@@ -32,7 +32,7 @@
 			modulePrefix: 'vs/language/json',
 			paths: {
 				npm: 'node_modules/monaco-json/release/min',
-				dev: '/monaco-css/release/dev'
+				dev: '/monaco-json/release/dev'
 			}
 		},{
 			name: 'monaco-languages',
