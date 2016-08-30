@@ -166,6 +166,7 @@ export var language = <ILanguage> {
 		],
 
 		whitespace: [
+			[/^[ \t\v\f]*#((r)|(load))(?=\s)/, 'directive.csx' ],
 			[/^[ \t\v\f]*#\w.*$/, 'namespace.cpp' ],
 			[/[ \t\v\f\r\n]+/, ''],
 			[/\/\*/,       'comment', '@comment' ],
