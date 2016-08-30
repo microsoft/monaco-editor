@@ -30,6 +30,10 @@ Also `css` dialects:
 * less
 * scss
 
+## Issues
+
+Please file issues concering `monaco-languages` in the [`monaco-editor`-repository](https://github.com/Microsoft/monaco-editor/issues).
+
 ## Installing
 
 This npm module is bundled and distributed in the [monaco-editor](https://www.npmjs.com/package/monaco-editor) npm module.
