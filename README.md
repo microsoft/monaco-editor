@@ -16,11 +16,7 @@ Browse the latest editor API at [`monaco.d.ts`](https://github.com/Microsoft/mon
 
 ## Issues
 
-Please mention the version of the editor when creating issues and the browser you're having trouble in. Use the following two repositories when filing issues:
-
- * [monaco-editor](https://github.com/Microsoft/monaco-editor) -- (TypeScript, JavaScript, JSON, CSS, LESS or SCSS advanced language support, and all color-only languages like bat, coffee script, cpp, csharp, fsharp, go, ini, jade, lua, objective-c, powershell, python, r, ruby, sql, swift, vb or xml colorizers)
- * [monaco-editor-core](https://github.com/Microsoft/vscode) -- (the editor itself)
-
+Please mention the version of the editor when creating issues and the browser you're having trouble in. Create issues in this repository.
 
 ## Known issues
 In IE, the editor must be completely surrounded in the body element, otherwise the hit testing we do for mouse operations does not work. You can inspect this using F12 and clicking on the body element and confirm that visually it surrounds the editor.
