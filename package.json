@@ -1,6 +1,6 @@
 {
   "name": "monaco-languages",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
     "test": "node_modules/.bin/mocha",
