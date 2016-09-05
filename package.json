@@ -1,6 +1,6 @@
 {
   "name": "monaco-typescript",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
     "test": "node_modules/.bin/mocha",
@@ -24,7 +24,7 @@
     "gulp-uglify": "^1.5.3",
     "merge-stream": "^1.0.0",
     "mocha": "^2.5.3",
-    "monaco-editor-core": "0.5.1",
+    "monaco-editor-core": "0.6.0",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
     "typescript": "1.8.10",
