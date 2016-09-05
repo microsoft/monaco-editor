@@ -31,23 +31,18 @@ gulp.task('release', ['clean-release'], function() {
 			}))
 			.pipe(gulp.dest('release')),
 
+		gulp.src('CHANGELOG.md'),
+
 		// min-maps folder
 		gulp.src('node_modules/monaco-editor-core/min-maps/**/*').pipe(gulp.dest('release/min-maps')),
 
 		// other files
 		gulp.src([
 			'node_modules/monaco-editor-core/LICENSE',
-			'node_modules/monaco-editor-core/CHANGELOG.md',
 			'node_modules/monaco-editor-core/monaco.d.ts',
 			'node_modules/monaco-editor-core/ThirdPartyNotices.txt',
 			'README.md'
 		])
-		.pipe(es.through(function(data) {
-			if (/CHANGELOG\.md$/.test(data.path)) {
-				fs.writeFileSync('CHANGELOG.md', data.contents);
-			}
-			this.emit('data', data);
-		}))
 		.pipe(addPluginDTS())
 		.pipe(addPluginThirdPartyNotices())
 		.pipe(gulp.dest('release'))

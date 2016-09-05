@@ -6,6 +6,7 @@
   - exposed API to get to the underlying language service.
   - fixed a bug that prevented modifying `extraLibs`.
 - Multiple improvements/bugfixes to the `css`, `less`, `scss` and `json` language services.
+- Added support for ATS/Postiats.
 
 ### API changes:
   - settings:
