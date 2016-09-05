@@ -10,6 +10,16 @@ var httpServer = require('http-server');
 
 var SAMPLES_MDOC_PATH = path.join(__dirname, 'website/playground/playground.mdoc');
 var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/samples');
+var MONACO_EDITOR_VERSION = (function() {
+	var packageJsonPath = path.join(__dirname, 'package.json');
+	var packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
+	var version = packageJson.version;
+	if (!/\d+\.\d+\.\d+/.test(version)) {
+		console.log('unrecognized package.json version: ' + version);
+		process.exit(0);
+	}
+	return version;
+})();
 
 gulp.task('clean-release', function(cb) { rimraf('release', { maxBusyTries: 1 }, cb); });
 gulp.task('release', ['clean-release'], function() {
@@ -344,6 +354,7 @@ gulp.task('website', ['clean-website', 'playground-samples'], function() {
 
 			var contents = data.contents.toString();
 			contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
+			contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
 			// contents = contents.replace('&copy; 2016 Microsoft', '&copy; 2016 Microsoft [' + builtTime + ']');
 
 			data.contents = new Buffer(contents);
