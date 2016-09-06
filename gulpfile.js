@@ -270,7 +270,7 @@ gulp.task('generate-test-samples', function() {
 	});
 	var prefix = '//This is a generated file via gulp generate-test-samples\ndefine([], function() { return';
 	var suffix = '; });'
-	fs.writeFileSync(path.join(__dirname, 'test/samples-all.js'), prefix + JSON.stringify(samples, null, '\t') + suffix );
+	fs.writeFileSync(path.join(__dirname, 'test/samples-all.generated.js'), prefix + JSON.stringify(samples, null, '\t') + suffix );
 
 	var PLAY_SAMPLES = require(path.join(WEBSITE_GENERATED_PATH, 'all.js')).PLAY_SAMPLES;
 	var locations = [];
