@@ -300,7 +300,7 @@ gulp.task('generate-test-samples', function() {
 			'',
 			'/*----------------------------------------SAMPLE CSS END*/',
 			'</style>',
-			'<a href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>',
+			'<a class="loading-opts" href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>',
 			'THIS IS A GENERATED FILE VIA gulp generate-test-samples',
 			'',
 			'<div id="bar" style="margin-bottom: 6px;"></div>',
@@ -341,13 +341,16 @@ gulp.task('generate-test-samples', function() {
 '<!-- THIS IS A GENERATED FILE VIA gulp generate-test-samples -->',
 '<html>',
 '<head>',
+'	<base href="..">',
 '</head>',
 '<body>',
-'<a href="../index.html">[&lt;&lt; BACK]</a><br/>',
+'<a class="loading-opts" href="index.html">[&lt;&lt; BACK]</a><br/>',
 'THIS IS A GENERATED FILE VIA gulp generate-test-samples<br/><br/>',
 locations.map(function(location) {
-	return '<a href="' + location.path + '">' + location.name + '</a>';
+	return '<a class="loading-opts" href="playground.generated/' + location.path + '">' + location.name + '</a>';
 }).join('<br/>\n'),
+'<script src="../metadata.js"></script>',
+'<script src="dev-setup.js"></script>',
 '</body>',
 '</html>',
 	]

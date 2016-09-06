@@ -136,6 +136,14 @@
 		div.innerHTML = '<ul><li>' + allComponents.map(function(component) { return component.renderLoadingOptions(); }).join('</li><li>') + '</li></ul>';
 
 		document.body.appendChild(div);
+
+		var aElements = document.getElementsByTagName('a');
+		for (var i = 0; i < aElements.length; i++) {
+			var aElement = aElements[i];
+			if (aElement.className === 'loading-opts') {
+				aElement.href += window.location.search
+			}
+		}
 	})();
 
 
