@@ -209,11 +209,6 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 * run `$/src/monaco-editor> npm run release`
 * open http://localhost:8080/monaco-editor/website/
 
-### Generating the playground samples
-
-* edit `$/src/monaco-editor/website/playground/playground.mdoc`
-* run `$/src/monaco-editor> gulp playground-samples`
-
 ### Publishing the website
 
 * run `$/src/monaco-editor> npm run website`

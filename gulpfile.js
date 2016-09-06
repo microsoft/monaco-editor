@@ -8,8 +8,7 @@ var rimraf = require('rimraf');
 var cp = require('child_process');
 var httpServer = require('http-server');
 
-var SAMPLES_MDOC_PATH = path.join(__dirname, 'website/playground/playground.mdoc');
-var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/samples');
+var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
 var MONACO_EDITOR_VERSION = (function() {
 	var packageJsonPath = path.join(__dirname, 'package.json');
 	var packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
@@ -206,144 +205,8 @@ function addPluginThirdPartyNotices() {
 
 // --- website
 
-gulp.task('clean-playground-samples', function(cb) { rimraf(WEBSITE_GENERATED_PATH, { maxBusyTries: 1 }, cb); });
-gulp.task('playground-samples', ['clean-playground-samples'], function() {
-	function toFolderName(name) {
-		var result = name.toLowerCase().replace(/[^a-z0-9\-_]/g, '-');
-
-		while (result.indexOf('--') >= 0) {
-			result = result.replace(/--/, '-');
-		}
-
-		while (result.charAt(result.length - 1) === '-') {
-			result = result.substring(result, result.length - 1);
-		}
-
-		return result;
-	}
-
-	function parse(txt) {
-		function startsWith(haystack, needle) {
-			return haystack.substring(0, needle.length) === needle;
-		}
-
-		var CHAPTER_MARKER = "=";
-		var SAMPLE_MARKER = "==";
-		var SNIPPET_MARKER = "=======================";
-
-		var lines = txt.split(/\r\n|\n|\r/);
-		var result = [];
-		var currentChapter = null;
-		var currentSample = null;
-		var currentSnippet = null;
-
-		for (var i = 0; i < lines.length; i++) {
-			var line = lines[i];
-
-			if (startsWith(line, SNIPPET_MARKER)) {
-				var snippetType = line.substring(SNIPPET_MARKER.length).trim();
-
-				if (snippetType === 'HTML' || snippetType === 'JS' || snippetType === 'CSS') {
-					currentSnippet = currentSample[snippetType];
-				} else {
-					currentSnippet = null;
-				}
-				continue;
-			}
-
-			if (startsWith(line, SAMPLE_MARKER)) {
-				currentSnippet = null;
-				currentSample = {
-					name: line.substring(SAMPLE_MARKER.length).trim(),
-					JS: [],
-					HTML: [],
-					CSS: []
-				};
-				currentChapter.samples.push(currentSample);
-				continue;
-			}
-
-			if (startsWith(line, CHAPTER_MARKER)) {
-				currentSnippet = null;
-				currentSample = null;
-				currentChapter = {
-					name: line.substring(CHAPTER_MARKER.length).trim(),
-					samples: []
-				};
-				result.push(currentChapter);
-				continue;
-			}
-
-			if (currentSnippet) {
-				currentSnippet.push(line);
-				continue;
-			}
-
-			if (line === '') {
-				continue;
-			}
-
-			// ignore inter-sample content
-			console.warn('IGNORING INTER-SAMPLE CONTENT: ' + line);
-		}
-
-		return result;
-	}
-
-	var chapters = parse(fs.readFileSync(SAMPLES_MDOC_PATH).toString());
-
-	var allSamples = [];
-
-	fs.mkdirSync(WEBSITE_GENERATED_PATH);
-
-	chapters.forEach(function(chapter) {
-		var chapterFolderName = toFolderName(chapter.name);
-
-		chapter.samples.forEach(function(sample) {
-			var sampleId = toFolderName(chapter.name + '-' + sample.name);
-
-			sample.sampleId = sampleId;
-
-			var js = [
-				'//---------------------------------------------------',
-				'// ' + chapter.name + ' > ' + sample.name,
-				'//---------------------------------------------------',
-				'',
-			].concat(sample.JS)
-			var sampleOut = {
-				id: sampleId,
-				js: js.join('\n'),
-				html: sample.HTML.join('\n'),
-				css: sample.CSS.join('\n')
-			};
-
-			allSamples.push({
-				chapter: chapter.name,
-				name: sample.name,
-				sampleId: sampleId
-			});
-
-			var content =
-`// This is a generated file. Please do not edit directly.
-var SAMPLES = this.SAMPLES || [];
-SAMPLES.push(${JSON.stringify(sampleOut)});
-`
-
-			fs.writeFileSync(path.join(WEBSITE_GENERATED_PATH, sampleId + '.js'), content);
-		});
-	});
-
-	var content =
-`// This is a generated file. Please do not edit directly.
-this.SAMPLES = [];
-this.ALL_SAMPLES = ${JSON.stringify(allSamples)};`
-
-	fs.writeFileSync(path.join(WEBSITE_GENERATED_PATH, 'all.js'), content);
-
-});
-
 gulp.task('clean-website', function(cb) { rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb); });
-gulp.task('website', ['clean-website', 'playground-samples'], function() {
+gulp.task('website', ['clean-website'], function() {
 
 	return (
 		gulp.src('website/**/*', { dot: true })
@@ -408,6 +271,87 @@ gulp.task('generate-test-samples', function() {
 	var prefix = '//This is a generated file via gulp generate-test-samples\ndefine([], function() { return';
 	var suffix = '; });'
 	fs.writeFileSync(path.join(__dirname, 'test/samples-all.js'), prefix + JSON.stringify(samples, null, '\t') + suffix );
+
+	var PLAY_SAMPLES = require(path.join(WEBSITE_GENERATED_PATH, 'all.js')).PLAY_SAMPLES;
+	var locations = [];
+	for (var i = 0; i < PLAY_SAMPLES.length; i++) {
+		var sample = PLAY_SAMPLES[i];
+		var sampleId = sample.id;
+		var samplePath = path.join(WEBSITE_GENERATED_PATH, sample.path);
+
+		var html = fs.readFileSync(path.join(samplePath, 'sample.html'));
+		var js = fs.readFileSync(path.join(samplePath, 'sample.js'));
+		var css = fs.readFileSync(path.join(samplePath, 'sample.css'));
+
+		var result = [
+			'<!DOCTYPE html>',
+			'<!-- THIS IS A GENERATED FILE VIA gulp generate-test-samples -->',
+			'<html>',
+			'<head>',
+			'	<base href="..">',
+			'	<meta http-equiv="X-UA-Compatible" content="IE=edge" />',
+			'	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />',
+			'</head>',
+			'<body>',
+			'<style>',
+			'/*----------------------------------------SAMPLE CSS START*/',
+			'',
+			css,
+			'',
+			'/*----------------------------------------SAMPLE CSS END*/',
+			'</style>',
+			'<a href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>',
+			'THIS IS A GENERATED FILE VIA gulp generate-test-samples',
+			'',
+			'<div id="bar" style="margin-bottom: 6px;"></div>',
+			'',
+			'<div style="clear:both"></div>',
+			'<div id="outer-container" style="width:800px;height:450px;border: 1px solid grey">',
+			'<!-- ----------------------------------------SAMPLE HTML START-->',
+			'',
+			html,
+			'',
+			'<!-- ----------------------------------------SAMPLE HTML END-->',
+			'</div>',
+			'<div style="clear:both"></div>',
+			'',
+			'<script src="../metadata.js"></script>',
+			'<script src="dev-setup.js"></script>',
+			'<script>',
+			'loadEditor(function() {',
+			'/*----------------------------------------SAMPLE JS START*/',
+			'',
+			js,
+			'',
+			'/*----------------------------------------SAMPLE CSS END*/',
+			'});',
+			'</script>',
+			'</body>',
+			'</html>',
+		];
+		fs.writeFileSync(path.join(__dirname, 'test/playground.generated/' + sampleId + '.html'), result.join('\n'));
+		locations.push({
+			path: sampleId + '.html',
+			name: sample.chapter + ' &gt; ' + sample.name
+		})
+	}
+
+	var index = [
+'<!DOCTYPE html>',
+'<!-- THIS IS A GENERATED FILE VIA gulp generate-test-samples -->',
+'<html>',
+'<head>',
+'</head>',
+'<body>',
+'<a href="../index.html">[&lt;&lt; BACK]</a><br/>',
+'THIS IS A GENERATED FILE VIA gulp generate-test-samples<br/><br/>',
+locations.map(function(location) {
+	return '<a href="' + location.path + '">' + location.name + '</a>';
+}).join('<br/>\n'),
+'</body>',
+'</html>',
+	]
+	fs.writeFileSync(path.join(__dirname, 'test/playground.generated/index.html'), index.join('\n'));
 });
 
 gulp.task('simpleserver', ['generate-test-samples'], function(cb) {
