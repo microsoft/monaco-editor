@@ -1,0 +1,10 @@
+/*
+These rules customize the "Visual Studio" (vs) theme.
+
+Token names can be discovered by:
+a) exploring the .css theme files that come with the editor;
+b) inspecting the dom elements rendered by the editor;
+*/
+.monaco-editor.vs .token.comment		{ color: orange; }
+.monaco-editor.vs .token.comment.js		{ color: green; }
+.monaco-editor.vs .token.comment.css	{ color: blue; }

@@ -1,0 +1,32 @@
+.monaco-editor, .monaco-editor-background {
+	background: #EDF9FA;
+}
+
+/* Cursor */
+.monaco-editor .cursor {
+	background: darkred !important;
+}
+
+/* Current line */
+.monaco-editor .current-line {
+	background: rgba(0, 0, 255, 0.1);
+}
+
+/* Line Numbers */
+.monaco-editor .line-numbers {
+	background-color: #EDF9FA;
+	color: green;
+}
+
+/* Line Decorations */
+.monaco-editor .lines-decorations {
+	background-color: #EDF9FA;
+}
+
+/* Selection */
+.monaco-editor .view-overlays.focused .selected-text {
+	background: rgba(128, 0, 0, 0.2) !important;
+}
+.monaco-editor .view-overlays .selected-text {
+	background: rgba(128, 0, 0, 0.1) !important;
+}

@@ -8,6 +8,11 @@
 			port = ':' + port;
 		}
 		DIRNAME = window.location.protocol + '//' + window.location.hostname + port + window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/'));
+
+		var bases = document.getElementsByTagName('base');
+		if (bases.length > 0) {
+			DIRNAME = DIRNAME + '/' + bases[0].getAttribute('href');
+		}
 	}
 
 

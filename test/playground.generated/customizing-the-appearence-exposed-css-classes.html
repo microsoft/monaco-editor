@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- THIS IS A GENERATED FILE VIA gulp generate-test-samples -->
+<html>
+<head>
+	<base href="..">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+<style>
+/*----------------------------------------SAMPLE CSS START*/
+
+.monaco-editor, .monaco-editor-background {
+	background: #EDF9FA;
+}
+
+/* Cursor */
+.monaco-editor .cursor {
+	background: darkred !important;
+}
+
+/* Current line */
+.monaco-editor .current-line {
+	background: rgba(0, 0, 255, 0.1);
+}
+
+/* Line Numbers */
+.monaco-editor .line-numbers {
+	background-color: #EDF9FA;
+	color: green;
+}
+
+/* Line Decorations */
+.monaco-editor .lines-decorations {
+	background-color: #EDF9FA;
+}
+
+/* Selection */
+.monaco-editor .view-overlays.focused .selected-text {
+	background: rgba(128, 0, 0, 0.2) !important;
+}
+.monaco-editor .view-overlays .selected-text {
+	background: rgba(128, 0, 0, 0.1) !important;
+}
+
+
+/*----------------------------------------SAMPLE CSS END*/
+</style>
+<a href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>
+THIS IS A GENERATED FILE VIA gulp generate-test-samples
+
+<div id="bar" style="margin-bottom: 6px;"></div>
+
+<div style="clear:both"></div>
+<div id="outer-container" style="width:800px;height:450px;border: 1px solid grey">
+<!-- ----------------------------------------SAMPLE HTML START-->
+
+<div id="container" style="height:100%;"></div>
+
+
+<!-- ----------------------------------------SAMPLE HTML END-->
+</div>
+<div style="clear:both"></div>
+
+<script src="../metadata.js"></script>
+<script src="dev-setup.js"></script>
+<script>
+loadEditor(function() {
+/*----------------------------------------SAMPLE JS START*/
+
+// The editor exposes a set of CSS classes that can be overwritten.
+monaco.editor.create(document.getElementById("container"), {
+	value: "My to-do list:\n* buy milk\n* buy coffee\n* write awesome code",
+	language: "text/plain",
+	fontFamily: "Arial",
+	fontSize: 20
+});
+
+
+/*----------------------------------------SAMPLE CSS END*/
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+/* Make horizontal scrollbar, decorations overview ruler and vertical scrollbar arrows opaque */
+.monaco-editor .monaco-scrollable-element .scrollbar.horizontal,
+.monaco-editor .decorationsOverviewRuler,
+.monaco-editor .monaco-scrollable-element .scrollbar.vertical .arrow-background {
+	  background: rgba(230, 230, 230, 255);
+}
+/* Make vertical scrollbar transparent to allow decorations overview ruler to be visible */
+.monaco-editor .monaco-scrollable-element .scrollbar.vertical {
+	  background: rgba(0, 0, 0, 0);
+}
