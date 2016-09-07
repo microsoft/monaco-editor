@@ -117,30 +117,46 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 > Q: What is the relationship between VS Code and the Monaco Editor?<br/>
 > A: The Monaco Editor is generated straight from VS Code's sources with some shims around services the code needs to make it run in a web browser outside of its home.
 
+---
 
 > Q: What is the relationship between VS Code's version and the Monaco Editor's version?<br/>
 > A: None. The Monaco Editor is a library and it reflects directly the source code.
 
+---
 
 > Q: I've written an extension for VS Code, will it work on the Monaco Editor in a browser?<br/>
 > A: No.
+
+---
 
 
 > Q: Why all these web workers and why should I care?<br/>
 > A: Language services create web workers to compute heavy stuff outside the UI thread. They cost hardly anything in terms of resource overhead and you shouldn't worry too much about them, as long as you get them to work (see above the cross-domain case).
 
+---
 
 > Q: What is this `loader.js`? Can I use `require.js`?<br/>
 > A: It is an AMD loader that we use in VS Code. Yes.
 
+---
 
 > Q: I see the warning "Could not create web worker". What should I do?<br/>
 > A: HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross domain case above.
 
+---
 
 > Q: Is the editor supported in mobile browsers or mobile web app frameworks?<br/>
 > A: No.
 
+---
+
+> Q: Why doesn't the editor support TextMate grammars?<br/>
+> * all the regular expressions in TM grammars are based on [oniguruma](https://github.com/kkos/oniguruma), a regular expression library written in C.
+* the only way to interpret the grammars and get anywhere near original fidelity is to use the exact same regular expression library (with its custom syntax constructs)
+* in VSCode, our runtime is node.js and we can use a node native module that exposes the library to JavaScript
+* in Monaco, we are constrained to a browser environment where we cannot do anything similar
+* we have experimented with Emscriptem to compile the C library to asm.js, but performance was very poor even in Firefox (10x slower) and extremely poor in Chrome (100x slower).
+* we can revisit this once WebAssembly gets traction in the major browsers, but we will still need to consider the browser matrix we support. i.e. if we support IE11 and only Edge will add WebAssembly support, what will the experience be in IE11, etc.
 
 ## Dev
 
