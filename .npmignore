@@ -1,0 +1,8 @@
+/.vscode/
+/lib/
+/out/
+/src/
+/test/
+/release/dev/
+/gulpfile.js
+/.npmignore

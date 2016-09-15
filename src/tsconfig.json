@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "module": "umd",
+    "moduleResolution": "node",
+    "outDir": "../out",
+    "target": "es5"
+  }
+}
