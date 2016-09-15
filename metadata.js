@@ -35,6 +35,14 @@
 				dev: '/monaco-json/release/dev'
 			}
 		},{
+			name: 'monaco-html',
+			contrib: 'vs/language/html/monaco.contribution',
+			modulePrefix: 'vs/language/html',
+			paths: {
+				npm: 'node_modules/monaco-html/release/min',
+				dev: '/monaco-html/release/dev'
+			}
+		},{
 			name: 'monaco-languages',
 			contrib: 'vs/basic-languages/src/monaco.contribution',
 			modulePrefix: 'vs/basic-languages',
