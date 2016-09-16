@@ -10,6 +10,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * csharp
 * fsharp
 * go
+* handlebars
 * html
 * ini
 * jade

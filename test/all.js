@@ -30,6 +30,7 @@ requirejs([
 		'out/test/dockerfile.test',
 		'out/test/fsharp.test',
 		'out/test/go.test',
+		'out/test/handlebars.test',
 		'out/test/html.test',
 		'out/test/jade.test',
 		'out/test/java.test',

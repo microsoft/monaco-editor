@@ -102,6 +102,13 @@ registerLanguage({
 	module: './go'
 });
 registerLanguage({
+	id: 'handlebars',
+	extensions: ['.handlebars', '.hbs'],
+	aliases: ['Handlebars', 'handlebars'],
+	mimetypes: ['text/x-handlebars-template'],
+	module: './handlebars'
+});
+registerLanguage({
 	id: 'html',
 	extensions: ['.html', '.htm', '.shtml', '.xhtml', '.mdoc', '.jsp', '.asp', '.aspx', '.jshtm'],
 	aliases: ['HTML', 'htm', 'html', 'xhtml'],
