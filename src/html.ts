@@ -52,6 +52,15 @@ export var conf:IRichLanguageConfiguration = {
 	],
 };
 
+export const htmlTokenTypes = {
+	DELIM_START: 'start.delimiter.tag',
+	DELIM_END: 'end.delimiter.tag',
+	DELIM_COMMENT: 'comment',
+	getTag: (name: string) => {
+		return 'tag';
+	}
+};
+
 export var language = <ILanguage> {
 	defaultToken: '',
 	tokenPostfix: '.html',
@@ -61,11 +70,11 @@ export var language = <ILanguage> {
 		root: [
 			[/<!DOCTYPE/, 'metatag', '@doctype'],
 			[/<!--/, 'comment', '@comment'],
-			[/<\w+\/>/, 'tag'],
-			[/<script/, 'tag', '@script'],
-			[/<style/, 'tag', '@style'],
-			[/<\w+/, 'tag', '@otherTag'],
-			[/<\/\w+/, 'tag', '@otherTag'],
+			[/(<)(\w+)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag', htmlTokenTypes.DELIM_END]],
+			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@script'} ]],
+			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@style'} ]],
+			[/(<)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag'} ]],
+			[/(<\/)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag' }]],
 			[/[^<]+/] // text
 		],
 
@@ -81,7 +90,7 @@ export var language = <ILanguage> {
 		],
 
 		otherTag: [
-			[/\/?>/, 'tag', '@pop'],
+			[/\/?>/, htmlTokenTypes.DELIM_END, '@pop'],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
@@ -98,9 +107,9 @@ export var language = <ILanguage> {
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: 'tag', next: '@scriptEmbedded', nextEmbedded: 'text/javascript'} ],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded', nextEmbedded: 'text/javascript'} ],
 			[/[ \t\r\n]+/], // whitespace
-			[/<\/script\s*>/, 'tag', '@pop']
+			[/(<\/)(script\s*)(>)/, [ htmlTokenTypes.DELIM_START, 'tag', { token: htmlTokenTypes.DELIM_END, next: '@pop' } ]]
 		],
 
 		// After <script ... type
@@ -120,7 +129,7 @@ export var language = <ILanguage> {
 
 		// After <script ... type = $S2
 		scriptWithCustomType: [
-			[/>/, { token: 'tag', next: '@scriptEmbedded', nextEmbedded: '$S2'}],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2'}],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -141,9 +150,9 @@ export var language = <ILanguage> {
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: 'tag', next: '@styleEmbedded', nextEmbedded: 'text/css'} ],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded', nextEmbedded: 'text/css'} ],
 			[/[ \t\r\n]+/], // whitespace
-			[/<\/style\s*>/, 'tag', '@pop']
+			[/(<\/)(style\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag', { token: htmlTokenTypes.DELIM_END, next: '@pop' } ]]
 		],
 
 		// After <style ... type
@@ -163,7 +172,7 @@ export var language = <ILanguage> {
 
 		// After <style ... type = $S2
 		styleWithCustomType: [
-			[/>/, { token: 'tag', next: '@styleEmbedded', nextEmbedded: '$S2'}],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2'}],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
