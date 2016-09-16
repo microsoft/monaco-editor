@@ -16,6 +16,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * lua
 * objective-c
 * postiats
+* php
 * powershell
 * python
 * r

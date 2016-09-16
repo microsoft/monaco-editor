@@ -19,11 +19,18 @@ export interface ITestItem {
 	tokens: IRelaxedToken[];
 }
 
-export function testTokenization(languageId:string, tests:ITestItem[][]): void {
-	suite(languageId + ' tokenization', () => {
+export function testTokenization(_language:string|string[], tests:ITestItem[][]): void {
+	let languages:string[];
+	if (typeof _language === 'string') {
+		languages = [_language];
+	} else {
+		languages = _language;
+	}
+	let mainLanguage = languages[0];
+	suite(mainLanguage + ' tokenization', () => {
 		test('', (done) => {
-			loadLanguage(languageId).then(() => {
-				runTests(languageId, tests);
+			_monaco.Promise.join(languages.map(l => loadLanguage(l))).then(() => {
+				runTests(mainLanguage, tests);
 				done();
 			}).then(null, done);
 		});

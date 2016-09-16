@@ -144,6 +144,13 @@ registerLanguage({
 	module: './postiats'
 });
 registerLanguage({
+	id: 'php',
+	extensions: ['.php', '.php4', '.php5', '.phtml', '.ctp'],
+	aliases: ['PHP', 'php'],
+	mimetypes: ['application/x-php'],
+	module: './php'
+});
+registerLanguage({
 	id: 'powershell',
 	extensions: [ '.ps1', '.psm1', '.psd1' ],
 	aliases: [ 'PowerShell', 'powershell', 'ps', 'ps1' ],
