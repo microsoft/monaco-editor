@@ -46,6 +46,7 @@
     "test/dockerfile.test.ts",
     "test/fsharp.test.ts",
     "test/go.test.ts",
+    "test/html.test.ts",
     "test/jade.test.ts",
     "test/java.test.ts",
     "test/lua.test.ts",

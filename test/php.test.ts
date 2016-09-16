@@ -13,8 +13,8 @@ testTokenization(['php', 'css'], [
 	// We're testing the fact that tokenize does not throw
 	[
 	{ line: '<?php', tokens: [{ startIndex:0, type: "metatag.php" }]},
-	{ line: '"', tokens: [{ startIndex:0, type: "string.php"}]},
-	{ line: '\\', tokens: [{startIndex:0, type:""}]}
+	{ line: '"', tokens: [{ startIndex:0, type: "string.php" }]},
+	{ line: '\\', tokens: [{startIndex:0, type:"" }]}
 	],
 
 	// Blocks

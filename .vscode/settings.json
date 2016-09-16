@@ -5,5 +5,7 @@
 		"**/node_modules": true,
 		"**/release": true,
 		"**/out": true
-	}
+	},
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false
 }

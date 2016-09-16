@@ -8,6 +8,9 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
+// Allow for running under nodejs/requirejs in tests
+var _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+
 const EMPTY_ELEMENTS:string[] = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'];
 
 export var conf:IRichLanguageConfiguration = {
@@ -43,11 +46,11 @@ export var conf:IRichLanguageConfiguration = {
 		{
 			beforeText: new RegExp(`<(?!(?:${EMPTY_ELEMENTS.join('|')}))([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`, 'i'),
 			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
-			action: { indentAction: monaco.languages.IndentAction.IndentOutdent }
+			action: { indentAction: _monaco.languages.IndentAction.IndentOutdent }
 		},
 		{
 			beforeText: new RegExp(`<(?!(?:${EMPTY_ELEMENTS.join('|')}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`, 'i'),
-			action: { indentAction: monaco.languages.IndentAction.Indent }
+			action: { indentAction: _monaco.languages.IndentAction.Indent }
 		}
 	],
 };
@@ -64,6 +67,7 @@ export const htmlTokenTypes = {
 export var language = <ILanguage> {
 	defaultToken: '',
 	tokenPostfix: '.html',
+	ignoreCase: true,
 
 	// The main tokenizer for our languages
 	tokenizer: {
@@ -73,9 +77,10 @@ export var language = <ILanguage> {
 			[/(<)(\w+)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag', htmlTokenTypes.DELIM_END]],
 			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@script'} ]],
 			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@style'} ]],
-			[/(<)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag'} ]],
+			[/(<)([:\w]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag'} ]],
 			[/(<\/)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag' }]],
-			[/[^<]+/] // text
+			[/</, htmlTokenTypes.DELIM_START],
+			[/[^<]+/], // text
 		],
 
 		doctype: [
@@ -85,8 +90,8 @@ export var language = <ILanguage> {
 
 		comment: [
 			[/-->/, 'comment', '@pop'],
-			[/[^-]+/, 'comment'],
-			[/./, 'comment']
+			[/[^-]+/, 'comment.content'],
+			[/./, 'comment.content']
 		],
 
 		otherTag: [
@@ -130,6 +135,10 @@ export var language = <ILanguage> {
 		// After <script ... type = $S2
 		scriptWithCustomType: [
 			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -173,6 +182,10 @@ export var language = <ILanguage> {
 		// After <style ... type = $S2
 		styleWithCustomType: [
 			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],

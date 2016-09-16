@@ -43,6 +43,7 @@ export const htmlTokenTypes = {
 export var language = <ILanguage> {
 	defaultToken: '',
 	tokenPostfix: '',
+	ignoreCase: true,
 
 	// The main tokenizer for our languages
 	tokenizer: {
@@ -53,8 +54,9 @@ export var language = <ILanguage> {
 			[/(<)(\w+)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag.html', htmlTokenTypes.DELIM_END]],
 			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@script'} ]],
 			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@style'} ]],
-			[/(<)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag'} ]],
+			[/(<)([:\w]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag'} ]],
 			[/(<\/)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag' }]],
+			[/</, htmlTokenTypes.DELIM_START],
 			[/[^<]+/] // text
 		],
 
@@ -67,8 +69,8 @@ export var language = <ILanguage> {
 		comment: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.comment' }],
 			[/-->/, 'comment.html', '@pop'],
-			[/[^-]+/, 'comment.html'],
-			[/./, 'comment.html']
+			[/[^-]+/, 'comment.content.html'],
+			[/./, 'comment.content.html']
 		],
 
 		otherTag: [
@@ -117,6 +119,10 @@ export var language = <ILanguage> {
 		scriptWithCustomType: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.scriptWithCustomType.$S2' }],
 			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -165,6 +171,10 @@ export var language = <ILanguage> {
 		styleWithCustomType: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.styleWithCustomType.$S2' }],
 			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],

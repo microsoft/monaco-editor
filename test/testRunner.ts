@@ -30,8 +30,11 @@ export function testTokenization(_language:string|string[], tests:ITestItem[][])
 	suite(mainLanguage + ' tokenization', () => {
 		test('', (done) => {
 			_monaco.Promise.join(languages.map(l => loadLanguage(l))).then(() => {
-				runTests(mainLanguage, tests);
-				done();
+				// clean stack
+				setTimeout(() => {
+					runTests(mainLanguage, tests);
+					done();
+				});
 			}).then(null, done);
 		});
 	});

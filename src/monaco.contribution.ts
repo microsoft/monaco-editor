@@ -92,13 +92,13 @@ registerLanguage({
 	aliases: [ 'Go' ],
 	module: './go'
 });
-// registerLanguage({
-// 	id: 'html',
-// 	extensions: ['.html', '.htm', '.shtml', '.xhtml', '.mdoc', '.jsp', '.asp', '.aspx', '.jshtm'],
-// 	aliases: ['HTML', 'htm', 'html', 'xhtml'],
-// 	mimetypes: ['text/html', 'text/x-jshtm', 'text/template', 'text/ng-template'],
-// 	module: './html'
-// });
+registerLanguage({
+	id: 'html',
+	extensions: ['.html', '.htm', '.shtml', '.xhtml', '.mdoc', '.jsp', '.asp', '.aspx', '.jshtm'],
+	aliases: ['HTML', 'htm', 'html', 'xhtml'],
+	mimetypes: ['text/html', 'text/x-jshtm', 'text/template', 'text/ng-template'],
+	module: './html'
+});
 registerLanguage({
 	id: 'ini',
 	extensions: [ '.ini', '.properties', '.gitconfig' ],
