@@ -53,6 +53,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/dockerfile'),
 			bundleOne('src/fsharp'),
 			bundleOne('src/go'),
+			bundleOne('src/html'),
 			bundleOne('src/ini'),
 			bundleOne('src/jade'),
 			bundleOne('src/java'),

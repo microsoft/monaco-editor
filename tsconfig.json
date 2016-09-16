@@ -18,6 +18,7 @@
     "src/dockerfile.ts",
     "src/fsharp.ts",
     "src/go.ts",
+    "src/html.ts",
     "src/ini.ts",
     "src/jade.ts",
     "src/java.ts",

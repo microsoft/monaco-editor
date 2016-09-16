@@ -10,6 +10,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * csharp
 * fsharp
 * go
+* html
 * ini
 * jade
 * lua
@@ -24,7 +25,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * vb
 * xml
 
-Also `css` dialects: 
+Also `css` dialects:
 
 * css
 * less
