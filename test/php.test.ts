@@ -1840,6 +1840,8 @@ testTokenization(['php', 'css'], [
 	line: '<!--c--><?',
 	tokens: [
 		{ startIndex:0, type: htmlTokenTypes.DELIM_COMMENT },
+		{ startIndex:4, type: htmlTokenTypes.COMMENT },
+		{ startIndex:5, type: htmlTokenTypes.DELIM_COMMENT },
 		{ startIndex:8, type: 'metatag.php' }
 	]}],
 

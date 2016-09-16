@@ -35,6 +35,7 @@ export const htmlTokenTypes = {
 	DELIM_START: 'start.delimiter.tag.html',
 	DELIM_END: 'end.delimiter.tag.html',
 	DELIM_COMMENT: 'comment.html',
+	COMMENT: 'comment.content.html',
 	getTag: (name: string) => {
 		return 'tag.html';
 	}
@@ -43,7 +44,7 @@ export const htmlTokenTypes = {
 export var language = <ILanguage> {
 	defaultToken: '',
 	tokenPostfix: '',
-	ignoreCase: true,
+	// ignoreCase: true,
 
 	// The main tokenizer for our languages
 	tokenizer: {
