@@ -65,7 +65,8 @@ export var language = <ILanguage> {
 			[/<script/, 'tag', '@script'],
 			[/<style/, 'tag', '@style'],
 			[/<\w+/, 'tag', '@otherTag'],
-			[/<\/\w+/, 'tag', '@otherTag']
+			[/<\/\w+/, 'tag', '@otherTag'],
+			[/[^<]+/] // text
 		],
 
 		doctype: [
@@ -84,7 +85,8 @@ export var language = <ILanguage> {
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
-			[/=/, 'delimiter']
+			[/=/, 'delimiter'],
+			[/[ \t\r\n]+/], // whitespace
 		],
 
 		// -- BEGIN <script> tags handling
@@ -97,12 +99,14 @@ export var language = <ILanguage> {
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
 			[/>/, { token: 'tag', next: '@scriptEmbedded', nextEmbedded: 'text/javascript'} ],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, 'tag', '@pop']
 		],
 
 		// After <script ... type
 		scriptAfterType: [
 			[/=/,'delimiter', '@scriptAfterTypeEquals'],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
@@ -110,12 +114,14 @@ export var language = <ILanguage> {
 		scriptAfterTypeEquals: [
 			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' } ],
 			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' } ],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
 		// After <script ... type = $S2
 		scriptWithCustomType: [
 			[/>/, { token: 'tag', next: '@scriptEmbedded', nextEmbedded: '$S2'}],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
@@ -136,12 +142,14 @@ export var language = <ILanguage> {
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
 			[/>/, { token: 'tag', next: '@styleEmbedded', nextEmbedded: 'text/css'} ],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, 'tag', '@pop']
 		],
 
 		// After <style ... type
 		styleAfterType: [
 			[/=/,'delimiter', '@styleAfterTypeEquals'],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
@@ -149,12 +157,14 @@ export var language = <ILanguage> {
 		styleAfterTypeEquals: [
 			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' } ],
 			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' } ],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
 		// After <style ... type = $S2
 		styleWithCustomType: [
 			[/>/, { token: 'tag', next: '@styleEmbedded', nextEmbedded: '$S2'}],
+			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
