@@ -1,4 +1,4 @@
-# Monaco Languages
+# Monaco Languages [![Build Status](https://travis-ci.org/Microsoft/monaco-languages.svg?branch=master)](https://travis-ci.org/Microsoft/monaco-languages)
 
 Colorization and configuration supports for multiple languages for the Monaco Editor:
 
