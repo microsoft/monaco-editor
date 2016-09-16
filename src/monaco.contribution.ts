@@ -126,10 +126,10 @@ registerLanguage({
 	module: './lua'
 });
 registerLanguage({
-    id: 'markdown',
-    extensions: ['.md', '.markdown', '.mdown', '.mkdn', '.mkd', '.mdwn', '.mdtxt', '.mdtext'],
+	id: 'markdown',
+	extensions: ['.md', '.markdown', '.mdown', '.mkdn', '.mkd', '.mdwn', '.mdtxt', '.mdtext'],
 	aliases: ['Markdown', 'markdown'],
-    module: './markdown'
+	module: './markdown'
 });
 registerLanguage({
 	id: 'objective-c',
