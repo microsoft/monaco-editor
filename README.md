@@ -54,22 +54,22 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * update tsconfig.json with `$> node_modules/.bin/tscg .`
 * restart compilation with `$> npm run watch`
 * edit `$/src/monaco.contribution.ts` and register your new language:
-  ```js
+```js
   registerLanguage({
   	id: 'sql',
   	extensions: [ '.sql' ],
   	aliases: [ 'SQL' ],
   	module: './sql'
   });
-  ```
+```
 * edit `$/test/all.js` and load your new language while testing
-  ```js
+```js
   'out/test/sql.test',
-  ```
+```
 * edit `$/gulpfile.js` and ship your new language
-  ```js
+```js
   bundleOne('src/sql'),
-  ```
+```
 
 ## Code of Conduct
 
