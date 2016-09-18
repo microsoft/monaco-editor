@@ -21,6 +21,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * powershell
 * python
 * r
+* razor
 * ruby
 * sql
 * swift

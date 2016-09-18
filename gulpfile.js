@@ -67,6 +67,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/postiats'),
 			bundleOne('src/python'),
 			bundleOne('src/r'),
+			bundleOne('src/razor'),
 			bundleOne('src/ruby'),
 			bundleOne('src/scss'),
 			bundleOne('src/sql'),

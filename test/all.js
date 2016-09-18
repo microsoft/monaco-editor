@@ -42,6 +42,7 @@ requirejs([
 		'out/test/powershell.test',
 		'out/test/python.test',
 		'out/test/r.test',
+		'out/test/razor.test',
 		'out/test/ruby.test',
 		'out/test/swift.test',
 		'out/test/sql.test',

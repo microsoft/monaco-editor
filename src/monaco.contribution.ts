@@ -186,6 +186,13 @@ registerLanguage({
 	module: './r'
 });
 registerLanguage({
+	id: 'razor',
+	extensions: ['.cshtml'],
+	aliases: ['Razor', 'razor'],
+	mimetypes: ['text/x-cshtml'],
+	module: './razor'
+});
+registerLanguage({
 	id: 'ruby',
 	extensions: [ '.rb', '.rbx', '.rjs', '.gemspec', '.pp' ],
 	filenames: [ 'rakefile' ],
