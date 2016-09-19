@@ -68,7 +68,9 @@ export class WorkerManager {
 				createData: {
 					languageSettings: this._defaults.options,
 					languageId: this._defaults.languageId
-				}
+				},
+
+				label: this._defaults.languageId
 			});
 
 			this._client = this._worker.getProxy();

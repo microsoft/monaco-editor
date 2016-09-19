@@ -25,7 +25,7 @@
     "gulp-tsb": "^1.10.4",
     "gulp-uglify": "^1.5.3",
     "merge-stream": "^1.0.0",
-    "monaco-editor-core": "0.6.0",
+    "monaco-editor-core": "0.7.1",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
     "typescript": "1.8.10",

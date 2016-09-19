@@ -95,24 +95,6 @@ function withMode(callback: (module: typeof mode) => void): void {
 	require<typeof mode>(['vs/language/html/htmlMode'], callback);
 }
 
-monaco.languages.register({
-	id: htmlLanguageId,
-	extensions: ['.html', '.htm', '.shtml', '.xhtml', '.mdoc', '.jsp', '.asp', '.aspx', '.jshtm'],
-	aliases: ['HTML', 'htm', 'html', 'xhtml'],
-	mimetypes: ['text/html', 'text/x-jshtm', 'text/template', 'text/ng-template']
-});
-monaco.languages.register({
-	id: handlebarsLanguageId,
-	extensions: ['.handlebars', '.hbs'],
-	aliases: ['Handlebars', 'handlebars'],
-	mimetypes: ['text/x-handlebars-template']
-});
-monaco.languages.register({
-	id: razorLanguageId,
-	extensions: ['.cshtml'],
-	aliases: ['Razor', 'razor'],
-	mimetypes: ['text/x-cshtml']
-});
 monaco.languages.onLanguage(htmlLanguageId, () => {
 	withMode(mode => mode.setupMode(htmlDefaults));
 });
