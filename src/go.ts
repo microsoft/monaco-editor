@@ -126,6 +126,7 @@ export var language = <ILanguage> {
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
 			[/"/,  'string', '@string' ],
+			[/`/, "string", "@rawstring"],
 
 			// characters
 			[/'[^\\']'/, 'string'],
@@ -161,6 +162,11 @@ export var language = <ILanguage> {
 			[/@escapes/, 'string.escape'],
 			[/\\./,      'string.escape.invalid'],
 			[/"/,        'string', '@pop' ]
+		],
+
+		rawstring: [
+			[/[^\`]/, "string"],
+			[/`/, "string", "@pop"]
 		],
 	},
 };

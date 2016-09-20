@@ -1163,5 +1163,11 @@ testTokenization('go', [
 	line: '}',
 	tokens: [
 		{ startIndex: 0, type: 'delimiter.curly.go' }
+	]}],
+
+	[{
+	line: '`Hello world() ""`',
+	tokens: [
+		{ startIndex: 0, type: 'string.go' }
 	]}]
 ]);
