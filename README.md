@@ -53,7 +53,7 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 
 * create `$/src/myLang.ts`
 * create `$/test/myLang.test.ts`
-* update tsconfig.json with `$> node_modules/.bin/tscg .`
+* update `tsconfig.json` with `$> node_modules/.bin/tscg .` or manually add the new `.ts` files to `tsconfig.json`
 * restart compilation with `$> npm run watch`
 * edit `$/src/monaco.contribution.ts` and register your new language:
 ```js
