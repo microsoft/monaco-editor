@@ -144,7 +144,7 @@ export var language = <ILanguage> {
 		],
 
 		units: [
-			['((em|ex|ch|rem|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)\\b)?', TOKEN_VALUE + '.unit', '@pop']
+			['((em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)\\b)?', TOKEN_VALUE + '.unit', '@pop']
 		],
 
 		strings: [
