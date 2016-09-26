@@ -41,6 +41,22 @@ gulp.task('release', ['clean-release','compile'], function() {
 		jsoncLocation = oldJsconcLocation;
 	}
 
+	function getDependencyLocation(name, libLocation, container) {
+		var location = __dirname + '/node_modules/' + name + '/' + libLocation;
+		if (!fs.existsSync(location)) {
+			var oldLocation = __dirname + '/node_modules/' + container + '/node_modules/' + name + '/' + libLocation;
+			if (!fs.existsSync(oldLocation)) {
+				console.error('Unable to find ' + name + ' node module at ' + location + ' or ' + oldLocation);
+				return;
+			}
+			return oldLocation;
+		}
+		return location;
+	}
+
+	var uriLocation = getDependencyLocation('vscode-uri', 'lib', 'vscode-html-languageservice');
+
+
 	function bundleOne(moduleId, exclude) {
 
 
@@ -64,6 +80,10 @@ gulp.task('release', ['clean-release','compile'], function() {
 				name: 'jsonc-parser',
 				location: jsoncLocation,
 				main: 'main'
+			}, {
+				name: 'vscode-uri',
+				location: uriLocation,
+				main: 'index'
 			}, {
 				name: 'vscode-nls',
 				location: __dirname + '/out/fillers',
