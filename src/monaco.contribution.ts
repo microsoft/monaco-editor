@@ -247,3 +247,10 @@ registerLanguage({
 	mimetypes: ['text/css'],
 	module: './css'
 });
+registerLanguage({
+	id: 'yaml',
+	extensions: ['.yaml', '.yml'],
+	aliases: ['YAML', 'yaml', 'YML', 'yml'],
+	mimetypes: ['application/x-yaml'],
+	module: './yaml'
+});

@@ -73,7 +73,8 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/sql'),
 			bundleOne('src/swift'),
 			bundleOne('src/vb'),
-			bundleOne('src/xml')
+			bundleOne('src/xml'),
+			bundleOne('src/yaml')
 		)
 		.pipe(uglify({
 			preserveComments: 'some'
