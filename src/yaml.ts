@@ -15,8 +15,6 @@ export const conf: IRichLanguageConfiguration = {
 };
 
 export const language = <ILanguage> {
-	defaultToken: '',
-	ignoreCase: true,
 	tokenPostfix: '.yaml',
 
 	brackets: [
@@ -24,12 +22,18 @@ export const language = <ILanguage> {
 		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
-	keywords: ['true', 'false', 'null', '~'],
+	keywords: ['true', 'True', 'TRUE', 'false', 'False', 'FALSE', 'null', 'Null', 'Null', '~'],
 
-	// we include these common regular expressions
+	numberInteger: /(?:0|[+-]?[0-9]+)/,
+	numberFloat: /(?:0|[+-]?[0-9]+)(?:\.[0-9]+)?(?:e[-+][1-9][0-9]*)?/,
+	numberOctal: /0o[0-7]+/,
+	numberHex: /0x[0-9a-fA-F]+/,
+	numberInfinity: /[+-]?\.(?:inf|Inf|INF)/,
+	numberNaN: /\.(?:nan|Nan|NAN)/,
+	numberDate: /\d{4}-\d\d-\d\d([Tt ]\d\d:\d\d:\d\d(\.\d+)?(( ?[+-]\d\d?(:\d\d)?)|Z)?)?/,
+
 	escapes: /\\(?:[btnfr\\"']|[0-7][0-7]?|[0-3][0-7]{2})/,
 
-	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
 			{include: '@whitespace'},
@@ -45,46 +49,26 @@ export const language = <ILanguage> {
 			// Block Structure Indicators
 			[/[-?:](?= )/, 'operators'],
 
+			{include: '@anchor'},
 			{include: '@tagHandle'},
-			{include: '@flowCollections'},
-			{include: '@blockStyle'},
-
-			// Key of a Key:Value pair
-			[/(?:".*?"|'.*?'|.*?)(?=\s*: \S+)/, 'type', '@value'],
-			[/(".*?"|'.*?'|.*?)(\s*)(:)(\s*)/, ['type', 'white', 'operators', 'white']],
-
-			// string nodes
-			[/.+$/, 'string']
-		],
-
-		// Value of a Key:Value pair
-		value: [
-			{include: '@whitespace'},
-			{include: '@comment'},
-
-			// Key:Value separator
-			[/:(?= )/, 'operators'],
-
 			{include: '@flowCollections'},
 			{include: '@flowScalars'},
 			{include: '@blockStyle'},
 
-			[/[&*][^\[\]\{\}, ]+\s*$/, 'namespace', '@pop'], // Anchor copy to ensure it leaves the state with line-break
-			{include: '@anchor'},
-			{include: '@tagHandle'},
+			// Numbers
+			[/@numberInteger(?![ \t]*\S+)/,  'number'],
+			[/@numberFloat(?![ \t]*\S+)/,    'number.float'],
+			[/@numberOctal(?![ \t]*\S+)/,    'number.octal'],
+			[/@numberHex(?![ \t]*\S+)/,      'number.hex'],
+			[/@numberInfinity(?![ \t]*\S+)/, 'number.infinity'],
+			[/@numberNaN(?![ \t]*\S+)/,      'number.nan'],
+			[/@numberDate(?![ \t]*\S+)/,     'number.date'],
 
-			// Numbers, cannot reuse as these terminate with the end of the line and pop the state
-			[/\d{4}-\d\d-\d\d([Tt ]\d\d:\d\d:\d\d(\.\d+)?(( ?[+-]\d\d?(:\d\d)?)|Z)?)?$/, 'number.date', '@pop'],
-			[/\d*\.\d+([eE][\-+]?\d+)?$/,   'number.float', '@pop'],
-			[/0[xX][0-9a-fA-F]+[lL]?$/,     'number.hex', '@pop'],
-			[/0[bB][0-1]+[lL]?$/,           'number.binary', '@pop'],
-			[/(0[oO][0-7]+|0[0-7]+)[lL]?$/, 'number.octal', '@pop'],
-			[/-?.(inf|NaN)$/,               'number.other', '@pop'],
-			[/[+-]?(0|[1-9]\d*)[lL]?$/,     'number', '@pop'],
+			// Key:Value pair
+			[/(".*?"|'.*?'|.*?)([ \t]*)(:)( |$)/, ['type', 'white', 'operators', 'white']],
 
-			// Other value (keyword or string)
-			[/.+/, {cases: {'@keywords': { token: 'keyword', next: '@pop' },
-											'@default': { token: 'string', next: '@pop' }}}]
+			// String nodes
+			[/.+$/, {cases: {'@keywords': 'keyword', '@default': 'string'}}]
 		],
 
 		// Flow Collection: Flow Mapping
@@ -111,11 +95,10 @@ export const language = <ILanguage> {
 			// Scalar Data types
 			{include: '@tagHandle'},
 			{include: '@anchor'},
-			{include: '@number'},
+			{include: '@flowNumber'},
 
 			// Other value (keyword or string)
-			[/[^\},]+/, {cases: {'@keywords': 'keyword',
-													'@default': 'string'}}]
+			[/[^\},]+/, {cases: {'@keywords': 'keyword', '@default': 'string'}}]
 		],
 
 		// Flow Collection: Flow Sequence
@@ -136,11 +119,10 @@ export const language = <ILanguage> {
 			// Scalar Data types
 			{include: '@tagHandle'},
 			{include: '@anchor'},
-			{include: '@number'},
+			{include: '@flowNumber'},
 
 			// Other value (keyword or string)
-			[/[^\],]+/, {cases: {'@keywords': 'keyword',
-													'@default': 'string'}}]
+			[/[^\],]+/, {cases: {'@keywords': 'keyword', '@default': 'string'}}]
 		],
 
 		// Flow Scalars (quoted strings)
@@ -148,8 +130,7 @@ export const language = <ILanguage> {
 			[/[^\\"']+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./,      'string.escape.invalid'],
-			[/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-															'@default': 'string' }} ]
+			[/["']/,     {cases: {'$#==$S2': {token: 'string', next: '@pop'}, '@default': 'string'}}]
 		],
 
 		// First line of a Block Style
@@ -160,8 +141,7 @@ export const language = <ILanguage> {
 		// Further lines of a Block Style
 		//   Workaround for indentation detection
 		multiStringContinued: [
-			[/^( *).+$/, {cases: {'$1==$S2': 'string',
-														'@default': {token: '@rematch', next: '@popall'}}}]
+			[/^( *).+$/, {cases: {'$1==$S2': 'string', '@default': {token: '@rematch', next: '@popall'}}}]
 		],
 
 		whitespace: [
@@ -181,8 +161,8 @@ export const language = <ILanguage> {
 
 		// Start Flow Scalars (quoted strings)
 		flowScalars: [
-			[/"/,  'string', '@string."' ],
-			[/'/,  'string', '@string.\'' ]
+			[/"/,  'string', '@string."'],
+			[/'/,  'string', '@string.\'']
 		],
 
 		// Start Block Scalar
@@ -190,16 +170,15 @@ export const language = <ILanguage> {
 			[/[>|][0-9]*[+-]?$/, 'operators', '@multiString']
 		],
 
-		number: [
-			// Date format (does not test validity)
-			[/\d{4}-\d\d-\d\d([Tt ]\d\d:\d\d:\d\d(\.\d+)?(( ?[+-]\d\d?(:\d\d)?)|Z)?)?/, 'number.date'],
-
-			[/\d*\.\d+([eE][\-+]?\d+)?/,   'number.float'],
-			[/0[xX][0-9a-fA-F]+[lL]?/,     'number.hex'],
-			[/0[bB][0-1]+[lL]?/,           'number.binary'],
-			[/(0[oO][0-7]+|0[0-7]+)[lL]?/, 'number.octal'],
-			[/-?.(inf|NaN)/,               'number.other'],
-			[/[+-]?(0|[1-9]\d*)[lL]?/,     'number']
+    // Numbers in Flow Collections (terminate with ,)
+		flowNumber: [
+			[/@numberInteger(?=[ \t]*,)/,  'number'],
+			[/@numberFloat(?=[ \t]*,)/,    'number.float'],
+			[/@numberOctal(?=[ \t]*,)/,    'number.octal'],
+			[/@numberHex(?=[ \t]*,)/,      'number.hex'],
+			[/@numberInfinity(?=[ \t]*,)/, 'number.infinity'],
+			[/@numberNaN(?=[ \t]*,)/,      'number.nan'],
+			[/@numberDate(?=[ \t]*,)/,     'number.date']
 		],
 
 		tagHandle: [
