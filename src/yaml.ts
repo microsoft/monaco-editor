@@ -170,15 +170,15 @@ export const language = <ILanguage> {
 			[/[>|][0-9]*[+-]?$/, 'operators', '@multiString']
 		],
 
-    // Numbers in Flow Collections (terminate with ,)
+		// Numbers in Flow Collections (terminate with ,]})
 		flowNumber: [
-			[/@numberInteger(?=[ \t]*,)/,  'number'],
-			[/@numberFloat(?=[ \t]*,)/,    'number.float'],
-			[/@numberOctal(?=[ \t]*,)/,    'number.octal'],
-			[/@numberHex(?=[ \t]*,)/,      'number.hex'],
-			[/@numberInfinity(?=[ \t]*,)/, 'number.infinity'],
-			[/@numberNaN(?=[ \t]*,)/,      'number.nan'],
-			[/@numberDate(?=[ \t]*,)/,     'number.date']
+			[/@numberInteger(?=[ \t]*[,\]\}])/,  'number'],
+			[/@numberFloat(?=[ \t]*[,\]\}])/,    'number.float'],
+			[/@numberOctal(?=[ \t]*[,\]\}])/,    'number.octal'],
+			[/@numberHex(?=[ \t]*[,\]\}])/,      'number.hex'],
+			[/@numberInfinity(?=[ \t]*[,\]\}])/, 'number.infinity'],
+			[/@numberNaN(?=[ \t]*[,\]\}])/,      'number.nan'],
+			[/@numberDate(?=[ \t]*[,\]\}])/,     'number.date']
 		],
 
 		tagHandle: [
