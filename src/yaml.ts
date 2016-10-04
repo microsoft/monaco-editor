@@ -52,7 +52,6 @@ export const language = <ILanguage> {
 			{include: '@anchor'},
 			{include: '@tagHandle'},
 			{include: '@flowCollections'},
-			{include: '@flowScalars'},
 			{include: '@blockStyle'},
 
 			// Numbers
@@ -66,6 +65,8 @@ export const language = <ILanguage> {
 
 			// Key:Value pair
 			[/(".*?"|'.*?'|.*?)([ \t]*)(:)( |$)/, ['type', 'white', 'operators', 'white']],
+
+			{include: '@flowScalars'},
 
 			// String nodes
 			[/.+$/, {cases: {'@keywords': 'keyword', '@default': 'string'}}]

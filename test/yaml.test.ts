@@ -156,9 +156,6 @@ testTokenization('yaml', [
 		line: '  String',
 		tokens: [{
 			startIndex: 0,
-			type: 'white.yaml'
-		}, {
-			startIndex: 2,
 			type: 'string.yaml'
 		}]
 	}],
