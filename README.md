@@ -114,44 +114,37 @@ Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/mona
 
 ## FAQ
 
-> Q: What is the relationship between VS Code and the Monaco Editor?<br/>
-> A: The Monaco Editor is generated straight from VS Code's sources with some shims around services the code needs to make it run in a web browser outside of its home.
+❓ **What is the relationship between VS Code and the Monaco Editor?**
 
----
+The Monaco Editor is generated straight from VS Code's sources with some shims around services the code needs to make it run in a web browser outside of its home.
 
-> Q: What is the relationship between VS Code's version and the Monaco Editor's version?<br/>
-> A: None. The Monaco Editor is a library and it reflects directly the source code.
+❓ **What is the relationship between VS Code's version and the Monaco Editor's version?**
 
----
+None. The Monaco Editor is a library and it reflects directly the source code.
 
-> Q: I've written an extension for VS Code, will it work on the Monaco Editor in a browser?<br/>
-> A: No.
+❓ **I've written an extension for VS Code, will it work on the Monaco Editor in a browser?**
 
----
+No.
 
+❓ **Why all these web workers and why should I care?**
 
-> Q: Why all these web workers and why should I care?<br/>
-> A: Language services create web workers to compute heavy stuff outside the UI thread. They cost hardly anything in terms of resource overhead and you shouldn't worry too much about them, as long as you get them to work (see above the cross-domain case).
+Language services create web workers to compute heavy stuff outside the UI thread. They cost hardly anything in terms of resource overhead and you shouldn't worry too much about them, as long as you get them to work (see above the cross-domain case).
 
----
+❓ **What is this `loader.js`? Can I use `require.js`?**
 
-> Q: What is this `loader.js`? Can I use `require.js`?<br/>
-> A: It is an AMD loader that we use in VS Code. Yes.
+It is an AMD loader that we use in VS Code. Yes.
 
----
+❓ **I see the warning "Could not create web worker". What should I do?**
 
-> Q: I see the warning "Could not create web worker". What should I do?<br/>
-> A: HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross domain case above.
+HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross domain case above.
 
----
+❓ **Is the editor supported in mobile browsers or mobile web app frameworks?**
 
-> Q: Is the editor supported in mobile browsers or mobile web app frameworks?<br/>
-> A: No.
+No.
 
----
+❓ **Why doesn't the editor support TextMate grammars?**
 
-> Q: Why doesn't the editor support TextMate grammars?<br/>
-> * all the regular expressions in TM grammars are based on [oniguruma](https://github.com/kkos/oniguruma), a regular expression library written in C.
+* all the regular expressions in TM grammars are based on [oniguruma](https://github.com/kkos/oniguruma), a regular expression library written in C.
 * the only way to interpret the grammars and get anywhere near original fidelity is to use the exact same regular expression library (with its custom syntax constructs)
 * in VSCode, our runtime is node.js and we can use a node native module that exposes the library to JavaScript
 * in Monaco, we are constrained to a browser environment where we cannot do anything similar
