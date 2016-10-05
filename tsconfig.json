@@ -40,6 +40,7 @@
     "src/swift.ts",
     "src/vb.ts",
     "src/xml.ts",
+    "test/yaml.ts",
     "test/assert.d.ts",
     "test/bat.test.ts",
     "test/coffee.test.ts",
@@ -68,6 +69,7 @@
     "test/testRunner.ts",
     "test/vb.test.ts",
     "test/xml.test.ts",
+    "test/yaml.test.ts",
     "node_modules/monaco-editor-core/monaco.d.ts"
   ]
 }
