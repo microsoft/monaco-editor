@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 declare module monaco.languages.css {
-    export interface DiagnosticsOptions {
-        validate?: boolean;
-        lint?: {
+	export interface DiagnosticsOptions {
+		validate?: boolean;
+		lint?: {
 			compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error',
 			vendorPrefix?: 'ignore' | 'warning' | 'error',
 			duplicateProperties?: 'ignore' | 'warning' | 'error',
@@ -25,15 +25,15 @@ declare module monaco.languages.css {
 			float?: 'ignore' | 'warning' | 'error',
 			idSelector?: 'ignore' | 'warning' | 'error'
 		}
-    }
+	}
 
-    export interface LanguageServiceDefaults {
-        onDidChange: IEvent<LanguageServiceDefaults>;
-        diagnosticsOptions: DiagnosticsOptions;
-        setDiagnosticsOptions(options: DiagnosticsOptions): void;
-    }
+	export interface LanguageServiceDefaults {
+		onDidChange: IEvent<LanguageServiceDefaults>;
+		diagnosticsOptions: DiagnosticsOptions;
+		setDiagnosticsOptions(options: DiagnosticsOptions): void;
+	}
 
-    export var cssDefaults: LanguageServiceDefaults;
-    export var lessDefaults: LanguageServiceDefaults;
+	export var cssDefaults: LanguageServiceDefaults;
+	export var lessDefaults: LanguageServiceDefaults;
 	export var scssDefaults: LanguageServiceDefaults;
 }
