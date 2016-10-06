@@ -18,8 +18,8 @@ function getTag(name: string) {
 }
 
 const handlebarsTokenTypes = {
-	EMBED: 'metatag.handlebars',
-	EMBED_UNESCAPED: 'metatag.handlebars',
+	EMBED: 'punctuation.handlebars',
+	EMBED_UNESCAPED: 'punctuation.handlebars',
 	KEYWORD: 'keyword.helper.handlebars',
 	VARIABLE: 'variable.parameter.handlebars',
 }

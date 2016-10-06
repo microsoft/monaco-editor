@@ -215,14 +215,14 @@ export var language = <ILanguage> {
 
 
 		handlebarsInSimpleState: [
-			[/\{\{\{?/, 'metatag.handlebars'],
-			[/\}\}\}?/, { token: 'metatag.handlebars', switchTo: '@$S2.$S3' }],
+			[/\{\{\{?/, 'punctuation.handlebars'],
+			[/\}\}\}?/, { token: 'punctuation.handlebars', switchTo: '@$S2.$S3' }],
 			{ include: 'handlebarsRoot' }
 		],
 
 		handlebarsInEmbeddedState: [
-			[/\{\{\{?/, 'metatag.handlebars'],
-			[/\}\}\}?/, { token: 'metatag.handlebars', switchTo: '@$S2.$S3', nextEmbedded: '$S3' }],
+			[/\{\{\{?/, 'punctuation.handlebars'],
+			[/\}\}\}?/, { token: 'punctuation.handlebars', switchTo: '@$S2.$S3', nextEmbedded: '$S3' }],
 			{ include: 'handlebarsRoot' }
 		],
 
