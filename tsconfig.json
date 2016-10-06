@@ -7,7 +7,9 @@
   "include": [
     "src/*.ts",
     "test/*.ts",
-    "lib/*.d.ts",
+    "lib/*.d.ts"
+  ],
+  "files": [
     "node_modules/monaco-editor-core/monaco.d.ts"
   ]
 }
