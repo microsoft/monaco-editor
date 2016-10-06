@@ -72,7 +72,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 
 var compilation = tsb.create(assign({ verbose: true }, require('./tsconfig.json').compilerOptions));
 
-var tsSources = require('./tsconfig.json').filesGlob;
+var tsSources = require('./tsconfig.json').include;
 
 function compileTask() {
 	return merge(
