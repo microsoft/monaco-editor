@@ -5,16 +5,16 @@
 
 declare module monaco.languages.html {
     export interface HTMLFormatConfiguration {
-        tabSize: number;
-        insertSpaces: boolean;
-        wrapLineLength: number;
-        unformatted: string;
-        indentInnerHtml: boolean;
-        preserveNewLines: boolean;
-        maxPreserveNewLines: number;
-        indentHandlebars: boolean;
-        endWithNewline: boolean;
-        extraLiners: string;
+        readonly tabSize: number;
+        readonly insertSpaces: boolean;
+        readonly wrapLineLength: number;
+        readonly unformatted: string;
+        readonly indentInnerHtml: boolean;
+        readonly preserveNewLines: boolean;
+        readonly maxPreserveNewLines: number;
+        readonly indentHandlebars: boolean;
+        readonly endWithNewline: boolean;
+        readonly extraLiners: string;
     }
 
     export interface CompletionConfiguration {
@@ -25,16 +25,16 @@ declare module monaco.languages.html {
         /**
          * If set, comments are tolerated. If set to false, syntax errors will be emmited for comments.
          */
-        format?: HTMLFormatConfiguration;
+        readonly format?: HTMLFormatConfiguration;
         /**
          * A list of known schemas and/or associations of schemas to file names.
          */
-        suggest?: CompletionConfiguration;
+        readonly suggest?: CompletionConfiguration;
     }
 
     export interface LanguageServiceDefaults {
-        onDidChange: IEvent<LanguageServiceDefaults>;
-        options: Options;
+        readonly onDidChange: IEvent<LanguageServiceDefaults>;
+        readonly options: Options;
         setOptions(options: Options): void;
     }
 
