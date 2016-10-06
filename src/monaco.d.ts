@@ -4,32 +4,32 @@
  *--------------------------------------------------------------------------------------------*/
 declare module monaco.languages.css {
 	export interface DiagnosticsOptions {
-		validate?: boolean;
-		lint?: {
-			compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error',
-			vendorPrefix?: 'ignore' | 'warning' | 'error',
-			duplicateProperties?: 'ignore' | 'warning' | 'error',
-			emptyRules?: 'ignore' | 'warning' | 'error',
-			importStatement?: 'ignore' | 'warning' | 'error',
-			boxModel?: 'ignore' | 'warning' | 'error',
-			universalSelector?: 'ignore' | 'warning' | 'error',
-			zeroUnits?: 'ignore' | 'warning' | 'error',
-			fontFaceProperties?: 'ignore' | 'warning' | 'error',
-			hexColorLength?: 'ignore' | 'warning' | 'error',
-			argumentsInColorFunction?: 'ignore' | 'warning' | 'error',
-			unknownProperties?: 'ignore' | 'warning' | 'error',
-			ieHack?: 'ignore' | 'warning' | 'error',
-			unknownVendorSpecificProperties?: 'ignore' | 'warning' | 'error',
-			propertyIgnoredDueToDisplay?: 'ignore' | 'warning' | 'error',
-			important?: 'ignore' | 'warning' | 'error',
-			float?: 'ignore' | 'warning' | 'error',
-			idSelector?: 'ignore' | 'warning' | 'error'
+		readonly validate?: boolean;
+		readonly lint?: {
+			readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error',
+			readonly vendorPrefix?: 'ignore' | 'warning' | 'error',
+			readonly duplicateProperties?: 'ignore' | 'warning' | 'error',
+			readonly emptyRules?: 'ignore' | 'warning' | 'error',
+			readonly importStatement?: 'ignore' | 'warning' | 'error',
+			readonly boxModel?: 'ignore' | 'warning' | 'error',
+			readonly universalSelector?: 'ignore' | 'warning' | 'error',
+			readonly zeroUnits?: 'ignore' | 'warning' | 'error',
+			readonly fontFaceProperties?: 'ignore' | 'warning' | 'error',
+			readonly hexColorLength?: 'ignore' | 'warning' | 'error',
+			readonly argumentsInColorFunction?: 'ignore' | 'warning' | 'error',
+			readonly unknownProperties?: 'ignore' | 'warning' | 'error',
+			readonly ieHack?: 'ignore' | 'warning' | 'error',
+			readonly unknownVendorSpecificProperties?: 'ignore' | 'warning' | 'error',
+			readonly propertyIgnoredDueToDisplay?: 'ignore' | 'warning' | 'error',
+			readonly important?: 'ignore' | 'warning' | 'error',
+			readonly float?: 'ignore' | 'warning' | 'error',
+			readonly idSelector?: 'ignore' | 'warning' | 'error'
 		}
 	}
 
 	export interface LanguageServiceDefaults {
-		onDidChange: IEvent<LanguageServiceDefaults>;
-		diagnosticsOptions: DiagnosticsOptions;
+		readonly onDidChange: IEvent<LanguageServiceDefaults>;
+		readonly diagnosticsOptions: DiagnosticsOptions;
 		setDiagnosticsOptions(options: DiagnosticsOptions): void;
 	}
 
