@@ -1,5 +1,34 @@
 # Monaco Editor Change log
 
+## [0.7.0]
+ - Adopted TypeScript 2.0 in all the repos (also reflected in `monaco.d.ts`).
+ - Added YAML colorization support.
+ - Brought back the ability to use `editor.addAction()` and have the action show in the context menu.
+ - Web workers now get a nice label next to the script name.
+
+### API changes:
+  - settings:
+    - new values for `lineNumbers`: `'on' | 'off' | 'relative'`
+    - new values for `renderWhitespace`: `'none' | 'boundary' | 'all'`
+  - removed `model.setMode()`, as `IMode` will soon disappear from the API.
+
+### Debt work
+  - Removed html, razor, php and handlebars from `monaco-editor-core`:
+    - the `monaco-editor-core` is now finally language agnostic.
+    - coloring for html, razor, php and handlebars is now coming in from `monaco-languages`.
+    - language smarts for html, razor and handlebars now comes from `monaco-html`.
+  - Packaging improvements:
+    - thanks to the removal of the old languages from `monaco-editor-core`, we could improve the bundling and reduce the number of .js files we ship.
+    - we are thinking about simplifying this further in the upcoming releases.
+
+### Thank you
+  * [Sandy Armstrong (@sandyarmstrong)](https://github.com/sandyarmstrong): csharp: allow styling #r/#load [PR monaco-languages#9](https://github.com/Microsoft/monaco-languages/pull/9)
+  * [Nico Tonozzi (@nicot)](https://github.com/nicot): Go: add raw string literal syntax [PR monaco-languages#10](https://github.com/Microsoft/monaco-languages/pull/10)
+  * [Jason Killian (@JKillian)](https://github.com/JKillian): Add vmin and vmax CSS units [PR monaco-languages#11](https://github.com/Microsoft/monaco-languages/pull/11)
+  * [Jan Pilzer (@Hirse)](https://github.com/Hirse): YAML colorization [PR monaco-languages#12](https://github.com/Microsoft/monaco-languages/pull/12)
+  * [Sam El-Husseini (@microsoftsam)](https://github.com/microsoftsam): Using Cmd+Scroll to zoom on a mac [PR vscode#12477](https://github.com/Microsoft/vscode/pull/12477)
+
+
 ## [0.6.1]
  - Fixed regression where `editor.addCommand` was no longer working.
 
