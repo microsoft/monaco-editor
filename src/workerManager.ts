@@ -64,6 +64,8 @@ export class WorkerManager {
 				// module that exports the create() method and returns a `CSSWorker` instance
 				moduleId: 'vs/language/css/cssWorker',
 
+				label: this._defaults.languageId,
+
 				// passed in to the create() method
 				createData: {
 					languageSettings: this._defaults.diagnosticsOptions,
