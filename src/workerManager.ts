@@ -64,6 +64,8 @@ export class WorkerManager {
 				// module that exports the create() method and returns a `JSONWorker` instance
 				moduleId: 'vs/language/json/jsonWorker',
 
+				label: this._defaults.languageId,
+
 				// passed in to the create() method
 				createData: {
 					languageSettings: this._defaults.diagnosticsOptions,
