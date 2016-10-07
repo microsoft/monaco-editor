@@ -13,6 +13,7 @@ import Uri = monaco.Uri;
 
 export class WorkerManager {
 
+	private _modeId: string;
 	private _defaults: LanguageServiceDefaultsImpl;
 	private _idleCheckInterval: number;
 	private _lastUsedTime: number;
@@ -21,7 +22,8 @@ export class WorkerManager {
 	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker>;
 	private _client: Promise<TypeScriptWorker>;
 
-	constructor(defaults: LanguageServiceDefaultsImpl) {
+	constructor(modeId:string, defaults: LanguageServiceDefaultsImpl) {
+		this._modeId = modeId;
 		this._defaults = defaults;
 		this._worker = null;
 		this._idleCheckInterval = setInterval(() => this._checkIfIdle(), 30 * 1000);
@@ -62,6 +64,8 @@ export class WorkerManager {
 
 				// module that exports the create() method and returns a `TypeScriptWorker` instance
 				moduleId: 'vs/language/typescript/src/worker',
+
+				label: this._modeId,
 
 				// passed in to the create() method
 				createData: {

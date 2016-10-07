@@ -57,7 +57,7 @@ function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language
 
 	let disposables: IDisposable[] = [];
 
-	const client = new WorkerManager(defaults);
+	const client = new WorkerManager(modeId, defaults);
 	disposables.push(client);
 
 	const worker = (first: Uri, ...more: Uri[]): Promise<TypeScriptWorker> => {
