@@ -1,6 +1,6 @@
 {
   "name": "monaco-css",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "CSS, LESS and SCSS plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
