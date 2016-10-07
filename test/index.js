@@ -29,18 +29,9 @@ editor.addCommand({
 editor.addAction({
 	id: 'my-unique-id',
 	label: 'My Label!!!',
-	keybindings: [
-		{
-			ctrlCmd: true,
-			key: 'F10'
-		}
-	],
-	enablement: {
-		textFocus: true,
-		wordAtPosition: true,
-		tokensAtPosition: ['identifier', '', 'keyword'],
-	},
-	contextMenuGroupId: '2_change/2_bla',
+	keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10],
+	contextMenuGroupId: 'navigation',
+	contextMenuOrder: 2.5,
 	run: function(ed) {
 		console.log("i'm running => " + ed.getPosition());
 	}

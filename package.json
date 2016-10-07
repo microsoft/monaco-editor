@@ -19,12 +19,12 @@
     "event-stream": "^3.3.2",
     "gulp": "^3.9.1",
     "http-server": "^0.9.0",
-    "monaco-css": "1.1.4",
-    "monaco-editor-core": "0.7.1",
-    "monaco-json": "1.0.7",
-    "monaco-html": "1.0.0",
-    "monaco-languages": "0.5.0",
-    "monaco-typescript": "0.6.1",
+    "monaco-css": "1.2.1",
+    "monaco-editor-core": "0.7.3",
+    "monaco-json": "1.1.1",
+    "monaco-html": "1.1.0",
+    "monaco-languages": "0.6.0",
+    "monaco-typescript": "2.0.1",
     "rimraf": "^2.5.2"
   }
 }

@@ -31,6 +31,10 @@ editor.addAction({
 
 	keybindingContext: null,
 
+	contextMenuGroupId: 'navigation',
+
+	contextMenuOrder: 1.5,
+
 	// Method that will be executed when the action is triggered.
 	// @param editor The editor instance is passed in as a convinience
 	run: function(ed) {
