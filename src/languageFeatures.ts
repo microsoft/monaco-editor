@@ -371,7 +371,7 @@ export class DocumentLinkAdapter implements monaco.languages.LinkProvider {
 	public provideLinks(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.ILink[]> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentLinks(resource.toString(), null)).then(items => {
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentLinks(resource.toString())).then(items => {
 			if (!items) {
 				return;
 			}

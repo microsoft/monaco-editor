@@ -47,9 +47,9 @@ export class HTMLWorker {
 		let highlights = this._languageService.findDocumentHighlights(document, position, htmlDocument);
 		return Promise.as(highlights);
 	}
-    findDocumentLinks(uri: string, workspacePath: string): Promise<ls.DocumentLink[]> {
+    findDocumentLinks(uri: string): Promise<ls.DocumentLink[]> {
 		let document = this._getTextDocument(uri);
-		let links = this._languageService.findDocumentLinks(document, workspacePath);
+		let links = this._languageService.findDocumentLinks(document, null);
 		return Promise.as(links);
 	}
 	private _getTextDocument(uri: string): ls.TextDocument {
