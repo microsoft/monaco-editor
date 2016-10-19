@@ -183,5 +183,9 @@ define([], function() { return[
 	{
 		"name": "sample.xml.txt",
 		"content": "<?xml version=\"1.0\"?>\r\n<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\r\n  <connectionStrings>\r\n    <add name=\"MyDB\" \r\n      connectionString=\"value for the deployed Web.config file\" \r\n      xdt:Transform=\"SetAttributes\" xdt:Locator=\"Match(name)\"/>\r\n  </connectionStrings>\r\n  <system.web>\r\n    <customErrors defaultRedirect=\"GenericError.htm\"\r\n      mode=\"RemoteOnly\" xdt:Transform=\"Replace\">\r\n      <error statusCode=\"500\" redirect=\"InternalError.htm\"/>\r\n    </customErrors>\r\n  </system.web>\r\n</configuration>"
+	},
+	{
+		"name": "sample.yaml.txt",
+		"content": "%TAG ! tag:clarkevans.com,2002:\n--- !shape\n  # Use the ! handle for presenting\n  # tag:clarkevans.com,2002:circle\n- !circle\n  center: &ORIGIN {x: 73, y: 129}\n  radius: 7\n- !line\n  start: *ORIGIN\n  finish: { x: 89, y: 102 }\n- !label\n  start: *ORIGIN\n  color: 0xFFEEBB\n  text: Pretty vector drawing.\n"
 	}
 ]; });
