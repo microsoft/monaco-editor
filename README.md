@@ -17,36 +17,19 @@ in [Visual Studio Code](https://github.com/Microsoft/vscode) to power the JSON e
 
 ## Issues
 
-Please file issues concering `monaco-json` in the [`monaco-editor`-repository](https://github.com/Microsoft/monaco-editor/issues).
+Please file issues concering `monaco-json` in the [`monaco-editor` repository](https://github.com/Microsoft/monaco-editor/issues).
 
 ## Installing
 
 This npm module is bundled and distributed in the [monaco-editor](https://www.npmjs.com/package/monaco-editor) npm module.
 
-* change to your favorite source folder (`/src/`)
-* `git clone https://github.com/Microsoft/monaco-editor` (this will create `$/src/monaco-editor`)
-* in folder `monaco-editor` run `npm install` and run `npm run simpleserver`
-* open http://localhost:8080/monaco-editor/test/index.html#sample - json
-
 ## Development
 
-### Dev: Running monaco-json from source
-* change to your favorite source folder (`/src/`).
-* if you haven't done so: `git clone https://github.com/Microsoft/monaco-editor` (this will create `$/src/monaco-editor`)
-* `git clone https://github.com/Microsoft/monaco-json` (this will create `$/src/monaco-json`)
-* Important: both monaco repositories must have the same parent folder.
-* in folder `monaco-json` run `npm install` and run `npm run watch`
-* in folder `monaco-editor` run `npm install` and run `npm run simpleserver`
-* open http://localhost:8080/monaco-editor/test/?monaco-json=dev
-
-### [Optional] Running monaco-editor-core from source
-
-* this is only needed when you want to make changes also in `monaco-editor-core`.
-* change to the same favorite source folder (`/src/`) that already contains `monaco-json` and `monaco-editor`
-* `git clone https://github.com/Microsoft/vscode` (this will create `$/src/vscode/`)
-* read [here](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#installing-prerequisites) on how to initialize the VS code source repository.
-* in folder `vscode` run `gulp watch`
-* open http://localhost:8080/monaco-editor/test/?monaco-json=dev&editor=dev
+* `git clone https://github.com/Microsoft/monaco-json`
+* `cd monaco-json`
+* `npm install .`
+* `npm run watch`
+* open `$/monaco-json/test/index.html` in your favorite browser.
 
 ## License
 [MIT](https://github.com/Microsoft/monaco-json/blob/master/LICENSE.md)
