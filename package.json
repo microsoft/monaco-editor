@@ -1,6 +1,6 @@
 {
   "name": "monaco-html",
-  "version": "1.1.0-next.1",
+  "version": "1.1.0-next.2",
   "description": "HTML plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
@@ -29,7 +29,7 @@
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
     "typescript": "2.0.3",
-    "vscode-html-languageservice": "^1.0.0-next.5",
+    "vscode-html-languageservice": "1.0.0-next.6",
     "vscode-languageserver-types": "^1.0.4-next.2"
   }
 }
