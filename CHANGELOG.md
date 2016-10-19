@@ -1,5 +1,8 @@
 # Monaco Editor Change log
 
+## [0.7.1]
+ - Bugfixes in monaco-html, including fixing formatting.
+
 ## [0.7.0]
  - Adopted TypeScript 2.0 in all the repos (also reflected in `monaco.d.ts`).
  - Added YAML colorization support.
