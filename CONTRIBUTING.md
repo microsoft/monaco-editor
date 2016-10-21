@@ -3,6 +3,21 @@
 This guide contains the lightweight setup version (that **only requires you to have node.js installed**).
 If you wish to be able to run vscode from source, please see [VSCode's How to Contribute](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#build-and-run-from-source).
 
+## A brief explanation on the source code structure
+
+This repository contains no source code, it only contains the scripts to package everything together and ship the `monaco-editor` npm module:
+
+These packages are described in the root file called `metadata.js` and it is possible to create an editor distribution that contains only certain plugins by editing that file.
+
+| repository | npm module | explanation |
+|------------|------------|-------------|
+| [vscode](https://github.com/Microsoft/vscode) | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode. |
+| [monaco-languages](https://github.com/Microsoft/monaco-languages) | [monaco-languages](https://www.npmjs.com/package/monaco-languages) | plugin that adds colorization and basic supports for dozens of languages. |
+| [monaco-typescript](https://github.com/Microsoft/monaco-typescript) | [monaco-typescript](https://www.npmjs.com/package/monaco-typescript) | plugin that adds rich language support for JavaScript and TypeScript. |
+| [monaco-css](https://github.com/Microsoft/monaco-css) | [monaco-css](https://www.npmjs.com/package/monaco-css) | plugin that adds rich language support for CSS, LESS and SCSS. |
+| [monaco-json](https://github.com/Microsoft/monaco-json) | [monaco-json](https://www.npmjs.com/package/monaco-json) | plugin that adds rich language support for JSON. |
+| [monaco-html](https://github.com/Microsoft/monaco-html) | [monaco-html](https://www.npmjs.com/package/monaco-html) | plugin that adds rich language support for HTML. |
+
 
 ## Running the editor from source
 
@@ -71,9 +86,9 @@ If you wish to be able to run vscode from source, please see [VSCode's How to Co
 
 ---
 
-## Shipping a new monaco-editor version
+## Shipping a new monaco-editor npm module
 
-#### 1. Ship a new `monaco-editor-core` version
+#### 1. Ship a new `monaco-editor-core` npm module
 * bump version in `/src/vscode/build/monaco/package.json`
 * **[important]** push all local changes to the remote to get a good public commit id.
 * generate npm package `/src/vscode> gulp editor-distro`
@@ -107,7 +122,7 @@ If you wish to be able to run vscode from source, please see [VSCode's How to Co
   * open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseDev`
   * open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseMin`
 
-#### 5. Publish local release
+#### 5. Publish
 
 * `/src/monaco-editor> npm version minor`
 * `/src/monaco-editor/release> npm publish`
