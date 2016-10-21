@@ -863,3 +863,11 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
   .tsd-select .tsd-select-label:before { background-position: -280px 0; } }
 
 img { max-width: 100%; }
+
+/* MONACO_CHANGE */
+.tsd-breadcrumb li:after {
+  content: ".";
+}
+.tsd-breadcrumb li:last-of-type:after {
+  content: "";
+}

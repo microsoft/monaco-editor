@@ -13,9 +13,13 @@
                         <li class="state failure">The search index is not available</li>
                     </ul>
 
+                    {{!--MONACO_CHANGE
                     <a href="{{relativeURL "index.html"}}" class="title">{{project.name}}</a>
+                    MONACO_CHANGE--}}
+                    <a href="https://microsoft.github.io/monaco-editor/" class="title">{{project.name}}</a>
                 </div>
 
+                {{!--MONACO_CHANGE
                 <div class="table-cell" id="tsd-widgets">
                     <div id="tsd-filter">
                         <a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
@@ -46,6 +50,7 @@
 
                     <a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
                 </div>
+                MONACO_CHANGE--}}
             </div>
         </div>
     </div>
@@ -54,6 +59,7 @@
             <ul class="tsd-breadcrumb">
                 {{#with model}}{{> breadcrumb}}{{/with}}
             </ul>
+            {{!--MONACO_CHANGE
             <h1>{{#compact}}
                 {{model.kindString}}&nbsp;
                 {{model.name}}
@@ -66,6 +72,7 @@
                     &gt;
                 {{/if}}
             {{/compact}}</h1>
+            MONACO_CHANGE--}}
         </div>
     </div>
 </header>

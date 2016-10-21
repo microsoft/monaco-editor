@@ -14,7 +14,10 @@
                 {{#if url}}
                     <li>Defined in <a href="{{url}}">{{fileName}}:{{line}}</a></li>
                 {{else}}
+                    {{!--MONACO_CHANGE
                     <li>Defined in {{fileName}}:{{line}}</li>
+                    MONACO_CHANGE--}}
+                    <li>Defined in <a href="https://github.com/Microsoft/monaco-editor/blob/master/monaco.d.ts#L{{line}}">{{fileName}}:{{line}}</a></li>
                 {{/if}}
             {{/each}}
         </ul>

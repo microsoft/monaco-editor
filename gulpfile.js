@@ -175,6 +175,14 @@ function addPluginDTS() {
 		// Ensure consistent indentation and line endings
 		contents = cleanFile(contents);
 
+		// Mark events in doc!!
+		contents = contents.replace(/( \*\/\n\s+)on(.*IDisposable)/gm, function(_, m0, m1) {
+			var m = m0.match(/( +)$/);
+			var indentation = m[1];
+			return ' * @event\n' + indentation + ' */\n' + indentation + 'on' + m1;
+		});
+
+
 		data.contents = new Buffer(contents);
 
 		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
