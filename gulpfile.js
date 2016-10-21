@@ -7,6 +7,7 @@ var fs = require('fs');
 var rimraf = require('rimraf');
 var cp = require('child_process');
 var httpServer = require('http-server');
+var typedoc = require("gulp-typedoc");
 
 var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
 var MONACO_EDITOR_VERSION = (function() {
@@ -238,22 +239,38 @@ gulp.task('clean-website', function(cb) { rimraf('../monaco-editor-website', { m
 gulp.task('website', ['clean-website'], function() {
 
 	return (
-		gulp.src('website/**/*', { dot: true })
-		.pipe(es.through(function(data) {
-			if (!data.contents || !/\.(html)$/.test(data.path)) {
-				return this.emit('data', data);
-			}
+		es.merge(
+			gulp.src('website/**/*', { dot: true })
+			.pipe(es.through(function(data) {
+				if (!data.contents || !/\.(html)$/.test(data.path)) {
+					return this.emit('data', data);
+				}
 
-			var contents = data.contents.toString();
-			contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
-			contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
-			// contents = contents.replace('&copy; 2016 Microsoft', '&copy; 2016 Microsoft [' + builtTime + ']');
+				var contents = data.contents.toString();
+				contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
+				contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
+				// contents = contents.replace('&copy; 2016 Microsoft', '&copy; 2016 Microsoft [' + builtTime + ']');
 
-			data.contents = new Buffer(contents);
+				data.contents = new Buffer(contents);
 
-			this.emit('data', data);
-		}))
-		.pipe(gulp.dest('../monaco-editor-website'))
+				this.emit('data', data);
+			}))
+			.pipe(gulp.dest('../monaco-editor-website')),
+
+			// node_modules\.bin\typedoc --mode file --out out src\monaco.d.ts --includeDeclarations --theme default --entryPoint monaco --name "Monaco Editor v0.7.0 API" --readme none --hideGenerator
+			gulp.src('monaco.d.ts')
+			.pipe(typedoc({
+				mode: 'file',
+				out: '../monaco-editor-website/api',
+				includeDeclarations: true,
+				theme: 'default',
+				entryPoint: 'monaco',
+				name: 'Monaco Editor API v' + MONACO_EDITOR_VERSION,
+				readme: 'none',
+				hideGenerator: true
+			}))
+		)
+
 		.pipe(es.through(function(data) {
 			this.emit('data', data);
 		}, function() {
@@ -366,22 +383,22 @@ gulp.task('generate-test-samples', function() {
 	}
 
 	var index = [
-'<!DOCTYPE html>',
-'<!-- THIS IS A GENERATED FILE VIA gulp generate-test-samples -->',
-'<html>',
-'<head>',
-'	<base href="..">',
-'</head>',
-'<body>',
-'<a class="loading-opts" href="index.html">[&lt;&lt; BACK]</a><br/>',
-'THIS IS A GENERATED FILE VIA gulp generate-test-samples<br/><br/>',
-locations.map(function(location) {
-	return '<a class="loading-opts" href="playground.generated/' + location.path + '">' + location.name + '</a>';
-}).join('<br/>\n'),
-'<script src="../metadata.js"></script>',
-'<script src="dev-setup.js"></script>',
-'</body>',
-'</html>',
+		'<!DOCTYPE html>',
+		'<!-- THIS IS A GENERATED FILE VIA gulp generate-test-samples -->',
+		'<html>',
+		'<head>',
+		'	<base href="..">',
+		'</head>',
+		'<body>',
+		'<a class="loading-opts" href="index.html">[&lt;&lt; BACK]</a><br/>',
+		'THIS IS A GENERATED FILE VIA gulp generate-test-samples<br/><br/>',
+		locations.map(function(location) {
+			return '<a class="loading-opts" href="playground.generated/' + location.path + '">' + location.name + '</a>';
+		}).join('<br/>\n'),
+		'<script src="../metadata.js"></script>',
+		'<script src="dev-setup.js"></script>',
+		'</body>',
+		'</html>',
 	]
 	fs.writeFileSync(path.join(__dirname, 'test/playground.generated/index.html'), index.join('\n'));
 });
