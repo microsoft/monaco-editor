@@ -163,12 +163,41 @@ function addPluginDTS() {
 			}
 		});
 
-		contents += '\n' + extraContent.join('\n');
+		contents = [
+			'/*!-----------------------------------------------------------',
+			' * Copyright (c) Microsoft Corporation. All rights reserved.',
+			' * Type definitions for monaco-editor v'+MONACO_EDITOR_VERSION,
+			' * Released under the MIT license',
+			'*-----------------------------------------------------------*/',
+		].join('\n') + '\n' + contents + '\n' + extraContent.join('\n');
+
+		// Ensure consistent indentation and line endings
+		contents = cleanFile(contents);
+
 		data.contents = new Buffer(contents);
 
 		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
+		fs.writeFileSync('monaco.d.ts', contents);
 		this.emit('data', data);
 	});
+}
+
+/**
+ * Normalize line endings and ensure consistent 4 spaces indentation
+ */
+function cleanFile(contents) {
+	return contents.split(/\r\n|\r|\n/).map(function(line) {
+		var m = line.match(/^(\t+)/);
+		if (!m) {
+			return line;
+		}
+		var tabsCount = m[1].length;
+		var newIndent = '';
+		for (var i = 0; i < 4 * tabsCount; i++) {
+			newIndent += ' ';
+		}
+		return newIndent + line.substring(tabsCount);
+	}).join('\n');
 }
 
 /**
