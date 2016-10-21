@@ -288,6 +288,7 @@ gulp.task('website', ['clean-website'], function() {
 
 			// temporarily create package.json so that npm install doesn't bark
 			fs.writeFileSync('../monaco-editor-website/package.json', '{}');
+			fs.writeFileSync('../monaco-editor-website/.nojekyll', '');
 			cp.execSync('npm install monaco-editor', {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
