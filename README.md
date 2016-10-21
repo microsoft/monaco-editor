@@ -151,77 +151,9 @@ No.
 * we have experimented with Emscriptem to compile the C library to asm.js, but performance was very poor even in Firefox (10x slower) and extremely poor in Chrome (100x slower).
 * we can revisit this once WebAssembly gets traction in the major browsers, but we will still need to consider the browser matrix we support. i.e. if we support IE11 and only Edge will add WebAssembly support, what will the experience be in IE11, etc.
 
-## Dev
+## Development setup
 
-### Cheat Sheet
-
-* simpleserver with `npm run simpleserver`, open [http://localhost:8080/monaco-editor/website/](http://localhost:8080/monaco-editor/website/)
-* release with `npm run release`
-* website with `npm run website`
-
-### Running monaco-editor-core from source
-
-* clone https://github.com/Microsoft/vscode in `$/src/vscode/` (next to this repo)
-* run `$/src/vscode> gulp watch`
-* run `$/src/monaco-editor> npm run simpleserver`
-* open [http://localhost:8080/monaco-editor/test/?editor=dev](http://localhost:8080/monaco-editor/test/?editor=dev)
-
-### Running a plugin (e.g. monaco-typescript) from source
-
-* clone https://github.com/Microsoft/monaco-typescript in `$/src/monaco-typescript` (next to this repo)
-* run `$/src/monaco-typescript> npm run watch`
-* run `$/src/monaco-editor> npm run simpleserver`
-* open [http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev](http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev)
-
----
-
-### Shipping a new `monaco-editor` version
-
-#### Ship a new `monaco-editor-core` version (if necessary)
-* bump version in https://github.com/Microsoft/vscode/blob/master/build/monaco/package.json
- * if there is a breaking API change, bump the major (or the minor for 0.x.y)
-* push all local changes to the remote
-* generate npm package `$/src/vscode> gulp editor-distro`
-* publish npm package `$/src/vscode/out-monaco-editor-core> npm publish`
-
-#### Adopt new `monaco-editor-core` in plugins (if necessary)
-* https://github.com/Microsoft/monaco-typescript
-* https://github.com/Microsoft/monaco-languages
-* https://github.com/Microsoft/monaco-css
-* https://github.com/Microsoft/monaco-json
-
-#### Adopt new `monaco-editor-core`
-* edit `$/src/monaco-editor/package.json` and update the version for (as necessary):
- * `monaco-editor-core`
- * `monaco-typescript`
- * `monaco-css`
- * `monaco-json`
- * `monaco-languages`
-* update the version in `$/src/monaco-editor/package.json`
- * I try to keep it similar to `monaco-editor-core`, maybe just vary the patch version.
-* fetch latest deps by running `$/src/monaco-editor> npm install .`
-
-#### Package `monaco-editor`
-* run `$/src/monaco-editor> npm run release`
-
-#### Try out packaged bits
-* open http://localhost:8080/monaco-editor/test/index-release.html
-* open http://localhost:8080/monaco-editor/test/smoketest-release.html
-
-#### Publish packaged bits
-* run `$/src/monaco-editor/release> npm publish`
-
----
-
-### Running the website from its source
-
-* run `$/src/monaco-editor> npm run release`
-* open http://localhost:8080/monaco-editor/website/
-
-### Publishing the website
-
-* run `$/src/monaco-editor> npm run website`
-* force-push the gh-pages branch: `$/src/monaco-editor-website> git push origin gh-pages --force`
+Please see [CONTRIBUTING](./CONTRIBUTING.md)
 
 ## Code of Conduct
 

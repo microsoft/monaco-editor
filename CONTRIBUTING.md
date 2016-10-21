@@ -50,6 +50,9 @@ These packages are described in the root file called `metadata.js` and it is pos
 /src> git clone https://github.com/Microsoft/monaco-typescript
 
 # install npm deps for monaco-typescript
+/src/monaco-typescript> npm install .
+
+# start the compiler in the background
 /src/monaco-typescript> npm run watch
 
 # open http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev
