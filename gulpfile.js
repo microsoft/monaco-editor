@@ -240,7 +240,10 @@ gulp.task('website', ['clean-website'], function() {
 
 	return (
 		es.merge(
-			gulp.src('website/**/*', { dot: true })
+			gulp.src([
+				'website/**/*',
+				'!website/typedoc-theme/**'
+			], { dot: true })
 			.pipe(es.through(function(data) {
 				if (!data.contents || !/\.(html)$/.test(data.path)) {
 					return this.emit('data', data);
@@ -263,7 +266,7 @@ gulp.task('website', ['clean-website'], function() {
 				mode: 'file',
 				out: '../monaco-editor-website/api',
 				includeDeclarations: true,
-				theme: 'default',
+				theme: 'website/typedoc-theme',
 				entryPoint: 'monaco',
 				name: 'Monaco Editor API v' + MONACO_EDITOR_VERSION,
 				readme: 'none',
