@@ -41,7 +41,8 @@ gulp.task('release', ['clean-release'], function() {
 			}))
 			.pipe(gulp.dest('release')),
 
-		gulp.src('CHANGELOG.md'),
+		gulp.src('CHANGELOG.md')
+			.pipe(gulp.dest('release')),
 
 		// min-maps folder
 		gulp.src('node_modules/monaco-editor-core/min-maps/**/*').pipe(gulp.dest('release/min-maps')),
