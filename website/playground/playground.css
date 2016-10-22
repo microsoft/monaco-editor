@@ -10,18 +10,18 @@ select {
 	width: initial;
 }
 
-.title {
+.playground-page .title {
 	font-family: "Segoe UI Light","HelveticaNeue-UltraLight", sans-serif;
 	font-weight: 100;
 	font-size: 1.8em;
 }
 
-.tabArea {
+.playground-page .tabArea {
 	height: 20px;
 	box-sizing: border-box;
 	border-bottom: 1px solid #999;
 }
-.tab {
+.playground-page .tab {
 	height: 20px;
 	line-height: 20px;
 	box-sizing: border-box;
@@ -32,11 +32,11 @@ select {
 	cursor: pointer;
 	float: left;
 }
-.tab.active {
+.playground-page .tab.active {
 	color: black;
 	border-bottom: 1px solid white;
 }
-.action {
+.playground-page .action {
 	height: 20px;
 	line-height: 20px;
 	box-sizing: border-box;
@@ -48,10 +48,10 @@ select {
 	float: right;
 	padding-left: 16px;
 }
-.action.run {
-	background: url('run.png') no-repeat left center;
+.playground-page .action.run {
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAE1JREFUOE9jKCsrY6AEU6QZZPHgNeA/0Hn7gdiBUPjg8gLIABjGaxAxBuA1iBQDYAalIXuLFAOweoUYA8gOA4pigegERrRCXOlhGBgAAGmggVf7bEk0AAAAAElFTkSuQmCC') no-repeat left center;
 }
-.editor-container {
+.playground-page .editor-container {
 	border: 1px solid #999;
 	border-top: 0;
 }

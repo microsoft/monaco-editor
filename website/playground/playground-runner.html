@@ -2,17 +2,22 @@
 <html style="height:100%">
 <head>
 
-	<link rel="stylesheet" href="./spinner.css" />
+	<link data-inline="yes-please" href="./spinner.css" rel="stylesheet" />
+
+	<link data-name="vs/editor/editor.main" rel="stylesheet" href="../../release/dev/vs/editor/editor.main.css" />
 
 	<style type="text/css">
 		body { margin: 0; padding: 0; border: 0; }
 		.monaco-editor { overflow: hidden; }
 	</style>
 
-	<script type="text/javascript" src="../../release/dev/vs/loader.js"></script>
-	<script type="text/javascript">
-		var geval = eval;
+	<script>var require = { paths: { 'vs': '../../release/dev/vs' } };</script>
+	<script src="../../release/dev/vs/loader.js"></script>
+	<script src="../../release/dev/vs/editor/editor.main.nls.js"></script>
+	<script src="../../release/dev/vs/editor/editor.main.js"></script>
 
+
+	<script type="text/javascript">
 		var receivedCall = null;
 		window.load = function (js, html, css) {
 			receivedCall = {
@@ -21,12 +26,21 @@
 				css: css
 			};
 		};
+	</script>
+</head>
+<body>
+	<div id="loading">
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+		</div>
+	</div>
 
-		require.config({
-			paths: {
-				vs: "../../release/dev/vs"
-			}
-		});
+	<script type="text/javascript">
+		var geval = eval;
 
 		require(['require', 'vs/editor/editor.main'], function (require) {
 			"use strict";
@@ -65,16 +79,5 @@
 			}
 		});
 	</script>
-</head>
-<body>
-	<div id="loading">
-		<div class="spinner">
-			<div class="rect1"></div>
-			<div class="rect2"></div>
-			<div class="rect3"></div>
-			<div class="rect4"></div>
-			<div class="rect5"></div>
-		</div>
-	</div>
 </body>
 </html>

@@ -5,5 +5,6 @@
 		"**/node_modules": true,
 		"**/bower_components": true,
 		"**/release": true
-	}
+	},
+	"typescript.tsdk": "./node_modules/typescript/lib"
 }

@@ -225,6 +225,21 @@ body > section > .container {
 
 }
 
+#gh-link {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  border: 0;
+  margin:0;
+  z-index: 1000;
+}
+@media (min-width: 980px) {
+  #gh-link {
+    display: block;
+  }
+}
+
 @media (min-width: 980px) {
   .navbar .nav {
     float: right;

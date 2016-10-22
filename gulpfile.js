@@ -8,6 +8,8 @@ var rimraf = require('rimraf');
 var cp = require('child_process');
 var httpServer = require('http-server');
 var typedoc = require("gulp-typedoc");
+var CleanCSS = require('clean-css');
+var uncss = require('uncss');
 
 var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
 var MONACO_EDITOR_VERSION = (function() {
@@ -247,6 +249,16 @@ function addPluginThirdPartyNotices() {
 gulp.task('clean-website', function(cb) { rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb); });
 gulp.task('website', ['clean-website'], function() {
 
+	function replaceWithRelativeResource(dataPath, contents, regex, callback) {
+		return contents.replace(regex, function(_, m0) {
+			var filePath = path.join(path.dirname(dataPath), m0);
+			return callback(m0, fs.readFileSync(filePath));
+		});
+	}
+
+	var waiting = 0;
+	var done = false;
+
 	return (
 		es.merge(
 			gulp.src([
@@ -254,7 +266,7 @@ gulp.task('website', ['clean-website'], function() {
 				'!website/typedoc-theme/**'
 			], { dot: true })
 			.pipe(es.through(function(data) {
-				if (!data.contents || !/\.(html)$/.test(data.path)) {
+				if (!data.contents || !/\.(html)$/.test(data.path) || /new-samples/.test(data.path)) {
 					return this.emit('data', data);
 				}
 
@@ -263,13 +275,73 @@ gulp.task('website', ['clean-website'], function() {
 				contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
 				// contents = contents.replace('&copy; 2016 Microsoft', '&copy; 2016 Microsoft [' + builtTime + ']');
 
-				data.contents = new Buffer(contents);
+				// Preload xhr contents
+				contents = replaceWithRelativeResource(data.path, contents, /<pre data-preload="([^"]+)".*/g, function(m0, fileContents) {
+					return (
+						'<pre data-preload="' + m0 + '" style="display:none">'
+						+ fileContents.toString('utf8')
+							.replace(/&/g, '&amp;')
+							.replace(/</g, '&lt;')
+							.replace(/>/g, '&gt;')
+						+ '</pre>'
+					);
+				});
 
-				this.emit('data', data);
+				// Inline fork.png
+				contents = replaceWithRelativeResource(data.path, contents, /src="(\.\/fork.png)"/g, function(m0, fileContents) {
+					return (
+						'src="data:image/png;base64,' + fileContents.toString('base64') + '"'
+					);
+				});
+
+				var allCSS = '';
+				var tmpcontents = replaceWithRelativeResource(data.path, contents, /<link data-inline="yes-please" href="([^"]+)".*/g, function(m0, fileContents) {
+					allCSS += fileContents.toString('utf8');
+					return '';
+				});
+				tmpcontents = tmpcontents.replace(/<script.*/g, '');
+				tmpcontents = tmpcontents.replace(/<link.*/g, '');
+
+				waiting++;
+				uncss(tmpcontents, {
+					raw: allCSS,
+					ignore: [/\.alert\b/, /\.alert-error\b/, /\.playground-page\b/]
+				}, function(err, output) {
+					waiting--;
+
+					if (!err) {
+						output = new CleanCSS().minify(output).styles;
+						var isFirst = true;
+						contents = contents.replace(/<link data-inline="yes-please" href="([^"]+)".*/g, function(_, m0) {
+							if (isFirst) {
+								isFirst = false;
+								return '<style>' + output + '</style>';
+							}
+							return '';
+						});
+					}
+
+					// Inline javascript
+					contents = replaceWithRelativeResource(data.path, contents, /<script data-inline="yes-please" src="([^"]+)".*/g, function(m0, fileContents) {
+						return '<script>' + fileContents.toString('utf8') + '</script>';
+					});
+
+					data.contents = new Buffer(contents.split(/\r\n|\r|\n/).join('\n'));
+					this.emit('data', data);
+
+					if (done && waiting === 0) {
+						this.emit('end');
+					}
+				}.bind(this));
+
+			}, function() {
+				done = true;
+				if (waiting === 0) {
+					this.emit('end');
+				}
 			}))
 			.pipe(gulp.dest('../monaco-editor-website')),
 
-			// node_modules\.bin\typedoc --mode file --out out src\monaco.d.ts --includeDeclarations --theme default --entryPoint monaco --name "Monaco Editor v0.7.0 API" --readme none --hideGenerator
 			gulp.src('monaco.d.ts')
 			.pipe(typedoc({
 				mode: 'file',

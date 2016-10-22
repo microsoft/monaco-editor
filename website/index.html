@@ -9,17 +9,20 @@
 
 	<title>Monaco Editor</title>
 
-	<link href="./lib/bootstrap-cosmo.css" rel="stylesheet">
-	<link href="./lib/bootstrap-responsive.min.css" rel="stylesheet">
-	<link href="./all.css" rel="stylesheet" type="text/css">
-	<link href="./lib/bootstrap-select.min.css" rel="stylesheet" type="text/css">
+	<link data-inline="yes-please" href="./lib/bootstrap-cosmo.css" rel="stylesheet">
+	<link data-inline="yes-please" href="./lib/bootstrap-responsive.min.css" rel="stylesheet">
+	<link data-inline="yes-please" href="./all.css" rel="stylesheet">
+	<link data-inline="yes-please" href="./index/index.css" rel="stylesheet">
 
-	<link href="./index/index.css" rel="stylesheet" type="text/css">
+	<link data-name="vs/editor/editor.main" rel="stylesheet" href="../release/dev/vs/editor/editor.main.css">
 </head>
 
 <body>
-	<a href="https://github.com/Microsoft/monaco-editor"><img style="position: fixed; top: 0; right: 0; border: 0; margin:0; z-index: 1000" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
-
+	<pre data-preload="index/samples/sample.typescript.txt"></pre>
+	<pre data-preload="index/samples/diff.lhs.txt"></pre>
+	<pre data-preload="index/samples/diff.rhs.txt"></pre>
+	<a id="gh-link" href="https://github.com/Microsoft/monaco-editor"><img
+		width="149" height="149" alt="Fork me on GitHub" src="./fork.png"/></a>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
@@ -78,10 +81,10 @@
 			<div class="editor row">
 				<div class="span3">
 					<h4 title="Syntax colorization plus support for errors, warnings, IntelliSense, formatting and outlining">Rich IntelliSense, Validation</h4>
-					<p>TypeScript, JavaScript, CSS, LESS</p>
+					<p>TypeScript, JavaScript, CSS, LESS, SCSS, JSON, HTML</p>
 					<br>
 					<h4 title="Syntax colorization">Basic Syntax Colorization</h4>
-					<p>HTML, XML, PHP, C#, C++, Razor, Markdown, Diff, Java, VB, CoffeeScript, Handlebars, Batch, Jade, F#, Lua, Powershell,
+					<p>XML, PHP, C#, C++, Razor, Markdown, Diff, Java, VB, CoffeeScript, Handlebars, Batch, Jade, F#, Lua, Powershell,
 						Python, SASS, R, Objective-C</p>
 					<br>
 					<p>Colorizers are implemented using <a href="monarch.html"
@@ -151,19 +154,14 @@
 		</p>
 	</footer>
 
-	<script src="./lib/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="./lib/bootstrap.min.js"></script>
-	<script src="./lib/bootstrap-select.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js" integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8=" crossorigin="anonymous"></script>
 
-	<script type="text/javascript" src="../release/dev/vs/loader.js"></script>
-	<script type="text/javascript">
-		require.config({
-			paths: {
-				vs: '../release/dev/vs'
-			}
-		});
-	</script>
-	<script src="./index/index.js" type="text/javascript"></script>
+	<script>var require = { paths: { 'vs': '../release/dev/vs' } };</script>
+	<script src="../release/dev/vs/loader.js"></script>
+	<script src="../release/dev/vs/editor/editor.main.nls.js"></script>
+	<script src="../release/dev/vs/editor/editor.main.js"></script>
+	<script data-inline="yes-please" src="./index/index.js" type="text/javascript"></script>
 
 </body>
 </html>

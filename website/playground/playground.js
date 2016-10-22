@@ -17,11 +17,12 @@ window.onload = function() {
 				'	onError: Function;',
 				'};',
 			].join('\n'), 'require.d.ts');
-
-			var loading = document.getElementById('loading');
-			loading.parentNode.removeChild(loading);
-			load();
 		});
+
+		var loading = document.getElementById('loading');
+		loading.parentNode.removeChild(loading);
+		load();
+
 	});
 };
 
@@ -333,7 +334,24 @@ function doRun(runContainer) {
 	});
 }
 
+var preloaded = {};
+(function() {
+	var elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0);
+
+	elements.forEach(function(el) {
+		var path = el.getAttribute('data-preload');
+		preloaded[path] = el.innerText || el.textContent;
+		el.parentNode.removeChild(el);
+	});
+})();
+
 function xhr(url) {
+	if (preloaded[url]) {
+		return monaco.Promise.as({
+			responseText: preloaded[url]
+		});
+	}
+
 	var req = null;
 	return new monaco.Promise(function(c,e,p) {
 		req = new XMLHttpRequest();

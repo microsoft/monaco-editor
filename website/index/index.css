@@ -134,52 +134,6 @@
 	opacity: 1;
 }
 
-.try .editor.row .bootstrap-select {
-	width: 200px;
-}
-
-.try .editor.row .bootstrap-select .btn {
-	background: none;
-	color: #555;
-	border: 1px solid #ddd;
-	width: 100%;
-}
-
-.try .editor.row .bootstrap-select .open .btn {
-	background-color: #0072C6;
-	color: #FFF;
-}
-
-.try .editor.row .bootstrap-select .open .btn .caret {
-	border-top-color: #FFF;
-}
-
-.try .editor.row .bootstrap-select .btn:focus {
-	outline: 0 auto #0072C6 !important;
-}
-
-.try .editor.row .bootstrap-select .btn:active,
-.try .editor.row .bootstrap-select.btn-group.open .dropdown-toggle {
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-}
-
-.try .editor.row .bootstrap-select .dropdown-menu > li > a {
-	color: #555;
-}
-
-.try .editor.row .bootstrap-select .dropdown-menu > li > a:hover {
-	background: none;
-	background-color: #CDE7F9;
-}
-
-.try .editor.row .bootstrap-select .dropdown-menu {
-    margin: 0;
-    border-top: 0
-}
-
-
 .try .editor .editor-frame {
 	position: relative;
 }
@@ -246,15 +200,6 @@
 	.try .editor > .span9 .row .span4 {
 		float: left;
 		width: 50%;
-	}
-
-	.try .editor > .span9 .row .bootstrap-select {
-		display: block;
-		width: 90%;
-	}
-
-	.try .editor > .span9 .row .bootstrap-select .btn {
-		width: 90%;
 	}
 
 	.try .editor h4 {

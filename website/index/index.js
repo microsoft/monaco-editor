@@ -18,24 +18,23 @@ $(document).ready(function() {
 			});
 		})();
 
+		var startModeIndex = 0;
 		for (var i = 0; i < MODES.length; i++) {
 			var o = document.createElement('option');
 			o.textContent = MODES[i].modeId;
+			if (MODES[i].modeId === 'typescript') {
+				startModeIndex = i;
+			}
 			$(".language-picker").append(o);
 		}
+		$(".language-picker")[0].selectedIndex = startModeIndex;
+		loadSample(MODES[startModeIndex]);
 		$(".language-picker").change(function() {
 			loadSample(MODES[this.selectedIndex]);
 		});
-		$('.language-picker').selectpicker({
-			size: 10
-		});
-		loadSample(MODES[0]);
 
 		$(".theme-picker").change(function() {
 			changeTheme(this.selectedIndex);
-		});
-		$('.theme-picker').selectpicker({
-			size: 3
 		});
 
 		loadDiffSample();
@@ -57,15 +56,37 @@ $(document).ready(function() {
 	};
 });
 
-function loadSample(mode) {
+var preloaded = {};
+(function() {
+	var elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0);
+
+	elements.forEach(function(el) {
+		var path = el.getAttribute('data-preload');
+		preloaded[path] = el.innerText || el.textContent;
+		el.parentNode.removeChild(el);
+	});
+})();
+
+function xhr(url, cb) {
+	if (preloaded[url]) {
+		return cb(null, preloaded[url]);
+	}
 	$.ajax({
 		type: 'GET',
-		url: mode.sampleURL,
+		url: url,
 		dataType: 'text',
-		beforeSend: function() {
-			$('.loading.editor').show();
-		},
 		error: function () {
+			cb(this, null);
+		}
+	}).done(function(data) {
+		cb(null, data);
+	});
+}
+
+function loadSample(mode) {
+	$('.loading.editor').show();
+	xhr(mode.sampleURL, function(err, data) {
+		if (err) {
 			if (editor) {
 				if (editor.getModel()) {
 					editor.getModel().dispose();
@@ -76,8 +97,9 @@ function loadSample(mode) {
 			$('.loading.editor').fadeOut({ duration: 200 });
 			$('#editor').empty();
 			$('#editor').append('<p class="alert alert-error">Failed to load ' + mode.modeId + ' sample</p>');
+			return;
 		}
-	}).done(function (data) {
+
 		if (!editor) {
 			$('#editor').empty();
 			editor = monaco.editor.create(document.getElementById('editor'), {
@@ -92,7 +114,7 @@ function loadSample(mode) {
 			oldModel.dispose();
 		}
 		$('.loading.editor').fadeOut({ duration: 300 });
-	});
+	})
 }
 
 function loadDiffSample() {
@@ -106,25 +128,20 @@ function loadDiffSample() {
 
 	var lhsData = null, rhsData = null, jsMode = null;
 
-	$.ajax({
-		type: 'GET',
-		url: 'index/samples/diff.lhs.txt',
-		dataType: 'text',
-		error: onError
-	}).done(function (data) {
+	xhr('index/samples/diff.lhs.txt', function(err, data) {
+		if (err) {
+			return onError();
+		}
 		lhsData = data;
 		onProgress();
-	});
-
-	$.ajax({
-		type: 'GET',
-		url: 'index/samples/diff.rhs.txt',
-		dataType: 'text',
-		error: onError
-	}).done(function (data) {
+	})
+	xhr('index/samples/diff.rhs.txt', function(err, data) {
+		if (err) {
+			return onError();
+		}
 		rhsData = data;
 		onProgress();
-	});
+	})
 
 	function onProgress() {
 		if (lhsData && rhsData) {
