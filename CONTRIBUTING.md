@@ -41,7 +41,7 @@ These packages are described in the root file called `metadata.js` and it is pos
 /src/monaco-editor> npm run simpleserver
 ```
 
-Open http://localhost:8080/monaco-editor/test/?editor=dev to run.
+Open [http://localhost:8080/monaco-editor/test/?editor=dev](http://localhost:8080/monaco-editor/test/?editor=dev) to run.
 
 ## Running a plugin from source (e.g. monaco-typescript)
 
@@ -56,7 +56,7 @@ Open http://localhost:8080/monaco-editor/test/?editor=dev to run.
 /src/monaco-typescript> npm run watch
 ```
 
-Open http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev to run.
+Open [http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev](http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev) to run.
 
 ## Running the editor tests
 
