@@ -29,7 +29,7 @@ These packages are described in the root file called `metadata.js` and it is pos
 /src/vscode> npm run monaco-editor-setup
 
 # start the compiler in the background
-/src/vscode> npm run watch-client
+/src/vscode> gulp watch-client
 
 # clone monaco-editor (note the folders must be siblings!)
 /src> git clone https://github.com/Microsoft/monaco-editor
@@ -39,9 +39,9 @@ These packages are described in the root file called `metadata.js` and it is pos
 
 # start a local http server in the background
 /src/monaco-editor> npm run simpleserver
-
-# open http://localhost:8080/monaco-editor/test/?editor=dev
 ```
+
+Open http://localhost:8080/monaco-editor/test/?editor=dev to run.
 
 ## Running a plugin from source (e.g. monaco-typescript)
 
@@ -54,9 +54,9 @@ These packages are described in the root file called `metadata.js` and it is pos
 
 # start the compiler in the background
 /src/monaco-typescript> npm run watch
-
-# open http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev
 ```
+
+Open http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev to run.
 
 ## Running the editor tests
 
