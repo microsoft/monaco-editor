@@ -24,6 +24,7 @@ requirejs([
 ], function() {
 	requirejs([
 		'out/test/bat.test',
+		'out/test/css.test',
 		'out/test/coffee.test',
 		'out/test/cpp.test',
 		'out/test/csharp.test',

@@ -9,182 +9,188 @@ import LanguageConfiguration = monaco.languages.LanguageConfiguration;
 import IMonarchLanguage = monaco.languages.IMonarchLanguage;
 
 export var conf:LanguageConfiguration = {
-    wordPattern: /(#?-?\d*\.\d\w*%?)|((::|[@#.!:])?[\w-?]+%?)|::|[@#.!:]/g,
+	wordPattern: /(#?-?\d*\.\d\w*%?)|((::|[@#.!:])?[\w-?]+%?)|::|[@#.!:]/g,
 
-    comments: {
-        blockComment: ['/*', '*/']
-    },
+	comments: {
+		blockComment: ['/*', '*/']
+	},
 
-    brackets: [
-        ['{', '}'],
-        ['[', ']'],
-        ['(', ')']
-    ],
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
+	],
 
-    autoClosingPairs: [
-        { open: '{', close: '}' },
-        { open: '[', close: ']' },
-        { open: '(', close: ')' },
-        { open: '"', close: '"', notIn: ['string'] },
-        { open: '\'', close: '\'', notIn: ['string'] }
-    ]
+	autoClosingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"', notIn: ['string'] },
+		{ open: '\'', close: '\'', notIn: ['string'] }
+	]
 };
 
-const TOKEN_SELECTOR = 'entity.name.selector';
-const TOKEN_SELECTOR_TAG = 'entity.name.tag';
-const TOKEN_PROPERTY = 'support.type.property-name';
-const TOKEN_VALUE = 'support.property-value';
-const TOKEN_AT_KEYWORD = 'keyword.control.at-rule';
+const TOKEN_SELECTOR = 'tag';
+const TOKEN_SELECTOR_TAG = 'tag';
+const TOKEN_PROPERTY = 'attribute.name';
+const TOKEN_VALUE = 'attribute.value';
+const TOKEN_AT_KEYWORD = 'keyword';
 
 export var language = <IMonarchLanguage> {
-    defaultToken: '',
-    tokenPostfix: '.css',
+	defaultToken: '',
+	tokenPostfix: '.css',
 
-    ws: '[ \t\n\r\f]*', // whitespaces (referenced in several rules)
-    identifier: '-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
+	ws: '[ \t\n\r\f]*', // whitespaces (referenced in several rules)
+	identifier: '-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
 
-    brackets: [
-        { open: '{', close: '}', token: 'punctuation.curly' },
-        { open: '[', close: ']', token: 'punctuation.bracket' },
-        { open: '(', close: ')', token: 'punctuation.parenthesis' },
-        { open: '<', close: '>', token: 'punctuation.angle' }
-    ],
+	brackets: [
+		{ open: '{', close: '}', token: 'delimiter.bracket' },
+		{ open: '[', close: ']', token: 'delimiter.bracket' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '<', close: '>', token: 'delimiter.angle' }
+	],
 
-    tokenizer: {
-        root: [
-            { include: '@selector' },
-        ],
+	tokenizer: {
+		root: [
+			{ include: '@selector' },
+		],
 
-        selector: [
-            { include: '@comments' },
-            { include: '@import' },
-            ['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: TOKEN_AT_KEYWORD, next: '@keyframedeclaration' }],
-            ['[@](page|content|font-face|-moz-document)', { token: TOKEN_AT_KEYWORD }],
-            ['[@](charset|namespace)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
-            ['url(\\-prefix)?\\(', { token: 'support.function.name', bracket: '@open', next: '@urldeclaration' }],
-            { include: '@selectorname' },
-            ['[\\*]', TOKEN_SELECTOR_TAG], // selector symbols
-            ['[>\\+,]', 'punctuation'], // selector operators
-            ['\\[', { token: 'punctuation.bracket', bracket: '@open', next: '@selectorattribute' }],
-            ['{', { token: 'punctuation.curly', bracket: '@open', next: '@selectorbody' }]
-        ],
+		selector: [
+			{ include: '@comments' },
+			{ include: '@import' },
+			{ include: '@strings' },
+			['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: TOKEN_AT_KEYWORD, next: '@keyframedeclaration' }],
+			['[@](page|content|font-face|-moz-document)', { token: TOKEN_AT_KEYWORD }],
+			['[@](charset|namespace)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
+			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
+			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
+			{ include: '@selectorname' },
+			['[\\*]', TOKEN_SELECTOR_TAG], // selector symbols
+			['[>\\+,]', 'delimiter'], // selector operators
+			['\\[', { token: 'delimiter.bracket', next: '@selectorattribute' }],
+			['{', { token: 'delimiter.bracket', next: '@selectorbody' }]
+		],
 
-        selectorbody: [
-            ['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', TOKEN_PROPERTY, '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
-            ['}', { token: 'punctuation.curly', bracket: '@close', next: '@pop' }]
-        ],
+		selectorbody: [
+			{ include: '@comments' },
+			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', TOKEN_PROPERTY, '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
+			['}', { token: 'delimiter.bracket', next: '@pop' }]
+		],
 
-        selectorname: [
-            ['(\\.|#(?=[^{])|%|(@identifier)|:)+', TOKEN_SELECTOR], // selector (.foo, div, ...)
-        ],
+		selectorname: [
+			['(\\.|#(?=[^{])|%|(@identifier)|:)+', TOKEN_SELECTOR], // selector (.foo, div, ...)
+		],
 
-        selectorattribute: [
-            { include: '@term' },
-            [']', { token: 'punctuation.bracket', bracket: '@close', next: '@pop' }],
-        ],
+		selectorattribute: [
+			{ include: '@term' },
+			[']', { token: 'delimiter.bracket', next: '@pop' }],
+		],
 
-        term: [
-            { include: '@comments' },
-            ['url(\\-prefix)?\\(', { token: 'support.function.name', bracket: '@open', next: '@urldeclaration' }],
-            { include: '@functioninvocation' },
-            { include: '@numbers' },
-            { include: '@name' },
-            ['([<>=\\+\\-\\*\\/\\^\\|\\~,])', 'keyword.operator'],
-            [',', 'punctuation']
-        ],
+		term: [
+			{ include: '@comments' },
+			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
+			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
+			{ include: '@functioninvocation' },
+			{ include: '@numbers' },
+			{ include: '@name' },
+			['([<>=\\+\\-\\*\\/\\^\\|\\~,])', 'delimiter'],
+			[',', 'delimiter']
+		],
 
-        rulevalue: [
-            { include: '@term' },
-            ['!important', 'literal'],
-            [';', 'punctuation', '@pop'],
-            ['(?=})', { token: '', next: '@pop' }] // missing semicolon
-        ],
+		rulevalue: [
+			{ include: '@comments' },
+			{ include: '@strings' },
+			{ include: '@term' },
+			['!important', 'keyword'],
+			[';', 'delimiter', '@pop'],
+			['(?=})', { token: '', next: '@pop' }] // missing semicolon
+		],
 
-        warndebug: [
-            ['[@](warn|debug)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }]
-        ],
+		warndebug: [
+			['[@](warn|debug)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }]
+		],
 
-        import: [
-            ['[@](import)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }]
-        ],
+		import: [
+			['[@](import)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }]
+		],
 
-        urldeclaration: [
-            { include: '@strings' },
-            ['[^)\r\n]+', 'string'],
-            ['\\)', { token: 'support.function.name', bracket: '@close', next: '@pop' }]
-        ],
+		urldeclaration: [
+			{ include: '@strings' },
+			['[^)\r\n]+', 'string'],
+			['\\)', { token: 'delimiter.parenthesis', next: '@pop' }]
+		],
 
-        parenthizedterm: [
-            { include: '@term' },
-            ['\\)', { token: 'punctuation.parenthesis', bracket: '@close', next: '@pop' }]
-        ],
+		parenthizedterm: [
+			{ include: '@term' },
+			['\\)', { token: 'delimiter.parenthesis', next: '@pop' }]
+		],
 
-        declarationbody: [
-            { include: '@term' },
-            [';', 'punctuation', '@pop'],
-            ['(?=})', { token: '', next: '@pop' }] // missing semicolon
-        ],
+		declarationbody: [
+			{ include: '@term' },
+			[';', 'delimiter', '@pop'],
+			['(?=})', { token: '', next: '@pop' }] // missing semicolon
+		],
 
-        comments: [
-            ['\\/\\*', 'comment', '@comment'],
-            ['\\/\\/+.*', 'comment']
-        ],
+		comments: [
+			['\\/\\*', 'comment', '@comment'],
+			['\\/\\/+.*', 'comment']
+		],
 
-        comment: [
-            ['\\*\\/', 'comment', '@pop'],
-            ['.', 'comment']
-        ],
+		comment: [
+			['\\*\\/', 'comment', '@pop'],
+			['.', 'comment']
+		],
 
-        name: [
-            ['@identifier', TOKEN_VALUE]
-        ],
+		name: [
+			['@identifier', TOKEN_VALUE]
+		],
 
-        numbers: [
-            ['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'constant.numeric', next: '@units' }],
-            ['#[0-9a-fA-F_]+(?!\\w)', 'constant.rgb-value']
-        ],
+		numbers: [
+			['-?(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'attribute.value.number', next: '@units' }],
+			['#[0-9a-fA-F_]+(?!\\w)', 'attribute.value.hex']
+		],
 
-        units: [
-            ['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', 'constant.numeric', '@pop']
-        ],
+		units: [
+			['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', 'attribute.value.unit', '@pop']
+		],
 
-        keyframedeclaration: [
-            ['@identifier', 'support.function.name'],
-            ['{', { token: 'punctuation.curly', bracket: '@open', switchTo: '@keyframebody' }],
-        ],
+		keyframedeclaration: [
+			['@identifier', 'attribute.value'],
+			['{', { token: 'delimiter.bracket', switchTo: '@keyframebody' }],
+		],
 
-        keyframebody: [
-            { include: '@term' },
-            ['{', { token: 'punctuation.curly', bracket: '@open', next: '@selectorbody' }],
-            ['}', { token: 'punctuation.curly', bracket: '@close', next: '@pop' }],
-        ],
+		keyframebody: [
+			{ include: '@term' },
+			['{', { token: 'delimiter.bracket', next: '@selectorbody' }],
+			['}', { token: 'delimiter.bracket', next: '@pop' }],
+		],
 
-        functioninvocation: [
-            ['@identifier\\(', { token: 'support.function.name', bracket: '@open', next: '@functionarguments' }],
-        ],
+		functioninvocation: [
+			['@identifier\\(', { token: 'attribute.value', next: '@functionarguments' }],
+		],
 
-        functionarguments: [
-            ['\\$@identifier@ws:', TOKEN_PROPERTY],
-            ['[,]', 'punctuation'],
-            { include: '@term' },
-            ['\\)', { token: 'support.function.name', bracket: '@close', next: '@pop' }],
-        ],
+		functionarguments: [
+			['\\$@identifier@ws:', TOKEN_PROPERTY],
+			['[,]', 'delimiter'],
+			{ include: '@term' },
+			['\\)', { token: 'attribute.value', next: '@pop' }],
+		],
 
-        strings: [
-            ['~?"', { token: 'string.punctuation', bracket: '@open', next: '@stringenddoublequote' }],
-            ['~?\'', { token: 'string.punctuation', bracket: '@open', next: '@stringendquote' }]
-        ],
+		strings: [
+			['~?"', { token: 'string', next: '@stringenddoublequote' }],
+			['~?\'', { token: 'string', next: '@stringendquote' }]
+		],
 
-        stringenddoublequote: [
-            ['\\\\.', 'string'],
-            ['"', { token: 'string.punctuation', next: '@pop', bracket: '@close' }],
-            ['.', 'string']
-        ],
+		stringenddoublequote: [
+			['\\\\.', 'string'],
+			['"', { token: 'string', next: '@pop', bracket: '@close' }],
+			['.', 'string']
+		],
 
-        stringendquote: [
-            ['\\\\.', 'string'],
-            ['\'', { token: 'string.punctuation', next: '@pop', bracket: '@close' }],
-            ['.', 'string']
-        ]
-    }
+		stringendquote: [
+			['\\\\.', 'string'],
+			['\'', { token: 'string', next: '@pop', bracket: '@close' }],
+			['.', 'string']
+		]
+	}
 };
