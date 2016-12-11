@@ -35,6 +35,7 @@ requirejs([
 		'out/test/html.test',
 		'out/test/jade.test',
 		'out/test/java.test',
+		'out/test/less.test',
 		'out/test/lua.test',
 		'out/test/markdown.test',
 		'out/test/objective-c.test',

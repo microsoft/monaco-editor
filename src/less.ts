@@ -25,10 +25,10 @@ export var conf: IRichLanguageConfiguration = {
     ]
 };
 
-const TOKEN_SELECTOR = 'entity.name.selector';
-const TOKEN_SELECTOR_TAG = 'entity.name.tag';
-const TOKEN_PROPERTY = 'support.type.property-name';
-const TOKEN_VALUE = 'support.property-value';
+const TOKEN_SELECTOR = 'tag';
+const TOKEN_SELECTOR_TAG = 'tag';
+const TOKEN_PROPERTY = 'attribute.name';
+const TOKEN_VALUE = 'attribute.value';
 const TOKEN_AT_KEYWORD = 'keyword.control.at-rule';
 
 export var language = <ILanguage> {
@@ -39,10 +39,10 @@ export var language = <ILanguage> {
 	identifierPlus: '-?-?([a-zA-Z:.]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-:.]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
 
 	brackets: [
-		{ open: '{', close: '}', token: 'punctuation.curly' },
-		{ open: '[', close: ']', token: 'punctuation.bracket' },
-		{ open: '(', close: ')', token: 'punctuation.parenthesis' },
-		{ open: '<', close: '>', token: 'punctuation.angle' }
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.bracket' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '<', close: '>', token: 'delimiter.angle' }
 	],
 
 	tokenizer: {
@@ -57,10 +57,10 @@ export var language = <ILanguage> {
 			{ include: '@numbers' },
 			['[*_]?[a-zA-Z\\-\\s]+(?=:.*(;|(\\\\$)))', TOKEN_PROPERTY, '@attribute'],
 
-			['url(\\-prefix)?\\(', { token: 'function', bracket: '@open', next: '@urldeclaration'}],
+			['url(\\-prefix)?\\(', { token: 'tag', bracket: '@open', next: '@urldeclaration'}],
 
 			['[{}()\\[\\]]', '@brackets'],
-			['[,:;]', 'punctuation'],
+			['[,:;]', 'delimiter'],
 
 			['#@identifierPlus', TOKEN_SELECTOR + '.id'],
 			['&', TOKEN_SELECTOR_TAG],
@@ -77,12 +77,12 @@ export var language = <ILanguage> {
 		],
 
 		nestedJSBegin: [
-			['``', 'punctuation.backtick'],
-			<any[]>['`', { token: 'punctuation.backtick', bracket: '@open', next: '@nestedJSEnd', nextEmbedded: 'text/javascript' }],
+			['``', 'delimiter.backtick'],
+			<any[]>['`', { token: 'delimiter.backtick', bracket: '@open', next: '@nestedJSEnd', nextEmbedded: 'text/javascript' }],
 		],
 
 		nestedJSEnd: [
-			<any[]>['`', { token: 'punctuation.backtick', bracket: '@close', next: '@pop' }],
+			<any[]>['`', { token: 'delimiter.backtick', bracket: '@close', next: '@pop' }],
 			<any[]>['.', { token: '@rematch', next: '@javascript_block' }],
 		],
 
@@ -121,8 +121,8 @@ export var language = <ILanguage> {
 			['[)\\}]', '@brackets', '@pop'],
 			['[{}()\\[\\]>]', '@brackets'],
 
-			['[;]', 'punctuation', '@pop'],
-			['[,=:]', 'punctuation'],
+			['[;]', 'delimiter', '@pop'],
+			['[,=:]', 'delimiter'],
 
 			['\\s', ''],
 			['.', TOKEN_VALUE]
@@ -139,8 +139,8 @@ export var language = <ILanguage> {
 		],
 
 		numbers: [
-			<any[]>['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: TOKEN_VALUE + '.numeric', next: '@units' }],
-			['#[0-9a-fA-F_]+(?!\\w)', TOKEN_VALUE + '.rgb-value']
+			<any[]>['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: TOKEN_VALUE + '.number', next: '@units' }],
+			['#[0-9a-fA-F_]+(?!\\w)', TOKEN_VALUE + '.hex']
 		],
 
 		units: [
@@ -148,27 +148,27 @@ export var language = <ILanguage> {
 		],
 
 		strings: [
-			<any[]>['~?"', { token: 'string.punctuation', bracket: '@open', next: '@stringsEndDoubleQuote' }],
-			<any[]>['~?\'', { token: 'string.punctuation', bracket: '@open', next: '@stringsEndQuote' }]
+			<any[]>['~?"', { token: 'string.delimiter', bracket: '@open', next: '@stringsEndDoubleQuote' }],
+			<any[]>['~?\'', { token: 'string.delimiter', bracket: '@open', next: '@stringsEndQuote' }]
 		],
 
 		stringsEndDoubleQuote: [
 			['\\\\"', 'string'],
-			<any[]>['"', { token: 'string.punctuation', next: '@popall', bracket: '@close' }],
+			<any[]>['"', { token: 'string.delimiter', next: '@popall', bracket: '@close' }],
 			['.', 'string']
 		],
 
 		stringsEndQuote: [
 			['\\\\\'', 'string'],
-			<any[]>['\'', { token: 'string.punctuation', next: '@popall', bracket: '@close' }],
+			<any[]>['\'', { token: 'string.delimiter', next: '@popall', bracket: '@close' }],
 			['.', 'string']
 		],
 
 		atRules: <any[]>[
 			{ include: '@comments' },
 			{ include: '@strings' },
-			['[()]', 'punctuation'],
-			['[\\{;]', 'punctuation', '@pop'],
+			['[()]', 'delimiter'],
+			['[\\{;]', 'delimiter', '@pop'],
 			['.', 'key']
 		]
 	}
