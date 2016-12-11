@@ -139,12 +139,12 @@ export var language = <ILanguage> {
 		],
 
 		numbers: [
-			<any[]>['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: TOKEN_VALUE + '.number', next: '@units' }],
+			['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: TOKEN_VALUE + '.number', next: '@units' }],
 			['#[0-9a-fA-F_]+(?!\\w)', TOKEN_VALUE + '.hex']
 		],
 
 		units: [
-			['((em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)\\b)?', TOKEN_VALUE + '.unit', '@pop']
+			['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', TOKEN_VALUE + '.unit', '@pop']
 		],
 
 		strings: [
