@@ -38,9 +38,9 @@ export var language = <ILanguage> {
 	tokenPostfix: '.bat',
 
 	brackets: [
-		{ token: 'punctuation.bracket', open: '{', close: '}' },
-		{ token: 'punctuation.parenthesis', open: '(', close: ')' },
-		{ token: 'punctuation.square', open: '[', close: ']' }
+		{ token: 'delimiter.bracket', open: '{', close: '}' },
+		{ token: 'delimiter.parenthesis', open: '(', close: ')' },
+		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
 	keywords: /call|defined|echo|errorlevel|exist|for|goto|if|pause|set|shift|start|title|not|pushd|popd/,
@@ -55,14 +55,14 @@ export var language = <ILanguage> {
 
 			[/^(\s*)(rem(?:\s.*|))$/, ['','comment']],
 
-			[/(\@?)(@keywords)(?!\w)/, [{token:'support.function'}, {token:'support.function.$2'}]],
+			[/(\@?)(@keywords)(?!\w)/, [{token:'keyword'}, {token:'keyword.$2'}]],
 
 			// whitespace
 			[/[ \t\r\n]+/, ''],
 
 			// blocks
-			[/setlocal(?!\w)/, { token: 'support.function.tag-setlocal', bracket: '@open' }],
-			[/endlocal(?!\w)/, { token: 'support.function.tag-setlocal', bracket: '@close' }],
+			[/setlocal(?!\w)/, { token: 'keyword.tag-setlocal', bracket: '@open' }],
+			[/endlocal(?!\w)/, { token: 'keyword.tag-setlocal', bracket: '@close' }],
 
 			// words
 			[/[a-zA-Z_]\w*/, ''],
@@ -76,15 +76,15 @@ export var language = <ILanguage> {
 
 			// punctuations
 			[/[{}()\[\]]/, '@brackets'],
-			[/@symbols/, 'punctuation'],
+			[/@symbols/, 'delimiter'],
 
 			// numbers
-			[/\d*\.\d+([eE][\-+]?\d+)?/, 'constant.numeric.float'],
-			[/0[xX][0-9a-fA-F_]*[0-9a-fA-F]/, 'constant.numeric.hex'],
-			[/\d+/, 'constant.numeric'],
+			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+			[/0[xX][0-9a-fA-F_]*[0-9a-fA-F]/, 'number.hex'],
+			[/\d+/, 'number'],
 
 			// punctuation: after number because of .\d floats
-			[/[;,.]/, 'punctuation'],
+			[/[;,.]/, 'delimiter'],
 
 			// strings:
 			[/"/,  'string', '@string."' ],
