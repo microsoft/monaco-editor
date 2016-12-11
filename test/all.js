@@ -45,6 +45,7 @@ requirejs([
 		'out/test/r.test',
 		'out/test/razor.test',
 		'out/test/ruby.test',
+		'out/test/scss.test',
 		'out/test/swift.test',
 		'out/test/sql.test',
 		'out/test/vb.test',

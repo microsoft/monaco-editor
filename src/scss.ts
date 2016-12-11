@@ -25,11 +25,11 @@ export var conf: LanguageConfiguration = {
     ]
 };
 
-const TOKEN_SELECTOR = 'entity.name.selector';
-const TOKEN_SELECTOR_TAG = 'entity.name.tag';
-const TOKEN_PROPERTY = 'support.type.property-name';
-const TOKEN_VALUE = 'support.property-value';
-const TOKEN_AT_KEYWORD = 'keyword.control.at-rule';
+const TOKEN_SELECTOR = 'tag';
+const TOKEN_SELECTOR_TAG = 'tag';
+const TOKEN_PROPERTY = 'attribute.name';
+const TOKEN_VALUE = 'attribute.value';
+const TOKEN_AT_KEYWORD = 'keyword';
 
 export var language = <IMonarchLanguage> {
     defaultToken: '',
@@ -39,10 +39,10 @@ export var language = <IMonarchLanguage> {
     identifier: '-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
 
     brackets: [
-        { open: '{', close: '}', token: 'punctuation.curly' },
-        { open: '[', close: ']', token: 'punctuation.bracket' },
-        { open: '(', close: ')', token: 'punctuation.parenthesis' },
-        { open: '<', close: '>', token: 'punctuation.angle' }
+        { open: '{', close: '}', token: 'delimiter.curly' },
+        { open: '[', close: ']', token: 'delimiter.bracket' },
+        { open: '(', close: ')', token: 'delimiter.parenthesis' },
+        { open: '<', close: '>', token: 'delimiter.angle' }
     ],
 
     tokenizer: {
@@ -61,13 +61,13 @@ export var language = <IMonarchLanguage> {
             ['[@](charset|namespace)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
             ['[@](function)', { token: TOKEN_AT_KEYWORD, next: '@functiondeclaration' }],
             ['[@](mixin)', { token: TOKEN_AT_KEYWORD, next: '@mixindeclaration' }],
-            ['url(\\-prefix)?\\(', { token: 'support.function.name', bracket: '@open', next: '@urldeclaration' }],
+            ['url(\\-prefix)?\\(', { token: 'meta', bracket: '@open', next: '@urldeclaration' }],
             { include: '@controlstatement' }, // sass control statements
             { include: '@selectorname' },
             ['[&\\*]', TOKEN_SELECTOR_TAG], // selector symbols
-            ['[>\\+,]', 'punctuation'], // selector operators
-            ['\\[', { token: 'punctuation.bracket', bracket: '@open', next: '@selectorattribute' }],
-            ['{', { token: 'punctuation.curly', bracket: '@open', next: '@selectorbody' }],
+            ['[>\\+,]', 'delimiter'], // selector operators
+            ['\\[', { token: 'delimiter.bracket', bracket: '@open', next: '@selectorattribute' }],
+            ['{', { token: 'delimiter.curly', bracket: '@open', next: '@selectorbody' }],
         ],
 
         selectorbody: [
@@ -75,46 +75,46 @@ export var language = <IMonarchLanguage> {
             { include: '@selector' }, // sass: nested selectors
             ['[@](extend)', { token: TOKEN_AT_KEYWORD, next: '@extendbody' }], // sass: extend other selectors
             ['[@](return)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
-            ['}', { token: 'punctuation.curly', bracket: '@close', next: '@pop' }],
+            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
         ],
 
         selectorname: [
-            ['#{', { token: 'support.function.interpolation', bracket: '@open', next: '@variableinterpolation' }], // sass: interpolation
+            ['#{', { token: 'meta', bracket: '@open', next: '@variableinterpolation' }], // sass: interpolation
             ['(\\.|#(?=[^{])|%|(@identifier)|:)+', TOKEN_SELECTOR], // selector (.foo, div, ...)
         ],
 
         selectorattribute: [
             { include: '@term' },
-            [']', { token: 'punctuation.bracket', bracket: '@close', next: '@pop' }],
+            [']', { token: 'delimiter.bracket', bracket: '@close', next: '@pop' }],
         ],
 
         term: [
             { include: '@comments' },
-            ['url(\\-prefix)?\\(', { token: 'support.function.name', bracket: '@open', next: '@urldeclaration' }],
+            ['url(\\-prefix)?\\(', { token: 'meta', bracket: '@open', next: '@urldeclaration' }],
             { include: '@functioninvocation' },
             { include: '@numbers' },
             { include: '@strings' },
             { include: '@variablereference' },
-            ['(and\\b|or\\b|not\\b)', 'keyword.operator'],
+            ['(and\\b|or\\b|not\\b)', 'operator'],
             { include: '@name' },
-            ['([<>=\\+\\-\\*\\/\\^\\|\\~,])', 'keyword.operator'],
-            [',', 'punctuation'],
+            ['([<>=\\+\\-\\*\\/\\^\\|\\~,])', 'operator'],
+            [',', 'delimiter'],
             ['!default', 'literal'],
-            ['\\(', { token: 'punctuation.parenthesis', bracket: '@open', next: '@parenthizedterm' }],
+            ['\\(', { token: 'delimiter.parenthesis', bracket: '@open', next: '@parenthizedterm' }],
         ],
 
         rulevalue: [
             { include: '@term' },
             ['!important', 'literal'],
-            [';', 'punctuation', '@pop'],
-            ['{', { token: 'punctuation.curly', bracket: '@open', switchTo: '@nestedproperty' }], // sass: nested properties
+            [';', 'delimiter', '@pop'],
+            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@nestedproperty' }], // sass: nested properties
             ['(?=})', { token: '', next: '@pop' }], // missing semicolon
         ],
 
         nestedproperty: [
             ['[*_]?@identifier@ws:', TOKEN_PROPERTY, '@rulevalue'],
             { include: '@comments' },
-            ['}', { token: 'punctuation.curly', bracket: '@close', next: '@pop' }],
+            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
         ],
 
         warndebug: [
@@ -132,36 +132,36 @@ export var language = <IMonarchLanguage> {
         urldeclaration: [
             { include: '@strings' },
             ['[^)\r\n]+', 'string'],
-            ['\\)', { token: 'support.function.name', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'meta', bracket: '@close', next: '@pop' }],
         ],
 
         parenthizedterm: [
             { include: '@term' },
-            ['\\)', { token: 'punctuation.parenthesis', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'delimiter.parenthesis', bracket: '@close', next: '@pop' }],
         ],
 
         declarationbody: [
             { include: '@term' },
-            [';', 'punctuation', '@pop'],
+            [';', 'delimiter', '@pop'],
             ['(?=})', { token: '', next: '@pop' }], // missing semicolon
         ],
 
         extendbody: [
             { include: '@selectorname' },
             ['!optional', 'literal'],
-            [';', 'punctuation', '@pop'],
+            [';', 'delimiter', '@pop'],
             ['(?=})', { token: '', next: '@pop' }], // missing semicolon
         ],
 
         variablereference: [ // sass variable reference
             ['\\$@identifier', 'variable.ref'],
-            ['\\.\\.\\.', 'keyword.operator'], // var args in reference
-            ['#{', { token: 'support.function.interpolation', bracket: '@open', next: '@variableinterpolation' }], // sass var resolve
+            ['\\.\\.\\.', 'operator'], // var args in reference
+            ['#{', { token: 'meta', bracket: '@open', next: '@variableinterpolation' }], // sass var resolve
         ],
 
         variableinterpolation: [
             { include: '@variablereference' },
-            ['}', { token: 'support.function.interpolation', bracket: '@close', next: '@pop' }],
+            ['}', { token: 'meta', bracket: '@close', next: '@pop' }],
         ],
 
         comments: [
@@ -179,62 +179,62 @@ export var language = <IMonarchLanguage> {
         ],
 
         numbers: [
-            ['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'constant.numeric', next: '@units' }],
-            ['#[0-9a-fA-F_]+(?!\\w)', 'constant.rgb-value'],
+            ['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'number', next: '@units' }],
+            ['#[0-9a-fA-F_]+(?!\\w)', 'number.hex'],
         ],
 
         units: [
-            ['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', 'constant.numeric', '@pop']
+            ['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', 'number', '@pop']
         ],
 
         functiondeclaration: [
-            ['@identifier@ws\\(', { token: 'support.function.name', bracket: '@open', next: '@parameterdeclaration' }],
-            ['{', { token: 'punctuation.curly', bracket: '@open', switchTo: '@functionbody' }],
+            ['@identifier@ws\\(', { token: 'meta', bracket: '@open', next: '@parameterdeclaration' }],
+            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@functionbody' }],
         ],
 
         mixindeclaration: [
             // mixin with parameters
-            ['@identifier@ws\\(', { token: 'support.function.name', bracket: '@open', next: '@parameterdeclaration' }],
+            ['@identifier@ws\\(', { token: 'meta', bracket: '@open', next: '@parameterdeclaration' }],
             // mixin without parameters
-            ['@identifier', 'support.function.name'],
-            ['{', { token: 'punctuation.curly', bracket: '@open', switchTo: '@selectorbody' }],
+            ['@identifier', 'meta'],
+            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@selectorbody' }],
         ],
 
         parameterdeclaration: [
-            ['\\$@identifier@ws:', 'variable'],
-            ['\\.\\.\\.', 'keyword.operator'], // var args in declaration
-            [',', 'punctuation'],
+            ['\\$@identifier@ws:', 'variable.decl'],
+            ['\\.\\.\\.', 'operator'], // var args in declaration
+            [',', 'delimiter'],
             { include: '@term' },
-            ['\\)', { token: 'support.function.name', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'meta', bracket: '@close', next: '@pop' }],
         ],
 
         includedeclaration: [
             { include: '@functioninvocation' },
-            ['@identifier', 'support.function.name'],
-            [';', 'punctuation', '@pop'],
+            ['@identifier', 'meta'],
+            [';', 'delimiter', '@pop'],
             ['(?=})', { token: '', next: '@pop' }], // missing semicolon
-            ['{', { token: 'punctuation.curly', bracket: '@open', switchTo: '@selectorbody' }],
+            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@selectorbody' }],
         ],
 
         keyframedeclaration: [
-            ['@identifier', 'support.function.name'],
-            ['{', { token: 'punctuation.curly', bracket: '@open', switchTo: '@keyframebody' }],
+            ['@identifier', 'meta'],
+            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@keyframebody' }],
         ],
 
         keyframebody: [
             { include: '@term' },
-            ['{', { token: 'punctuation.curly', bracket: '@open', next: '@selectorbody' }],
-            ['}', { token: 'punctuation.curly', bracket: '@close', next: '@pop' }],
+            ['{', { token: 'delimiter.curly', bracket: '@open', next: '@selectorbody' }],
+            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
         ],
 
         controlstatement: [
-            ['[@](if|else|for|while|each|media)', { token: 'keyword.flow.control.at-rule', next: '@controlstatementdeclaration' }],
+            ['[@](if|else|for|while|each|media)', { token: 'keyword.flow', next: '@controlstatementdeclaration' }],
         ],
 
         controlstatementdeclaration: [
-            ['(in|from|through|if|to)\\b', { token: 'keyword.flow.control.at-rule' }],
+            ['(in|from|through|if|to)\\b', { token: 'keyword.flow' }],
             { include: '@term' },
-            ['{', { token: 'punctuation.curly', bracket: '@open', switchTo: '@selectorbody' }],
+            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@selectorbody' }],
         ],
 
         functionbody: [
@@ -242,35 +242,35 @@ export var language = <IMonarchLanguage> {
             { include: '@variabledeclaration' },
             { include: '@term' },
             { include: '@controlstatement' },
-            [';', 'punctuation'],
-            ['}', { token: 'punctuation.curly', bracket: '@close', next: '@pop' }],
+            [';', 'delimiter'],
+            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
         ],
 
         functioninvocation: [
-            ['@identifier\\(', { token: 'support.function.name', bracket: '@open', next: '@functionarguments' }],
+            ['@identifier\\(', { token: 'meta', bracket: '@open', next: '@functionarguments' }],
         ],
 
         functionarguments: [
             ['\\$@identifier@ws:', TOKEN_PROPERTY],
-            ['[,]', 'punctuation'],
+            ['[,]', 'delimiter'],
             { include: '@term' },
-            ['\\)', { token: 'support.function.name', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'meta', bracket: '@close', next: '@pop' }],
         ],
 
         strings: [
-            ['~?"', { token: 'string.punctuation', bracket: '@open', next: '@stringenddoublequote' }],
-            ['~?\'', { token: 'string.punctuation', bracket: '@open', next: '@stringendquote' }]
+            ['~?"', { token: 'string.delimiter', bracket: '@open', next: '@stringenddoublequote' }],
+            ['~?\'', { token: 'string.delimiter', bracket: '@open', next: '@stringendquote' }]
         ],
 
         stringenddoublequote: [
             ['\\\\.', 'string'],
-            ['"', { token: 'string.punctuation', next: '@pop', bracket: '@close' }],
+            ['"', { token: 'string.delimiter', next: '@pop', bracket: '@close' }],
             ['.', 'string']
         ],
 
         stringendquote: [
             ['\\\\.', 'string'],
-            ['\'', { token: 'string.punctuation', next: '@pop', bracket: '@close' }],
+            ['\'', { token: 'string.delimiter', next: '@pop', bracket: '@close' }],
             ['.', 'string']
         ]
     }
