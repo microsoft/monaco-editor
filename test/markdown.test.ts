@@ -12,7 +12,7 @@ testTokenization('markdown', [
     [{
         line: '# Some header',
         tokens: [
-            { startIndex: 0, type: 'entity.name.tag.md' }
+            { startIndex: 0, type: 'keyword.md' }
         ]
     }],
 

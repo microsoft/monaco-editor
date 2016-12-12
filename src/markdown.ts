@@ -8,24 +8,18 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-const TOKEN_HEADER_LEAD = 'entity.name.tag';
-const TOKEN_HEADER = 'entity.name.tag';
-const TOKEN_EXT_HEADER = 'entity.other.attribute-name';
+const TOKEN_HEADER_LEAD = 'keyword';
+const TOKEN_HEADER = 'keyword';
+const TOKEN_EXT_HEADER = 'keyword';
 const TOKEN_SEPARATOR = 'meta.separator';
 const TOKEN_QUOTE = 'comment';
 const TOKEN_LIST = 'keyword';
 const TOKEN_BLOCK = 'string';
 const TOKEN_BLOCK_CODE = 'variable.source';
 
-const DELIM_END = 'punctuation.definition.meta.tag.end.html';
-const DELIM_START = 'punctuation.definition.meta.tag.begin.html';
 const DELIM_ASSIGN = 'meta.tag.assign.html';
-const ATTRIB_NAME = 'entity.other.attribute-name.html';
+const ATTRIB_NAME = 'attribute.name.html';
 const ATTRIB_VALUE = 'string.html';
-const COMMENT = 'comment.html.content';
-const DELIM_COMMENT = 'comment.html';
-const DOCTYPE = 'entity.other.attribute-name.html';
-const DELIM_DOCTYPE = 'entity.name.tag.html';
 
 const TAG_PREFIX = 'entity.name.tag.tag-';
 
