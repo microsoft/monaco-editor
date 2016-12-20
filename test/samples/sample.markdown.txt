@@ -4,6 +4,13 @@
 ## Markdown plus h2 with a custom ID ##   {#id-goes-here}
 [Link back to H2](#id-goes-here)
 
+```js
+var x = "string";
+function f() {
+  return x;
+}
+```
+
 <!-- html madness -->
 <div class="custom-class" markdown="1">
   <div>
@@ -23,12 +30,12 @@
 - Another one
 + Another one
 
-This is a paragraph, which is text surrounded by 
-whitespace. Paragraphs can be on one 
-line (or many), and can drone on for hours.  
+This is a paragraph, which is text surrounded by
+whitespace. Paragraphs can be on one
+line (or many), and can drone on for hours.
 
-Now some inline markup like _italics_,  **bold**, 
-and `code()`. Note that underscores 
+Now some inline markup like _italics_,  **bold**,
+and `code()`. Note that underscores
 in_words_are ignored.
 
 ````application/json
@@ -57,11 +64,11 @@ if (this_is_more_code == true && !indented) {
 }
 ~~~
 
-Text with  
-two trailing spaces  
-(on the right)  
-can be used  
-for things like poems  
+Text with
+two trailing spaces
+(on the right)
+can be used
+for things like poems
 
 ### Horizontal rules
 
@@ -69,7 +76,7 @@ for things like poems
 ****
 --------------------------
 
-![picture alt](/images/photo.jpeg "Title is optional")     
+![picture alt](/images/photo.jpeg "Title is optional")
 
 ## Markdown plus tables ##
 
