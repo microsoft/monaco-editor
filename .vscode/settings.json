@@ -7,5 +7,6 @@
 		"**/out": true
 	},
 	"editor.tabSize": 4,
-	"editor.insertSpaces": false
+	"editor.insertSpaces": false,
+	"typescript.tsdk": "./node_modules/typescript/lib"
 }

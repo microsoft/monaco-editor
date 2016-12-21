@@ -80,13 +80,12 @@ function runTest(languageId:string, test:ITestItem[]): void {
 	for (let lineNumber = 1, lineCount = model.getLineCount(); lineNumber <= lineCount; lineNumber++) {
 		let actual: IRelaxedToken[] = [];
 		let lineTokens:LineTokens = (<any>model).getLineTokens(lineNumber);
-		let token = lineTokens.firstToken();
-		while (token) {
+		let count = lineTokens.getTokenCount();
+		for (let i = 0; i < count; i++) {
 			actual.push({
-				startIndex: token.startOffset,
-				type: token.type
+				startIndex: lineTokens.getTokenStartOffset(i),
+				type: lineTokens.getTokenType(i)
 			});
-			token = token.next();
 		}
 
 		let expected = test[lineNumber - 1].tokens;

@@ -78,16 +78,11 @@ export var language = <ILanguage> {
 
 		nestedJSBegin: [
 			['``', 'delimiter.backtick'],
-			<any[]>['`', { token: 'delimiter.backtick', bracket: '@open', next: '@nestedJSEnd', nextEmbedded: 'text/javascript' }],
+			['`', { token: 'delimiter.backtick', bracket: '@open', next: '@nestedJSEnd', nextEmbedded: 'text/javascript' }],
 		],
 
 		nestedJSEnd: [
-			<any[]>['`', { token: 'delimiter.backtick', bracket: '@close', next: '@pop' }],
-			<any[]>['.', { token: '@rematch', next: '@javascript_block' }],
-		],
-
-		javascript_block: [
-			<any[]>['`', { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			['`', { token: 'delimiter.backtick', bracket: '@close', next: '@pop', nextEmbedded: '@pop' }],
 		],
 
 		operators: [
