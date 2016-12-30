@@ -136,7 +136,7 @@ export var language = <ILanguage> {
 			[/@escapes/, 'string.escape'],
 			[/\./, 'string.escape.invalid'],
 
-			[/#{/, { token: 'string.quote', bracket: '@open', next: 'root.interpolatedstring' } ],
+			[/#{/, { token: 'string.quote', next: 'root.interpolatedstring' } ],
 			[/#/, 'string']
 		],
 
@@ -147,7 +147,7 @@ export var language = <ILanguage> {
 		],
 
 		hereregexp: [
-			[/[^\\\/#]/, 'regexp'],
+			[/[^\\\/#]+/, 'regexp'],
 			[/\\./, 'regexp'],
 			[/#.*$/, 'comment'],
 			['///[igm]*', { token: 'regexp', next: '@pop' }],

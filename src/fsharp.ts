@@ -96,7 +96,7 @@ export var language = <ILanguage> {
 			[/"/, 'string', '@string."' ],
 
 			// literal string
-			[/\@"/, { token: 'string.quote', bracket: '@open', next: '@litstring' }],
+			[/\@"/, { token: 'string.quote', next: '@litstring' }],
 
 			// characters
 			[/'[^\\']'B?/, 'string'],
@@ -127,7 +127,7 @@ export var language = <ILanguage> {
 		litstring: [
 			[/[^"]+/,    'string'],
 			[/""/,       'string.escape'],
-			[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+			[/"/,        { token: 'string.quote', next: '@pop' } ]
 		],
 	},
 };

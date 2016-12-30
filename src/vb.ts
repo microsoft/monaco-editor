@@ -130,14 +130,14 @@ export var language = <ILanguage> {
 			{ include: '@whitespace' },
 
 			// special ending tag-words
-			[/next(?!\w)/, { token: 'keyword.tag-for', bracket: '@close'}],
-			[/loop(?!\w)/, { token: 'keyword.tag-do', bracket: '@close' }],
+			[/next(?!\w)/, { token: 'keyword.tag-for'}],
+			[/loop(?!\w)/, { token: 'keyword.tag-do' }],
 
 			// usual ending tags
-			[/end\s+(?!for|do)([a-zA-Z_]\w*)/, { token: 'keyword.tag-$1', bracket: '@close' }],
+			[/end\s+(?!for|do)([a-zA-Z_]\w*)/, { token: 'keyword.tag-$1' }],
 
 			// identifiers, tagwords, and keywords
-			[/[a-zA-Z_]\w*/, { cases: { '@tagwords': {token:'keyword.tag-$0', bracket: '@open'},
+			[/[a-zA-Z_]\w*/, { cases: { '@tagwords': {token:'keyword.tag-$0'},
 										'@keywords': {token:'keyword.$0'},
 										'@default': 'identifier' } }],
 

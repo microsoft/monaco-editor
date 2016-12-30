@@ -57,7 +57,7 @@ export var language = <ILanguage> {
 			{ include: '@numbers' },
 			['[*_]?[a-zA-Z\\-\\s]+(?=:.*(;|(\\\\$)))', TOKEN_PROPERTY, '@attribute'],
 
-			['url(\\-prefix)?\\(', { token: 'tag', bracket: '@open', next: '@urldeclaration'}],
+			['url(\\-prefix)?\\(', { token: 'tag', next: '@urldeclaration'}],
 
 			['[{}()\\[\\]]', '@brackets'],
 			['[,:;]', 'delimiter'],
@@ -78,11 +78,11 @@ export var language = <ILanguage> {
 
 		nestedJSBegin: [
 			['``', 'delimiter.backtick'],
-			['`', { token: 'delimiter.backtick', bracket: '@open', next: '@nestedJSEnd', nextEmbedded: 'text/javascript' }],
+			['`', { token: 'delimiter.backtick', next: '@nestedJSEnd', nextEmbedded: 'text/javascript' }],
 		],
 
 		nestedJSEnd: [
-			['`', { token: 'delimiter.backtick', bracket: '@close', next: '@pop', nextEmbedded: '@pop' }],
+			['`', { token: 'delimiter.backtick', next: '@pop', nextEmbedded: '@pop' }],
 		],
 
 		operators: [
@@ -96,7 +96,7 @@ export var language = <ILanguage> {
 		urldeclaration: [
 			{ include: '@strings'},
 			[ '[^)\r\n]+', 'string' ],
-			['\\)', { token: 'tag', bracket: '@close', next: '@pop'}],
+			['\\)', { token: 'tag', next: '@pop'}],
 		],
 
 		attribute: <any[]>[
@@ -143,19 +143,19 @@ export var language = <ILanguage> {
 		],
 
 		strings: [
-			<any[]>['~?"', { token: 'string.delimiter', bracket: '@open', next: '@stringsEndDoubleQuote' }],
-			<any[]>['~?\'', { token: 'string.delimiter', bracket: '@open', next: '@stringsEndQuote' }]
+			<any[]>['~?"', { token: 'string.delimiter', next: '@stringsEndDoubleQuote' }],
+			<any[]>['~?\'', { token: 'string.delimiter', next: '@stringsEndQuote' }]
 		],
 
 		stringsEndDoubleQuote: [
 			['\\\\"', 'string'],
-			<any[]>['"', { token: 'string.delimiter', next: '@popall', bracket: '@close' }],
+			<any[]>['"', { token: 'string.delimiter', next: '@popall' }],
 			['.', 'string']
 		],
 
 		stringsEndQuote: [
 			['\\\\\'', 'string'],
-			<any[]>['\'', { token: 'string.delimiter', next: '@popall', bracket: '@close' }],
+			<any[]>['\'', { token: 'string.delimiter', next: '@popall' }],
 			['.', 'string']
 		],
 

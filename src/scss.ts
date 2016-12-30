@@ -61,13 +61,13 @@ export var language = <IMonarchLanguage> {
             ['[@](charset|namespace)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
             ['[@](function)', { token: TOKEN_AT_KEYWORD, next: '@functiondeclaration' }],
             ['[@](mixin)', { token: TOKEN_AT_KEYWORD, next: '@mixindeclaration' }],
-            ['url(\\-prefix)?\\(', { token: 'meta', bracket: '@open', next: '@urldeclaration' }],
+            ['url(\\-prefix)?\\(', { token: 'meta', next: '@urldeclaration' }],
             { include: '@controlstatement' }, // sass control statements
             { include: '@selectorname' },
             ['[&\\*]', TOKEN_SELECTOR_TAG], // selector symbols
             ['[>\\+,]', 'delimiter'], // selector operators
-            ['\\[', { token: 'delimiter.bracket', bracket: '@open', next: '@selectorattribute' }],
-            ['{', { token: 'delimiter.curly', bracket: '@open', next: '@selectorbody' }],
+            ['\\[', { token: 'delimiter.bracket', next: '@selectorattribute' }],
+            ['{', { token: 'delimiter.curly', next: '@selectorbody' }],
         ],
 
         selectorbody: [
@@ -75,22 +75,22 @@ export var language = <IMonarchLanguage> {
             { include: '@selector' }, // sass: nested selectors
             ['[@](extend)', { token: TOKEN_AT_KEYWORD, next: '@extendbody' }], // sass: extend other selectors
             ['[@](return)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
-            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
+            ['}', { token: 'delimiter.curly', next: '@pop' }],
         ],
 
         selectorname: [
-            ['#{', { token: 'meta', bracket: '@open', next: '@variableinterpolation' }], // sass: interpolation
+            ['#{', { token: 'meta', next: '@variableinterpolation' }], // sass: interpolation
             ['(\\.|#(?=[^{])|%|(@identifier)|:)+', TOKEN_SELECTOR], // selector (.foo, div, ...)
         ],
 
         selectorattribute: [
             { include: '@term' },
-            [']', { token: 'delimiter.bracket', bracket: '@close', next: '@pop' }],
+            [']', { token: 'delimiter.bracket', next: '@pop' }],
         ],
 
         term: [
             { include: '@comments' },
-            ['url(\\-prefix)?\\(', { token: 'meta', bracket: '@open', next: '@urldeclaration' }],
+            ['url(\\-prefix)?\\(', { token: 'meta', next: '@urldeclaration' }],
             { include: '@functioninvocation' },
             { include: '@numbers' },
             { include: '@strings' },
@@ -100,21 +100,21 @@ export var language = <IMonarchLanguage> {
             ['([<>=\\+\\-\\*\\/\\^\\|\\~,])', 'operator'],
             [',', 'delimiter'],
             ['!default', 'literal'],
-            ['\\(', { token: 'delimiter.parenthesis', bracket: '@open', next: '@parenthizedterm' }],
+            ['\\(', { token: 'delimiter.parenthesis', next: '@parenthizedterm' }],
         ],
 
         rulevalue: [
             { include: '@term' },
             ['!important', 'literal'],
             [';', 'delimiter', '@pop'],
-            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@nestedproperty' }], // sass: nested properties
+            ['{', { token: 'delimiter.curly', switchTo: '@nestedproperty' }], // sass: nested properties
             ['(?=})', { token: '', next: '@pop' }], // missing semicolon
         ],
 
         nestedproperty: [
             ['[*_]?@identifier@ws:', TOKEN_PROPERTY, '@rulevalue'],
             { include: '@comments' },
-            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
+            ['}', { token: 'delimiter.curly', next: '@pop' }],
         ],
 
         warndebug: [
@@ -132,12 +132,12 @@ export var language = <IMonarchLanguage> {
         urldeclaration: [
             { include: '@strings' },
             ['[^)\r\n]+', 'string'],
-            ['\\)', { token: 'meta', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'meta', next: '@pop' }],
         ],
 
         parenthizedterm: [
             { include: '@term' },
-            ['\\)', { token: 'delimiter.parenthesis', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'delimiter.parenthesis', next: '@pop' }],
         ],
 
         declarationbody: [
@@ -156,12 +156,12 @@ export var language = <IMonarchLanguage> {
         variablereference: [ // sass variable reference
             ['\\$@identifier', 'variable.ref'],
             ['\\.\\.\\.', 'operator'], // var args in reference
-            ['#{', { token: 'meta', bracket: '@open', next: '@variableinterpolation' }], // sass var resolve
+            ['#{', { token: 'meta', next: '@variableinterpolation' }], // sass var resolve
         ],
 
         variableinterpolation: [
             { include: '@variablereference' },
-            ['}', { token: 'meta', bracket: '@close', next: '@pop' }],
+            ['}', { token: 'meta', next: '@pop' }],
         ],
 
         comments: [
@@ -188,16 +188,16 @@ export var language = <IMonarchLanguage> {
         ],
 
         functiondeclaration: [
-            ['@identifier@ws\\(', { token: 'meta', bracket: '@open', next: '@parameterdeclaration' }],
-            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@functionbody' }],
+            ['@identifier@ws\\(', { token: 'meta', next: '@parameterdeclaration' }],
+            ['{', { token: 'delimiter.curly', switchTo: '@functionbody' }],
         ],
 
         mixindeclaration: [
             // mixin with parameters
-            ['@identifier@ws\\(', { token: 'meta', bracket: '@open', next: '@parameterdeclaration' }],
+            ['@identifier@ws\\(', { token: 'meta', next: '@parameterdeclaration' }],
             // mixin without parameters
             ['@identifier', 'meta'],
-            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@selectorbody' }],
+            ['{', { token: 'delimiter.curly', switchTo: '@selectorbody' }],
         ],
 
         parameterdeclaration: [
@@ -205,7 +205,7 @@ export var language = <IMonarchLanguage> {
             ['\\.\\.\\.', 'operator'], // var args in declaration
             [',', 'delimiter'],
             { include: '@term' },
-            ['\\)', { token: 'meta', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'meta', next: '@pop' }],
         ],
 
         includedeclaration: [
@@ -213,18 +213,18 @@ export var language = <IMonarchLanguage> {
             ['@identifier', 'meta'],
             [';', 'delimiter', '@pop'],
             ['(?=})', { token: '', next: '@pop' }], // missing semicolon
-            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@selectorbody' }],
+            ['{', { token: 'delimiter.curly', switchTo: '@selectorbody' }],
         ],
 
         keyframedeclaration: [
             ['@identifier', 'meta'],
-            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@keyframebody' }],
+            ['{', { token: 'delimiter.curly', switchTo: '@keyframebody' }],
         ],
 
         keyframebody: [
             { include: '@term' },
-            ['{', { token: 'delimiter.curly', bracket: '@open', next: '@selectorbody' }],
-            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
+            ['{', { token: 'delimiter.curly', next: '@selectorbody' }],
+            ['}', { token: 'delimiter.curly', next: '@pop' }],
         ],
 
         controlstatement: [
@@ -234,7 +234,7 @@ export var language = <IMonarchLanguage> {
         controlstatementdeclaration: [
             ['(in|from|through|if|to)\\b', { token: 'keyword.flow' }],
             { include: '@term' },
-            ['{', { token: 'delimiter.curly', bracket: '@open', switchTo: '@selectorbody' }],
+            ['{', { token: 'delimiter.curly', switchTo: '@selectorbody' }],
         ],
 
         functionbody: [
@@ -243,34 +243,34 @@ export var language = <IMonarchLanguage> {
             { include: '@term' },
             { include: '@controlstatement' },
             [';', 'delimiter'],
-            ['}', { token: 'delimiter.curly', bracket: '@close', next: '@pop' }],
+            ['}', { token: 'delimiter.curly', next: '@pop' }],
         ],
 
         functioninvocation: [
-            ['@identifier\\(', { token: 'meta', bracket: '@open', next: '@functionarguments' }],
+            ['@identifier\\(', { token: 'meta', next: '@functionarguments' }],
         ],
 
         functionarguments: [
             ['\\$@identifier@ws:', TOKEN_PROPERTY],
             ['[,]', 'delimiter'],
             { include: '@term' },
-            ['\\)', { token: 'meta', bracket: '@close', next: '@pop' }],
+            ['\\)', { token: 'meta', next: '@pop' }],
         ],
 
         strings: [
-            ['~?"', { token: 'string.delimiter', bracket: '@open', next: '@stringenddoublequote' }],
-            ['~?\'', { token: 'string.delimiter', bracket: '@open', next: '@stringendquote' }]
+            ['~?"', { token: 'string.delimiter', next: '@stringenddoublequote' }],
+            ['~?\'', { token: 'string.delimiter', next: '@stringendquote' }]
         ],
 
         stringenddoublequote: [
             ['\\\\.', 'string'],
-            ['"', { token: 'string.delimiter', next: '@pop', bracket: '@close' }],
+            ['"', { token: 'string.delimiter', next: '@pop' }],
             ['.', 'string']
         ],
 
         stringendquote: [
             ['\\\\.', 'string'],
-            ['\'', { token: 'string.delimiter', next: '@pop', bracket: '@close' }],
+            ['\'', { token: 'string.delimiter', next: '@pop' }],
             ['.', 'string']
         ]
     }

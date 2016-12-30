@@ -89,17 +89,17 @@ export var language = <ILanguage> {
 
 			// delimiters and operators
 			[/}/, { cases: {
-					'$S2==interpolatedstring' : { token: 'string.quote', bracket: '@close', next: '@pop' }
+					'$S2==interpolatedstring' : { token: 'string.quote', next: '@pop' }
 				,	'@default'   : '@brackets' } }],
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
 			[/@symbols/, { cases: { '@operators': 'delimiter', '@default'  : '' } } ],
 
 			// literal string
-			[/\@"/, { token: 'string.quote', bracket: '@open', next: '@litstring' } ],
+			[/\@"/, { token: 'string.quote', next: '@litstring' } ],
 
 			// interpolated string
-			[/\$"/, { token: 'string.quote', bracket: '@open', next: '@interpolatedstring' } ],
+			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' } ],
 
 			// numbers
 			[/\d*\.\d+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
@@ -111,7 +111,7 @@ export var language = <ILanguage> {
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-			[/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+			[/"/,  { token: 'string.quote', next: '@string' } ],
 
 			// characters
 			[/'[^\\']'/, 'string'],
@@ -146,13 +146,13 @@ export var language = <ILanguage> {
 			[/[^\\"]+/,  'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./,      'string.escape.invalid'],
-			[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+			[/"/,        { token: 'string.quote', next: '@pop' } ]
 		],
 
 		litstring: [
 			[/[^"]+/,    'string'],
 			[/""/,       'string.escape'],
-			[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+			[/"/,        { token: 'string.quote', next: '@pop' } ]
 		],
 
 		interpolatedstring: [
@@ -161,8 +161,8 @@ export var language = <ILanguage> {
 			[/\\./,      'string.escape.invalid'],
 			[/{{/,       'string.escape'],
 			[/}}/,       'string.escape'],
-			[/{/,        { token: 'string.quote', bracket: '@open', next: 'root.interpolatedstring' } ],
-			[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+			[/{/,        { token: 'string.quote', next: 'root.interpolatedstring' } ],
+			[/"/,        { token: 'string.quote', next: '@pop' } ]
 		],
 
 		whitespace: [

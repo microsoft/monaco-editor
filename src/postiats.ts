@@ -472,23 +472,23 @@ export var language = <ILanguage> {
       // NOTE: (*) is an invalid ML-like comment!
       {regex: /\(\*\)/, action: { token: 'invalid' }},
       {regex: /\(\*/, action: { token: 'comment', next: 'lexing_COMMENT_block_ml' } },
-      {regex: /\(/, action: '@brackets'/*{ token: 'delimiter.parenthesis', bracket: '@open' }*/ },
-      {regex: /\)/, action: '@brackets'/*{ token: 'delimiter.parenthesis', bracket: '@close' }*/ },
-      {regex: /\[/, action: '@brackets'/*{ token: 'delimiter.bracket', bracket: '@open' }*/ },
-      {regex: /\]/, action: '@brackets'/*{ token: 'delimiter.bracket', bracket: '@close' }*/ },
-      {regex: /\{/, action: '@brackets'/*{ token: 'delimiter.brace', bracket: '@open' }*/ },
-      {regex: /\}/, action: '@brackets'/*{ token: 'delimiter.brace', bracket: '@close' }*/ },
+      {regex: /\(/, action: '@brackets'/*{ token: 'delimiter.parenthesis' }*/ },
+      {regex: /\)/, action: '@brackets'/*{ token: 'delimiter.parenthesis' }*/ },
+      {regex: /\[/, action: '@brackets'/*{ token: 'delimiter.bracket' }*/ },
+      {regex: /\]/, action: '@brackets'/*{ token: 'delimiter.bracket' }*/ },
+      {regex: /\{/, action: '@brackets'/*{ token: 'delimiter.brace' }*/ },
+      {regex: /\}/, action: '@brackets'/*{ token: 'delimiter.brace' }*/ },
 
       // lexing_COMMA
-      {regex: /,\(/, action: '@brackets'/*{ token: 'delimiter.parenthesis', bracket: '@open' }*/ }, // meta-programming syntax
+      {regex: /,\(/, action: '@brackets'/*{ token: 'delimiter.parenthesis' }*/ }, // meta-programming syntax
       {regex: /,/, action: { token: 'delimiter.comma' } },
 
       {regex: /;/, action: { token: 'delimiter.semicolon' } },
 
       // lexing_AT
-      {regex: /@\(/, action: '@brackets'/* { token: 'delimiter.parenthesis', bracket: '@open' }*/ },
-      {regex: /@\[/, action: '@brackets'/* { token: 'delimiter.bracket', bracket: '@open' }*/ },
-      {regex: /@\{/, action: '@brackets'/*{ token: 'delimiter.brace', bracket: '@open' }*/ },
+      {regex: /@\(/, action: '@brackets'/* { token: 'delimiter.parenthesis' }*/ },
+      {regex: /@\[/, action: '@brackets'/* { token: 'delimiter.bracket' }*/ },
+      {regex: /@\{/, action: '@brackets'/*{ token: 'delimiter.brace' }*/ },
 
       // lexing_COLON
       {regex: /:</, action: { token: 'keyword', next: '@lexing_EFFECT_commaseq0'} }, // T_COLONLT
@@ -527,14 +527,14 @@ export var language = <ILanguage> {
       },
 
       // lexing_PERCENT:
-      {regex: /%\(/, action: { token: 'delimiter.parenthesis', bracket: '@open' } },
-      {regex: /^%{(#|\^|\$)?/, action: { token: 'keyword', bracket: '@open', next: '@lexing_EXTCODE', nextEmbedded: 'text/javascript' } },
-      {regex: /^%}/, action: { token: 'keyword', bracket: '@close' } },
+      {regex: /%\(/, action: { token: 'delimiter.parenthesis' } },
+      {regex: /^%{(#|\^|\$)?/, action: { token: 'keyword', next: '@lexing_EXTCODE', nextEmbedded: 'text/javascript' } },
+      {regex: /^%}/, action: { token: 'keyword' } },
 
       // lexing_QUOTE
-      {regex: /'\(/, action: { token: 'delimiter.parenthesis', bracket: '@open' } },
-      {regex: /'\[/, action: { token: 'delimiter.bracket', bracket: '@open' } },
-      {regex: /'\{/, action: { token: 'delimiter.brace', bracket: '@open' } },
+      {regex: /'\(/, action: { token: 'delimiter.parenthesis' } },
+      {regex: /'\[/, action: { token: 'delimiter.bracket' } },
+      {regex: /'\{/, action: { token: 'delimiter.brace' } },
       [/(')(\\@ESCHAR|\\[xX]@xdigit+|\\@digit+)(')/, ['string', 'string.escape', 'string']],
       [/'[^\\']'/, 'string'],
 
@@ -542,7 +542,7 @@ export var language = <ILanguage> {
       [/"/, 'string.quote', '@lexing_DQUOTE'],
 
       // lexing_BQUOTE
-      {regex: /`\(/, action: '@brackets'/* { token: 'delimiter.parenthesis', bracket: '@open' }*/},
+      {regex: /`\(/, action: '@brackets'/* { token: 'delimiter.parenthesis' }*/},
       // TODO: otherwise, try lexing_IDENT_sym
 
       {regex: /\\/, action: { token: 'punctuation' } }, // just T_BACKSLASH
@@ -644,7 +644,7 @@ export var language = <ILanguage> {
     ],
 
     lexing_DQUOTE: [
-      {regex: /"/, action: { token: 'string.quote', bracket: '@close', next: '@pop' }},
+      {regex: /"/, action: { token: 'string.quote', next: '@pop' }},
       // AS-20160628: additional hi-lighting for variables in staload/dynload strings
       {regex: /(\{\$)(@IDENTFST@IDENTRST*)(\})/, action: [{token: 'string.escape'},{ token: 'identifier' },{token: 'string.escape'}]},
       {regex: /\\$/, action: { token: 'string.escape' }},

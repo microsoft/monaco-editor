@@ -113,7 +113,7 @@ export var language = <ILanguage> {
 			// class
 			[/\.[a-zA-Z_-][\w-]*/, { cases: { '@eos': { token: 'tag.class', next: '@pop' }, '@default': 'tag.class' } }],
 			// attributes
-			[/\(/, { token: 'delimiter.parenthesis', bracket: '@open', next: '@attributeList' }],
+			[/\(/, { token: 'delimiter.parenthesis', next: '@attributeList' }],
 		],
 
 		simpleText: [
@@ -137,14 +137,14 @@ export var language = <ILanguage> {
 
 			[/,/, { cases: { '@eos': { token: 'attribute.delimiter', next: '@popall' }, '@default': 'attribute.delimiter' } }],
 
-			[/\)$/, { token: 'delimiter.parenthesis', bracket: '@close', next: '@popall' }],
-			[/\)/, { token: 'delimiter.parenthesis', bracket: '@close', next: '@pop' }],
+			[/\)$/, { token: 'delimiter.parenthesis', next: '@popall' }],
+			[/\)/, { token: 'delimiter.parenthesis', next: '@pop' }],
 		],
 
 		whitespace: [
 			[/^(\s*)(\/\/.*)$/, { token: 'comment', next: '@blockText.$1.comment' } ],
 			[/[ \t\r\n]+/, ''],
-			[/<!--/, { token: 'comment', bracket: '@open', next: '@comment' }],
+			[/<!--/, { token: 'comment', next: '@comment' }],
 		],
 
 		blockText: [
@@ -154,7 +154,7 @@ export var language = <ILanguage> {
 
 		comment: [
 			[/[^<\-]+/, 'comment.content' ],
-			[/-->/,  { token: 'comment', bracket: '@close', next: '@pop' } ],
+			[/-->/,  { token: 'comment', next: '@pop' } ],
 			[/<!--/, 'comment.content.invalid'],
 			[/[<\-]/, 'comment.content' ]
 		],

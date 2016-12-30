@@ -4,7 +4,8 @@ var jsdom = require('jsdom-no-contextify');
 requirejs.config({
 	baseUrl: '',
 	paths: {
-		'vs': 'node_modules/monaco-editor-core/dev/vs'
+		'vs': '../vscode/out/vs'
+		// 'vs': 'node_modules/monaco-editor-core/dev/vs'
 	},
 	nodeRequire: require
 });

@@ -132,10 +132,10 @@ export var language = <ILanguage>{
             [/<(\w+)/, {
                 cases: {
                     '@empty': { token: getTag('$1'), next: '@tag.$1' },
-                    '@default': { token: getTag('$1'), bracket: '@open', next: '@tag.$1' }
+                    '@default': { token: getTag('$1'), next: '@tag.$1' }
                 }
             }],
-            [/<\/(\w+)\s*>/, { token: getTag('$1'), bracket: '@close' }],
+            [/<\/(\w+)\s*>/, { token: getTag('$1') }],
 
             [/<!--/, 'comment', '@comment']
         ],

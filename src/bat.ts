@@ -61,8 +61,8 @@ export var language = <ILanguage> {
 			[/[ \t\r\n]+/, ''],
 
 			// blocks
-			[/setlocal(?!\w)/, { token: 'keyword.tag-setlocal', bracket: '@open' }],
-			[/endlocal(?!\w)/, { token: 'keyword.tag-setlocal', bracket: '@close' }],
+			[/setlocal(?!\w)/, 'keyword.tag-setlocal' ],
+			[/endlocal(?!\w)/, 'keyword.tag-setlocal' ],
 
 			// words
 			[/[a-zA-Z_]\w*/, ''],

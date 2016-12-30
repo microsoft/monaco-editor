@@ -143,17 +143,17 @@ export var language = <ILanguage> {
 			// most complexity here is due to matching 'end' correctly with declarations.
 			// We distinguish a declaration that comes first on a line, versus declarations further on a line (which are most likey modifiers)
 			[/^(\s*)([a-z_]\w*[!?=]?)/, ['white',
-				{ cases: { 'for|until|while': { token: 'keyword.$2', bracket: '@open', next: '@dodecl.$2' },
-							'@declarations':   { token: 'keyword.$2', bracket: '@open', next: '@root.$2' },
-							'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' },
+				{ cases: { 'for|until|while': { token: 'keyword.$2', next: '@dodecl.$2' },
+							'@declarations':   { token: 'keyword.$2', next: '@root.$2' },
+							'end': { token: 'keyword.$S2', next: '@pop' },
 							'@keywords': 'keyword',
 							'@builtins': 'predefined',
 							'@default': 'identifier' } }]],
 			[/[a-z_]\w*[!?=]?/,
-				{ cases: { 'if|unless|while|until': { token: 'keyword.$0x', bracket: '@open', next: '@modifier.$0x' },
-							'for': { token: 'keyword.$2', bracket: '@open', next: '@dodecl.$2' },
-							'@linedecls': { token: 'keyword.$0', bracket: '@open', next: '@root.$0' },
-							'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' },
+				{ cases: { 'if|unless|while|until': { token: 'keyword.$0x', next: '@modifier.$0x' },
+							'for': { token: 'keyword.$2', next: '@dodecl.$2' },
+							'@linedecls': { token: 'keyword.$0', next: '@root.$0' },
+							'end': { token: 'keyword.$S2', next: '@pop' },
 							'@keywords': 'keyword',
 							'@builtins': 'predefined',
 							'@default': 'identifier' } }],
@@ -164,29 +164,29 @@ export var language = <ILanguage> {
 			[/@@[\w]*/,    'namespace.class.identifier' ],    // class
 
 			// here document
-			[/<<-(@heredelim).*/, { token: 'string.heredoc.delimiter', bracket: '@open', next: '@heredoc.$1' } ],
-			[/[ \t\r\n]+<<(@heredelim).*/, { token: 'string.heredoc.delimiter', bracket: '@open', next: '@heredoc.$1' } ],
-			[/^<<(@heredelim).*/, { token: 'string.heredoc.delimiter', bracket: '@open', next: '@heredoc.$1' } ],
+			[/<<-(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' } ],
+			[/[ \t\r\n]+<<(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' } ],
+			[/^<<(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' } ],
 
 
 			// whitespace
 			{ include: '@whitespace' },
 
 			// strings
-			[/"/,  { token: 'string.d.delim', bracket: '@open', next: '@dstring.d."'} ],
-			[/'/,  { token: 'string.sq.delim', bracket: '@open', next: '@sstring.sq' } ],
+			[/"/,  { token: 'string.d.delim', next: '@dstring.d."'} ],
+			[/'/,  { token: 'string.sq.delim', next: '@sstring.sq' } ],
 
 			// % literals. For efficiency, rematch in the 'pstring' state
 			[/%([rsqxwW]|Q?)/,  { token: '@rematch', next: 'pstring' } ],
 
 			// commands and symbols
-			[/`/,  { token: 'string.x.delim', bracket: '@open', next: '@dstring.x.`' } ],
+			[/`/,  { token: 'string.x.delim', next: '@dstring.x.`' } ],
 			[/:(\w|[$@])\w*[!?=]?/, 'string.s'],
-			[/:"/, { token: 'string.s.delim', bracket: '@open', next: '@dstring.s."' } ],
-			[/:'/, { token: 'string.s.delim', bracket: '@open', next: '@sstring.s' } ],
+			[/:"/, { token: 'string.s.delim', next: '@dstring.s."' } ],
+			[/:'/, { token: 'string.s.delim', next: '@sstring.s' } ],
 
 			// regular expressions. Lookahead for a (not escaped) closing forwardslash on the same line
-			[/\/(?=(\\\/|[^\/\n])+\/)/, { token: 'regexp.delim', bracket: '@open', next: '@regexp' } ],
+			[/\/(?=(\\\/|[^\/\n])+\/)/, { token: 'regexp.delim', next: '@regexp' } ],
 
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
@@ -211,7 +211,7 @@ export var language = <ILanguage> {
 		// dodecl.<decl> where decl is the declarations started, like 'while'
 		dodecl: [
 			[/^/, { token: '', switchTo: '@root.$S2' }], // get out of do-skipping mode on a new line
-			[/[a-z_]\w*[!?=]?/, { cases: { 'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' }, // end on same line
+			[/[a-z_]\w*[!?=]?/, { cases: { 'end': { token: 'keyword.$S2', next: '@pop' }, // end on same line
 											'do' : { token: 'keyword', switchTo: '@root.$S2' }, // do on same line: not an open bracket here
 											'@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration on same line: rematch
 											'@keywords': 'keyword',
@@ -225,7 +225,7 @@ export var language = <ILanguage> {
 		// modifier.<decl>x where decl is the declaration starter, like 'if'
 		modifier: [
 			[/^/, '', '@pop'], // it was a modifier: get out of modifier mode on a new line
-			[/[a-z_]\w*[!?=]?/, { cases: { 'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' }, // end on same line
+			[/[a-z_]\w*[!?=]?/, { cases: { 'end': { token: 'keyword.$S2', next: '@pop' }, // end on same line
 											'then|else|elsif|do': { token: 'keyword', switchTo: '@root.$S2' }, // real declaration and not a modifier
 											'@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration => not a modifier
 											'@keywords': 'keyword',
@@ -240,7 +240,7 @@ export var language = <ILanguage> {
 			[/[^\\']+/,      'string.$S2' ],
 			[/\\\\|\\'|\\$/, 'string.$S2.escape'],
 			[/\\./,          'string.$S2.invalid'],
-			[/'/,            { token: 'string.$S2.delim', bracket: '@close', next: '@pop'} ]
+			[/'/,            { token: 'string.$S2.delim', next: '@pop'} ]
 		],
 
 		// double quoted "string".
@@ -252,14 +252,14 @@ export var language = <ILanguage> {
 			[/\\$/,       'string.$S2.escape' ],
 			[/@escapes/,  'string.$S2.escape'],
 			[/\\./,       'string.$S2.escape.invalid'],
-			[/[`"]/,      { cases: { '$#==$S3':  { token: 'string.$S2.delim', bracket: '@close', next: '@pop'},
+			[/[`"]/,      { cases: { '$#==$S3':  { token: 'string.$S2.delim', next: '@pop'},
 										'@default': 'string.$S2' } } ]
 		],
 
 		// literal documents
 		// heredoc.<close> where close is the closing delimiter
 		heredoc: [
-			[/^(\s*)(@heredelim)$/, { cases: { '$2==$S2': ['string.heredoc', { token: 'string.heredoc.delimiter', bracket: '@close', next: '@pop' }],
+			[/^(\s*)(@heredelim)$/, { cases: { '$2==$S2': ['string.heredoc', { token: 'string.heredoc.delimiter', next: '@pop' }],
 												'@default': ['string.heredoc','string.heredoc'] }}],
 			[/.*/, 'string.heredoc' ],
 		],
@@ -269,13 +269,13 @@ export var language = <ILanguage> {
 			[/\$\w*/,      'global.constant', '@pop' ],
 			[/@\w*/,       'namespace.class.identifier', '@pop' ],
 			[/@@\w*/,      'namespace.instance.identifier', '@pop' ],
-			[/[{]/, { token: 'string.escape.curly', bracket: '@open', switchTo: '@interpolated_compound' }],
+			[/[{]/, { token: 'string.escape.curly', switchTo: '@interpolated_compound' }],
 			['', '', '@pop' ], // just a # is interpreted as a #
 		],
 
 		// any code
 		interpolated_compound: [
-			[/[}]/, { token: 'string.escape.curly', bracket: '@close', next: '@pop'} ],
+			[/[}]/, { token: 'string.escape.curly', next: '@pop'} ],
 			{ include: '@root' },
 		],
 
@@ -286,8 +286,8 @@ export var language = <ILanguage> {
 			// turns out that you can quote using regex control characters, aargh!
 			// for example; %r|kgjgaj| is ok (even though | is used for alternation)
 			// so, we need to match those first
-			[/[^\(\{\[\\]/, { cases: { '$#==$S3' : { token: 'regexp.delim', bracket: '@close', next: '@pop' },
-										'$#==$S2' : { token: 'regexp.delim', bracket: '@open', next: '@push' }, // nested delimiters are allowed..
+			[/[^\(\{\[\\]/, { cases: { '$#==$S3' : { token: 'regexp.delim', next: '@pop' },
+										'$#==$S2' : { token: 'regexp.delim', next: '@push' }, // nested delimiters are allowed..
 										'~[)}\\]]' : '@brackets.regexp.escape.control',
 										'~@regexpctl': 'regexp.escape.control',
 										'@default': 'regexp' }}],
@@ -298,14 +298,14 @@ export var language = <ILanguage> {
 		regexp: [
 			{ include:   '@regexcontrol' },
 			[/[^\\\/]/,  'regexp' ],
-			['/[ixmp]*', { token: 'regexp.delim', bracket: '@close'}, '@pop' ],
+			['/[ixmp]*', { token: 'regexp.delim'}, '@pop' ],
 		],
 
 		regexcontrol: [
 			[/(\{)(\d+(?:,\d*)?)(\})/, ['@brackets.regexp.escape.control', 'regexp.escape.control', '@brackets.regexp.escape.control'] ],
 			[/(\[)(\^?)/,     ['@brackets.regexp.escape.control',{ token: 'regexp.escape.control', next: '@regexrange'}]],
 			[/(\()(\?[:=!])/, ['@brackets.regexp.escape.control', 'regexp.escape.control'] ],
-			[/\(\?#/,         { token: 'regexp.escape.control', bracket: '@open', next: '@regexpcomment' }],
+			[/\(\?#/,         { token: 'regexp.escape.control', next: '@regexpcomment' }],
 			[/[()]/,        '@brackets.regexp.escape.control'],
 			[/@regexpctl/,  'regexp.escape.control'],
 			[/\\$/,         'regexp.escape' ],
@@ -325,30 +325,30 @@ export var language = <ILanguage> {
 
 		regexpcomment: [
 			[ /[^)]+/, 'comment' ],
-			[ /\)/, { token: 'regexp.escape.control', bracket: '@close', next: '@pop' } ]
+			[ /\)/, { token: 'regexp.escape.control', next: '@pop' } ]
 		],
 
 
 		// % quoted strings
 		// A bit repetitive since we need to often special case the kind of ending delimiter
 		pstring: [
-			[/%([qws])\(/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.(.)' } ],
-			[/%([qws])\[/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.[.]' } ],
-			[/%([qws])\{/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.{.}' } ],
-			[/%([qws])</,   { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.<.>' } ],
-			[/%([qws])(@delim)/, { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.$2.$2' } ],
+			[/%([qws])\(/,  { token: 'string.$1.delim', switchTo: '@qstring.$1.(.)' } ],
+			[/%([qws])\[/,  { token: 'string.$1.delim', switchTo: '@qstring.$1.[.]' } ],
+			[/%([qws])\{/,  { token: 'string.$1.delim', switchTo: '@qstring.$1.{.}' } ],
+			[/%([qws])</,   { token: 'string.$1.delim', switchTo: '@qstring.$1.<.>' } ],
+			[/%([qws])(@delim)/, { token: 'string.$1.delim', switchTo: '@qstring.$1.$2.$2' } ],
 
-			[/%r\(/,  { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.(.)' } ],
-			[/%r\[/,  { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.[.]' } ],
-			[/%r\{/,  { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.{.}' } ],
-			[/%r</,   { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.<.>' } ],
-			[/%r(@delim)/, { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.$1.$1' } ],
+			[/%r\(/,  { token: 'regexp.delim', switchTo: '@pregexp.(.)' } ],
+			[/%r\[/,  { token: 'regexp.delim', switchTo: '@pregexp.[.]' } ],
+			[/%r\{/,  { token: 'regexp.delim', switchTo: '@pregexp.{.}' } ],
+			[/%r</,   { token: 'regexp.delim', switchTo: '@pregexp.<.>' } ],
+			[/%r(@delim)/, { token: 'regexp.delim', switchTo: '@pregexp.$1.$1' } ],
 
-			[/%(x|W|Q?)\(/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.(.)' } ],
-			[/%(x|W|Q?)\[/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.[.]' } ],
-			[/%(x|W|Q?)\{/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.{.}' } ],
-			[/%(x|W|Q?)</,   { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.<.>' } ],
-			[/%(x|W|Q?)(@delim)/, { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.$2.$2' } ],
+			[/%(x|W|Q?)\(/,  { token: 'string.$1.delim', switchTo: '@qqstring.$1.(.)' } ],
+			[/%(x|W|Q?)\[/,  { token: 'string.$1.delim', switchTo: '@qqstring.$1.[.]' } ],
+			[/%(x|W|Q?)\{/,  { token: 'string.$1.delim', switchTo: '@qqstring.$1.{.}' } ],
+			[/%(x|W|Q?)</,   { token: 'string.$1.delim', switchTo: '@qqstring.$1.<.>' } ],
+			[/%(x|W|Q?)(@delim)/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.$2.$2' } ],
 
 			[/%([rqwsxW]|Q?)./, { token: 'invalid', next: '@pop' } ], // recover
 			[/./, { token: 'invalid', next: '@pop' } ], // recover
@@ -362,8 +362,8 @@ export var language = <ILanguage> {
 		qstring: [
 			[/\\$/, 'string.$S2.escape' ],
 			[/\\./, 'string.$S2.escape' ],
-			[/./,   { cases: { '$#==$S4' : { token: 'string.$S2.delim', bracket: '@close', next: '@pop' },
-								'$#==$S3' : { token: 'string.$S2.delim', bracket: '@open', next: '@push' }, // nested delimiters are allowed..
+			[/./,   { cases: { '$#==$S4' : { token: 'string.$S2.delim', next: '@pop' },
+								'$#==$S3' : { token: 'string.$S2.delim', next: '@push' }, // nested delimiters are allowed..
 								'@default': 'string.$S2' }}],
 		],
 

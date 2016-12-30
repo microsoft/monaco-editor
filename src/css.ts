@@ -138,7 +138,7 @@ export var language = <IMonarchLanguage> {
 
 		comment: [
 			['\\*\\/', 'comment', '@pop'],
-			['.', 'comment']
+			[/[^*/]+/, 'comment']
 		],
 
 		name: [
@@ -183,13 +183,13 @@ export var language = <IMonarchLanguage> {
 
 		stringenddoublequote: [
 			['\\\\.', 'string'],
-			['"', { token: 'string', next: '@pop', bracket: '@close' }],
+			['"', { token: 'string', next: '@pop' }],
 			['.', 'string']
 		],
 
 		stringendquote: [
 			['\\\\.', 'string'],
-			['\'', { token: 'string', next: '@pop', bracket: '@close' }],
+			['\'', { token: 'string', next: '@pop' }],
 			['.', 'string']
 		]
 	}

@@ -1073,14 +1073,14 @@ export var language = <ILanguage> {
 		],
 		comments: [
 			[/--+.*/, 'comment'],
-			[/\/\*/, { token: 'comment.quote', bracket: '@open', next: '@comment' }]
+			[/\/\*/, { token: 'comment.quote', next: '@comment' }]
 		],
 		comment: [
 			[/[^*/]+/, 'comment'],
 			// Not supporting nested comments, as nested comments seem to not be standard?
 			// i.e. http://stackoverflow.com/questions/728172/are-there-multiline-comment-delimiters-in-sql-that-are-vendor-agnostic
-			// [/\/\*/, { token: 'comment.quote', bracket: '@open', next: '@push' }],    // nested comment not allowed :-(
-			[/\*\//, { token: 'comment.quote', bracket: '@close', next: '@pop' }],
+			// [/\/\*/, { token: 'comment.quote', next: '@push' }],    // nested comment not allowed :-(
+			[/\*\//, { token: 'comment.quote', next: '@pop' }],
 			[/./, 'comment']
 		],
 		pseudoColumns: [
@@ -1095,38 +1095,38 @@ export var language = <ILanguage> {
 			[/((\d+(\.\d*)?)|(\.\d+))([eE][\-+]?\d+)?/, 'number']
 		],
 		strings: [
-			[/N'/, { token: 'string.quote', bracket: '@open', next: '@string' }],
-			[/'/, { token: 'string.quote', bracket: '@open', next: '@string' }]
+			[/N'/, { token: 'string.quote', next: '@string' }],
+			[/'/, { token: 'string.quote', next: '@string' }]
 		],
 		string: [
 			[/[^']+/, 'string'],
 			[/''/, 'string'],
-			[/'/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
+			[/'/, { token: 'string.quote', next: '@pop' }]
 		],
 		complexIdentifiers: [
-			[/\[/, { token: 'identifier.quote', bracket: '@open', next: '@bracketedIdentifier' }],
-			[/"/, { token: 'identifier.quote', bracket: '@open', next: '@quotedIdentifier' }]
+			[/\[/, { token: 'identifier.quote', next: '@bracketedIdentifier' }],
+			[/"/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
 		],
 		bracketedIdentifier: [
 			[/[^\]]+/, 'identifier'],
 			[/]]/, 'identifier'],
-			[/]/, { token: 'identifier.quote', bracket: '@close', next: '@pop' }]
+			[/]/, { token: 'identifier.quote', next: '@pop' }]
 		],
 		quotedIdentifier: [
 			[/[^"]+/, 'identifier'],
 			[/""/, 'identifier'],
-			[/"/, { token: 'identifier.quote', bracket: '@close', next: '@pop' }]
+			[/"/, { token: 'identifier.quote', next: '@pop' }]
 		],
 		scopes: [
 			[/BEGIN\s+(DISTRIBUTED\s+)?TRAN(SACTION)?\b/i, 'keyword'],
-			[/BEGIN\s+TRY\b/i, { token: 'keyword.try', bracket: '@open' }],
-			[/END\s+TRY\b/i, { token: 'keyword.try', bracket: '@close' }],
-			[/BEGIN\s+CATCH\b/i, { token: 'keyword.catch', bracket: '@open' }],
-			[/END\s+CATCH\b/i, { token: 'keyword.catch', bracket: '@close' }],
-			[/(BEGIN|CASE)\b/i, { token: 'keyword.block', bracket: '@open' }],
-			[/END\b/i, { token: 'keyword.block', bracket: '@close' }],
-			[/WHEN\b/i, { token: 'keyword.choice', bracket: '@open' }],
-			[/THEN\b/i, { token: 'keyword.choice', bracket: '@close' }]
+			[/BEGIN\s+TRY\b/i, { token: 'keyword.try' }],
+			[/END\s+TRY\b/i, { token: 'keyword.try' }],
+			[/BEGIN\s+CATCH\b/i, { token: 'keyword.catch' }],
+			[/END\s+CATCH\b/i, { token: 'keyword.catch' }],
+			[/(BEGIN|CASE)\b/i, { token: 'keyword.block' }],
+			[/END\b/i, { token: 'keyword.block' }],
+			[/WHEN\b/i, { token: 'keyword.choice' }],
+			[/THEN\b/i, { token: 'keyword.choice' }]
 		]
 	}
 };
