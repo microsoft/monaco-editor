@@ -282,16 +282,12 @@ export var language = <ILanguage> {
 
 		comment: [
 			[/[^\/*]+/, 'comment' ],
-			// [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
-			// [/\/\*/,    'comment.invalid' ],	// this breaks block comments in the shape of /* //*/
 			[/\*\//,    'comment', '@pop'  ],
 			[/[\/*]/,   'comment' ]
 		],
 		//Identical copy of comment above, except for the addition of .doc
 		doccomment: [
 			[/[^\/*]+/, 'comment.doc' ],
-			// [/\/\*/, 'comment.doc', '@push' ],    // nested comment not allowed :-(
-			[/\/\*/,    'comment.doc.invalid' ],
 			[/\*\//,    'comment.doc', '@pop'  ],
 			[/[\/*]/,   'comment.doc' ]
 		],

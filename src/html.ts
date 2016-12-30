@@ -144,7 +144,8 @@ export var language = <ILanguage> {
 		],
 
 		scriptEmbedded: [
-			[/<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
+			[/<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^<]+/, '']
 		],
 
 		// -- END <script> tags handling
@@ -191,7 +192,8 @@ export var language = <ILanguage> {
 		],
 
 		styleEmbedded: [
-			[/<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
+			[/<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^<]+/, '']
 		],
 
 	// -- END <style> tags handling

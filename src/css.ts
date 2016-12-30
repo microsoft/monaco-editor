@@ -184,12 +184,14 @@ export var language = <IMonarchLanguage> {
 		stringenddoublequote: [
 			['\\\\.', 'string'],
 			['"', { token: 'string', next: '@pop' }],
+			[/[^\\"]+/, 'string'],
 			['.', 'string']
 		],
 
 		stringendquote: [
 			['\\\\.', 'string'],
 			['\'', { token: 'string', next: '@pop' }],
+			[/[^\\']+/, 'string'],
 			['.', 'string']
 		]
 	}
