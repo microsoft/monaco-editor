@@ -46,53 +46,19 @@ function runTests(languageId:string, tests:ITestItem[][]): void {
 
 function runTest(languageId:string, test:ITestItem[]): void {
 
-	interface LineToken {
-		startOffset: number;
-		endOffset: number;
-		type: string;
-		modeId: string;
-		hasPrev: boolean;
-		hasNext: boolean;
-
-		prev(): LineToken;
-		next(): LineToken;
-	}
-
-	interface LineTokens {
-		// modeTransitions:ModeTransition[];
-
-		getTokenCount(): number;
-		getTokenStartOffset(tokenIndex:number): number;
-		getTokenType(tokenIndex:number): string;
-		getTokenEndOffset(tokenIndex:number): number;
-		equals(other:LineTokens): boolean;
-		findTokenIndexAtOffset(offset:number): number;
-		findTokenAtOffset(offset:number): LineToken;
-		firstToken(): LineToken;
-		lastToken(): LineToken;
-		// inflate(): ViewLineToken[];
-		// sliceAndInflate(startOffset:number, endOffset:number, deltaStartIndex:number): ViewLineToken[];
-	}
-
 	let text = test.map(t => t.line).join('\n');
-	let model = _monaco.editor.createModel(text, languageId);
+	let actualTokens = _monaco.editor.tokenize(text, languageId);
+	let actual = actualTokens.map((lineTokens, index) => {
+		return {
+			line: test[index].line,
+			tokens: lineTokens.map((t) => {
+				return {
+					startIndex: t.offset,
+					type: t.type
+				};
+			})
+		};
+	});
 
-	for (let lineNumber = 1, lineCount = model.getLineCount(); lineNumber <= lineCount; lineNumber++) {
-		let actual: IRelaxedToken[] = [];
-		let lineTokens:LineTokens = (<any>model).getLineTokens(lineNumber);
-		let count = lineTokens.getTokenCount();
-		for (let i = 0; i < count; i++) {
-			actual.push({
-				startIndex: lineTokens.getTokenStartOffset(i),
-				type: lineTokens.getTokenType(i)
-			});
-		}
-
-		let expected = test[lineNumber - 1].tokens;
-		// console.log(`actual: ${JSON.stringify(actual)}`);
-		// console.log(`expected: ${JSON.stringify(expected)}`);
-		assert.deepEqual(actual, expected, 'TOKENIZING ' + text);
-	}
-
-	model.dispose();
+	assert.deepEqual(actual, test);
 }

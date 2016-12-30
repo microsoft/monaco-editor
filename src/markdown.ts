@@ -75,33 +75,28 @@ export var language = <ILanguage>{
             [/^(\t|[ ]{4})[^ ].*$/, TOKEN_BLOCK],
 
             // code block (3 tilde)
-            [/^\s*~{3}\s*((?:\w|[\/\-#])+)?\s*$/, { token: TOKEN_BLOCK, next: '@codeblock' }],
+            [/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: TOKEN_BLOCK, next: '@codeblock' }],
 
             // github style code blocks (with backticks and language)
             [/^\s*```\s*((?:\w|[\/\-#])+)\s*$/, { token: TOKEN_BLOCK, next: '@codeblockgh', nextEmbedded: '$1' }],
 
             // github style code blocks (with backticks but no language)
-            [/^\s*`{3}\s*$/, { token: TOKEN_BLOCK, next: '@codeblock' }],
+            [/^\s*```\s*$/, { token: TOKEN_BLOCK, next: '@codeblock' }],
 
             // markup within lines
             { include: '@linecontent' },
         ],
 
         codeblock: [
-            [/^\s*~{3}\s*$/, { token: TOKEN_BLOCK, next: '@pop' }],
-            [/^\s*`{3}\s*$/, { token: TOKEN_BLOCK, next: '@pop' }],
+            [/^\s*~~~\s*$/, { token: TOKEN_BLOCK, next: '@pop' }],
+            [/^\s*```\s*$/, { token: TOKEN_BLOCK, next: '@pop' }],
             [/.*$/, TOKEN_BLOCK_CODE],
         ],
 
         // github style code blocks
         codeblockgh: [
-            [/```\s*$/, { token: '@rematch', switchTo: '@codeblockghend', nextEmbedded: '@pop' }],
-            [/[^`]*$/, TOKEN_BLOCK_CODE],
-        ],
-
-        codeblockghend: [
-            [/\s*```/, { token: TOKEN_BLOCK_CODE, next: '@pop' }],
-            [/./, '@rematch', '@pop'],
+            [/```\s*$/, { token: TOKEN_BLOCK_CODE, next: '@pop', nextEmbedded: '@pop' }],
+            [/[^`]+/, TOKEN_BLOCK_CODE],
         ],
 
         linecontent: [
@@ -166,11 +161,11 @@ export var language = <ILanguage>{
             [/\/>/, getTag('$S2'), '@pop'],
             [/>/, {
                 cases: {
-                    '$S2==style': { token: getTag('$S2'), switchTo: '@embedded.$S2', nextEmbedded: 'text/css' },
+                    '$S2==style': { token: getTag('$S2'), switchTo: 'embeddedStyle', nextEmbedded: 'text/css' },
                     '$S2==script': {
                         cases: {
-                            '$S3': { token: getTag('$S2'), switchTo: '@embedded.$S2', nextEmbedded: '$S3' },
-                            '@default': { token: getTag('$S2'), switchTo: '@embedded.$S2', nextEmbedded: 'text/javascript' }
+                            '$S3': { token: getTag('$S2'), switchTo: 'embeddedScript', nextEmbedded: '$S3' },
+                            '@default': { token: getTag('$S2'), switchTo: 'embeddedScript', nextEmbedded: 'text/javascript' }
                         }
                     },
                     '@default': { token: getTag('$S2'), next: '@pop' }
@@ -178,32 +173,16 @@ export var language = <ILanguage>{
             }],
         ],
 
-        embedded: [
-            [/[^"'<]+/, ''],
-            [/<\/(\w+)\s*>/, {
-                cases: {
-                    '$1==$S2': { token: '@rematch', next: '@pop', nextEmbedded: '@pop' },
-                    '@default': ''
-                }
-            }],
-            [/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-            [/'([^'\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-            [/"/, 'string', '@string."'],
-            [/'/, 'string', '@string.\''],
+        embeddedStyle: [
+            [/[^<]+/, ''],
+            [/<\/style\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
             [/</, '']
         ],
 
-        // scan embedded strings in javascript or css
-        string: [
-            [/[^\\"']+/, 'string'],
-            [/@jsescapes/, 'string.escape'],
-            [/\\./, 'string.escape.invalid'],
-            [/["']/, {
-                cases: {
-                    '$#==$S2': { token: 'string', next: '@pop' },
-                    '@default': 'string'
-                }
-            }]
-        ]
+        embeddedScript: [
+            [/[^<]+/, ''],
+            [/<\/script\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+            [/</, '']
+        ],
     }
 };
