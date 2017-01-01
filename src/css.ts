@@ -138,7 +138,8 @@ export var language = <IMonarchLanguage> {
 
 		comment: [
 			['\\*\\/', 'comment', '@pop'],
-			[/[^*/]+/, 'comment']
+			[/[^*/]+/, 'comment'],
+			[/./, 'comment'],
 		],
 
 		name: [

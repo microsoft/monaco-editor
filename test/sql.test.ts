@@ -421,49 +421,38 @@ testTokenization('sql', [
 		{ startIndex: 7, type: 'white.sql' },
 		{ startIndex: 8, type: 'identifier.sql' },
 		{ startIndex: 10, type: 'operator.sql' },
-		{ startIndex: 11, type: 'string.quote.sql' },
-		{ startIndex: 12, type: 'string.sql' },
-		{ startIndex: 20, type: 'string.quote.sql' },
+		{ startIndex: 11, type: 'string.sql' },
 		{ startIndex: 21, type: 'delimiter.sql' }
 	]}],
 
 	[{
 	line: '\'a \'\' string with quotes\'',
 	tokens: [
-		{ startIndex: 0, type: 'string.quote.sql' },
-		{ startIndex: 1, type: 'string.sql' },
-		{ startIndex: 24, type: 'string.quote.sql' }
+		{ startIndex: 0, type: 'string.sql' },
 	]}],
 
 	[{
 	line: '\'a " string with quotes\'',
 	tokens: [
-		{ startIndex: 0, type: 'string.quote.sql' },
-		{ startIndex: 1, type: 'string.sql' },
-		{ startIndex: 23, type: 'string.quote.sql' }
+		{ startIndex: 0, type: 'string.sql' },
 	]}],
 
 	[{
 	line: '\'a -- string with comment\'',
 	tokens: [
-		{ startIndex: 0, type: 'string.quote.sql' },
-		{ startIndex: 1, type: 'string.sql' },
-		{ startIndex: 25, type: 'string.quote.sql' }
+		{ startIndex: 0, type: 'string.sql' },
 	]}],
 
 	[{
 	line: 'N\'a unicode string\'',
 	tokens: [
-		{ startIndex: 0, type: 'string.quote.sql' },
-		{ startIndex: 2, type: 'string.sql' },
-		{ startIndex: 18, type: 'string.quote.sql' }
+		{ startIndex: 0, type: 'string.sql' },
 	]}],
 
 	[{
 	line: '\'a endless string',
 	tokens: [
-		{ startIndex: 0, type: 'string.quote.sql' },
-		{ startIndex: 1, type: 'string.sql' }
+		{ startIndex: 0, type: 'string.sql' },
 	]}],
 
 	// Operators

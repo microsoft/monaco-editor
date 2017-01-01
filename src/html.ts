@@ -56,8 +56,8 @@ export var conf:IRichLanguageConfiguration = {
 };
 
 export const htmlTokenTypes = {
-	DELIM_START: 'start.delimiter.tag',
-	DELIM_END: 'end.delimiter.tag',
+	DELIM_START: 'delimiter',
+	DELIM_END: 'delimiter',
 	DELIM_COMMENT: 'comment',
 	getTag: (name: string) => {
 		return 'tag';

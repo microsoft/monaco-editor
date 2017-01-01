@@ -245,7 +245,7 @@ testTokenization(['handlebars', 'css'], [
 			{ startIndex:7, type: HTML_DELIM_START },
 			{ startIndex:8, type: getTag('script') },
 			{ startIndex:14, type: HTML_DELIM_END },
-			{ startIndex:15, type: HTML_DELIM_START },
+			// { startIndex:15, type: HTML_DELIM_START },
 			{ startIndex:17, type: getTag('script') },
 			{ startIndex:23, type: HTML_DELIM_END },
 			{ startIndex:24, type: handlebarsTokenTypes.EMBED },

@@ -44,25 +44,25 @@ export var language = <ILanguage> {
 
 			// Standard opening tag
 			[/(<)(@qualifiedName)/, [
-				{ token: 'delimiter.start' },
-				{ token: 'tag.tag-$2', next: '@tag.$2' }]],
+				{ token: 'delimiter' },
+				{ token: 'tag', next: '@tag' }]],
 
 			// Standard closing tag
 			[/(<\/)(@qualifiedName)(\s*)(>)/, [
-				{ token: 'delimiter.end' },
-				{ token: 'tag.tag-$2' },
+				{ token: 'delimiter' },
+				{ token: 'tag' },
 				'',
-				{ token: 'delimiter.end' }]],
+				{ token: 'delimiter' }]],
 
 			// Meta tags - instruction
 			[/(<\?)(@qualifiedName)/, [
-				{ token: 'delimiter.start' },
-				{ token: 'metatag.instruction', next: '@tag' }]],
+				{ token: 'delimiter' },
+				{ token: 'metatag', next: '@tag' }]],
 
 			// Meta tags - declaration
 			[/(<\!)(@qualifiedName)/, [
-				{ token: 'delimiter.start' },
-				{ token: 'metatag.declaration', next: '@tag' }]],
+				{ token: 'delimiter' },
+				{ token: 'metatag', next: '@tag' }]],
 
 			// CDATA
 			[/<\!\[CDATA\[/, { token: 'delimiter.cdata', next: '@cdata' }],
@@ -82,11 +82,11 @@ export var language = <ILanguage> {
 			[/(@qualifiedName)(\s*=\s*)("[^">?\/]*|'[^'>?\/]*)(?=[\?\/]\>)/, ['attribute.name', '', 'attribute.value']],
 			[/(@qualifiedName)(\s*=\s*)("[^">]*|'[^'>]*)/, ['attribute.name', '', 'attribute.value']],
 			[/@qualifiedName/, 'attribute.name'],
-			[/\?>/, { token: 'delimiter.start', next: '@pop' }],
+			[/\?>/, { token: 'delimiter', next: '@pop' }],
 			[/(\/)(>)/, [
-				{ token: 'tag.tag-$S2' },
-				{ token: 'delimiter.start', next: '@pop' }]],
-			[/>/, { token: 'delimiter.start', next: '@pop' }],
+				{ token: 'tag' },
+				{ token: 'delimiter', next: '@pop' }]],
+			[/>/, { token: 'delimiter', next: '@pop' }],
 		],
 
 		whitespace: [

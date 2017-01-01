@@ -17,14 +17,12 @@ const TOKEN_LIST = 'keyword';
 const TOKEN_BLOCK = 'string';
 const TOKEN_BLOCK_CODE = 'variable.source';
 
-const DELIM_ASSIGN = 'meta.tag.assign.html';
+const DELIM_ASSIGN = 'delimiter.html';
 const ATTRIB_NAME = 'attribute.name.html';
 const ATTRIB_VALUE = 'string.html';
 
-const TAG_PREFIX = 'entity.name.tag.tag-';
-
 function getTag(name: string) {
-    return TAG_PREFIX + name;
+    return 'tag';
 }
 
 export var conf: IRichLanguageConfiguration = {

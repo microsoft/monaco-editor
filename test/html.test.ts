@@ -274,7 +274,7 @@ testTokenization(['html', 'css'], [
 			{ startIndex:9, type: DELIM_START },
 			{ startIndex:11, type: getTag('script') },
 			{ startIndex:17, type: DELIM_END },
-			{ startIndex:18, type: DELIM_START },
+			// { startIndex:18, type: DELIM_START },
 			{ startIndex:19, type: getTag('script') },
 			{ startIndex:25, type: DELIM_END },
 			{ startIndex:26, type: '' },
@@ -295,7 +295,7 @@ testTokenization(['html', 'css'], [
 			{ startIndex:12, type: DELIM_ASSIGN },
 			{ startIndex:13, type: ATTRIB_VALUE },
 			{ startIndex:30, type: DELIM_END },
-			{ startIndex:31, type: DELIM_START },
+			// { startIndex:31, type: DELIM_START },
 			{ startIndex:33, type: getTag('script') },
 			{ startIndex:39, type: DELIM_END }
 		]
@@ -330,7 +330,7 @@ testTokenization(['html', 'css'], [
 			{ startIndex:34, type: DELIM_ASSIGN },
 			{ startIndex:35, type: ATTRIB_VALUE },
 			{ startIndex:44, type: DELIM_END },
-			{ startIndex:45, type: DELIM_START },
+			// { startIndex:45, type: DELIM_START },
 			{ startIndex:47, type: getTag('script') },
 			{ startIndex:53, type: DELIM_END }
 		]

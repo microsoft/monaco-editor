@@ -1095,13 +1095,13 @@ export var language = <ILanguage> {
 			[/((\d+(\.\d*)?)|(\.\d+))([eE][\-+]?\d+)?/, 'number']
 		],
 		strings: [
-			[/N'/, { token: 'string.quote', next: '@string' }],
-			[/'/, { token: 'string.quote', next: '@string' }]
+			[/N'/, { token: 'string', next: '@string' }],
+			[/'/, { token: 'string', next: '@string' }]
 		],
 		string: [
 			[/[^']+/, 'string'],
 			[/''/, 'string'],
-			[/'/, { token: 'string.quote', next: '@pop' }]
+			[/'/, { token: 'string', next: '@pop' }]
 		],
 		complexIdentifiers: [
 			[/\[/, { token: 'identifier.quote', next: '@bracketedIdentifier' }],
