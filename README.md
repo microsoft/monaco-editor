@@ -23,8 +23,12 @@ In IE, the editor must be completely surrounded in the body element, otherwise t
 
 ## Installing
 
-```
+```bash
 npm install monaco-editor
+```
+
+```bash
+bower install git@github.com:Microsoft/monaco-editor.git
 ```
 
 You will get:

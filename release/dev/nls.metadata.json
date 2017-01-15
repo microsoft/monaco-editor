@@ -1,0 +1,903 @@
+{
+	"keys": {
+		"vs/editor/common/config/defaultConfig": [
+			"editorViewAccessibleLabel"
+		],
+		"vs/editor/contrib/quickOpen/browser/quickOutline": [
+			"entryAriaLabel",
+			"quickOutlineActionInput",
+			"QuickOutlineAction.label",
+			"symbols",
+			"modules",
+			"class",
+			"interface",
+			"method",
+			"function",
+			"property",
+			"variable",
+			"variable2",
+			"_constructor",
+			"call"
+		],
+		"vs/editor/contrib/quickOpen/browser/quickCommand": [
+			"ariaLabelEntry",
+			"quickCommandActionInput",
+			"QuickCommandAction.label"
+		],
+		"vs/editor/contrib/quickOpen/browser/gotoLine": [
+			"gotoLineLabelValidLineAndColumn",
+			"gotoLineLabelValidLine",
+			"gotoLineLabelEmptyWithLineLimit",
+			"gotoLineLabelEmptyWithLineAndColumnLimit",
+			"gotoLineAriaLabel",
+			"gotoLineActionInput",
+			"GotoLineAction.label"
+		],
+		"vs/platform/extensions/common/extensionsRegistry": [
+			"extensionDescription.empty",
+			"extensionDescription.publisher",
+			"extensionDescription.name",
+			"extensionDescription.version",
+			"extensionDescription.engines",
+			"extensionDescription.engines.vscode",
+			"extensionDescription.extensionDependencies",
+			"extensionDescription.activationEvents1",
+			"extensionDescription.activationEvents2",
+			"extensionDescription.main1",
+			"extensionDescription.main2",
+			"extensionDescription.main3",
+			"vscode.extension.displayName",
+			"vscode.extension.categories",
+			"vscode.extension.galleryBanner",
+			"vscode.extension.galleryBanner.color",
+			"vscode.extension.galleryBanner.theme",
+			"vscode.extension.publisher",
+			"vscode.extension.activationEvents",
+			"vscode.extension.extensionDependencies",
+			"vscode.extension.scripts.prepublish",
+			"vscode.extension.contributes"
+		],
+		"vs/editor/common/modes/modesRegistry": [
+			"plainText.alias"
+		],
+		"vs/editor/common/services/modeServiceImpl": [
+			"vscode.extension.contributes.languages",
+			"vscode.extension.contributes.languages.id",
+			"vscode.extension.contributes.languages.aliases",
+			"vscode.extension.contributes.languages.extensions",
+			"vscode.extension.contributes.languages.filenames",
+			"vscode.extension.contributes.languages.filenamePatterns",
+			"vscode.extension.contributes.languages.mimetypes",
+			"vscode.extension.contributes.languages.firstLine",
+			"vscode.extension.contributes.languages.configuration",
+			"invalid.empty",
+			"require.id",
+			"opt.extensions",
+			"opt.filenames",
+			"opt.firstLine",
+			"opt.configuration",
+			"opt.aliases",
+			"opt.mimetypes",
+			"invalid"
+		],
+		"vs/base/parts/quickopen/browser/quickOpenModel": [
+			"quickOpenAriaLabelEntry",
+			"quickOpenAriaLabel"
+		],
+		"vs/editor/contrib/clipboard/browser/clipboard": [
+			"actions.clipboard.cutLabel",
+			"actions.clipboard.copyLabel",
+			"actions.clipboard.pasteLabel"
+		],
+		"vs/editor/contrib/comment/common/comment": [
+			"comment.line",
+			"comment.line.add",
+			"comment.line.remove",
+			"comment.block"
+		],
+		"vs/editor/contrib/contextmenu/browser/contextmenu": [
+			"action.showContextMenu.label"
+		],
+		"vs/editor/contrib/goToDeclaration/browser/goToDeclaration": [
+			"meta.title",
+			"actions.goToDecl.label",
+			"actions.goToDeclToSide.label",
+			"actions.previewDecl.label",
+			"multipleResults"
+		],
+		"vs/editor/contrib/format/common/formatActions": [
+			"formatAction.label"
+		],
+		"vs/editor/contrib/gotoError/browser/gotoError": [
+			"quickfix.multiple.label",
+			"quickfix.single.label",
+			"title.wo_source",
+			"markerAction.next.label",
+			"markerAction.previous.label"
+		],
+		"vs/editor/contrib/hover/browser/hover": [
+			"showHover"
+		],
+		"vs/editor/contrib/inPlaceReplace/common/inPlaceReplace": [
+			"InPlaceReplaceAction.previous.label",
+			"InPlaceReplaceAction.next.label"
+		],
+		"vs/editor/contrib/linesOperations/common/linesOperations": [
+			"lines.copyUp",
+			"lines.copyDown",
+			"lines.moveUp",
+			"lines.moveDown",
+			"lines.sortAscending",
+			"lines.sortDescending",
+			"lines.trimTrailingWhitespace",
+			"lines.delete",
+			"lines.indent",
+			"lines.outdent",
+			"lines.insertBefore",
+			"lines.insertAfter"
+		],
+		"vs/editor/contrib/carretOperations/common/carretOperations": [
+			"carret.moveLeft",
+			"carret.moveRight"
+		],
+		"vs/editor/contrib/links/browser/links": [
+			"links.navigate.mac",
+			"links.navigate",
+			"invalid.url",
+			"missing.url",
+			"label"
+		],
+		"vs/editor/contrib/multicursor/common/multicursor": [
+			"mutlicursor.insertAbove",
+			"mutlicursor.insertBelow",
+			"mutlicursor.insertAtEndOfEachLineSelected"
+		],
+		"vs/editor/contrib/parameterHints/browser/parameterHints": [
+			"parameterHints.trigger.label"
+		],
+		"vs/editor/contrib/quickFix/browser/quickFix": [
+			"quickfix.trigger.label"
+		],
+		"vs/editor/contrib/rename/browser/rename": [
+			"rename.failed",
+			"rename.label"
+		],
+		"vs/editor/contrib/referenceSearch/browser/referenceSearch": [
+			"meta.titleReference",
+			"references.action.label"
+		],
+		"vs/editor/contrib/smartSelect/common/smartSelect": [
+			"smartSelect.grow",
+			"smartSelect.shrink"
+		],
+		"vs/editor/contrib/smartSelect/common/jumpToBracket": [
+			"smartSelect.jumpBracket"
+		],
+		"vs/editor/contrib/suggest/browser/suggestController": [
+			"suggest.trigger.label"
+		],
+		"vs/editor/contrib/toggleTabFocusMode/common/toggleTabFocusMode": [
+			"toggle.tabfocusmode"
+		],
+		"vs/editor/contrib/toggleWordWrap/common/toggleWordWrap": [
+			"toggle.wordwrap"
+		],
+		"vs/editor/contrib/folding/browser/folding": [
+			"unfoldAction.label",
+			"unFoldRecursivelyAction.label",
+			"foldAction.label",
+			"foldRecursivelyAction.label",
+			"foldAllAction.label",
+			"unfoldAllAction.label",
+			"foldLevel1Action.label",
+			"foldLevel2Action.label",
+			"foldLevel3Action.label",
+			"foldLevel4Action.label",
+			"foldLevel5Action.label"
+		],
+		"vs/editor/contrib/indentation/common/indentation": [
+			"indentationToSpaces",
+			"indentationToTabs",
+			"configuredTabSize",
+			{
+				"key": "selectTabWidth",
+				"comment": [
+					"Tab corresponds to the tab key"
+				]
+			},
+			"indentUsingTabs",
+			"indentUsingSpaces",
+			"detectIndentation",
+			"toggleRenderWhitespace",
+			"toggleRenderControlCharacters"
+		],
+		"vs/platform/message/common/message": [
+			"close",
+			"later",
+			"cancel"
+		],
+		"vs/editor/common/services/modelServiceImpl": [
+			"diagAndSource",
+			"indentAutoMigrate"
+		],
+		"vs/base/common/severity": [
+			"sev.error",
+			"sev.warning",
+			"sev.info"
+		],
+		"vs/platform/keybinding/browser/keybindingServiceImpl": [
+			"unboundCommands",
+			"first.chord",
+			"missing.chord"
+		],
+		"vs/platform/extensions/common/abstractExtensionService": [
+			"unknownDep",
+			"failedDep1",
+			"failedDep2",
+			"activationError"
+		],
+		"vs/base/browser/ui/actionbar/actionbar": [
+			{
+				"key": "titleLabel",
+				"comment": [
+					"action title",
+					"action keybinding"
+				]
+			}
+		],
+		"vs/base/parts/tree/browser/treeDefaults": [
+			"collapse"
+		],
+		"vs/editor/contrib/find/browser/findWidget": [
+			"label.find",
+			"placeholder.find",
+			"label.previousMatchButton",
+			"label.nextMatchButton",
+			"label.toggleSelectionFind",
+			"label.closeButton",
+			"label.replace",
+			"placeholder.replace",
+			"label.replaceButton",
+			"label.replaceAllButton",
+			"label.toggleReplaceButton",
+			"title.matchesCountLimit",
+			"label.matchesLocation",
+			"label.noResults"
+		],
+		"vs/editor/contrib/find/common/findController": [
+			"startFindAction",
+			"findNextMatchAction",
+			"findPreviousMatchAction",
+			"nextSelectionMatchFindAction",
+			"previousSelectionMatchFindAction",
+			"startReplace",
+			"addSelectionToNextFindMatch",
+			"addSelectionToPreviousFindMatch",
+			"moveSelectionToNextFindMatch",
+			"moveSelectionToPreviousFindMatch",
+			"selectAllOccurencesOfFindMatch",
+			"changeAll.label"
+		],
+		"vs/editor/contrib/referenceSearch/browser/referencesController": [
+			"labelLoading"
+		],
+		"vs/editor/contrib/zoneWidget/browser/peekViewWidget": [
+			"label.close"
+		],
+		"vs/editor/contrib/hover/browser/modesContentHover": [
+			"modesContentHover.loading"
+		],
+		"vs/editor/contrib/parameterHints/browser/parameterHintsWidget": [
+			"hint"
+		],
+		"vs/editor/contrib/quickFix/browser/quickFixWidget": [
+			"quickFixAccepted",
+			"QuickFixSelectionWidget.loading",
+			"QuickFixSelectionWidget.noSuggestions"
+		],
+		"vs/editor/common/services/bulkEdit": [
+			"conflict"
+		],
+		"vs/editor/contrib/rename/common/rename": [
+			"no result"
+		],
+		"vs/editor/contrib/rename/browser/renameInputField": [
+			"renameAriaLabel"
+		],
+		"vs/editor/common/modes/snippetsRegistry": [
+			"snippetSuggest.longLabel"
+		],
+		"vs/editor/contrib/suggest/browser/suggestWidget": [
+			"readMore",
+			"suggestionWithDetailsAriaLabel",
+			"suggestionAriaLabel",
+			"goback",
+			"suggestWidget.loading",
+			"suggestWidget.noSuggestions",
+			"suggestionAriaAccepted",
+			"ariaCurrentSuggestionWithDetails",
+			"ariaCurrentSuggestion"
+		],
+		"vs/editor/common/config/commonEditorConfig": [
+			"editorConfigurationTitle",
+			"fontFamily",
+			"fontWeight",
+			"fontSize",
+			"lineHeight",
+			"lineNumbers",
+			"rulers",
+			"wordSeparators",
+			"tabSize",
+			"tabSize.errorMessage",
+			"insertSpaces",
+			"insertSpaces.errorMessage",
+			"detectIndentation",
+			"roundedSelection",
+			"scrollBeyondLastLine",
+			"wrappingColumn",
+			"wordWrap",
+			"wrappingIndent",
+			"mouseWheelScrollSensitivity",
+			"quickSuggestions",
+			"quickSuggestionsDelay",
+			"parameterHints",
+			"autoClosingBrackets",
+			"formatOnType",
+			"suggestOnTriggerCharacters",
+			"acceptSuggestionOnEnter",
+			"snippetSuggestions",
+			"wordBasedSuggestions",
+			"tabCompletion",
+			"selectionHighlight",
+			"overviewRulerLanes",
+			"cursorBlinking",
+			"mouseWheelZoom",
+			"cursorStyle",
+			"fontLigatures",
+			"hideCursorInOverviewRuler",
+			"renderWhitespace",
+			"renderControlCharacters",
+			"renderIndentGuides",
+			"renderLineHighlight",
+			"codeLens",
+			"folding",
+			"useTabStops",
+			"trimAutoWhitespace",
+			"stablePeek",
+			"sideBySide",
+			"ignoreTrimWhitespace",
+			"selectionClipboard"
+		],
+		"vs/base/common/keybinding": [
+			"windowsKey",
+			"ctrlKey.long",
+			"shiftKey.long",
+			"altKey.long",
+			"cmdKey.long",
+			"windowsKey.long",
+			"ctrlKey",
+			"shiftKey",
+			"altKey",
+			"cmdKey",
+			"windowsKey"
+		],
+		"vs/base/parts/quickopen/browser/quickOpenWidget": [
+			"quickOpenAriaLabel",
+			"treeAriaLabel"
+		],
+		"vs/editor/common/controller/cursor": [
+			"corrupt.commands"
+		],
+		"vs/base/browser/ui/findinput/findInput": [
+			"regexDescription",
+			"wordsDescription",
+			"caseDescription",
+			"defaultLabel"
+		],
+		"vs/base/browser/ui/inputbox/inputBox": [
+			"alertErrorMessage",
+			"alertWarningMessage",
+			"alertInfoMessage"
+		],
+		"vs/editor/contrib/referenceSearch/browser/referencesWidget": [
+			"referencesFailre",
+			"referencesCount",
+			"referenceCount",
+			"missingPreviewMessage",
+			"treeAriaLabel",
+			"noResults",
+			"peekView.alternateTitle"
+		],
+		"vs/base/browser/ui/aria/aria": [
+			"repeated"
+		],
+		"vs/platform/configuration/common/configurationRegistry": [
+			"vscode.extension.contributes.configuration",
+			"vscode.extension.contributes.configuration.title",
+			"vscode.extension.contributes.configuration.properties",
+			"invalid.type",
+			"invalid.title",
+			"invalid.properties"
+		],
+		"vs/editor/common/model/textModelWithTokens": [
+			"mode.tokenizationSupportFailed"
+		]
+	},
+	"messages": {
+		"vs/editor/common/config/defaultConfig": [
+			"Editor content"
+		],
+		"vs/editor/contrib/quickOpen/browser/quickOutline": [
+			"{0}, symbols",
+			"Type the name of an identifier you wish to navigate to",
+			"Go to Symbol...",
+			"symbols ({0})",
+			"modules ({0})",
+			"classes ({0})",
+			"interfaces ({0})",
+			"methods ({0})",
+			"functions ({0})",
+			"properties ({0})",
+			"variables ({0})",
+			"variables ({0})",
+			"constructors ({0})",
+			"calls ({0})"
+		],
+		"vs/editor/contrib/quickOpen/browser/quickCommand": [
+			"{0}, commands",
+			"Type the name of an action you want to execute",
+			"Command Palette"
+		],
+		"vs/editor/contrib/quickOpen/browser/gotoLine": [
+			"Go to line {0} and column {1}",
+			"Go to line {0}",
+			"Type a line number between 1 and {0} to navigate to",
+			"Type a column between 1 and {0} to navigate to",
+			"Go to line {0}",
+			"Type a line number, followed by an optional colon and a column number to navigate to",
+			"Go to Line..."
+		],
+		"vs/platform/extensions/common/extensionsRegistry": [
+			"Got empty extension description",
+			"property `{0}` is mandatory and must be of type `string`",
+			"property `{0}` is mandatory and must be of type `string`",
+			"property `{0}` is mandatory and must be of type `string`",
+			"property `{0}` is mandatory and must be of type `object`",
+			"property `{0}` is mandatory and must be of type `string`",
+			"property `{0}` can be omitted or must be of type `string[]`",
+			"property `{0}` can be omitted or must be of type `string[]`",
+			"properties `{0}` and `{1}` must both be specified or must both be omitted",
+			"property `{0}` can be omitted or must be of type `string`",
+			"Expected `main` ({0}) to be included inside extension's folder ({1}). This might make the extension non-portable.",
+			"properties `{0}` and `{1}` must both be specified or must both be omitted",
+			"The display name for the extension used in the VS Code gallery.",
+			"The categories used by the VS Code gallery to categorize the extension.",
+			"Banner used in the VS Code marketplace.",
+			"The banner color on the VS Code marketplace page header.",
+			"The color theme for the font used in the banner.",
+			"The publisher of the VS Code extension.",
+			"Activation events for the VS Code extension.",
+			"Dependencies to other extensions. The identifier of an extension is always ${publisher}.${name}. For example: vscode.csharp.",
+			"Script executed before the package is published as a VS Code extension.",
+			"All contributions of the VS Code extension represented by this package."
+		],
+		"vs/editor/common/modes/modesRegistry": [
+			"Plain Text"
+		],
+		"vs/editor/common/services/modeServiceImpl": [
+			"Contributes language declarations.",
+			"ID of the language.",
+			"Name aliases for the language.",
+			"File extensions associated to the language.",
+			"File names associated to the language.",
+			"File name glob patterns associated to the language.",
+			"Mime types associated to the language.",
+			"A regular expression matching the first line of a file of the language.",
+			"A relative path to a file containing configuration options for the language.",
+			"Empty value for `contributes.{0}`",
+			"property `{0}` is mandatory and must be of type `string`",
+			"property `{0}` can be omitted and must be of type `string[]`",
+			"property `{0}` can be omitted and must be of type `string[]`",
+			"property `{0}` can be omitted and must be of type `string`",
+			"property `{0}` can be omitted and must be of type `string`",
+			"property `{0}` can be omitted and must be of type `string[]`",
+			"property `{0}` can be omitted and must be of type `string[]`",
+			"Invalid `contributes.{0}`. Expected an array."
+		],
+		"vs/base/parts/quickopen/browser/quickOpenModel": [
+			"{0}, picker",
+			"picker"
+		],
+		"vs/editor/contrib/clipboard/browser/clipboard": [
+			"Cut",
+			"Copy",
+			"Paste"
+		],
+		"vs/editor/contrib/comment/common/comment": [
+			"Toggle Line Comment",
+			"Add Line Comment",
+			"Remove Line Comment",
+			"Toggle Block Comment"
+		],
+		"vs/editor/contrib/contextmenu/browser/contextmenu": [
+			"Show Editor Context Menu"
+		],
+		"vs/editor/contrib/goToDeclaration/browser/goToDeclaration": [
+			" – {0} definitions",
+			"Go to Definition",
+			"Open Definition to the Side",
+			"Peek Definition",
+			"Click to show the {0} definitions found."
+		],
+		"vs/editor/contrib/format/common/formatActions": [
+			"Format Code"
+		],
+		"vs/editor/contrib/gotoError/browser/gotoError": [
+			"Suggested fixes: ",
+			"Suggested fix: ",
+			"({0}/{1})",
+			"Go to Next Error or Warning",
+			"Go to Previous Error or Warning"
+		],
+		"vs/editor/contrib/hover/browser/hover": [
+			"Show Hover"
+		],
+		"vs/editor/contrib/inPlaceReplace/common/inPlaceReplace": [
+			"Replace with Previous Value",
+			"Replace with Next Value"
+		],
+		"vs/editor/contrib/linesOperations/common/linesOperations": [
+			"Copy Line Up",
+			"Copy Line Down",
+			"Move Line Up",
+			"Move Line Down",
+			"Sort Lines Ascending",
+			"Sort Lines Descending",
+			"Trim Trailing Whitespace",
+			"Delete Line",
+			"Indent Line",
+			"Outdent Line",
+			"Insert Line Above",
+			"Insert Line Below"
+		],
+		"vs/editor/contrib/carretOperations/common/carretOperations": [
+			"Move Carret Left",
+			"Move Carret Right"
+		],
+		"vs/editor/contrib/links/browser/links": [
+			"Cmd + click to follow link",
+			"Ctrl + click to follow link",
+			"Sorry, failed to open this link because it is not well-formed: {0}",
+			"Sorry, failed to open this link because its target is missing.",
+			"Open Link"
+		],
+		"vs/editor/contrib/multicursor/common/multicursor": [
+			"Add Cursor Above",
+			"Add Cursor Below",
+			"Create Multiple Cursors from Selected Lines"
+		],
+		"vs/editor/contrib/parameterHints/browser/parameterHints": [
+			"Trigger Parameter Hints"
+		],
+		"vs/editor/contrib/quickFix/browser/quickFix": [
+			"Quick Fix"
+		],
+		"vs/editor/contrib/rename/browser/rename": [
+			"Sorry, rename failed to execute.",
+			"Rename Symbol"
+		],
+		"vs/editor/contrib/referenceSearch/browser/referenceSearch": [
+			" – {0} references",
+			"Find All References"
+		],
+		"vs/editor/contrib/smartSelect/common/smartSelect": [
+			"Expand Select",
+			"Shrink Select"
+		],
+		"vs/editor/contrib/smartSelect/common/jumpToBracket": [
+			"Go to Bracket"
+		],
+		"vs/editor/contrib/suggest/browser/suggestController": [
+			"Trigger Suggest"
+		],
+		"vs/editor/contrib/toggleTabFocusMode/common/toggleTabFocusMode": [
+			"Toggle Use of Tab Key for Setting Focus"
+		],
+		"vs/editor/contrib/toggleWordWrap/common/toggleWordWrap": [
+			"View: Toggle Word Wrap"
+		],
+		"vs/editor/contrib/folding/browser/folding": [
+			"Unfold",
+			"Unfold Recursively",
+			"Fold",
+			"Fold Recursively",
+			"Fold All",
+			"Unfold All",
+			"Fold Level 1",
+			"Fold Level 2",
+			"Fold Level 3",
+			"Fold Level 4",
+			"Fold Level 5"
+		],
+		"vs/editor/contrib/indentation/common/indentation": [
+			"Convert Indentation to Spaces",
+			"Convert Indentation to Tabs",
+			"Configured Tab Size",
+			"Select Tab Size for Current File",
+			"Indent Using Tabs",
+			"Indent Using Spaces",
+			"Detect Indentation from Content",
+			"Toggle Render Whitespace",
+			"Toggle Control Characters"
+		],
+		"vs/platform/message/common/message": [
+			"Close",
+			"Later",
+			"Cancel"
+		],
+		"vs/editor/common/services/modelServiceImpl": [
+			"[{0}] {1}",
+			"Please update your settings: `editor.detectIndentation` replaces `editor.tabSize`: \"auto\" or `editor.insertSpaces`: \"auto\""
+		],
+		"vs/base/common/severity": [
+			"Error",
+			"Warning",
+			"Info"
+		],
+		"vs/platform/keybinding/browser/keybindingServiceImpl": [
+			"Here are other available commands: ",
+			"({0}) was pressed. Waiting for second key of chord...",
+			"The key combination ({0}, {1}) is not a command."
+		],
+		"vs/platform/extensions/common/abstractExtensionService": [
+			"Extension `{1}` failed to activate. Reason: unknown dependency `{0}`.",
+			"Extension `{1}` failed to activate. Reason: dependency `{0}` failed to activate.",
+			"Extension `{0}` failed to activate. Reason: more than 10 levels of dependencies (most likely a dependency loop).",
+			"Activating extension `{0}` failed: {1}."
+		],
+		"vs/base/browser/ui/actionbar/actionbar": [
+			"{0} ({1})"
+		],
+		"vs/base/parts/tree/browser/treeDefaults": [
+			"Collapse"
+		],
+		"vs/editor/contrib/find/browser/findWidget": [
+			"Find",
+			"Find",
+			"Previous match",
+			"Next match",
+			"Find in selection",
+			"Close",
+			"Replace",
+			"Replace",
+			"Replace",
+			"Replace All",
+			"Toggle Replace mode",
+			"Only the first 999 results are highlighted, but all find operations work on the entire text.",
+			"{0} of {1}",
+			"No results"
+		],
+		"vs/editor/contrib/find/common/findController": [
+			"Find",
+			"Find Next",
+			"Find Previous",
+			"Find Next Selection",
+			"Find Previous Selection",
+			"Replace",
+			"Add Selection To Next Find Match",
+			"Add Selection To Previous Find Match",
+			"Move Last Selection To Next Find Match",
+			"Move Last Selection To Previous Find Match",
+			"Select All Occurences of Find Match",
+			"Change All Occurrences"
+		],
+		"vs/editor/contrib/referenceSearch/browser/referencesController": [
+			"Loading..."
+		],
+		"vs/editor/contrib/zoneWidget/browser/peekViewWidget": [
+			"Close"
+		],
+		"vs/editor/contrib/hover/browser/modesContentHover": [
+			"Loading..."
+		],
+		"vs/editor/contrib/parameterHints/browser/parameterHintsWidget": [
+			"{0}, hint"
+		],
+		"vs/editor/contrib/quickFix/browser/quickFixWidget": [
+			"{0}, accepted",
+			"Loading...",
+			"No fix suggestions."
+		],
+		"vs/editor/common/services/bulkEdit": [
+			"These files have changed in the meantime: {0}"
+		],
+		"vs/editor/contrib/rename/common/rename": [
+			"No result."
+		],
+		"vs/editor/contrib/rename/browser/renameInputField": [
+			"Rename input. Type new name and press Enter to commit."
+		],
+		"vs/editor/common/modes/snippetsRegistry": [
+			"{0}, {1}"
+		],
+		"vs/editor/contrib/suggest/browser/suggestWidget": [
+			"Read More...{0}",
+			"{0}, suggestion, has details",
+			"{0}, suggestion",
+			"Go back",
+			"Loading...",
+			"No suggestions.",
+			"{0}, accepted",
+			"{0}, suggestion, has details",
+			"{0}, suggestion"
+		],
+		"vs/editor/common/config/commonEditorConfig": [
+			"Editor",
+			"Controls the font family.",
+			"Controls the font weight.",
+			"Controls the font size in pixels.",
+			"Controls the line height. Use 0 to compute the lineHeight from the fontSize.",
+			"Controls visibility of line numbers",
+			"Columns at which to show vertical rulers",
+			"Characters that will be used as word separators when doing word related navigations or operations",
+			"The number of spaces a tab is equal to. This setting is overriden based on the file contents when `editor.detectIndentation` is on.",
+			"Expected 'number'. Note that the value \"auto\" has been replaced by the `editor.detectIndentation` setting.",
+			"Insert spaces when pressing Tab. This setting is overriden based on the file contents when `editor.detectIndentation` is on.",
+			"Expected 'boolean'. Note that the value \"auto\" has been replaced by the `editor.detectIndentation` setting.",
+			"When opening a file, `editor.tabSize` and `editor.insertSpaces` will be detected based on the file contents.",
+			"Controls if selections have rounded corners",
+			"Controls if the editor will scroll beyond the last line",
+			"Controls after how many characters the editor will wrap to the next line. Setting this to 0 turns on viewport width wrapping (word wrapping). Setting this to -1 forces the editor to never wrap.",
+			"Controls if lines should wrap. The lines will wrap at min(editor.wrappingColumn, viewportWidthInColumns).",
+			"Controls the indentation of wrapped lines. Can be one of 'none', 'same' or 'indent'.",
+			"A multiplier to be used on the `deltaX` and `deltaY` of mouse wheel scroll events",
+			"Controls if quick suggestions should show up or not while typing",
+			"Controls the delay in ms after which quick suggestions will show up",
+			"Enables parameter hints",
+			"Controls if the editor should automatically close brackets after opening them",
+			"Controls if the editor should automatically format the line after typing",
+			"Controls if suggestions should automatically show up when typing trigger characters",
+			"Controls if suggestions should be accepted 'Enter' - in addition to 'Tab'. Helps to avoid ambiguity between inserting new lines or accepting suggestions.",
+			"Controls whether snippets are shown with other suggestions and how they are sorted.",
+			"Enable word based suggestions.",
+			"Insert snippets when their prefix matches. Works best when 'quickSuggestions' aren't enabled.",
+			"Controls whether the editor should highlight similar matches to the selection",
+			"Controls the number of decorations that can show up at the same position in the overview ruler",
+			"Control the cursor animation style, possible values are 'blink', 'smooth', 'phase', 'expand' and 'solid'",
+			"Zoom the font of the editor when using mouse wheel and holding Ctrl",
+			"Controls the cursor style, accepted values are 'block', 'line' and 'underline'",
+			"Enables font ligatures",
+			"Controls if the cursor should be hidden in the overview ruler.",
+			"Controls how the editor should render whitespace characters, posibilties are 'none', 'boundary', and 'all'. The 'boundary' option does not render single spaces between words.",
+			"Controls whether the editor should render control characters",
+			"Controls whether the editor should render indent guides",
+			"Controls whether the editor should render the current line highlight",
+			"Controls if the editor shows code lenses",
+			"Controls whether the editor has code folding enabled",
+			"Inserting and deleting whitespace follows tab stops",
+			"Remove trailing auto inserted whitespace",
+			"Keep peek editors open even when double clicking their content or when hitting Escape.",
+			"Controls if the diff editor shows the diff side by side or inline",
+			"Controls if the diff editor shows changes in leading or trailing whitespace as diffs",
+			"Controls if the Linux primary clipboard should be supported."
+		],
+		"vs/base/common/keybinding": [
+			"Windows",
+			"Control",
+			"Shift",
+			"Alt",
+			"Command",
+			"Windows",
+			"Ctrl",
+			"Shift",
+			"Alt",
+			"Command",
+			"Windows"
+		],
+		"vs/base/parts/quickopen/browser/quickOpenWidget": [
+			"Quick picker. Type to narrow down results.",
+			"Quick Picker"
+		],
+		"vs/editor/common/controller/cursor": [
+			"Unexpected exception while executing command."
+		],
+		"vs/base/browser/ui/findinput/findInput": [
+			"Use Regular Expression",
+			"Match Whole Word",
+			"Match Case",
+			"input"
+		],
+		"vs/base/browser/ui/inputbox/inputBox": [
+			"Error: {0}",
+			"Warning: {0}",
+			"Info: {0}"
+		],
+		"vs/editor/contrib/referenceSearch/browser/referencesWidget": [
+			"Failed to resolve file.",
+			"{0} references",
+			"{0} reference",
+			"no preview available",
+			"References",
+			"No results",
+			"References"
+		],
+		"vs/base/browser/ui/aria/aria": [
+			"{0} (occurred again)"
+		],
+		"vs/platform/configuration/common/configurationRegistry": [
+			"Contributes configuration settings.",
+			"A summary of the settings. This label will be used in the settings file as separating comment.",
+			"Description of the configuration properties.",
+			"if set, 'configuration.type' must be set to 'object",
+			"'configuration.title' must be a string",
+			"'configuration.properties' must be an object"
+		],
+		"vs/editor/common/model/textModelWithTokens": [
+			"The mode has failed while tokenizing the input."
+		]
+	},
+	"bundles": {
+		"vs/editor/editor.main": [
+			"vs/base/browser/ui/actionbar/actionbar",
+			"vs/base/browser/ui/aria/aria",
+			"vs/base/browser/ui/findinput/findInput",
+			"vs/base/browser/ui/inputbox/inputBox",
+			"vs/base/common/keybinding",
+			"vs/base/common/severity",
+			"vs/base/parts/quickopen/browser/quickOpenModel",
+			"vs/base/parts/quickopen/browser/quickOpenWidget",
+			"vs/base/parts/tree/browser/treeDefaults",
+			"vs/editor/common/config/commonEditorConfig",
+			"vs/editor/common/config/defaultConfig",
+			"vs/editor/common/controller/cursor",
+			"vs/editor/common/model/textModelWithTokens",
+			"vs/editor/common/modes/modesRegistry",
+			"vs/editor/common/modes/snippetsRegistry",
+			"vs/editor/common/services/bulkEdit",
+			"vs/editor/common/services/modeServiceImpl",
+			"vs/editor/common/services/modelServiceImpl",
+			"vs/editor/contrib/carretOperations/common/carretOperations",
+			"vs/editor/contrib/clipboard/browser/clipboard",
+			"vs/editor/contrib/comment/common/comment",
+			"vs/editor/contrib/contextmenu/browser/contextmenu",
+			"vs/editor/contrib/find/browser/findWidget",
+			"vs/editor/contrib/find/common/findController",
+			"vs/editor/contrib/folding/browser/folding",
+			"vs/editor/contrib/format/common/formatActions",
+			"vs/editor/contrib/goToDeclaration/browser/goToDeclaration",
+			"vs/editor/contrib/gotoError/browser/gotoError",
+			"vs/editor/contrib/hover/browser/hover",
+			"vs/editor/contrib/hover/browser/modesContentHover",
+			"vs/editor/contrib/inPlaceReplace/common/inPlaceReplace",
+			"vs/editor/contrib/indentation/common/indentation",
+			"vs/editor/contrib/linesOperations/common/linesOperations",
+			"vs/editor/contrib/links/browser/links",
+			"vs/editor/contrib/multicursor/common/multicursor",
+			"vs/editor/contrib/parameterHints/browser/parameterHints",
+			"vs/editor/contrib/parameterHints/browser/parameterHintsWidget",
+			"vs/editor/contrib/quickFix/browser/quickFix",
+			"vs/editor/contrib/quickFix/browser/quickFixWidget",
+			"vs/editor/contrib/quickOpen/browser/gotoLine",
+			"vs/editor/contrib/quickOpen/browser/quickCommand",
+			"vs/editor/contrib/quickOpen/browser/quickOutline",
+			"vs/editor/contrib/referenceSearch/browser/referenceSearch",
+			"vs/editor/contrib/referenceSearch/browser/referencesController",
+			"vs/editor/contrib/referenceSearch/browser/referencesWidget",
+			"vs/editor/contrib/rename/browser/rename",
+			"vs/editor/contrib/rename/browser/renameInputField",
+			"vs/editor/contrib/rename/common/rename",
+			"vs/editor/contrib/smartSelect/common/jumpToBracket",
+			"vs/editor/contrib/smartSelect/common/smartSelect",
+			"vs/editor/contrib/suggest/browser/suggestController",
+			"vs/editor/contrib/suggest/browser/suggestWidget",
+			"vs/editor/contrib/toggleTabFocusMode/common/toggleTabFocusMode",
+			"vs/editor/contrib/toggleWordWrap/common/toggleWordWrap",
+			"vs/editor/contrib/zoneWidget/browser/peekViewWidget",
+			"vs/platform/configuration/common/configurationRegistry",
+			"vs/platform/extensions/common/abstractExtensionService",
+			"vs/platform/extensions/common/extensionsRegistry",
+			"vs/platform/keybinding/browser/keybindingServiceImpl",
+			"vs/platform/message/common/message"
+		]
+	}
+}
