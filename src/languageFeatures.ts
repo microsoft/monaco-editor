@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as ts from '../lib/typescriptServices';
-import {TypeScriptWorker} from './worker';
+import { TypeScriptWorker } from './worker';
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;
@@ -18,7 +18,7 @@ import IDisposable = monaco.IDisposable;
 
 export abstract class Adapter {
 
-	constructor(protected _worker: (first:Uri, ...more:Uri[]) => Promise<TypeScriptWorker>) {
+	constructor(protected _worker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>) {
 	}
 
 	protected _positionToOffset(uri: Uri, position: monaco.IPosition): number {
@@ -74,6 +74,7 @@ export class DiagnostcsAdapter extends Adapter {
 		};
 
 		const onModelRemoved = (model: monaco.editor.IModel): void => {
+			monaco.editor.setModelMarkers(model, this._selector, []);
 			const key = model.uri.toString();
 			if (this._listener[key]) {
 				this._listener[key].dispose();
@@ -89,12 +90,20 @@ export class DiagnostcsAdapter extends Adapter {
 		}));
 
 		this._disposables.push({
-			dispose: () => {
-				for (let key in this._listener) {
-					this._listener[key].dispose();
+			dispose() {
+				for (const model of monaco.editor.getModels()) {
+					onModelRemoved(model);
 				}
 			}
 		});
+
+		this._disposables.push(this._defaults.onDidChange(() => {
+			// redo diagnostics when options change
+			for (const model of monaco.editor.getModels()) {
+				onModelRemoved(model);
+				onModelAdd(model);
+			}
+		}));
 
 		monaco.editor.getModels().forEach(onModelAdd);
 	}
@@ -154,7 +163,7 @@ export class SuggestAdapter extends Adapter implements monaco.languages.Completi
 		return ['.'];
 	}
 
-	provideCompletionItems(model:monaco.editor.IReadOnlyModel, position:Position, token:CancellationToken): Thenable<monaco.languages.CompletionItem[]> {
+	provideCompletionItems(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.CompletionItem[]> {
 		const wordInfo = model.getWordUntilPosition(position);
 		const resource = model.uri;
 		const offset = this._positionToOffset(resource, position);
@@ -250,7 +259,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 				return;
 			}
 
-			let ret:monaco.languages.SignatureHelp = {
+			let ret: monaco.languages.SignatureHelp = {
 				activeSignature: info.selectedItemIndex,
 				activeParameter: info.argumentIndex,
 				signatures: []
@@ -258,7 +267,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 
 			info.items.forEach(item => {
 
-				let signature:monaco.languages.SignatureInformation = {
+				let signature: monaco.languages.SignatureInformation = {
 					label: '',
 					documentation: null,
 					parameters: []
@@ -267,7 +276,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 				signature.label += ts.displayPartsToString(item.prefixDisplayParts);
 				item.parameters.forEach((p, i, a) => {
 					let label = ts.displayPartsToString(p.displayParts);
-					let parameter:monaco.languages.ParameterInformation = {
+					let parameter: monaco.languages.ParameterInformation = {
 						label: label,
 						documentation: ts.displayPartsToString(p.documentation)
 					};
@@ -291,7 +300,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 
 export class QuickInfoAdapter extends Adapter implements monaco.languages.HoverProvider {
 
-	provideHover(model:monaco.editor.IReadOnlyModel, position:Position, token:CancellationToken): Thenable<monaco.languages.Hover> {
+	provideHover(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Hover> {
 		let resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => {
@@ -336,7 +345,7 @@ export class OccurrencesAdapter extends Adapter implements monaco.languages.Docu
 
 export class DefinitionAdapter extends Adapter {
 
-	public provideDefinition(model:monaco.editor.IReadOnlyModel, position:Position, token:CancellationToken): Thenable<monaco.languages.Definition> {
+	public provideDefinition(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Definition> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => {
@@ -364,7 +373,7 @@ export class DefinitionAdapter extends Adapter {
 
 export class ReferenceAdapter extends Adapter implements monaco.languages.ReferenceProvider {
 
-	provideReferences(model:monaco.editor.IReadOnlyModel, position:Position, context: monaco.languages.ReferenceContext, token: CancellationToken): Thenable<monaco.languages.Location[]> {
+	provideReferences(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.ReferenceContext, token: CancellationToken): Thenable<monaco.languages.Location[]> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => {
@@ -392,7 +401,7 @@ export class ReferenceAdapter extends Adapter implements monaco.languages.Refere
 
 export class OutlineAdapter extends Adapter implements monaco.languages.DocumentSymbolProvider {
 
-	public provideDocumentSymbols(model:monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.SymbolInformation[]> {
+	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.SymbolInformation[]> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => worker.getNavigationBarItems(resource.toString())).then(items => {
@@ -428,34 +437,34 @@ export class OutlineAdapter extends Adapter implements monaco.languages.Document
 }
 
 export class Kind {
-	public static unknown:string = '';
-	public static keyword:string = 'keyword';
-	public static script:string = 'script';
-	public static module:string = 'module';
-	public static class:string = 'class';
-	public static interface:string = 'interface';
-	public static type:string = 'type';
-	public static enum:string = 'enum';
-	public static variable:string = 'var';
-	public static localVariable:string = 'local var';
-	public static function:string = 'function';
-	public static localFunction:string = 'local function';
-	public static memberFunction:string = 'method';
-	public static memberGetAccessor:string = 'getter';
-	public static memberSetAccessor:string = 'setter';
-	public static memberVariable:string = 'property';
-	public static constructorImplementation:string = 'constructor';
-	public static callSignature:string = 'call';
-	public static indexSignature:string = 'index';
-	public static constructSignature:string = 'construct';
-	public static parameter:string = 'parameter';
-	public static typeParameter:string = 'type parameter';
-	public static primitiveType:string = 'primitive type';
-	public static label:string = 'label';
-	public static alias:string = 'alias';
-	public static const:string = 'const';
-	public static let:string = 'let';
-	public static warning:string = 'warning';
+	public static unknown: string = '';
+	public static keyword: string = 'keyword';
+	public static script: string = 'script';
+	public static module: string = 'module';
+	public static class: string = 'class';
+	public static interface: string = 'interface';
+	public static type: string = 'type';
+	public static enum: string = 'enum';
+	public static variable: string = 'var';
+	public static localVariable: string = 'local var';
+	public static function: string = 'function';
+	public static localFunction: string = 'local function';
+	public static memberFunction: string = 'method';
+	public static memberGetAccessor: string = 'getter';
+	public static memberSetAccessor: string = 'setter';
+	public static memberVariable: string = 'property';
+	public static constructorImplementation: string = 'constructor';
+	public static callSignature: string = 'call';
+	public static indexSignature: string = 'index';
+	public static constructSignature: string = 'construct';
+	public static parameter: string = 'parameter';
+	public static typeParameter: string = 'type parameter';
+	public static primitiveType: string = 'primitive type';
+	public static label: string = 'label';
+	public static alias: string = 'alias';
+	public static const: string = 'const';
+	public static let: string = 'let';
+	public static warning: string = 'warning';
 }
 
 let outlineTypeTable: { [kind: string]: monaco.languages.SymbolKind } = Object.create(null);
