@@ -27,6 +27,6 @@
     "monaco-editor-core": "^0.7.0",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
-    "typescript": "2.0.3"
+    "typescript": "2.1.5"
   }
 }
