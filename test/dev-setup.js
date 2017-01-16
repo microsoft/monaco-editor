@@ -132,6 +132,7 @@
 		div.style.right = 0;
 		div.style.background = 'lightgray';
 		div.style.padding = '5px 20px 5px 5px';
+		div.style.zIndex = '1000';
 
 		div.innerHTML = '<ul><li>' + allComponents.map(function(component) { return component.renderLoadingOptions(); }).join('</li><li>') + '</li></ul>';
 

@@ -1,5 +1,7 @@
 /// <reference path="../node_modules/monaco-editor-core/monaco.d.ts" />
-define(['./samples'], function(SAMPLES) {
+define(['require', './samples'], function(require, SAMPLES) {
+
+var domutils = require('vs/base/browser/dom');
 
 var WRAPPING_COLUMN = 300;
 

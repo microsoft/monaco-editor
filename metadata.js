@@ -4,6 +4,7 @@
 		CORE: {
 			paths: {
 				npm: 'node_modules/monaco-editor-core/min/vs',
+				// npm: 'node_modules/monaco-editor-core/dev/vs',
 				dev: '/vscode/out/vs',
 				built: '/vscode/out-monaco-editor-core/min/vs',
 				releaseDev: 'release/dev/vs',
