@@ -5,8 +5,8 @@
 'use strict';
 
 import ts = require('../lib/typescriptServices');
-import {contents as libdts} from '../lib/lib-ts';
-import {contents as libes6ts} from '../lib/lib-es6-ts';
+import { contents as libdts } from '../lib/lib-ts';
+import { contents as libes6ts } from '../lib/lib-es6-ts';
 
 import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
@@ -25,12 +25,12 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	// --- model sync -----------------------
 
-	private _ctx:IWorkerContext;
+	private _ctx: IWorkerContext;
 	private _extraLibs: { [fileName: string]: string } = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 
-	constructor(ctx:IWorkerContext, createData:ICreateData) {
+	constructor(ctx: IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
 		this._compilerOptions = createData.compilerOptions;
 		this._extraLibs = createData.extraLibs;
@@ -47,7 +47,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
-	private _getModel(fileName:string): monaco.worker.IMirrorModel {
+	private _getModel(fileName: string): monaco.worker.IMirrorModel {
 		let models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			if (models[i].uri.toString() === fileName) {
@@ -99,7 +99,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	getDefaultLibFileName(options: ts.CompilerOptions): string {
 		// TODO@joh support lib.es7.d.ts
-		return options.target > ts.ScriptTarget.ES5 ? DEFAULT_LIB.NAME : ES6_LIB.NAME;
+		return options.target <= ts.ScriptTarget.ES5 ? DEFAULT_LIB.NAME : ES6_LIB.NAME;
 	}
 
 	isDefaultLibFileName(fileName: string): boolean {
@@ -126,7 +126,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.as(diagnostics);
 	}
 
-	getCompletionsAtPosition(fileName: string, position:number): Promise<ts.CompletionInfo> {
+	getCompletionsAtPosition(fileName: string, position: number): Promise<ts.CompletionInfo> {
 		return Promise.as(this._languageService.getCompletionsAtPosition(fileName, position));
 	}
 
@@ -134,7 +134,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.as(this._languageService.getCompletionEntryDetails(fileName, position, entry));
 	}
 
-	getSignatureHelpItems(fileName: string, position:number): Promise<ts.SignatureHelpItems> {
+	getSignatureHelpItems(fileName: string, position: number): Promise<ts.SignatureHelpItems> {
 		return Promise.as(this._languageService.getSignatureHelpItems(fileName, position));
 	}
 
@@ -176,10 +176,10 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 }
 
 export interface ICreateData {
-	compilerOptions:ts.CompilerOptions;
-	extraLibs:{ [path: string]: string };
+	compilerOptions: ts.CompilerOptions;
+	extraLibs: { [path: string]: string };
 }
 
-export function create(ctx:IWorkerContext, createData:ICreateData): TypeScriptWorker {
+export function create(ctx: IWorkerContext, createData: ICreateData): TypeScriptWorker {
 	return new TypeScriptWorker(ctx, createData);
 }
