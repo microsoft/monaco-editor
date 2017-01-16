@@ -1,6 +1,6 @@
 {
   "name": "monaco-json",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
@@ -25,12 +25,12 @@
     "gulp-tsb": "^2.0.0",
     "gulp-uglify": "^1.5.3",
     "merge-stream": "^1.0.0",
-    "monaco-editor-core": "^0.7.0",
+    "monaco-editor-core": "^0.7.3",
     "monaco-languages": "^0.6.1",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
     "typescript": "2.0.3",
-    "vscode-json-languageservice": "^1.1.5-next.1",
-    "vscode-languageserver-types": "^1.0.1"
+    "vscode-json-languageservice": "1.1.7",
+    "vscode-languageserver-types": "1.0.4"
   }
 }
