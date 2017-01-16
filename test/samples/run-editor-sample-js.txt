@@ -7,9 +7,12 @@ blabla	http://en.wikipedia.org/wiki/Timisoara bla bla
 
   This library is supported for use in Windows Tailored Apps only.
 
-  Build: 6.2.8100.0 
-  Version: 0.5 
+  Build: 6.2.8100.0
+  Version: 0.5
 */
+
+var קודמות = "מיותר קודמות צ'ט של, אם לשון העברית שינויים ויש, אם";
+
 'a string\
 on multiple lines';
 (function (global, undefined) {
@@ -17,23 +20,23 @@ on multiple lines';
 	undefinedVariable = {}; undefinedVariable.bar = 5;
 	undefinedVariable.foo = 5; undefinedVariable.baz = 10;
 
-    function initializeProperties(target, members) {     
+    function initializeProperties(target, members) {
         var keys = Object.keys(members);
-        var properties;			
+        var properties;
         var i, len;
-        for (i = 0, len = keys.length; i < len; i++) {      
+        for (i = 0, len = keys.length; i < len; i++) {
             var key = keys[i];
             var enumerable = key.charCodeAt(0) !== /*_*/95;
             var member = members[key];
             if (member && typeof member === 'object') {
-                if (member.value !== undefined || typeof member.get === 'function' || typeof member.set === 'function') {		
+                if (member.value !== undefined || typeof member.get === 'function' || typeof member.set === 'function') {
                     if (member.enumerable === undefined) {
                         member.enumerable = enumerable;
                     }
                     properties = properties || {};
                     properties[key] = member;
                     continue;
-                } 
+                }
             }
             if (!enumerable) {
                 properties = properties || {};
@@ -82,7 +85,7 @@ on multiple lines';
             for (var i = 0, len = namespaceFragments.length; i < len; i++) {
                 var namespaceName = namespaceFragments[i];
                 if (!currentNamespace[namespaceName]) {
-                    Object.defineProperty(currentNamespace, namespaceName, 
+                    Object.defineProperty(currentNamespace, namespaceName,
                         { value: {}, writable: false, enumerable: true, configurable: true }
                     );
                 }
