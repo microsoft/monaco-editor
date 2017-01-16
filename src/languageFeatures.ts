@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
-import {CSSWorker} from './cssWorker';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
+import { CSSWorker } from './cssWorker';
 
 import * as ls from 'vscode-languageserver-types';
 
@@ -47,7 +47,13 @@ export class DiagnostcsAdapter {
 
 		const onModelRemoved = (model: monaco.editor.IModel): void => {
 			monaco.editor.setModelMarkers(model, this._languageId, []);
-			delete this._listener[model.uri.toString()];
+
+			let uriStr = model.uri.toString();
+			let listener = this._listener[uriStr];
+			if (listener) {
+				listener.dispose();
+				delete this._listener[uriStr];
+			}
 		};
 
 		this._disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
