@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Type definitions for monaco-editor v0.7.0
+ * Type definitions for monaco-editor v0.8.0
  * Released under the MIT license
 *-----------------------------------------------------------*/
 declare module monaco {
