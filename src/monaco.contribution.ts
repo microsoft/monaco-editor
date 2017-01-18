@@ -190,7 +190,7 @@ function withMode(callback: (module: typeof mode) => void): void {
 
 monaco.languages.register({
 	id: 'typescript',
-	extensions: ['.ts'],
+	extensions: ['.ts', '.tsx'],
 	aliases: ['TypeScript', 'ts', 'typescript'],
 	mimetypes: ['text/typescript']
 });
@@ -200,7 +200,7 @@ monaco.languages.onLanguage('typescript', () => {
 
 monaco.languages.register({
 	id: 'javascript',
-	extensions: ['.js', '.es6'],
+	extensions: ['.js', '.es6', '.jsx'],
 	firstLine: '^#!.*\\bnode',
 	filenames: ['jakefile'],
 	aliases: ['JavaScript', 'javascript', 'js'],
