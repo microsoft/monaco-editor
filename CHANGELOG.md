@@ -2,6 +2,8 @@
 
 ## [0.8.0]
  - This release has been brewing for a while and comes with quite a number of important changes.
+ - There many bugfixes and speed/memory usage improvements.
+ - Now shipping TypeScript v2.1.5 in `monaco-typescript` (JS and TS language support).
 
 ### No longer supporting IE9 and IE10
  - we have not made the editor fail on purpose in these browsers, but we have removed IE9/IE10 targeted workarounds from our codebase;
