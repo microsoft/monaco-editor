@@ -1,0 +1,23 @@
+{
+  "name": "monaco-editor",
+  "description": "A browser based code editor",
+  "main": "release/min/vs/loader.js",
+  "version": "0.7.1",
+  "authors": [
+    "Microsoft Corporation"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "monaco",
+    "editor",
+    "code"
+  ],
+  "homepage": "https://microsoft.github.io/monaco-editor",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
