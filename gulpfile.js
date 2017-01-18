@@ -96,7 +96,21 @@ gulp.task('release', ['clean-release','compile'], function() {
 		}))
 		.pipe(gulp.dest('./release/dev'))
 		.pipe(uglify({
-			preserveComments: 'some'
+			preserveComments: function(node, token) {
+				var text = token.value;
+				if (text.indexOf('monaco-html version') >= 0) {
+					// this is the main copyright header
+					return true;
+				}
+				if (text.indexOf('Copyright (c) Microsoft') >= 0) {
+					// this is another Microsoft copyright header (not the main)
+					return false;
+				}
+				if (/copyright/i.test(text)) {
+					return true;
+				}
+				return false;
+			}
 		}))
 		.pipe(gulp.dest('./release/min')),
 		gulp.src('src/monaco.d.ts').pipe(gulp.dest('./release/min'))
