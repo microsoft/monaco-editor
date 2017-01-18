@@ -1,6 +1,6 @@
 {
   "name": "monaco-json",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
