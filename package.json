@@ -1,6 +1,6 @@
 {
   "name": "monaco-languages",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
     "compile": "node_modules/.bin/gulp compile",
