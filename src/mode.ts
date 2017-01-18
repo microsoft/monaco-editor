@@ -118,17 +118,14 @@ const richEditConfiguration:monaco.languages.LanguageConfiguration = {
 		}
 	],
 
-	__electricCharacterSupport: {
-		docComment: {scope:'comment.doc', open:'/**', lineStart:' * ', close:' */'}
-	},
-
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"', notIn: ['string'] },
 		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-		{ open: '`', close: '`' }
+		{ open: '`', close: '`', notIn: ['string', 'comment'] },
+		{ open: "/**", close: " */", notIn: ["string"] }
 	]
 };
 
