@@ -10,12 +10,21 @@
 	</body>
 
 	<script>
-		// require node modules before loader.js comes in
-		var path = require('path');
+		// Monaco uses a custom amd loader that over-rides node's require.
+		// Keep a reference to node's require so we can restore it after executing the amd loader file.
+		var nodeRequire = global.require;
 	</script>
-
 	<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
 	<script>
+		// Save Monaco's amd require and restore Node's require
+		var amdRequire = global.require;
+		global.require = nodeRequire;
+	</script>
+
+	<script>
+		// require node modules before loader.js comes in
+		var path = require('path');
+
 		function uriFromPath(_path) {
 			var pathName = path.resolve(_path).replace(/\\/g, '/');
 			if (pathName.length > 0 && pathName.charAt(0) !== '/') {
@@ -24,7 +33,7 @@
 			return encodeURI('file://' + pathName);
 		}
 
-		require.config({
+		amdRequire.config({
 			baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
 		});
 
@@ -34,7 +43,7 @@
 		// workaround monaco-typescript not understanding the environment
 		self.process.browser = true;
 
-		require(['vs/editor/editor.main'], function() {
+		amdRequire(['vs/editor/editor.main'], function() {
 			var editor = monaco.editor.create(document.getElementById('container'), {
 				value: [
 					'function x() {',
