@@ -1,6 +1,6 @@
 {
   "name": "monaco-html",
-  "version": "1.1.0-next.3",
+  "version": "1.1.0",
   "description": "HTML plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
