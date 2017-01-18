@@ -1,5 +1,7 @@
+// Register a new language
 monaco.languages.register({ id: 'mySpecialLanguage' });
 
+// Register a tokens provider for the language
 monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
 	tokenizer: {
 		root: [
@@ -11,6 +13,19 @@ monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
 	}
 });
 
+// Define a new theme that constains only rules that match this language
+monaco.editor.defineTheme('myCoolTheme', {
+	base: 'vs',
+	inherit: false,
+	rules: [
+		{ token: 'custom-info', foreground: '808080' },
+		{ token: 'custom-error', foreground: 'ff0000', fontStyle: 'bold' },
+		{ token: 'custom-notice', foreground: 'FFA500' },
+		{ token: 'custom-date', foreground: '008800' },
+	]
+});
+
+// Register a completion item provider for the new language
 monaco.languages.registerCompletionItemProvider('mySpecialLanguage', {
 	provideCompletionItems: () => {
 		return [
@@ -39,6 +54,7 @@ monaco.languages.registerCompletionItemProvider('mySpecialLanguage', {
 });
 
 monaco.editor.create(document.getElementById("container"), {
+	theme: 'myCoolTheme',
 	value: getCode(),
 	language: 'mySpecialLanguage'
 });
