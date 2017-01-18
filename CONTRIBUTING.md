@@ -29,7 +29,7 @@ These packages are described in the root file called `metadata.js` and it is pos
 /src/vscode> npm run monaco-editor-setup
 
 # start the compiler in the background
-/src/vscode> gulp watch-client
+/src/vscode> node_modules/.bin/gulp watch-client
 
 # clone monaco-editor (note the folders must be siblings!)
 /src> git clone https://github.com/Microsoft/monaco-editor
@@ -94,7 +94,7 @@ Open [http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev
 #### 1. Ship a new `monaco-editor-core` npm module
 * bump version in `/src/vscode/build/monaco/package.json`
 * **[important]** push all local changes to the remote to get a good public commit id.
-* generate npm package `/src/vscode> gulp editor-distro`
+* generate npm package `/src/vscode> node_modules/.bin/gulp editor-distro`
 * publish npm package `/src/vscode/out-monaco-editor-core> npm publish`
 
 #### 2. Adopt new `monaco-editor-core` in plugins
