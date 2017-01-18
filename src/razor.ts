@@ -22,13 +22,10 @@ export var conf:IRichLanguageConfiguration = {
 
 		brackets: [
 			['<!--', '-->'],
+			['<', '>'],
 			['{', '}'],
 			['(', ')']
 		],
-
-		__electricCharacterSupport: {
-			embeddedElectricCharacters: ['*', '}', ']', ')']
-		},
 
 		autoClosingPairs: [
 			{ open: '{', close: '}' },
@@ -39,7 +36,8 @@ export var conf:IRichLanguageConfiguration = {
 		],
 		surroundingPairs: [
 			{ open: '"', close: '"' },
-			{ open: '\'', close: '\'' }
+			{ open: '\'', close: '\'' },
+			{ open: '<', close: '>' }
 		],
 
 		onEnterRules: [

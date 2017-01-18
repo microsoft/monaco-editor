@@ -17,17 +17,16 @@ export var conf:IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
 	comments: {
-		blockComment: ['<!--', '-->']
+		blockComment: ['{{!--', '--}}']
 	},
 
 	brackets: [
 		['<!--', '-->'],
-		['{{', '}}']
+		['{{', '}}'],
+		['<', '>'],
+		['{', '}'],
+		['(', ')']
 	],
-
-	__electricCharacterSupport: {
-		embeddedElectricCharacters: ['*', '}', ']', ')']
-	},
 
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
