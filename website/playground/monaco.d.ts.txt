@@ -1290,7 +1290,7 @@ declare module monaco.editor {
         codeLens?: boolean;
         /**
          * Enable code folding
-         * Defaults to true.
+         * Defaults to false.
          */
         folding?: boolean;
         /**
