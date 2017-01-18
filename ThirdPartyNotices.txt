@@ -106,3 +106,4 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 
 END OF TERMS AND CONDITIONS
 =========================================
+END OF Ionic documentation NOTICES AND INFORMATION
