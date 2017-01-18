@@ -1,5 +1,58 @@
 # Monaco Editor Change log
 
+## [0.8.0]
+ - This release has been brewing for a while and comes with quite a number of important changes.
+
+### No longer supporting IE9 and IE10
+ - we have not made the editor fail on purpose in these browsers, but we have removed IE9/IE10 targeted workarounds from our codebase;
+ - now using **Typed Arrays** in a number of key places resulting in considerable speed boosts and lower memory consumption.
+
+### Monarch Tokenizer
+ - Monarch states are now memoized up to a depth of 5. This results in considerable memory improvements for files with many lines.
+ - Speed improvements to Monarch tokenizer that resulted in one breaking change:
+ - when entering an embedded mode (i.e. `nextEmbedded`), the state ending up in must immediately contain a `nextEmbedded: "@pop"` rule. This helps in quickly figuring out where the embedded mode should be left. The editor will throw an error if the Monarch grammar does not respect this condition.
+
+### Tokens are styled in JS (not in CSS anymore)
+ - This is a breaking change
+ - Before, token types would be rendered on the `span` node of text, and CSS rules would match token types and assign styling to them (i.e. color, boldness, etc.to style tokens)
+ - To enable us to build something like a minimap, we need to know the text color in JavaScript, and we have therefore moved the token style matching all to JavaScript. In the future, we foresee that even decorations will have to define their color in JavaScript.
+ - It is possible to create a custom theme via a new API method `monaco.editor.defineTheme()` and the playground contains a sample showing how that works.
+ - Token types can be inspected via `F1` > `Developer: Inspect tokens`. This will bring up a widget showing the token type and the applied styles.
+
+### API changes:
+
+#### Namespaces
+ - added `monaco.editor.onDidCreateEditor` that will be fired whenever an editor is created (will fire even for a diff editor, with the two editors that a diff editor consists of).
+ - added `monaco.editor.tokenize` that returns logical tokens (before theme matching, as opposed to `monaco.editor.colorize`).
+ - added `monaco.languages.registerTypeDefinitionProvider`
+
+#### Models
+ - removed `IModel.getMode()`.
+ - structural changes in the events `IModelLanguageChangedEvent`, `IModelDecorationsChangedEvent` and `IModelTokensChangedEvent`;
+ - changed `IModel.findMatches`, `IModel.findNextMatch` and `IModel.findPreviousMatch` to be able to capture matches while searching.
+
+#### Editors
+ - `ICodeEditor.addAction` and  `IDiffEditor.addAction` now return an `IDisposable` to be able to remove a previously added action.
+ - renamed `ICodeEditor.onDidChangeModelMode ` to `ICodeEditor.onDidChangeModelLanguage`;
+ - `ICodeEditor.executeEdits` can now take resulting selection for better undo/redo stack management;
+ - added `ICodeEditor.getTargetAtClientPoint(clientX, clientY)` to be able to do hit testing.
+ - added `IViewZone.marginDomNode` to be able to insert a dom node in the margin side of a view zone.
+ - settings:
+    - `lineDecorationsWidth` can now take a value in the form of `"1.2ch"` besides the previous accepted number (in px)
+    - `renderLineHighlight` can now take a value in the set `'none' | 'gutter' | 'line' | 'all'`.
+    - added `fixedOverflowWidgets` to render overflowing content widgets as `'fixed'` (defaults to false)
+    - added `acceptSuggestionOnCommitCharacter` to accept suggestions on provider defined characters (defaults to true)
+    - added `emptySelectionClipboard` - copying without a selection copies the current line (defaults to true)
+    - added `suggestFontSize` - the font size for the suggest widget
+    - added `suggestLineHeight` - the line height for the suggest widget
+ - diff editor settings:
+    - added `renderIndicators` - Render +/- indicators for added/deleted changes. (defaults to true)
+
+### Thank you
+ * [Nico Tonozzi (@nicot)](https://github.com/nicot): Register React file extensions [PR monaco-typescript#12](https://github.com/Microsoft/monaco-typescript/pull/12)
+ * [Jeong Woo Chang (@inspiredjw)](https://github.com/inspiredjw): Cannot read property 'uri' of null fix [PR vscode#13263](https://github.com/Microsoft/vscode/pull/13263)
+ * [Jan Pilzer(@Hirse)](https://github.com/Hirse): Add YAML samples [PR monaco-editor#242](https://github.com/Microsoft/monaco-editor/pull/242)
+
 ## [0.7.1]
  - Bugfixes in monaco-html, including fixing formatting.
 

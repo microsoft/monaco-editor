@@ -15,6 +15,7 @@
 			name: 'monaco-typescript',
 			contrib: 'vs/language/typescript/src/monaco.contribution',
 			modulePrefix: 'vs/language/typescript',
+			thirdPartyNotices: 'node_modules/monaco-typescript/ThirdPartyNotices.txt',
 			paths: {
 				npm: 'node_modules/monaco-typescript/release',
 				dev: '/monaco-typescript/out'
@@ -39,6 +40,7 @@
 			name: 'monaco-html',
 			contrib: 'vs/language/html/monaco.contribution',
 			modulePrefix: 'vs/language/html',
+			thirdPartyNotices: 'node_modules/monaco-html/ThirdPartyNotices.txt',
 			paths: {
 				npm: 'node_modules/monaco-html/release/min',
 				dev: '/monaco-html/release/dev'
@@ -47,6 +49,7 @@
 			name: 'monaco-languages',
 			contrib: 'vs/basic-languages/src/monaco.contribution',
 			modulePrefix: 'vs/basic-languages',
+			thirdPartyNotices: 'node_modules/monaco-languages/ThirdPartyNotices.txt',
 			paths: {
 				npm: 'node_modules/monaco-languages/release',
 				dev: '/monaco-languages/out'
