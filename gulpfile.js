@@ -106,7 +106,9 @@ gulp.task('import-typescript', function() {
 	tsServices +=
 `
 // MONACOCHANGE
-define([], function() { return ts; });
+// Defining the entire module name because r.js has an issue and cannot bundle this file
+// correctly with an anonymous define call
+define("vs/language/typescript/lib/typescriptServices", [], function() { return ts; });
 // END MONACOCHANGE
 `;
 	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'), tsServices);
