@@ -1,5 +1,9 @@
 # Monaco Editor Change log
 
+## [0.8.1]
+### Thank you
+ * [Joey Marianer (@jmarianer)](https://github.com/jmarianer): Support literal interpolated strings ($@"") [PR monaco-languages#12](https://github.com/Microsoft/monaco-languages/pull/13)
+
 ## [0.8.0]
  - This release has been brewing for a while and comes with quite a number of important changes.
  - There are many bugfixes and speed/memory usage improvements.
