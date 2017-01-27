@@ -1,13 +1,13 @@
 {
   "name": "monaco-json",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
     "watch": "gulp watch",
     "prepublish": "gulp release",
-    "install-service-next": "npm install vscode-json-languageservice@next -f -S",
-    "install-service-local": "npm install ../vscode-json-languageservice -f -S"
+    "install-service-next": "npm install vscode-json-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
+    "install-service-local": "npm install ../vscode-json-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -25,12 +25,12 @@
     "gulp-tsb": "^2.0.0",
     "gulp-uglify": "^1.5.3",
     "merge-stream": "^1.0.0",
-    "monaco-editor-core": "^0.8.0",
+    "monaco-editor-core": "^0.8.1",
     "monaco-languages": "^0.7.0",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
-    "typescript": "2.0.3",
-    "vscode-json-languageservice": "1.1.7",
-    "vscode-languageserver-types": "1.0.4"
+    "typescript": "^2.1.5",
+    "vscode-json-languageservice": "^2.0.0-next.12",
+    "vscode-languageserver-types": "^3.0.2-beta.5"
   }
 }

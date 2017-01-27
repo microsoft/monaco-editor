@@ -240,18 +240,30 @@ function toCompletionItem(entry: ls.CompletionItem): DataCompletionItem {
 	};
 }
 
+function fromInsertText(text: string | monaco.languages.SnippetString) : string {
+
+}
+
 function fromCompletionItem(entry: DataCompletionItem): ls.CompletionItem {
-	return {
+	let item : ls.CompletionItem = {
 		label: entry.label,
-		insertText: entry.insertText,
 		sortText: entry.sortText,
 		filterText: entry.filterText,
 		documentation: entry.documentation,
 		detail: entry.detail,
 		kind: fromCompletionItemKind(entry.kind),
-		textEdit: fromTextEdit(entry.textEdit),
 		data: entry.data
 	};
+	if (typeof entry.insertText === 'object' && typeof entry.insertText.value === 'string') {
+		item.insertText = entry.insertText.value;
+		item.insertTextFormat = ls.InsertTextFormat.Snippet
+	} else {
+		item.insertText = <string> entry.insertText;
+	}
+	if (entry.range) {
+		item.textEdit = ls.TextEdit.replace(fromRange(entry.range), item.insertText);
+	}
+	return item;
 }
 
 
@@ -269,37 +281,35 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => {
-			return worker.doComplete(resource.toString(), fromPosition(position)).then(info => {
-				if (!info) {
-					return;
-				}
-				let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
-					return {
-						label: entry.label,
-						insertText: entry.insertText,
-						sortText: entry.sortText,
-						filterText: entry.filterText,
-						documentation: entry.documentation,
-						detail: entry.detail,
-						kind: toCompletionItemKind(entry.kind),
-						textEdit: toTextEdit(entry.textEdit)
-					};
-				});
-
-				return <monaco.languages.CompletionList>{
-					isIncomplete: info.isIncomplete,
-					items: items
+			return worker.doComplete(resource.toString(), fromPosition(position));
+		}).then(info => {
+			if (!info) {
+				return;
+			}
+			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
+				let item : monaco.languages.CompletionItem = {
+					label: entry.label,
+					insertText: entry.insertText,
+					sortText: entry.sortText,
+					filterText: entry.filterText,
+					documentation: entry.documentation,
+					detail: entry.detail,
+					kind: toCompletionItemKind(entry.kind),
 				};
+				if (entry.textEdit) {
+					item.range = toRange(entry.textEdit.range);
+					item.insertText = entry.textEdit.newText;
+				}
+				if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
+					item.insertText = { value: <string> item.insertText };
+				}
+				return item;
 			});
-		}));
-	}
 
-	resolveCompletionItem(item: monaco.languages.CompletionItem, token: CancellationToken): Thenable<monaco.languages.CompletionItem> {
-		return wireCancellationToken(token, this._worker().then(worker => {
-			let lsItem = fromCompletionItem(item);
-			return worker.doResolve(lsItem).then(result => {
-				return toCompletionItem(result);
-			});
+			return {
+				isIncomplete: info.isIncomplete,
+				items: items
+			};
 		}));
 	}
 }
