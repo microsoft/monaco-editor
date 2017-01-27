@@ -1,14 +1,18 @@
 # Monaco Editor Change log
 
 ## [0.8.1]
-<!--
-### Thank you
- * [Joey Marianer (@jmarianer)](https://github.com/jmarianer): Support literal interpolated strings ($@"") [PR monaco-languages#12](https://github.com/Microsoft/monaco-languages/pull/13)
--->
-  - CSS/JSON/HTML language supports updated:
-    - CSS: Support for @apply
-    - SCSS: Map support
-    - New HTML formatter options: unformatedContent, wrapAttributes
+ - CSS/JSON/HTML language supports updated:
+   - CSS: Support for @apply
+   - SCSS: Map support
+   - New HTML formatter options: unformatedContent, wrapAttributes
+ - Fixed issue where the editor was throwing in Safari due to `Intl` missing.
+ - Fixed multiple issues where the editor would not position the cursor correctly when using browser zooming.
+
+### API
+ - Added `disableMonospaceOptimizations` editor option that can be used in case browser zooming exposes additional issues.
+ - Added `formatOnPaste` editor option.
+ - Added `IActionDescriptor.precondition`.
+ - Breaking change: renamed `registerTypeDefinitionProvider` to `registerImplementationProvider` and associated types.
 
 ## [0.8.0]
  - This release has been brewing for a while and comes with quite a number of important changes.
