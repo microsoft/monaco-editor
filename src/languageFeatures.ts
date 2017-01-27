@@ -212,16 +212,6 @@ function toTextEdit(textEdit: ls.TextEdit): monaco.editor.ISingleEditOperation {
 	}
 }
 
-function fromTextEdit(editOp: monaco.editor.ISingleEditOperation): ls.TextEdit {
-	if (!editOp) {
-		return void 0;
-	}
-	return {
-		range: fromRange(Range.lift(editOp.range)),
-		newText: editOp.text
-	}
-}
-
 interface DataCompletionItem extends monaco.languages.CompletionItem {
 	data?: any;
 }
@@ -238,10 +228,6 @@ function toCompletionItem(entry: ls.CompletionItem): DataCompletionItem {
 		textEdit: toTextEdit(entry.textEdit),
 		data: entry.data
 	};
-}
-
-function fromInsertText(text: string | monaco.languages.SnippetString) : string {
-
 }
 
 function fromCompletionItem(entry: DataCompletionItem): ls.CompletionItem {
