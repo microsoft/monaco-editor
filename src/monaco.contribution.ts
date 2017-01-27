@@ -47,13 +47,15 @@ const formatDefaults: monaco.languages.html.HTMLFormatConfiguration = {
 	tabSize: 4,
 	insertSpaces: false,
 	wrapLineLength: 120,
-	unformatted: 'a, abbr, acronym, b, bdo, big, br, button, cite, code, dfn, em, i, img, input, kbd, label, map, object, q, samp, script, select, small, span, strong, sub, sup, textarea, tt, var',
+	unformatted: 'default": "a, abbr, acronym, b, bdo, big, br, button, cite, code, dfn, em, i, img, input, kbd, label, map, object, q, samp, select, small, span, strong, sub, sup, textarea, tt, var',
+	contentUnformatted: 'pre',
 	indentInnerHtml: false,
 	preserveNewLines: true,
 	maxPreserveNewLines: null,
 	indentHandlebars: false,
 	endWithNewline: false,
-	extraLiners: 'head, body, /html'
+	extraLiners: 'head, body, /html',
+	wrapAttributes: 'auto'
 };
 
 const htmlOptionsDefault: monaco.languages.html.Options = {

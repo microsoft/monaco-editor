@@ -9,12 +9,14 @@ declare module monaco.languages.html {
         readonly insertSpaces: boolean;
         readonly wrapLineLength: number;
         readonly unformatted: string;
+        readonly contentUnformatted: string;
         readonly indentInnerHtml: boolean;
         readonly preserveNewLines: boolean;
         readonly maxPreserveNewLines: number;
         readonly indentHandlebars: boolean;
         readonly endWithNewline: boolean;
         readonly extraLiners: string;
+        readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
     }
 
     export interface CompletionConfiguration {
