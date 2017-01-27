@@ -197,7 +197,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 				return;
 			}
 			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
-				return {
+				let item : monaco.languages.CompletionItem = {
 					label: entry.label,
 					insertText: entry.insertText,
 					sortText: entry.sortText,
@@ -205,8 +205,15 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 					documentation: entry.documentation,
 					detail: entry.detail,
 					kind: toCompletionItemKind(entry.kind),
-					textEdit: toTextEdit(entry.textEdit)
 				};
+				if (entry.textEdit) {
+					item.range = toRange(entry.textEdit.range);
+					item.insertText = entry.textEdit.newText;
+				}
+				if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
+					item.insertText = { value: <string> item.insertText };
+				}
+				return item;
 			});
 
 			return {
@@ -344,12 +351,10 @@ function toWorkspaceEdit(edit: ls.WorkspaceEdit): monaco.languages.WorkspaceEdit
 		return void 0;
 	}
 	let resourceEdits: monaco.languages.IResourceEdit[] = [];
-	for (let uri in edit.changes) {
-		let edits = edit.changes[uri];
-		for (let e of edits) {
-			resourceEdits.push({ resource: Uri.parse(uri), range: toRange(e.range), newText: e.newText });
+	for (let tde of edit.changes) {
+		for (let e of tde.edits) {
+			resourceEdits.push({ resource: Uri.parse(tde.textDocument.uri), range: toRange(e.range), newText: e.newText });
 		}
-
 	}
 	return {
 		edits: resourceEdits

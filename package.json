@@ -1,13 +1,13 @@
 {
   "name": "monaco-css",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "CSS, LESS and SCSS plugin for the Monaco Editor",
   "scripts": {
     "compile": "gulp compile",
     "watch": "gulp watch",
     "prepublish": "gulp release",
-    "install-service-next": "npm install vscode-css-languageservice@next -f -S",
-    "install-service-local": "npm install ../vscode-css-languageservice -f -S"
+    "install-service-next": "npm install vscode-css-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
+    "install-service-local": "npm install ../vscode-css-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -25,12 +25,12 @@
     "gulp-tsb": "^2.0.0",
     "gulp-uglify": "^1.5.3",
     "merge-stream": "^1.0.0",
-    "monaco-editor-core": "^0.8.0",
+    "monaco-editor-core": "^0.8.1",
     "monaco-languages": "^0.7.0",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
-    "typescript": "2.0.3",
-    "vscode-css-languageservice": "^1.0.8",
-    "vscode-languageserver-types": "^1.0.2"
+    "typescript": "^2.1.5",
+    "vscode-css-languageservice": "^2.0.0-next.9",
+    "vscode-languageserver-types": "^3.0.2-beta.5"
   }
 }
