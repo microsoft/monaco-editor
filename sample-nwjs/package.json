@@ -1,0 +1,7 @@
+{
+  "name": "helloworld",
+  "main": "index.html",
+  "dependencies": {
+    "monaco-editor": "0.x.x"
+  }
+}
