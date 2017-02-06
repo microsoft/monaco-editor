@@ -1,12 +1,3 @@
-.try [class*="span"] {
-	-webkit-box-sizing:	border-box;
-	-o-box-sizing:		border-box;
-	-moz-box-sizing:	border-box;
-	-ms-box-sizing:		border-box;
-	box-sizing:			border-box;
-	word-wrap:          break-word;
-}
-
 .try .drops {
 	margin: 0;
 	list-style: none;
