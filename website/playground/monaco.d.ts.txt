@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Type definitions for monaco-editor v0.8.0
+ * Type definitions for monaco-editor v0.8.2
  * Released under the MIT license
 *-----------------------------------------------------------*/
 declare module monaco {
@@ -796,6 +796,7 @@ declare module monaco.editor {
     export function createDiffEditor(domElement: HTMLElement, options?: IDiffEditorConstructionOptions, override?: IEditorOverrideServices): IStandaloneDiffEditor;
 
     export interface IDiffNavigator {
+        revealFirst: boolean;
         canNavigate(): boolean;
         next(): void;
         previous(): void;
@@ -970,6 +971,8 @@ declare module monaco.editor {
         addCommand(keybinding: number, handler: ICommandHandler, context: string): string;
         createContextKey<T>(key: string, defaultValue: T): IContextKey<T>;
         addAction(descriptor: IActionDescriptor): IDisposable;
+        getOriginalEditor(): IStandaloneCodeEditor;
+        getModifiedEditor(): IStandaloneCodeEditor;
     }
     export interface ICommandHandler {
         (...args: any[]): void;
@@ -2790,6 +2793,13 @@ declare module monaco.editor {
         readonly charChanges: ICharChange[];
     }
 
+    /**
+     * Information about a line in the diff editor
+     */
+    export interface IDiffLineInformation {
+        readonly equivalentLineNumber: number;
+    }
+
     export interface INewScrollPosition {
         scrollLeft?: number;
         scrollTop?: number;
@@ -3231,6 +3241,16 @@ declare module monaco.editor {
          * Get the computed diff information.
          */
         getLineChanges(): ILineChange[];
+        /**
+         * Get information based on computed diff about a line number from the original model.
+         * If the diff computation is not finished or the model is missing, will return null.
+         */
+        getDiffLineInformationForOriginal(lineNumber: number): IDiffLineInformation;
+        /**
+         * Get information based on computed diff about a line number from the modified model.
+         * If the diff computation is not finished or the model is missing, will return null.
+         */
+        getDiffLineInformationForModified(lineNumber: number): IDiffLineInformation;
         /**
          * @see ICodeEditor.getValue
          */

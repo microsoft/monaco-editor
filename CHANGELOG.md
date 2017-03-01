@@ -1,5 +1,11 @@
 # Monaco Editor Change log
 
+## [0.8.2]
+ - Fixes the following regressions:
+   - [issue #385](https://github.com/Microsoft/monaco-editor/issues/385): Cannot add action to the left-hand-side of the diff editor
+   - [issue #386](https://github.com/Microsoft/monaco-editor/issues/386): Shortcuts for actions added via editor.addAction don't show up in the Command Palette
+   - [issue #387](https://github.com/Microsoft/monaco-editor/issues/387): Cannot change diff editor to a custom theme based on high contrast
+
 ## [0.8.1]
  - CSS/JSON/HTML language supports updated:
    - CSS: Support for @apply
