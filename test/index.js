@@ -14,6 +14,9 @@ var editor = monaco.editor.create(document.getElementById('container'), {
 	wrappingColumn: WRAPPING_COLUMN,
 	outlineMarkers: false,
 	renderWhitespace: true,
+	minimap: {
+		enabled: true
+	}
 	// scrollbar: {
 	// 	verticalHasArrows: true,
 	// 	horizontalHasArrows: true
