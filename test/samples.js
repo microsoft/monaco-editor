@@ -28,7 +28,7 @@ define(['./samples-all.generated'], function(ALL_SAMPLES) {
 			name: name,
 			mimeType: mimeType,
 			loadText: function() {
-				return monaco.Promise.as(XHR_SAMPLES[modelUrl]);
+				return monaco.Promise.as(XHR_SAMPLES[modelUrl]).then(textModifier);
 			}
 		});
 	}
@@ -66,6 +66,7 @@ define(['./samples-all.generated'], function(ALL_SAMPLES) {
 	addXHRSample('Z___jquery-min.js', 'run-editor-jquery-min-js.txt', 'text/javascript');
 
 	addXHRSample('Z___scrolling-strategy.js', 'run-editor-sample-js.txt', 'text/plain', function(text) {
+		console.log('here I am');
 		var lines = text.split('\n');
 		var newLines = lines.slice(0);
 

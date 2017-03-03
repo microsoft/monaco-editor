@@ -1,5 +1,8 @@
 # Monaco Editor Change log
 
+## [0.8.3]
+ - Fixes an issue in monaco-typescript where it would attempt to validate a disposed model.
+
 ## [0.8.2]
  - Fixes the following regressions:
    - [issue #385](https://github.com/Microsoft/monaco-editor/issues/385): Cannot add action to the left-hand-side of the diff editor
