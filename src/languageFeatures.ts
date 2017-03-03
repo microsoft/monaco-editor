@@ -115,6 +115,10 @@ export class DiagnostcsAdapter extends Adapter {
 
 	private _doValidate(resource: Uri): void {
 		this._worker(resource).then(worker => {
+			if (!monaco.editor.getModel(resource)) {
+				// model was disposed in the meantime
+				return null;
+			}
 			const promises: Promise<ts.Diagnostic[]>[] = [];
 			const {noSyntaxValidation, noSemanticValidation} = this._defaults.getDiagnosticsOptions();
 			if (!noSyntaxValidation) {
@@ -125,6 +129,10 @@ export class DiagnostcsAdapter extends Adapter {
 			}
 			return Promise.join(promises);
 		}).then(diagnostics => {
+			if (!diagnostics || !monaco.editor.getModel(resource)) {
+				// model was disposed in the meantime
+				return null;
+			}
 			const markers = diagnostics
 				.reduce((p, c) => c.concat(p), [])
 				.map(d => this._convertDiagnostics(resource, d));
