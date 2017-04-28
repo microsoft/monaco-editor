@@ -102,9 +102,10 @@ export var language = <ILanguage> {
 			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' } ],
 
 			// numbers
-			[/\d*\.\d+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
-			[/0[xX][0-9a-fA-F]+/, 'number.hex'],
-			[/\d+/, 'number'],
+			[/[0-9_]*\.[0-9_]+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
+			[/0[xX][0-9a-fA-F_]+/, 'number.hex'],
+			[/0[bB][01_]+/, 'number.hex'], // binary: use same theme style as hex
+			[/[0-9_]+/, 'number'],
 
 			// delimiter: after number because of .\d floats
 			[/[;,.]/, 'delimiter'],
