@@ -34,7 +34,7 @@ export class HTMLWorker {
     doComplete(uri: string, position: ls.Position): Thenable<ls.CompletionList> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		return Promise.as(this._languageService.doComplete(document, position, htmlDocument));
+		return Promise.as(this._languageService.doComplete(document, position, htmlDocument, this._languageSettings && this._languageSettings.suggest));
 	}
     format(uri: string, range: ls.Range, options: ls.FormattingOptions): Thenable<ls.TextEdit[]> {
 		let document = this._getTextDocument(uri);
