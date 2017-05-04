@@ -93,6 +93,19 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		};
 	}
 
+	getScriptKind?(fileName: string): ts.ScriptKind {
+		const suffix = fileName.substr(fileName.lastIndexOf('.') + 1);
+		switch (suffix) {
+			case 'ts': return ts.ScriptKind.TS;
+			case 'tsx': return ts.ScriptKind.TSX;
+			case 'js': return ts.ScriptKind.JS;
+			case 'jsx': return ts.ScriptKind.JSX;
+			default: return this.getCompilationSettings().allowJs
+				? ts.ScriptKind.JS
+				: ts.ScriptKind.TS;
+		}
+	}
+
 	getCurrentDirectory(): string {
 		return '';
 	}
