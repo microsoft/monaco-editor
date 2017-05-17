@@ -148,6 +148,12 @@ registerLanguage({
 	module: './markdown'
 });
 registerLanguage({
+	id: 'msdax',
+	extensions: ['.dax', '.msdax'],
+	aliases: ['DAX', 'MSDAX'],
+	module: './msdax'
+});
+registerLanguage({
 	id: 'objective-c',
 	extensions: [ '.m' ],
 	aliases: [ 'Objective-C'],
