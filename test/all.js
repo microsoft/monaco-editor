@@ -52,7 +52,8 @@ requirejs([
 		'out/test/sql.test',
 		'out/test/vb.test',
 		'out/test/xml.test',
-		'out/test/yaml.test'
+		'out/test/yaml.test',
+		'out/test/solidity.test',
 	], function() {
 		run(); // We can launch the tests!
 	});

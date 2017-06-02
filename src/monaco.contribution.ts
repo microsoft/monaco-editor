@@ -254,3 +254,9 @@ registerLanguage({
 	mimetypes: ['application/x-yaml'],
 	module: './yaml'
 });
+registerLanguage({
+  	id: 'sol',
+  	extensions: [ '.sol' ],
+  	aliases: [ 'sol','solidity','Solidity' ],
+  	module: './solidity'
+});
