@@ -36,7 +36,7 @@ Also `css` dialects:
 
 ## Issues
 
-Please file issues concering `monaco-languages` in the [`monaco-editor`-repository](https://github.com/Microsoft/monaco-editor/issues).
+Please file issues concerning `monaco-languages` in the [`monaco-editor`-repository](https://github.com/Microsoft/monaco-editor/issues).
 
 ## Installing
 
