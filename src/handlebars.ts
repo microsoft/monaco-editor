@@ -22,8 +22,8 @@ export var conf:IRichLanguageConfiguration = {
 
 	brackets: [
 		['<!--', '-->'],
-		['{{', '}}'],
 		['<', '>'],
+		['{{', '}}'],
 		['{', '}'],
 		['(', ')']
 	],

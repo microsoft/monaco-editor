@@ -23,11 +23,11 @@ export var conf:IRichLanguageConfiguration = {
 	],
 
 	autoClosingPairs: [
-		{ open: '{', close: '}', notIn: ['string.php'] },
-		{ open: '[', close: ']', notIn: ['string.php'] },
-		{ open: '(', close: ')', notIn: ['string.php'] },
-		{ open: '"', close: '"', notIn: ['string.php'] },
-		{ open: '\'', close: '\'', notIn: ['string.php'] }
+		{ open: '{', close: '}', notIn: ['string'] },
+		{ open: '[', close: ']', notIn: ['string'] },
+		{ open: '(', close: ')', notIn: ['string'] },
+		{ open: '"', close: '"', notIn: ['string'] },
+		{ open: '\'', close: '\'', notIn: ['string', 'comment'] }
 	]
 };
 

@@ -9,20 +9,30 @@ import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 export var conf: IRichLanguageConfiguration = {
-    wordPattern: /(#?-?\d*\.\d\w*%?)|([@#!.:]?[\w-?]+%?)|[@#!.]/g,
-    comments: {
-        blockComment: ['/*', '*/'],
-        lineComment: '//'
-    },
-    brackets: [['{','}'], ['[',']'], ['(',')'], ['<','>']],
-    autoClosingPairs: [
-        { open: '"', close: '"', notIn: ['string', 'comment'] },
-        { open: '\'', close: '\'', notIn: ['string', 'comment'] },
-        { open: '{', close: '}', notIn: ['string', 'comment'] },
-        { open: '[', close: ']', notIn: ['string', 'comment'] },
-        { open: '(', close: ')', notIn: ['string', 'comment'] },
-        { open: '<', close: '>', notIn: ['string', 'comment'] },
-    ]
+	wordPattern: /(#?-?\d*\.\d\w*%?)|([@#!.:]?[\w-?]+%?)|[@#!.]/g,
+	comments: {
+		blockComment: ['/*', '*/'],
+		lineComment: '//'
+	},
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')'],
+	],
+	autoClosingPairs: [
+		{ open: '{', close: '}', notIn: ['string', 'comment'] },
+		{ open: '[', close: ']', notIn: ['string', 'comment'] },
+		{ open: '(', close: ')', notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string', 'comment'] },
+		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
+	],
+	surroundingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
+	]
 };
 
 const TOKEN_SELECTOR = 'tag';

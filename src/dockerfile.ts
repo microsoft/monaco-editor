@@ -9,14 +9,24 @@ import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 export var conf:IRichLanguageConfiguration = {
-	brackets: [['{','}'], ['[',']'], ['(',')'], ['<','>']],
+	brackets: [
+		['{','}'],
+		['[',']'],
+		['(',')']
+	],
 	autoClosingPairs: [
-		{ open: '"', close: '"', notIn: ['string', 'comment'] },
-		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-		{ open: '{', close: '}', notIn: ['string', 'comment'] },
-		{ open: '[', close: ']', notIn: ['string', 'comment'] },
-		{ open: '(', close: ')', notIn: ['string', 'comment'] },
-		{ open: '<', close: '>', notIn: ['string', 'comment'] },
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
+	],
+	surroundingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
 	]
 };
 

@@ -12,19 +12,19 @@ export var conf:IRichLanguageConfiguration = {
 	comments: {
 		blockComment: ['<!--', '-->'],
 	},
-	brackets: [['{','}'],['[',']'],['(',')'],['<','>']],
+	brackets: [
+		['<','>']
+	],
 	autoClosingPairs: [
-		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-		{ open: '"', close: '"', notIn: ['string', 'comment'] },
+		{ open: '<', close: '>' },
+		{ open: '\'', close: '\'' },
+		{ open: '"', close: '"' },
+	],
+	surroundingPairs: [
+		{ open: '<', close: '>' },
+		{ open: '\'', close: '\'' },
+		{ open: '"', close: '"' },
 	]
-	// enhancedBrackets: [{
-	// 	tokenType: 'tag.tag-$1.xml',
-	// 	openTrigger: '>',
-	// 	open: /<(\w[\w\d]*)([^\/>]*(?!\/)>)[^<>]*$/i,
-	// 	closeComplete: '</$1>',
-	// 	closeTrigger: '>',
-	// 	close: /<\/(\w[\w\d]*)\s*>$/i
-	// }],
 };
 
 export var language = <ILanguage> {

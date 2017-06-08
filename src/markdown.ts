@@ -29,8 +29,22 @@ export var conf: IRichLanguageConfiguration = {
     comments: {
         blockComment: ['<!--', '-->',]
     },
-    brackets: [['{', '}'], ['[', ']'], ['(', ')'], ['<', '>']],
-    autoClosingPairs: []
+    brackets: [
+        ['{', '}'],
+        ['[', ']'],
+        ['(', ')']
+    ],
+    autoClosingPairs: [
+        { open: '{', close: '}' },
+        { open: '[', close: ']' },
+        { open: '(', close: ')' },
+        { open: '<', close: '>', notIn: [ 'string' ] }
+    ],
+    surroundingPairs: [
+        { open: '(', close: ')' },
+        { open: '[', close: ']' },
+        { open: '`', close: '`' },
+    ]
 };
 
 export var language = <ILanguage>{

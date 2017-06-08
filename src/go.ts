@@ -13,12 +13,26 @@ export var conf:IRichLanguageConfiguration = {
 		lineComment: '//',
 		blockComment: ['/*', '*/'],
 	},
-	brackets: [['{','}'], ['[',']'], ['(',')'], ['<','>']],
+	brackets: [
+		['{','}'],
+		['[',']'],
+		['(',')']
+	],
 	autoClosingPairs: [
-		{ open: '{', close: '}', notIn: ['string', 'comment'] },
-		{ open: '[', close: ']', notIn: ['string', 'comment'] },
-		{ open: '(', close: ')', notIn: ['string', 'comment'] },
-		{ open: '"', close: '"', notIn: ['string', 'comment'] }
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '`', close: '`', notIn: ['string'] },
+		{ open: '"', close: '"', notIn: ['string'] },
+		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
+	],
+	surroundingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '`', close: '`' },
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
 	]
 };
 

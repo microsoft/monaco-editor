@@ -12,24 +12,22 @@ export var conf:IRichLanguageConfiguration = {
 	comments: {
 		lineComment: 'REM'
 	},
-	brackets: [['{','}'], ['[',']'], ['(',')']],
+	brackets: [
+		['{','}'],
+		['[',']'],
+		['(',')']
+	],
 	autoClosingPairs: [
-		{ open: '"', close: '"', notIn: ['string', 'comment'] },
-		{ open: '{', close: '}', notIn: ['string', 'comment'] },
-		{ open: '[', close: ']', notIn: ['string', 'comment'] },
-		{ open: '(', close: ')', notIn: ['string', 'comment'] },
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+	],
+	surroundingPairs: [
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
 	]
-	// enhancedBrackets: [
-	// 		{
-	// 			openTrigger: 'l',
-	// 			open: /setlocal$/i,
-	// 			closeComplete: 'endlocal',
-	// 			matchCase: true,
-	// 			closeTrigger: 'l',
-	// 			close: /endlocal$/i,
-	// 			tokenType: 'keyword.tag-setlocal'
-	// 		}
-	// 	],
 };
 
 export var language = <ILanguage> {

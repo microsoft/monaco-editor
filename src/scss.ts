@@ -14,14 +14,24 @@ export var conf: LanguageConfiguration = {
         blockComment: ['/*', '*/'],
         lineComment: '//'
     },
-    brackets: [['{', '}'], ['[', ']'], ['(', ')'], ['<', '>']],
+    brackets: [
+        ['{', '}'],
+        ['[', ']'],
+        ['(', ')']
+    ],
     autoClosingPairs: [
-        { open: '"', close: '"', notIn: ['string', 'comment'] },
-        { open: '\'', close: '\'', notIn: ['string', 'comment'] },
         { open: '{', close: '}', notIn: ['string', 'comment'] },
         { open: '[', close: ']', notIn: ['string', 'comment'] },
         { open: '(', close: ')', notIn: ['string', 'comment'] },
-        { open: '<', close: '>', notIn: ['string', 'comment'] },
+        { open: '"', close: '"', notIn: ['string', 'comment'] },
+        { open: '\'', close: '\'', notIn: ['string', 'comment'] },
+    ],
+    surroundingPairs: [
+        { open: '{', close: '}' },
+        { open: '[', close: ']' },
+        { open: '(', close: ')' },
+        { open: '"', close: '"' },
+        { open: '\'', close: '\'' },
     ]
 };
 
