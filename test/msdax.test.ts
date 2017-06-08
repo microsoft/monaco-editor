@@ -236,7 +236,7 @@ testTokenization('msdax', [
 		{ startIndex: 15, type: 'identifier.quote.msdax' },
 		{ startIndex: 16, type: 'identifier.msdax' },
 		{ startIndex: 19, type: 'identifier.quote.msdax' },
-		{ startIndex: 21, type: 'identifier.msdax' }
+		{ startIndex: 21, type: 'identifier.msdax' },
 		{ startIndex: 24, type: 'identifier.quote.msdax' }
 	]}],
 
