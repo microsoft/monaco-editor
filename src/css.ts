@@ -8,7 +8,7 @@
 import LanguageConfiguration = monaco.languages.LanguageConfiguration;
 import IMonarchLanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:LanguageConfiguration = {
+export var conf: LanguageConfiguration = {
 	wordPattern: /(#?-?\d*\.\d\w*%?)|((::|[@#.!:])?[\w-?]+%?)|::|[@#.!:]/g,
 
 	comments: {
@@ -44,7 +44,7 @@ const TOKEN_PROPERTY = 'attribute.name';
 const TOKEN_VALUE = 'attribute.value';
 const TOKEN_AT_KEYWORD = 'keyword';
 
-export var language = <IMonarchLanguage> {
+export var language = <IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.css',
 
@@ -70,8 +70,8 @@ export var language = <IMonarchLanguage> {
 			['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: TOKEN_AT_KEYWORD, next: '@keyframedeclaration' }],
 			['[@](page|content|font-face|-moz-document)', { token: TOKEN_AT_KEYWORD }],
 			['[@](charset|namespace)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
-			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
-			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
+			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
+			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
 			{ include: '@selectorname' },
 			['[\\*]', TOKEN_SELECTOR_TAG], // selector symbols
 			['[>\\+,]', 'delimiter'], // selector operators
@@ -96,8 +96,8 @@ export var language = <IMonarchLanguage> {
 
 		term: [
 			{ include: '@comments' },
-			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
-			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }] ],
+			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
+			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
 			{ include: '@functioninvocation' },
 			{ include: '@numbers' },
 			{ include: '@name' },

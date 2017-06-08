@@ -8,16 +8,16 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#%\^\&\*\(\)\=\$\-\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		blockComment: ['###', '###'],
 		lineComment: '#'
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -33,22 +33,17 @@ export var conf:IRichLanguageConfiguration = {
 		{ open: '"', close: '"' },
 		{ open: '\'', close: '\'' },
 	]
-	// enhancedBrackets: [
-	// 		{ open: /for$/ }, { open: /while$/ },	{ open: /loop$/ }, { open: /if$/ }, { open: /unless$/ },
-	// 		{ open: /else$/ }, { open: /switch$/ }, { open: /try$/ }, { open: /catch$/ }, { open: /finally$/ },
-	// 		{ open: /class$/ }, { open: /->$/ }
-	// 	],
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	ignoreCase: true,
 	tokenPostfix: '.coffee',
 
 	brackets: [
-		{ open:'{', close:'}', token:'delimiter.curly'},
-		{ open:'[', close:']', token:'delimiter.square'},
-		{ open:'(', close:')', token:'delimiter.parenthesis'}
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.square' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' }
 	],
 
 	regEx: /\/(?!\/\/)(?:[^\/\\]|\\.)*\/[igm]*/,
@@ -61,11 +56,11 @@ export var language = <ILanguage> {
 		'if', 'else', 'switch', 'for', 'while', 'do', 'try', 'catch', 'finally',
 		'class', 'extends', 'super',
 		'undefined', 'then', 'unless', 'until', 'loop', 'of', 'by', 'when'
-		],
+	],
 
 	// we include these common regular expressions
-	symbols:  /[=><!~?&%|+\-*\/\^\.,\:]+/,
-	escapes:  /\\(?:[abfnrtv\\"'$]|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	symbols: /[=><!~?&%|+\-*\/\^\.,\:]+/,
+	escapes: /\\(?:[abfnrtv\\"'$]|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
@@ -73,10 +68,11 @@ export var language = <ILanguage> {
 
 			// identifiers and keywords
 			[/\@[a-zA-Z_]\w*/, 'variable.predefined'],
-			[/[a-zA-Z_]\w*/, { cases: {
-				'this': 'variable.predefined',
-				'@keywords': { token: 'keyword.$0' },
-				'@default': ''
+			[/[a-zA-Z_]\w*/, {
+				cases: {
+					'this': 'variable.predefined',
+					'@keywords': { token: 'keyword.$0' },
+					'@default': ''
 				}
 			}],
 
@@ -105,9 +101,12 @@ export var language = <ILanguage> {
 
 
 			// delimiters
-			[/}/, { cases: {
-					'$S2==interpolatedstring' : { token: 'string', next: '@pop' }
-					,	'@default'   : '@brackets' } }],
+			[/}/, {
+				cases: {
+					'$S2==interpolatedstring': { token: 'string', next: '@pop' },
+					'@default': '@brackets'
+				}
+			}],
 			[/[{}()\[\]]/, '@brackets'],
 			[/@symbols/, 'delimiter'],
 
@@ -123,9 +122,19 @@ export var language = <ILanguage> {
 
 			// strings:
 			[/"""/, 'string', '@herestring."""'],
-			[/'''/,  'string', '@herestring.\'\'\''],
-			[/"/,  { cases: { '@eos': 'string', '@default': {token:'string', next:'@string."'} }} ],
-			[/'/, { cases: { '@eos': 'string', '@default': {token:'string', next:'@string.\''} }} ],
+			[/'''/, 'string', '@herestring.\'\'\''],
+			[/"/, {
+				cases: {
+					'@eos': 'string',
+					'@default': { token: 'string', next: '@string."' }
+				}
+			}],
+			[/'/, {
+				cases: {
+					'@eos': 'string',
+					'@default': { token: 'string', next: '@string.\'' }
+				}
+			}],
 		],
 
 		string: [
@@ -134,27 +143,42 @@ export var language = <ILanguage> {
 			[/\./, 'string.escape.invalid'],
 			[/\./, 'string.escape.invalid'],
 
-			[/#{/,  { cases: { '$S2=="': { token: 'string', next: 'root.interpolatedstring' }, '@default': 'string' }}],
+			[/#{/, {
+				cases: {
+					'$S2=="': { token: 'string', next: 'root.interpolatedstring' },
+					'@default': 'string'
+				}
+			}],
 
-			[/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' }, '@default': 'string' }} ],
+			[/["']/, {
+				cases: {
+					'$#==$S2': { token: 'string', next: '@pop' },
+					'@default': 'string'
+				}
+			}],
 			[/#/, 'string']
 		],
 
 		herestring: [
-			[/("""|''')/, { cases: { '$1==$S2': { token: 'string', next: '@pop' }, '@default': 'string' } }],
-			[/[^#\\'"]+/,'string' ],
-			[/['"]+/,'string' ],
+			[/("""|''')/, {
+				cases: {
+					'$1==$S2': { token: 'string', next: '@pop' },
+					'@default': 'string'
+				}
+			}],
+			[/[^#\\'"]+/, 'string'],
+			[/['"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\./, 'string.escape.invalid'],
 
-			[/#{/, { token: 'string.quote', next: 'root.interpolatedstring' } ],
+			[/#{/, { token: 'string.quote', next: 'root.interpolatedstring' }],
 			[/#/, 'string']
 		],
 
 		comment: [
-			[/[^#]+/, 'comment', ],
+			[/[^#]+/, 'comment',],
 			[/###/, 'comment', '@pop'],
-			[/#/, 'comment' ],
+			[/#/, 'comment'],
 		],
 
 		hereregexp: [

@@ -41,7 +41,7 @@ const TOKEN_PROPERTY = 'attribute.name';
 const TOKEN_VALUE = 'attribute.value';
 const TOKEN_AT_KEYWORD = 'keyword.control.at-rule';
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.less',
 
@@ -67,7 +67,7 @@ export var language = <ILanguage> {
 			{ include: '@numbers' },
 			['[*_]?[a-zA-Z\\-\\s]+(?=:.*(;|(\\\\$)))', TOKEN_PROPERTY, '@attribute'],
 
-			['url(\\-prefix)?\\(', { token: 'tag', next: '@urldeclaration'}],
+			['url(\\-prefix)?\\(', { token: 'tag', next: '@urldeclaration' }],
 
 			['[{}()\\[\\]]', '@brackets'],
 			['[,:;]', 'delimiter'],
@@ -104,9 +104,9 @@ export var language = <ILanguage> {
 		],
 
 		urldeclaration: [
-			{ include: '@strings'},
-			[ '[^)\r\n]+', 'string' ],
-			['\\)', { token: 'tag', next: '@pop'}],
+			{ include: '@strings' },
+			['[^)\r\n]+', 'string'],
+			['\\)', { token: 'tag', next: '@pop' }],
 		],
 
 		attribute: <any[]>[

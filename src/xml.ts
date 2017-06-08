@@ -8,12 +8,12 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		blockComment: ['<!--', '-->'],
 	},
 	brackets: [
-		['<','>']
+		['<', '>']
 	],
 	autoClosingPairs: [
 		{ open: '<', close: '>' },
@@ -27,7 +27,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.xml',
 
@@ -77,7 +77,7 @@ export var language = <ILanguage> {
 		],
 
 		tag: [
-			[/[ \t\r\n]+/, '' ],
+			[/[ \t\r\n]+/, ''],
 			[/(@qualifiedName)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name', '', 'attribute.value']],
 			[/(@qualifiedName)(\s*=\s*)("[^">?\/]*|'[^'>?\/]*)(?=[\?\/]\>)/, ['attribute.name', '', 'attribute.value']],
 			[/(@qualifiedName)(\s*=\s*)("[^">]*|'[^'>]*)/, ['attribute.name', '', 'attribute.value']],
@@ -95,10 +95,10 @@ export var language = <ILanguage> {
 		],
 
 		comment: [
-			[/[^<\-]+/, 'comment.content' ],
-			[/-->/,  { token: 'comment', next: '@pop' } ],
+			[/[^<\-]+/, 'comment.content'],
+			[/-->/, { token: 'comment', next: '@pop' }],
 			[/<!--/, 'comment.content.invalid'],
-			[/[<\-]/, 'comment.content' ]
+			[/[<\-]/, 'comment.content']
 		],
 	},
 };

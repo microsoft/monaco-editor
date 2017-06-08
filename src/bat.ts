@@ -8,14 +8,14 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: 'REM'
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -30,7 +30,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	ignoreCase: true,
 	tokenPostfix: '.bat',
@@ -44,23 +44,23 @@ export var language = <ILanguage> {
 	keywords: /call|defined|echo|errorlevel|exist|for|goto|if|pause|set|shift|start|title|not|pushd|popd/,
 
 	// we include these common regular expressions
-	symbols:  /[=><!~?&|+\-*\/\^;\.,]+/,
-	escapes:  /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	symbols: /[=><!~?&|+\-*\/\^;\.,]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
 
-			[/^(\s*)(rem(?:\s.*|))$/, ['','comment']],
+			[/^(\s*)(rem(?:\s.*|))$/, ['', 'comment']],
 
-			[/(\@?)(@keywords)(?!\w)/, [{token:'keyword'}, {token:'keyword.$2'}]],
+			[/(\@?)(@keywords)(?!\w)/, [{ token: 'keyword' }, { token: 'keyword.$2' }]],
 
 			// whitespace
 			[/[ \t\r\n]+/, ''],
 
 			// blocks
-			[/setlocal(?!\w)/, 'keyword.tag-setlocal' ],
-			[/endlocal(?!\w)/, 'keyword.tag-setlocal' ],
+			[/setlocal(?!\w)/, 'keyword.tag-setlocal'],
+			[/endlocal(?!\w)/, 'keyword.tag-setlocal'],
 
 			// words
 			[/[a-zA-Z_]\w*/, ''],
@@ -85,18 +85,27 @@ export var language = <ILanguage> {
 			[/[;,.]/, 'delimiter'],
 
 			// strings:
-			[/"/,  'string', '@string."' ],
+			[/"/, 'string', '@string."'],
 			[/'/, 'string', '@string.\''],
 		],
 
 		string: [
-			[/[^\\"'%]+/, { cases: { '@eos': {token:'string', next:'@popall'}, '@default': 'string' }}],
+			[/[^\\"'%]+/, {
+				cases: {
+					'@eos': { token: 'string', next: '@popall' },
+					'@default': 'string'
+				}
+			}],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/%[\w ]+%/, 'variable'],
 			[/%%[\w]+(?!\w)/, 'variable'],
-			[/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-							'@default': 'string' }} ],
+			[/["']/, {
+				cases: {
+					'$#==$S2': { token: 'string', next: '@pop' },
+					'@default': 'string'
+				}
+			}],
 			[/$/, 'string', '@popall']
 		],
 

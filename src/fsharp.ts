@@ -8,15 +8,15 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
 		blockComment: ['(*', '*)'],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -33,7 +33,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.fs',
 
@@ -43,15 +43,15 @@ export var language = <ILanguage> {
 		'break', 'checked', 'component',
 		'const', 'constraint', 'constructor',
 		'continue', 'class', 'default',
-		'delegate','do', 'done', 'downcast',
+		'delegate', 'do', 'done', 'downcast',
 		'downto', 'elif', 'else', 'end',
 		'exception', 'eager', 'event', 'external',
-		'extern',	'false', 'finally',	'for',
-		'fun',	'function', 'fixed', 'functor',
+		'extern', 'false', 'finally', 'for',
+		'fun', 'function', 'fixed', 'functor',
 		'global', 'if', 'in', 'include', 'inherit',
 		'inline', 'interface', 'internal', 'land',
-		'lor', 'lsl','lsr', 'lxor', 'lazy', 'let',
-		'match', 'member','mod','module', 'mutable',
+		'lor', 'lsl', 'lsr', 'lxor', 'lazy', 'let',
+		'match', 'member', 'mod', 'module', 'mutable',
 		'namespace', 'method', 'mixin', 'new', 'not',
 		'null', 'of', 'open', 'or', 'object',
 		'override', 'private', 'parallel', 'process',
@@ -60,12 +60,12 @@ export var language = <ILanguage> {
 		'to', 'true', 'tailcall', 'trait',
 		'try', 'type', 'upcast', 'use',
 		'val', 'void', 'virtual', 'volatile',
-		'when', 'while','with', 'yield'
+		'when', 'while', 'with', 'yield'
 	],
 
 	// we include these common regular expressions
-	symbols:  /[=><!~?:&|+\-*\^%;\.,\/]+/,
-	escapes:  /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	symbols: /[=><!~?:&|+\-*\^%;\.,\/]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integersuffix: /[uU]?[yslnLI]?/,
 	floatsuffix: /[fFmM]?/,
 
@@ -73,8 +73,12 @@ export var language = <ILanguage> {
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_]\w*/, { cases: { '@keywords': {token:'keyword.$0'},
-										'@default': 'identifier' } }],
+			[/[a-zA-Z_]\w*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
+			}],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -88,7 +92,7 @@ export var language = <ILanguage> {
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, 'delimiter' ],
+			[/@symbols/, 'delimiter'],
 
 			// numbers
 			[/\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float'],
@@ -102,43 +106,47 @@ export var language = <ILanguage> {
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
 			[/"""/, 'string', '@string."""'],
-			[/"/, 'string', '@string."' ],
+			[/"/, 'string', '@string."'],
 
 			// literal string
 			[/\@"/, { token: 'string.quote', next: '@litstring' }],
 
 			// characters
 			[/'[^\\']'B?/, 'string'],
-			[/(')(@escapes)(')/, ['string','string.escape','string']],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
 			[/'/, 'string.invalid']
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/\(\*/,       		'comment', '@comment' ],
-			[/\/\/.*$/,    		'comment'],
+			[/\(\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
 		],
 
 		comment: [
-			[/[^\*]+/, 'comment' ],
-			[/\*\)/,    'comment', '@pop'  ],
-			[/\*/,   'comment' ]
+			[/[^\*]+/, 'comment'],
+			[/\*\)/, 'comment', '@pop'],
+			[/\*/, 'comment']
 		],
 
 		string: [
 			[/[^\\"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
-			[/\\./,      'string.escape.invalid'],
-			[/("""|"B?)/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-									'@default': 'string' }} ]
+			[/\\./, 'string.escape.invalid'],
+			[/("""|"B?)/, {
+				cases: {
+					'$#==$S2': { token: 'string', next: '@pop' },
+					'@default': 'string'
+				}
+			}]
 		],
 
 		litstring: [
-			[/[^"]+/,    'string'],
-			[/""/,       'string.escape'],
-			[/"/,        { token: 'string.quote', next: '@pop' } ]
+			[/[^"]+/, 'string'],
+			[/""/, 'string.escape'],
+			[/"/, { token: 'string.quote', next: '@pop' }]
 		],
 	},
 };

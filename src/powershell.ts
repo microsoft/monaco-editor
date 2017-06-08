@@ -8,7 +8,7 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	// the default separators except `$-`
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#%\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
@@ -16,9 +16,9 @@ export var conf:IRichLanguageConfiguration = {
 		blockComment: ['<#', '#>'],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -36,7 +36,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	ignoreCase: true,
 	tokenPostfix: '.ps1',
@@ -67,8 +67,12 @@ export var language = <ILanguage> {
 		root: [
 
 			// commands and keywords
-			[/[a-zA-Z_][\w-]*/, { cases: { '@keywords': {token:'keyword.$0'},
-											'@default': '' } }],
+			[/[a-zA-Z_][\w-]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': ''
+				}
+			}],
 
 			// whitespace
 			[/[ \t\r\n]+/, ''],
@@ -97,36 +101,90 @@ export var language = <ILanguage> {
 
 			// strings:
 			[/\@"/, 'string', '@herestring."'],
-			[/\@'/,  'string', '@herestring.\''],
-			[/"/,  { cases: { '@eos': 'string', '@default': {token:'string', next:'@string."'} }} ],
-			[/'/, { cases: { '@eos': 'string', '@default': {token:'string', next:'@string.\''} }} ],
+			[/\@'/, 'string', '@herestring.\''],
+			[/"/, {
+				cases: {
+					'@eos': 'string',
+					'@default': { token: 'string', next: '@string."' }
+				}
+			}],
+			[/'/, {
+				cases: {
+					'@eos': 'string',
+					'@default': { token: 'string', next: '@string.\'' }
+				}
+			}],
 		],
 
 		string: [
-			[/[^"'\$`]+/, { cases: { '@eos': {token:'string', next:'@popall'}, '@default': 'string' }}],
-			[/@escapes/, { cases: { '@eos': {token:'string.escape', next:'@popall'}, '@default': 'string.escape' }}],
-			[/`./, { cases: { '@eos': {token:'string.escape.invalid', next:'@popall'}, '@default': 'string.escape.invalid' }}],
+			[/[^"'\$`]+/, {
+				cases: {
+					'@eos': { token: 'string', next: '@popall' },
+					'@default': 'string'
+				}
+			}],
+			[/@escapes/, {
+				cases: {
+					'@eos': { token: 'string.escape', next: '@popall' },
+					'@default': 'string.escape'
+				}
+			}],
+			[/`./, {
+				cases: {
+					'@eos': { token: 'string.escape.invalid', next: '@popall' },
+					'@default': 'string.escape.invalid'
+				}
+			}],
 
-			[/\$[\w]+$/, { cases: { '$S2=="': { token: 'variable', next: '@popall' }, '@default': { token: 'string', next: '@popall' } } }],
-			[/\$[\w]+/, { cases: { '$S2=="': 'variable', '@default': 'string' }}],
+			[/\$[\w]+$/, {
+				cases: {
+					'$S2=="': { token: 'variable', next: '@popall' },
+					'@default': { token: 'string', next: '@popall' }
+				}
+			}],
+			[/\$[\w]+/, {
+				cases: {
+					'$S2=="': 'variable',
+					'@default': 'string'
+				}
+			}],
 
-			[/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-									'@default': { cases: { '@eos': {token:'string', next:'@popall'}, '@default': 'string' }} }} ],
+			[/["']/, {
+				cases: {
+					'$#==$S2': { token: 'string', next: '@pop' },
+					'@default': {
+						cases: {
+							'@eos': { token: 'string', next: '@popall' },
+							'@default': 'string'
+						}
+					}
+				}
+			}],
 		],
 
 		herestring: [
-			[/^\s*(["'])@/, { cases: { '$1==$S2': { token: 'string', next: '@pop' }, '@default': 'string' } }],
-			[/[^\$`]+/,'string' ],
+			[/^\s*(["'])@/, {
+				cases: {
+					'$1==$S2': { token: 'string', next: '@pop' },
+					'@default': 'string'
+				}
+			}],
+			[/[^\$`]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/`./, 'string.escape.invalid'],
-			[/\$[\w]+/, { cases: { '$S2=="': 'variable', '@default': 'string' } }],
+			[/\$[\w]+/, {
+				cases: {
+					'$S2=="': 'variable',
+					'@default': 'string'
+				}
+			}],
 		],
 
 		comment: [
-			[/[^#\.]+/, 'comment' ],
+			[/[^#\.]+/, 'comment'],
 			[/#>/, 'comment', '@pop'],
-			[/(\.)(@helpKeywords)(?!\w)/, { token: 'comment.keyword.$2' } ],
-			[/[\.#]/,   'comment' ]
+			[/(\.)(@helpKeywords)(?!\w)/, { token: 'comment.keyword.$2' }],
+			[/[\.#]/, 'comment']
 		],
 	},
 };

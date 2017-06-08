@@ -1,4 +1,4 @@
-import {testTokenization} from './testRunner';
+import { testTokenization } from './testRunner';
 
 testTokenization('yaml', [
 	// YAML directive
@@ -238,7 +238,7 @@ testTokenization('yaml', [
 		}, {
 			startIndex: 24,
 			type: 'delimiter.bracket.yaml'
-		}, ]
+		},]
 	}],
 
 	// Flow Sequence - Data types

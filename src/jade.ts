@@ -8,11 +8,11 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//'
 	},
-	brackets: [['{','}'], ['[',']'], ['(',')']],
+	brackets: [['{', '}'], ['[', ']'], ['(', ')']],
 	autoClosingPairs: [
 		{ open: '"', close: '"', notIn: ['string', 'comment'] },
 		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
@@ -22,19 +22,19 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.jade',
 
 	ignoreCase: true,
 
 	brackets: [
-			{ token:'delimiter.curly', open: '{', close: '}' },
-			{ token:'delimiter.array', open: '[', close: ']' },
-			{ token:'delimiter.parenthesis', open: '(', close: ')' }
+		{ token: 'delimiter.curly', open: '{', close: '}' },
+		{ token: 'delimiter.array', open: '[', close: ']' },
+		{ token: 'delimiter.parenthesis', open: '(', close: ')' }
 	],
 
-	keywords: [	'append', 'block', 'case', 'default', 'doctype', 'each', 'else', 'extends',
+	keywords: ['append', 'block', 'case', 'default', 'doctype', 'each', 'else', 'extends',
 		'for', 'if', 'in', 'include', 'mixin', 'typeof', 'unless', 'var', 'when'],
 
 	tags: [
@@ -70,26 +70,48 @@ export var language = <ILanguage> {
 
 			// Tag or a keyword at start
 			[/^(\s*)([a-zA-Z_-][\w-]*)/,
-				{ cases: {
-					'$2@tags': { cases: { '@eos': ['', 'tag'], '@default': ['', { token: 'tag', next: '@tag.$1' }, ] } },
-					'$2@keywords': [ '', { token: 'keyword.$2'}, ],
-					'@default': [ '', '', ]}}
+				{
+					cases: {
+						'$2@tags': {
+							cases: {
+								'@eos': ['', 'tag'],
+								'@default': ['', { token: 'tag', next: '@tag.$1' },]
+							}
+						},
+						'$2@keywords': ['', { token: 'keyword.$2' },],
+						'@default': ['', '',]
+					}
+				}
 			],
 
 			// id
-			[/^(\s*)(#[a-zA-Z_-][\w-]*)/, { cases: { '@eos': ['', 'tag.id'], '@default': ['', { token: 'tag.id', next: '@tag.$1' }] }}],
+			[/^(\s*)(#[a-zA-Z_-][\w-]*)/, {
+				cases: {
+					'@eos': ['', 'tag.id'],
+					'@default': ['', { token: 'tag.id', next: '@tag.$1' }]
+				}
+			}],
 
 			// class
-			[/^(\s*)(\.[a-zA-Z_-][\w-]*)/, { cases: { '@eos': ['', 'tag.class'], '@default': ['', { token: 'tag.class', next: '@tag.$1' }] } }],
+			[/^(\s*)(\.[a-zA-Z_-][\w-]*)/, {
+				cases: {
+					'@eos': ['', 'tag.class'],
+					'@default': ['', { token: 'tag.class', next: '@tag.$1' }]
+				}
+			}],
 
 			// plain text with pipe
-			[/^(\s*)(\|.*)$/, '' ],
+			[/^(\s*)(\|.*)$/, ''],
 
 			{ include: '@whitespace' },
 
 			// keywords
-			[/[a-zA-Z_$][\w$]*/, { cases: { '@keywords': {token:'keyword.$0'},
-											'@default': '' } }],
+			[/[a-zA-Z_$][\w$]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': ''
+				}
+			}],
 
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
@@ -100,80 +122,138 @@ export var language = <ILanguage> {
 			[/\d+/, 'number'],
 
 			// strings:
-			[/"/,  'string', '@string."' ],
+			[/"/, 'string', '@string."'],
 			[/'/, 'string', '@string.\''],
 		],
 
 		tag: [
-			[/(\.)(\s*$)/, [ {token: 'delimiter', next:'@blockText.$S2.'}, '']],
+			[/(\.)(\s*$)/, [{ token: 'delimiter', next: '@blockText.$S2.' }, '']],
 			[/\s+/, { token: '', next: '@simpleText' }],
 
 			// id
-			[/#[a-zA-Z_-][\w-]*/, { cases: { '@eos': { token: 'tag.id', next: '@pop' }, '@default': 'tag.id' } }],
+			[/#[a-zA-Z_-][\w-]*/, {
+				cases: {
+					'@eos': { token: 'tag.id', next: '@pop' },
+					'@default': 'tag.id'
+				}
+			}],
 			// class
-			[/\.[a-zA-Z_-][\w-]*/, { cases: { '@eos': { token: 'tag.class', next: '@pop' }, '@default': 'tag.class' } }],
+			[/\.[a-zA-Z_-][\w-]*/, {
+				cases: {
+					'@eos': { token: 'tag.class', next: '@pop' },
+					'@default': 'tag.class'
+				}
+			}],
 			// attributes
 			[/\(/, { token: 'delimiter.parenthesis', next: '@attributeList' }],
 		],
 
 		simpleText: [
-			[/[^#]+$/, {token: '', next: '@popall'}],
-			[/[^#]+/, {token: ''}],
+			[/[^#]+$/, { token: '', next: '@popall' }],
+			[/[^#]+/, { token: '' }],
 
 			// interpolation
-			[/(#{)([^}]*)(})/, { cases: {
-				'@eos': ['interpolation.delimiter', 'interpolation', { token: 'interpolation.delimiter', next: '@popall' }],
-				'@default': ['interpolation.delimiter', 'interpolation', 'interpolation.delimiter'] }}],
+			[/(#{)([^}]*)(})/, {
+				cases: {
+					'@eos': ['interpolation.delimiter', 'interpolation', { token: 'interpolation.delimiter', next: '@popall' }],
+					'@default': ['interpolation.delimiter', 'interpolation', 'interpolation.delimiter']
+				}
+			}],
 
 			[/#$/, { token: '', next: '@popall' }],
 			[/#/, '']
 		],
 
 		attributeList: [
-			[/\s+/, '' ],
-			[/(\w+)(\s*=\s*)("|')/, ['attribute.name', 'delimiter', { token: 'attribute.value', next:'@value.$3'}]],
+			[/\s+/, ''],
+			[/(\w+)(\s*=\s*)("|')/, ['attribute.name', 'delimiter', { token: 'attribute.value', next: '@value.$3' }]],
 			[/\w+/, 'attribute.name'],
 
 
-			[/,/, { cases: { '@eos': { token: 'attribute.delimiter', next: '@popall' }, '@default': 'attribute.delimiter' } }],
+			[/,/, {
+				cases: {
+					'@eos': { token: 'attribute.delimiter', next: '@popall' },
+					'@default': 'attribute.delimiter'
+				}
+			}],
 
 			[/\)$/, { token: 'delimiter.parenthesis', next: '@popall' }],
 			[/\)/, { token: 'delimiter.parenthesis', next: '@pop' }],
 		],
 
 		whitespace: [
-			[/^(\s*)(\/\/.*)$/, { token: 'comment', next: '@blockText.$1.comment' } ],
+			[/^(\s*)(\/\/.*)$/, { token: 'comment', next: '@blockText.$1.comment' }],
 			[/[ \t\r\n]+/, ''],
 			[/<!--/, { token: 'comment', next: '@comment' }],
 		],
 
 		blockText: [
-			[/^\s+.*$/, { cases: { '($S2\\s+.*$)': { token: '$S3' }, '@default': { token: '@rematch', next: '@popall' } } }],
-			[/./,  { token: '@rematch', next: '@popall' }]
+			[/^\s+.*$/, {
+				cases: {
+					'($S2\\s+.*$)': { token: '$S3' },
+					'@default': { token: '@rematch', next: '@popall' }
+				}
+			}],
+			[/./, { token: '@rematch', next: '@popall' }]
 		],
 
 		comment: [
-			[/[^<\-]+/, 'comment.content' ],
-			[/-->/,  { token: 'comment', next: '@pop' } ],
+			[/[^<\-]+/, 'comment.content'],
+			[/-->/, { token: 'comment', next: '@pop' }],
 			[/<!--/, 'comment.content.invalid'],
-			[/[<\-]/, 'comment.content' ]
+			[/[<\-]/, 'comment.content']
 		],
 
 		string: [
-			[/[^\\"'#]+/, { cases: { '@eos': { token: 'string', next: '@popall' }, '@default': 'string' } }],
-			[/@escapes/, { cases: { '@eos': { token: 'string.escape', next: '@popall' }, '@default': 'string.escape' }}],
-			[/\\./, { cases: { '@eos': { token: 'string.escape.invalid', next: '@popall' }, '@default': 'string.escape.invalid' }}],
+			[/[^\\"'#]+/, {
+				cases: {
+					'@eos': { token: 'string', next: '@popall' },
+					'@default': 'string'
+				}
+			}],
+			[/@escapes/, {
+				cases: {
+					'@eos': { token: 'string.escape', next: '@popall' },
+					'@default': 'string.escape'
+				}
+			}],
+			[/\\./, {
+				cases: {
+					'@eos': { token: 'string.escape.invalid', next: '@popall' },
+					'@default': 'string.escape.invalid'
+				}
+			}],
 			// interpolation
 			[/(#{)([^}]*)(})/, ['interpolation.delimiter', 'interpolation', 'interpolation.delimiter']],
 			[/#/, 'string'],
-			[/["']/, { cases: { '$#==$S2': { token: 'string', next: '@pop' }, '@default': { token: 'string' } } }],
+			[/["']/, {
+				cases: {
+					'$#==$S2': { token: 'string', next: '@pop' },
+					'@default': { token: 'string' }
+				}
+			}],
 		],
 
 		// Almost identical to above, except for escapes and the output token
 		value: [
-			[/[^\\"']+/, { cases: { '@eos': { token: 'attribute.value', next: '@popall' }, '@default': 'attribute.value' }}],
-			[/\\./, { cases: { '@eos': { token: 'attribute.value', next: '@popall' }, '@default': 'attribute.value' }}],
-			[/["']/, { cases: { '$#==$S2': { token: 'attribute.value', next: '@pop' }, '@default': { token: 'attribute.value' } } }],
+			[/[^\\"']+/, {
+				cases: {
+					'@eos': { token: 'attribute.value', next: '@popall' },
+					'@default': 'attribute.value'
+				}
+			}],
+			[/\\./, {
+				cases: {
+					'@eos': { token: 'attribute.value', next: '@popall' },
+					'@default': 'attribute.value'
+				}
+			}],
+			[/["']/, {
+				cases: {
+					'$#==$S2': { token: 'attribute.value', next: '@pop' },
+					'@default': { token: 'attribute.value' }
+				}
+			}],
 		],
 	},
 };

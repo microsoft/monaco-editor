@@ -8,14 +8,14 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '#'
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -31,7 +31,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.r',
 

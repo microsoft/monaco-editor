@@ -7,15 +7,15 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
 		blockComment: ['/*', '*/'],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -35,7 +35,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.swift',
 
@@ -46,7 +46,7 @@ export var language = <ILanguage> {
 		'@autoclosure', '@noescape', '@noreturn', '@NSApplicationMain', '@NSCopying', '@NSManaged',
 		'@objc', '@UIApplicationMain', '@noreturn', '@availability', '@IBAction', '@IBDesignable', '@IBInspectable', '@IBOutlet'
 	],
-	accessmodifiers: [ 'public', 'private', 'internal' ],
+	accessmodifiers: ['public', 'private', 'internal'],
 	keywords: [
 		'__COLUMN__', '__FILE__', '__FUNCTION__', '__LINE__', 'as', 'as!', 'as?', 'associativity', 'break', 'case', 'catch',
 		'class', 'continue', 'convenience', 'default', 'deinit', 'didSet', 'do', 'dynamic', 'dynamicType',
@@ -87,69 +87,84 @@ export var language = <ILanguage> {
 
 
 		comment: [
-			[ /\/\/\/.*$/, 'comment.doc' ],
-			[ /\/\*\*/, 'comment.doc', '@commentdocbody' ],
-			[ /\/\/.*$/, 'comment' ],
-			[ /\/\*/, 'comment', '@commentbody' ]
+			[/\/\/\/.*$/, 'comment.doc'],
+			[/\/\*\*/, 'comment.doc', '@commentdocbody'],
+			[/\/\/.*$/, 'comment'],
+			[/\/\*/, 'comment', '@commentbody']
 		],
 		commentdocbody: [
-			[ /\/\*/, 'comment', '@commentbody' ],
-			[ /\*\//, 'comment.doc', '@pop' ],
-			[ /\:[a-zA-Z]+\:/, 'comment.doc.param' ],
-			[ /./, 'comment.doc' ]
+			[/\/\*/, 'comment', '@commentbody'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/\:[a-zA-Z]+\:/, 'comment.doc.param'],
+			[/./, 'comment.doc']
 		],
 		commentbody: [
-			[ /\/\*/, 'comment', '@commentbody' ],
-			[ /\*\//, 'comment', '@pop' ],
-			[ /./, 'comment' ]
+			[/\/\*/, 'comment', '@commentbody'],
+			[/\*\//, 'comment', '@pop'],
+			[/./, 'comment']
 		],
 
 		attribute: [
-			[ /\@@identifier/, { cases: { '@attributes': 'keyword.control', '@default': '' } } ]
+			[/\@@identifier/, {
+				cases: {
+					'@attributes': 'keyword.control',
+					'@default': ''
+				}
+			}]
 		],
 
 		literal: [
-			[ /"/, { token: 'string.quote', next: '@stringlit' } ],
-			[ /0[b]([01]_?)+/, 'number.binary' ],
-			[ /0[o]([0-7]_?)+/, 'number.octal' ],
-			[ /0[x]([0-9a-fA-F]_?)+([pP][\-+](\d_?)+)?/, 'number.hex' ],
-			[ /(\d_?)*\.(\d_?)+([eE][\-+]?(\d_?)+)?/, 'number.float'],
-			[ /(\d_?)+/, 'number' ]
+			[/"/, { token: 'string.quote', next: '@stringlit' }],
+			[/0[b]([01]_?)+/, 'number.binary'],
+			[/0[o]([0-7]_?)+/, 'number.octal'],
+			[/0[x]([0-9a-fA-F]_?)+([pP][\-+](\d_?)+)?/, 'number.hex'],
+			[/(\d_?)*\.(\d_?)+([eE][\-+]?(\d_?)+)?/, 'number.float'],
+			[/(\d_?)+/, 'number']
 		],
 
 		stringlit: [
-			[ /\\\(/, { token: 'operator', next: '@interpolatedexpression' } ],
-			[ /@escapes/, 'string' ],
-			[ /\\./, 'string.escape.invalid' ],
-			[ /"/, { token: 'string.quote', next: '@pop' } ],
-			[ /./, 'string' ]
+			[/\\\(/, { token: 'operator', next: '@interpolatedexpression' }],
+			[/@escapes/, 'string'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, { token: 'string.quote', next: '@pop' }],
+			[/./, 'string']
 		],
 
 		interpolatedexpression: [
-			[ /\(/, { token: 'operator', next: '@interpolatedexpression' } ],
-			[ /\)/, { token: 'operator', next: '@pop' } ],
+			[/\(/, { token: 'operator', next: '@interpolatedexpression' }],
+			[/\)/, { token: 'operator', next: '@pop' }],
 			{ include: '@literal' },
 			{ include: '@keyword' },
 			{ include: '@symbol' }
 		],
 
 		keyword: [
-			[ /`/, { token: 'operator', next: '@escapedkeyword' } ],
-			[ /@identifier/, { cases: { '@keywords': 'keyword', '[A-Z][\a-zA-Z0-9$]*': 'type.identifier', '@default': 'identifier' } }]
+			[/`/, { token: 'operator', next: '@escapedkeyword' }],
+			[/@identifier/, {
+				cases: {
+					'@keywords': 'keyword', '[A-Z][\a-zA-Z0-9$]*': 'type.identifier',
+					'@default': 'identifier'
+				}
+			}]
 		],
 
 		escapedkeyword: [
-			[ /`/, { token: 'operator', next: '@pop' } ],
-			[ /./, 'identifier' ]
+			[/`/, { token: 'operator', next: '@pop' }],
+			[/./, 'identifier']
 		],
 
-//		symbol: [
-//			[ /@symbols/, 'operator' ],
-//			[ /@operators/, 'operator' ]
-//		],
+		//		symbol: [
+		//			[ /@symbols/, 'operator' ],
+		//			[ /@operators/, 'operator' ]
+		//		],
 
 		invokedmethod: [
-			[/([.])(@identifier)/, { cases: { '$2': ['delimeter', 'type.identifier'], '@default': '' } }],
+			[/([.])(@identifier)/, {
+				cases: {
+					'$2': ['delimeter', 'type.identifier'],
+					'@default': ''
+				}
+			}],
 		]
 	}
 };

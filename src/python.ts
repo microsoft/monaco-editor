@@ -8,15 +8,15 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '#',
 		blockComment: ['\'\'\'', '\'\'\''],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -34,7 +34,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.python',
 
@@ -178,7 +178,7 @@ export var language = <ILanguage> {
 	],
 
 	tokenizer: {
-	root: [
+		root: [
 			{ include: '@whitespace' },
 			{ include: '@numbers' },
 			{ include: '@strings' },
@@ -187,55 +187,59 @@ export var language = <ILanguage> {
 			[/[{}\[\]()]/, '@brackets'],
 
 			[/@[a-zA-Z]\w*/, 'tag'],
-			[/[a-zA-Z]\w*/, { cases: { '@keywords': 'keyword',
-										'@default': 'identifier' } }]
-	],
+			[/[a-zA-Z]\w*/, {
+				cases: {
+					'@keywords': 'keyword',
+					'@default': 'identifier'
+				}
+			}]
+		],
 
-	// Deal with white space, including single and multi-line comments
-	whitespace: [
-		[/\s+/, 'white'],
-		[/(^#.*$)/, 'comment'],
-		[/('''.*''')|(""".*""")/, 'string'],
-		[/'''.*$/, 'string', '@endDocString'],
-		[/""".*$/, 'string', '@endDblDocString']
-	],
-	endDocString: [
-		[/\\'/, 'string'],
-		[/.*'''/, 'string', '@popall'],
-		[/.*$/, 'string']
-	],
-	endDblDocString: [
-		[/\\"/, 'string'],
-		[/.*"""/, 'string', '@popall'],
-		[/.*$/, 'string']
-	],
+		// Deal with white space, including single and multi-line comments
+		whitespace: [
+			[/\s+/, 'white'],
+			[/(^#.*$)/, 'comment'],
+			[/('''.*''')|(""".*""")/, 'string'],
+			[/'''.*$/, 'string', '@endDocString'],
+			[/""".*$/, 'string', '@endDblDocString']
+		],
+		endDocString: [
+			[/\\'/, 'string'],
+			[/.*'''/, 'string', '@popall'],
+			[/.*$/, 'string']
+		],
+		endDblDocString: [
+			[/\\"/, 'string'],
+			[/.*"""/, 'string', '@popall'],
+			[/.*$/, 'string']
+		],
 
-	// Recognize hex, negatives, decimals, imaginaries, longs, and scientific notation
-	numbers: [
-		[/-?0x([abcdef]|[ABCDEF]|\d)+[lL]?/, 'number.hex'],
-		[/-?(\d*\.)?\d+([eE][+\-]?\d+)?[jJ]?[lL]?/, 'number']
-	],
+		// Recognize hex, negatives, decimals, imaginaries, longs, and scientific notation
+		numbers: [
+			[/-?0x([abcdef]|[ABCDEF]|\d)+[lL]?/, 'number.hex'],
+			[/-?(\d*\.)?\d+([eE][+\-]?\d+)?[jJ]?[lL]?/, 'number']
+		],
 
-	// Recognize strings, including those broken across lines with \ (but not without)
-	strings: [
-		[/'$/, 'string.escape', '@popall'],
-		[/'/, 'string.escape', '@stringBody'],
-		[/"$/, 'string.escape', '@popall'],
-		[/"/, 'string.escape', '@dblStringBody']
-	],
-	stringBody: [
-		[/\\./, 'string'],
-		[/'/, 'string.escape', '@popall'],
-		[/.(?=.*')/, 'string'],
-		[/.*\\$/, 'string'],
-		[/.*$/, 'string', '@popall']
-	],
-	dblStringBody: [
-		[/\\./, 'string'],
-		[/"/, 'string.escape', '@popall'],
-		[/.(?=.*")/, 'string'],
-		[/.*\\$/, 'string'],
-		[/.*$/, 'string', '@popall']
-	]
+		// Recognize strings, including those broken across lines with \ (but not without)
+		strings: [
+			[/'$/, 'string.escape', '@popall'],
+			[/'/, 'string.escape', '@stringBody'],
+			[/"$/, 'string.escape', '@popall'],
+			[/"/, 'string.escape', '@dblStringBody']
+		],
+		stringBody: [
+			[/\\./, 'string'],
+			[/'/, 'string.escape', '@popall'],
+			[/.(?=.*')/, 'string'],
+			[/.*\\$/, 'string'],
+			[/.*$/, 'string', '@popall']
+		],
+		dblStringBody: [
+			[/\\./, 'string'],
+			[/"/, 'string.escape', '@popall'],
+			[/.(?=.*")/, 'string'],
+			[/.*\\$/, 'string'],
+			[/.*$/, 'string', '@popall']
+		]
 	}
 };

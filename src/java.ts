@@ -8,7 +8,7 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	// the default separators except `@$`
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
@@ -16,9 +16,9 @@ export var conf:IRichLanguageConfiguration = {
 		blockComment: ['/*', '*/'],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')'],
+		['{', '}'],
+		['[', ']'],
+		['(', ')'],
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -37,7 +37,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.java',
 
@@ -60,7 +60,7 @@ export var language = <ILanguage> {
 	],
 
 	// we include these common regular expressions
-	symbols:  /[=><!~?:&|+\-*\/\^%]+/,
+	symbols: /[=><!~?:&|+\-*\/\^%]+/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	digits: /\d+(_+\d+)*/,
 	octaldigits: /[0-7]+(_+[0-7]+)*/,
@@ -71,8 +71,12 @@ export var language = <ILanguage> {
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_$][\w$]*/, { cases: { '@keywords': {token:'keyword.$0'},
-																	'@default': 'identifier' } }],
+			[/[a-zA-Z_$][\w$]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
+			}],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -80,8 +84,12 @@ export var language = <ILanguage> {
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, { cases: { '@operators': 'delimiter',
-															'@default'  : '' } } ],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
 
 			// @ annotations.
 			[/@\s*[a-zA-Z_\$][\w\$]*/, 'annotation'],
@@ -99,43 +107,43 @@ export var language = <ILanguage> {
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-			[/"/,  'string', '@string' ],
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, 'string', '@string'],
 
 			// characters
 			[/'[^\\']'/, 'string'],
-			[/(')(@escapes)(')/, ['string','string.escape','string']],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
 			[/'/, 'string.invalid']
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/\/\*\*(?!\/)/,  'comment.doc', '@javadoc' ],
-			[/\/\*/,       		'comment', '@comment' ],
-			[/\/\/.*$/,    		'comment'],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
 		],
 
 		comment: [
-			[/[^\/*]+/, 'comment' ],
+			[/[^\/*]+/, 'comment'],
 			// [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
 			// [/\/\*/,    'comment.invalid' ],    // this breaks block comments in the shape of /* //*/
-			[/\*\//,    'comment', '@pop'  ],
-			[/[\/*]/,   'comment' ]
+			[/\*\//, 'comment', '@pop'],
+			[/[\/*]/, 'comment']
 		],
 		//Identical copy of comment above, except for the addition of .doc
 		javadoc: [
-			[/[^\/*]+/, 'comment.doc' ],
+			[/[^\/*]+/, 'comment.doc'],
 			// [/\/\*/, 'comment.doc', '@push' ],    // nested comment not allowed :-(
-			[/\/\*/,    'comment.doc.invalid' ],
-			[/\*\//,    'comment.doc', '@pop'  ],
-			[/[\/*]/,   'comment.doc' ]
+			[/\/\*/, 'comment.doc.invalid'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
 		],
 
 		string: [
-			[/[^\\"]+/,  'string'],
+			[/[^\\"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
-			[/\\./,      'string.escape.invalid'],
-			[/"/,        'string', '@pop' ]
+			[/\\./, 'string.escape.invalid'],
+			[/"/, 'string', '@pop']
 		],
 	},
 };

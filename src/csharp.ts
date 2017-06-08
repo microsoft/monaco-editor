@@ -8,16 +8,16 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\$\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '//',
 		blockComment: ['/*', '*/'],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')'],
+		['{', '}'],
+		['[', ']'],
+		['(', ')'],
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -36,7 +36,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.cs',
 
@@ -61,9 +61,9 @@ export var language = <ILanguage> {
 		'internal', 'private', 'abstract', 'sealed', 'static', 'struct', 'readonly',
 		'volatile', 'virtual', 'override', 'params', 'get', 'set', 'add', 'remove',
 		'operator', 'true', 'false', 'implicit', 'explicit', 'interface', 'enum',
-		'null', 'async', 'await','fixed','sizeof','stackalloc','unsafe', 'nameof',
+		'null', 'async', 'await', 'fixed', 'sizeof', 'stackalloc', 'unsafe', 'nameof',
 		'when'
-		],
+	],
 
 	namespaceFollows: [
 		'namespace', 'using',
@@ -75,11 +75,11 @@ export var language = <ILanguage> {
 
 	operators: [
 		'=', '??', '||', '&&', '|', '^', '&', '==', '!=', '<=', '>=', '<<',
-		'+', '-', '*', '/', '%', '!', '~', '++', '--','+=',
+		'+', '-', '*', '/', '%', '!', '~', '++', '--', '+=',
 		'-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>=', '>>', '=>'
 	],
 
-	symbols:  /[=><!~?:&|+\-*\/\^%]+/,
+	symbols: /[=><!~?:&|+\-*\/\^%]+/,
 
 	// escape sequences
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
@@ -89,10 +89,11 @@ export var language = <ILanguage> {
 		root: [
 
 			// identifiers and keywords
-			[/\@?[a-zA-Z_]\w*/, { cases: {
-				'@namespaceFollows': { token: 'keyword.$0', next: '@namespace' },
-				'@keywords': { token: 'keyword.$0', next: '@qualified' },
-				'@default': { token: 'identifier', next: '@qualified' }
+			[/\@?[a-zA-Z_]\w*/, {
+				cases: {
+					'@namespaceFollows': { token: 'keyword.$0', next: '@namespace' },
+					'@keywords': { token: 'keyword.$0', next: '@qualified' },
+					'@default': { token: 'identifier', next: '@qualified' }
 				}
 			}],
 
@@ -100,13 +101,21 @@ export var language = <ILanguage> {
 			{ include: '@whitespace' },
 
 			// delimiters and operators
-			[/}/, { cases: {
-					'$S2==interpolatedstring' : { token: 'string.quote', next: '@pop' }
-				,	'$S2==litinterpstring' : { token: 'string.quote', next: '@pop' }
-				,	'@default'   : '@brackets' } }],
+			[/}/, {
+				cases: {
+					'$S2==interpolatedstring': { token: 'string.quote', next: '@pop' },
+					'$S2==litinterpstring': { token: 'string.quote', next: '@pop' },
+					'@default': '@brackets'
+				}
+			}],
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, { cases: { '@operators': 'delimiter', '@default'  : '' } } ],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
 
 
 			// numbers
@@ -119,79 +128,81 @@ export var language = <ILanguage> {
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-			[/"/,  { token: 'string.quote', next: '@string' } ],
-			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' } ],
-			[/\@"/, { token: 'string.quote', next: '@litstring' } ],
-			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' } ],
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, { token: 'string.quote', next: '@string' }],
+			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' }],
+			[/\@"/, { token: 'string.quote', next: '@litstring' }],
+			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' }],
 
 			// characters
 			[/'[^\\']'/, 'string'],
-			[/(')(@escapes)(')/, ['string','string.escape','string']],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
 			[/'/, 'string.invalid']
 		],
 
 		qualified: [
-			[/[a-zA-Z_][\w]*/, { cases:
-				{ '@keywords': {token:'keyword.$0'},
-				'@default': 'identifier' }
+			[/[a-zA-Z_][\w]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
 			}],
 			[/\./, 'delimiter'],
-			['','','@pop'],
+			['', '', '@pop'],
 		],
 
 		namespace: [
 			{ include: '@whitespace' },
 			[/[A-Z]\w*/, 'namespace'],
 			[/[\.=]/, 'delimiter'],
-			['','','@pop'],
+			['', '', '@pop'],
 		],
 
 		comment: [
-			[/[^\/*]+/, 'comment' ],
+			[/[^\/*]+/, 'comment'],
 			// [/\/\*/,    'comment', '@push' ],    // no nested comments :-(
-			['\\*/',    'comment', '@pop'  ],
-			[/[\/*]/,   'comment' ]
+			['\\*/', 'comment', '@pop'],
+			[/[\/*]/, 'comment']
 		],
 
 		string: [
-			[/[^\\"]+/,  'string'],
+			[/[^\\"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
-			[/\\./,      'string.escape.invalid'],
-			[/"/,        { token: 'string.quote', next: '@pop' } ]
+			[/\\./, 'string.escape.invalid'],
+			[/"/, { token: 'string.quote', next: '@pop' }]
 		],
 
 		litstring: [
-			[/[^"]+/,    'string'],
-			[/""/,       'string.escape'],
-			[/"/,        { token: 'string.quote', next: '@pop' } ]
+			[/[^"]+/, 'string'],
+			[/""/, 'string.escape'],
+			[/"/, { token: 'string.quote', next: '@pop' }]
 		],
 
 		litinterpstring: [
-			[/[^"{]+/,    'string'],
-			[/""/,       'string.escape'],
-			[/{{/,       'string.escape'],
-			[/}}/,       'string.escape'],
-			[/{/,        { token: 'string.quote', next: 'root.litinterpstring' } ],
-			[/"/,        { token: 'string.quote', next: '@pop' } ]
+			[/[^"{]+/, 'string'],
+			[/""/, 'string.escape'],
+			[/{{/, 'string.escape'],
+			[/}}/, 'string.escape'],
+			[/{/, { token: 'string.quote', next: 'root.litinterpstring' }],
+			[/"/, { token: 'string.quote', next: '@pop' }]
 		],
 
 		interpolatedstring: [
 			[/[^\\"{]+/, 'string'],
 			[/@escapes/, 'string.escape'],
-			[/\\./,      'string.escape.invalid'],
-			[/{{/,       'string.escape'],
-			[/}}/,       'string.escape'],
-			[/{/,        { token: 'string.quote', next: 'root.interpolatedstring' } ],
-			[/"/,        { token: 'string.quote', next: '@pop' } ]
+			[/\\./, 'string.escape.invalid'],
+			[/{{/, 'string.escape'],
+			[/}}/, 'string.escape'],
+			[/{/, { token: 'string.quote', next: 'root.interpolatedstring' }],
+			[/"/, { token: 'string.quote', next: '@pop' }]
 		],
 
 		whitespace: [
-			[/^[ \t\v\f]*#((r)|(load))(?=\s)/, 'directive.csx' ],
-			[/^[ \t\v\f]*#\w.*$/, 'namespace.cpp' ],
+			[/^[ \t\v\f]*#((r)|(load))(?=\s)/, 'directive.csx'],
+			[/^[ \t\v\f]*#\w.*$/, 'namespace.cpp'],
 			[/[ \t\v\f\r\n]+/, ''],
-			[/\/\*/,       'comment', '@comment' ],
-			[/\/\/.*$/,    'comment'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
 		],
 	},
 };

@@ -11,9 +11,9 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 // Allow for running under nodejs/requirejs in tests
 var _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
 
-const EMPTY_ELEMENTS:string[] = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'];
+const EMPTY_ELEMENTS: string[] = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'];
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
 	comments: {
@@ -65,7 +65,7 @@ export const htmlTokenTypes = {
 	}
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '',
 	// ignoreCase: true,
@@ -77,9 +77,9 @@ export var language = <ILanguage> {
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
 			[/<!--/, 'comment.html', '@comment'],
 			[/(<)(\w+)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag.html', htmlTokenTypes.DELIM_END]],
-			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@script'} ]],
-			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@style'} ]],
-			[/(<)([:\w]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag'} ]],
+			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@script' }]],
+			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@style' }]],
+			[/(<)([:\w]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag' }]],
 			[/(<\/)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag' }]],
 			[/</, htmlTokenTypes.DELIM_START],
 			[/\{/, htmlTokenTypes.DELIM_START],
@@ -88,8 +88,8 @@ export var language = <ILanguage> {
 
 		doctype: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.comment' }],
-			[/[^>]+/, 'metatag.content.html' ],
-			[/>/, 'metatag.html', '@pop' ],
+			[/[^>]+/, 'metatag.content.html'],
+			[/>/, 'metatag.html', '@pop'],
 		],
 
 		comment: [
@@ -119,15 +119,15 @@ export var language = <ILanguage> {
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.text/javascript', nextEmbedded: 'text/javascript'} ],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.text/javascript', nextEmbedded: 'text/javascript' }],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(script\s*)(>)/, [ htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' } ]]
+			[/(<\/)(script\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' }]]
 		],
 
 		// After <script ... type
 		scriptAfterType: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.scriptAfterType' }],
-			[/=/,'delimiter', '@scriptAfterTypeEquals'],
+			[/=/, 'delimiter', '@scriptAfterTypeEquals'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -135,8 +135,8 @@ export var language = <ILanguage> {
 		// After <script ... type =
 		scriptAfterTypeEquals: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.scriptAfterTypeEquals' }],
-			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' } ],
-			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' } ],
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -144,7 +144,7 @@ export var language = <ILanguage> {
 		// After <script ... type = $S2
 		scriptWithCustomType: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.scriptWithCustomType.$S2' }],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2' }],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
@@ -171,15 +171,15 @@ export var language = <ILanguage> {
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.text/css', nextEmbedded: 'text/css'} ],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.text/css', nextEmbedded: 'text/css' }],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(style\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' } ]]
+			[/(<\/)(style\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' }]]
 		],
 
 		// After <style ... type
 		styleAfterType: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.styleAfterType' }],
-			[/=/,'delimiter', '@styleAfterTypeEquals'],
+			[/=/, 'delimiter', '@styleAfterTypeEquals'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -187,8 +187,8 @@ export var language = <ILanguage> {
 		// After <style ... type =
 		styleAfterTypeEquals: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.styleAfterTypeEquals' }],
-			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' } ],
-			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' } ],
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -196,7 +196,7 @@ export var language = <ILanguage> {
 		// After <style ... type = $S2
 		styleWithCustomType: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.styleWithCustomType.$S2' }],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2' }],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],

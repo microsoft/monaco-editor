@@ -8,15 +8,15 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
 		blockComment: ['/*', '*/'],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '[', close: ']' },
@@ -34,7 +34,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.cpp',
 
@@ -236,8 +236,8 @@ export var language = <ILanguage> {
 	],
 
 	// we include these common regular expressions
-	symbols:  /[=><!~?:&|+\-*\/\^%]+/,
-	escapes:  /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	symbols: /[=><!~?:&|+\-*\/\^%]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integersuffix: /(ll|LL|u|U|l|L)?(ll|LL|u|U|l|L)?/,
 	floatsuffix: /[fFlL]?/,
 
@@ -245,8 +245,12 @@ export var language = <ILanguage> {
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_]\w*/, { cases: { '@keywords': {token:'keyword.$0'},
-										'@default': 'identifier' } }],
+			[/[a-zA-Z_]\w*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
+			}],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -260,8 +264,12 @@ export var language = <ILanguage> {
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, { cases: { '@operators': 'delimiter',
-									'@default'  : '' } } ],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
 
 			// numbers
 			[/\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float'],
@@ -276,39 +284,39 @@ export var language = <ILanguage> {
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-			[/"/,  'string', '@string' ],
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, 'string', '@string'],
 
 			// characters
 			[/'[^\\']'/, 'string'],
-			[/(')(@escapes)(')/, ['string','string.escape','string']],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
 			[/'/, 'string.invalid']
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/\/\*\*(?!\/)/,  'comment.doc', '@doccomment' ],
-			[/\/\*/,       		'comment', '@comment' ],
-			[/\/\/.*$/,    		'comment'],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@doccomment'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
 		],
 
 		comment: [
-			[/[^\/*]+/, 'comment' ],
-			[/\*\//,    'comment', '@pop'  ],
-			[/[\/*]/,   'comment' ]
+			[/[^\/*]+/, 'comment'],
+			[/\*\//, 'comment', '@pop'],
+			[/[\/*]/, 'comment']
 		],
 		//Identical copy of comment above, except for the addition of .doc
 		doccomment: [
-			[/[^\/*]+/, 'comment.doc' ],
-			[/\*\//,    'comment.doc', '@pop'  ],
-			[/[\/*]/,   'comment.doc' ]
+			[/[^\/*]+/, 'comment.doc'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
 		],
 
 		string: [
-			[/[^\\"]+/,  'string'],
+			[/[^\\"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
-			[/\\./,      'string.escape.invalid'],
-			[/"/,        'string', '@pop' ]
+			[/\\./, 'string.escape.invalid'],
+			[/"/, 'string', '@pop']
 		],
 	},
 };

@@ -8,7 +8,7 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 
 	comments: {
@@ -41,7 +41,7 @@ export const htmlTokenTypes = {
 	}
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '',
 	// ignoreCase: true,
@@ -53,9 +53,9 @@ export var language = <ILanguage> {
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
 			[/<!--/, 'comment.html', '@comment'],
 			[/(<)(\w+)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag.html', htmlTokenTypes.DELIM_END]],
-			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@script'} ]],
-			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@style'} ]],
-			[/(<)([:\w]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag'} ]],
+			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@script' }]],
+			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@style' }]],
+			[/(<)([:\w]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag' }]],
 			[/(<\/)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag.html', next: '@otherTag' }]],
 			[/</, htmlTokenTypes.DELIM_START],
 			[/[^<]+/] // text
@@ -63,8 +63,8 @@ export var language = <ILanguage> {
 
 		doctype: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.comment' }],
-			[/[^>]+/, 'metatag.content.html' ],
-			[/>/, 'metatag.html', '@pop' ],
+			[/[^>]+/, 'metatag.content.html'],
+			[/>/, 'metatag.html', '@pop'],
 		],
 
 		comment: [
@@ -94,15 +94,15 @@ export var language = <ILanguage> {
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.text/javascript', nextEmbedded: 'text/javascript'} ],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.text/javascript', nextEmbedded: 'text/javascript' }],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(script\s*)(>)/, [ htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' } ]]
+			[/(<\/)(script\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' }]]
 		],
 
 		// After <script ... type
 		scriptAfterType: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.scriptAfterType' }],
-			[/=/,'delimiter', '@scriptAfterTypeEquals'],
+			[/=/, 'delimiter', '@scriptAfterTypeEquals'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -110,8 +110,8 @@ export var language = <ILanguage> {
 		// After <script ... type =
 		scriptAfterTypeEquals: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.scriptAfterTypeEquals' }],
-			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' } ],
-			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' } ],
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -119,7 +119,7 @@ export var language = <ILanguage> {
 		// After <script ... type = $S2
 		scriptWithCustomType: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.scriptWithCustomType.$S2' }],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2' }],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
@@ -146,15 +146,15 @@ export var language = <ILanguage> {
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.text/css', nextEmbedded: 'text/css'} ],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.text/css', nextEmbedded: 'text/css' }],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(style\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' } ]]
+			[/(<\/)(style\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag.html', { token: htmlTokenTypes.DELIM_END, next: '@pop' }]]
 		],
 
 		// After <style ... type
 		styleAfterType: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.styleAfterType' }],
-			[/=/,'delimiter', '@styleAfterTypeEquals'],
+			[/=/, 'delimiter', '@styleAfterTypeEquals'],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -162,8 +162,8 @@ export var language = <ILanguage> {
 		// After <style ... type =
 		styleAfterTypeEquals: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.styleAfterTypeEquals' }],
-			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' } ],
-			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' } ],
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -171,7 +171,7 @@ export var language = <ILanguage> {
 		// After <style ... type = $S2
 		styleWithCustomType: [
 			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.styleWithCustomType.$S2' }],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2'}],
+			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2' }],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
@@ -203,22 +203,22 @@ export var language = <ILanguage> {
 		phpRoot: [
 			[/[a-zA-Z_]\w*/, {
 				cases: {
-					'@phpKeywords': { token:'keyword.php' },
-					'@phpCompileTimeConstants': { token: 'constant.php'},
+					'@phpKeywords': { token: 'keyword.php' },
+					'@phpCompileTimeConstants': { token: 'constant.php' },
 					'@default': 'identifier.php'
 				}
 			}],
 			[/[$a-zA-Z_]\w*/, {
 				cases: {
-					'@phpPreDefinedVariables': { token:'variable.predefined.php' },
+					'@phpPreDefinedVariables': { token: 'variable.predefined.php' },
 					'@default': 'variable.php'
 				}
 			}],
 
 			// brackets
-			[/[{}]/, 'delimiter.bracket.php' ],
-			[/[\[\]]/, 'delimiter.array.php' ],
-			[/[()]/, 'delimiter.parenthesis.php' ],
+			[/[{}]/, 'delimiter.bracket.php'],
+			[/[\[\]]/, 'delimiter.array.php'],
+			[/[()]/, 'delimiter.parenthesis.php'],
 
 			// whitespace
 			[/[ \t\r\n]+/],
@@ -228,14 +228,14 @@ export var language = <ILanguage> {
 			[/\/\//, 'comment.php', '@phpLineComment'],
 
 			// block comments
-			[/\/\*/, 'comment.php', '@phpComment' ],
+			[/\/\*/, 'comment.php', '@phpComment'],
 
 			// strings
-			[/"/, 'string.php', '@phpDoubleQuoteString' ],
-			[/'/, 'string.php', '@phpSingleQuoteString' ],
+			[/"/, 'string.php', '@phpDoubleQuoteString'],
+			[/'/, 'string.php', '@phpSingleQuoteString'],
 
 			// delimiters
-			[/[\+\-\*\%\&\|\^\~\!\=\<\>\/\?\;\:\.\,\@]/, 'delimiter.php' ],
+			[/[\+\-\*\%\&\|\^\~\!\=\<\>\/\?\;\:\.\,\@]/, 'delimiter.php'],
 
 			// numbers
 			[/\d*\d+[eE]([\-+]?\d+)?/, 'number.float.php'],
@@ -262,17 +262,17 @@ export var language = <ILanguage> {
 		],
 
 		phpDoubleQuoteString: [
-			[/[^\\"]+/,  'string.php'],
+			[/[^\\"]+/, 'string.php'],
 			[/@escapes/, 'string.escape.php'],
-			[/\\./,      'string.escape.invalid.php'],
-			[/"/,        'string.php', '@pop' ]
+			[/\\./, 'string.escape.invalid.php'],
+			[/"/, 'string.php', '@pop']
 		],
 
 		phpSingleQuoteString: [
-			[/[^\\']+/,  'string.php'],
+			[/[^\\']+/, 'string.php'],
 			[/@escapes/, 'string.escape.php'],
-			[/\\./,      'string.escape.invalid.php'],
-			[/'/,        'string.php', '@pop' ]
+			[/\\./, 'string.escape.invalid.php'],
+			[/'/, 'string.php', '@pop']
 		],
 	},
 
@@ -321,7 +321,7 @@ export var language = <ILanguage> {
 		'$argv'
 	],
 
-	escapes:  /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 };
 
 // TESTED WITH

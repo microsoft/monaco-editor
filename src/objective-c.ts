@@ -8,15 +8,15 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf:IRichLanguageConfiguration = {
+export var conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
 		blockComment: ['/*', '*/'],
 	},
 	brackets: [
-		['{','}'],
-		['[',']'],
-		['(',')']
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
@@ -34,7 +34,7 @@ export var conf:IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage> {
+export var language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.objective-c',
 
@@ -150,7 +150,7 @@ export var language = <ILanguage> {
 	decimal: /0|@decpart/,
 
 	tokenizer: {
-	root: [
+		root: [
 			{ include: '@comments' },
 			{ include: '@whitespace' },
 			{ include: '@numbers' },
@@ -159,53 +159,60 @@ export var language = <ILanguage> {
 			[/[,:;]/, 'delimiter'],
 			[/[{}\[\]()<>]/, '@brackets'],
 
-			[/[a-zA-Z@#]\w*/, { cases: { '@keywords': 'keyword',
-										'@default': 'identifier' } }],
+			[/[a-zA-Z@#]\w*/, {
+				cases: {
+					'@keywords': 'keyword',
+					'@default': 'identifier'
+				}
+			}],
 
 			[/[<>=\\+\\-\\*\\/\\^\\|\\~,]|and\\b|or\\b|not\\b]/, 'operator'],
-	],
-
-	whitespace: [
-		[/\s+/, 'white'],
-	],
-
-	comments: [
-			['\\/\\*','comment','@comment' ],
-			['\\/\\/+.*','comment' ],
 		],
 
-	comment: [
-			['\\*\\/','comment','@pop' ],
-			['.', 'comment', ],
+		whitespace: [
+			[/\s+/, 'white'],
 		],
 
-	numbers: [
+		comments: [
+			['\\/\\*', 'comment', '@comment'],
+			['\\/\\/+.*', 'comment'],
+		],
+
+		comment: [
+			['\\*\\/', 'comment', '@pop'],
+			['.', 'comment',],
+		],
+
+		numbers: [
 			[/0[xX][0-9a-fA-F]*(_?[0-9a-fA-F])*/, 'number.hex'],
 			[/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)[fF]*/, {
-				cases: {  	'(\\d)*': 'number',
-							'$0':'number.float' }} ]
+				cases: {
+					'(\\d)*': 'number',
+					'$0': 'number.float'
+				}
+			}]
 		],
 
-	// Recognize strings, including those broken across lines with \ (but not without)
-	strings: [
-		[/'$/, 'string.escape', '@popall'],
-		[/'/, 'string.escape', '@stringBody'],
-		[/"$/, 'string.escape', '@popall'],
-		[/"/, 'string.escape', '@dblStringBody']
-	],
-	stringBody: [
-		[/\\./, 'string'],
-		[/'/, 'string.escape', '@popall'],
-		[/.(?=.*')/, 'string'],
-		[/.*\\$/, 'string'],
-		[/.*$/, 'string', '@popall']
-	],
-	dblStringBody: [
-		[/\\./, 'string'],
-		[/"/, 'string.escape', '@popall'],
-		[/.(?=.*")/, 'string'],
-		[/.*\\$/, 'string'],
-		[/.*$/, 'string', '@popall']
-	]
+		// Recognize strings, including those broken across lines with \ (but not without)
+		strings: [
+			[/'$/, 'string.escape', '@popall'],
+			[/'/, 'string.escape', '@stringBody'],
+			[/"$/, 'string.escape', '@popall'],
+			[/"/, 'string.escape', '@dblStringBody']
+		],
+		stringBody: [
+			[/\\./, 'string'],
+			[/'/, 'string.escape', '@popall'],
+			[/.(?=.*')/, 'string'],
+			[/.*\\$/, 'string'],
+			[/.*$/, 'string', '@popall']
+		],
+		dblStringBody: [
+			[/\\./, 'string'],
+			[/"/, 'string.escape', '@popall'],
+			[/.(?=.*")/, 'string'],
+			[/.*\\$/, 'string'],
+			[/.*$/, 'string', '@popall']
+		]
 	}
 };
