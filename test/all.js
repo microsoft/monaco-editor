@@ -39,6 +39,7 @@ requirejs([
 		'out/test/less.test',
 		'out/test/lua.test',
 		'out/test/markdown.test',
+		'out/test/msdax.test',
 		'out/test/objective-c.test',
 		'out/test/php.test',
 		'out/test/postiats.test',

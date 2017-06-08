@@ -61,6 +61,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/less'),
 			bundleOne('src/lua'),
 			bundleOne('src/markdown'),
+			bundleOne('src/msdax'),
 			bundleOne('src/objective-c'),
 			bundleOne('src/php'),
 			bundleOne('src/powershell'),
