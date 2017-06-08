@@ -740,5 +740,26 @@ testTokenization('csharp', [
 		{ startIndex: 0, type: 'string.cs' },
 		{ startIndex: 6, type: 'string.quote.cs' },
 		{ startIndex: 7, type: 'delimiter.cs' }
-	]}]
+	]}],
+
+	[{
+	line: 'x = $@"verbatim {interpolated} string{{}}"" ";',
+	tokens: [
+		{ startIndex: 0, type: "identifier.cs" },
+		{ startIndex: 1, type: "" },
+		{ startIndex: 2, type: "delimiter.cs" },
+		{ startIndex: 3, type: "" },
+		{ startIndex: 4, type: "string.quote.cs" },
+		{ startIndex: 7, type: "string.cs" },
+		{ startIndex: 16, type: "string.quote.cs" },
+		{ startIndex: 17, type: "identifier.cs" },
+		{ startIndex: 29, type: "string.quote.cs" },
+		{ startIndex: 30, type: "string.cs" },
+		{ startIndex: 37, type: "string.escape.cs" },
+		{ startIndex: 39, type: "string.cs" },
+		{ startIndex: 41, type: "string.escape.cs" },
+		{ startIndex: 43, type: "string.cs" },
+		{ startIndex: 44, type: "string.quote.cs" },
+		{ startIndex: 45, type: "delimiter.cs" },
+	]}],
 ]);

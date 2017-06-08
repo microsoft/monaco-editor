@@ -90,16 +90,12 @@ export var language = <ILanguage> {
 			// delimiters and operators
 			[/}/, { cases: {
 					'$S2==interpolatedstring' : { token: 'string.quote', next: '@pop' }
+				,	'$S2==litinterpstring' : { token: 'string.quote', next: '@pop' }
 				,	'@default'   : '@brackets' } }],
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
 			[/@symbols/, { cases: { '@operators': 'delimiter', '@default'  : '' } } ],
 
-			// literal string
-			[/\@"/, { token: 'string.quote', next: '@litstring' } ],
-
-			// interpolated string
-			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' } ],
 
 			// numbers
 			[/\d*\.\d+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
@@ -112,6 +108,9 @@ export var language = <ILanguage> {
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
 			[/"/,  { token: 'string.quote', next: '@string' } ],
+			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' } ],
+			[/\@"/, { token: 'string.quote', next: '@litstring' } ],
+			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' } ],
 
 			// characters
 			[/'[^\\']'/, 'string'],
@@ -152,6 +151,15 @@ export var language = <ILanguage> {
 		litstring: [
 			[/[^"]+/,    'string'],
 			[/""/,       'string.escape'],
+			[/"/,        { token: 'string.quote', next: '@pop' } ]
+		],
+
+		litinterpstring: [
+			[/[^"{]+/,    'string'],
+			[/""/,       'string.escape'],
+			[/{{/,       'string.escape'],
+			[/}}/,       'string.escape'],
+			[/{/,        { token: 'string.quote', next: 'root.litinterpstring' } ],
 			[/"/,        { token: 'string.quote', next: '@pop' } ]
 		],
 
