@@ -76,11 +76,11 @@ export var language = <ILanguage> {
 		root: [
 			[/<!DOCTYPE/, 'metatag', '@doctype'],
 			[/<!--/, 'comment', '@comment'],
-			[/(<)(\w+)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag', htmlTokenTypes.DELIM_END]],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag', '', htmlTokenTypes.DELIM_END]],
 			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@script'} ]],
 			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@style'} ]],
-			[/(<)([:\w]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag'} ]],
-			[/(<\/)(\w+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag' }]],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag' }]],
+			[/(<\/)((?:[\w\-]+:)?[\w\-]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag' }]],
 			[/</, htmlTokenTypes.DELIM_START],
 			[/[^<]+/], // text
 		],
