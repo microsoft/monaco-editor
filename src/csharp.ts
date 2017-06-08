@@ -90,7 +90,7 @@ export var language = <ILanguage> {
 			// delimiters and operators
 			[/}/, { cases: {
 					'$S2==interpolatedstring' : { token: 'string.quote', next: '@pop' }
-					'$S2==litinterpstring' : { token: 'string.quote', next: '@pop' }
+				,	'$S2==litinterpstring' : { token: 'string.quote', next: '@pop' }
 				,	'@default'   : '@brackets' } }],
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
@@ -154,14 +154,14 @@ export var language = <ILanguage> {
 			[/"/,        { token: 'string.quote', next: '@pop' } ]
 		],
 
-    litinterpstring: [
-      [/[^"{]+/,    'string'],
+		litinterpstring: [
+			[/[^"{]+/,    'string'],
 			[/""/,       'string.escape'],
 			[/{{/,       'string.escape'],
 			[/}}/,       'string.escape'],
 			[/{/,        { token: 'string.quote', next: 'root.litinterpstring' } ],
 			[/"/,        { token: 'string.quote', next: '@pop' } ]
-    ],
+		],
 
 		interpolatedstring: [
 			[/[^\\"{]+/, 'string'],
