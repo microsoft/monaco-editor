@@ -79,7 +79,9 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/solidity')
 		)
 		.pipe(uglify({
-			preserveComments: 'some'
+			output: {
+				comments: /^!/
+			}
 		}))
 		.pipe(es.through(function(data) {
 			data.contents = new Buffer(
