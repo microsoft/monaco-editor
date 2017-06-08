@@ -25,7 +25,7 @@ function getTag(name: string) {
 	return 'tag';
 }
 
-export var conf: IRichLanguageConfiguration = {
+export const conf: IRichLanguageConfiguration = {
 	comments: {
 		blockComment: ['<!--', '-->',]
 	},
@@ -47,7 +47,7 @@ export var conf: IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage>{
+export const language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.md',
 

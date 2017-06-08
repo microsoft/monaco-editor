@@ -6,23 +6,6 @@
 'use strict';
 
 import { testTokenization } from './testRunner';
-import { htmlTokenTypes } from '../src/handlebars';
-
-const HTML_DELIM_START = htmlTokenTypes.DELIM_START;
-const HTML_DELIM_END = htmlTokenTypes.DELIM_END;
-const DELIM_ASSIGN = 'delimiter';
-const HTML_ATTRIB_NAME = 'attribute.name';
-const HTML_ATTRIB_VALUE = 'attribute.value';
-function getTag(name: string) {
-	return htmlTokenTypes.getTag(name);
-}
-
-const handlebarsTokenTypes = {
-	EMBED: 'delimiter.handlebars',
-	EMBED_UNESCAPED: 'delimiter.handlebars',
-	KEYWORD: 'keyword.helper.handlebars',
-	VARIABLE: 'variable.parameter.handlebars',
-}
 
 testTokenization(['handlebars', 'css'], [
 
@@ -30,13 +13,13 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<h1>handlebars!</h1>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('h1') },
-			{ startIndex: 3, type: HTML_DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 3, type: 'delimiter.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 15, type: HTML_DELIM_START },
-			{ startIndex: 17, type: getTag('h1') },
-			{ startIndex: 19, type: HTML_DELIM_END }
+			{ startIndex: 15, type: 'delimiter.html' },
+			{ startIndex: 17, type: 'tag.html' },
+			{ startIndex: 19, type: 'delimiter.html' }
 		]
 	}],
 
@@ -44,17 +27,17 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<h1>{{ title }}</h1>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('h1') },
-			{ startIndex: 3, type: HTML_DELIM_END },
-			{ startIndex: 4, type: handlebarsTokenTypes.EMBED },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 3, type: 'delimiter.html' },
+			{ startIndex: 4, type: 'delimiter.handlebars' },
 			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: handlebarsTokenTypes.VARIABLE },
+			{ startIndex: 7, type: 'variable.parameter.handlebars' },
 			{ startIndex: 12, type: '' },
-			{ startIndex: 13, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 15, type: HTML_DELIM_START },
-			{ startIndex: 17, type: getTag('h1') },
-			{ startIndex: 19, type: HTML_DELIM_END }
+			{ startIndex: 13, type: 'delimiter.handlebars' },
+			{ startIndex: 15, type: 'delimiter.html' },
+			{ startIndex: 17, type: 'tag.html' },
+			{ startIndex: 19, type: 'delimiter.html' }
 		]
 	}],
 
@@ -62,15 +45,15 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<h1>{{title}}</h1>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('h1') },
-			{ startIndex: 3, type: HTML_DELIM_END },
-			{ startIndex: 4, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 6, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 11, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 13, type: HTML_DELIM_START },
-			{ startIndex: 15, type: getTag('h1') },
-			{ startIndex: 17, type: HTML_DELIM_END }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 3, type: 'delimiter.html' },
+			{ startIndex: 4, type: 'delimiter.handlebars' },
+			{ startIndex: 6, type: 'variable.parameter.handlebars' },
+			{ startIndex: 11, type: 'delimiter.handlebars' },
+			{ startIndex: 13, type: 'delimiter.html' },
+			{ startIndex: 15, type: 'tag.html' },
+			{ startIndex: 17, type: 'delimiter.html' }
 		]
 	}],
 
@@ -78,17 +61,17 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<h1>{{{ title }}}</h1>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('h1') },
-			{ startIndex: 3, type: HTML_DELIM_END },
-			{ startIndex: 4, type: handlebarsTokenTypes.EMBED_UNESCAPED },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 3, type: 'delimiter.html' },
+			{ startIndex: 4, type: 'delimiter.handlebars' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: handlebarsTokenTypes.VARIABLE },
+			{ startIndex: 8, type: 'variable.parameter.handlebars' },
 			{ startIndex: 13, type: '' },
-			{ startIndex: 14, type: handlebarsTokenTypes.EMBED_UNESCAPED },
-			{ startIndex: 17, type: HTML_DELIM_START },
-			{ startIndex: 19, type: getTag('h1') },
-			{ startIndex: 21, type: HTML_DELIM_END }
+			{ startIndex: 14, type: 'delimiter.handlebars' },
+			{ startIndex: 17, type: 'delimiter.html' },
+			{ startIndex: 19, type: 'tag.html' },
+			{ startIndex: 21, type: 'delimiter.html' }
 		]
 	}],
 
@@ -96,29 +79,29 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<ul>{{#each items}}<li>{{item}}</li>{{/each}}</ul>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('ul') },
-			{ startIndex: 3, type: HTML_DELIM_END },
-			{ startIndex: 4, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 6, type: handlebarsTokenTypes.KEYWORD },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 3, type: 'delimiter.html' },
+			{ startIndex: 4, type: 'delimiter.handlebars' },
+			{ startIndex: 6, type: 'keyword.helper.handlebars' },
 			{ startIndex: 11, type: '' },
-			{ startIndex: 12, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 17, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 19, type: HTML_DELIM_START },
-			{ startIndex: 20, type: getTag('li') },
-			{ startIndex: 22, type: HTML_DELIM_END },
-			{ startIndex: 23, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 25, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 29, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 31, type: HTML_DELIM_START },
-			{ startIndex: 33, type: getTag('li') },
-			{ startIndex: 35, type: HTML_DELIM_END },
-			{ startIndex: 36, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 38, type: handlebarsTokenTypes.KEYWORD },
-			{ startIndex: 43, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 45, type: HTML_DELIM_START },
-			{ startIndex: 47, type: getTag('ul') },
-			{ startIndex: 49, type: HTML_DELIM_END }
+			{ startIndex: 12, type: 'variable.parameter.handlebars' },
+			{ startIndex: 17, type: 'delimiter.handlebars' },
+			{ startIndex: 19, type: 'delimiter.html' },
+			{ startIndex: 20, type: 'tag.html' },
+			{ startIndex: 22, type: 'delimiter.html' },
+			{ startIndex: 23, type: 'delimiter.handlebars' },
+			{ startIndex: 25, type: 'variable.parameter.handlebars' },
+			{ startIndex: 29, type: 'delimiter.handlebars' },
+			{ startIndex: 31, type: 'delimiter.html' },
+			{ startIndex: 33, type: 'tag.html' },
+			{ startIndex: 35, type: 'delimiter.html' },
+			{ startIndex: 36, type: 'delimiter.handlebars' },
+			{ startIndex: 38, type: 'keyword.helper.handlebars' },
+			{ startIndex: 43, type: 'delimiter.handlebars' },
+			{ startIndex: 45, type: 'delimiter.html' },
+			{ startIndex: 47, type: 'tag.html' },
+			{ startIndex: 49, type: 'delimiter.html' }
 		]
 	}],
 
@@ -126,38 +109,38 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<div>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('div') },
-			{ startIndex: 4, type: HTML_DELIM_END }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 4, type: 'delimiter.html' }
 		]
 	}, {
 		line: '{{#if foo}}',
 		tokens: [
-			{ startIndex: 0, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 2, type: handlebarsTokenTypes.KEYWORD },
+			{ startIndex: 0, type: 'delimiter.handlebars' },
+			{ startIndex: 2, type: 'keyword.helper.handlebars' },
 			{ startIndex: 5, type: '' },
-			{ startIndex: 6, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 9, type: handlebarsTokenTypes.EMBED }
+			{ startIndex: 6, type: 'variable.parameter.handlebars' },
+			{ startIndex: 9, type: 'delimiter.handlebars' }
 		]
 	}, {
 		line: '<span>{{bar}}</span>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('span') },
-			{ startIndex: 5, type: HTML_DELIM_END },
-			{ startIndex: 6, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 8, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 11, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 13, type: HTML_DELIM_START },
-			{ startIndex: 15, type: getTag('span') },
-			{ startIndex: 19, type: HTML_DELIM_END }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 5, type: 'delimiter.html' },
+			{ startIndex: 6, type: 'delimiter.handlebars' },
+			{ startIndex: 8, type: 'variable.parameter.handlebars' },
+			{ startIndex: 11, type: 'delimiter.handlebars' },
+			{ startIndex: 13, type: 'delimiter.html' },
+			{ startIndex: 15, type: 'tag.html' },
+			{ startIndex: 19, type: 'delimiter.html' }
 		]
 	}, {
 		line: '{{/if}}',
 		tokens: [
-			{ startIndex: 0, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 2, type: handlebarsTokenTypes.KEYWORD },
-			{ startIndex: 5, type: handlebarsTokenTypes.EMBED }
+			{ startIndex: 0, type: 'delimiter.handlebars' },
+			{ startIndex: 2, type: 'keyword.helper.handlebars' },
+			{ startIndex: 5, type: 'delimiter.handlebars' }
 		]
 	}],
 
@@ -165,9 +148,9 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '</div>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 2, type: getTag('div') },
-			{ startIndex: 5, type: HTML_DELIM_END }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 2, type: 'tag.html' },
+			{ startIndex: 5, type: 'delimiter.html' }
 		]
 	}],
 
@@ -175,27 +158,27 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<script type="text/x-handlebars-template"><h1>{{ title }}</h1></script>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('script') },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: HTML_ATTRIB_NAME },
-			{ startIndex: 12, type: DELIM_ASSIGN },
-			{ startIndex: 13, type: HTML_ATTRIB_VALUE },
-			{ startIndex: 41, type: HTML_DELIM_END },
-			{ startIndex: 42, type: HTML_DELIM_START },
-			{ startIndex: 43, type: getTag('h1') },
-			{ startIndex: 45, type: HTML_DELIM_END },
-			{ startIndex: 46, type: handlebarsTokenTypes.EMBED },
+			{ startIndex: 8, type: 'attribute.name' },
+			{ startIndex: 12, type: 'delimiter' },
+			{ startIndex: 13, type: 'attribute.value' },
+			{ startIndex: 41, type: 'delimiter.html' },
+			{ startIndex: 42, type: 'delimiter.html' },
+			{ startIndex: 43, type: 'tag.html' },
+			{ startIndex: 45, type: 'delimiter.html' },
+			{ startIndex: 46, type: 'delimiter.handlebars' },
 			{ startIndex: 48, type: '' },
-			{ startIndex: 49, type: handlebarsTokenTypes.VARIABLE },
+			{ startIndex: 49, type: 'variable.parameter.handlebars' },
 			{ startIndex: 54, type: '' },
-			{ startIndex: 55, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 57, type: HTML_DELIM_START },
-			{ startIndex: 59, type: getTag('h1') },
-			{ startIndex: 61, type: HTML_DELIM_END },
-			{ startIndex: 62, type: HTML_DELIM_START },
-			{ startIndex: 64, type: getTag('script') },
-			{ startIndex: 70, type: HTML_DELIM_END }
+			{ startIndex: 55, type: 'delimiter.handlebars' },
+			{ startIndex: 57, type: 'delimiter.html' },
+			{ startIndex: 59, type: 'tag.html' },
+			{ startIndex: 61, type: 'delimiter.html' },
+			{ startIndex: 62, type: 'delimiter.html' },
+			{ startIndex: 64, type: 'tag.html' },
+			{ startIndex: 70, type: 'delimiter.html' }
 		]
 	}],
 
@@ -203,35 +186,35 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<script type="text/x-handlebars-template">',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('script') },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: HTML_ATTRIB_NAME },
-			{ startIndex: 12, type: DELIM_ASSIGN },
-			{ startIndex: 13, type: HTML_ATTRIB_VALUE },
-			{ startIndex: 41, type: HTML_DELIM_END }
+			{ startIndex: 8, type: 'attribute.name' },
+			{ startIndex: 12, type: 'delimiter' },
+			{ startIndex: 13, type: 'attribute.value' },
+			{ startIndex: 41, type: 'delimiter.html' }
 		]
 	}, {
 		line: '<h1>{{ title }}</h1>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('h1') },
-			{ startIndex: 3, type: HTML_DELIM_END },
-			{ startIndex: 4, type: handlebarsTokenTypes.EMBED },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 3, type: 'delimiter.html' },
+			{ startIndex: 4, type: 'delimiter.handlebars' },
 			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: handlebarsTokenTypes.VARIABLE },
+			{ startIndex: 7, type: 'variable.parameter.handlebars' },
 			{ startIndex: 12, type: '' },
-			{ startIndex: 13, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 15, type: HTML_DELIM_START },
-			{ startIndex: 17, type: getTag('h1') },
-			{ startIndex: 19, type: HTML_DELIM_END }
+			{ startIndex: 13, type: 'delimiter.handlebars' },
+			{ startIndex: 15, type: 'delimiter.html' },
+			{ startIndex: 17, type: 'tag.html' },
+			{ startIndex: 19, type: 'delimiter.html' }
 		]
 	}, {
 		line: '</script>',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 2, type: getTag('script') },
-			{ startIndex: 8, type: HTML_DELIM_END }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 2, type: 'tag.html' },
+			{ startIndex: 8, type: 'delimiter.html' }
 		]
 	}],
 
@@ -239,18 +222,18 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '{{foo}}<script></script>{{bar}}',
 		tokens: [
-			{ startIndex: 0, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 2, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 5, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 7, type: HTML_DELIM_START },
-			{ startIndex: 8, type: getTag('script') },
-			{ startIndex: 14, type: HTML_DELIM_END },
-			// { startIndex:15, type: HTML_DELIM_START },
-			{ startIndex: 17, type: getTag('script') },
-			{ startIndex: 23, type: HTML_DELIM_END },
-			{ startIndex: 24, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 26, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 29, type: handlebarsTokenTypes.EMBED }
+			{ startIndex: 0, type: 'delimiter.handlebars' },
+			{ startIndex: 2, type: 'variable.parameter.handlebars' },
+			{ startIndex: 5, type: 'delimiter.handlebars' },
+			{ startIndex: 7, type: 'delimiter.html' },
+			{ startIndex: 8, type: 'tag.html' },
+			{ startIndex: 14, type: 'delimiter.html' },
+			// { startIndex:15, type: 'delimiter.html' },
+			{ startIndex: 17, type: 'tag.html' },
+			{ startIndex: 23, type: 'delimiter.html' },
+			{ startIndex: 24, type: 'delimiter.handlebars' },
+			{ startIndex: 26, type: 'variable.parameter.handlebars' },
+			{ startIndex: 29, type: 'delimiter.handlebars' }
 		]
 	}],
 
@@ -258,9 +241,9 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '{{else}}',
 		tokens: [
-			{ startIndex: 0, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 2, type: handlebarsTokenTypes.KEYWORD },
-			{ startIndex: 6, type: handlebarsTokenTypes.EMBED }
+			{ startIndex: 0, type: 'delimiter.handlebars' },
+			{ startIndex: 2, type: 'keyword.helper.handlebars' },
+			{ startIndex: 6, type: 'delimiter.handlebars' }
 		]
 	}],
 
@@ -268,9 +251,9 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '{{elseFoo}}',
 		tokens: [
-			{ startIndex: 0, type: handlebarsTokenTypes.EMBED },
-			{ startIndex: 2, type: handlebarsTokenTypes.VARIABLE },
-			{ startIndex: 9, type: handlebarsTokenTypes.EMBED }
+			{ startIndex: 0, type: 'delimiter.handlebars' },
+			{ startIndex: 2, type: 'variable.parameter.handlebars' },
+			{ startIndex: 9, type: 'delimiter.handlebars' }
 		]
 	}],
 
@@ -278,13 +261,13 @@ testTokenization(['handlebars', 'css'], [
 	[{
 		line: '<a href="/posts/{{permalink}}">',
 		tokens: [
-			{ startIndex: 0, type: HTML_DELIM_START },
-			{ startIndex: 1, type: getTag('a') },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 2, type: '' },
-			{ startIndex: 3, type: HTML_ATTRIB_NAME },
-			{ startIndex: 7, type: DELIM_ASSIGN },
-			{ startIndex: 8, type: HTML_ATTRIB_VALUE },
-			{ startIndex: 30, type: HTML_DELIM_END }
+			{ startIndex: 3, type: 'attribute.name' },
+			{ startIndex: 7, type: 'delimiter' },
+			{ startIndex: 8, type: 'attribute.value' },
+			{ startIndex: 30, type: 'delimiter.html' }
 		]
 	}]
 ]);

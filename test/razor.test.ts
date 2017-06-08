@@ -6,9 +6,6 @@
 'use strict';
 
 import { testTokenization } from './testRunner';
-import { htmlTokenTypes } from '../src/php';
-
-const EMBED_CS = 'metatag.cs';
 
 testTokenization('razor', [
 
@@ -16,22 +13,22 @@ testTokenization('razor', [
 	[{
 		line: '@{ var x; <b>x</b> }',
 		tokens: [
-			{ startIndex: 0, type: EMBED_CS },
+			{ startIndex: 0, type: 'metatag.cs' },
 			{ startIndex: 2, type: '' },
 			{ startIndex: 3, type: 'keyword.cs' },
 			{ startIndex: 6, type: '' },
 			{ startIndex: 7, type: 'identifier.cs' },
 			{ startIndex: 8, type: 'delimiter.cs' },
 			{ startIndex: 9, type: '' },
-			{ startIndex: 10, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 11, type: htmlTokenTypes.getTag('b') },
-			{ startIndex: 12, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 10, type: 'delimiter.html' },
+			{ startIndex: 11, type: 'tag.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
 			{ startIndex: 13, type: 'identifier.cs' },
-			{ startIndex: 14, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 16, type: htmlTokenTypes.getTag('b') },
-			{ startIndex: 17, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 14, type: 'delimiter.html' },
+			{ startIndex: 16, type: 'tag.html' },
+			{ startIndex: 17, type: 'delimiter.html' },
 			{ startIndex: 18, type: '' },
-			{ startIndex: 19, type: EMBED_CS }
+			{ startIndex: 19, type: 'metatag.cs' }
 		]
 	}],
 
@@ -39,7 +36,7 @@ testTokenization('razor', [
 	[{
 		line: '@{ var x; @* comment *@ x= 0; }',
 		tokens: [
-			{ startIndex: 0, type: EMBED_CS },
+			{ startIndex: 0, type: 'metatag.cs' },
 			{ startIndex: 2, type: '' },
 			{ startIndex: 3, type: 'keyword.cs' },
 			{ startIndex: 6, type: '' },
@@ -54,7 +51,7 @@ testTokenization('razor', [
 			{ startIndex: 27, type: 'number.cs' },
 			{ startIndex: 28, type: 'delimiter.cs' },
 			{ startIndex: 29, type: '' },
-			{ startIndex: 30, type: EMBED_CS }
+			{ startIndex: 30, type: 'metatag.cs' }
 		]
 	}],
 
@@ -62,7 +59,7 @@ testTokenization('razor', [
 	[{
 		line: '@{ var total = 0; }',
 		tokens: [
-			{ startIndex: 0, type: EMBED_CS },
+			{ startIndex: 0, type: 'metatag.cs' },
 			{ startIndex: 2, type: '' },
 			{ startIndex: 3, type: 'keyword.cs' },
 			{ startIndex: 6, type: '' },
@@ -73,19 +70,19 @@ testTokenization('razor', [
 			{ startIndex: 15, type: 'number.cs' },
 			{ startIndex: 16, type: 'delimiter.cs' },
 			{ startIndex: 17, type: '' },
-			{ startIndex: 18, type: EMBED_CS }
+			{ startIndex: 18, type: 'metatag.cs' }
 		]
 	}],
 
 	// [{
 	// line: '@if(true){ var total = 0; }',
 	// tokens: [
-	// 	{ startIndex: 0, type: EMBED_CS },
+	// 	{ startIndex: 0, type: 'metatag.cs' },
 	// 	{ startIndex: 1, type: 'keyword.cs' },
 	// 	{ startIndex: 3, type: 'punctuation.parenthesis.cs' },
 	// 	{ startIndex: 4, type: 'keyword.cs' },
 	// 	{ startIndex: 8, type: 'punctuation.parenthesis.cs' },
-	// 	{ startIndex: 9, type: EMBED_CS },
+	// 	{ startIndex: 9, type: 'metatag.cs' },
 	// 	{ startIndex: 10, type: '' },
 	// 	{ startIndex: 11, type: 'keyword.cs' },
 	// 	{ startIndex: 14, type: '' },
@@ -96,7 +93,7 @@ testTokenization('razor', [
 	// 	{ startIndex: 23, type: 'number.cs' },
 	// 	{ startIndex: 24, type: 'delimiter.cs' },
 	// 	{ startIndex: 25, type: '' },
-	// 	{ startIndex: 26, type: EMBED_CS }
+	// 	{ startIndex: 26, type: 'metatag.cs' }
 	// ]}],
 
 	// Expressions - csharp expressions in html
@@ -104,11 +101,11 @@ testTokenization('razor', [
 		line: 'test@xyz<br>',
 		tokens: [
 			{ startIndex: 0, type: '' },
-			{ startIndex: 4, type: EMBED_CS },
+			{ startIndex: 4, type: 'metatag.cs' },
 			{ startIndex: 5, type: 'identifier.cs' },
-			{ startIndex: 8, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 9, type: htmlTokenTypes.getTag('br') },
-			{ startIndex: 11, type: htmlTokenTypes.DELIM_END }
+			{ startIndex: 8, type: 'delimiter.html' },
+			{ startIndex: 9, type: 'tag.html' },
+			{ startIndex: 11, type: 'delimiter.html' }
 		]
 	}],
 
@@ -116,7 +113,7 @@ testTokenization('razor', [
 		line: 'test@xyz',
 		tokens: [
 			{ startIndex: 0, type: '' },
-			{ startIndex: 4, type: EMBED_CS },
+			{ startIndex: 4, type: 'metatag.cs' },
 			{ startIndex: 5, type: 'identifier.cs' }
 		]
 	}],
@@ -125,7 +122,7 @@ testTokenization('razor', [
 		line: 'test @ xyz',
 		tokens: [
 			{ startIndex: 0, type: '' },
-			{ startIndex: 5, type: EMBED_CS },
+			{ startIndex: 5, type: 'metatag.cs' },
 			{ startIndex: 6, type: 'identifier.cs' }
 		]
 	}],
@@ -134,9 +131,9 @@ testTokenization('razor', [
 		line: 'test @(foo) xyz',
 		tokens: [
 			{ startIndex: 0, type: '' },
-			{ startIndex: 5, type: EMBED_CS },
+			{ startIndex: 5, type: 'metatag.cs' },
 			{ startIndex: 7, type: 'identifier.cs' },
-			{ startIndex: 10, type: EMBED_CS },
+			{ startIndex: 10, type: 'metatag.cs' },
 			{ startIndex: 11, type: '' }
 		]
 	}],
@@ -145,12 +142,12 @@ testTokenization('razor', [
 		line: 'test @(foo(\")\")) xyz',
 		tokens: [
 			{ startIndex: 0, type: '' },
-			{ startIndex: 5, type: EMBED_CS },
+			{ startIndex: 5, type: 'metatag.cs' },
 			{ startIndex: 7, type: 'identifier.cs' },
 			{ startIndex: 10, type: 'delimiter.parenthesis.cs' },
 			{ startIndex: 11, type: 'string.cs' },
 			{ startIndex: 14, type: 'delimiter.parenthesis.cs' },
-			{ startIndex: 15, type: EMBED_CS },
+			{ startIndex: 15, type: 'metatag.cs' },
 			{ startIndex: 16, type: '' }
 		]
 	}],

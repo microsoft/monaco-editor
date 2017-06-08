@@ -9,11 +9,11 @@ import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 // Allow for running under nodejs/requirejs in tests
-var _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
 
 const EMPTY_ELEMENTS: string[] = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'];
 
-export var conf: IRichLanguageConfiguration = {
+export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
 	comments: {
@@ -57,16 +57,7 @@ export var conf: IRichLanguageConfiguration = {
 	],
 };
 
-export const htmlTokenTypes = {
-	DELIM_START: 'delimiter',
-	DELIM_END: 'delimiter',
-	DELIM_COMMENT: 'comment',
-	getTag: (name: string) => {
-		return 'tag';
-	}
-};
-
-export var language = <ILanguage>{
+export const language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.html',
 	ignoreCase: true,
@@ -76,12 +67,12 @@ export var language = <ILanguage>{
 		root: [
 			[/<!DOCTYPE/, 'metatag', '@doctype'],
 			[/<!--/, 'comment', '@comment'],
-			[/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/, [htmlTokenTypes.DELIM_START, 'tag', '', htmlTokenTypes.DELIM_END]],
-			[/(<)(script)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@script' }]],
-			[/(<)(style)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@style' }]],
-			[/(<)((?:[\w\-]+:)?[\w\-]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag' }]],
-			[/(<\/)((?:[\w\-]+:)?[\w\-]+)/, [htmlTokenTypes.DELIM_START, { token: 'tag', next: '@otherTag' }]],
-			[/</, htmlTokenTypes.DELIM_START],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/, ['delimiter', 'tag', '', 'delimiter']],
+			[/(<)(script)/, ['delimiter', { token: 'tag', next: '@script' }]],
+			[/(<)(style)/, ['delimiter', { token: 'tag', next: '@style' }]],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
+			[/(<\/)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
+			[/</, 'delimiter'],
 			[/[^<]+/], // text
 		],
 
@@ -97,7 +88,7 @@ export var language = <ILanguage>{
 		],
 
 		otherTag: [
-			[/\/?>/, htmlTokenTypes.DELIM_END, '@pop'],
+			[/\/?>/, 'delimiter', '@pop'],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
@@ -114,9 +105,9 @@ export var language = <ILanguage>{
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }],
+			[/>/, { token: 'delimiter', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(script\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag', { token: htmlTokenTypes.DELIM_END, next: '@pop' }]]
+			[/(<\/)(script\s*)(>)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
 		],
 
 		// After <script ... type
@@ -136,7 +127,7 @@ export var language = <ILanguage>{
 
 		// After <script ... type = $S2
 		scriptWithCustomType: [
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@scriptEmbedded.$S2', nextEmbedded: '$S2' }],
+			[/>/, { token: 'delimiter', next: '@scriptEmbedded.$S2', nextEmbedded: '$S2' }],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
@@ -162,9 +153,9 @@ export var language = <ILanguage>{
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],
 			[/=/, 'delimiter'],
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded', nextEmbedded: 'text/css' }],
+			[/>/, { token: 'delimiter', next: '@styleEmbedded', nextEmbedded: 'text/css' }],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(style\s*)(>)/, [htmlTokenTypes.DELIM_START, 'tag', { token: htmlTokenTypes.DELIM_END, next: '@pop' }]]
+			[/(<\/)(style\s*)(>)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
 		],
 
 		// After <style ... type
@@ -184,7 +175,7 @@ export var language = <ILanguage>{
 
 		// After <style ... type = $S2
 		styleWithCustomType: [
-			[/>/, { token: htmlTokenTypes.DELIM_END, next: '@styleEmbedded.$S2', nextEmbedded: '$S2' }],
+			[/>/, { token: 'delimiter', next: '@styleEmbedded.$S2', nextEmbedded: '$S2' }],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
 			[/[\w\-]+/, 'attribute.name'],

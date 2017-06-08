@@ -8,7 +8,7 @@
 import LanguageConfiguration = monaco.languages.LanguageConfiguration;
 import IMonarchLanguage = monaco.languages.IMonarchLanguage;
 
-export var conf: LanguageConfiguration = {
+export const conf: LanguageConfiguration = {
 	wordPattern: /(#?-?\d*\.\d\w*%?)|([@$#!.:]?[\w-?]+%?)|[@#!.]/g,
 	comments: {
 		blockComment: ['/*', '*/'],
@@ -35,13 +35,7 @@ export var conf: LanguageConfiguration = {
 	]
 };
 
-const TOKEN_SELECTOR = 'tag';
-const TOKEN_SELECTOR_TAG = 'tag';
-const TOKEN_PROPERTY = 'attribute.name';
-const TOKEN_VALUE = 'attribute.value';
-const TOKEN_AT_KEYWORD = 'keyword';
-
-export var language = <IMonarchLanguage>{
+export const language = <IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.scss',
 
@@ -65,32 +59,32 @@ export var language = <IMonarchLanguage>{
 			{ include: '@import' },
 			{ include: '@variabledeclaration' },
 			{ include: '@warndebug' }, // sass: log statements
-			['[@](include)', { token: TOKEN_AT_KEYWORD, next: '@includedeclaration' }], // sass: include statement
-			['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: TOKEN_AT_KEYWORD, next: '@keyframedeclaration' }],
-			['[@](page|content|font-face|-moz-document)', { token: TOKEN_AT_KEYWORD }], // sass: placeholder for includes
-			['[@](charset|namespace)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
-			['[@](function)', { token: TOKEN_AT_KEYWORD, next: '@functiondeclaration' }],
-			['[@](mixin)', { token: TOKEN_AT_KEYWORD, next: '@mixindeclaration' }],
+			['[@](include)', { token: 'keyword', next: '@includedeclaration' }], // sass: include statement
+			['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: 'keyword', next: '@keyframedeclaration' }],
+			['[@](page|content|font-face|-moz-document)', { token: 'keyword' }], // sass: placeholder for includes
+			['[@](charset|namespace)', { token: 'keyword', next: '@declarationbody' }],
+			['[@](function)', { token: 'keyword', next: '@functiondeclaration' }],
+			['[@](mixin)', { token: 'keyword', next: '@mixindeclaration' }],
 			['url(\\-prefix)?\\(', { token: 'meta', next: '@urldeclaration' }],
 			{ include: '@controlstatement' }, // sass control statements
 			{ include: '@selectorname' },
-			['[&\\*]', TOKEN_SELECTOR_TAG], // selector symbols
+			['[&\\*]', 'tag'], // selector symbols
 			['[>\\+,]', 'delimiter'], // selector operators
 			['\\[', { token: 'delimiter.bracket', next: '@selectorattribute' }],
 			['{', { token: 'delimiter.curly', next: '@selectorbody' }],
 		],
 
 		selectorbody: [
-			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', TOKEN_PROPERTY, '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
+			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', 'attribute.name', '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
 			{ include: '@selector' }, // sass: nested selectors
-			['[@](extend)', { token: TOKEN_AT_KEYWORD, next: '@extendbody' }], // sass: extend other selectors
-			['[@](return)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
+			['[@](extend)', { token: 'keyword', next: '@extendbody' }], // sass: extend other selectors
+			['[@](return)', { token: 'keyword', next: '@declarationbody' }],
 			['}', { token: 'delimiter.curly', next: '@pop' }],
 		],
 
 		selectorname: [
 			['#{', { token: 'meta', next: '@variableinterpolation' }], // sass: interpolation
-			['(\\.|#(?=[^{])|%|(@identifier)|:)+', TOKEN_SELECTOR], // selector (.foo, div, ...)
+			['(\\.|#(?=[^{])|%|(@identifier)|:)+', 'tag'], // selector (.foo, div, ...)
 		],
 
 		selectorattribute: [
@@ -122,17 +116,17 @@ export var language = <IMonarchLanguage>{
 		],
 
 		nestedproperty: [
-			['[*_]?@identifier@ws:', TOKEN_PROPERTY, '@rulevalue'],
+			['[*_]?@identifier@ws:', 'attribute.name', '@rulevalue'],
 			{ include: '@comments' },
 			['}', { token: 'delimiter.curly', next: '@pop' }],
 		],
 
 		warndebug: [
-			['[@](warn|debug)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
+			['[@](warn|debug)', { token: 'keyword', next: '@declarationbody' }],
 		],
 
 		import: [
-			['[@](import)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
+			['[@](import)', { token: 'keyword', next: '@declarationbody' }],
 		],
 
 		variabledeclaration: [ // sass variables
@@ -185,7 +179,7 @@ export var language = <IMonarchLanguage>{
 		],
 
 		name: [
-			['@identifier', TOKEN_VALUE],
+			['@identifier', 'attribute.value'],
 		],
 
 		numbers: [
@@ -248,7 +242,7 @@ export var language = <IMonarchLanguage>{
 		],
 
 		functionbody: [
-			['[@](return)', { token: TOKEN_AT_KEYWORD }],
+			['[@](return)', { token: 'keyword' }],
 			{ include: '@variabledeclaration' },
 			{ include: '@term' },
 			{ include: '@controlstatement' },
@@ -261,7 +255,7 @@ export var language = <IMonarchLanguage>{
 		],
 
 		functionarguments: [
-			['\\$@identifier@ws:', TOKEN_PROPERTY],
+			['\\$@identifier@ws:', 'attribute.name'],
 			['[,]', 'delimiter'],
 			{ include: '@term' },
 			['\\)', { token: 'meta', next: '@pop' }],

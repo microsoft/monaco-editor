@@ -8,7 +8,7 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf: IRichLanguageConfiguration = {
+export const conf: IRichLanguageConfiguration = {
 	// the default separators except `$-`
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#%\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
@@ -36,7 +36,7 @@ export var conf: IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage>{
+export const language = <ILanguage>{
 	defaultToken: '',
 	ignoreCase: true,
 	tokenPostfix: '.ps1',

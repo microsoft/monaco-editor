@@ -7,7 +7,7 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf: IRichLanguageConfiguration = {
+export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
 		blockComment: ['/*', '*/'],
@@ -35,7 +35,7 @@ export var conf: IRichLanguageConfiguration = {
 	]
 };
 
-export var language = <ILanguage>{
+export const language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.swift',
 

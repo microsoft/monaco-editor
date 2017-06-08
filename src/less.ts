@@ -8,7 +8,7 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-export var conf: IRichLanguageConfiguration = {
+export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(#?-?\d*\.\d\w*%?)|([@#!.:]?[\w-?]+%?)|[@#!.]/g,
 	comments: {
 		blockComment: ['/*', '*/'],
@@ -35,13 +35,7 @@ export var conf: IRichLanguageConfiguration = {
 	]
 };
 
-const TOKEN_SELECTOR = 'tag';
-const TOKEN_SELECTOR_TAG = 'tag';
-const TOKEN_PROPERTY = 'attribute.name';
-const TOKEN_VALUE = 'attribute.value';
-const TOKEN_AT_KEYWORD = 'keyword.control.at-rule';
-
-export var language = <ILanguage>{
+export const language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.less',
 
@@ -65,20 +59,20 @@ export var language = <ILanguage>{
 			{ include: '@keyword' },
 			{ include: '@strings' },
 			{ include: '@numbers' },
-			['[*_]?[a-zA-Z\\-\\s]+(?=:.*(;|(\\\\$)))', TOKEN_PROPERTY, '@attribute'],
+			['[*_]?[a-zA-Z\\-\\s]+(?=:.*(;|(\\\\$)))', 'attribute.name', '@attribute'],
 
 			['url(\\-prefix)?\\(', { token: 'tag', next: '@urldeclaration' }],
 
 			['[{}()\\[\\]]', '@brackets'],
 			['[,:;]', 'delimiter'],
 
-			['#@identifierPlus', TOKEN_SELECTOR + '.id'],
-			['&', TOKEN_SELECTOR_TAG],
+			['#@identifierPlus', 'tag.id'],
+			['&', 'tag'],
 
-			['\\.@identifierPlus(?=\\()', TOKEN_SELECTOR + '.class', '@attribute'],
-			['\\.@identifierPlus', TOKEN_SELECTOR + '.class'],
+			['\\.@identifierPlus(?=\\()', 'tag.class', '@attribute'],
+			['\\.@identifierPlus', 'tag.class'],
 
-			['@identifierPlus', TOKEN_SELECTOR_TAG],
+			['@identifierPlus', 'tag'],
 			{ include: '@operators' },
 
 			['@(@identifier(?=[:,\\)]))', 'variable', '@attribute'],
@@ -117,9 +111,9 @@ export var language = <ILanguage>{
 
 			{ include: '@keyword' },
 
-			['[a-zA-Z\\-]+(?=\\()', TOKEN_VALUE, '@attribute'],
+			['[a-zA-Z\\-]+(?=\\()', 'attribute.value', '@attribute'],
 			['>', 'operator', '@pop'],
-			['@identifier', TOKEN_VALUE],
+			['@identifier', 'attribute.value'],
 			{ include: '@operators' },
 			['@(@identifier)', 'variable'],
 
@@ -130,7 +124,7 @@ export var language = <ILanguage>{
 			['[,=:]', 'delimiter'],
 
 			['\\s', ''],
-			['.', TOKEN_VALUE]
+			['.', 'attribute.value']
 		],
 
 		comments: [
@@ -144,12 +138,12 @@ export var language = <ILanguage>{
 		],
 
 		numbers: [
-			['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: TOKEN_VALUE + '.number', next: '@units' }],
-			['#[0-9a-fA-F_]+(?!\\w)', TOKEN_VALUE + '.hex']
+			['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'attribute.value.number', next: '@units' }],
+			['#[0-9a-fA-F_]+(?!\\w)', 'attribute.value.hex']
 		],
 
 		units: [
-			['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', TOKEN_VALUE + '.unit', '@pop']
+			['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', 'attribute.value.unit', '@pop']
 		],
 
 		strings: [

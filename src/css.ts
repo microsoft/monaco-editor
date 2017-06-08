@@ -8,7 +8,7 @@
 import LanguageConfiguration = monaco.languages.LanguageConfiguration;
 import IMonarchLanguage = monaco.languages.IMonarchLanguage;
 
-export var conf: LanguageConfiguration = {
+export const conf: LanguageConfiguration = {
 	wordPattern: /(#?-?\d*\.\d\w*%?)|((::|[@#.!:])?[\w-?]+%?)|::|[@#.!:]/g,
 
 	comments: {
@@ -38,13 +38,7 @@ export var conf: LanguageConfiguration = {
 	]
 };
 
-const TOKEN_SELECTOR = 'tag';
-const TOKEN_SELECTOR_TAG = 'tag';
-const TOKEN_PROPERTY = 'attribute.name';
-const TOKEN_VALUE = 'attribute.value';
-const TOKEN_AT_KEYWORD = 'keyword';
-
-export var language = <IMonarchLanguage>{
+export const language = <IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.css',
 
@@ -67,13 +61,13 @@ export var language = <IMonarchLanguage>{
 			{ include: '@comments' },
 			{ include: '@import' },
 			{ include: '@strings' },
-			['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: TOKEN_AT_KEYWORD, next: '@keyframedeclaration' }],
-			['[@](page|content|font-face|-moz-document)', { token: TOKEN_AT_KEYWORD }],
-			['[@](charset|namespace)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }],
+			['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: 'keyword', next: '@keyframedeclaration' }],
+			['[@](page|content|font-face|-moz-document)', { token: 'keyword' }],
+			['[@](charset|namespace)', { token: 'keyword', next: '@declarationbody' }],
 			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
 			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
 			{ include: '@selectorname' },
-			['[\\*]', TOKEN_SELECTOR_TAG], // selector symbols
+			['[\\*]', 'tag'], // selector symbols
 			['[>\\+,]', 'delimiter'], // selector operators
 			['\\[', { token: 'delimiter.bracket', next: '@selectorattribute' }],
 			['{', { token: 'delimiter.bracket', next: '@selectorbody' }]
@@ -81,12 +75,12 @@ export var language = <IMonarchLanguage>{
 
 		selectorbody: [
 			{ include: '@comments' },
-			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', TOKEN_PROPERTY, '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
+			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', 'attribute.name', '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
 			['}', { token: 'delimiter.bracket', next: '@pop' }]
 		],
 
 		selectorname: [
-			['(\\.|#(?=[^{])|%|(@identifier)|:)+', TOKEN_SELECTOR], // selector (.foo, div, ...)
+			['(\\.|#(?=[^{])|%|(@identifier)|:)+', 'tag'], // selector (.foo, div, ...)
 		],
 
 		selectorattribute: [
@@ -115,11 +109,11 @@ export var language = <IMonarchLanguage>{
 		],
 
 		warndebug: [
-			['[@](warn|debug)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }]
+			['[@](warn|debug)', { token: 'keyword', next: '@declarationbody' }]
 		],
 
 		import: [
-			['[@](import)', { token: TOKEN_AT_KEYWORD, next: '@declarationbody' }]
+			['[@](import)', { token: 'keyword', next: '@declarationbody' }]
 		],
 
 		urldeclaration: [
@@ -151,7 +145,7 @@ export var language = <IMonarchLanguage>{
 		],
 
 		name: [
-			['@identifier', TOKEN_VALUE]
+			['@identifier', 'attribute.value']
 		],
 
 		numbers: [
@@ -179,7 +173,7 @@ export var language = <IMonarchLanguage>{
 		],
 
 		functionarguments: [
-			['\\$@identifier@ws:', TOKEN_PROPERTY],
+			['\\$@identifier@ws:', 'attribute.name'],
 			['[,]', 'delimiter'],
 			{ include: '@term' },
 			['\\)', { token: 'attribute.value', next: '@pop' }],

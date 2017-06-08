@@ -7,7 +7,7 @@ import {loadLanguage} from '../src/monaco.contribution';
 import * as assert from 'assert';
 
 // Allow for running under nodejs/requirejs in tests
-var _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
 
 export interface IRelaxedToken {
 	startIndex: number;

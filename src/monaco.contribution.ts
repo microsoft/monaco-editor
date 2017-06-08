@@ -7,7 +7,7 @@
 declare var require: <T>(moduleId: [string], callback: (module: T) => void, error: (err: any) => void) => void;
 
 // Allow for running under nodejs/requirejs in tests
-var _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
 
 interface ILang extends monaco.languages.ILanguageExtensionPoint {
 	module: string;

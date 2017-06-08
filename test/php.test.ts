@@ -6,7 +6,6 @@
 'use strict';
 
 import { testTokenization } from './testRunner';
-import { htmlTokenTypes } from '../src/php';
 
 testTokenization(['php', 'css'], [
 	// Bug 13596:[ErrorTelemetry] Stream did not advance while tokenizing. Mode id is php (stuck)
@@ -1809,9 +1808,9 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 6, type: 'delimiter.php' },
 			{ startIndex: 7, type: 'number.php' },
 			{ startIndex: 8, type: 'metatag.php' },
-			{ startIndex: 10, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 11, type: htmlTokenTypes.getTag('br') },
-			{ startIndex: 13, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 10, type: 'delimiter.html' },
+			{ startIndex: 11, type: 'tag.html' },
+			{ startIndex: 13, type: 'delimiter.html' },
 			{ startIndex: 15, type: 'metatag.php' },
 			{ startIndex: 18, type: 'number.php' },
 			{ startIndex: 19, type: 'metatag.php' }
@@ -1827,9 +1826,9 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 6, type: 'delimiter.php' },
 			{ startIndex: 7, type: 'number.php' },
 			{ startIndex: 8, type: 'metatag.php' },
-			{ startIndex: 10, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 11, type: htmlTokenTypes.getTag('abc') },
-			{ startIndex: 14, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 10, type: 'delimiter.html' },
+			{ startIndex: 11, type: 'tag.html' },
+			{ startIndex: 14, type: 'delimiter.html' },
 			{ startIndex: 15, type: 'metatag.php' },
 			{ startIndex: 18, type: 'number.php' },
 			{ startIndex: 19, type: 'metatag.php' }
@@ -1840,17 +1839,17 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<abc><?php5+3?><abc>',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('abc') },
-			{ startIndex: 4, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 4, type: 'delimiter.html' },
 			{ startIndex: 5, type: 'metatag.php' },
 			{ startIndex: 10, type: 'number.php' },
 			{ startIndex: 11, type: 'delimiter.php' },
 			{ startIndex: 12, type: 'number.php' },
 			{ startIndex: 13, type: 'metatag.php' },
-			{ startIndex: 15, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 16, type: htmlTokenTypes.getTag('abc') },
-			{ startIndex: 19, type: htmlTokenTypes.DELIM_END }
+			{ startIndex: 15, type: 'delimiter.html' },
+			{ startIndex: 16, type: 'tag.html' },
+			{ startIndex: 19, type: 'delimiter.html' }
 		]
 	}],
 
@@ -1858,24 +1857,24 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<abc><script>var i= 10;</script><?php5+3?><abc>',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('abc') },
-			{ startIndex: 4, type: htmlTokenTypes.DELIM_END },
-			// { startIndex:5, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 6, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 12, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 4, type: 'delimiter.html' },
+			// { startIndex:5, type: 'delimiter.html' },
+			{ startIndex: 6, type: 'tag.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
 			{ startIndex: 13, type: '' },
-			{ startIndex: 23, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 25, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 31, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 23, type: 'delimiter.html' },
+			{ startIndex: 25, type: 'tag.html' },
+			{ startIndex: 31, type: 'delimiter.html' },
 			{ startIndex: 32, type: 'metatag.php' },
 			{ startIndex: 37, type: 'number.php' },
 			{ startIndex: 38, type: 'delimiter.php' },
 			{ startIndex: 39, type: 'number.php' },
 			{ startIndex: 40, type: 'metatag.php' },
-			{ startIndex: 42, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 43, type: htmlTokenTypes.getTag('abc') },
-			{ startIndex: 46, type: htmlTokenTypes.DELIM_END }
+			{ startIndex: 42, type: 'delimiter.html' },
+			{ startIndex: 43, type: 'tag.html' },
+			{ startIndex: 46, type: 'delimiter.html' }
 		]
 	}],
 
@@ -1883,28 +1882,28 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<abc><script>var i= 10;</script><?php5+3?><script>var x= 15;</script>',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('abc') },
-			{ startIndex: 4, type: htmlTokenTypes.DELIM_END },
-			// { startIndex:5, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 6, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 12, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 4, type: 'delimiter.html' },
+			// { startIndex:5, type: 'delimiter.html' },
+			{ startIndex: 6, type: 'tag.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
 			{ startIndex: 13, type: '' },
-			{ startIndex: 23, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 25, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 31, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 23, type: 'delimiter.html' },
+			{ startIndex: 25, type: 'tag.html' },
+			{ startIndex: 31, type: 'delimiter.html' },
 			{ startIndex: 32, type: 'metatag.php' },
 			{ startIndex: 37, type: 'number.php' },
 			{ startIndex: 38, type: 'delimiter.php' },
 			{ startIndex: 39, type: 'number.php' },
 			{ startIndex: 40, type: 'metatag.php' },
-			{ startIndex: 42, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 43, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 49, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 42, type: 'delimiter.html' },
+			{ startIndex: 43, type: 'tag.html' },
+			{ startIndex: 49, type: 'delimiter.html' },
 			{ startIndex: 50, type: '' },
-			{ startIndex: 60, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 62, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 68, type: htmlTokenTypes.DELIM_END }
+			{ startIndex: 60, type: 'delimiter.html' },
+			{ startIndex: 62, type: 'tag.html' },
+			{ startIndex: 68, type: 'delimiter.html' }
 		]
 	}],
 
@@ -1912,16 +1911,16 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<html>',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('html') },
-			{ startIndex: 5, type: htmlTokenTypes.DELIM_END }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 5, type: 'delimiter.html' }
 		]
 	}, {
 		line: '<style><?="div"?>{ color:blue; }</style>',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('style') },
-			{ startIndex: 6, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 6, type: 'delimiter.html' },
 			{ startIndex: 7, type: 'metatag.php' },
 			{ startIndex: 10, type: 'string.php' },
 			{ startIndex: 15, type: 'metatag.php' },
@@ -1932,9 +1931,9 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 29, type: 'delimiter.css' },
 			{ startIndex: 30, type: '' },
 			{ startIndex: 31, type: 'delimiter.bracket.css' },
-			{ startIndex: 32, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 34, type: htmlTokenTypes.getTag('style') },
-			{ startIndex: 39, type: htmlTokenTypes.DELIM_END }
+			{ startIndex: 32, type: 'delimiter.html' },
+			{ startIndex: 34, type: 'tag.html' },
+			{ startIndex: 39, type: 'delimiter.html' }
 		]
 	}],
 
@@ -1942,12 +1941,12 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<html><style><?="div"?> { color:blue; }</style><!--<?="HTML Comment"?>--><script>var x = 3;/* <?="JS Comment"/*</script>*/?> */var y = 4;</script></html><? $x = 3;?>',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('html') },
-			{ startIndex: 5, type: htmlTokenTypes.DELIM_END },
-			// { startIndex:6, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 7, type: htmlTokenTypes.getTag('style') },
-			{ startIndex: 12, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 5, type: 'delimiter.html' },
+			// { startIndex:6, type: 'delimiter.html' },
+			{ startIndex: 7, type: 'tag.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
 			{ startIndex: 13, type: 'metatag.php' },
 			{ startIndex: 16, type: 'string.php' },
 			{ startIndex: 21, type: 'metatag.php' },
@@ -1959,29 +1958,29 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 36, type: 'delimiter.css' },
 			{ startIndex: 37, type: '' },
 			{ startIndex: 38, type: 'delimiter.bracket.css' },
-			{ startIndex: 39, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 41, type: htmlTokenTypes.getTag('style') },
-			{ startIndex: 46, type: htmlTokenTypes.DELIM_END },
-			{ startIndex: 47, type: htmlTokenTypes.DELIM_COMMENT },
+			{ startIndex: 39, type: 'delimiter.html' },
+			{ startIndex: 41, type: 'tag.html' },
+			{ startIndex: 46, type: 'delimiter.html' },
+			{ startIndex: 47, type: 'comment.html' },
 			{ startIndex: 51, type: 'metatag.php' },
 			{ startIndex: 54, type: 'string.php' },
 			{ startIndex: 68, type: 'metatag.php' },
-			{ startIndex: 70, type: htmlTokenTypes.DELIM_COMMENT },
-			{ startIndex: 73, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 74, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 80, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 70, type: 'comment.html' },
+			{ startIndex: 73, type: 'delimiter.html' },
+			{ startIndex: 74, type: 'tag.html' },
+			{ startIndex: 80, type: 'delimiter.html' },
 			{ startIndex: 81, type: '' },
 			{ startIndex: 94, type: 'metatag.php' },
 			{ startIndex: 97, type: 'string.php' },
 			{ startIndex: 109, type: 'comment.php' },
 			{ startIndex: 122, type: 'metatag.php' },
 			{ startIndex: 124, type: '' },
-			{ startIndex: 137, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 139, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 145, type: htmlTokenTypes.DELIM_END },
-			// { startIndex:146, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 148, type: htmlTokenTypes.getTag('html') },
-			{ startIndex: 152, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 137, type: 'delimiter.html' },
+			{ startIndex: 139, type: 'tag.html' },
+			{ startIndex: 145, type: 'delimiter.html' },
+			// { startIndex:146, type: 'delimiter.html' },
+			{ startIndex: 148, type: 'tag.html' },
+			{ startIndex: 152, type: 'delimiter.html' },
 			{ startIndex: 153, type: 'metatag.php' },
 			{ startIndex: 155, type: '' },
 			{ startIndex: 156, type: 'variable.php' },
@@ -1998,9 +1997,9 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<!--c--><?',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_COMMENT },
-			{ startIndex: 4, type: htmlTokenTypes.COMMENT },
-			{ startIndex: 5, type: htmlTokenTypes.DELIM_COMMENT },
+			{ startIndex: 0, type: 'comment.html' },
+			{ startIndex: 4, type: 'comment.content.html' },
+			{ startIndex: 5, type: 'comment.html' },
 			{ startIndex: 8, type: 'metatag.php' }
 		]
 	}],
@@ -2008,9 +2007,9 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<script>//<?',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 7, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 7, type: 'delimiter.html' },
 			{ startIndex: 8, type: '' },
 			{ startIndex: 10, type: 'metatag.php' }
 		]
@@ -2019,9 +2018,9 @@ testTokenization(['php', 'css'], [
 	[{
 		line: '<script>"<?php5+3?>"',
 		tokens: [
-			{ startIndex: 0, type: htmlTokenTypes.DELIM_START },
-			{ startIndex: 1, type: htmlTokenTypes.getTag('script') },
-			{ startIndex: 7, type: htmlTokenTypes.DELIM_END },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 7, type: 'delimiter.html' },
 			{ startIndex: 8, type: '' },
 			{ startIndex: 9, type: 'metatag.php' },
 			{ startIndex: 14, type: 'number.php' },
