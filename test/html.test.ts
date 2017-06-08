@@ -599,5 +599,19 @@ testTokenization(['html', 'css'], [
 			{ startIndex:0, type: DOCTYPE },
 			{ startIndex:11, type: DELIM_DOCTYPE }
 		]
+	}],
+
+	// PR #14
+	[{
+		line: '<asdf:bar>asd</asdf:bar>',
+		tokens: [
+			{ startIndex:0, type: DELIM_START },
+			{ startIndex:1, type: getTag('asdf:bar') },
+			{ startIndex:9, type: DELIM_END },
+			{ startIndex:10, type: '' },
+			{ startIndex:13, type: DELIM_START },
+			{ startIndex:15, type: getTag('asdf:bar') },
+			{ startIndex:23, type: DELIM_END }
+		]
 	}]
 ]);
