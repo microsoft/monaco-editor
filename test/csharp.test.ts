@@ -526,7 +526,20 @@ testTokenization('csharp', [
 	]}],
 
 	[{
+	line: '123_456',
+	tokens: [
+		{ startIndex: 0, type: 'number.cs' }
+	]}],
+
+	[{
 	line: '0x',
+	tokens: [
+		{ startIndex: 0, type: 'number.cs' },
+		{ startIndex: 1, type: 'identifier.cs' }
+	]}],
+
+	[{
+	line: '0b',
 	tokens: [
 		{ startIndex: 0, type: 'number.cs' },
 		{ startIndex: 1, type: 'identifier.cs' }
@@ -539,7 +552,31 @@ testTokenization('csharp', [
 	]}],
 
 	[{
+	line: '0x123_456',
+	tokens: [
+		{ startIndex: 0, type: 'number.hex.cs' }
+	]}],
+
+	[{
+	line: '0b101',
+	tokens: [
+		{ startIndex: 0, type: 'number.hex.cs' }
+	]}],
+
+	[{
+	line: '0b1010_0001',
+	tokens: [
+		{ startIndex: 0, type: 'number.hex.cs' }
+	]}],
+
+	[{
 	line: '23.5',
+	tokens: [
+		{ startIndex: 0, type: 'number.float.cs' }
+	]}],
+
+	[{
+	line: '1_23.5',
 	tokens: [
 		{ startIndex: 0, type: 'number.float.cs' }
 	]}],
@@ -564,6 +601,12 @@ testTokenization('csharp', [
 
 	[{
 	line: '23.5f',
+	tokens: [
+		{ startIndex: 0, type: 'number.float.cs' }
+	]}],
+
+	[{
+	line: '2_3.5f',
 	tokens: [
 		{ startIndex: 0, type: 'number.float.cs' }
 	]}],
@@ -599,6 +642,12 @@ testTokenization('csharp', [
 	]}],
 
 	[{
+	line: '456_123.5D',
+	tokens: [
+		{ startIndex: 0, type: 'number.float.cs' }
+	]}],
+
+	[{
 	line: '23.5d',
 	tokens: [
 		{ startIndex: 0, type: 'number.float.cs' }
@@ -612,6 +661,12 @@ testTokenization('csharp', [
 
 	[{
 	line: '1.72E3d',
+	tokens: [
+		{ startIndex: 0, type: 'number.float.cs' }
+	]}],
+
+	[{
+	line: '1.720_123E3d',
 	tokens: [
 		{ startIndex: 0, type: 'number.float.cs' }
 	]}],
