@@ -118,6 +118,7 @@ export const language = <ILanguage>{
 		scriptAfterType: [
 			[/@[^@]/, { token: '@rematch', switchTo: '@razorInSimpleState.scriptAfterType' }],
 			[/=/, 'delimiter', '@scriptAfterTypeEquals'],
+			[/>/, { token: 'delimiter.html', next: '@scriptEmbedded.text/javascript', nextEmbedded: 'text/javascript' }], // cover invalid e.g. <script type>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -127,6 +128,7 @@ export const language = <ILanguage>{
 			[/@[^@]/, { token: '@rematch', switchTo: '@razorInSimpleState.scriptAfterTypeEquals' }],
 			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
 			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
+			[/>/, { token: 'delimiter.html', next: '@scriptEmbedded.text/javascript', nextEmbedded: 'text/javascript' }], // cover invalid e.g. <script type=>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -170,6 +172,7 @@ export const language = <ILanguage>{
 		styleAfterType: [
 			[/@[^@]/, { token: '@rematch', switchTo: '@razorInSimpleState.styleAfterType' }],
 			[/=/, 'delimiter', '@styleAfterTypeEquals'],
+			[/>/, { token: 'delimiter.html', next: '@styleEmbedded.text/css', nextEmbedded: 'text/css' }], // cover invalid e.g. <style type>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
@@ -179,6 +182,7 @@ export const language = <ILanguage>{
 			[/@[^@]/, { token: '@rematch', switchTo: '@razorInSimpleState.styleAfterTypeEquals' }],
 			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
 			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
+			[/>/, { token: 'delimiter.html', next: '@styleEmbedded.text/css', nextEmbedded: 'text/css' }], // cover invalid e.g. <style type=>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
