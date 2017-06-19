@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
-import {TypeScriptWorker} from './worker';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
+import { TypeScriptWorker } from './worker';
 
 import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
@@ -22,7 +22,7 @@ export class WorkerManager {
 	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker>;
 	private _client: Promise<TypeScriptWorker>;
 
-	constructor(modeId:string, defaults: LanguageServiceDefaultsImpl) {
+	constructor(modeId: string, defaults: LanguageServiceDefaultsImpl) {
 		this._modeId = modeId;
 		this._defaults = defaults;
 		this._worker = null;
@@ -74,14 +74,25 @@ export class WorkerManager {
 				}
 			});
 
-			this._client = this._worker.getProxy();
+			let p = this._worker.getProxy();
+
+			if (this._defaults.getEagerModelSync()) {
+				p = p.then(worker => {
+					return this._worker.withSyncedResources(monaco.editor.getModels()
+						.filter(model => model.getModeId() === this._modeId)
+						.map(model => model.uri)
+					);
+				})
+			}
+
+			this._client = p;
 		}
 
 		return this._client;
 	}
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<TypeScriptWorker> {
-		let _client:TypeScriptWorker;
+		let _client: TypeScriptWorker;
 		return toShallowCancelPromise(
 			this._getClient().then((client) => {
 				_client = client
@@ -92,9 +103,9 @@ export class WorkerManager {
 	}
 }
 
-function toShallowCancelPromise<T>(p:Promise<T>): Promise<T> {
-	let completeCallback: (value:T)=>void;
-	let errorCallback: (err:any)=>void;
+function toShallowCancelPromise<T>(p: Promise<T>): Promise<T> {
+	let completeCallback: (value: T) => void;
+	let errorCallback: (err: any) => void;
 
 	let r = new Promise<T>((c, e) => {
 		completeCallback = c;

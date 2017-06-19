@@ -136,6 +136,12 @@ declare module monaco.languages.typescript {
          * mean never shut down.
          */
         setMaximunWorkerIdleTime(value: number): void;
+
+        /**
+         * Configure if all existing models should be eagerly sync'd
+         * to the worker on start or restart.
+         */
+        setEagerModelSync(value: boolean): void;
     }
 
     export var typescriptDefaults: LanguageServiceDefaults;
