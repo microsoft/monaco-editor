@@ -148,6 +148,11 @@
   * [Sandy Armstrong (@sandyarmstrong)](https://github.com/sandyarmstrong): Correct docs for IEditorScrollbarOptions.useShadows [PR vscode#11312](https://github.com/Microsoft/vscode/pull/11312)
   * [Artyom Shalkhakov (@ashalkhakov)](https://github.com/ashalkhakov): Adding support for ATS/Postiats [PR monaco-languages#5](https://github.com/Microsoft/monaco-languages/pull/5)
 
+## [Next]
+
+### Breaking changes
+- Support for the internal snippet syntax has been discontinued and snippet must now use the official, TextMate-like syntax. Find its grammar and samples here: https://code.visualstudio.com/docs/editor/userdefinedsnippets#_snippet-syntax
+
 ## [0.5.1]
 
 - Fixed mouse handling in IE
