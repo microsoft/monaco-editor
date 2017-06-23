@@ -25,12 +25,12 @@
     "gulp-tsb": "^2.0.0",
     "gulp-uglify": "^1.5.3",
     "merge-stream": "^1.0.0",
-    "monaco-editor-core": "^0.8.1",
-    "monaco-languages": "^0.6.1",
-    "monaco-typescript": "^2.0.1",
+    "monaco-editor-core": "^0.8.2",
+    "monaco-languages": "^0.7.0",
+    "monaco-typescript": "^2.1.2",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
-    "typescript": "^2.1.5",
+    "typescript": "^2.3.4",
     "vscode-html-languageservice": "^2.0.4",
     "vscode-languageserver-types": "^3.2.0"
   }
