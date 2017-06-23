@@ -21,16 +21,33 @@ These packages are described in the root file called `metadata.js` and it is pos
 
 ## Running the editor from source
 
-```bash
-# clone vscode
-/src> git clone https://github.com/Microsoft/vscode
+You need to have all the build setup of being able to build VS Code to be able to build the Monaco Editor.
 
-# install minimal npm deps for vscode
-/src/vscode> npm run monaco-editor-setup
+* Install all the prerequisites: https://github.com/Microsoft/vscode/wiki/How-to-Contribute#installing-prerequisites
 
+### OS X and Linux
+```
+/src> git clone https://github.com/microsoft/vscode
+/src> cd vscode
+# install npm deps for vscode
+/src/vscode> ./scripts/npm.sh install
 # start the compiler in the background
-/src/vscode> node_modules/.bin/gulp watch-client
+/src/vscode> npm run watch
+```
 
+### Windows
+```
+/src> git clone https://github.com/microsoft/vscode
+/src> cd vscode
+# install npm deps for vscode
+/src/vscode> scripts\npm.bat install
+# start the compiler in the background
+/src/vscode> npm run watch
+```
+
+* For the monaco editor test pages:
+
+```bash
 # clone monaco-editor (note the folders must be siblings!)
 /src> git clone https://github.com/Microsoft/monaco-editor
 
