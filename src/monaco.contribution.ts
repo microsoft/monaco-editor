@@ -85,8 +85,8 @@ const razorDefaults = new LanguageServiceDefaultsImpl(razorLanguageId, razorOpti
 function createAPI(): typeof monaco.languages.html {
 	return {
 		htmlDefaults: htmlDefaults,
-		razorDefaults: handlebarDefaults,
-		handlebarDefaults: razorDefaults
+		razorDefaults: razorDefaults,
+		handlebarDefaults: handlebarDefaults
 	}
 }
 monaco.languages.html = createAPI();
