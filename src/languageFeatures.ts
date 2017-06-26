@@ -84,7 +84,10 @@ export class DiagnostcsAdapter {
 			return worker.doValidation(resource.toString());
 		}).then(diagnostics => {
 			const markers = diagnostics.map(d => toDiagnostics(resource, d));
-			monaco.editor.setModelMarkers(monaco.editor.getModel(resource), languageId, markers);
+			let model = monaco.editor.getModel(resource);
+			if (model.getModeId() === languageId) {
+				monaco.editor.setModelMarkers(model, languageId, markers);
+			}
 		}).done(undefined, err => {
 			console.error(err);
 		});
