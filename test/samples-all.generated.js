@@ -101,8 +101,8 @@ define([], function() { return[
 		"content": "# Example of a .gitconfig file\r\n\r\n[core]\r\n\trepositoryformatversion = 0\r\n\tfilemode = false\r\n\tbare = false\r\n\tlogallrefupdates = true\r\n\tsymlinks = false\r\n\tignorecase = true\r\n\thideDotFiles = dotGitOnly\r\n\r\n# Defines the master branch\r\n[branch \"master\"]\r\n\tremote = origin\r\n\tmerge = refs/heads/master\r\n"
 	},
 	{
-		"name": "sample.jade.txt",
-		"content": "doctype 5\nhtml(lang=\"en\")\n    head\n        title= pageTitle\n        script(type='text/javascript')\n            if (foo) {\n                bar()\n            }\n    body\n        // Disclaimer: You will need to turn insertSpaces to true in order for the\n            syntax highlighting to kick in properly (especially for comments)\n            Enjoy :)\n        h1 Jade - node template engine\n        #container\n            if youAreUsingJade\n                p You are amazing\n            else\n                p Get on it!"
+		"name": "sample.pug.txt",
+		"content": "doctype 5\nhtml(lang=\"en\")\n    head\n        title= pageTitle\n        script(type='text/javascript')\n            if (foo) {\n                bar()\n            }\n    body\n        // Disclaimer: You will need to turn insertSpaces to true in order for the\n            syntax highlighting to kick in properly (especially for comments)\n            Enjoy :)\n        h1 Pug - node template engine\n        #container\n            if youAreUsingPug\n                p You are amazing\n            else\n                p Get on it!"
 	},
 	{
 		"name": "sample.java.txt",

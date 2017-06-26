@@ -10,9 +10,9 @@ html(lang="en")
         // Disclaimer: You will need to turn insertSpaces to true in order for the
             syntax highlighting to kick in properly (especially for comments)
             Enjoy :)
-        h1 Jade - node template engine
+        h1 Pug - node template engine
         #container
-            if youAreUsingJade
+            if youAreUsingPug
                 p You are amazing
             else
                 p Get on it!

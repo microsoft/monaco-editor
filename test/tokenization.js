@@ -92098,8 +92098,8 @@ window.EXPECTED = [
 		}
 	},
 	{
-		"name": "sample - jade",
-		"language": "jade",
+		"name": "sample - pug",
+		"language": "pug",
 		"result": {
 			"vs": [
 				[
@@ -92288,7 +92288,7 @@ window.EXPECTED = [
 						"color": "#800000"
 					},
 					{
-						"text": " Jade - node template engine",
+						"text": "Pug- node template engine",
 						"color": "#000000"
 					}
 				],
@@ -92312,7 +92312,7 @@ window.EXPECTED = [
 						"color": "#0000ff"
 					},
 					{
-						"text": " youAreUsingJade",
+						"text": " youAreUsingPug",
 						"color": "#000000"
 					}
 				],
@@ -92542,7 +92542,7 @@ window.EXPECTED = [
 						"color": "#569cd6"
 					},
 					{
-						"text": " Jade - node template engine",
+						"text": " Pug - node template engine",
 						"color": "#d4d4d4"
 					}
 				],
@@ -92566,7 +92566,7 @@ window.EXPECTED = [
 						"color": "#569cd6"
 					},
 					{
-						"text": " youAreUsingJade",
+						"text": " youAreUsingPug",
 						"color": "#d4d4d4"
 					}
 				],
@@ -92796,7 +92796,7 @@ window.EXPECTED = [
 						"color": "#569cd6"
 					},
 					{
-						"text": " Jade - node template engine",
+						"text": " Pug - node template engine",
 						"color": "#ffffff"
 					}
 				],
@@ -92820,7 +92820,7 @@ window.EXPECTED = [
 						"color": "#569cd6"
 					},
 					{
-						"text": " youAreUsingJade",
+						"text": " youAreUsingPug",
 						"color": "#ffffff"
 					}
 				],
