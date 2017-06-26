@@ -123,10 +123,10 @@ registerLanguage({
 	module: './ini'
 });
 registerLanguage({
-	id: 'jade',
+	id: 'pug',
 	extensions: ['.jade', '.pug'],
-	aliases: ['Jade', 'jade'],
-	module: './jade'
+	aliases: ['Pug', 'Jade', 'jade'],
+	module: './pug'
 });
 registerLanguage({
 	id: 'java',

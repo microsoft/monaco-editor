@@ -24,7 +24,7 @@ export const conf: IRichLanguageConfiguration = {
 
 export const language = <ILanguage>{
 	defaultToken: '',
-	tokenPostfix: '.jade',
+	tokenPostfix: '.pug',
 
 	ignoreCase: true,
 

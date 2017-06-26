@@ -56,7 +56,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/handlebars'),
 			bundleOne('src/html'),
 			bundleOne('src/ini'),
-			bundleOne('src/jade'),
+			bundleOne('src/pug'),
 			bundleOne('src/java'),
 			bundleOne('src/less'),
 			bundleOne('src/lua'),

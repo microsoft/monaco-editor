@@ -13,12 +13,12 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * handlebars
 * html
 * ini
-* jade
 * lua
 * objective-c
 * postiats
 * php
 * powershell
+* pug
 * python
 * r
 * razor

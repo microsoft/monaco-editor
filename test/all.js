@@ -34,7 +34,7 @@ requirejs([
 		'out/test/go.test',
 		'out/test/handlebars.test',
 		'out/test/html.test',
-		'out/test/jade.test',
+		'out/test/pug.test',
 		'out/test/java.test',
 		'out/test/less.test',
 		'out/test/lua.test',
