@@ -43,9 +43,12 @@ export class CSSWorker {
 
     doValidation(uri: string): Promise<ls.Diagnostic[]> {
 		let document = this._getTextDocument(uri);
-		let stylesheet = this._languageService.parseStylesheet(document);
-		let diagnostics = this._languageService.doValidation(document, stylesheet);
-		return Promise.as(diagnostics)
+		if (document) {
+			let stylesheet = this._languageService.parseStylesheet(document);
+			let diagnostics = this._languageService.doValidation(document, stylesheet);
+			return Promise.as(diagnostics)
+		}
+		return Promise.as([]);
 	}
     doComplete(uri: string, position: ls.Position): Promise<ls.CompletionList> {
 		let document = this._getTextDocument(uri);
