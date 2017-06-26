@@ -354,9 +354,9 @@ function toWorkspaceEdit(edit: ls.WorkspaceEdit): monaco.languages.WorkspaceEdit
 		return void 0;
 	}
 	let resourceEdits: monaco.languages.IResourceEdit[] = [];
-	for (let tde of edit.changes) {
-		for (let e of tde.edits) {
-			resourceEdits.push({ resource: Uri.parse(tde.textDocument.uri), range: toRange(e.range), newText: e.newText });
+	for (let uri in edit.changes) {
+		for (let e of edit.changes[uri]) {
+			resourceEdits.push({ resource: Uri.parse(uri), range: toRange(e.range), newText: e.newText });
 		}
 	}
 	return {

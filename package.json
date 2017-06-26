@@ -31,6 +31,6 @@
     "rimraf": "^2.5.2",
     "typescript": "^2.3.4",
     "vscode-css-languageservice": "^2.1.1",
-    "vscode-languageserver-types": "^3.3.0-alpha.1"
+    "vscode-languageserver-types": "^3.3.0"
   }
 }
