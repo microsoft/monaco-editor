@@ -63,8 +63,11 @@ export class JSONWorker {
 
     doValidation(uri: string): Thenable<ls.Diagnostic[]> {
 		let document = this._getTextDocument(uri);
-		let jsonDocument = this._languageService.parseJSONDocument(document);
-		return this._languageService.doValidation(document, jsonDocument);
+		if (document) {
+			let jsonDocument = this._languageService.parseJSONDocument(document);
+			return this._languageService.doValidation(document, jsonDocument);
+		}
+		return Promise.as([]);
 	}
     doComplete(uri: string, position: ls.Position): Thenable<ls.CompletionList> {
 		let document = this._getTextDocument(uri);
