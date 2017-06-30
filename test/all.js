@@ -4,6 +4,8 @@ var jsdom = require('jsdom-no-contextify');
 requirejs.config({
 	baseUrl: '',
 	paths: {
+		'vs/css': 'test/css.mock',
+		'vs/nls': 'test/nls.mock',
 		// 'vs': '../vscode/out/vs'
 		'vs': 'node_modules/monaco-editor-core/dev/vs'
 	},
@@ -15,6 +17,7 @@ global.document.queryCommandSupported = function() {};
 global.self = global.window = global.document.parentWindow;
 global.navigator = global.window.navigator;
 global.window.require = requirejs;
+global.doNotInitLoader = true;
 
 function MyWorker() {}
 MyWorker.prototype.postMessage = function() {};
