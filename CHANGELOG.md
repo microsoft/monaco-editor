@@ -11,7 +11,7 @@
  * There is a new [guide for making the editor accessible to all](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators).
  * There is a new Alt+F1 (Ctrl+F1 in IE) accessibility help panel.
  * There is a new F8/Shift+F8 diff review panel in the diff editor.
- * Many bugfixes.
+ * Many bugfixes, including now respecting the Windows High Contrast Theme on Edge.
 
 ### Breaking changes
 
