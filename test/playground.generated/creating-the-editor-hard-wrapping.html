@@ -42,13 +42,11 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
 	language: "javascript",
 
-	// If `wrappingColumn` is -1, then no wrapping occurs and
-	// long lines are rendered on one line. However, this might
-	// mean that not all code is rendered (... may be used).
-	// If `wrappingColumn` is 0, then viewport width wrapping is set
-	// If `wrappingColumn` is > 0, then the lines will wrap at its value
-	// Defaults to 300
-	wrappingColumn: 40,
+	wordWrap: 'wordWrapColumn',
+	wordWrapColumn: 40,
+
+	// Set this to false to not auto word wrap minified files
+	wordWrapMinified: true,
 
 	// try "same", "indent" or "none"
 	wrappingIndent: "indent"
