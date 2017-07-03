@@ -5,7 +5,21 @@
 
 import {LocalizeInfo, LocalizeFunc, Options, LoadFunc} from 'vscode-nls';
 
-export {LocalizeInfo, LocalizeFunc, Options, LoadFunc};
+export interface Options {
+	locale?: string;
+	cacheLanguageResolution?: boolean;
+}
+export interface LocalizeInfo {
+	key: string;
+	comment: string[];
+}
+export interface LocalizeFunc {
+	(info: LocalizeInfo, message: string, ...args: any[]): string;
+	(key: string, message: string, ...args: any[]): string;
+}
+export interface LoadFunc {
+	(file?: string): LocalizeFunc;
+}
 
 function format(message: string, args: any[]): string {
 	let result:string;
