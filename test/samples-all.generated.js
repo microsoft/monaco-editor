@@ -101,10 +101,6 @@ define([], function() { return[
 		"content": "# Example of a .gitconfig file\r\n\r\n[core]\r\n\trepositoryformatversion = 0\r\n\tfilemode = false\r\n\tbare = false\r\n\tlogallrefupdates = true\r\n\tsymlinks = false\r\n\tignorecase = true\r\n\thideDotFiles = dotGitOnly\r\n\r\n# Defines the master branch\r\n[branch \"master\"]\r\n\tremote = origin\r\n\tmerge = refs/heads/master\r\n"
 	},
 	{
-		"name": "sample.pug.txt",
-		"content": "doctype 5\nhtml(lang=\"en\")\n    head\n        title= pageTitle\n        script(type='text/javascript')\n            if (foo) {\n                bar()\n            }\n    body\n        // Disclaimer: You will need to turn insertSpaces to true in order for the\n            syntax highlighting to kick in properly (especially for comments)\n            Enjoy :)\n        h1 Pug - node template engine\n        #container\n            if youAreUsingPug\n                p You are amazing\n            else\n                p Get on it!"
-	},
-	{
 		"name": "sample.java.txt",
 		"content": "import java.util.ArrayList;\nimport org.junit.Test;\n\npublic class Example {\n    @Test \n    public void method() {\n       org.junit.Assert.assertTrue( \"isEmpty\", new ArrayList<Integer>().isEmpty());\n    }\n\t\n   @Test(timeout=100) public void infinity() {\n       while(true);\n    }\n }\n "
 	},
@@ -143,6 +139,10 @@ define([], function() { return[
 	{
 		"name": "sample.powershell.txt",
 		"content": "$SelectedObjectNames=@();\n$XenCenterNodeSelected = 0;\n#the object info array contains hashmaps, each of which represent a parameter set and describe a target in the XenCenter resource list\nforeach($parameterSet in $ObjInfoArray)\n{\n\tif ($parameterSet[\"class\"] -eq \"blank\")\n\t{\n\t\t#When the XenCenter node is selected a parameter set is created for each of your connected servers with the class and objUuid keys marked as blank\n\t\tif ($XenCenterNodeSelected)\n\t\t{\n\t\t\tcontinue\n\t\t}\n\t\t$XenCenterNodeSelected = 1;\n\t\t$SelectedObjectNames += \"XenCenter\"\n\t}\n\telseif ($parameterSet[\"sessionRef\"] -eq \"null\")\n\t{\n\t\t#When a disconnected server is selected there is no session information, we get null for everything except class\n\t}\n\t\t$SelectedObjectNames += \"a disconnected server\"\n\telse\n\t{\n\t\tConnect-XenServer -url $parameterSet[\"url\"] -opaqueref $parameterSet[\"sessionRef\"]\n\t\t#Use $class to determine which server objects to get\n\t\t#-properties allows us to filter the results to just include the selected object\n\t\t$exp = \"Get-XenServer:{0} -properties @{{uuid='{1}'}}\" -f $parameterSet[\"class\"], $parameterSet[\"objUuid\"]\n\t\t$obj = Invoke-Expression $exp\n\t\t$SelectedObjectNames += $obj.name_label;\n\t} \n}"
+	},
+	{
+		"name": "sample.pug.txt",
+		"content": "doctype 5\nhtml(lang=\"en\")\n    head\n        title= pageTitle\n        script(type='text/javascript')\n            if (foo) {\n                bar()\n            }\n    body\n        // Disclaimer: You will need to turn insertSpaces to true in order for the\n            syntax highlighting to kick in properly (especially for comments)\n            Enjoy :)\n        h1 Pug - node template engine\n        #container\n            if youAreUsingPug\n                p You are amazing\n            else\n                p Get on it!"
 	},
 	{
 		"name": "sample.python.txt",

@@ -262,7 +262,10 @@ function load() {
 	data.html.model = monaco.editor.createModel('html', 'html');
 
 	editor = monaco.editor.create(editorContainer, {
-		model: data.js.model
+		model: data.js.model,
+		minimap: {
+			enabled: false
+		}
 	});
 
 	var currentToken = 0;

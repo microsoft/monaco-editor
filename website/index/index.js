@@ -164,10 +164,5 @@ function loadDiffSample() {
 
 function changeTheme(theme) {
 	var newTheme = (theme === 1 ? 'vs-dark' : ( theme === 0 ? 'vs' : 'hc-black' ));
-	if (editor) {
-		editor.updateOptions({ 'theme' : newTheme });
-	}
-	if (diffEditor) {
-		diffEditor.updateOptions({ 'theme': newTheme });
-	}
+	monaco.editor.setTheme(newTheme);
 }

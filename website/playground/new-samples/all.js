@@ -75,9 +75,9 @@ var PLAY_SAMPLES = [
 	},
 	{
 		chapter: "Customizing the appearence",
-		name: "Exposed CSS classes",
-		id: "customizing-the-appearence-exposed-css-classes",
-		path: "customizing-the-appearence/exposed-css-classes"
+		name: "Exposed colors",
+		id: "customizing-the-appearence-exposed-colors",
+		path: "customizing-the-appearence/exposed-colors"
 	},
 	{
 		chapter: "Customizing the appearence",
