@@ -107,7 +107,7 @@ If you are hosting your `.js` on a different domain (e.g. on a CDN) than the HTM
 
 # More documentation
 
-> **Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensuring the editor is accessible to all!**
+> **Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!**
 
 Find full HTML samples [here](https://github.com/Microsoft/monaco-editor-samples).
 
