@@ -44,6 +44,20 @@
    * `matchBrackets` - enable bracket matching
    * `letterSpacing` - configure font's letter-spacing.
 
+### Thank you
+ * [Joey Marianer (@jmarianer)](https://github.com/jmarianer): Support literal interpolated strings ($@"") [PR monaco-languages#13](https://github.com/Microsoft/monaco-languages/pull/13)
+ * [@AndersMad](https://github.com/AndersMad): HTML Tags: Add support for dash and fix colon in end tag [PR monaco-languages#14](https://github.com/Microsoft/monaco-languages/pull/14)
+ * [Sandy Armstrong (@sandyarmstrong)](https://github.com/sandyarmstrong): csharp: add support for binary literals and _ as separator [PR monaco-languages#16](https://github.com/Microsoft/monaco-languages/pull/16)
+ * [Anton Kosyakov (@akosyakov)](https://github.com/akosyakov): Include src as a part of npm package [PR monaco-languages#17](https://github.com/Microsoft/monaco-languages/pull/17)
+ * [Andrew Bonventre (@andybons)](https://github.com/andybons): Fix typo: concering → concerning [PR monaco-languages#18](https://github.com/Microsoft/monaco-languages/pull/18)
+ * [Scott McMaster (@scottmcmaster)](https://github.com/scottmcmaster): MSDAX support [PR monaco-languages#19](https://github.com/Microsoft/monaco-languages/pull/19)
+ * [Luzian Serafin (@lserafin)](https://github.com/lserafin): Add Solidity [PR monaco-languages#20](https://github.com/Microsoft/monaco-languages/pull/20)
+ * [Kitson Kelly (@kitsonk)](https://github.com/kitsonk): Update to TypeScript 2.3.4 [PR monaco-typescript#13](https://github.com/Microsoft/monaco-typescript/pull/13)
+ * [Kitson Kelly (@kitsonk)](https://github.com/kitsonk): Add documentation support on hover [PR monaco-typescript#14](https://github.com/Microsoft/monaco-typescript/pull/14)
+ * [@replacepreg](https://github.com/replacepreg): Updating date at footer [PR monaco-editor#409](https://github.com/Microsoft/monaco-editor/pull/409)
+ * [Aarin Smith (@aarinsmith)](https://github.com/aarinsmith): Fixed spelling error in README.md:85 'instantion' -> 'instantiation' [PR monaco-editor#440](https://github.com/Microsoft/monaco-editor/pull/440)
+ * to the many others that have contributed PRs to [`vscode`](https://github.com/Microsoft/vscode) which have also made their way into the `monaco-editor`.
+
 ---
 
 ## [0.8.3] (03.03.2017)
