@@ -53,7 +53,14 @@ var modesData = {};
 monaco.languages.getLanguages().forEach(function(language) {
 	modesData[language.id] = updateEditor.bind(this, language.id);
 });
-var modesComboBox = new ComboBox ('Mode', modesData);
+var modesComboBox = new ComboBox('Mode', modesData);
+
+
+var themesData = {};
+themesData['vs'] = function() { monaco.editor.setTheme('vs') };
+themesData['vs-dark'] = function() { monaco.editor.setTheme('vs-dark') };
+themesData['hc-black'] = function() { monaco.editor.setTheme('hc-black') };
+var themesComboBox = new ComboBox('Theme', themesData);
 
 
 // Do it in a timeout to simplify profiles
@@ -103,6 +110,8 @@ function createToolbar(editor) {
 	bar.appendChild(examplesComboBox.domNode);
 
 	bar.appendChild(modesComboBox.domNode);
+
+	bar.appendChild(themesComboBox.domNode);
 
 	bar.appendChild(createButton("Dispose all", function (e) {
 		editor.dispose();
@@ -232,32 +241,6 @@ function createOptions(editor) {
 			editor.updateOptions({ renderWhitespace: newValue });
 		}
 	));
-
-	options.appendChild(createOptionToggle(
-		editor,
-		'light',
-		function(config) {
-			return false;//config.viewInfo.theme === 'vs-dark';
-		}, function(editor, newValue) {
-			monaco.editor.setTheme('vs');
-			// editor.updateOptions({ theme: newValue ? 'vs-dark' : 'vs' });
-		}
-	));
-
-	options.appendChild(createOptionToggle(editor, 'dark', function(config) {
-		return false;//config.viewInfo.theme === 'vs-dark';
-	}, function(editor, newValue) {
-		monaco.editor.setTheme('vs-dark');
-		// editor.updateOptions({ theme: newValue ? 'vs-dark' : 'vs' });
-	}));
-
-	options.appendChild(createOptionToggle(editor, 'hc-black', function(config) {
-		return false;
-		//return config.viewInfo.theme === 'hc-black';
-	}, function(editor, newValue) {
-		monaco.editor.setTheme('hc-black');
-		editor.updateOptions({ theme: newValue ? 'hc-black' : 'vs' });
-	}));
 
 	options.appendChild(createOptionToggle(
 		editor,
