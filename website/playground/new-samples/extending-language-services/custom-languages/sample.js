@@ -35,18 +35,22 @@ monaco.languages.registerCompletionItemProvider('mySpecialLanguage', {
 			}, {
 				label: 'testing',
 				kind: monaco.languages.CompletionItemKind.Keyword,
-				insertText:'testing({{condition}})'
+				insertText: {
+					value: 'testing(${1:condition})'
+				}
 			},
 			{
 				label: 'ifelse',
 				kind: monaco.languages.CompletionItemKind.Snippet,
-				insertText: [
-					'if ({{condition}}) {',
-					'\t{{}}',
-					'} else {',
-					'\t',
-					'}'
-				].join('\n'),
+				insertText: {
+					value: [
+						'if (${1:condition}) {',
+						'\t$0',
+						'} else {',
+						'\t',
+						'}'
+					].join('\n')
+				},
 				documentation: 'If-Else Statement'
 			}
 		]
