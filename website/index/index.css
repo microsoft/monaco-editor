@@ -179,6 +179,12 @@
 	color: #BBB;
 }
 
+@media (min-width: 1200px) {
+	.try .editor .row {
+		margin-left: 0px;
+	}
+}
+
 @media (max-width: 767px) {
 	.try .container {
 		margin: 0 24px;
