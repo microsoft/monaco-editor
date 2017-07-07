@@ -33,7 +33,7 @@ export function setupJavaScript(defaults:LanguageServiceDefaultsImpl): void {
 	);
 }
 
-export function getJavaScriptWorker(): Promise<TypeScriptWorker> {
+export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
 	return new monaco.Promise((resolve, reject) => {
 		if (!javaScriptWorker) {
 			return reject("JavaScript not registered!");
@@ -43,7 +43,7 @@ export function getJavaScriptWorker(): Promise<TypeScriptWorker> {
 	});
 }
 
-export function getTypeScriptWorker(): Promise<TypeScriptWorker> {
+export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
 	return new monaco.Promise((resolve, reject) => {
 		if (!typeScriptWorker) {
 			return reject("TypeScript not registered!");
