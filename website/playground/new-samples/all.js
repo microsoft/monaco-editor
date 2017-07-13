@@ -129,6 +129,12 @@ var PLAY_SAMPLES = [
 	},
 	{
 		chapter: "Extending Language Services",
+		name: "Codelens provider example",
+		id: "extending-language-services-codelens-provider-example",
+		path: "extending-language-services/codelens-provider-example"
+	},
+	{
+		chapter: "Extending Language Services",
 		name: "Hover provider example",
 		id: "extending-language-services-hover-provider-example",
 		path: "extending-language-services/hover-provider-example"
