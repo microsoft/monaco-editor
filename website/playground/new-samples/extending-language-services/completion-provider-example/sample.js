@@ -25,6 +25,7 @@ function createDependencyProposals() {
 
 
 monaco.languages.registerCompletionItemProvider('json', {
+    triggerCharacters: ['\"'],
     provideCompletionItems: function(model, position) {
         // find out if we are completing a property in the 'dependencies' object.
         var textUntilPosition = model.getValueInRange({startLineNumber: 1, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column});
