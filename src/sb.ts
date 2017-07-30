@@ -98,6 +98,7 @@ export const language = <ILanguage>{
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
+			[/(\').*$/, 'comment']
 		],
 
 		string: [
