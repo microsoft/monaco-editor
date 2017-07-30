@@ -86,9 +86,6 @@ export const language = <ILanguage>{
 			[/\d*\.\d+/, 'number.float'],
 			[/\d+/, 'number'],
 
-			// date literal
-			[/#.*#/, 'number'],
-
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],
 			[/@symbols/, 'delimiter'],
@@ -101,7 +98,6 @@ export const language = <ILanguage>{
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/(\'|REM(?!\w)).*$/, 'comment'],
 		],
 
 		string: [
