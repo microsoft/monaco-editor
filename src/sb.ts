@@ -43,44 +43,46 @@ export const language = <ILanguage>{
 	],
 
 	keywords: [
-		'And', 'Else', 'ElseIf', 'EndFor', 'EndIf', 'EndSub', 'EndWhile',
-		'For', 'Goto', 'If', 'Or', 'Step', 'Sub', 'Then', 'To', 'While'
+		'Else', 'ElseIf', 'EndFor', 'EndIf', 'EndSub', 'EndWhile',
+		'For', 'Goto', 'If', 'Step', 'Sub', 'Then', 'To', 'While'
 	],
 
 	tagwords: [
 		'If', 'Sub', 'While', 'For'
 	],
 
-	operators: [
-		'>', '<', '<>', '<=', '>=', 'And',
-		'Or', '+', '-', '*', '/', '=',
-	],
+	operators: [ '>', '<', '<>', '<=', '>=', 'And', 'Or', '+', '-', '*', '/', '=' ],
 
 	// we include these common regular expressions
-	symbols: /[=><.,:+\-\/]+/,
+	identifier: /[a-zA-Z_][\w]*/,
+	symbols: /[=><:+\-*\/%\.,]+/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-
 			// whitespace
 			{ include: '@whitespace' },
 
-			// usual ending tags
-			[/end([a-zA-Z_]\w*)/, { token: 'keyword.tag-$1' }],
+            // classes
+            [/(@identifier)(?=[.])/, 'type'],
 
 			// identifiers, tagwords, and keywords
-			[/[a-zA-Z_]\w*/, {
+			[/@identifier/, {
 				cases: {
-					'@tagwords': { token: 'keyword.tag-$0' },
 					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+					'@operators': 'operator',
+					'@default': 'variable.name'
 				}
 			}],
 
-			// Preprocessor directive
-			[/^\s*#\w+/, 'keyword'],
+            // methods, properties, and events
+			[/([.])(@identifier)/, {
+				cases: {
+					'$2': ['delimiter', 'type.member'],
+					'@default': ''
+				}
+			}],
 
 			// numbers
 			[/\d*\.\d+/, 'number.float'],
@@ -88,7 +90,12 @@ export const language = <ILanguage>{
 
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],
-			[/@symbols/, 'delimiter'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'operator',
+					'@default': 'delimiter'
+				}
+			}],
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
