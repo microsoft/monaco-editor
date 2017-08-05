@@ -456,6 +456,7 @@ export const language = <ILanguage>{
 		'LEVEL_3',
 		'LEVEL_4',
 		'LIFETIME',
+		'LIMIT',
 		'LINENO',
 		'LIST',
 		'LISTENER',
