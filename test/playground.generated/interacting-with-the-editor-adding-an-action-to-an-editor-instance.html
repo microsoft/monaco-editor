@@ -53,6 +53,7 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 // Explanation:
 // Press F1 (Alt-F1 in IE) => the action will appear and run if it is enabled
 // Press Ctrl-F10 => the action will run if it is enabled
+// Press Chord Ctrl-K, Ctrl-M => the action will run if it is enabled
 
 editor.addAction({
 	// An unique identifier of the contributed action.
@@ -62,7 +63,11 @@ editor.addAction({
 	label: 'My Label!!!',
 
 	// An optional array of keybindings for the action.
-	keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10],
+	keybindings: [
+		monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10,
+		// chord
+		monaco.KeyMod.chord(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_K, monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M)
+	],
 
 	// A precondition for this action.
 	precondition: null,
