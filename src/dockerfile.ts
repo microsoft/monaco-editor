@@ -34,7 +34,7 @@ export const language = <ILanguage>{
 	defaultToken: '',
 	tokenPostfix: '.dockerfile',
 
-	instructions: /FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|VOLUME|LABEL|USER|WORKDIR|COPY|CMD|ENTRYPOINT/,
+	instructions: /FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|VOLUME|LABEL|USER|WORKDIR|COPY|CMD|STOPSIGNAL|SHELL|ENTRYPOINT/,
 
 	instructionAfter: /ONBUILD/,
 
