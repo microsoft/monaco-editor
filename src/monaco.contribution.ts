@@ -266,3 +266,9 @@ registerLanguage({
 	aliases: ['sol', 'solidity', 'Solidity'],
 	module: './solidity'
 });
+registerLanguage({
+	id: 'sb',
+	extensions: ['.sb'],
+	aliases: ['Small Basic', 'sb'],
+	module: './sb'
+});

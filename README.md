@@ -27,6 +27,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * swift
 * vb
 * xml
+* small basic
 
 Also `css` dialects:
 
