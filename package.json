@@ -28,7 +28,7 @@
     "monaco-languages": "0.8.0",
     "monaco-typescript": "2.2.0",
     "rimraf": "^2.5.2",
-    "typedoc": "^0.5.0",
+    "typedoc": "^0.8.0",
     "uncss": "^0.14.1"
   }
 }
