@@ -1,5 +1,28 @@
 # Monaco Editor Change log
 
+## [0.10.0] (17.08.2017)
+
+### Breaking changes
+* Removed `CodeAction`.
+* Method `provideCodeActions` in `CodeActionProvider` now returns `Command[] | Thenable<Command[]` instead of `CodeAction[] | Thenable<CodeAction[]>`, which is already removed.
+
+### API changes
+* added `monaco.editor.getModelMarkers`. Get markers for owner and/or resource.
+
+### Notable Fixes
+* No longer use CSS class `.row` for command palette to avoid CSS conflicts with Bootstrap.
+* Fix Accessibility Help Dialog accessible issue on IE/Edge.
+* Fix Find Widget CSS compability issues with IE11.
+* Toggle Block Comment can remove extra whitespaces.
+
+### Thank you
+* [Kitson Kelly @kitsonk](https://github.com/kitsonk): Update monaco-typescript to TypeScript 2.4.1 [PR monaco-typescript#15](https://github.com/Microsoft/monaco-typescript/pull/15)
+* [@duncanwerner](https://github.com/duncanwerner): Add hex number tokenization to R language [PR monaco-languages#21](https://github.com/Microsoft/monaco-languages/pull/21)
+* [Remy Suen @rcjsuen](https://github.com/rcjsuen): Update Dockerfile grammar with STOPSIGNAL and SHELL instructions [PR monaco-languages#22](https://github.com/Microsoft/monaco-languages/pull/22)
+* [Marlene Cota @marlenecota](https://github.com/marlenecota): Add Small Basic support [PR monaco-languages#23](https://github.com/Microsoft/monaco-languages/pull/23)
+* [Ben Jacobson @bjacobso](https://github.com/bjacobso): Add LIMIT to sql keywords [PR monaco-languages#24](https://github.com/Microsoft/monaco-languages/pull/24)
+* to the many others that have contributed PRs to [vscode](https://github.com/Microsoft/vscode) which have also made their way into the monaco-editor.
+
 ## [0.9.0] (03.07.2017)
 
 ### New & Noteworthy

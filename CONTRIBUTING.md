@@ -142,7 +142,11 @@ Open [http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev
   * open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseDev`
   * open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseMin`
 
-#### 5. Publish
+#### 5. Update release note.
+* API Change/Breaking Change/New and noteworthy
+* Thank you
+
+#### 6. Publish
 
 * `/src/monaco-editor> npm version minor`
 * `/src/monaco-editor/release> npm publish`
