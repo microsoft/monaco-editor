@@ -4,7 +4,7 @@
 
 ### Breaking changes
 * Removed `CodeAction`.
-* Method `provideCodeActions` in `CodeActionProvider` now returns `Command[] | Thenable<Command[]` instead of `CodeAction[] | Thenable<CodeAction[]>`, which is already removed.
+* Method `provideCodeActions` in `CodeActionProvider` now returns `Command[] | Thenable<Command[]>` instead of `CodeAction[] | Thenable<CodeAction[]>`, which is already removed.
 
 ### API changes
 * added `monaco.editor.getModelMarkers`. Get markers for owner and/or resource.
