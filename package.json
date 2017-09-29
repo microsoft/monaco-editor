@@ -1,5 +1,5 @@
 {
-  "name": "monaco-languages",
+  "name": "@teamsqlio/monaco-languages",
   "version": "0.9.0",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
