@@ -272,3 +272,10 @@ registerLanguage({
 	aliases: ['Small Basic', 'sb'],
 	module: './sb'
 });
+
+registerLanguage({
+	id: 'mysql',
+	extensions: ['.sql'],
+	aliases: ['MySQL', 'mysql'],
+	module: './mysql'
+});

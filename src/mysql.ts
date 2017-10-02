@@ -164,7 +164,7 @@ export const language = <ILanguage>{
 			{ include: '@scopes' },
 			[/[;,.]/, 'delimiter'],
 			[/[()]/, '@brackets'],
-			[/[\w@#$]+/, {
+			[/[\w@]+/, {
 				cases: {
 					'@keywords': 'keyword',
 					'@operators': 'operator',
@@ -206,18 +206,19 @@ export const language = <ILanguage>{
 		],
 		strings: [
 			[/'/, { token: 'string', next: '@string' }],
-			[/"/, { token: 'string', next: '@string' }]
+			[/"/, { token: 'string.double', next: '@stringDouble' }]
 		],
 		string: [
 			[/[^']+/, 'string'],
-			[/[^"]+/, 'string'],
 			[/''/, 'string'],
-			[/""/, 'string'],
 			[/'/, { token: 'string', next: '@pop' }],
-			[/"/, { token: 'string', next: '@pop' }]
+		],
+		stringDouble: [
+			[/[^"]+/, 'string.double'],
+			[/""/, 'string.double'],
+			[/"/, { token: 'string.double', next: '@pop' }]
 		],
 		complexIdentifiers: [
-
 			[/`/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
 		],
 		quotedIdentifier: [
