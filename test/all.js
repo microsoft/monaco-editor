@@ -59,7 +59,8 @@ requirejs([
 		'out/test/yaml.test',
 		'out/test/solidity.test',
 		'out/test/sb.test',
-		'out/test/mysql.test'
+		'out/test/mysql.test',
+		'out/test/pgsql.test'
 	], function() {
 		run(); // We can launch the tests!
 	});

@@ -279,3 +279,10 @@ registerLanguage({
 	aliases: ['MySQL', 'mysql'],
 	module: './mysql'
 });
+
+registerLanguage({
+	id: 'pgsql',
+	extensions: ['.sql'],
+	aliases: ['PostgreSQL', 'postgres', 'pg', 'postgre'],
+	module: './pgsql'
+});
