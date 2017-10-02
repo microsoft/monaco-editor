@@ -286,3 +286,10 @@ registerLanguage({
 	aliases: ['PostgreSQL', 'postgres', 'pg', 'postgre'],
 	module: './pgsql'
 });
+
+registerLanguage({
+	id: 'redshift',
+	extensions: ['.sql'],
+	aliases: ['Redshift', 'redshift'],
+	module: './redshift'
+});
