@@ -513,22 +513,22 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: 'WHERE x IS NOT NULL',
+		line: 'WHERE myfield IS NOT NULL',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 5, type: 'white.sql' },
 			{ startIndex: 6, type: 'identifier.sql' },
-			{ startIndex: 7, type: 'white.sql' },
-			{ startIndex: 8, type: 'operator.sql' },
-			{ startIndex: 10, type: 'white.sql' },
-			{ startIndex: 11, type: 'operator.sql' },
-			{ startIndex: 14, type: 'white.sql' },
-			{ startIndex: 15, type: 'operator.sql' }
+			{ startIndex: 13, type: 'white.sql' },
+			{ startIndex: 14, type: 'operator.sql' },
+			{ startIndex: 16, type: 'white.sql' },
+			{ startIndex: 17, type: 'operator.sql' },
+			{ startIndex: 20, type: 'white.sql' },
+			{ startIndex: 21, type: 'operator.sql' }
 		]
 	}],
 
 	[{
-		line: 'SELECT * FROM MyTable WHERE MyColumn IN (1,2)',
+		line: 'SELECT * FROM tbl WHERE MyColumn IN (1,2)',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 6, type: 'white.sql' },
@@ -537,21 +537,18 @@ testTokenization('mysql', [
 			{ startIndex: 9, type: 'keyword.sql' },
 			{ startIndex: 13, type: 'white.sql' },
 			{ startIndex: 14, type: 'identifier.sql' },
-			{ startIndex: 17, type: 'delimiter.sql' },
-			{ startIndex: 18, type: 'identifier.sql' },
-			{ startIndex: 25, type: 'white.sql' },
-			{ startIndex: 26, type: 'keyword.sql' },
-			{ startIndex: 31, type: 'white.sql' },
-			{ startIndex: 32, type: 'identifier.sql' },
-			{ startIndex: 40, type: 'white.sql' },
-			{ startIndex: 41, type: 'operator.sql' },
-			{ startIndex: 43, type: 'white.sql' },
-			{ startIndex: 44, type: 'delimiter.parenthesis.sql' },
-			{ startIndex: 45, type: 'number.sql' },
-			{ startIndex: 46, type: 'delimiter.sql' },
-			{ startIndex: 47, type: 'number.sql' },
-			{ startIndex: 48, type: 'delimiter.parenthesis.sql' }
+			{ startIndex: 17, type: 'white.sql' },
+			{ startIndex: 18, type: 'keyword.sql' },
+			{ startIndex: 23, type: 'white.sql' },
+			{ startIndex: 24, type: 'identifier.sql' },
+			{ startIndex: 32, type: 'white.sql' },
+			{ startIndex: 33, type: 'operator.sql' },
+			{ startIndex: 35, type: 'white.sql' },
+			{ startIndex: 36, type: 'delimiter.parenthesis.sql' },
+			{ startIndex: 37, type: 'number.sql' },
+			{ startIndex: 38, type: 'delimiter.sql' },
+			{ startIndex: 39, type: 'number.sql' },
+			{ startIndex: 40, type: 'delimiter.parenthesis.sql' }
 		]
 	}]
-
 ]);

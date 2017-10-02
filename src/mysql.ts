@@ -62,9 +62,9 @@ export const language = <ILanguage>{
 		"FLOAT8", "FLUSH", "FOLLOWS", "FOR", "FORCE", "FOREIGN", "FORMAT", "FOUND", "FROM", "FULL", "FULLTEXT", "FUNCTION", "GENERAL", "GENERATED",
 		"GEOMETRY", "GEOMETRYCOLLECTION", "GET", "GET_FORMAT", "GLOBAL", "GRANT", "GRANTS", "GROUP", "GROUP_REPLICATION", "HANDLER", "HASH", "HAVING",
 		"HELP", "HIGH_PRIORITY", "HOST", "HOSTS", "HOUR", "HOUR_MICROSECOND", "HOUR_MINUTE", "HOUR_SECOND", "IDENTIFIED", "IF", "IGNORE", "IGNORE_SERVER_IDS",
-		"IMPORT", "IN", "INDEX", "INDEXES", "INFILE", "INITIAL_SIZE", "INNER", "INOUT", "INSENSITIVE", "INSERT", "INSERT_METHOD", "INSTALL", "INSTANCE",
+		"IMPORT", "INDEX", "INDEXES", "INFILE", "INITIAL_SIZE", "INNER", "INOUT", "INSENSITIVE", "INSERT", "INSERT_METHOD", "INSTALL", "INSTANCE",
 		"INT", "INT1", "INT2", "INT3", "INT4", "INT8", "INTEGER", "INTERVAL", "INTO", "INVOKER", "IO", "IO_AFTER_GTIDS", "IO_BEFORE_GTIDS", "IO_THREAD",
-		"IPC", "IS", "ISOLATION", "ISSUER", "ITERATE", "JOIN", "JSON", "KEY", "KEYS", "KEY_BLOCK_SIZE", "KILL", "LANGUAGE", "LAST", "LEADING", "LEAVE",
+		"IPC", "ISOLATION", "ISSUER", "ITERATE", "JOIN", "JSON", "KEY", "KEYS", "KEY_BLOCK_SIZE", "KILL", "LANGUAGE", "LAST", "LEADING", "LEAVE",
 		"LEAVES", "LEFT", "LESS", "LEVEL", "LIKE", "LIMIT", "LINEAR", "LINES", "LINESTRING", "LIST", "LOAD", "LOCAL", "LOCALTIME", "LOCALTIMESTAMP", "LOCK",
 		"LOCKS", "LOGFILE", "LOGS", "LONG", "LONGBLOB", "LONGTEXT", "LOOP", "LOW_PRIORITY", "MASTER", "MASTER_AUTO_POSITION", "MASTER_BIND", "MASTER_CONNECT_RETRY",
 		"MASTER_DELAY", "MASTER_HEARTBEAT_PERIOD", "MASTER_HOST", "MASTER_LOG_FILE", "MASTER_LOG_POS", "MASTER_PASSWORD", "MASTER_PORT", "MASTER_RETRY_COUNT",
@@ -73,7 +73,7 @@ export const language = <ILanguage>{
 		"MAX_ROWS", "MAX_SIZE", "MAX_STATEMENT_TIME", "MAX_UPDATES_PER_HOUR", "MAX_USER_CONNECTIONS", "MEDIUM", "MEDIUMBLOB", "MEDIUMINT", "MEDIUMTEXT", "MEMORY",
 		"MERGE", "MESSAGE_TEXT", "MICROSECOND", "MIDDLEINT", "MIGRATE", "MINUTE", "MINUTE_MICROSECOND", "MINUTE_SECOND", "MIN_ROWS", "MOD", "MODE", "MODIFIES",
 		"MODIFY", "MONTH", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "MUTEX", "MYSQL_ERRNO", "NAME", "NAMES", "NATIONAL", "NATURAL", "NCHAR", "NDB",
-		"NDBCLUSTER", "NEVER", "NEW", "NEXT", "NO", "NODEGROUP", "NONBLOCKING", "NONE", "NOT", "NO_WAIT", "NO_WRITE_TO_BINLOG", "NULL", "NUMBER", "NUMERIC",
+		"NDBCLUSTER", "NEVER", "NEW", "NEXT", "NO", "NODEGROUP", "NONBLOCKING", "NONE", "NO_WAIT", "NO_WRITE_TO_BINLOG", "NUMBER", "NUMERIC",
 		"NVARCHAR", "OFFSET", "OLD_PASSWORD", "ON", "ONE", "ONLY", "OPEN", "OPTIMIZE", "OPTIMIZER_COSTS", "OPTION", "OPTIONALLY", "OPTIONS", "OR", "ORDER",
 		"OUT", "OUTER", "OUTFILE", "OWNER", "PACK_KEYS", "PAGE", "PARSER", "PARSE_GCOL_EXPR", "PARTIAL", "PARTITION", "PARTITIONING", "PARTITIONS", "PASSWORD",
 		"PHASE", "PLUGIN", "PLUGINS", "PLUGIN_DIR", "POINT", "POLYGON", "PORT", "PRECEDES", "PRECISION", "PREPARE", "PRESERVE", "PREV", "PRIMARY", "PRIVILEGES",
@@ -112,7 +112,7 @@ export const language = <ILanguage>{
 		"EXP", "EXPORT_SET", "ExteriorRing", "EXTRACT", "ExtractValue", "FIELD", "FIND_IN_SET", "FLOOR", "FORMAT", "FOUND_ROWS", "FROM_BASE64",
 		"FROM_DAYS", "FROM_UNIXTIME", "GeomCollFromText", "GeometryCollectionFromText", "GeomCollFromWKB", "GeometryCollectionFromWKB",
 		"GeometryCollection", "GeometryN", "GeometryType", "GeomFromText", "GeometryFromText", "GeomFromWKB", "GeometryFromWKB", "GET_FORMAT",
-		"GET_LOCK", "GLength", "GREATEST", "GROUP_CONCAT", "GTID_SUBSET", "GTID_SUBTRACT", "HEX", "HOUR", "IF", "IFNULL", "IN", "INET_ATON",
+		"GET_LOCK", "GLength", "GREATEST", "GROUP_CONCAT", "GTID_SUBSET", "GTID_SUBTRACT", "HEX", "HOUR", "IF", "IFNULL", "INET_ATON",
 		"INET_NTOA", "INET6_ATON", "INET6_NTOA", "INSERT", "INSTR", "InteriorRingN", "Intersects", "INTERVAL", "IS_FREE_LOCK", "IS_IPV4",
 		"IS_IPV4_COMPAT", "IS_IPV4_MAPPED", "IS_IPV6", "IS_USED_LOCK", "IsClosed", "IsEmpty", "ISNULL", "IsSimple", "JSON_APPEND", "JSON_ARRAY",
 		"JSON_ARRAY_APPEND", "JSON_ARRAY_INSERT", "JSON_CONTAINS", "JSON_CONTAINS_PATH", "JSON_DEPTH", "JSON_EXTRACT", "JSON_INSERT", "JSON_KEYS",
@@ -150,14 +150,10 @@ export const language = <ILanguage>{
 	builtinVariables: [
 		// NOT SUPPORTED
 	],
-	pseudoColumns: [
-		// NOT SUPPORTED
-	],
 	tokenizer: {
 		root: [
 			{ include: '@comments' },
 			{ include: '@whitespace' },
-			{ include: '@pseudoColumns' },
 			{ include: '@numbers' },
 			{ include: '@strings' },
 			{ include: '@complexIdentifiers' },
@@ -190,14 +186,6 @@ export const language = <ILanguage>{
 			// [/\/\*/, { token: 'comment.quote', next: '@push' }],    // nested comment not allowed :-(
 			[/\*\//, { token: 'comment.quote', next: '@pop' }],
 			[/./, 'comment']
-		],
-		pseudoColumns: [
-			[/[$][A-Za-z_][\w@#$]*/, {
-				cases: {
-					'@pseudoColumns': 'predefined',
-					'@default': 'identifier'
-				}
-			}],
 		],
 		numbers: [
 			[/0[xX][0-9a-fA-F]*/, 'number'],
