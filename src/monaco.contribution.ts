@@ -293,3 +293,10 @@ registerLanguage({
 	aliases: ['Redshift', 'redshift'],
 	module: './redshift'
 });
+
+registerLanguage({
+	id: 'redis',
+	extensions: ['.redis'],
+	aliases: ['redis'],
+	module: './redis'
+});

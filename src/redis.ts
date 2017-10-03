@@ -9,10 +9,6 @@ import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
-	comments: {
-		lineComment: '--',
-		blockComment: ['/*', '*/'],
-	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
@@ -36,7 +32,7 @@ export const conf: IRichLanguageConfiguration = {
 
 export const language = <ILanguage>{
 	defaultToken: '',
-	tokenPostfix: '.sql',
+	tokenPostfix: '.redis',
 	ignoreCase: true,
 
 	brackets: [
@@ -78,12 +74,10 @@ export const language = <ILanguage>{
 	],
 	tokenizer: {
 		root: [
-			{ include: '@comments' },
 			{ include: '@whitespace' },
 			{ include: '@pseudoColumns' },
 			{ include: '@numbers' },
 			{ include: '@strings' },
-			{ include: '@complexIdentifiers' },
 			{ include: '@scopes' },
 			[/[;,.]/, 'delimiter'],
 			[/[()]/, '@brackets'],
@@ -101,19 +95,6 @@ export const language = <ILanguage>{
 		whitespace: [
 			[/\s+/, 'white']
 		],
-		comments: [
-			[/--+.*/, 'comment'],
-			[/#+.*/, 'comment'],
-			[/\/\*/, { token: 'comment.quote', next: '@comment' }]
-		],
-		comment: [
-			[/[^*/]+/, 'comment'],
-			// Not supporting nested comments, as nested comments seem to not be standard?
-			// i.e. http://stackoverflow.com/questions/728172/are-there-multiline-comment-delimiters-in-sql-that-are-vendor-agnostic
-			// [/\/\*/, { token: 'comment.quote', next: '@push' }],    // nested comment not allowed :-(
-			[/\*\//, { token: 'comment.quote', next: '@pop' }],
-			[/./, 'comment']
-		],
 		pseudoColumns: [
 			[/[$][A-Za-z_][\w@#$]*/, {
 				cases: {
@@ -129,24 +110,17 @@ export const language = <ILanguage>{
 		],
 		strings: [
 			[/'/, { token: 'string', next: '@string' }],
-			[/"/, { token: 'string', next: '@string' }]
+			[/"/, { token: 'string.double', next: '@stringDouble' }]
 		],
 		string: [
 			[/[^']+/, 'string'],
-			[/[^"]+/, 'string'],
 			[/''/, 'string'],
-			[/""/, 'string'],
 			[/'/, { token: 'string', next: '@pop' }],
-			[/"/, { token: 'string', next: '@pop' }]
 		],
-		complexIdentifiers: [
-
-			[/`/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
-		],
-		quotedIdentifier: [
-			[/[^`]+/, 'identifier'],
-			[/``/, 'identifier'],
-			[/`/, { token: 'identifier.quote', next: '@pop' }]
+		stringDouble: [
+			[/[^"]+/, 'string.double'],
+			[/""/, 'string.double'],
+			[/"/, { token: 'string.double', next: '@pop' }]
 		],
 		scopes: [
 			// NOT SUPPORTED

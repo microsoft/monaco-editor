@@ -23,17 +23,17 @@ testTokenization('mysql', [
 		]
 	}],
 
-	// [{
-	// 	line: '-almost a comment',
-	// 	tokens: [
-	// 		{ startIndex: 0, type: 'operator.sql' },
-	// 		{ startIndex: 1, type: 'identifier.sql' },
-	// 		{ startIndex: 7, type: 'white.sql' },
-	// 		{ startIndex: 8, type: 'identifier.sql' },
-	// 		{ startIndex: 9, type: 'white.sql' },
-	// 		{ startIndex: 10, type: 'identifier.sql' }
-	// 	]
-	// }],
+	[{
+		line: '-almost a comment',
+		tokens: [
+			{ startIndex: 0, type: 'operator.sql' },
+			{ startIndex: 1, type: 'identifier.sql' },
+			{ startIndex: 7, type: 'white.sql' },
+			{ startIndex: 8, type: 'identifier.sql' },
+			{ startIndex: 9, type: 'white.sql' },
+			{ startIndex: 10, type: 'keyword.sql' }
+		]
+	}],
 
 	[{
 		line: '/* a full line comment */',
