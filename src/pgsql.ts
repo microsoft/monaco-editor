@@ -211,7 +211,6 @@ export const language = <ILanguage>{
 		],
 		comments: [
 			[/--+.*/, 'comment'],
-			[/#+.*/, 'comment'],
 			[/\/\*/, { token: 'comment.quote', next: '@comment' }]
 		],
 		comment: [
@@ -237,24 +236,19 @@ export const language = <ILanguage>{
 		],
 		strings: [
 			[/'/, { token: 'string', next: '@string' }],
-			[/"/, { token: 'string', next: '@string' }]
 		],
 		string: [
 			[/[^']+/, 'string'],
-			[/[^"]+/, 'string'],
 			[/''/, 'string'],
-			[/""/, 'string'],
-			[/'/, { token: 'string', next: '@pop' }],
-			[/"/, { token: 'string', next: '@pop' }]
+			[/'/, { token: 'string', next: '@pop' }]
 		],
 		complexIdentifiers: [
-
-			[/`/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
+			[/"/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
 		],
 		quotedIdentifier: [
-			[/[^`]+/, 'identifier'],
-			[/``/, 'identifier'],
-			[/`/, { token: 'identifier.quote', next: '@pop' }]
+			[/[^"]+/, 'identifier'],
+			[/""/, 'identifier'],
+			[/"/, { token: 'identifier.quote', next: '@pop' }]
 		],
 		scopes: [
 			// NOT SUPPORTED

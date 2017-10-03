@@ -7,7 +7,7 @@
 
 import { testTokenization } from './testRunner';
 
-testTokenization('mysql', [
+testTokenization('sql', [
 	// Comments
 	[{
 		line: '-- a comment',
@@ -23,17 +23,17 @@ testTokenization('mysql', [
 		]
 	}],
 
-	// [{
-	// 	line: '-almost a comment',
-	// 	tokens: [
-	// 		{ startIndex: 0, type: 'operator.sql' },
-	// 		{ startIndex: 1, type: 'identifier.sql' },
-	// 		{ startIndex: 7, type: 'white.sql' },
-	// 		{ startIndex: 8, type: 'identifier.sql' },
-	// 		{ startIndex: 9, type: 'white.sql' },
-	// 		{ startIndex: 10, type: 'identifier.sql' }
-	// 	]
-	// }],
+	[{
+		line: '-almost a comment',
+		tokens: [
+			{ startIndex: 0, type: 'operator.sql' },
+			{ startIndex: 1, type: 'identifier.sql' },
+			{ startIndex: 7, type: 'white.sql' },
+			{ startIndex: 8, type: 'identifier.sql' },
+			{ startIndex: 9, type: 'white.sql' },
+			{ startIndex: 10, type: 'identifier.sql' }
+		]
+	}],
 
 	[{
 		line: '/* a full line comment */',
@@ -54,14 +54,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '# comment',
-		tokens: [
-			{ startIndex: 0, type: 'comment.sql' }
-		]
-	}],
-
-	[{
-		line: 'declare @x int = /* a simple comment */ 1;',
+		line: 'declare _x int = /* a simple comment */ 1;',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 7, type: 'white.sql' },
@@ -83,7 +76,7 @@ testTokenization('mysql', [
 	// Not supporting nested comments, as nested comments seem to not be standard?
 	// i.e. http://stackoverflow.com/questions/728172/are-there-multiline-comment-delimiters-in-sql-that-are-vendor-agnostic
 	[{
-		line: '@x=/* a /* nested comment  1*/;',
+		line: '_x=/* a /* nested comment  1*/;',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.sql' },
 			{ startIndex: 2, type: 'operator.sql' },
@@ -95,7 +88,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '@x=/* another comment */ 1*/;',
+		line: '_x=/* another comment */ 1*/;',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.sql' },
 			{ startIndex: 2, type: 'operator.sql' },
@@ -110,7 +103,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '@x=/*/;',
+		line: '_x=/*/;',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.sql' },
 			{ startIndex: 2, type: 'operator.sql' },
@@ -333,9 +326,64 @@ testTokenization('mysql', [
 	}],
 
 	// Identifiers
+	[{
+		line: '_abc$01',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
 
 	[{
-		line: 'declare `abc 321`;',
+		line: '#abc$01',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
+
+	[{
+		line: '##abc$01',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
+
+	[{
+		line: '@abc$01',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
+
+	[{
+		line: '@@abc$01',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
+
+	[{
+		line: '$abc',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
+
+	[{
+		line: '$nonexistent',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
+
+	[{
+		line: '@@nonexistent',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.sql' }
+		]
+	}],
+
+	[{
+		line: 'declare "abc 321";',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 7, type: 'white.sql' },
@@ -347,7 +395,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '`abc`` 321 `` xyz`',
+		line: '"abc"" 321 "" xyz"',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.quote.sql' },
 			{ startIndex: 1, type: 'identifier.sql' },
@@ -356,7 +404,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '`abc',
+		line: '"abc',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.quote.sql' },
 			{ startIndex: 1, type: 'identifier.sql' }
@@ -364,7 +412,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: 'declare `abc 321`;',
+		line: 'declare "abc 321";',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 7, type: 'white.sql' },
@@ -376,7 +424,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '`abc`` 321 `` xyz`',
+		line: '"abc"" 321 "" xyz"',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.quote.sql' },
 			{ startIndex: 1, type: 'identifier.sql' },
@@ -385,7 +433,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '`abc',
+		line: '"abc',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.quote.sql' },
 			{ startIndex: 1, type: 'identifier.sql' }
@@ -400,7 +448,7 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '`int`',
+		line: '"int"',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.quote.sql' },
 			{ startIndex: 1, type: 'identifier.sql' },
@@ -410,25 +458,13 @@ testTokenization('mysql', [
 
 	// Strings
 	[{
-		line: 'declare @x=\'a string\';',
+		line: 'declare _x=\'a string\';',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 7, type: 'white.sql' },
 			{ startIndex: 8, type: 'identifier.sql' },
 			{ startIndex: 10, type: 'operator.sql' },
 			{ startIndex: 11, type: 'string.sql' },
-			{ startIndex: 21, type: 'delimiter.sql' }
-		]
-	}],
-
-	[{
-		line: 'declare @x="a string";',
-		tokens: [
-			{ startIndex: 0, type: 'keyword.sql' },
-			{ startIndex: 7, type: 'white.sql' },
-			{ startIndex: 8, type: 'identifier.sql' },
-			{ startIndex: 10, type: 'operator.sql' },
-			{ startIndex: 11, type: 'string.double.sql' },
 			{ startIndex: 21, type: 'delimiter.sql' }
 		]
 	}],
@@ -441,37 +477,9 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: '"a "" string with quotes"',
-		tokens: [
-			{ startIndex: 0, type: 'string.double.sql' },
-		]
-	}],
-
-	[{
-		line: '\'a " string with quotes\'',
-		tokens: [
-			{ startIndex: 0, type: 'string.sql' },
-		]
-	}],
-
-	[{
-		line: '"a ` string with quotes"',
-		tokens: [
-			{ startIndex: 0, type: 'string.double.sql' },
-		]
-	}],
-
-	[{
 		line: '\'a -- string with comment\'',
 		tokens: [
 			{ startIndex: 0, type: 'string.sql' },
-		]
-	}],
-
-	[{
-		line: '"a -- string with comment"',
-		tokens: [
-			{ startIndex: 0, type: 'string.double.sql' },
 		]
 	}],
 
@@ -482,29 +490,20 @@ testTokenization('mysql', [
 		]
 	}],
 
-	[{
-		line: '"a endless string',
-		tokens: [
-			{ startIndex: 0, type: 'string.double.sql' },
-		]
-	}],
-
 	// Operators
 	[{
-		line: 'SET @x=@x+1',
+		line: 'x=x+1',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.sql' },
-			{ startIndex: 3, type: 'white.sql' },
-			{ startIndex: 4, type: 'identifier.sql' },
-			{ startIndex: 6, type: 'operator.sql' },
-			{ startIndex: 7, type: 'identifier.sql' },
-			{ startIndex: 9, type: 'operator.sql' },
-			{ startIndex: 10, type: 'number.sql' }
+			{ startIndex: 0, type: 'identifier.sql' },
+			{ startIndex: 1, type: 'operator.sql' },
+			{ startIndex: 2, type: 'identifier.sql' },
+			{ startIndex: 3, type: 'operator.sql' },
+			{ startIndex: 4, type: 'number.sql' }
 		]
 	}],
 
 	[{
-		line: '@x^=@x',
+		line: '_x^=_x',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.sql' },
 			{ startIndex: 2, type: 'operator.sql' },
@@ -513,22 +512,22 @@ testTokenization('mysql', [
 	}],
 
 	[{
-		line: 'WHERE myfield IS NOT NULL',
+		line: 'WHERE x IS NOT NULL',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 5, type: 'white.sql' },
 			{ startIndex: 6, type: 'identifier.sql' },
-			{ startIndex: 13, type: 'white.sql' },
-			{ startIndex: 14, type: 'operator.sql' },
-			{ startIndex: 16, type: 'white.sql' },
-			{ startIndex: 17, type: 'operator.sql' },
-			{ startIndex: 20, type: 'white.sql' },
-			{ startIndex: 21, type: 'operator.sql' }
+			{ startIndex: 7, type: 'white.sql' },
+			{ startIndex: 8, type: 'operator.sql' },
+			{ startIndex: 10, type: 'white.sql' },
+			{ startIndex: 11, type: 'operator.sql' },
+			{ startIndex: 14, type: 'white.sql' },
+			{ startIndex: 15, type: 'operator.sql' }
 		]
 	}],
 
 	[{
-		line: 'SELECT * FROM tbl WHERE MyColumn IN (1,2)',
+		line: 'SELECT * FROM sch.MyTable WHERE MyColumn IN (1,2)',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.sql' },
 			{ startIndex: 6, type: 'white.sql' },
@@ -537,18 +536,20 @@ testTokenization('mysql', [
 			{ startIndex: 9, type: 'keyword.sql' },
 			{ startIndex: 13, type: 'white.sql' },
 			{ startIndex: 14, type: 'identifier.sql' },
-			{ startIndex: 17, type: 'white.sql' },
-			{ startIndex: 18, type: 'keyword.sql' },
-			{ startIndex: 23, type: 'white.sql' },
-			{ startIndex: 24, type: 'identifier.sql' },
-			{ startIndex: 32, type: 'white.sql' },
-			{ startIndex: 33, type: 'operator.sql' },
-			{ startIndex: 35, type: 'white.sql' },
-			{ startIndex: 36, type: 'delimiter.parenthesis.sql' },
-			{ startIndex: 37, type: 'number.sql' },
-			{ startIndex: 38, type: 'delimiter.sql' },
-			{ startIndex: 39, type: 'number.sql' },
-			{ startIndex: 40, type: 'delimiter.parenthesis.sql' }
+			{ startIndex: 17, type: 'delimiter.sql' },
+			{ startIndex: 18, type: 'identifier.sql' },
+			{ startIndex: 25, type: 'white.sql' },
+			{ startIndex: 26, type: 'keyword.sql' },
+			{ startIndex: 31, type: 'white.sql' },
+			{ startIndex: 32, type: 'identifier.sql' },
+			{ startIndex: 40, type: 'white.sql' },
+			{ startIndex: 41, type: 'operator.sql' },
+			{ startIndex: 43, type: 'white.sql' },
+			{ startIndex: 44, type: 'delimiter.parenthesis.sql' },
+			{ startIndex: 45, type: 'number.sql' },
+			{ startIndex: 46, type: 'delimiter.sql' },
+			{ startIndex: 47, type: 'number.sql' },
+			{ startIndex: 48, type: 'delimiter.parenthesis.sql' }
 		]
 	}]
 ]);

@@ -43,7 +43,6 @@ export const language = <ILanguage>{
 		{ open: '[', close: ']', token: 'delimiter.square' },
 		{ open: '(', close: ')', token: 'delimiter.parenthesis' }
 	],
-
 	keywords: [
 		"AES128", "AES256", "ALL", "ALLOWOVERWRITE", "ANALYSE", "ANALYZE", "AND", "ANY", "ARRAY", "AS", "ASC", "AUTHORIZATION",
 		"BACKUP", "BETWEEN", "BINARY", "BLANKSASNULL", "BOTH", "BYTEDICT", "BZIP2", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN",
@@ -169,7 +168,6 @@ export const language = <ILanguage>{
 		],
 		comments: [
 			[/--+.*/, 'comment'],
-			[/#+.*/, 'comment'],
 			[/\/\*/, { token: 'comment.quote', next: '@comment' }]
 		],
 		comment: [
@@ -195,24 +193,19 @@ export const language = <ILanguage>{
 		],
 		strings: [
 			[/'/, { token: 'string', next: '@string' }],
-			[/"/, { token: 'string', next: '@string' }]
 		],
 		string: [
 			[/[^']+/, 'string'],
-			[/[^"]+/, 'string'],
 			[/''/, 'string'],
-			[/""/, 'string'],
-			[/'/, { token: 'string', next: '@pop' }],
-			[/"/, { token: 'string', next: '@pop' }]
+			[/'/, { token: 'string', next: '@pop' }]
 		],
 		complexIdentifiers: [
-
-			[/`/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
+			[/"/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
 		],
 		quotedIdentifier: [
-			[/[^`]+/, 'identifier'],
-			[/``/, 'identifier'],
-			[/`/, { token: 'identifier.quote', next: '@pop' }]
+			[/[^"]+/, 'identifier'],
+			[/""/, 'identifier'],
+			[/"/, { token: 'identifier.quote', next: '@pop' }]
 		],
 		scopes: [
 			// NOT SUPPORTED

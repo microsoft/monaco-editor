@@ -1,6 +1,6 @@
 {
   "name": "@teamsqlio/monaco-languages",
-  "version": "0.9.0",
+  "version": "0.9.3",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
     "compile": "node_modules/.bin/gulp compile",
