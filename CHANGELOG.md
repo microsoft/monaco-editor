@@ -1,5 +1,8 @@
 # Monaco Editor Change log
 
+## [0.10.1] (16.10.2017)
+ - Fixes [issue #601](https://github.com/Microsoft/monaco-editor/issues/601): window.opener should be set to null to protect against malicious code
+
 ## [0.10.0] (17.08.2017)
 
 ### Breaking changes
