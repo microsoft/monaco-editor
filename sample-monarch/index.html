@@ -3,23 +3,6 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<style>
-		.monaco-editor.vs .token.custom-info {
-			color: grey;
-		}
-		.monaco-editor.vs .token.custom-error {
-			color: red;
-			font-weight: bold;
-			font-size: 1.2em;
-		}
-		.monaco-editor.vs .token.custom-notice {
-			color: orange;
-		}
-
-		.monaco-editor.vs .token.custom-date {
-			color: green;
-		}
-	</style>
 </head>
 <body>
 
@@ -46,7 +29,20 @@
 			}
 		});
 
+		// Define a new theme that constains only rules that match this language
+		monaco.editor.defineTheme('myCoolTheme', {
+			base: 'vs',
+			inherit: false,
+			rules: [
+				{ token: 'custom-info', foreground: '808080' },
+				{ token: 'custom-error', foreground: 'ff0000', fontStyle: 'bold' },
+				{ token: 'custom-notice', foreground: 'FFA500' },
+				{ token: 'custom-date', foreground: '008800' },
+			]
+		});
+		
 		var editor = monaco.editor.create(document.getElementById('container'), {
+			theme: 'myCoolTheme',
 			value: getCode(),
 			language: 'myCustomLanguage'
 		});
