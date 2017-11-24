@@ -275,21 +275,21 @@ registerLanguage({
 
 registerLanguage({
 	id: 'mysql',
-	extensions: ['.sql'],
+	extensions: [],
 	aliases: ['MySQL', 'mysql'],
 	module: './mysql'
 });
 
 registerLanguage({
 	id: 'pgsql',
-	extensions: ['.sql'],
+	extensions: [],
 	aliases: ['PostgreSQL', 'postgres', 'pg', 'postgre'],
 	module: './pgsql'
 });
 
 registerLanguage({
 	id: 'redshift',
-	extensions: ['.sql'],
+	extensions: [],
 	aliases: ['Redshift', 'redshift'],
 	module: './redshift'
 });
