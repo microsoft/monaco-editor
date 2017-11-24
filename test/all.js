@@ -58,7 +58,11 @@ requirejs([
 		'out/test/xml.test',
 		'out/test/yaml.test',
 		'out/test/solidity.test',
-		'out/test/sb.test'
+		'out/test/sb.test',
+		'out/test/mysql.test',
+		'out/test/pgsql.test',
+		'out/test/redshift.test',
+		'out/test/redis.test'
 	], function() {
 		run(); // We can launch the tests!
 	});
