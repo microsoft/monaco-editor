@@ -747,5 +747,34 @@ testTokenization('cpp', [
 		tokens: [
 			{ startIndex: 0, type: 'keyword.cpp' }
 		]
+	}, {
+		line: '#    ifdef VAR',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.cpp' },
+			{ startIndex: 10, type: '' },
+			{ startIndex: 11, type: 'identifier.cpp' }
+		]
+	}, {
+		line: '#	define SUM(A,B) (A) + (B)',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.cpp' },
+			{ startIndex: 8, type: '' },
+			{ startIndex: 9, type: 'identifier.cpp' },
+			{ startIndex: 12, type: 'delimiter.parenthesis.cpp' },
+			{ startIndex: 13, type: 'identifier.cpp' },
+			{ startIndex: 14, type: 'delimiter.cpp' },
+			{ startIndex: 15, type: 'identifier.cpp' },
+			{ startIndex: 16, type: 'delimiter.parenthesis.cpp' },
+			{ startIndex: 17, type: '' },
+			{ startIndex: 18, type: 'delimiter.parenthesis.cpp' },
+			{ startIndex: 19, type: 'identifier.cpp' },
+			{ startIndex: 20, type: 'delimiter.parenthesis.cpp' },
+			{ startIndex: 21, type: '' },
+			{ startIndex: 22, type: 'delimiter.cpp' },
+			{ startIndex: 23, type: '' },
+			{ startIndex: 24, type: 'delimiter.parenthesis.cpp' },
+			{ startIndex: 25, type: 'identifier.cpp' },
+			{ startIndex: 26, type: 'delimiter.parenthesis.cpp' }
+		]
 	}]
 ]);
