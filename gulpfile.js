@@ -160,20 +160,7 @@ export declare var contents: string;
  * Escape text such that it can be used in a javascript string enclosed by double quotes (")
  */
 function escapeText(text) {
-	// http://www.javascriptkit.com/jsref/escapesequence.shtml
-	// \b	Backspace.
-	// \f	Form feed.
-	// \n	Newline.
-	// \O	Nul character.
-	// \r	Carriage return.
-	// \t	Horizontal tab.
-	// \v	Vertical tab.
-	// \'	Single quote or apostrophe.
-	// \"	Double quote.
-	// \\	Backslash.
-	// \ddd	The Latin-1 character specified by the three octal digits between 0 and 377. ie, copyright symbol is \251.
-	// \xdd	The Latin-1 character specified by the two hexadecimal digits dd between 00 and FF.  ie, copyright symbol is \xA9.
-	// \udddd	The Unicode character specified by the four hexadecimal digits dddd. ie, copyright symbol is \u00A9.
+	// See http://www.javascriptkit.com/jsref/escapesequence.shtml
 	var _backspace = '\b'.charCodeAt(0);
 	var _formFeed = '\f'.charCodeAt(0);
 	var _newLine = '\n'.charCodeAt(0);
