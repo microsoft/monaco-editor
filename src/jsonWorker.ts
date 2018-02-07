@@ -11,7 +11,6 @@ import IWorkerContext = monaco.worker.IWorkerContext;
 import * as jsonService from 'vscode-json-languageservice';
 import * as ls from 'vscode-languageserver-types';
 
-
 class PromiseAdapter<T> implements jsonService.Thenable<T> {
 	private wrapped: monaco.Promise<T>;
 
@@ -19,17 +18,17 @@ class PromiseAdapter<T> implements jsonService.Thenable<T> {
 		this.wrapped = new monaco.Promise<T>(executor);
 	}
 	public then<TResult>(onfulfilled?: (value: T) => TResult | jsonService.Thenable<TResult>, onrejected?: (reason: any) => void): jsonService.Thenable<TResult> {
-		return this.wrapped.then(onfulfilled, onrejected);
+		let thenable : monaco.Thenable<T> = this.wrapped;
+		return thenable.then(onfulfilled, onrejected);
 	}
-	public getWrapped(): monaco.Promise<T> {
+	public getWrapped(): monaco.Thenable<T> {
 		return this.wrapped;
 	}
 	public cancel(): void {
 		this.wrapped.cancel();
 	}
-
-	public static resolve<T>(v: T): jsonService.Thenable<T> {
-		return monaco.Promise.as(v);
+	public static resolve<T>(v: T | Thenable<T>): jsonService.Thenable<T> {
+		return <monaco.Thenable<T>> monaco.Promise.as(v);
 	}
 	public static reject<T>(v: T): jsonService.Thenable<T> {
 		return monaco.Promise.wrapError(v);
