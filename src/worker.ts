@@ -140,11 +140,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	}
 
 	getCompletionsAtPosition(fileName: string, position: number): Promise<ts.CompletionInfo> {
-		return Promise.as(this._languageService.getCompletionsAtPosition(fileName, position));
+		return Promise.as(this._languageService.getCompletionsAtPosition(fileName, position, undefined));
 	}
 
 	getCompletionEntryDetails(fileName: string, position: number, entry: string): Promise<ts.CompletionEntryDetails> {
-		return Promise.as(this._languageService.getCompletionEntryDetails(fileName, position, entry));
+		return Promise.as(this._languageService.getCompletionEntryDetails(fileName, position, entry, undefined, undefined));
 	}
 
 	getSignatureHelpItems(fileName: string, position: number): Promise<ts.SignatureHelpItems> {

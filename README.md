@@ -24,6 +24,12 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * open `$/monaco-typescript/test/index.html` in your favorite browser.
 * test with `npm run test`
 
+## Updating TypeScript
+
+* change typescript's version in `package.json`.
+* execute `npm install .`
+* execute `npm run import-typescript`
+* adopt new APIs
 
 ## Code of Conduct
 

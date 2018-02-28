@@ -3,9 +3,10 @@
   "version": "2.3.0",
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
-    "test": "node_modules/.bin/mocha",
-    "watch": "node_modules/.bin/gulp watch",
-    "prepublish": "node_modules/.bin/gulp release"
+    "test": "mocha",
+    "watch": "gulp watch",
+    "prepublish": "gulp release",
+    "import-typescript": "gulp import-typescript"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -27,6 +28,6 @@
     "monaco-editor-core": "^0.10.0",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
-    "typescript": "2.4.1"
+    "typescript": "2.7.2"
   }
 }

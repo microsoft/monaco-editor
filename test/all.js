@@ -1,15 +1,19 @@
 var requirejs = require("requirejs");
+var path = require('path');
 
 requirejs.config({
     baseUrl: 'out',
-        paths: {
-        'vs/language/typescript': __dirname + '/../out'
+    paths: {
+        'vs/language/typescript': path.join(__dirname, '/../out')
     },
     nodeRequire: require
 });
 
- requirejs([
-     'vs/language/typescript/test/tokenization.test'
-], function() {
+// Workaround for TypeScript
+process.browser = true;
+
+requirejs([
+    'vs/language/typescript/test/tokenization.test'
+], function () {
     run(); // We can launch the tests!
 });
