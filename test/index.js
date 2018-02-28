@@ -74,6 +74,7 @@ window.setTimeout(function () {
 
 	if (location.hash) {
 		START_SAMPLE = location.hash.replace(/^\#/, '');
+		START_SAMPLE = decodeURIComponent(START_SAMPLE);
 	}
 
 	samplesData[START_SAMPLE]();
