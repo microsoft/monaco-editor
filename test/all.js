@@ -62,7 +62,8 @@ requirejs([
 		'out/test/mysql.test',
 		'out/test/pgsql.test',
 		'out/test/redshift.test',
-		'out/test/redis.test'
+		'out/test/redis.test',
+		'out/test/csp.test',
 	], function() {
 		run(); // We can launch the tests!
 	});
