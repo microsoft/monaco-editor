@@ -81,7 +81,8 @@ gulp.task('release', ['clean-release','compile'], function() {
 			bundleOne('src/mysql'),
 			bundleOne('src/redshift'),
 			bundleOne('src/pgsql'),
-			bundleOne('src/redis')
+			bundleOne('src/redis'),
+			bundleOne('src/csp')
 		)
 		.pipe(uglify({
 			output: {
