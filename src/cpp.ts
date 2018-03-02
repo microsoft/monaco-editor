@@ -259,7 +259,7 @@ export const language = <ILanguage>{
 			[/\[\[.*\]\]/, 'annotation'],
 
 			// Preprocessor directive
-			[/^\s*#\w+/, 'keyword'],
+			[/^\s*#\s*\w+/, 'keyword'],
 
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
