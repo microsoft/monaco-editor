@@ -24,7 +24,7 @@ In IE, the editor must be completely surrounded in the body element, otherwise t
 ## Installing
 
 ```
-npm install monaco-editor
+$ npm install monaco-editor
 ```
 
 You will get:
