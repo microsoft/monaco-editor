@@ -12,7 +12,6 @@ import * as languageFeatures from './languageFeatures';
 
 import Promise = monaco.Promise;
 import Uri = monaco.Uri;
-import IDisposable = monaco.IDisposable;
 
 let javaScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
 let typeScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
@@ -55,27 +54,23 @@ export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => P
 
 function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language:Language): (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker> {
 
-	let disposables: IDisposable[] = [];
-
 	const client = new WorkerManager(modeId, defaults);
-	disposables.push(client);
-
 	const worker = (first: Uri, ...more: Uri[]): Promise<TypeScriptWorker> => {
 		return client.getLanguageServiceWorker(...[first].concat(more));
 	};
 
-	disposables.push(monaco.languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker)));
-	disposables.push(monaco.languages.registerSignatureHelpProvider(modeId, new languageFeatures.SignatureHelpAdapter(worker)));
-	disposables.push(monaco.languages.registerHoverProvider(modeId, new languageFeatures.QuickInfoAdapter(worker)));
-	disposables.push(monaco.languages.registerDocumentHighlightProvider(modeId, new languageFeatures.OccurrencesAdapter(worker)));
-	disposables.push(monaco.languages.registerDefinitionProvider(modeId, new languageFeatures.DefinitionAdapter(worker)));
-	disposables.push(monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(worker)));
-	disposables.push(monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker)));
-	disposables.push(monaco.languages.registerDocumentRangeFormattingEditProvider(modeId, new languageFeatures.FormatAdapter(worker)));
-	disposables.push(monaco.languages.registerOnTypeFormattingEditProvider(modeId, new languageFeatures.FormatOnTypeAdapter(worker)));
-	disposables.push(new languageFeatures.DiagnostcsAdapter(defaults, modeId, worker));
-	disposables.push(monaco.languages.setLanguageConfiguration(modeId, richEditConfiguration));
-	disposables.push(monaco.languages.setTokensProvider(modeId, createTokenizationSupport(language)));
+	monaco.languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker));
+	monaco.languages.registerSignatureHelpProvider(modeId, new languageFeatures.SignatureHelpAdapter(worker));
+	monaco.languages.registerHoverProvider(modeId, new languageFeatures.QuickInfoAdapter(worker));
+	monaco.languages.registerDocumentHighlightProvider(modeId, new languageFeatures.OccurrencesAdapter(worker));
+	monaco.languages.registerDefinitionProvider(modeId, new languageFeatures.DefinitionAdapter(worker));
+	monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(worker));
+	monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker));
+	monaco.languages.registerDocumentRangeFormattingEditProvider(modeId, new languageFeatures.FormatAdapter(worker));
+	monaco.languages.registerOnTypeFormattingEditProvider(modeId, new languageFeatures.FormatOnTypeAdapter(worker));
+	new languageFeatures.DiagnostcsAdapter(defaults, modeId, worker);
+	monaco.languages.setLanguageConfiguration(modeId, richEditConfiguration);
+	monaco.languages.setTokensProvider(modeId, createTokenizationSupport(language));
 
 	return worker;
 }
