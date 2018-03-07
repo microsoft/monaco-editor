@@ -240,10 +240,14 @@ export const language = <ILanguage>{
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integersuffix: /(ll|LL|u|U|l|L)?(ll|LL|u|U|l|L)?/,
 	floatsuffix: /[fFlL]?/,
+	encoding: /u|u8|U|L/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
+			// C++ 11 Raw String
+			[/@encoding?R\"(?:([^ ()\\\t]*))\(/, { token: 'string.raw.begin', next: '@raw.$1' }],
+
 			// identifiers and keywords
 			[/[a-zA-Z_]\w*/, {
 				cases: {
@@ -318,5 +322,16 @@ export const language = <ILanguage>{
 			[/\\./, 'string.escape.invalid'],
 			[/"/, 'string', '@pop']
 		],
+
+		raw: [
+			[/(.*)(\))(?:([^ ()\\\t]*))(\")/, {
+					cases: {
+						'$3==$S2': ['string.raw', 'string.raw.end', 'string.raw.end', { token: 'string.raw.end', next: '@pop' }],
+						'@default': ['string.raw', 'string.raw', 'string.raw', 'string.raw']
+					}
+				}
+			],
+			[/.*/, 'string.raw']
+		]
 	},
 };

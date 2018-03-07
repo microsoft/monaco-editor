@@ -776,5 +776,13 @@ testTokenization('cpp', [
 			{ startIndex: 25, type: 'identifier.cpp' },
 			{ startIndex: 26, type: 'delimiter.parenthesis.cpp' }
 		]
+	}, {
+		line: 'uR"V0G0N(abc)V0G0N"def',
+		tokens: [
+			{ startIndex: 0, type: 'string.raw.begin.cpp' },
+			{ startIndex: 9, type: 'string.raw.cpp' },
+			{ startIndex: 12, type: 'string.raw.end.cpp' },
+			{ startIndex: 19, type: 'identifier.cpp' }
+		]
 	}]
 ]);
