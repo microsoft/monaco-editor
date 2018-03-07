@@ -184,7 +184,9 @@ testTokenization('fsharp', [
 			{ startIndex: 1, type: '' },
 			{ startIndex: 2, type: 'delimiter.fs' },
 			{ startIndex: 3, type: '' },
-			{ startIndex: 4, type: 'comment.fs' }
+			{ startIndex: 4, type: 'delimiter.parenthesis.fs' },
+			{ startIndex: 5, type: 'delimiter.fs' },
+			{ startIndex: 6, type: 'delimiter.parenthesis.fs' }
 		]
 	}],
 
