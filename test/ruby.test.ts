@@ -134,5 +134,13 @@ testTokenization('ruby', [
 			{ startIndex: 0, type: 'identifier.ruby' },
 			{ startIndex: 1, type: 'string.heredoc.delimiter.ruby' }
 		]
+	}],
+
+	[{
+		line: 'x<<~HERE',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.ruby' },
+			{ startIndex: 1, type: 'string.heredoc.delimiter.ruby' }
+		]
 	}]
 ]);

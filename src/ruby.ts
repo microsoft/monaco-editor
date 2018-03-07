@@ -179,7 +179,7 @@ export const language = <ILanguage>{
 			[/@@[\w]*/, 'namespace.class.identifier'],    // class
 
 			// here document
-			[/<<-(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
+			[/<<[-~](@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 			[/[ \t\r\n]+<<(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 			[/^<<(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 
