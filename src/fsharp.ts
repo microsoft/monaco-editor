@@ -121,7 +121,7 @@ export const language = <ILanguage>{
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/\(\*/, 'comment', '@comment'],
+			[/\(\*(?!\))/, 'comment', '@comment'],
 			[/\/\/.*$/, 'comment'],
 		],
 
