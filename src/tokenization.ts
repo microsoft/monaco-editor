@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import json = require('jsonc-parser');
+import * as json from 'jsonc-parser';
 
 export function createTokenizationSupport(supportComments: boolean): monaco.languages.TokensProvider {
     return {

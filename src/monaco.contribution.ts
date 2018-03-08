@@ -63,7 +63,7 @@ monaco.languages.json = createAPI();
 // --- Registration to monaco editor ---
 
 function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['vs/language/json/jsonMode'], callback);
+	require<typeof mode>(['./jsonMode'], callback);
 }
 
 monaco.languages.register({

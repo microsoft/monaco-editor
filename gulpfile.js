@@ -15,7 +15,7 @@ var rimraf = require('rimraf');
 var es = require('event-stream');
 
 gulp.task('clean-release', function(cb) { rimraf('release', { maxBusyTries: 1 }, cb); });
-gulp.task('release', ['clean-release','compile'], function() {
+gulp.task('release', ['clean-release'], function() {
 
 	var sha1 = getGitVersion(__dirname);
 	var semver = require('./package.json').version;
@@ -108,24 +108,6 @@ gulp.task('release', ['clean-release','compile'], function() {
 	);
 });
 
-
-var compilation = tsb.create(assign({ verbose: true }, require('./src/tsconfig.json').compilerOptions));
-
-var tsSources = 'src/**/*.ts';
-
-function compileTask() {
-	return merge(
-		gulp.src(tsSources).pipe(compilation())
-	)
-	.pipe(gulp.dest('out'));
-}
-
-gulp.task('clean-out', function(cb) { rimraf('out', { maxBusyTries: 1 }, cb); });
-gulp.task('compile', ['clean-out'], compileTask);
-gulp.task('compile-without-clean', compileTask);
-gulp.task('watch', ['compile'], function() {
-	gulp.watch(tsSources, ['compile-without-clean']);
-});
 
 function getGitVersion(repo) {
 	var git = path.join(repo, '.git');
