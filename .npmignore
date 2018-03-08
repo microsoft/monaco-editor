@@ -1,8 +1,10 @@
 /.vscode/
 /lib/
 /out/
+/scripts/
 /src/
 /test/
 /release/dev/
-/gulpfile.js
 /.npmignore
+/webpack.dev.config.js
+/webpack.min.config.js
