@@ -196,7 +196,7 @@ monaco.languages.typescript = createAPI();
 // --- Registration to monaco editor ---
 
 function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['vs/language/typescript/src/mode'], callback);
+	require<typeof mode>(['./mode'], callback);
 }
 
 monaco.languages.register({

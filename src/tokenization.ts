@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import ts = require('../lib/typescriptServices');
+import ts = require('./lib/typescriptServices');
 
 export enum Language {
 	TypeScript,

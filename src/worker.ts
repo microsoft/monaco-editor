@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import ts = require('../lib/typescriptServices');
-import { contents as libdts } from '../lib/lib-ts';
-import { contents as libes6ts } from '../lib/lib-es6-ts';
+import ts = require('./lib/typescriptServices');
+import { contents as libdts } from './lib/lib-ts';
+import { contents as libes6ts } from './lib/lib-es6-ts';
 
 import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;

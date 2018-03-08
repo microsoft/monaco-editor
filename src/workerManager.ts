@@ -63,7 +63,7 @@ export class WorkerManager {
 			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
 
 				// module that exports the create() method and returns a `TypeScriptWorker` instance
-				moduleId: 'vs/language/typescript/src/worker',
+				moduleId: 'vs/language/typescript/worker',
 
 				label: this._modeId,
 

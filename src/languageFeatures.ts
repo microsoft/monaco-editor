@@ -5,7 +5,7 @@
 'use strict';
 
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
-import * as ts from '../lib/typescriptServices';
+import * as ts from './lib/typescriptServices';
 import { TypeScriptWorker } from './worker';
 
 import Uri = monaco.Uri;

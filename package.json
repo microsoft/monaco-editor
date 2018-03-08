@@ -4,8 +4,9 @@
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
     "test": "mocha",
-    "watch": "gulp watch",
-    "prepublish": "gulp release",
+    "compile": "node ./scripts/rmdir.js ./out && node ./scripts/copy.js ./src/lib/typescriptServices.js ./out/amd/lib/typescriptServices.js && tsc -p ./src",
+    "watch": "tsc -p ./src --watch",
+    "prepublish": "npm run compile && gulp release",
     "import-typescript": "gulp import-typescript"
   },
   "author": "Microsoft Corporation",

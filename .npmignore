@@ -1,8 +1,7 @@
 /.vscode/
-/lib/
 /out/
+/scripts/
 /src/
-/test/
 /gulpfile.js
 /tsconfig.json
 /.npmignore

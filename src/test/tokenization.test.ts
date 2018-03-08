@@ -5,7 +5,7 @@
 'use strict';
 
 import * as assert from 'assert';
-import {createTokenizationSupport, Language} from '../src/tokenization';
+import {createTokenizationSupport, Language} from '../tokenization';
 
 suite('tokenization', () => {
 

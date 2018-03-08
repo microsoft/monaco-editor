@@ -4,7 +4,7 @@ var path = require('path');
 requirejs.config({
     baseUrl: 'out',
     paths: {
-        'vs/language/typescript': path.join(__dirname, '/../out')
+        'vs/language/typescript': path.join(__dirname, '/../out/amd')
     },
     nodeRequire: require
 });

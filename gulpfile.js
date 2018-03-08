@@ -15,10 +15,10 @@ var rimraf = require('rimraf');
 var es = require('event-stream');
 
 var TYPESCRIPT_LIB_SOURCE = path.join(__dirname, 'node_modules', 'typescript', 'lib');
-var TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, 'lib');
+var TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, 'src', 'lib');
 
 gulp.task('clean-release', function(cb) { rimraf('release', { maxBusyTries: 1 }, cb); });
-gulp.task('release', ['clean-release','compile'], function() {
+gulp.task('release', ['clean-release'], function() {
 
 	var sha1 = getGitVersion(__dirname);
 	var semver = require('./package.json').version;
@@ -36,22 +36,22 @@ gulp.task('release', ['clean-release','compile'], function() {
 
 	function bundleOne(moduleId, exclude) {
 		return rjs({
-			baseUrl: '/out/',
+			baseUrl: '/out/amd/',
 			name: 'vs/language/typescript/' + moduleId,
 			out: moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/language/typescript': __dirname + '/out'
+				'vs/language/typescript': __dirname + '/out/amd/'
 			}
 		})
 	}
 
 	return merge(
 		merge(
-			bundleOne('src/monaco.contribution'),
+			bundleOne('monaco.contribution'),
 			bundleOne('lib/typescriptServices'),
-			bundleOne('src/mode', ['vs/language/typescript/lib/typescriptServices']),
-			bundleOne('src/worker', ['vs/language/typescript/lib/typescriptServices'])
+			bundleOne('mode', ['vs/language/typescript/lib/typescriptServices']),
+			bundleOne('worker', ['vs/language/typescript/lib/typescriptServices'])
 		)
 		.pipe(uglify({
 			preserveComments: 'some'
@@ -65,30 +65,9 @@ gulp.task('release', ['clean-release','compile'], function() {
 		}))
 		.pipe(gulp.dest('./release/')),
 
-		gulp.src('src/monaco.d.ts').pipe(gulp.dest('./release/'))
+		gulp.src('src/monaco.d.ts').pipe(gulp.dest('./release/')),
 	);
 });
-
-
-var compilation = tsb.create(assign({ verbose: true }, require('./tsconfig.json').compilerOptions));
-
-var tsSources = require('./tsconfig.json').include.concat(require('./tsconfig.json').files);
-
-function compileTask() {
-	return merge(
-		gulp.src('lib/*.js', { base: '.' }),
-		gulp.src(tsSources).pipe(compilation())
-	)
-	.pipe(gulp.dest('out'));
-}
-
-gulp.task('clean-out', function(cb) { rimraf('out', { maxBusyTries: 1 }, cb); });
-gulp.task('compile', ['clean-out'], compileTask);
-gulp.task('compile-without-clean', compileTask);
-gulp.task('watch', ['compile'], function() {
-	gulp.watch(tsSources, ['compile-without-clean']);
-});
-
 
 /**
  * Import files from TypeScript's dist
@@ -132,27 +111,14 @@ function importLibDeclarationFile(name) {
 
 	var contents = fs.readFileSync(srcPath).toString();
 
-	var dstPath1 = path.join(TYPESCRIPT_LIB_DESTINATION, dstName + '.js');
-	fs.writeFileSync(dstPath1,
+	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, dstName + '.ts');
+	fs.writeFileSync(dstPath,
 `/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-// This is a generated file from ${name}
-
-define([], function() { return { contents: "${escapeText(contents)}"}; });
-
-`);
-
-	var dstPath2 = path.join(TYPESCRIPT_LIB_DESTINATION, dstName + '.d.ts');
-	fs.writeFileSync(dstPath2,
-`/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-export declare var contents: string;
+export const contents = "${escapeText(contents)}";
 `);
 }
 
