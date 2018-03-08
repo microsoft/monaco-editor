@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "module": "es6",
-    "moduleResolution": "node",
-    "outDir": "../out-esm",
-    "target": "es5"
-  }
-}

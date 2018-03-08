@@ -6,7 +6,7 @@ var path = require("path");
 var REPO_ROOT = path.join(__dirname, '../');
 process({
     repoRoot: REPO_ROOT,
-    esmSource: 'out-esm',
+    esmSource: 'out',
     esmDestination: 'release/esm',
     entryPoints: [
         'monaco.contribution.js',
@@ -14,7 +14,7 @@ process({
         'json.worker.js'
     ],
     resolveAlias: {
-        'vscode-nls': path.join(REPO_ROOT, "out-esm/fillers/vscode-nls.js")
+        'vscode-nls': path.join(REPO_ROOT, "out/fillers/vscode-nls.js")
     },
     resolveSkip: [
         'monaco-editor-core'
