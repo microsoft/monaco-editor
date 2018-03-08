@@ -6,7 +6,7 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	value: "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line",
 	language: "javascript",
 
-	lineNumbers: false,
+	lineNumbers: "off",
 	roundedSelection: false,
 	scrollBeyondLastLine: false,
 	readOnly: false,
@@ -14,6 +14,6 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 });
 setTimeout(function() {
 	editor.updateOptions({
-		lineNumbers: true
+		lineNumbers: "on"
 	});
 }, 2000);
