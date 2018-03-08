@@ -233,12 +233,19 @@ function toCompletionItem(entry: ls.CompletionItem): DataCompletionItem {
 	};
 }
 
+function fromMarkdownString(entry: string | monaco.IMarkdownString): ls.MarkupContent {
+	return {
+		kind: (typeof entry === 'string' ? ls.MarkupKind.PlainText : ls.MarkupKind.PlainText),
+		value: (typeof entry === 'string' ? entry : entry.value)
+	}
+}
+
 function fromCompletionItem(entry: DataCompletionItem): ls.CompletionItem {
 	let item : ls.CompletionItem = {
 		label: entry.label,
 		sortText: entry.sortText,
 		filterText: entry.filterText,
-		documentation: entry.documentation,
+		documentation: fromMarkdownString(entry.documentation),
 		detail: entry.detail,
 		kind: fromCompletionItemKind(entry.kind),
 		data: entry.data
@@ -303,14 +310,38 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 	}
 }
 
-function toMarkedStringArray(contents: ls.MarkedString | ls.MarkedString[]): monaco.MarkedString[] {
+function isMarkupContent(thing: any): thing is ls.MarkupContent {
+	return thing && typeof thing === 'object' && typeof (<ls.MarkupContent>thing).kind === 'string';
+}
+
+function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMarkdownString {
+	if (typeof entry === 'string') {
+		return {
+			value: entry
+		};
+	}
+	if (isMarkupContent(entry)) {
+		if (entry.kind === 'plaintext') {
+			return {
+				value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&')
+			};
+		}
+		return {
+			value: entry.value
+		};
+	}
+
+	return { value: '```' + entry.value + '\n' + entry.value + '\n```\n' };
+}
+
+function toMarkedStringArray(contents: ls.MarkupContent | ls.MarkedString | ls.MarkedString[]): monaco.IMarkdownString[] {
 	if (!contents) {
 		return void 0;
 	}
 	if (Array.isArray(contents)) {
-		return (<ls.MarkedString[]>contents);
+		return contents.map(toMarkdownString);
 	}
-	return [<ls.MarkedString>contents];
+	return [toMarkdownString(contents)];
 }
 
 
@@ -403,7 +434,7 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 function fromFormattingOptions(options: monaco.languages.FormattingOptions): ls.FormattingOptions {
 	return {
 		tabSize: options.tabSize,
-        insertSpaces: options.insertSpaces
+		insertSpaces: options.insertSpaces
 	};
 }
 

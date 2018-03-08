@@ -44,8 +44,8 @@ gulp.task('release', ['clean-release','compile'], function() {
 		return location;
 	}
 
-	var jsoncLocation = getDependencyLocation('jsonc-parser', 'lib', 'vscode-json-languageservice');
-	var uriLocation = getDependencyLocation('vscode-uri', 'lib', 'vscode-json-languageservice');
+	var jsoncLocation = getDependencyLocation('jsonc-parser', 'lib/umd', 'vscode-json-languageservice');
+	var uriLocation = getDependencyLocation('vscode-uri', 'lib/umd', 'vscode-json-languageservice');
 
 	function bundleOne(moduleId, exclude) {
 
@@ -60,11 +60,11 @@ gulp.task('release', ['clean-release','compile'], function() {
 			},
 			packages: [{
 				name: 'vscode-json-languageservice',
-				location: __dirname + '/node_modules/vscode-json-languageservice/lib',
+				location: __dirname + '/node_modules/vscode-json-languageservice/lib/umd',
 				main: 'jsonLanguageService'
 			}, {
 				name: 'vscode-languageserver-types',
-				location: __dirname + '/node_modules/vscode-languageserver-types/lib',
+				location: __dirname + '/node_modules/vscode-languageserver-types/lib/umd',
 				main: 'main'
 			}, {
 				name: 'vscode-uri',

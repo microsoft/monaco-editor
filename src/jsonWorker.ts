@@ -18,7 +18,7 @@ class PromiseAdapter<T> implements jsonService.Thenable<T> {
 		this.wrapped = new monaco.Promise<T>(executor);
 	}
 	public then<TResult>(onfulfilled?: (value: T) => TResult | jsonService.Thenable<TResult>, onrejected?: (reason: any) => void): jsonService.Thenable<TResult> {
-		let thenable : monaco.Thenable<T> = this.wrapped;
+		let thenable : jsonService.Thenable<T> = this.wrapped;
 		return thenable.then(onfulfilled, onrejected);
 	}
 	public getWrapped(): monaco.Thenable<T> {
@@ -31,18 +31,11 @@ class PromiseAdapter<T> implements jsonService.Thenable<T> {
 		return <monaco.Thenable<T>> monaco.Promise.as(v);
 	}
 	public static reject<T>(v: T): jsonService.Thenable<T> {
-		return monaco.Promise.wrapError(v);
+		return monaco.Promise.wrapError(<any>v);
 	}
 	public static all<T>(values: jsonService.Thenable<T>[]): jsonService.Thenable<T[]> {
 		return monaco.Promise.join(values);
 	}
-}
-
-function toMonacoPromise<R>(thenable: jsonService.Thenable<R>): Thenable<R> {
-	if (thenable instanceof PromiseAdapter) {
-		return thenable.getWrapped();
-	}
-	return thenable;
 }
 
 export class JSONWorker {
@@ -89,7 +82,7 @@ export class JSONWorker {
 	resetSchema(uri: string): Thenable<boolean> {
 		return Promise.as(this._languageService.resetSchema(uri));
 	}
-	findDocumentSymbols(uri: string): Promise<ls.SymbolInformation[]> {
+	findDocumentSymbols(uri: string): Thenable<ls.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
