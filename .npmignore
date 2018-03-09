@@ -1,8 +1,10 @@
 /.vscode/
-/lib/
 /out/
+/scripts/
 /src/
 /test/
-/release/dev/
-/gulpfile.js
+/.gitignore
 /.npmignore
+/package-lock.json
+/webpack.dev.config.js
+/webpack.min.config.js

@@ -94,7 +94,7 @@ monaco.languages.html = createAPI();
 // --- Registration to monaco editor ---
 
 function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['vs/language/html/htmlMode'], callback);
+	require<typeof mode>(['./htmlMode'], callback);
 }
 
 monaco.languages.onLanguage(htmlLanguageId, () => {
