@@ -4,12 +4,12 @@
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
     "test": "mocha",
-    "compile-amd": "node ./scripts/copy.js ./src/lib/typescriptServices-amd.js ./release/dev/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
-    "compile-esm": "node ./scripts/copy.js ./src/lib/typescriptServices.js ./release/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
-    "compile": "node ./scripts/rmdir.js ./release && npm run compile-amd && npm run compile-esm",
+    "compile-amd": "node ./scripts/copy ./src/lib/typescriptServices-amd.js ./release/dev/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
+    "compile-esm": "node ./scripts/copy ./src/lib/typescriptServices.js ./release/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
+    "compile": "node ./scripts/rmdir ./release && npm run compile-amd && npm run compile-esm",
     "watch": "tsc -p ./src --watch",
     "prepublish": "npm run compile && gulp release",
-    "import-typescript": "gulp import-typescript"
+    "import-typescript": "node ./scripts/importTypescript"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
