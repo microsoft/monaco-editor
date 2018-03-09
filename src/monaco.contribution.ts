@@ -85,7 +85,7 @@ monaco.languages.css = createAPI();
 // --- Registration to monaco editor ---
 
 function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['vs/language/css/cssMode'], callback);
+	require<typeof mode>(['./cssMode'], callback);
 }
 
 monaco.languages.onLanguage('less', () => {

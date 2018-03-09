@@ -227,14 +227,39 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 	}
 }
 
-function toMarkedStringArray(contents: ls.MarkedString | ls.MarkedString[]): monaco.MarkedString[] {
+
+function isMarkupContent(thing: any): thing is ls.MarkupContent {
+	return thing && typeof thing === 'object' && typeof (<ls.MarkupContent>thing).kind === 'string';
+}
+
+function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMarkdownString {
+	if (typeof entry === 'string') {
+		return {
+			value: entry
+		};
+	}
+	if (isMarkupContent(entry)) {
+		if (entry.kind === 'plaintext') {
+			return {
+				value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&')
+			};
+		}
+		return {
+			value: entry.value
+		};
+	}
+
+	return { value: '```' + entry.value + '\n' + entry.value + '\n```\n' };
+}
+
+function toMarkedStringArray(contents: ls.MarkupContent | ls.MarkedString | ls.MarkedString[]): monaco.IMarkdownString[] {
 	if (!contents) {
 		return void 0;
 	}
 	if (Array.isArray(contents)) {
-		return (<ls.MarkedString[]>contents);
+		return contents.map(toMarkdownString);
 	}
-	return [<ls.MarkedString>contents];
+	return [toMarkdownString(contents)];
 }
 
 
@@ -353,11 +378,16 @@ function toWorkspaceEdit(edit: ls.WorkspaceEdit): monaco.languages.WorkspaceEdit
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
-	let resourceEdits: monaco.languages.IResourceEdit[] = [];
+	let resourceEdits: monaco.languages.ResourceTextEdit[] = [];
 	for (let uri in edit.changes) {
+		let edits: monaco.languages.TextEdit[] = [];
 		for (let e of edit.changes[uri]) {
-			resourceEdits.push({ resource: Uri.parse(uri), range: toRange(e.range), newText: e.newText });
+			edits.push({
+				range: toRange(e.range),
+				text: e.newText
+			});
 		}
+		resourceEdits.push({ resource: Uri.parse(uri), edits: edits });
 	}
 	return {
 		edits: resourceEdits
