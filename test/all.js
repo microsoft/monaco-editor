@@ -2,9 +2,9 @@ var requirejs = require("requirejs");
 var path = require('path');
 
 requirejs.config({
-    baseUrl: 'out',
+    baseUrl: 'release/dev',
     paths: {
-        'vs/language/typescript': path.join(__dirname, '/../out/amd')
+        'vs/language/typescript': path.join(__dirname, '/../release/dev')
     },
     nodeRequire: require
 });
