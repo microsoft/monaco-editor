@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "outDir": "../release/esm",
+    "target": "es5"
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "files": [
+    "../node_modules/monaco-editor-core/monaco.d.ts"
+  ]
+}

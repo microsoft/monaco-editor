@@ -17,7 +17,7 @@ var es = require('event-stream');
 var TYPESCRIPT_LIB_SOURCE = path.join(__dirname, 'node_modules', 'typescript', 'lib');
 var TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, 'src', 'lib');
 
-gulp.task('clean-release', function(cb) { rimraf('release', { maxBusyTries: 1 }, cb); });
+gulp.task('clean-release', function(cb) { rimraf('release/min', { maxBusyTries: 1 }, cb); });
 gulp.task('release', ['clean-release'], function() {
 
 	var sha1 = getGitVersion(__dirname);
@@ -36,12 +36,12 @@ gulp.task('release', ['clean-release'], function() {
 
 	function bundleOne(moduleId, exclude) {
 		return rjs({
-			baseUrl: '/out/amd/',
+			baseUrl: '/release/dev/',
 			name: 'vs/language/typescript/' + moduleId,
 			out: moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/language/typescript': __dirname + '/out/amd/'
+				'vs/language/typescript': __dirname + '/release/dev/'
 			}
 		})
 	}
@@ -63,7 +63,7 @@ gulp.task('release', ['clean-release'], function() {
 			);
 			this.emit('data', data);
 		}))
-		.pipe(gulp.dest('./release/')),
+		.pipe(gulp.dest('./release/min/')),
 
 		gulp.src('src/monaco.d.ts').pipe(gulp.dest('./release/')),
 	);
@@ -82,7 +82,8 @@ gulp.task('import-typescript', function() {
 	importLibDeclarationFile('lib.es6.d.ts');
 
 	var tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js')).toString();
-	tsServices +=
+
+	var tsServices_amd = tsServices +
 `
 // MONACOCHANGE
 // Defining the entire module name because r.js has an issue and cannot bundle this file
@@ -90,7 +91,23 @@ gulp.task('import-typescript', function() {
 define("vs/language/typescript/lib/typescriptServices", [], function() { return ts; });
 // END MONACOCHANGE
 `;
-	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'), tsServices);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices-amd.js'), tsServices_amd);
+
+	var tsServices_esm = tsServices +
+`
+// MONACOCHANGE
+export const createClassifier = ts.createClassifier;
+export const createLanguageService = ts.createLanguageService;
+export const displayPartsToString = ts.displayPartsToString;
+export const EndOfLineState = ts.EndOfLineState;
+export const flattenDiagnosticMessageText = ts.flattenDiagnosticMessageText;
+export const IndentStyle = ts.IndentStyle;
+export const ScriptKind = ts.ScriptKind;
+export const ScriptTarget = ts.ScriptTarget;
+export const TokenClass = ts.TokenClass;
+// END MONACOCHANGE
+`;
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'), tsServices_esm);
 
 	var dtsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.d.ts')).toString();
 	dtsServices +=

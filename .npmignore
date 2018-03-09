@@ -5,3 +5,4 @@
 /gulpfile.js
 /tsconfig.json
 /.npmignore
+/release/**/test/

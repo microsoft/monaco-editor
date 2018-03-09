@@ -4,7 +4,9 @@
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
     "test": "mocha",
-    "compile": "node ./scripts/rmdir.js ./out && node ./scripts/copy.js ./src/lib/typescriptServices.js ./out/amd/lib/typescriptServices.js && tsc -p ./src",
+    "compile-amd": "node ./scripts/copy.js ./src/lib/typescriptServices-amd.js ./release/dev/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
+    "compile-esm": "node ./scripts/copy.js ./src/lib/typescriptServices.js ./release/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
+    "compile": "node ./scripts/rmdir.js ./release && npm run compile-amd && npm run compile-esm",
     "watch": "tsc -p ./src --watch",
     "prepublish": "npm run compile && gulp release",
     "import-typescript": "gulp import-typescript"
@@ -29,6 +31,11 @@
     "monaco-editor-core": "^0.10.0",
     "object-assign": "^4.1.0",
     "rimraf": "^2.5.2",
-    "typescript": "2.7.2"
+    "typescript": "2.7.2",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.10"
+  },
+  "dependencies": {
+    "webpack-bundle-analyzer": "^2.11.1"
   }
 }
