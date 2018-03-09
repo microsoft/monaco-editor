@@ -8,7 +8,7 @@
     "compile-esm": "node ./scripts/copy ./src/lib/typescriptServices.js ./release/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
     "compile": "node ./scripts/rmdir ./release && npm run compile-amd && npm run compile-esm",
     "watch": "tsc -p ./src --watch",
-    "prepublish": "npm run compile && gulp release",
+    "prepublish": "npm run compile && node ./scripts/bundle && node ./scripts/copy ./src/monaco.d.ts ./release/monaco.d.ts",
     "import-typescript": "node ./scripts/importTypescript"
   },
   "author": "Microsoft Corporation",
@@ -21,21 +21,10 @@
     "url": "https://github.com/Microsoft/monaco-typescript/issues"
   },
   "devDependencies": {
-    "event-stream": "^3.3.2",
-    "gulp": "^3.9.1",
-    "gulp-requirejs": "^0.4.0",
-    "gulp-tsb": "^2.0.0",
-    "gulp-uglify": "^1.5.3",
-    "merge-stream": "^1.0.0",
     "mocha": "^2.5.3",
-    "monaco-editor-core": "^0.10.0",
-    "object-assign": "^4.1.0",
-    "rimraf": "^2.5.2",
+    "monaco-editor-core": "0.11.1",
+    "requirejs": "^2.3.5",
     "typescript": "2.7.2",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.10"
-  },
-  "dependencies": {
-    "webpack-bundle-analyzer": "^2.11.1"
+    "uglify-js": "^3.3.13"
   }
 }

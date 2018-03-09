@@ -329,7 +329,11 @@ export class QuickInfoAdapter extends Adapter implements monaco.languages.HoverP
 			let contents = ts.displayPartsToString(info.displayParts);
 			return {
 				range: this._textSpanToRange(resource, info.textSpan),
-				contents: [ contents, documentation + (tags ? '\n\n' + tags : '') ]
+				contents: [{
+					value: contents
+				}, {
+					value: documentation + (tags ? '\n\n' + tags : '')
+				}]
 			};
 		}));
 	}
