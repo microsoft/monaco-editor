@@ -3,9 +3,9 @@
   "version": "1.3.2",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
-    "compile": "node ./scripts/rmdir.js ./out && tsc -p ./src",
+    "compile": "node ./scripts/rmdir ./out && tsc -p ./src",
     "watch": "tsc -p ./src --watch",
-    "prepublish": "node ./scripts/rmdir.js ./release && npm run compile && node ./scripts/release.js && webpack --config webpack.dev.config.js && webpack --config webpack.min.config.js && node ./scripts/copy.js ./src/monaco.d.ts ./release/min/monaco.d.ts",
+    "prepublish": "node ./scripts/rmdir ./release && npm run compile && node ./scripts/release.js && webpack --config webpack.dev.config.js && webpack --config webpack.min.config.js && node ./scripts/copy ./src/monaco.d.ts ./release/monaco.d.ts",
     "install-service-next": "npm install vscode-json-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
     "install-service-local": "npm install ../vscode-json-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
   },
