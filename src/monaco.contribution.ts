@@ -10,8 +10,6 @@ import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
 import IDisposable = monaco.IDisposable;
 
-declare var require: <T>(moduleId: [string], callback: (module: T) => void) => void;
-
 // --- CSS configuration and defaults ---------
 
 export class LanguageServiceDefaultsImpl implements monaco.languages.css.LanguageServiceDefaults {
@@ -84,18 +82,18 @@ monaco.languages.css = createAPI();
 
 // --- Registration to monaco editor ---
 
-function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['./cssMode'], callback);
+function getMode(): monaco.Promise<typeof mode> {
+	return monaco.Promise.wrap(import('./cssMode'))
 }
 
 monaco.languages.onLanguage('less', () => {
-	withMode(mode => mode.setupMode(lessDefaults));
+	getMode().then(mode => mode.setupMode(lessDefaults));
 });
 
 monaco.languages.onLanguage('scss', () => {
-	withMode(mode => mode.setupMode(scssDefaults));
+	getMode().then(mode => mode.setupMode(scssDefaults));
 });
 
 monaco.languages.onLanguage('css', () => {
-	withMode(mode => mode.setupMode(cssDefaults));
+	getMode().then(mode => mode.setupMode(cssDefaults));
 });
