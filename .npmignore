@@ -1,6 +1,5 @@
 /.vscode/
-/out/
-/test/
+/release/**/test/
 /gulpfile.js
 /tsconfig.json
 /.npmignore
