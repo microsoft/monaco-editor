@@ -4,13 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-declare var require: <T>(moduleId: [string], callback: (module: T) => void, error: (err: any) => void) => void;
-
 // Allow for running under nodejs/requirejs in tests
 const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
 
 interface ILang extends monaco.languages.ILanguageExtensionPoint {
-	module: string;
+	loader: () => monaco.Promise<ILangImpl>;
 }
 
 interface ILangImpl {
@@ -21,13 +19,10 @@ interface ILangImpl {
 let languageDefinitions: { [languageId: string]: ILang } = {};
 
 function _loadLanguage(languageId: string): monaco.Promise<void> {
-	let module = languageDefinitions[languageId].module;
-	return new _monaco.Promise<void>((c, e, p) => {
-		require<ILangImpl>([module], (mod) => {
-			_monaco.languages.setMonarchTokensProvider(languageId, mod.language);
-			_monaco.languages.setLanguageConfiguration(languageId, mod.conf);
-			c(void 0);
-		}, e);
+	const loader = languageDefinitions[languageId].loader;
+	return loader().then((mod) => {
+		_monaco.languages.setMonarchTokensProvider(languageId, mod.language);
+		_monaco.languages.setLanguageConfiguration(languageId, mod.conf);
 	});
 }
 
@@ -55,174 +50,174 @@ registerLanguage({
 	id: 'bat',
 	extensions: ['.bat', '.cmd'],
 	aliases: ['Batch', 'bat'],
-	module: './bat'
+	loader: () => _monaco.Promise.wrap(import('./bat'))
 });
 registerLanguage({
 	id: 'coffeescript',
 	extensions: ['.coffee'],
 	aliases: ['CoffeeScript', 'coffeescript', 'coffee'],
 	mimetypes: ['text/x-coffeescript', 'text/coffeescript'],
-	module: './coffee'
+	loader: () => _monaco.Promise.wrap(import('./coffee'))
 });
 registerLanguage({
 	id: 'c',
 	extensions: ['.c', '.h'],
 	aliases: ['C', 'c'],
-	module: './cpp'
+	loader: () => _monaco.Promise.wrap(import('./cpp'))
 });
 registerLanguage({
 	id: 'cpp',
 	extensions: ['.cpp', '.cc', '.cxx', '.hpp', '.hh', '.hxx'],
 	aliases: ['C++', 'Cpp', 'cpp'],
-	module: './cpp'
+	loader: () => _monaco.Promise.wrap(import('./cpp'))
 });
 registerLanguage({
 	id: 'csharp',
 	extensions: ['.cs', '.csx'],
 	aliases: ['C#', 'csharp'],
-	module: './csharp'
+	loader: () => _monaco.Promise.wrap(import('./csharp'))
 });
 registerLanguage({
 	id: 'dockerfile',
 	extensions: ['.dockerfile'],
 	filenames: ['Dockerfile'],
 	aliases: ['Dockerfile'],
-	module: './dockerfile'
+	loader: () => _monaco.Promise.wrap(import('./dockerfile'))
 });
 registerLanguage({
 	id: 'fsharp',
 	extensions: ['.fs', '.fsi', '.ml', '.mli', '.fsx', '.fsscript'],
 	aliases: ['F#', 'FSharp', 'fsharp'],
-	module: './fsharp'
+	loader: () => _monaco.Promise.wrap(import('./fsharp'))
 });
 registerLanguage({
 	id: 'go',
 	extensions: ['.go'],
 	aliases: ['Go'],
-	module: './go'
+	loader: () => _monaco.Promise.wrap(import('./go'))
 });
 registerLanguage({
 	id: 'handlebars',
 	extensions: ['.handlebars', '.hbs'],
 	aliases: ['Handlebars', 'handlebars'],
 	mimetypes: ['text/x-handlebars-template'],
-	module: './handlebars'
+	loader: () => _monaco.Promise.wrap(import('./handlebars'))
 });
 registerLanguage({
 	id: 'html',
 	extensions: ['.html', '.htm', '.shtml', '.xhtml', '.mdoc', '.jsp', '.asp', '.aspx', '.jshtm'],
 	aliases: ['HTML', 'htm', 'html', 'xhtml'],
 	mimetypes: ['text/html', 'text/x-jshtm', 'text/template', 'text/ng-template'],
-	module: './html'
+	loader: () => _monaco.Promise.wrap(import('./html'))
 });
 registerLanguage({
 	id: 'ini',
 	extensions: ['.ini', '.properties', '.gitconfig'],
 	filenames: ['config', '.gitattributes', '.gitconfig', '.editorconfig'],
 	aliases: ['Ini', 'ini'],
-	module: './ini'
+	loader: () => _monaco.Promise.wrap(import('./ini'))
 });
 registerLanguage({
 	id: 'pug',
 	extensions: ['.jade', '.pug'],
 	aliases: ['Pug', 'Jade', 'jade'],
-	module: './pug'
+	loader: () => _monaco.Promise.wrap(import('./pug'))
 });
 registerLanguage({
 	id: 'java',
 	extensions: ['.java', '.jav'],
 	aliases: ['Java', 'java'],
 	mimetypes: ['text/x-java-source', 'text/x-java'],
-	module: './java'
+	loader: () => _monaco.Promise.wrap(import('./java'))
 });
 registerLanguage({
 	id: 'lua',
 	extensions: ['.lua'],
 	aliases: ['Lua', 'lua'],
-	module: './lua'
+	loader: () => _monaco.Promise.wrap(import('./lua'))
 });
 registerLanguage({
 	id: 'markdown',
 	extensions: ['.md', '.markdown', '.mdown', '.mkdn', '.mkd', '.mdwn', '.mdtxt', '.mdtext'],
 	aliases: ['Markdown', 'markdown'],
-	module: './markdown'
+	loader: () => _monaco.Promise.wrap(import('./markdown'))
 });
 registerLanguage({
 	id: 'msdax',
 	extensions: ['.dax', '.msdax'],
 	aliases: ['DAX', 'MSDAX'],
-	module: './msdax'
+	loader: () => _monaco.Promise.wrap(import('./msdax'))
 });
 registerLanguage({
 	id: 'objective-c',
 	extensions: ['.m'],
 	aliases: ['Objective-C'],
-	module: './objective-c'
+	loader: () => _monaco.Promise.wrap(import('./objective-c'))
 });
 registerLanguage({
 	id: 'postiats',
 	extensions: ['.dats', '.sats', '.hats'],
 	aliases: ['ATS', 'ATS/Postiats'],
-	module: './postiats'
+	loader: () => _monaco.Promise.wrap(import('./postiats'))
 });
 registerLanguage({
 	id: 'php',
 	extensions: ['.php', '.php4', '.php5', '.phtml', '.ctp'],
 	aliases: ['PHP', 'php'],
 	mimetypes: ['application/x-php'],
-	module: './php'
+	loader: () => _monaco.Promise.wrap(import('./php'))
 });
 registerLanguage({
 	id: 'powershell',
 	extensions: ['.ps1', '.psm1', '.psd1'],
 	aliases: ['PowerShell', 'powershell', 'ps', 'ps1'],
-	module: './powershell'
+	loader: () => _monaco.Promise.wrap(import('./powershell'))
 });
 registerLanguage({
 	id: 'python',
 	extensions: ['.py', '.rpy', '.pyw', '.cpy', '.gyp', '.gypi'],
 	aliases: ['Python', 'py'],
 	firstLine: '^#!/.*\\bpython[0-9.-]*\\b',
-	module: './python'
+	loader: () => _monaco.Promise.wrap(import('./python'))
 });
 registerLanguage({
 	id: 'r',
 	extensions: ['.r', '.rhistory', '.rprofile', '.rt'],
 	aliases: ['R', 'r'],
-	module: './r'
+	loader: () => _monaco.Promise.wrap(import('./r'))
 });
 registerLanguage({
 	id: 'razor',
 	extensions: ['.cshtml'],
 	aliases: ['Razor', 'razor'],
 	mimetypes: ['text/x-cshtml'],
-	module: './razor'
+	loader: () => _monaco.Promise.wrap(import('./razor'))
 });
 registerLanguage({
 	id: 'ruby',
 	extensions: ['.rb', '.rbx', '.rjs', '.gemspec', '.pp'],
 	filenames: ['rakefile'],
 	aliases: ['Ruby', 'rb'],
-	module: './ruby'
+	loader: () => _monaco.Promise.wrap(import('./ruby'))
 });
 registerLanguage({
 	id: 'swift',
 	aliases: ['Swift', 'swift'],
 	extensions: ['.swift'],
 	mimetypes: ['text/swift'],
-	module: './swift'
+	loader: () => _monaco.Promise.wrap(import('./swift'))
 });
 registerLanguage({
 	id: 'sql',
 	extensions: ['.sql'],
 	aliases: ['SQL'],
-	module: './sql'
+	loader: () => _monaco.Promise.wrap(import('./sql'))
 });
 registerLanguage({
 	id: 'vb',
 	extensions: ['.vb'],
 	aliases: ['Visual Basic', 'vb'],
-	module: './vb'
+	loader: () => _monaco.Promise.wrap(import('./vb'))
 });
 registerLanguage({
 	id: 'xml',
@@ -230,80 +225,80 @@ registerLanguage({
 	firstLine: '(\\<\\?xml.*)|(\\<svg)|(\\<\\!doctype\\s+svg)',
 	aliases: ['XML', 'xml'],
 	mimetypes: ['text/xml', 'application/xml', 'application/xaml+xml', 'application/xml-dtd'],
-	module: './xml'
+	loader: () => _monaco.Promise.wrap(import('./xml'))
 });
 registerLanguage({
 	id: 'less',
 	extensions: ['.less'],
 	aliases: ['Less', 'less'],
 	mimetypes: ['text/x-less', 'text/less'],
-	module: './less'
+	loader: () => _monaco.Promise.wrap(import('./less'))
 });
 registerLanguage({
 	id: 'scss',
 	extensions: ['.scss'],
 	aliases: ['Sass', 'sass', 'scss'],
 	mimetypes: ['text/x-scss', 'text/scss'],
-	module: './scss'
+	loader: () => _monaco.Promise.wrap(import('./scss'))
 });
 registerLanguage({
 	id: 'css',
 	extensions: ['.css'],
 	aliases: ['CSS', 'css'],
 	mimetypes: ['text/css'],
-	module: './css'
+	loader: () => _monaco.Promise.wrap(import('./css'))
 });
 registerLanguage({
 	id: 'yaml',
 	extensions: ['.yaml', '.yml'],
 	aliases: ['YAML', 'yaml', 'YML', 'yml'],
 	mimetypes: ['application/x-yaml'],
-	module: './yaml'
+	loader: () => _monaco.Promise.wrap(import('./yaml'))
 });
 registerLanguage({
 	id: 'sol',
 	extensions: ['.sol'],
 	aliases: ['sol', 'solidity', 'Solidity'],
-	module: './solidity'
+	loader: () => _monaco.Promise.wrap(import('./solidity'))
 });
 registerLanguage({
 	id: 'sb',
 	extensions: ['.sb'],
 	aliases: ['Small Basic', 'sb'],
-	module: './sb'
+	loader: () => _monaco.Promise.wrap(import('./sb'))
 });
 
 registerLanguage({
 	id: 'mysql',
 	extensions: [],
 	aliases: ['MySQL', 'mysql'],
-	module: './mysql'
+	loader: () => _monaco.Promise.wrap(import('./mysql'))
 });
 
 registerLanguage({
 	id: 'pgsql',
 	extensions: [],
 	aliases: ['PostgreSQL', 'postgres', 'pg', 'postgre'],
-	module: './pgsql'
+	loader: () => _monaco.Promise.wrap(import('./pgsql'))
 });
 
 registerLanguage({
 	id: 'redshift',
 	extensions: [],
 	aliases: ['Redshift', 'redshift'],
-	module: './redshift'
+	loader: () => _monaco.Promise.wrap(import('./redshift'))
 });
 
 registerLanguage({
 	id: 'redis',
 	extensions: ['.redis'],
 	aliases: ['redis'],
-	module: './redis'
+	loader: () => _monaco.Promise.wrap(import('./redis'))
 });
 
 registerLanguage({
 	id: 'csp',
 	extensions: [],
 	aliases: ['CSP', 'csp'],
-	module: './csp'
+	loader: () => _monaco.Promise.wrap(import('./csp'))
 });
