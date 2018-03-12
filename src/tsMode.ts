@@ -6,7 +6,7 @@
 
 import {Language, createTokenizationSupport} from './tokenization';
 import {WorkerManager} from './workerManager';
-import {TypeScriptWorker} from './worker';
+import {TypeScriptWorker} from './tsWorker';
 import {LanguageServiceDefaultsImpl} from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 

@@ -6,7 +6,7 @@
 
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as ts from './lib/typescriptServices';
-import { TypeScriptWorker } from './worker';
+import { TypeScriptWorker } from './tsWorker';
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;

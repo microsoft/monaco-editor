@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import * as mode from './mode';
+import * as mode from './tsMode';
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
@@ -184,7 +184,7 @@ monaco.languages.typescript = createAPI();
 // --- Registration to monaco editor ---
 
 function getMode(): monaco.Promise<typeof mode> {
-	return monaco.Promise.wrap(import('./mode'))
+	return monaco.Promise.wrap(import('./tsMode'))
 }
 
 monaco.languages.register({

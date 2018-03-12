@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "es6",
+    "module": "esnext",
     "outDir": "../release/esm",
     "target": "es5",
     "lib": [

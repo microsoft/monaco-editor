@@ -5,7 +5,7 @@
 'use strict';
 
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
-import { TypeScriptWorker } from './worker';
+import { TypeScriptWorker } from './tsWorker';
 
 import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
@@ -63,7 +63,7 @@ export class WorkerManager {
 			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
 
 				// module that exports the create() method and returns a `TypeScriptWorker` instance
-				moduleId: 'vs/language/typescript/worker',
+				moduleId: 'vs/language/typescript/tsWorker',
 
 				label: this._modeId,
 
