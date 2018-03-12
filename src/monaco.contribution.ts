@@ -10,8 +10,6 @@ import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
 import IDisposable = monaco.IDisposable;
 
-declare var require: <T>(moduleId: [string], callback: (module: T) => void) => void;
-
 // --- JSON configuration and defaults ---------
 
 export class LanguageServiceDefaultsImpl implements monaco.languages.json.LanguageServiceDefaults {
@@ -62,8 +60,8 @@ monaco.languages.json = createAPI();
 
 // --- Registration to monaco editor ---
 
-function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['./jsonMode'], callback);
+function getMode(): monaco.Promise<typeof mode> {
+	return monaco.Promise.wrap(import('./jsonMode'))
 }
 
 monaco.languages.register({
@@ -73,5 +71,5 @@ monaco.languages.register({
 	mimetypes: ['application/json'],
 });
 monaco.languages.onLanguage('json', () => {
-	withMode(mode => mode.setupMode(jsonDefaults));
+	getMode().then(mode => mode.setupMode(jsonDefaults));
 });
