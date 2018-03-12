@@ -3,7 +3,7 @@
   "version": "0.9.0",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
-    "compile": "node ./scripts/rmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+    "compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
     "watch": "tsc -p ./src --watch",
     "test": "mocha",
     "prepublish": "npm run compile && node ./scripts/bundle"
@@ -21,6 +21,7 @@
     "jsdom-no-contextify": "^3.1.0",
     "mocha": "^3.4.2",
     "monaco-editor-core": "0.11.1",
+    "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.5",
     "typescript": "2.7.2",
     "uglify-js": "^3.3.14"
