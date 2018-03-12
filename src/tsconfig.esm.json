@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "amd",
-    "outDir": "../release/dev",
+    "module": "es6",
+    "outDir": "../release/esm",
     "target": "es5"
   },
   "include": [
