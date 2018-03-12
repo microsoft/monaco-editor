@@ -65,27 +65,28 @@ gulp.task('release', ['clean-release'], function() {
 function releaseOne(type) {
 	return es.merge(
 		gulp.src('node_modules/monaco-editor-core/' + type + '/**/*')
-			.pipe(addPluginContribs())
+			.pipe(addPluginContribs(type))
 			.pipe(gulp.dest('release/' + type)),
-		pluginStreams('release/' + type + '/')
+		pluginStreams(type, 'release/' + type + '/')
 	)
 }
 
-function pluginStreams(destinationPath) {
+function pluginStreams(type, destinationPath) {
 	return es.merge(
 		metadata.METADATA.PLUGINS.map(function(plugin) {
-			return pluginStream(plugin, destinationPath);
+			return pluginStream(plugin, type, destinationPath);
 		})
 	);
 }
 
-function pluginStream(plugin, destinationPath) {
-	var contribPath = path.join(plugin.paths.npm, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
+function pluginStream(plugin, type, destinationPath) {
+	var pluginPath = plugin.paths[`npm/${type}`]; // npm/dev or npm/min
+	var contribPath = path.join(pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 	return (
 		gulp.src([
-			plugin.paths.npm + '/**/*',
+			pluginPath + '/**/*',
 			'!' + contribPath,
-			'!' + plugin.paths.npm + '/**/monaco.d.ts'
+			'!' + pluginPath + '/**/monaco.d.ts'
 		])
 		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
 	);
@@ -97,7 +98,7 @@ function pluginStream(plugin, destinationPath) {
  * - append contribs from plugins
  * - append new AMD module 'vs/editor/editor.main' that stiches things together
  */
-function addPluginContribs() {
+function addPluginContribs(type) {
 	return es.through(function(data) {
 		if (!/editor\.main\.js$/.test(data.path)) {
 			this.emit('data', data);
@@ -113,18 +114,38 @@ function addPluginContribs() {
 
 		metadata.METADATA.PLUGINS.forEach(function(plugin) {
 			allPluginsModuleIds.push(plugin.contrib);
-			var contribPath = path.join(__dirname, plugin.paths.npm, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
+			var pluginPath = plugin.paths[`npm/${type}`]; // npm/dev or npm/min
+			var contribPath = path.join(__dirname, pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 			var contribContents = fs.readFileSync(contribPath).toString();
+
+			// Check for the anonymous define call case
+			var contribDefineIndexCase0 = contribContents.indexOf('define(function');
+			if (contribDefineIndexCase0 >= 0) {
+				contribContents = (
+					contribContents.substring(0, contribDefineIndexCase0)
+					+ `define("${plugin.contrib}",["require"],function`
+					+ contribContents.substring(contribDefineIndexCase0 + 'define(function'.length)
+				);
+			}
+
+			var contribDefineIndexCase1 = contribContents.indexOf('define([');
+			if (contribDefineIndexCase1 >= 0) {
+				contribContents = (
+					contribContents.substring(0, contribDefineIndexCase1)
+					+ `define("${plugin.contrib}",[`
+					+ contribContents.substring(contribDefineIndexCase1 + 'define(['.length)
+				);
+			}
 
 			var contribDefineIndex = contribContents.indexOf('define("' + plugin.contrib);
 			if (contribDefineIndex === -1) {
-				console.error('(1) CANNOT DETERMINE AMD define location for contribution', plugin);
+				console.error('(1) CANNOT DETERMINE AMD define location for contribution', pluginPath);
 				process.exit(-1);
 			}
 
 			var depsEndIndex = contribContents.indexOf(']', contribDefineIndex);
 			if (contribDefineIndex === -1) {
-				console.error('(2) CANNOT DETERMINE AMD define location for contribution', plugin);
+				console.error('(2) CANNOT DETERMINE AMD define location for contribution', pluginPath);
 				process.exit(-1);
 			}
 
@@ -159,7 +180,8 @@ function addPluginDTS() {
 
 		var extraContent = [];
 		metadata.METADATA.PLUGINS.forEach(function(plugin) {
-			var dtsPath = path.join(plugin.paths.npm, 'monaco.d.ts');
+			var pluginPath = plugin.paths[`npm/min`]; // npm/dev or npm/min
+			var dtsPath = path.join(pluginPath, '../monaco.d.ts');
 			try {
 				extraContent.push(fs.readFileSync(dtsPath).toString());
 			} catch (err) {
