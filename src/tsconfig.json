@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "amd",
+    "moduleResolution": "node",
     "outDir": "../release/dev",
     "target": "es5",
     "lib": [
