@@ -1,5 +1,9 @@
 /.vscode/
 /release/**/test/
+/scripts/
+/src/
+/test/
 /gulpfile.js
 /tsconfig.json
 /.npmignore
+/.travis.yml
