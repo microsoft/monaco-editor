@@ -1,12 +1,12 @@
 const requirejs = require('requirejs');
 const path = require('path');
 const fs = require('fs');
-const UglifyJS = require("uglify-js");
-const git = require('./git');
+const UglifyJS = require('uglify-js');
+const helpers = require('monaco-plugin-helpers');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
-const sha1 = git.getGitVersion(REPO_ROOT);
+const sha1 = helpers.getGitVersion(REPO_ROOT);
 const semver = require('../package.json').version;
 const headerVersion = semver + '(' + sha1 + ')';
 

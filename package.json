@@ -4,11 +4,11 @@
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
     "test": "mocha",
-    "compile-amd": "node ./scripts/copy ./src/lib/typescriptServices-amd.js ./release/dev/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
-    "compile-esm": "node ./scripts/copy ./src/lib/typescriptServices.js ./release/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
-    "compile": "node ./scripts/rmdir ./release && npm run compile-amd && npm run compile-esm",
+    "compile-amd": "mcopy ./src/lib/typescriptServices-amd.js ./release/dev/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
+    "compile-esm": "mcopy ./src/lib/typescriptServices.js ./release/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
+    "compile": "mrmdir ./release && npm run compile-amd && npm run compile-esm",
     "watch": "tsc -p ./src --watch",
-    "prepublish": "npm run compile && node ./scripts/bundle && node ./scripts/copy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "prepublish": "npm run compile && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "import-typescript": "node ./scripts/importTypescript"
   },
   "author": "Microsoft Corporation",
@@ -23,8 +23,9 @@
   "devDependencies": {
     "mocha": "^2.5.3",
     "monaco-editor-core": "0.11.1",
+    "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.5",
     "typescript": "2.7.2",
-    "uglify-js": "^3.3.13"
+    "uglify-js": "^3.3.14"
   }
 }
