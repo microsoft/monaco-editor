@@ -25,5 +25,4 @@ exports.createWebpackConfig = function (isDev) {
 			})
 		],
 	};
-
-}
+};

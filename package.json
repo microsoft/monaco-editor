@@ -20,11 +20,11 @@
   },
   "devDependencies": {
     "jsonc-parser": "2.0.0-next.1",
-    "monaco-editor-core": "^0.11.1",
-    "monaco-languages": "^0.9.0",
-    "typescript": "^2.7.1",
-    "vscode-json-languageservice": "^3.0.12",
-    "vscode-languageserver-types": "^3.6.1",
+    "monaco-editor-core": "0.11.1",
+    "monaco-languages": "0.9.0",
+    "typescript": "2.7.2",
+    "vscode-json-languageservice": "3.0.12",
+    "vscode-languageserver-types": "3.6.1",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.10"
   }

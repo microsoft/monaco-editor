@@ -1,10 +1,10 @@
 /.vscode/
-/lib/
 /out/
 /scripts/
 /src/
 /test/
-/release/dev/
+/.gitignore
 /.npmignore
+/package-lock.json
 /webpack.dev.config.js
 /webpack.min.config.js

@@ -1,8 +1,15 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 const fs = require('fs');
 const path = require('path');
 
 const target = path.join(process.cwd(), process.argv[2]);
-rmDir(target);
+if (fs.existsSync(target)) {
+	rmDir(target);
+}
 console.log(`Deleted ${process.argv[2]}`);
 
 function rmDir(dirPath) {
