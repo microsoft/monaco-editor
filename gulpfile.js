@@ -15,7 +15,7 @@ var rimraf = require('rimraf');
 var es = require('event-stream');
 
 gulp.task('clean-release', function(cb) { rimraf('release', { maxBusyTries: 1 }, cb); });
-gulp.task('release', ['clean-release','compile'], function() {
+gulp.task('release', ['clean-release'], function() {
 
 	var sha1 = getGitVersion(__dirname);
 	var semver = require('./package.json').version;
@@ -33,56 +33,56 @@ gulp.task('release', ['clean-release','compile'], function() {
 
 	function bundleOne(moduleId, exclude) {
 		return rjs({
-			baseUrl: '/out/',
+			baseUrl: '/out/amd/',
 			name: 'vs/basic-languages/' + moduleId,
 			out: moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/basic-languages': __dirname + '/out'
+				'vs/basic-languages': __dirname + '/out/amd'
 			}
 		})
 	}
 
 	return merge(
-			bundleOne('src/monaco.contribution'),
-			bundleOne('src/bat'),
-			bundleOne('src/css'),
-			bundleOne('src/coffee'),
-			bundleOne('src/cpp'),
-			bundleOne('src/csharp'),
-			bundleOne('src/dockerfile'),
-			bundleOne('src/fsharp'),
-			bundleOne('src/go'),
-			bundleOne('src/handlebars'),
-			bundleOne('src/html'),
-			bundleOne('src/ini'),
-			bundleOne('src/pug'),
-			bundleOne('src/java'),
-			bundleOne('src/less'),
-			bundleOne('src/lua'),
-			bundleOne('src/markdown'),
-			bundleOne('src/msdax'),
-			bundleOne('src/objective-c'),
-			bundleOne('src/php'),
-			bundleOne('src/powershell'),
-			bundleOne('src/postiats'),
-			bundleOne('src/python'),
-			bundleOne('src/r'),
-			bundleOne('src/razor'),
-			bundleOne('src/ruby'),
-			bundleOne('src/scss'),
-			bundleOne('src/sql'),
-			bundleOne('src/swift'),
-			bundleOne('src/vb'),
-			bundleOne('src/xml'),
-			bundleOne('src/yaml'),
-			bundleOne('src/solidity'),
-			bundleOne('src/sb'),
-			bundleOne('src/mysql'),
-			bundleOne('src/redshift'),
-			bundleOne('src/pgsql'),
-			bundleOne('src/redis'),
-			bundleOne('src/csp')
+			bundleOne('monaco.contribution'),
+			bundleOne('bat'),
+			bundleOne('css'),
+			bundleOne('coffee'),
+			bundleOne('cpp'),
+			bundleOne('csharp'),
+			bundleOne('dockerfile'),
+			bundleOne('fsharp'),
+			bundleOne('go'),
+			bundleOne('handlebars'),
+			bundleOne('html'),
+			bundleOne('ini'),
+			bundleOne('pug'),
+			bundleOne('java'),
+			bundleOne('less'),
+			bundleOne('lua'),
+			bundleOne('markdown'),
+			bundleOne('msdax'),
+			bundleOne('objective-c'),
+			bundleOne('php'),
+			bundleOne('powershell'),
+			bundleOne('postiats'),
+			bundleOne('python'),
+			bundleOne('r'),
+			bundleOne('razor'),
+			bundleOne('ruby'),
+			bundleOne('scss'),
+			bundleOne('sql'),
+			bundleOne('swift'),
+			bundleOne('vb'),
+			bundleOne('xml'),
+			bundleOne('yaml'),
+			bundleOne('solidity'),
+			bundleOne('sb'),
+			bundleOne('mysql'),
+			bundleOne('redshift'),
+			bundleOne('pgsql'),
+			bundleOne('redis'),
+			bundleOne('csp')
 		)
 		.pipe(uglify({
 			output: {
@@ -96,25 +96,7 @@ gulp.task('release', ['clean-release','compile'], function() {
 			);
 			this.emit('data', data);
 		}))
-		.pipe(gulp.dest('./release/'));
-});
-
-
-var compilation = tsb.create(assign({ verbose: true }, require('./tsconfig.json').compilerOptions));
-
-var tsSources = require('./tsconfig.json').include.concat(require('./tsconfig.json').files);
-
-function compileTask() {
-	return merge(
-		gulp.src(tsSources, { base: '.' }).pipe(compilation())
-	)
-	.pipe(gulp.dest('out'));
-}
-gulp.task('clean-out', function(cb) { rimraf('out', { maxBusyTries: 1 }, cb); });
-gulp.task('compile', ['clean-out'], compileTask);
-gulp.task('compile-without-clean', compileTask);
-gulp.task('watch', ['compile'], function() {
-	gulp.watch(tsSources, ['compile-without-clean']);
+		.pipe(gulp.dest('./release/min/'));
 });
 
 function getGitVersion(repo) {
