@@ -10,8 +10,6 @@ import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
 import IDisposable = monaco.IDisposable;
 
-declare var require: <T>(moduleId: [string], callback: (module: T) => void) => void;
-
 // --- HTML configuration and defaults ---------
 
 export class LanguageServiceDefaultsImpl implements monaco.languages.html.LanguageServiceDefaults {
@@ -93,16 +91,16 @@ monaco.languages.html = createAPI();
 
 // --- Registration to monaco editor ---
 
-function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['./htmlMode'], callback);
+function getMode(): monaco.Promise<typeof mode> {
+	return monaco.Promise.wrap(import('./htmlMode'))
 }
 
 monaco.languages.onLanguage(htmlLanguageId, () => {
-	withMode(mode => mode.setupMode(htmlDefaults));
+	getMode().then(mode => mode.setupMode(htmlDefaults));
 });
 monaco.languages.onLanguage(handlebarsLanguageId, () => {
-	withMode(mode => mode.setupMode(handlebarDefaults));
+	getMode().then(mode => mode.setupMode(handlebarDefaults));
 });
 monaco.languages.onLanguage(razorLanguageId, () => {
-	withMode(mode => mode.setupMode(razorDefaults));
+	getMode().then(mode => mode.setupMode(razorDefaults));
 });
