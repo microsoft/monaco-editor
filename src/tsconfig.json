@@ -2,7 +2,13 @@
   "compilerOptions": {
     "module": "amd",
     "outDir": "../release/dev",
-    "target": "es5"
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es5",
+      "es2015.collection",
+      "es2015.promise"
+    ]
   },
   "include": [
     "**/*.ts"

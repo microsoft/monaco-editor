@@ -10,8 +10,6 @@ import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
 import IDisposable = monaco.IDisposable;
 
-declare var require: <T>(moduleId: [string], callback: (module: T) => void) => void;
-
 // --- TypeScript configuration and defaults ---------
 
 export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.LanguageServiceDefaults {
@@ -160,21 +158,11 @@ const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ noSemanticValidation: true, noSyntaxValidation: false });
 
 function getTypeScriptWorker(): monaco.Promise<any> {
-	return new monaco.Promise((resolve, reject) => {
-		withMode((mode) => {
-			mode.getTypeScriptWorker()
-				.then(resolve, reject);
-		});
-	});
+	return getMode().then(mode => mode.getTypeScriptWorker());
 }
 
 function getJavaScriptWorker(): monaco.Promise<any> {
-	return new monaco.Promise((resolve, reject) => {
-		withMode((mode) => {
-			mode.getJavaScriptWorker()
-				.then(resolve, reject);
-		});
-	});
+	return getMode().then(mode => mode.getJavaScriptWorker());
 }
 
 // Export API
@@ -195,8 +183,8 @@ monaco.languages.typescript = createAPI();
 
 // --- Registration to monaco editor ---
 
-function withMode(callback: (module: typeof mode) => void): void {
-	require<typeof mode>(['./mode'], callback);
+function getMode(): monaco.Promise<typeof mode> {
+	return monaco.Promise.wrap(import('./mode'))
 }
 
 monaco.languages.register({
@@ -206,7 +194,7 @@ monaco.languages.register({
 	mimetypes: ['text/typescript']
 });
 monaco.languages.onLanguage('typescript', () => {
-	withMode((mode) => mode.setupTypeScript(typescriptDefaults));
+	return getMode().then(mode => mode.setupTypeScript(typescriptDefaults));
 });
 
 monaco.languages.register({
@@ -218,5 +206,5 @@ monaco.languages.register({
 	mimetypes: ['text/javascript'],
 });
 monaco.languages.onLanguage('javascript', () => {
-	withMode((mode) => mode.setupJavaScript(javascriptDefaults));
+	return getMode().then(mode => mode.setupJavaScript(javascriptDefaults));
 });
