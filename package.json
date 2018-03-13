@@ -3,9 +3,9 @@
   "version": "2.0.1",
   "description": "HTML plugin for the Monaco Editor",
   "scripts": {
-    "compile": "mrmdir ./out && tsc -p ./src",
+    "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
     "watch": "tsc -p ./src --watch",
-    "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && webpack --config webpack.dev.config.js && webpack --config webpack.min.config.js && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "prepublish": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "install-service-next": "npm install vscode-html-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
     "install-service-local": "npm install ../vscode-html-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
   },
@@ -19,14 +19,14 @@
     "url": "https://github.com/Microsoft/monaco-editor/issues"
   },
   "devDependencies": {
-    "monaco-editor-core": "0.11.1",
-    "monaco-languages": "^0.9.0",
+    "monaco-editor-core": "0.11.3",
+    "monaco-languages": "^1.0.0",
     "monaco-plugin-helpers": "^1.0.2",
-    "monaco-typescript": "^2.3.0",
-    "typescript": "^2.7.2",
+    "monaco-typescript": "^3.0.0",
+    "requirejs": "^2.3.5",
+    "typescript": "2.7.2",
+    "uglify-js": "^3.3.14",
     "vscode-html-languageservice": "^2.1.1",
-    "vscode-languageserver-types": "^3.6.1",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.10"
+    "vscode-languageserver-types": "^3.6.1"
   }
 }

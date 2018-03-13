@@ -15,8 +15,8 @@
 	// Loading monaco-typescript to get javascript coloring
 	var require = {
 		paths: {
-			'vs/basic-languages': '../node_modules/monaco-languages/release',
-			'vs/language/typescript': '../node_modules/monaco-typescript/release',
+			'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
+			'vs/language/typescript': '../node_modules/monaco-typescript/release/dev',
 			'vs/language/html': '../release/dev',
 			'vs': '../node_modules/monaco-editor-core/dev/vs'
 		}
@@ -28,8 +28,8 @@
 
 <script>
 	require([
-		'vs/basic-languages/src/monaco.contribution',
-		'vs/language/typescript/src/monaco.contribution',
+		'vs/basic-languages/monaco.contribution',
+		'vs/language/typescript/monaco.contribution',
 		'vs/language/html/monaco.contribution'
 	], function() {
 		var editor = monaco.editor.create(document.getElementById('container'), {
