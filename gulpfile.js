@@ -101,6 +101,17 @@ function pluginStream(plugin, type, destinationPath) {
 			pluginPath + '/**/*',
 			'!' + contribPath
 		])
+		.pipe(es.through(function(data) {
+			if (!/_\.contribution/.test(data.path)) {
+				this.emit('data', data);
+				return;
+			}
+
+			let contents = data.contents.toString();
+			contents = contents.replace('define(["require", "exports"],', 'define(["require", "exports", "vs/editor/editor.api"],');
+			data.contents = new Buffer(contents);
+			this.emit('data', data);
+		}))
 		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
 	);
 }
@@ -155,8 +166,11 @@ function addPluginContribs(type) {
 
 			var contribDefineIndex = contribContents.indexOf('define("' + plugin.contrib);
 			if (contribDefineIndex === -1) {
-				console.error('(1) CANNOT DETERMINE AMD define location for contribution', pluginPath);
-				process.exit(-1);
+				contribDefineIndex = contribContents.indexOf('define(\'' + plugin.contrib);
+				if (contribDefineIndex === -1) {
+					console.error('(1) CANNOT DETERMINE AMD define location for contribution', pluginPath);
+					process.exit(-1);
+				}
 			}
 
 			var depsEndIndex = contribContents.indexOf(']', contribDefineIndex);
@@ -166,6 +180,11 @@ function addPluginContribs(type) {
 			}
 
 			contribContents = contribContents.substring(0, depsEndIndex) + ',"vs/editor/editor.api"' + contribContents.substring(depsEndIndex);
+
+			contribContents = contribContents.replace(
+				'define("vs/basic-languages/_.contribution",["require","exports"],',
+				'define("vs/basic-languages/_.contribution",["require","exports","vs/editor/editor.api"],',
+			);
 
 			extraContent.push(contribContents);
 		});
@@ -232,7 +251,7 @@ function ESM_pluginStream(plugin, destinationPath) {
 				if (!/(^\.\/)|(^\.\.\/)/.test(importText)) {
 					// non-relative import
 					if (!/^monaco-editor-core/.test(importText)) {
-						console.error(`Non-relative import for unknown module: ${importText}`);
+						console.error(`Non-relative import for unknown module: ${importText} in ${data.path}`);
 						process.exit(0);
 					}
 
