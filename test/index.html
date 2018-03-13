@@ -14,7 +14,7 @@
 	// Loading basic-languages to get the css language definition
 	var require = {
 		paths: {
-			'vs/basic-languages': '../node_modules/monaco-languages/release',
+			'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
 			'vs/language/css': '../release/dev',
 			'vs': '../node_modules/monaco-editor-core/dev/vs'
 		}
@@ -26,7 +26,7 @@
 
 <script>
 	require([
-		'vs/basic-languages/src/monaco.contribution',
+		'vs/basic-languages/monaco.contribution',
 		'vs/language/css/monaco.contribution'
 	], function() {
 		var editor = monaco.editor.create(document.getElementById('container'), {

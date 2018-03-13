@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "amd",
+    "module": "esnext",
     "moduleResolution": "node",
-    "outDir": "../out/amd",
+    "outDir": "../out/esm",
     "target": "es5",
     "lib": [
       "dom",
