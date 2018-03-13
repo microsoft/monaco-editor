@@ -30,9 +30,9 @@
 		}
 		var overwrites = parseQueryString();
 		var result = {};
-		result['editor'] = overwrites['editor'] || 'npm';
+		result['editor'] = overwrites['editor'] || 'npm/dev';
 		METADATA.PLUGINS.map(function(plugin) {
-			result[plugin.name] = overwrites[plugin.name] || 'npm';
+			result[plugin.name] = overwrites[plugin.name] || 'npm/dev';
 		});
 		return result;
 	})();
@@ -57,7 +57,7 @@
 	};
 	Component.prototype.getResolvedPath = function() {
 		var resolvedPath = this.paths[this.selectedPath];
-		if (this.selectedPath === 'npm' || this.isRelease()) {
+		if (this.selectedPath === 'npm/dev' || this.selectedPath === 'npm/min' || this.isRelease()) {
 			if (IS_FILE_PROTOCOL) {
 				resolvedPath = DIRNAME + '/../' + resolvedPath;
 			} else {
@@ -76,9 +76,9 @@
 	Component.prototype.generateUrlForPath = function(pathName) {
 		var NEW_LOADER_OPTS = {};
 		Object.keys(LOADER_OPTS).forEach(function(key) {
-			NEW_LOADER_OPTS[key] = (LOADER_OPTS[key] === 'npm' ? undefined : LOADER_OPTS[key]);
+			NEW_LOADER_OPTS[key] = (LOADER_OPTS[key] === 'npm/dev' ? undefined : LOADER_OPTS[key]);
 		});
-		NEW_LOADER_OPTS[this.name] = (pathName === 'npm' ? undefined : pathName);
+		NEW_LOADER_OPTS[this.name] = (pathName === 'npm/dev' ? undefined : pathName);
 
 		var search = Object.keys(NEW_LOADER_OPTS).map(function(key) {
 			var value = NEW_LOADER_OPTS[key];
