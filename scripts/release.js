@@ -10,7 +10,7 @@ const REPO_ROOT = path.join(__dirname, '../');
 
 helpers.packageESM({
 	repoRoot: REPO_ROOT,
-	esmSource: 'out',
+	esmSource: 'out/esm',
 	esmDestination: 'release/esm',
 	entryPoints: [
 		'monaco.contribution.js',
@@ -18,7 +18,7 @@ helpers.packageESM({
 		'json.worker.js'
 	],
 	resolveAlias: {
-		'vscode-nls': path.join(REPO_ROOT, "out/fillers/vscode-nls.js")
+		'vscode-nls': path.join(REPO_ROOT, "out/esm/fillers/vscode-nls.js")
 	},
 	resolveSkip: [
 		'monaco-editor-core'
