@@ -1,8 +1,12 @@
 // Configures two JSON schemas, with references.
 
+var id = "foo.json";
+
 monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+	validate: true,
 	schemas: [{
         uri: "http://myserver/foo-schema.json",
+        fileMatch: [id],
         schema: {
             type: "object",
             properties: {
@@ -16,6 +20,7 @@ monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
         }
     },{
         uri: "http://myserver/bar-schema.json",
+        fileMatch: [id],
         schema: {
             type: "object",
             properties: {
@@ -30,11 +35,13 @@ monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
 
 var jsonCode = [
 	'{',
-	'    "$schema": "http://myserver/foo-schema.json"',
+	'    "p1": "v3",',
+	'    "p2": false',
 	"}"
 ].join('\n');
 
+var model = monaco.editor.createModel(jsonCode, "json", id);
+
 monaco.editor.create(document.getElementById("container"), {
-	value: jsonCode,
-	language: "json"
+	model: model
 });
