@@ -52,25 +52,18 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 
 ## Dev: Adding a new language
 
-* create `$/src/myLang.ts`
-* create `$/test/myLang.test.ts`
+* create `$/src/myLang/myLang.contribution.ts`
+* create `$/src/myLang/myLang.ts`
+* create `$/src/myLang/myLang.test.ts`
 * restart compilation with `$> npm run watch`
 * edit `$/src/monaco.contribution.ts` and register your new language:
+* edit `$/test/setup.js` and load your new language while testing
 ```js
-  registerLanguage({
-  	id: 'sql',
-  	extensions: [ '.sql' ],
-  	aliases: [ 'SQL' ],
-  	module: './sql'
-  });
+  'release/dev/sql/sql.test',
 ```
-* edit `$/test/all.js` and load your new language while testing
+* edit `$/scripts/bundle.js` and ship your new language
 ```js
-  'out/test/sql.test',
-```
-* edit `$/gulpfile.js` and ship your new language
-```js
-  bundleOne('src/sql'),
+  bundleOne('sql/sql'),
 ```
 
 ## Code of Conduct

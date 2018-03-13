@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {loadLanguage} from '../monaco.contribution';
+import '../monaco.contribution';
+import {loadLanguage} from '../_.contribution';
 import * as assert from 'assert';
 
 // Allow for running under nodejs/requirejs in tests
