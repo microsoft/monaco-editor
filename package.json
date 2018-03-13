@@ -29,6 +29,8 @@
     "monaco-typescript": "3.0.0",
     "rimraf": "^2.5.2",
     "typedoc": "^0.8.0",
-    "uncss": "^0.14.1"
+    "typescript": "^2.7.2",
+    "uncss": "^0.14.1",
+    "vinyl": "^0.5.3"
   }
 }

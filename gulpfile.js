@@ -1,21 +1,23 @@
 
-var gulp = require('gulp');
-var metadata = require('./metadata');
-var es = require('event-stream');
-var path = require('path');
-var fs = require('fs');
-var rimraf = require('rimraf');
-var cp = require('child_process');
-var httpServer = require('http-server');
-var typedoc = require("gulp-typedoc");
-var CleanCSS = require('clean-css');
-var uncss = require('uncss');
+const gulp = require('gulp');
+const metadata = require('./metadata');
+const es = require('event-stream');
+const path = require('path');
+const fs = require('fs');
+const rimraf = require('rimraf');
+const cp = require('child_process');
+const httpServer = require('http-server');
+const typedoc = require("gulp-typedoc");
+const CleanCSS = require('clean-css');
+const uncss = require('uncss');
+const File = require('vinyl');
+const ts = require('typescript');
 
-var WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
-var MONACO_EDITOR_VERSION = (function() {
-	var packageJsonPath = path.join(__dirname, 'package.json');
-	var packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
-	var version = packageJson.version;
+const WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
+const MONACO_EDITOR_VERSION = (function() {
+	const packageJsonPath = path.join(__dirname, 'package.json');
+	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
+	const version = packageJson.version;
 	if (!/\d+\.\d+\.\d+/.test(version)) {
 		console.log('unrecognized package.json version: ' + version);
 		process.exit(0);
@@ -33,8 +35,8 @@ gulp.task('release', ['clean-release'], function() {
 		// min folder
 		releaseOne('min'),
 
-		// // esm folder
-		// releaseESM(),
+		// esm folder
+		ESM_release(),
 
 		// package.json
 		gulp.src('package.json')
@@ -65,6 +67,9 @@ gulp.task('release', ['clean-release'], function() {
 	)
 });
 
+/**
+ * Release to `dev` or `min`.
+ */
 function releaseOne(type) {
 	return es.merge(
 		gulp.src('node_modules/monaco-editor-core/' + type + '/**/*')
@@ -74,12 +79,9 @@ function releaseOne(type) {
 	)
 }
 
-// function releaseESM() {
-// 	// return es.merge(
-// 	// 	gulp.src('node_modules/monaco-editor-core/esm/**/*')
-// 	// )
-// }
-
+/**
+ * Release plugins to `dev` or `min`.
+ */
 function pluginStreams(type, destinationPath) {
 	return es.merge(
 		metadata.METADATA.PLUGINS.map(function(plugin) {
@@ -88,14 +90,16 @@ function pluginStreams(type, destinationPath) {
 	);
 }
 
+/**
+ * Release a plugin to `dev` or `min`.
+ */
 function pluginStream(plugin, type, destinationPath) {
 	var pluginPath = plugin.paths[`npm/${type}`]; // npm/dev or npm/min
 	var contribPath = path.join(pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 	return (
 		gulp.src([
 			pluginPath + '/**/*',
-			'!' + contribPath,
-			'!' + pluginPath + '/**/monaco.d.ts'
+			'!' + contribPath
 		])
 		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
 	);
@@ -175,6 +179,181 @@ function addPluginContribs(type) {
 
 		data.contents = new Buffer(contents);
 		this.emit('data', data);
+	});
+}
+
+function ESM_release() {
+	return es.merge(
+		gulp.src('node_modules/monaco-editor-core/esm/**/*')
+			.pipe(ESM_addImportSuffix())
+			.pipe(ESM_addPluginContribs('release/esm'))
+			.pipe(gulp.dest('release/esm')),
+		ESM_pluginStreams('release/esm/')
+	)
+}
+
+/**
+ * Release plugins to `esm`.
+ */
+function ESM_pluginStreams(destinationPath) {
+	return es.merge(
+		metadata.METADATA.PLUGINS.map(function(plugin) {
+			return ESM_pluginStream(plugin, destinationPath);
+		})
+	);
+}
+
+/**
+ * Release a plugin to `esm`.
+ * Adds a dependency to 'vs/editor/editor.api' in contrib files in order for `monaco` to be defined.
+ * Rewrites imports for 'monaco-editor-core/**'
+ */
+function ESM_pluginStream(plugin, destinationPath) {
+	const DESTINATION = path.join(__dirname, destinationPath);
+	let pluginPath = plugin.paths[`esm`];
+	return (
+		gulp.src([
+			pluginPath + '/**/*'
+		])
+		.pipe(es.through(function(data) {
+			if (!/\.js$/.test(data.path)) {
+				this.emit('data', data);
+				return;
+			}
+
+			let contents = data.contents.toString();
+
+			const info = ts.preProcessFile(contents);
+			for (let i = info.importedFiles.length - 1; i >= 0; i--) {
+				const importText = info.importedFiles[i].fileName;
+				const pos = info.importedFiles[i].pos;
+				const end = info.importedFiles[i].end;
+
+				if (!/(^\.\/)|(^\.\.\/)/.test(importText)) {
+					// non-relative import
+					if (!/^monaco-editor-core/.test(importText)) {
+						console.error(`Non-relative import for unknown module: ${importText}`);
+						process.exit(0);
+					}
+
+					const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
+					const importFilePath = path.join(DESTINATION, importText.substr('monaco-editor-core/esm/'.length));
+					let relativePath = path.relative(path.dirname(myFileDestPath), importFilePath);
+					if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
+						relativePath = './' + relativePath;
+					}
+
+					contents = (
+						contents.substring(0, pos + 1)
+						+ relativePath
+						+ contents.substring(end + 1)
+					);
+				}
+			}
+
+			data.contents = new Buffer(contents);
+			this.emit('data', data);
+		}))
+		.pipe(es.through(function(data) {
+			if (!/monaco\.contribution\.js$/.test(data.path)) {
+				this.emit('data', data);
+				return;
+			}
+
+			const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
+			const apiFilePath = path.join(DESTINATION, 'vs/editor/editor.api');
+			let relativePath = path.relative(path.dirname(myFileDestPath), apiFilePath);
+			if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
+				relativePath = './' + relativePath;
+			}
+
+			let contents = data.contents.toString();
+			contents = (
+				`import '${relativePath}';\n` +
+				contents
+			);
+
+			data.contents = new Buffer(contents);
+
+			this.emit('data', data);
+		}))
+		.pipe(ESM_addImportSuffix())
+		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
+	);
+}
+
+function ESM_addImportSuffix() {
+	return es.through(function(data) {
+		if (!/\.js$/.test(data.path)) {
+			this.emit('data', data);
+			return;
+		}
+
+		let contents = data.contents.toString();
+
+		const info = ts.preProcessFile(contents);
+		for (let i = info.importedFiles.length - 1; i >= 0; i--) {
+			const importText = info.importedFiles[i].fileName;
+			const pos = info.importedFiles[i].pos;
+			const end = info.importedFiles[i].end;
+
+			if (/\.css$/.test(importText)) {
+				continue;
+			}
+
+			contents = (
+				contents.substring(0, pos + 1)
+				+ importText + '.js'
+				+ contents.substring(end + 1)
+			);
+		}
+
+		data.contents = new Buffer(contents);
+		this.emit('data', data);
+	});
+}
+
+/**
+ * - Rename esm/vs/editor/editor.main.js to esm/vs/editor/edcore.main.js
+ * - Create esm/vs/editor/editor.main.js that that stiches things together
+ */
+function ESM_addPluginContribs(dest) {
+	const DESTINATION = path.join(__dirname, dest);
+	return es.through(function(data) {
+		if (!/editor\.main\.js$/.test(data.path)) {
+			this.emit('data', data);
+			return;
+		}
+
+		this.emit('data', new File({
+			path: data.path.replace(/editor\.main/, 'edcore.main'),
+			base: data.base,
+			contents: data.contents
+		}));
+
+		const mainFileDestPath = path.join(DESTINATION, 'vs/editor/editor.main.js');
+		let mainFileImports = [];
+		metadata.METADATA.PLUGINS.forEach(function(plugin) {
+			const contribDestPath = path.join(DESTINATION, plugin.contrib);
+
+			let relativePath = path.relative(path.dirname(mainFileDestPath), contribDestPath);
+			if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
+				relativePath = './' + relativePath;
+			}
+
+			mainFileImports.push(relativePath);
+		});
+
+		let mainFileContents = (
+			mainFileImports.map((name) => `import '${name}';`).join('\n')
+			+ `\n\nexport * from './edcore.main';`
+		);
+
+		this.emit('data', new File({
+			path: data.path,
+			base: data.base,
+			contents: new Buffer(mainFileContents)
+		}));
 	});
 }
 
