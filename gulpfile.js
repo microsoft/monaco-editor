@@ -33,6 +33,9 @@ gulp.task('release', ['clean-release'], function() {
 		// min folder
 		releaseOne('min'),
 
+		// // esm folder
+		// releaseESM(),
+
 		// package.json
 		gulp.src('package.json')
 			.pipe(es.through(function(data) {
@@ -71,6 +74,12 @@ function releaseOne(type) {
 	)
 }
 
+// function releaseESM() {
+// 	// return es.merge(
+// 	// 	gulp.src('node_modules/monaco-editor-core/esm/**/*')
+// 	// )
+// }
+
 function pluginStreams(type, destinationPath) {
 	return es.merge(
 		metadata.METADATA.PLUGINS.map(function(plugin) {
@@ -95,7 +104,7 @@ function pluginStream(plugin, type, destinationPath) {
 /**
  * Edit editor.main.js:
  * - rename the AMD module 'vs/editor/editor.main' to 'vs/editor/edcore.main'
- * - append contribs from plugins
+ * - append monaco.contribution modules from plugins
  * - append new AMD module 'vs/editor/editor.main' that stiches things together
  */
 function addPluginContribs(type) {
@@ -118,22 +127,25 @@ function addPluginContribs(type) {
 			var contribPath = path.join(__dirname, pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 			var contribContents = fs.readFileSync(contribPath).toString();
 
-			// Check for the anonymous define call case
-			var contribDefineIndexCase0 = contribContents.indexOf('define(function');
-			if (contribDefineIndexCase0 >= 0) {
+			// Check for the anonymous define call case 1
+			// transform define(function() {...}) to define("moduleId",["require"],function() {...})
+			var anonymousContribDefineCase1 = contribContents.indexOf('define(function');
+			if (anonymousContribDefineCase1 >= 0) {
 				contribContents = (
-					contribContents.substring(0, contribDefineIndexCase0)
+					contribContents.substring(0, anonymousContribDefineCase1)
 					+ `define("${plugin.contrib}",["require"],function`
-					+ contribContents.substring(contribDefineIndexCase0 + 'define(function'.length)
+					+ contribContents.substring(anonymousContribDefineCase1 + 'define(function'.length)
 				);
 			}
 
-			var contribDefineIndexCase1 = contribContents.indexOf('define([');
-			if (contribDefineIndexCase1 >= 0) {
+			// Check for the anonymous define call case 2
+			// transform define([ to define("moduleId",[
+			var anonymousContribDefineCase2 = contribContents.indexOf('define([');
+			if (anonymousContribDefineCase2 >= 0) {
 				contribContents = (
-					contribContents.substring(0, contribDefineIndexCase1)
+					contribContents.substring(0, anonymousContribDefineCase2)
 					+ `define("${plugin.contrib}",[`
-					+ contribContents.substring(contribDefineIndexCase1 + 'define(['.length)
+					+ contribContents.substring(anonymousContribDefineCase2 + 'define(['.length)
 				);
 			}
 
@@ -149,7 +161,7 @@ function addPluginContribs(type) {
 				process.exit(-1);
 			}
 
-			contribContents = contribContents.substring(0, depsEndIndex) + ',"vs/editor/edcore.main"' + contribContents.substring(depsEndIndex);
+			contribContents = contribContents.substring(0, depsEndIndex) + ',"vs/editor/editor.api"' + contribContents.substring(depsEndIndex);
 
 			extraContent.push(contribContents);
 		});

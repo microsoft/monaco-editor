@@ -35,7 +35,7 @@
 			contrib: 'vs/language/json/monaco.contribution',
 			modulePrefix: 'vs/language/json',
 			paths: {
-				src: '/monaco-json/release/min',
+				src: '/monaco-json/release/dev',
 				'npm/dev': 'node_modules/monaco-json/release/dev',
 				'npm/min': 'node_modules/monaco-json/release/min',
 			}
