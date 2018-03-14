@@ -32,7 +32,13 @@ export const conf: LanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
 		{ open: '\'', close: '\'' },
-	]
+	],
+	folding: {
+		markers: {
+			start: new RegExp("^\\s*\\/\\*\\s*#region\\b\\s*(.*?)\\s*\\*\\/"),
+			end: new RegExp("^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/")
+		}
+	}
 };
 
 export const language = <IMonarchLanguage>{

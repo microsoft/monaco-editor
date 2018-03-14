@@ -19,7 +19,10 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '{', close: '}', notIn: ['string', 'comment'] },
 		{ open: '[', close: ']', notIn: ['string', 'comment'] },
 		{ open: '(', close: ')', notIn: ['string', 'comment'] },
-	]
+	],
+	folding: {
+		offSide: true
+	}
 };
 
 export const language = <ILanguage>{

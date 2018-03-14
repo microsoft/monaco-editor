@@ -55,6 +55,13 @@ export const conf: IRichLanguageConfiguration = {
 			action: { indentAction: _monaco.languages.IndentAction.Indent }
 		}
 	],
+
+	folding: {
+		markers: {
+			start: new RegExp("^\\s*<!--\\s*#region\\b.*-->"),
+			end: new RegExp("^\\s*<!--\\s*#endregion\\b.*-->")
+		}
+	}
 };
 
 export const language = <ILanguage>{

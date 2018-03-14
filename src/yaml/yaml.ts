@@ -24,6 +24,9 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '"', close: '"' },
 		{ open: '\'', close: '\'' },
 	],
+	folding: {
+		offSide: true
+	}
 };
 
 export const language = <ILanguage>{

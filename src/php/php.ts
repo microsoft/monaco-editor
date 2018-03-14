@@ -28,7 +28,14 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '(', close: ')', notIn: ['string'] },
 		{ open: '"', close: '"', notIn: ['string'] },
 		{ open: '\'', close: '\'', notIn: ['string', 'comment'] }
-	]
+	],
+
+	folding: {
+		markers: {
+			start: new RegExp("^\\s*(#|\/\/)region\\b"),
+			end: new RegExp("^\\s*(#|\/\/)endregion\\b")
+		}
+	}
 };
 
 export const language = <ILanguage>{
