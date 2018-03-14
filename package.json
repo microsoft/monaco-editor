@@ -9,7 +9,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "http-server": "^0.9.0",
+    "http-server": "^0.11.1",
     "monaco-editor": "0.x.x"
   }
 }
