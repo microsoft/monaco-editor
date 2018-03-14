@@ -121,7 +121,12 @@ const richEditConfiguration:monaco.languages.LanguageConfiguration = {
 		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
 		{ open: '`', close: '`', notIn: ['string', 'comment'] },
 		{ open: "/**", close: " */", notIn: ["string"] }
-	]
+	],
+
+	folding: {
+		markers: {
+			start: new RegExp("^\\s*//\\s*#?region\\b"),
+			end: new RegExp("^\\s*//\\s*#?endregion\\b")
+		}
+	}
 };
-
-
