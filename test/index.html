@@ -12,7 +12,7 @@
 
 <script>
 	var paths = {
-		'vs/language/typescript': '../out',
+		'vs/language/typescript': '../release/dev',
 		'vs': '../node_modules/monaco-editor-core/dev/vs'
 	};
 	if (document.location.protocol === 'http:') {
@@ -20,7 +20,7 @@
 		let testIndex = document.location.pathname.indexOf('/test/');
 		if (testIndex !== -1) {
 			let prefix = document.location.pathname.substr(0, testIndex);
-			paths['vs/language/typescript'] = prefix + '/out';
+			paths['vs/language/typescript'] = prefix + '/release/dev';
 		}
 	}
 	var require = {
@@ -33,7 +33,7 @@
 
 <script>
 	require([
-		'vs/language/typescript/src/monaco.contribution'
+		'vs/language/typescript/monaco.contribution'
 	], function() {
 		var editor = monaco.editor.create(document.getElementById('container'), {
 			value: [
