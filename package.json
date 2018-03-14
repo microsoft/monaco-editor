@@ -10,7 +10,7 @@
     "release": "gulp release",
     "website": "gulp website"
   },
-  "typings": "./monaco.d.ts",
+  "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "gulp-typedoc": "^2.0.0",
     "http-server": "^0.11.1",
     "monaco-css": "2.0.1",
-    "monaco-editor-core": "0.11.3",
+    "monaco-editor-core": "0.11.4",
     "monaco-html": "2.0.2",
     "monaco-json": "2.0.1",
     "monaco-languages": "1.0.2",

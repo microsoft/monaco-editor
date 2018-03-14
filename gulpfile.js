@@ -393,7 +393,9 @@ function addPluginDTS() {
 			var pluginPath = plugin.paths[`npm/min`]; // npm/dev or npm/min
 			var dtsPath = path.join(pluginPath, '../monaco.d.ts');
 			try {
-				extraContent.push(fs.readFileSync(dtsPath).toString());
+				let plugindts = fs.readFileSync(dtsPath).toString();
+				plugindts = plugindts.replace('declare module', 'declare namespace');
+				extraContent.push(plugindts);
 			} catch (err) {
 				return;
 			}
@@ -411,6 +413,44 @@ function addPluginDTS() {
 		contents = cleanFile(contents);
 
 		data.contents = new Buffer(contents);
+
+		{
+			let lines = contents.split('\n');
+			let killNextCloseCurlyBrace = false;
+			for (let i = 0; i < lines.length; i++) {
+				let line = lines[i];
+
+				if (killNextCloseCurlyBrace) {
+					if ('}' === line) {
+						lines[i] = '';
+						killNextCloseCurlyBrace = false;
+						continue;
+					}
+
+					if (line.indexOf('    ') === 0) {
+						lines[i] = line.substr(4);
+					}
+
+					continue;
+				}
+
+				if ('declare namespace monaco {' === line) {
+					lines[i] = '';
+					killNextCloseCurlyBrace = true;
+					continue;
+				}
+
+				if (line.indexOf('declare namespace monaco.') === 0) {
+					lines[i] = line.replace('declare namespace monaco.', 'export namespace ');
+				}
+			}
+
+			this.emit('data', new File({
+				path: path.join(path.dirname(data.path), 'esm/vs/editor/editor.api.d.ts'),
+				base: data.base,
+				contents: new Buffer(lines.join('\n'))
+			}));
+		}
 
 		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
 		fs.writeFileSync('monaco.d.ts', contents);
