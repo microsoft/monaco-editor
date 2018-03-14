@@ -1,25 +1,12 @@
 # Monaco Editor
 
-[Demo page](https://microsoft.github.io/monaco-editor/)
-
 The Monaco Editor is the code editor that powers [VS Code](https://github.com/Microsoft/vscode), a good page describing the code editor's features is [here](https://code.visualstudio.com/docs/editor/editingevolved).
 
 ![image](https://cloud.githubusercontent.com/assets/5047891/19600675/5eaae9e6-97a6-11e6-97ad-93903167d8ba.png)
 
 ## Try it out
 
-See the editor in action [here](https://microsoft.github.io/monaco-editor/index.html).
-
-Learn how to extend the editor and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
-
-Browse the latest editor API at [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
-
-## Issues
-
-Please mention the version of the editor when creating issues and the browser you're having trouble in. Create issues in this repository.
-
-## Known issues
-In IE, the editor must be completely surrounded in the body element, otherwise the hit testing we do for mouse operations does not work. You can inspect this using F12 and clicking on the body element and confirm that visually it surrounds the editor.
+See the editor in action [on the website](https://microsoft.github.io/monaco-editor/index.html).
 
 ## Installing
 
@@ -28,91 +15,33 @@ $ npm install monaco-editor
 ```
 
 You will get:
-* inside `dev`: bundled, not minified
-* inside `min`: bundled, and minified
+* inside `esm`: ESM version of the editor (compatible with e.g. webpack)
+* inside `dev`: AMD bundled, not minified
+* inside `min`: AMD bundled, and minified
 * inside `min-maps`: source maps for `min`
 * `monaco.d.ts`: this specifies the API of the editor (this is what is actually versioned, everything else is considered private and might break with any release).
 
 It is recommended to develop against the `dev` version, and in production to use the `min` version.
 
-## Integrate
+## Documentation
 
-Here is the most basic HTML page that embeds the editor. More samples are available at [monaco-editor-samples](https://github.com/Microsoft/monaco-editor-samples).
+* Learn how to integrate the editor with these [complete samples](https://github.com/Microsoft/monaco-editor-samples/).
+	* [Integrate the AMD version](./docs/integrate-amd.md).
+	* [Integrate the AMD version cross-domain](./docs/integrate-amd-cross.md)
+	* [Integrate the ESM version](./docs/integrate-esm.md)
+* Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
+* Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
+* Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
+* Create a Monarch tokenizer for a new programming language [in the Monarch playground](https://microsoft.github.io/monaco-editor/monarch.html).
+* Search open and closed issues, there are a lot of tips in there!
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-</head>
-<body>
+## Issues
 
-<div id="container" style="width:800px;height:600px;border:1px solid grey"></div>
+Please mention the version of the editor when creating issues and the browser you're having trouble in. Create issues in this repository for anything Monaco Editor related. Please search for existing issues to avoid duplicates.
 
-<script src="monaco-editor/min/vs/loader.js"></script>
-<script>
-	require.config({ paths: { 'vs': 'monaco-editor/min/vs' }});
-	require(['vs/editor/editor.main'], function() {
-		var editor = monaco.editor.create(document.getElementById('container'), {
-			value: [
-				'function x() {',
-				'\tconsole.log("Hello world!");',
-				'}'
-			].join('\n'),
-			language: 'javascript'
-		});
-	});
-</script>
-</body>
-</html>
-```
+## Known issues
+In IE, the editor must be completely surrounded in the body element, otherwise the hit testing we do for mouse operations does not work. You can inspect this using F12 and clicking on the body element and confirm that visually it surrounds the editor.
 
-## Integrate cross domain
-
-If you are hosting your `.js` on a different domain (e.g. on a CDN) than the HTML, you should know that the Monaco Editor creates web workers for smart language features. Cross-domain web workers are not allowed, but here is how you can proxy their loading and get them to work:
-
-```html
-<!--
-	Assuming the HTML lives on www.mydomain.com and that the editor is hosted on www.mycdn.com
--->
-<script type="text/javascript" src="http://www.mycdn.com/monaco-editor/min/vs/loader.js"></script>
-<script>
-	require.config({ paths: { 'vs': 'http://www.mycdn.com/monaco-editor/min/vs' }});
-
-	// Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-	// the default worker url location (used when creating WebWorkers). The problem here is that
-	// HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-	// a web worker through a same-domain script
-	window.MonacoEnvironment = {
-		getWorkerUrl: function(workerId, label) {
-			return 'monaco-editor-worker-loader-proxy.js';
-		}
-	};
-
-	require(["vs/editor/editor.main"], function () {
-		// ...
-	});
-</script>
-
-<!--
-	Create http://www.mydomain.com/monaco-editor-worker-loader-proxy.js with the following content:
-		self.MonacoEnvironment = {
-			baseUrl: 'http://www.mycdn.com/monaco-editor/min/'
-		};
-		importScripts('www.mycdn.com/monaco-editor/min/vs/base/worker/workerMain.js');
-	That's it. You're good to go! :)
--->
-```
-
-# More documentation
-
-> **Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!**
-
-Find full HTML samples [here](https://github.com/Microsoft/monaco-editor-samples).
-
-Create a Monarch tokenizer [here](https://microsoft.github.io/monaco-editor/monarch.html).
-![image](https://cloud.githubusercontent.com/assets/5047891/16143041/840ced64-346a-11e6-98f3-3c68bf61884a.png)
 
 ## FAQ
 
