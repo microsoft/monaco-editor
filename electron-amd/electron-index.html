@@ -2,15 +2,15 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Hello World!</title>
+		<title>Monaco Editor!</title>
 	</head>
 	<body>
-		<h1>Hello World!</h1>
+		<h1>Monaco Editor in Electron!</h1>
 		<div id="container" style="width:500px;height:300px;border:1px solid #ccc"></div>
 	</body>
 
 	<script>
-		// Monaco uses a custom amd loader that over-rides node's require.
+		// Monaco uses a custom amd loader that overrides node's require.
 		// Keep a reference to node's require so we can restore it after executing the amd loader file.
 		var nodeRequire = global.require;
 	</script>
