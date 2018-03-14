@@ -33,14 +33,15 @@ It is recommended to develop against the `dev` version, and in production to use
 * Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
 * Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
 * Create a Monarch tokenizer for a new programming language [in the Monarch playground](https://microsoft.github.io/monaco-editor/monarch.html).
+* Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor)!
 * Search open and closed issues, there are a lot of tips in there!
 
 ## Issues
 
-Please mention the version of the editor when creating issues and the browser you're having trouble in. Create issues in this repository for anything Monaco Editor related. Please search for existing issues to avoid duplicates.
+Create issues in this repository for anything Monaco Editor related. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
 
 ## Known issues
-In IE, the editor must be completely surrounded in the body element, otherwise the hit testing we do for mouse operations does not work. You can inspect this using F12 and clicking on the body element and confirm that visually it surrounds the editor.
+In IE 11, the editor must be completely surrounded in the body element, otherwise the hit testing we do for mouse operations does not work. You can inspect this using F12 and clicking on the body element and confirm that visually it surrounds the editor.
 
 
 ## FAQ
