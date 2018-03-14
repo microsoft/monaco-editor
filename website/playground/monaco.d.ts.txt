@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Type definitions for monaco-editor v0.10.1
+ * Type definitions for monaco-editor v0.11.0
  * Released under the MIT license
 *-----------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------
@@ -2782,7 +2782,7 @@ declare namespace monaco {
             lightbulb?: IEditorLightbulbOptions;
             /**
              * Enable code folding
-             * Defaults to true in vscode and to false in monaco-editor.
+             * Defaults to true.
              */
             folding?: boolean;
             /**

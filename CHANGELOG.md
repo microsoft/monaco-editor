@@ -1,5 +1,47 @@
 # Monaco Editor Change log
 
+## [0.11.0] (14.03.2018)
+
+### New & Noteworthy
+* **ESM distribution** (compatible with e.g. webpack).
+* New interval tree decorations implementation.
+* New piece tree text buffer implementation.
+* The minimap can be placed to the left.
+* Line numbers can be displayed in an interval.
+* The cursor width can be customized.
+* Smooth scrolling can be turned on.
+* Color decorators and color picker via `DocumentColorProvider`.
+
+### Breaking changes
+* Replaced `MarkedString` with `IMarkdownString`. Source code snippets can be expressed using the GH markdown syntax.
+
+### API changes
+* Merged `IModel`, `IReadOnlyModel`, `IEditableTextModel`, `ITextModelWithMarkers`, `ITokenizedModel`, `ITextModelWithDecorations` to `ITextModel`. A type alias for `IModel` is defined for compatibility.
+* Merged `ICommonCodeEditor` and `ICodeEditor` to `ICodeEditor`.
+* Merged `ICommonDiffEditor` and `IDiffEditor` to `IDiffEditor`.
+* `CompletionItem.documentation`, `ParameterInformation.documentation` and `SignatureInformation.documentation` can now be an `IMarkdownString`.
+* Added `CompetionItem.command`, `CompletionItem.commitCharacters` and `CompletionItem.additionalTextEdits`.
+* Added language configuration `folding` which can define
+
+### Thank you
+* [Remy Suen @rcjsuen](https://github.com/rcjsuen):
+  * Fix a small typo in README.md [PR monaco-typescript#18](https://github.com/Microsoft/monaco-typescript/pull/18)
+  * Remove unused IDisposable array [PR monaco-typescript#19](https://github.com/Microsoft/monaco-typescript/pull/19)
+  * Add HEALTHCHECK as a Dockerfile keyword [PR monaco-languages#29](https://github.com/Microsoft/monaco-languages/pull/29)
+  * Add ARG as a Dockerfile keyword [PR monaco-languages#30](https://github.com/Microsoft/monaco-languages/pull/30)
+* [Can Abacigil @abacigil](https://github.com/abacigil): MySQL, Postgres, Redshift and Redis Language Support [PR monaco-languages#26](https://github.com/Microsoft/monaco-languages/pull/26)
+* [Matthias Kadenbach @mattes](https://github.com/mattes): Support Content-Security-Policy syntax highlighting [PR monaco-languages#27](https://github.com/Microsoft/monaco-languages/pull/27)
+* [e.vakili @evakili](https://github.com/evakili): Whitespaces after # are allowed in C++ preprocessor statements [PR monaco-languages#28](https://github.com/Microsoft/monaco-languages/pull/28)
+* [Pankaj Kumar Gautam @PAPERPANKS](https://github.com/PAPERPANKS): adding microsoft logo to footer [PR monaco-editor#577](https://github.com/Microsoft/monaco-editor/pull/577)
+* [Dominik Moritz @domoritz](https://github.com/domoritz): Fix code in changelog [PR monaco-editor#582](https://github.com/Microsoft/monaco-editor/pull/582)
+* [ItsPugle @ItsPugle](https://github.com/ItsPugle): Updating the footer to reflect change of year [PR monaco-editor#707](https://github.com/Microsoft/monaco-editor/pull/707)
+* [Michael Seifert @MSeifert04](https://github.com/MSeifert04): Add linebreak for if  [PR monaco-editor#726](https://github.com/Microsoft/monaco-editor/pull/726)
+* [Andrew Palm @apalm](https://github.com/apalm): Fix 'Configure JSON defaults' sample [PR monaco-editor#731](https://github.com/Microsoft/monaco-editor/pull/731)
+* [Niklas Mollenhauer @nikeee](https://github.com/nikeee): Fix line number API usage [PR monaco-editor#740](https://github.com/Microsoft/monaco-editor/pull/740)
+* [Andre @anc](https://github.com/anc): More realistic terminal shell [PR monaco-editor#742](https://github.com/Microsoft/monaco-editor/pull/742)
+* to the many others that have contributed PRs to [vscode](https://github.com/Microsoft/vscode) which have also made their way into the monaco-editor.
+
+
 ## [0.10.1] (16.10.2017)
  - Fixes [issue #601](https://github.com/Microsoft/monaco-editor/issues/601): window.opener should be set to null to protect against malicious code
 
