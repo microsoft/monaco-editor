@@ -17,6 +17,8 @@ Go to <a href="http://localhost:8888">localhost:8888</a> and explore the samples
 ## Loading variations
 * `browser-amd-editor`: running in a browser using `AMD` lazy loading.
 * `browser-script-editor`: running in a browser using `AMD` synchronous loading via `<script>` tags.
+* `browser-esm-webpack`: running in a browser using webpack.
+* `browser-esm-webpack-small`: running in a browser using webpack (only a subset of the editor).
 * `electron-amd`: running in electron.
 * `nwjs-amd` and `nwjs-amd-v2`: running in nwjs. it is reported that v2 works and the initial version does not.
 
