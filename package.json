@@ -1,12 +1,12 @@
 {
   "name": "monaco-languages",
-  "version": "0.9.0",
+  "version": "1.0.3",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
-    "compile": "node_modules/.bin/gulp compile",
-    "watch": "node_modules/.bin/gulp watch",
-    "test": "node_modules/.bin/mocha",
-    "prepublish": "node_modules/.bin/gulp release"
+    "compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+    "watch": "tsc -p ./src --watch",
+    "test": "mocha",
+    "prepublish": "npm run compile && node ./scripts/bundle"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -18,17 +18,12 @@
     "url": "https://github.com/Microsoft/monaco-languages/issues"
   },
   "devDependencies": {
-    "event-stream": "^3.3.4",
-    "gulp": "^3.9.1",
-    "gulp-requirejs": "^1.0.0-rc2",
-    "gulp-tsb": "^2.0.3",
-    "gulp-uglify": "^3.0.0",
     "jsdom-no-contextify": "^3.1.0",
-    "merge-stream": "^1.0.1",
     "mocha": "^3.4.2",
-    "monaco-editor-core": "^0.10.0",
-    "object-assign": "^4.1.1",
-    "rimraf": "^2.6.1",
-    "typescript": "2.3.4"
+    "monaco-editor-core": "0.11.1",
+    "monaco-plugin-helpers": "^1.0.2",
+    "requirejs": "^2.3.5",
+    "typescript": "2.7.2",
+    "uglify-js": "^3.3.14"
   }
 }
