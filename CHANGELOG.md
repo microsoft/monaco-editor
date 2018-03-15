@@ -311,3 +311,14 @@
 - The right-pointing mouse pointer is oversized in high DPI - [issue](https://github.com/Microsoft/monaco-editor/issues/5)
 - The editor functions now correctly when hosted inside a `position:fixed` element.
 - Cross origin configuration is now picked up (as advertised in documentation from MonacoEnvironment)
+
+[0.11.0]: https://github.com/Microsoft/monaco-editor/compare/v0.10.1...v0.11.0
+[0.10.1]: https://github.com/Microsoft/monaco-editor/compare/v0.10.0...v0.10.1
+[0.10.0]: https://github.com/Microsoft/monaco-editor/compare/v0.9.0...v0.10.0
+[0.9.0]: https://github.com/Microsoft/monaco-editor/compare/v0.8.3...v0.9.0
+[0.8.3]: https://github.com/Microsoft/monaco-editor/compare/v0.8.2...v0.8.3
+[0.8.2]: https://github.com/Microsoft/monaco-editor/compare/v0.8.1...v0.8.2
+[0.8.1]: https://github.com/Microsoft/monaco-editor/compare/v0.8.0...v0.8.1
+[0.6.1]: https://github.com/Microsoft/monaco-editor/compare/v0.6.0...v0.6.1
+[0.6.0]: https://github.com/Microsoft/monaco-editor/compare/v0.5.1...v0.6.0
+[0.5.1]: https://github.com/Microsoft/monaco-editor/compare/v0.5.0...v0.5.1
