@@ -1,5 +1,9 @@
 # Monaco Editor Change log
 
+## [0.11.1] (15.03.2018)
+ - Fixes [issue #756](https://github.com/Microsoft/monaco-editor/issues/756): Can't use "Enter" key to accept an IntelliSense item
+ - Fixes [issue #757](https://github.com/Microsoft/monaco-editor/issues/757): TypeScript errors in `editor.api.d.ts` typings
+
 ## [0.11.0] (14.03.2018)
 
 ### New & Noteworthy
@@ -314,6 +318,7 @@
 - The editor functions now correctly when hosted inside a `position:fixed` element.
 - Cross origin configuration is now picked up (as advertised in documentation from MonacoEnvironment)
 
+[0.11.1]: https://github.com/Microsoft/monaco-editor/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/Microsoft/monaco-editor/compare/v0.10.1...v0.11.0
 [0.10.1]: https://github.com/Microsoft/monaco-editor/compare/v0.10.0...v0.10.1
 [0.10.0]: https://github.com/Microsoft/monaco-editor/compare/v0.9.0...v0.10.0
