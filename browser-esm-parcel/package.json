@@ -1,0 +1,8 @@
+{
+  "name": "helloworld",
+  "dependencies": {},
+  "devDependencies": {
+    "monaco-editor": "^0.11.0",
+    "parcel-bundler": "^1.6.2"
+  }
+}
