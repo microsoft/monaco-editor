@@ -21,7 +21,7 @@
 * Merged `ICommonDiffEditor` and `IDiffEditor` to `IDiffEditor`.
 * `CompletionItem.documentation`, `ParameterInformation.documentation` and `SignatureInformation.documentation` can now be an `IMarkdownString`.
 * Added `CompetionItem.command`, `CompletionItem.commitCharacters` and `CompletionItem.additionalTextEdits`.
-* Added language configuration `folding` which can define
+* Added language configuration `folding` which can define markers for code patterns where a folding regions should be created. See for example the [Python configuration](https://github.com/Microsoft/monaco-languages/blob/d2db3faa76b741bf4ee822c403fc355c913bc46d/src/python/python.ts#L35-L41).
 * Added by accident `ResourceFileEdit` (due to how `monaco.d.ts` is generated from vscode). That is not honoured by the editor, and should not be used.
 
 ### Thank you
