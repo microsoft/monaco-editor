@@ -22,6 +22,7 @@
 * `CompletionItem.documentation`, `ParameterInformation.documentation` and `SignatureInformation.documentation` can now be an `IMarkdownString`.
 * Added `CompetionItem.command`, `CompletionItem.commitCharacters` and `CompletionItem.additionalTextEdits`.
 * Added language configuration `folding` which can define
+* Added by accident `ResourceFileEdit` (due to how `monaco.d.ts` is generated from vscode). That is not honoured by the editor, and should not be used.
 
 ### Thank you
 * [Remy Suen @rcjsuen](https://github.com/rcjsuen):
