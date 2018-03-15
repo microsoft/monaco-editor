@@ -14,6 +14,7 @@
 
 ### Breaking changes
 * Replaced `MarkedString` with `IMarkdownString`. Source code snippets can be expressed using the GH markdown syntax.
+* Renamed `IResourceEdit` to `ResourceTextEdit`.
 
 ### API changes
 * Merged `IModel`, `IReadOnlyModel`, `IEditableTextModel`, `ITextModelWithMarkers`, `ITokenizedModel`, `ITextModelWithDecorations` to `ITextModel`. A type alias for `IModel` is defined for compatibility.
