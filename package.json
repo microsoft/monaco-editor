@@ -17,11 +17,14 @@
     "url": "https://github.com/Microsoft/monaco-editor"
   },
   "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.4",
     "clean-css": "^3.4.20",
     "event-stream": "^3.3.2",
     "gulp": "^3.9.1",
     "gulp-typedoc": "^2.0.0",
     "http-server": "^0.11.1",
+    "loader-utils": "1.1.0",
     "monaco-css": "2.0.1",
     "monaco-editor-core": "0.11.6",
     "monaco-html": "2.0.2",
