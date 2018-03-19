@@ -1,3 +1,5 @@
+const path = require('path');
+
 class AddWorkerEntryPointPlugin {
   constructor(webpack, { id, entry, output }) {
     this.webpack = webpack;
@@ -11,6 +13,7 @@ class AddWorkerEntryPointPlugin {
       const outputOptions = {
         filename: output,
         publicPath: compilation.outputOptions.publicPath,
+        chunkFilename: `${path.basename(output)}.[id].js`,
         // HACK: globalObject is necessary to fix https://github.com/webpack/webpack/issues/6642
         globalObject: 'this',
       };
