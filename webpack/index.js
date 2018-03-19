@@ -125,8 +125,16 @@ function createPlugins(webpack, workers, outputPath) {
     ...Object.keys(IGNORED_IMPORTS).map((id) =>
       createIgnoreImportsPlugin(webpack, id, IGNORED_IMPORTS[id])
     ),
-    ...workers.map(({ id, entry, output }) =>
-      createEntryPointPlugin(webpack, id, resolveMonacoPath(entry), path.join(outputPath, output))
+    ...uniqBy(workers, ({ id }) => id).map(({ id, entry, output }) =>
+      new AddWorkerEntryPointPlugin(webpack, {
+        id,
+        entry: resolveMonacoPath(entry),
+        filename: path.join(outputPath, output),
+        plugins: [
+          createContextPlugin(webpack, WORKER_LOADER_PATH, {}),
+          new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+        ],
+      })
     ),
     ...(workerFallbacks ? [createContextPlugin(webpack, WORKER_LOADER_PATH, workerFallbacks)] : []),
   ];
@@ -137,7 +145,7 @@ function createContextPlugin(webpack, filePath, contextPaths) {
     new RegExp(`^${path.dirname(filePath)}$`),
     '',
     contextPaths
-  )
+  );
 }
 
 function createIgnoreImportsPlugin(webpack, targetPath, ignoredModules) {
@@ -145,10 +153,6 @@ function createIgnoreImportsPlugin(webpack, targetPath, ignoredModules) {
     new RegExp(`^(${ignoredModules.map((id) => `(${id})`).join('|')})$`),
     new RegExp(`^${path.dirname(targetPath)}$`)
   );
-}
-
-function createEntryPointPlugin(webpack, id, entry, output) {
-  return new AddWorkerEntryPointPlugin(webpack, { id, entry, output });
 }
 
 function flatMap(items, iteratee) {
@@ -168,6 +172,17 @@ function mapValues(object, iteratee) {
     (acc, key) => Object.assign(acc, { [key]: iteratee(object[key], key) }),
     {}
   );
+}
+
+function uniqBy(items, iteratee) {
+  const keys = {};
+  return items.reduce((acc, item) => {
+    const key = iteratee(item);
+    if (key in keys) { return acc; }
+    keys[key] = true;
+    acc.push(item);
+    return acc;
+  }, []);
 }
 
 module.exports = MonacoWebpackPlugin;
