@@ -26,7 +26,7 @@
     "http-server": "^0.11.1",
     "loader-utils": "1.1.0",
     "monaco-css": "2.0.1",
-    "monaco-editor-core": "0.11.6",
+    "monaco-editor-core": "^0.11.7",
     "monaco-html": "2.0.2",
     "monaco-json": "2.0.1",
     "monaco-languages": "1.0.4",

@@ -114,21 +114,6 @@ function createLoaderRules(languages, features, workers, publicPath) {
         },
       ],
     },
-    // HACK: This loader can be removed if the self.require() call in editorSimpleWorker.ts is
-    // replaced with a global require() call
-    {
-      test: WORKER_LOADER_PATH,
-      use: [
-        {
-          loader: require.resolve('babel-loader'),
-          options: {
-            plugins: [
-              replaceSelfRequireWithGlobalRequire(),
-            ],
-          },
-        },
-      ],
-    },
   ];
 }
 
@@ -164,28 +149,6 @@ function createIgnoreImportsPlugin(webpack, targetPath, ignoredModules) {
 
 function createEntryPointPlugin(webpack, id, entry, output) {
   return new AddWorkerEntryPointPlugin(webpack, { id, entry, output });
-}
-
-function replaceSelfRequireWithGlobalRequire() {
-	return (babel) => {
-		const { types: t } = babel;
-		return {
-			visitor: {
-				CallExpression(path) {
-					const { node } = path;
-					const isSelfRequireExpression = (
-						t.isMemberExpression(node.callee)
-						&& t.isIdentifier(node.callee.object, { name: 'self' })
-						&& t.isIdentifier(node.callee.property, { name: 'require' })
-						&& t.isArrayExpression(node.arguments[0])
-						&& t.isFunction(node.arguments[1])
-					);
-					if (!isSelfRequireExpression) { return; }
-					path.get('callee').replaceWith(t.identifier('require'));
-				}
-			},
-		};
-	};
 }
 
 function flatMap(items, iteratee) {
