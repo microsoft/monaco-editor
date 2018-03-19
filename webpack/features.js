@@ -15,11 +15,7 @@ module.exports = {
     entry: 'vs/editor/contrib/clipboard/clipboard',
     worker: undefined,
   },
-  codeEditorWidget: {
-    entry: 'vs/editor/browser/widget/codeEditorWidget',
-    worker: undefined,
-  },
-  codelensController: {
+  codelens: {
     entry: 'vs/editor/contrib/codelens/codelensController',
     worker: undefined,
   },
@@ -43,19 +39,11 @@ module.exports = {
     entry: 'vs/editor/contrib/cursorUndo/cursorUndo',
     worker: undefined,
   },
-  diffEditorWidget: {
-    entry: 'vs/editor/browser/widget/diffEditorWidget',
-    worker: undefined,
-  },
-  diffNavigator: {
-    entry: 'vs/editor/browser/widget/diffNavigator',
-    worker: undefined,
-  },
   dnd: {
     entry: 'vs/editor/contrib/dnd/dnd',
     worker: undefined,
   },
-  findController: {
+  find: {
     entry: 'vs/editor/contrib/find/findController',
     worker: undefined,
   },
@@ -63,15 +51,15 @@ module.exports = {
     entry: 'vs/editor/contrib/folding/folding',
     worker: undefined,
   },
-  formatActions: {
+  format: {
     entry: 'vs/editor/contrib/format/formatActions',
     worker: undefined,
   },
-  goToDeclarationCommands: {
+  gotoDeclarationCommands: {
     entry: 'vs/editor/contrib/goToDeclaration/goToDeclarationCommands',
     worker: undefined,
   },
-  goToDeclarationMouse: {
+  gotoDeclarationMouse: {
     entry: 'vs/editor/contrib/goToDeclaration/goToDeclarationMouse',
     worker: undefined,
   },
@@ -139,11 +127,11 @@ module.exports = {
     entry: 'vs/editor/contrib/smartSelect/smartSelect',
     worker: undefined,
   },
-  snippetController2: {
+  snippets: {
     entry: 'vs/editor/contrib/snippet/snippetController2',
     worker: undefined,
   },
-  suggestController: {
+  suggest: {
     entry: 'vs/editor/contrib/suggest/suggestController',
     worker: undefined,
   },
