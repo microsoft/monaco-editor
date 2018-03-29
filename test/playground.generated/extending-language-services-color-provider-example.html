@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!-- THIS IS A GENERATED FILE VIA gulp generate-test-samples -->
+<html>
+<head>
+	<base href="..">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+<style>
+/*----------------------------------------SAMPLE CSS START*/
+
+
+
+/*----------------------------------------SAMPLE CSS END*/
+</style>
+<a class="loading-opts" href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>
+THIS IS A GENERATED FILE VIA gulp generate-test-samples
+
+<div id="bar" style="margin-bottom: 6px;"></div>
+
+<div style="clear:both"></div>
+<div id="outer-container" style="width:800px;height:450px;border: 1px solid grey">
+<!-- ----------------------------------------SAMPLE HTML START-->
+
+<div id="container" style="height:100%;"></div>
+
+
+<!-- ----------------------------------------SAMPLE HTML END-->
+</div>
+<div style="clear:both"></div>
+
+<script src="../metadata.js"></script>
+<script src="dev-setup.js"></script>
+<script>
+loadEditor(function() {
+/*----------------------------------------SAMPLE JS START*/
+
+monaco.languages.register({
+    id: "colorLanguage"
+})
+
+monaco.editor.create(document.getElementById("container"), {
+    value: "red\nblue\ngreen",
+    language: "colorLanguage",
+    colorDecorators: true
+});
+
+monaco.languages.registerColorProvider("colorLanguage", {
+    provideColorPresentations: (model, colorInfo) => {
+        var color = colorInfo.color;
+        var red256 = Math.round(color.red * 255);
+        var green256 = Math.round(color.green * 255);
+        var blue256 = Math.round(color.blue * 255);
+        var label;
+        if (color.alpha === 1) {
+            label = "rgb(" + red256 + ", " + green256 + ", " + blue256 + ")";
+        } else {
+            label = "rgba(" + red256 + ", " + green256 + ", " + blue256 + ", " + color.alpha + ")";
+        }
+
+        return [
+            {
+                label: label
+            }
+        ];
+    },
+
+    provideDocumentColors: () => {
+        return [
+            {
+                color: { red: 1, blue: 0, green: 0, alpha: 1 },
+                range:{
+                    startLineNumber: 1,
+                    startColumn: 0,
+                    endLineNumber: 1,
+                    endColumn: 0
+                }
+            },
+            {
+                color: { red: 0, blue: 1, green: 0, alpha: 1 },
+                range:{
+                    startLineNumber: 2,
+                    startColumn: 0,
+                    endLineNumber: 2,
+                    endColumn: 0
+                }
+            },
+            {
+                color: { red: 0, blue: 0, green: 1, alpha: 1 },
+                range:{
+                    startLineNumber: 3,
+                    startColumn: 0,
+                    endLineNumber: 3,
+                    endColumn: 0
+                }
+            }
+        ]
+    }
+
+})
+
+/*----------------------------------------SAMPLE CSS END*/
+});
+</script>
+</body>
+</html>
