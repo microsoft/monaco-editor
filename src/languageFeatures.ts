@@ -249,7 +249,7 @@ function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMa
 		};
 	}
 
-	return { value: '```' + entry.value + '\n' + entry.value + '\n```\n' };
+	return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
 }
 
 function toMarkedStringArray(contents: ls.MarkupContent | ls.MarkedString | ls.MarkedString[]): monaco.IMarkdownString[] {
