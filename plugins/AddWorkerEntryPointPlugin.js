@@ -1,17 +1,17 @@
+const webpack = require('webpack');
+
 class AddWorkerEntryPointPlugin {
-  constructor(webpack, {
+  constructor({
     id,
     entry,
     filename,
     chunkFilename = undefined,
     plugins = undefined,
   }) {
-    this.webpack = webpack;
     this.options = { id, entry, filename, chunkFilename, plugins };
   }
 
   apply(compiler) {
-    const webpack = this.webpack;
     const { id, entry, filename, chunkFilename, plugins } = this.options;
     compiler.hooks.make.tapAsync('AddWorkerEntryPointPlugin', (compilation, callback) => {
       const outputOptions = {

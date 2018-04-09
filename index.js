@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const AddWorkerEntryPointPlugin = require('./plugins/AddWorkerEntryPointPlugin');
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
 
@@ -42,11 +43,10 @@ const languagesById = fromPairs(
 const featuresById = mapValues(FEATURES, (feature, key) => ({ label: key, ...feature }))
 
 class MonacoWebpackPlugin {
-  constructor(webpack, options = {}) {
+  constructor(options = {}) {
     const languages = options.languages || Object.keys(languagesById);
     const features = options.features || Object.keys(featuresById);
     const output = options.output || '';
-    this.webpack = webpack;
     this.options = {
       languages: languages.map((id) => languagesById[id]).filter(Boolean),
       features: features.map(id => featuresById[id]).filter(Boolean),
@@ -55,7 +55,6 @@ class MonacoWebpackPlugin {
   }
 
   apply(compiler) {
-    const webpack = this.webpack;
     const { languages, features, output } = this.options;
     const publicPath = getPublicPath(compiler);
     const modules = [EDITOR_MODULE, ...languages, ...features];
@@ -63,7 +62,7 @@ class MonacoWebpackPlugin {
       ({ label, alias, worker }) => worker && ({ label, alias, ...worker })
     ).filter(Boolean);
     const rules = createLoaderRules(languages, features, workers, publicPath);
-    const plugins = createPlugins(webpack, workers, output);
+    const plugins = createPlugins(workers, output);
     addCompilerRules(compiler, rules);
     addCompilerPlugins(compiler, plugins);
   }
@@ -117,30 +116,30 @@ function createLoaderRules(languages, features, workers, publicPath) {
   ];
 }
 
-function createPlugins(webpack, workers, outputPath) {
+function createPlugins(workers, outputPath) {
   const workerFallbacks = workers.reduce((acc, { id, fallback }) => (fallback ? Object.assign(acc, {
     [id]: resolveMonacoPath(fallback)
   }) : acc), {});
   return [
     ...Object.keys(IGNORED_IMPORTS).map((id) =>
-      createIgnoreImportsPlugin(webpack, id, IGNORED_IMPORTS[id])
+      createIgnoreImportsPlugin(id, IGNORED_IMPORTS[id])
     ),
     ...uniqBy(workers, ({ id }) => id).map(({ id, entry, output }) =>
-      new AddWorkerEntryPointPlugin(webpack, {
+      new AddWorkerEntryPointPlugin({
         id,
         entry: resolveMonacoPath(entry),
         filename: path.join(outputPath, output),
         plugins: [
-          createContextPlugin(webpack, WORKER_LOADER_PATH, {}),
+          createContextPlugin(WORKER_LOADER_PATH, {}),
           new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
         ],
       })
     ),
-    ...(workerFallbacks ? [createContextPlugin(webpack, WORKER_LOADER_PATH, workerFallbacks)] : []),
+    ...(workerFallbacks ? [createContextPlugin(WORKER_LOADER_PATH, workerFallbacks)] : []),
   ];
 }
 
-function createContextPlugin(webpack, filePath, contextPaths) {
+function createContextPlugin(filePath, contextPaths) {
   return new webpack.ContextReplacementPlugin(
     new RegExp(`^${path.dirname(filePath)}$`),
     '',
@@ -148,7 +147,7 @@ function createContextPlugin(webpack, filePath, contextPaths) {
   );
 }
 
-function createIgnoreImportsPlugin(webpack, targetPath, ignoredModules) {
+function createIgnoreImportsPlugin(targetPath, ignoredModules) {
   return new webpack.IgnorePlugin(
     new RegExp(`^(${ignoredModules.map((id) => `(${id})`).join('|')})$`),
     new RegExp(`^${path.dirname(targetPath)}$`)

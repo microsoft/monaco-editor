@@ -1,5 +1,51 @@
+# Monaco Editor Webpack Loader Plugin
 
-# Contributing
+A plugin to simplify loading the [Monaco Editor](https://github.com/Microsoft/monaco-editor) with [webpack](https://webpack.js.org/) contributed by [Tim Kendrik](https://github.com/timkendrick).
+
+## Installing
+```sh
+npm install monaco-editor-webpack-plugin
+```
+
+## Using
+* `webpack.config.js`:
+```js
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+
+module.exports = {
+  entry: './index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'app.js'
+  },
+  plugins: [
+    new MonacoWebpackPlugin()
+  ]
+};
+```
+
+* `index.js`:
+```js
+import * as monaco from 'monaco-editor';
+
+monaco.editor.create(document.getElementById('container'), {
+  value: 'console.log("Hello, world")',
+  language: 'javascript'
+});
+```
+
+## Options
+
+Options can be passed in to `MonacoWebpackPlugin`. They can be used to generate a smaller editor bundle by selecting only certain languages or only certain editor features:
+
+* `output` (`string`) - append a certain string to all generated files.
+  * default value: `''`.
+* `languages` (`string[]`) - include only a subset of the languages supported.
+  * default value: `['bat', 'coffee', 'cpp', 'csharp', 'csp', 'css', 'dockerfile', 'fsharp', 'go', 'handlebars', 'html', 'ini', 'java', 'json', 'less', 'lua', 'markdown', 'msdax', 'mysql', 'objective', 'pgsql', 'php', 'postiats', 'powershell', 'pug', 'python', 'r', 'razor', 'redis', 'redshift', 'ruby', 'sb', 'scss', 'solidity', 'sql', 'swift', 'typescript', 'vb', 'xml', 'yaml']`.
+* `features` (`string[]`) - include only a subset of the editor features.
+  * default value: `['accessibilityHelp', 'bracketMatching', 'caretOperations', 'clipboard', 'codelens', 'colorDetector', 'comment', 'contextmenu', 'coreCommands', 'cursorUndo', 'dnd', 'find', 'folding', 'format', 'gotoDeclarationCommands', 'gotoDeclarationMouse', 'gotoError', 'gotoLine', 'hover', 'inPlaceReplace', 'inspectTokens', 'iPadShowKeyboard', 'linesOperations', 'links', 'multicursor', 'parameterHints', 'quickCommand', 'quickFixCommands', 'quickOutline', 'referenceSearch', 'rename', 'smartSelect', 'snippets', 'suggest', 'toggleHighContrast', 'toggleTabFocusMode', 'transpose', 'wordHighlighter', 'wordOperations']`.
+
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

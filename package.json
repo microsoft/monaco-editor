@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Microsoft/monaco-editor-webpack-plugin/issues"
   },
-  "homepage": "https://github.com/Microsoft/monaco-editor-webpack-plugin#readme"
+  "homepage": "https://github.com/Microsoft/monaco-editor-webpack-plugin#readme",
+  "dependencies": {
+    "webpack": "^4.5.0"
+  }
 }
