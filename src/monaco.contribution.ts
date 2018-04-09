@@ -34,6 +34,7 @@ import './razor/razor.contribution';
 import './redis/redis.contribution';
 import './redshift/redshift.contribution';
 import './ruby/ruby.contribution';
+import './rust/rust.contribution';
 import './sb/sb.contribution';
 import './scss/scss.contribution';
 import './solidity/solidity.contribution';

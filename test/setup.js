@@ -50,6 +50,7 @@ define(['require'], function (require) {
 			'release/dev/r/r.test',
 			'release/dev/razor/razor.test',
 			'release/dev/ruby/ruby.test',
+			'release/dev/rust/rust.test',
 			'release/dev/scss/scss.test',
 			'release/dev/swift/swift.test',
 			'release/dev/sql/sql.test',

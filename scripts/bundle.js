@@ -46,6 +46,7 @@ bundleOne('python/python');
 bundleOne('r/r');
 bundleOne('razor/razor');
 bundleOne('ruby/ruby');
+bundleOne('rust/rust');
 bundleOne('scss/scss');
 bundleOne('sql/sql');
 bundleOne('swift/swift');
