@@ -23,6 +23,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * r
 * razor
 * ruby
+* rust
 * sql
 * swift
 * vb
