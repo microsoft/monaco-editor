@@ -155,17 +155,17 @@ export const language = <ILanguage>{
 		],
 		numbers: [
 			//Octal
-			[/(0o[0-7_]+)(@intSuffixes)?/, { token: 'number', log: 'Octal' }],
+			[/(0o[0-7_]+)(@intSuffixes)?/, { token: 'number' }],
 			//Binary
-			[/(0b[0-1_]+)(@intSuffixes)?/, { token: 'number', log: 'Binary' }],
+			[/(0b[0-1_]+)(@intSuffixes)?/, { token: 'number' }],
 			//Exponent
-			[/[\d][\d_]*(\.[\d][\d_]*)?[eE][+-][\d_]+(@floatSuffixes)?/, { token: 'number', log: 'Exponent' }],
+			[/[\d][\d_]*(\.[\d][\d_]*)?[eE][+-][\d_]+(@floatSuffixes)?/, { token: 'number' }],
 			//Float
-			[/\b(\d\.?[\d_]*)(@floatSuffixes)?\b/, { token: 'number', log: 'Float' }],
+			[/\b(\d\.?[\d_]*)(@floatSuffixes)?\b/, { token: 'number' }],
 			//Hexadecimal
-			[/(0x[\da-fA-F]+)_?(@intSuffixes)?/, { token: 'number', log: 'Hexadecimal' }],
+			[/(0x[\da-fA-F]+)_?(@intSuffixes)?/, { token: 'number' }],
 			//Integer
-			[/[\d][\d_]*(@intSuffixes?)?/, { token: 'number', log: 'Integer' }],
+			[/[\d][\d_]*(@intSuffixes?)?/, { token: 'number' }],
 		]
 	}
 };
