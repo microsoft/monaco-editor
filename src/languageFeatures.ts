@@ -224,7 +224,7 @@ function toCompletionItem(entry: ls.CompletionItem): DataCompletionItem {
 
 function fromMarkdownString(entry: string | monaco.IMarkdownString): ls.MarkupContent {
 	return {
-		kind: (typeof entry === 'string' ? ls.MarkupKind.PlainText : ls.MarkupKind.PlainText),
+		kind: (typeof entry === 'string' ? ls.MarkupKind.PlainText : ls.MarkupKind.Markdown),
 		value: (typeof entry === 'string' ? entry : entry.value)
 	}
 }
