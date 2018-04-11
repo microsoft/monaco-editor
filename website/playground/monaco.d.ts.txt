@@ -37,6 +37,14 @@ declare namespace monaco {
         Error = 3,
     }
 
+    export enum MarkerSeverity {
+        Hint = 1,
+        Info = 2,
+        Warning = 4,
+        Error = 8,
+    }
+
+
 
 
     export type TValueCallback<T = any> = (value: T | PromiseLike<T>) => void;
@@ -1073,7 +1081,7 @@ declare namespace monaco.editor {
     export interface IMarker {
         owner: string;
         resource: Uri;
-        severity: Severity;
+        severity: MarkerSeverity;
         code?: string;
         message: string;
         source?: string;
@@ -1081,6 +1089,7 @@ declare namespace monaco.editor {
         startColumn: number;
         endLineNumber: number;
         endColumn: number;
+        relatedInformation?: IRelatedInformation[];
     }
 
     /**
@@ -1088,9 +1097,22 @@ declare namespace monaco.editor {
      */
     export interface IMarkerData {
         code?: string;
-        severity: Severity;
+        severity: MarkerSeverity;
         message: string;
         source?: string;
+        startLineNumber: number;
+        startColumn: number;
+        endLineNumber: number;
+        endColumn: number;
+        relatedInformation?: IRelatedInformation[];
+    }
+
+    /**
+     *
+     */
+    export interface IRelatedInformation {
+        resource: Uri;
+        message: string;
         startLineNumber: number;
         startColumn: number;
         endLineNumber: number;
@@ -1910,9 +1932,13 @@ declare namespace monaco.editor {
      * A (serializable) state of the view.
      */
     export interface IViewState {
-        scrollTop: number;
-        scrollTopWithoutViewZones: number;
+        /** written by previous versions */
+        scrollTop?: number;
+        /** written by previous versions */
+        scrollTopWithoutViewZones?: number;
         scrollLeft: number;
+        firstPosition: IPosition;
+        firstPositionDeltaTop: number;
     }
 
     /**
@@ -2750,7 +2776,7 @@ declare namespace monaco.editor {
         /**
          * The history mode for suggestions.
          */
-        suggestSelection?: string;
+        suggestSelection?: 'first' | 'recentlyUsed' | 'recentlyUsedByPrefix';
         /**
          * The font size for the suggest widget.
          * Defaults to the editor font size.
@@ -2785,6 +2811,11 @@ declare namespace monaco.editor {
          * Defaults to true.
          */
         folding?: boolean;
+        /**
+         * Selects the folding strategy. 'auto' uses the strategies contributed for the current document, 'indentation' uses the indentation based folding strategy.
+         * Defaults to 'auto'.
+         */
+        foldingStrategy?: 'auto' | 'indentation';
         /**
          * Controls whether the fold actions in the gutter stay always visible or hide unless the mouse is over the gutter.
          * Defaults to 'mouseover'.
@@ -3064,6 +3095,7 @@ declare namespace monaco.editor {
         readonly occurrencesHighlight: boolean;
         readonly codeLens: boolean;
         readonly folding: boolean;
+        readonly foldingStrategy: 'auto' | 'indentation';
         readonly showFoldingControls: 'always' | 'mouseover';
         readonly matchBrackets: boolean;
         readonly find: InternalEditorFindOptions;
@@ -4969,14 +5001,9 @@ declare namespace monaco.languages {
         rejectReason?: string;
     }
 
-    export interface RenameInitialValue {
-        range: IRange;
-        text?: string;
-    }
-
     export interface RenameProvider {
         provideRenameEdits(model: editor.ITextModel, position: Position, newName: string, token: CancellationToken): WorkspaceEdit | Thenable<WorkspaceEdit>;
-        resolveInitialRenameValue?(model: editor.ITextModel, position: Position, token: CancellationToken): RenameInitialValue | Thenable<RenameInitialValue>;
+        resolveRenameLocation?(model: editor.ITextModel, position: Position, token: CancellationToken): IRange | Thenable<IRange>;
     }
 
     export interface Command {
@@ -5276,10 +5303,10 @@ declare namespace monaco.languages.typescript {
         /**
          * Configure when the worker shuts down. By default that is 2mins.
          *
-         * @param value The maximun idle time in milliseconds. Values less than one
+         * @param value The maximum idle time in milliseconds. Values less than one
          * mean never shut down.
          */
-        setMaximunWorkerIdleTime(value: number): void;
+        setMaximumWorkerIdleTime(value: number): void;
 
         /**
          * Configure if all existing models should be eagerly sync'd

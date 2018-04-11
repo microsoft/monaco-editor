@@ -1,5 +1,18 @@
 # Monaco Editor Change log
 
+## [0.12.0] (11.04.2018)
+* Special thanks to [Tim Kendrick](https://github.com/timkendrick) for contributing a webpack plugin - `monaco-editor-webpack-plugin` - now available on [npm](https://www.npmjs.com/package/monaco-editor-webpack-plugin).
+
+### Breaking changes
+* Introduced `MarkerSeverity` instead of `Severity` for markers serverity.
+* Replaced `RenameProvider.resolveInitialRenameValue` with `RenameProvider.resolveRenameLocation`.
+* Fixed typo in `monaco-typescript`, renamed `setMaximunWorkerIdleTime` to `setMaximumWorkerIdleTime`.
+
+### Thank you
+* [Remy Suen @rcjsuen](https://github.com/rcjsuen): Fix conversion code from MarkedString to IMarkdownString in hovers [PR monaco-css#5](https://github.com/Microsoft/monaco-css/pull/5)
+* [Peng Xiao @pengx17](https://github.com/pengx17): fix an issue of `fromMarkdownString` [PR monaco-json#4](https://github.com/Microsoft/monaco-json/pull/4)
+* [TJ Kells @systemsoverload](https://github.com/systemsoverload): Add rust colorization support [PR monaco-languages#31](https://github.com/Microsoft/monaco-languages/pull/31)
+
 ## [0.11.1] (15.03.2018)
  - Fixes [issue #756](https://github.com/Microsoft/monaco-editor/issues/756): Can't use "Enter" key to accept an IntelliSense item
  - Fixes [issue #757](https://github.com/Microsoft/monaco-editor/issues/757): TypeScript errors in `editor.api.d.ts` typings
