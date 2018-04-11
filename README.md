@@ -56,7 +56,9 @@ None. The Monaco Editor is a library and it reflects directly the source code.
 
 ❓ **I've written an extension for VS Code, will it work on the Monaco Editor in a browser?**
 
-Yes, if the extension is fully based on the [LSP](https://microsoft.github.io/language-server-protocol/), otherwise no. 
+No.
+
+> Note: If the extension is fully based on the [LSP](https://microsoft.github.io/language-server-protocol/) and if the language server is authored in JavaScript, then it would be possible.
 
 ❓ **Why all these web workers and why should I care?**
 
