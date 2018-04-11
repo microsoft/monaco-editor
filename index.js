@@ -32,7 +32,7 @@ const LANGUAGES = require('./languages');
 const FEATURES = require('./features');
 
 function resolveMonacoPath(filePath) {
-  return require.resolve(path.join('../esm', filePath));
+  return require.resolve(path.join('monaco-editor/esm', filePath));
 }
 
 const languagesById = fromPairs(

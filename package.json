@@ -1,6 +1,6 @@
 {
   "name": "monaco-editor-webpack-plugin",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A webpack plugin for the Monaco Editor",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,8 @@
     "url": "https://github.com/Microsoft/monaco-editor-webpack-plugin/issues"
   },
   "homepage": "https://github.com/Microsoft/monaco-editor-webpack-plugin#readme",
-  "dependencies": {
-    "webpack": "^4.5.0"
+  "peerDependencies": {
+    "webpack": "^4.5.0",
+    "monaco-editor": "^0.11.1"
   }
 }
