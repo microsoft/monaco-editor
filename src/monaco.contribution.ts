@@ -79,7 +79,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		this._onDidChange.fire(this);
 	}
 
-	setMaximunWorkerIdleTime(value: number): void {
+	setMaximumWorkerIdleTime(value: number): void {
 		// doesn't fire an event since no
 		// worker restart is required here
 		this._workerMaxIdleTime = value;

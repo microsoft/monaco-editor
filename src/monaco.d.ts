@@ -135,7 +135,7 @@ declare module monaco.languages.typescript {
          * @param value The maximun idle time in milliseconds. Values less than one
          * mean never shut down.
          */
-        setMaximunWorkerIdleTime(value: number): void;
+        setMaximumWorkerIdleTime(value: number): void;
 
         /**
          * Configure if all existing models should be eagerly sync'd
