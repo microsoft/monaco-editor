@@ -8,25 +8,60 @@ If you are hosting your `.js` on a different domain (e.g. on a CDN) than the HTM
 
 Assuming the HTML lives on `www.mydomain.com` and the editor is hosted on `www.mycdn.com`.
 
+----
+
+# Option 1: Use a data: worker URI
+
 * `https://www.mydomain.com/index.html`:
 ```html
 <script type="text/javascript" src="http://www.mycdn.com/monaco-editor/min/vs/loader.js"></script>
 <script>
-	require.config({ paths: { 'vs': 'http://www.mycdn.com/monaco-editor/min/vs' }});
+  require.config({ paths: { 'vs': 'http://www.mycdn.com/monaco-editor/min/vs' }});
 
-	// Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-	// the default worker url location (used when creating WebWorkers). The problem here is that
-	// HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-	// a web worker through a same-domain script
-	window.MonacoEnvironment = {
-		getWorkerUrl: function(workerId, label) {
-			return 'monaco-editor-worker-loader-proxy.js';
-		}
-	};
+  // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
+  // the default worker url location (used when creating WebWorkers). The problem here is that
+  // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
+  // a web worker through a same-domain script
+  window.MonacoEnvironment = {
+    getWorkerUrl: function(workerId, label) {
+      return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+        self.MonacoEnvironment = {
+          baseUrl: 'http://www.mycdn.com/monaco-editor/min/vs'
+        };
+        importScripts('http://www.mycdn.com/monaco-editor/min/vs/base/worker/workerMain.js');`
+      )}`;
+    }
+  };
 
-	require(["vs/editor/editor.main"], function () {
-		// ...
-	});
+  require(["vs/editor/editor.main"], function () {
+    // ...
+  });
+</script>
+```
+
+----
+
+# Option 2: Host on your domain a worker proxy
+
+* `https://www.mydomain.com/index.html`:
+```html
+<script type="text/javascript" src="http://www.mycdn.com/monaco-editor/min/vs/loader.js"></script>
+<script>
+  require.config({ paths: { 'vs': 'http://www.mycdn.com/monaco-editor/min/vs' }});
+
+  // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
+  // the default worker url location (used when creating WebWorkers). The problem here is that
+  // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
+  // a web worker through a same-domain script
+  window.MonacoEnvironment = {
+    getWorkerUrl: function(workerId, label) {
+      return 'monaco-editor-worker-loader-proxy.js';
+    }
+  };
+
+  require(["vs/editor/editor.main"], function () {
+    // ...
+  });
 </script>
 ```
 
@@ -37,5 +72,7 @@ self.MonacoEnvironment = {
 };
 importScripts('www.mycdn.com/monaco-editor/min/vs/base/worker/workerMain.js');
 ```
+
+----
 
 That's it. You're good to go! :)
