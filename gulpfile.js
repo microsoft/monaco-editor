@@ -54,9 +54,6 @@ gulp.task('release', ['clean-release'], function() {
 		// min-maps folder
 		gulp.src('node_modules/monaco-editor-core/min-maps/**/*').pipe(gulp.dest('release/min-maps')),
 
-		// webpack plugin
-		gulp.src('webpack/**/*').pipe(gulp.dest('release/webpack')),
-
 		// other files
 		gulp.src([
 			'node_modules/monaco-editor-core/LICENSE',
