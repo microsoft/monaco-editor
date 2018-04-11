@@ -148,7 +148,7 @@ export class DiagnostcsAdapter extends Adapter {
 		const {lineNumber: endLineNumber, column: endColumn} = this._offsetToPosition(resource, diag.start + diag.length);
 
 		return {
-			severity: monaco.Severity.Error,
+			severity: monaco.MarkerSeverity.Error,
 			startLineNumber,
 			startColumn,
 			endLineNumber,
