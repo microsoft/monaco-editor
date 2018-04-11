@@ -1,6 +1,6 @@
 {
   "name": "monaco-languages",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
     "compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
