@@ -104,14 +104,14 @@ export class DiagnostcsAdapter {
 }
 
 
-function toSeverity(lsSeverity: number): monaco.Severity {
+function toSeverity(lsSeverity: number): monaco.MarkerSeverity {
 	switch (lsSeverity) {
-		case ls.DiagnosticSeverity.Error: return monaco.Severity.Error;
-		case ls.DiagnosticSeverity.Warning: return monaco.Severity.Warning;
-		case ls.DiagnosticSeverity.Information:
-		case ls.DiagnosticSeverity.Hint:
+		case ls.DiagnosticSeverity.Error: return monaco.MarkerSeverity.Error;
+		case ls.DiagnosticSeverity.Warning: return monaco.MarkerSeverity.Warning;
+		case ls.DiagnosticSeverity.Information: return monaco.MarkerSeverity.Info;
+		case ls.DiagnosticSeverity.Hint: return monaco.MarkerSeverity.Hint;
 		default:
-			return monaco.Severity.Info;
+			return monaco.MarkerSeverity.Info;
 	}
 }
 
