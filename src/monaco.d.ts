@@ -132,7 +132,7 @@ declare module monaco.languages.typescript {
         /**
          * Configure when the worker shuts down. By default that is 2mins.
          *
-         * @param value The maximun idle time in milliseconds. Values less than one
+         * @param value The maximum idle time in milliseconds. Values less than one
          * mean never shut down.
          */
         setMaximumWorkerIdleTime(value: number): void;
