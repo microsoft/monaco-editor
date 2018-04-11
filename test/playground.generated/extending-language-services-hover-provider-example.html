@@ -45,8 +45,8 @@ monaco.languages.registerHoverProvider('mySpecialLanguage', {
 			return {
 				range: new monaco.Range(1, 1, model.getLineCount(), model.getLineMaxColumn(model.getLineCount())),
 				contents: [
-					'**SOURCE**',
-					{ language: 'html', value: res.responseText.substring(0, 200) }
+					{ value: '**SOURCE**' },
+					{ value: '```html\n' + res.responseText.substring(0, 200) + '\n```' }
 				]
 			}
 		});
