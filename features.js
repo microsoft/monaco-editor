@@ -116,7 +116,7 @@ module.exports = {
     worker: undefined,
   },
   referenceSearch: {
-    entry: 'vs/editor/contrib/referenceSearch/referenceSearch',
+    entry: 'vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch',
     worker: undefined,
   },
   rename: {

@@ -169,6 +169,11 @@ module.exports = {
     worker: undefined,
     alias: undefined,
   },
+  rust: {
+    entry: 'vs/basic-languages/rust/rust.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
   sb: {
     entry: 'vs/basic-languages/sb/sb.contribution',
     worker: undefined,
