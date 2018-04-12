@@ -634,6 +634,9 @@ gulp.task('website', ['clean-website'], function() {
 			cp.execSync('git init', {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
+			cp.execSync('git remote add origin https://github.com/Microsoft/monaco-editor.git', {
+				cwd: path.join(__dirname, '../monaco-editor-website')
+			});
 			cp.execSync('git checkout -b gh-pages', {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
@@ -641,9 +644,6 @@ gulp.task('website', ['clean-website'], function() {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
 			cp.execSync('git commit -m "Publish website"', {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-			cp.execSync('git remote add origin https://github.com/Microsoft/monaco-editor.git', {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
 			console.log('RUN monaco-editor-website>git push origin gh-pages --force')
