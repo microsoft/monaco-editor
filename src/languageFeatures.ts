@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
-import {JSONWorker} from './jsonWorker';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
+import { JSONWorker } from './jsonWorker';
 
 import * as ls from 'vscode-languageserver-types';
 
@@ -68,6 +68,7 @@ export class DiagnostcsAdapter {
 
 		this._disposables.push({
 			dispose: () => {
+				monaco.editor.getModels().forEach(onModelRemoved);
 				for (let key in this._listener) {
 					this._listener[key].dispose();
 				}
@@ -80,6 +81,14 @@ export class DiagnostcsAdapter {
 	public dispose(): void {
 		this._disposables.forEach(d => d && d.dispose());
 		this._disposables = [];
+	}
+
+	public clearMarkers() {
+		monaco.editor.getModels().forEach(model => {
+			if (model.getModeId() === this._languageId) {
+				monaco.editor.setModelMarkers(model, this._languageId, []);
+			}
+		});
 	}
 
 	private _resetSchema(resource: Uri): void {
@@ -241,7 +250,7 @@ function fromMarkdownString(entry: string | monaco.IMarkdownString): ls.MarkupCo
 }
 
 function fromCompletionItem(entry: DataCompletionItem): ls.CompletionItem {
-	let item : ls.CompletionItem = {
+	let item: ls.CompletionItem = {
 		label: entry.label,
 		sortText: entry.sortText,
 		filterText: entry.filterText,
@@ -254,7 +263,7 @@ function fromCompletionItem(entry: DataCompletionItem): ls.CompletionItem {
 		item.insertText = entry.insertText.value;
 		item.insertTextFormat = ls.InsertTextFormat.Snippet
 	} else {
-		item.insertText = <string> entry.insertText;
+		item.insertText = <string>entry.insertText;
 	}
 	if (entry.range) {
 		item.textEdit = ls.TextEdit.replace(fromRange(entry.range), item.insertText);
@@ -283,7 +292,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 				return;
 			}
 			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
-				let item : monaco.languages.CompletionItem = {
+				let item: monaco.languages.CompletionItem = {
 					label: entry.label,
 					insertText: entry.insertText,
 					sortText: entry.sortText,
@@ -297,7 +306,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 					item.insertText = entry.textEdit.newText;
 				}
 				if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
-					item.insertText = { value: <string> item.insertText };
+					item.insertText = { value: <string>item.insertText };
 				}
 				return item;
 			});
