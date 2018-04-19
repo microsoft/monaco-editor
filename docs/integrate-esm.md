@@ -104,6 +104,7 @@ module.exports = {
     "ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker',
   },
   output: {
+    globalObject: 'self',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
@@ -117,7 +118,7 @@ module.exports = {
     // Ignore require() calls in vs/language/typescript/lib/typescriptServices.js
     new webpack.IgnorePlugin(
       /^((fs)|(path)|(os)|(crypto)|(source-map-support))$/,
-      /vs\/language\/typescript\/lib/
+      /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/
     )
   ]
 };
