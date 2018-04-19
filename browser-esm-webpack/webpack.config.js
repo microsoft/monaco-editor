@@ -12,6 +12,7 @@ module.exports = {
 		"ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker',
 	},
 	output: {
+		globalObject: 'self',
 		filename: '[name].bundle.js',
 		path: path.resolve(__dirname, 'dist')
 	},
