@@ -17,7 +17,7 @@
     "url": "https://github.com/Microsoft/monaco-editor"
   },
   "devDependencies": {
-    "clean-css": "^3.4.20",
+    "clean-css": "^4.1.11",
     "event-stream": "^3.3.2",
     "gulp": "^3.9.1",
     "gulp-typedoc": "^2.0.0",
