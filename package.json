@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "clean-css": "^4.1.11",
-    "event-stream": "^3.3.2",
+    "event-stream": "^3.3.4",
     "gulp": "^3.9.1",
     "gulp-typedoc": "^2.0.0",
     "http-server": "^0.11.1",
@@ -28,9 +28,9 @@
     "monaco-json": "2.1.0",
     "monaco-languages": "1.2.0",
     "monaco-typescript": "3.1.0",
-    "rimraf": "^2.5.2",
+    "rimraf": "^2.6.2",
     "typedoc": "^0.8.0",
-    "typescript": "^2.7.2",
+    "typescript": "^2.8.3",
     "uncss": "^0.14.1",
     "vinyl": "^0.5.3"
   }
