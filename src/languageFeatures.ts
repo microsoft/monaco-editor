@@ -24,12 +24,12 @@ export interface WorkerAccessor {
 
 // --- diagnostics --- ---
 
-export class DiagnostcsAdapter {
+export class DiagnosticsAdapter {
 
 	private _disposables: IDisposable[] = [];
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
 
-	constructor(private _languageId: string, private _worker: WorkerAccessor) {
+	constructor(private _languageId: string, private _worker: WorkerAccessor, defaults: LanguageServiceDefaultsImpl) {
 		const onModelAdd = (model: monaco.editor.IModel): void => {
 			let modeId = model.getModeId();
 			if (modeId !== this._languageId) {
@@ -66,6 +66,15 @@ export class DiagnostcsAdapter {
 			this._resetSchema(event.model.uri);
 		}));
 
+		defaults.onDidChange(_ => {
+			monaco.editor.getModels().forEach(model => {
+				if (model.getModeId() === this._languageId) {
+					onModelRemoved(model);
+					onModelAdd(model);;
+				}
+			});
+		});
+
 		this._disposables.push({
 			dispose: () => {
 				monaco.editor.getModels().forEach(onModelRemoved);
@@ -81,14 +90,6 @@ export class DiagnostcsAdapter {
 	public dispose(): void {
 		this._disposables.forEach(d => d && d.dispose());
 		this._disposables = [];
-	}
-
-	public clearMarkers() {
-		monaco.editor.getModels().forEach(model => {
-			if (model.getModeId() === this._languageId) {
-				monaco.editor.setModelMarkers(model, this._languageId, []);
-			}
-		});
 	}
 
 	private _resetSchema(resource: Uri): void {
