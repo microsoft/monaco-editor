@@ -7,6 +7,7 @@ JSON language plugin for the Monaco Editor. It provides the following features w
 * Formatting
 * Document Symbols
 * Syntax highlighting
+* Color decorators for all properties matching a schema containing `format: "color-hex"'` (non-standard schema extension)
 
 Schemas can be provided by configuration. See [here](https://github.com/Microsoft/monaco-json/blob/master/src/monaco.d.ts)
 for the API that the JSON plugin offers to configure the JSON language support.
@@ -28,7 +29,7 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * `git clone https://github.com/Microsoft/monaco-json`
 * `cd monaco-json`
 * `npm install .`
-* `npm run watch`
+* `npm run prepublish`
 * open `$/monaco-json/test/index.html` in your favorite browser.
 
 ## License
