@@ -12,6 +12,7 @@ import * as ls from 'vscode-languageserver-types';
 import Uri = monaco.Uri;
 import Position = monaco.Position;
 import Range = monaco.Range;
+import IRange = monaco.IRange;
 import Thenable = monaco.Thenable;
 import Promise = monaco.Promise;
 import CancellationToken = monaco.CancellationToken;
@@ -149,13 +150,12 @@ function fromPosition(position: Position): ls.Position {
 	return { character: position.column - 1, line: position.lineNumber - 1 };
 }
 
-function fromRange(range: Range): ls.Range {
+function fromRange(range: IRange): ls.Range {
 	if (!range) {
 		return void 0;
 	}
-	return { start: fromPosition(range.getStartPosition()), end: fromPosition(range.getEndPosition()) };
+	return { start: { line: range.startLineNumber - 1, character: range.startColumn - 1 }, end: { line: range.endLineNumber - 1, character: range.endColumn - 1 } };
 }
-
 function toRange(range: ls.Range): Range {
 	if (!range) {
 		return void 0;
@@ -481,6 +481,48 @@ export class DocumentRangeFormattingEditProvider implements monaco.languages.Doc
 					return;
 				}
 				return edits.map(toTextEdit);
+			});
+		}));
+	}
+}
+
+export class DocumentColorAdapter implements monaco.languages.DocumentColorProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	public provideDocumentColors(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.IColorInformation[]> {
+		const resource = model.uri;
+
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentColors(resource.toString())).then(infos => {
+			if (!infos) {
+				return;
+			}
+			return infos.map(item => ({
+				color: item.color,
+				range: toRange(item.range)
+			}));
+		}));
+	}
+
+	public provideColorPresentations(model: monaco.editor.IReadOnlyModel, info: monaco.languages.IColorInformation, token: CancellationToken): Thenable<monaco.languages.IColorPresentation[]> {
+		const resource = model.uri;
+
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range))).then(presentations => {
+			if (!presentations) {
+				return;
+			}
+			return presentations.map(presentation => {
+				let item: monaco.languages.IColorPresentation = {
+					label: presentation.label,
+				};
+				if (presentation.textEdit) {
+					item.textEdit = toTextEdit(presentation.textEdit)
+				}
+				if (presentation.additionalTextEdits) {
+					item.additionalTextEdits = presentation.additionalTextEdits.map(toTextEdit)
+				}
+				return item;
 			});
 		}));
 	}

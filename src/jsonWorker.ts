@@ -18,7 +18,7 @@ class PromiseAdapter<T> implements jsonService.Thenable<T> {
 		this.wrapped = new monaco.Promise<T>(executor);
 	}
 	public then<TResult>(onfulfilled?: (value: T) => TResult | jsonService.Thenable<TResult>, onrejected?: (reason: any) => void): jsonService.Thenable<TResult> {
-		let thenable : jsonService.Thenable<T> = this.wrapped;
+		let thenable: jsonService.Thenable<T> = this.wrapped;
 		return thenable.then(onfulfilled, onrejected);
 	}
 	public getWrapped(): monaco.Thenable<T> {
@@ -28,7 +28,7 @@ class PromiseAdapter<T> implements jsonService.Thenable<T> {
 		this.wrapped.cancel();
 	}
 	public static resolve<T>(v: T | Thenable<T>): jsonService.Thenable<T> {
-		return <monaco.Thenable<T>> monaco.Promise.as(v);
+		return <monaco.Thenable<T>>monaco.Promise.as(v);
 	}
 	public static reject<T>(v: T): jsonService.Thenable<T> {
 		return monaco.Promise.wrapError(<any>v);
@@ -87,6 +87,18 @@ export class JSONWorker {
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
 		return Promise.as(symbols);
+	}
+	findDocumentColors(uri: string): Thenable<jsonService.ColorInformation[]> {
+		let document = this._getTextDocument(uri);
+		let stylesheet = this._languageService.parseJSONDocument(document);
+		let colorSymbols = this._languageService.findDocumentColors(document, stylesheet);
+		return Promise.as(colorSymbols);
+	}
+	getColorPresentations(uri: string, color: jsonService.Color, range: ls.Range): Thenable<jsonService.ColorPresentation[]> {
+		let document = this._getTextDocument(uri);
+		let stylesheet = this._languageService.parseJSONDocument(document);
+		let colorPresentations = this._languageService.getColorPresentations(document, stylesheet, color, range);
+		return Promise.as(colorPresentations);
 	}
 	private _getTextDocument(uri: string): ls.TextDocument {
 		let models = this._ctx.getMirrorModels();

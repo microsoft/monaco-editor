@@ -35,6 +35,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 	disposables.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
 	disposables.push(monaco.languages.setTokensProvider(languageId, createTokenizationSupport(true)));
 	disposables.push(monaco.languages.setLanguageConfiguration(languageId, richEditConfiguration));
+	disposables.push(monaco.languages.registerColorProvider(languageId, new languageFeatures.DocumentColorAdapter(worker)));
 }
 
 
