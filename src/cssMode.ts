@@ -30,7 +30,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 	monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker));
 	monaco.languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker));
 	monaco.languages.registerColorProvider(languageId, new languageFeatures.DocumentColorAdapter(worker));
-	new languageFeatures.DiagnostcsAdapter(languageId, worker);
+	new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults);
 }
 
 
