@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {WorkerManager} from './workerManager';
-import {CSSWorker} from './cssWorker';
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
+import { WorkerManager } from './workerManager';
+import { CSSWorker } from './cssWorker';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 
 import Promise = monaco.Promise;
@@ -29,7 +29,8 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 	monaco.languages.registerReferenceProvider(languageId, new languageFeatures.ReferenceAdapter(worker));
 	monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker));
 	monaco.languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker));
-	new languageFeatures.DiagnostcsAdapter(languageId, worker));
+	monaco.languages.registerColorProvider(languageId, new languageFeatures.DocumentColorAdapter(worker));
+	new languageFeatures.DiagnostcsAdapter(languageId, worker);
 }
 
 

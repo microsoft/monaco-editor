@@ -11,6 +11,7 @@ import * as ls from 'vscode-languageserver-types';
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;
+import IRange = monaco.IRange;
 import Range = monaco.Range;
 import Thenable = monaco.Thenable;
 import Promise = monaco.Promise;
@@ -130,18 +131,18 @@ function fromPosition(position: Position): ls.Position {
 	return { character: position.column - 1, line: position.lineNumber - 1 };
 }
 
-function fromRange(range: Range): ls.Range {
+function fromRange(range: IRange): ls.Range {
 	if (!range) {
 		return void 0;
 	}
-	return { start: fromPosition(range.getStartPosition()), end: fromPosition(range.getEndPosition()) };
+	return { start: { line: range.startLineNumber - 1, character: range.startColumn - 1 }, end: { line: range.endLineNumber - 1, character: range.endColumn - 1 } };
 }
 
 function toRange(range: ls.Range): Range {
 	if (!range) {
 		return void 0;
 	}
-	return new Range(range.start.line + 1, range.start.character + 1, range.end.line + 1, range.end.character + 1);
+	return new monaco.Range(range.start.line + 1, range.start.character + 1, range.end.line + 1, range.end.character + 1);
 }
 
 function toCompletionItemKind(kind: number): monaco.languages.CompletionItemKind {
@@ -200,7 +201,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 				return;
 			}
 			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
-				let item : monaco.languages.CompletionItem = {
+				let item: monaco.languages.CompletionItem = {
 					label: entry.label,
 					insertText: entry.insertText,
 					sortText: entry.sortText,
@@ -213,8 +214,11 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 					item.range = toRange(entry.textEdit.range);
 					item.insertText = entry.textEdit.newText;
 				}
+				if (entry.additionalTextEdits) {
+					item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit)
+				}
 				if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
-					item.insertText = { value: <string> item.insertText };
+					item.insertText = { value: <string>item.insertText };
 				}
 				return item;
 			});
@@ -458,6 +462,48 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 				kind: toSymbolKind(item.kind),
 				location: toLocation(item.location)
 			}));
+		}));
+	}
+}
+
+export class DocumentColorAdapter implements monaco.languages.DocumentColorProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	public provideDocumentColors(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.IColorInformation[]> {
+		const resource = model.uri;
+
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentColors(resource.toString())).then(infos => {
+			if (!infos) {
+				return;
+			}
+			return infos.map(item => ({
+				color: item.color,
+				range: toRange(item.range)
+			}));
+		}));
+	}
+
+	public provideColorPresentations(model: monaco.editor.IReadOnlyModel, info: monaco.languages.IColorInformation, token: CancellationToken): Thenable<monaco.languages.IColorPresentation[]> {
+		const resource = model.uri;
+
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range))).then(presentations => {
+			if (!presentations) {
+				return;
+			}
+			return presentations.map(presentation => {
+				let item: monaco.languages.IColorPresentation = {
+					label: presentation.label,
+				};
+				if (presentation.textEdit) {
+					item.textEdit = toTextEdit(presentation.textEdit)
+				}
+				if (presentation.additionalTextEdits) {
+					item.additionalTextEdits = presentation.additionalTextEdits.map(toTextEdit)
+				}
+				return item;
+			});
 		}));
 	}
 }

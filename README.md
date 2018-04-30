@@ -6,6 +6,7 @@ CSS language plugin for the Monaco Editor. It provides the following features wh
 * Validation: Syntax errors and linting
 * Find definition, references & highlights for symbols in the same file
 * Document Symbols
+* Color Decorators
 
 Linting an be configured through the API. See [here](https://github.com/Microsoft/monaco-css/blob/master/src/monaco.d.ts) for the API that the
 CSS plugin offers to configure the CSS/LESS/SCSS language support.
@@ -27,7 +28,7 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * `git clone https://github.com/Microsoft/monaco-css`
 * `cd monaco-css`
 * `npm install .`
-* `npm run watch`
+* `npm run prepublish`
 * open `$/monaco-css/test/index.html` in your favorite browser.
 
 ## License

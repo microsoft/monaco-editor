@@ -14,12 +14,12 @@ export class CSSWorker {
 
 	// --- model sync -----------------------
 
-	private _ctx:IWorkerContext;
+	private _ctx: IWorkerContext;
 	private _languageService: cssService.LanguageService;
 	private _languageSettings: cssService.LanguageSettings;
 	private _languageId: string;
 
-	constructor(ctx:IWorkerContext, createData: ICreateData) {
+	constructor(ctx: IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
@@ -41,7 +41,7 @@ export class CSSWorker {
 
 	// --- language service host ---------------
 
-    doValidation(uri: string): Promise<ls.Diagnostic[]> {
+	doValidation(uri: string): Promise<ls.Diagnostic[]> {
 		let document = this._getTextDocument(uri);
 		if (document) {
 			let stylesheet = this._languageService.parseStylesheet(document);
@@ -50,55 +50,61 @@ export class CSSWorker {
 		}
 		return Promise.as([]);
 	}
-    doComplete(uri: string, position: ls.Position): Promise<ls.CompletionList> {
+	doComplete(uri: string, position: ls.Position): Promise<ls.CompletionList> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let completions = this._languageService.doComplete(document, position, stylesheet);
 		return Promise.as(completions);
 	}
-    doHover(uri: string, position: ls.Position): Promise<ls.Hover> {
+	doHover(uri: string, position: ls.Position): Promise<ls.Hover> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let hover = this._languageService.doHover(document, position, stylesheet);
 		return Promise.as(hover);
 	}
-    findDefinition(uri: string, position: ls.Position): Promise<ls.Location> {
+	findDefinition(uri: string, position: ls.Position): Promise<ls.Location> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let definition = this._languageService.findDefinition(document, position, stylesheet);
 		return Promise.as(definition);
 	}
-    findReferences(uri: string, position: ls.Position): Promise<ls.Location[]> {
+	findReferences(uri: string, position: ls.Position): Promise<ls.Location[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let references = this._languageService.findReferences(document, position, stylesheet);
 		return Promise.as(references);
 	}
-    findDocumentHighlights(uri: string, position: ls.Position): Promise<ls.DocumentHighlight[]> {
+	findDocumentHighlights(uri: string, position: ls.Position): Promise<ls.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let highlights = this._languageService.findDocumentHighlights(document, position, stylesheet);
 		return Promise.as(highlights);
 	}
-    findDocumentSymbols(uri: string): Promise<ls.SymbolInformation[]> {
+	findDocumentSymbols(uri: string): Promise<ls.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let symbols = this._languageService.findDocumentSymbols(document, stylesheet);
 		return Promise.as(symbols);
 	}
-    doCodeActions(uri: string, range: ls.Range, context: ls.CodeActionContext): Promise<ls.Command[]> {
+	doCodeActions(uri: string, range: ls.Range, context: ls.CodeActionContext): Promise<ls.Command[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let actions = this._languageService.doCodeActions(document, range, context, stylesheet);
 		return Promise.as(actions);
 	}
-    findColorSymbols(uri: string): Promise<ls.Range[]> {
+	findDocumentColors(uri: string): Promise<cssService.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
-		let colorSymbols = this._languageService.findColorSymbols(document, stylesheet);
+		let colorSymbols = this._languageService.findDocumentColors(document, stylesheet);
 		return Promise.as(colorSymbols);
 	}
-    doRename(uri: string, position: ls.Position, newName: string): Promise<ls.WorkspaceEdit> {
+	getColorPresentations(uri: string, color: cssService.Color, range: ls.Range): Promise<cssService.ColorPresentation[]> {
+		let document = this._getTextDocument(uri);
+		let stylesheet = this._languageService.parseStylesheet(document);
+		let colorPresentations = this._languageService.getColorPresentations(document, stylesheet, color, range);
+		return Promise.as(colorPresentations);
+	}
+	doRename(uri: string, position: ls.Position, newName: string): Promise<ls.WorkspaceEdit> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let renames = this._languageService.doRename(document, position, newName, stylesheet);
@@ -120,6 +126,6 @@ export interface ICreateData {
 	languageSettings: cssService.LanguageSettings;
 }
 
-export function create(ctx:IWorkerContext, createData: ICreateData): CSSWorker {
+export function create(ctx: IWorkerContext, createData: ICreateData): CSSWorker {
 	return new CSSWorker(ctx, createData);
 }
