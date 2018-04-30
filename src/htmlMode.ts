@@ -31,6 +31,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 	if (languageId === 'html') {
 		monaco.languages.registerDocumentFormattingEditProvider(languageId, new languageFeatures.DocumentFormattingEditProvider(worker));
 		monaco.languages.registerDocumentRangeFormattingEditProvider(languageId, new languageFeatures.DocumentRangeFormattingEditProvider(worker));
-		new languageFeatures.DiagnostcsAdapter(languageId, worker);
+		new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults);
 	}
+
 }

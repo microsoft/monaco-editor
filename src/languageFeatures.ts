@@ -24,12 +24,12 @@ export interface WorkerAccessor {
 
 // --- diagnostics --- ---
 
-export class DiagnostcsAdapter {
+export class DiagnosticsAdapter {
 
 	private _disposables: IDisposable[] = [];
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
 
-	constructor(private _languageId: string, private _worker: WorkerAccessor) {
+	constructor(private _languageId: string, private _worker: WorkerAccessor, defaults: LanguageServiceDefaultsImpl) {
 		const onModelAdd = (model: monaco.editor.IModel): void => {
 			let modeId = model.getModeId();
 			if (modeId !== this._languageId) {
@@ -62,6 +62,15 @@ export class DiagnostcsAdapter {
 		this._disposables.push(monaco.editor.onDidChangeModelLanguage(event => {
 			onModelRemoved(event.model);
 			onModelAdd(event.model);
+		}));
+
+		this._disposables.push(defaults.onDidChange(_ => {
+			monaco.editor.getModels().forEach(model => {
+				if (model.getModeId() === this._languageId) {
+					onModelRemoved(model);
+					onModelAdd(model);
+				}
+			});
 		}));
 
 		this._disposables.push({
