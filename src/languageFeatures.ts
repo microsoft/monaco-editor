@@ -67,14 +67,14 @@ export class DiagnosticsAdapter {
 			this._resetSchema(event.model.uri);
 		}));
 
-		defaults.onDidChange(_ => {
+		this._disposables.push(defaults.onDidChange(_ => {
 			monaco.editor.getModels().forEach(model => {
 				if (model.getModeId() === this._languageId) {
 					onModelRemoved(model);
-					onModelAdd(model);;
+					onModelAdd(model);
 				}
 			});
-		});
+		}));
 
 		this._disposables.push({
 			dispose: () => {
