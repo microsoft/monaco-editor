@@ -11,7 +11,7 @@ const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).mona
 
 registerLanguage({
 	id: 'st',
-	extensions: ['.st'],
+	extensions: ['.st', '.iecst', '.iecplc', '.lc3lib'],
 	aliases: ['StructuredText', 'scl', 'stl'],
 	loader: () => _monaco.Promise.wrap(import('./st'))
 });
