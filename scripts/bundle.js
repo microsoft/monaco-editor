@@ -49,6 +49,7 @@ bundleOne('ruby/ruby');
 bundleOne('rust/rust');
 bundleOne('scss/scss');
 bundleOne('sql/sql');
+bundleOne('st/st');
 bundleOne('swift/swift');
 bundleOne('vb/vb');
 bundleOne('xml/xml');
