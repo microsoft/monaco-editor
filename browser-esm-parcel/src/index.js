@@ -91,20 +91,20 @@ import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js';
 
 
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
-		// if (label === 'json') {
-		// 	return './json.worker.bundle.js';
-		// }
-		// if (label === 'css') {
-		// 	return './css.worker.bundle.js';
-		// }
-		// if (label === 'html') {
-		// 	return './html.worker.bundle.js';
-		// }
-		// if (label === 'typescript' || label === 'javascript') {
-		// 	return './ts.worker.bundle.js';
-		// }
-		return './editor.worker.js';
+	getWorker: function (moduleId, label) {
+		if (label === 'json') {
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/json/json.worker')
+		}
+		if (label === 'css') {
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/css/css.worker')
+		}
+		if (label === 'html') {
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/html/html.worker')
+		}
+		if (label === 'typescript' || label === 'javascript') {
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')
+		}
+		return new Worker('../node_modules/monaco-editor/esm/vs/editor/editor.worker')
 	}
 }
 
