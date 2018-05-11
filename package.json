@@ -1,6 +1,6 @@
 {
   "name": "monaco-languages",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Bundle of many languages for the Monaco Editor.",
   "scripts": {
     "compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
@@ -20,7 +20,7 @@
   "devDependencies": {
     "jsdom-no-contextify": "^3.1.0",
     "mocha": "^3.4.2",
-    "monaco-editor-core": "0.12.0",
+    "monaco-editor-core": "0.13.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.5",
     "typescript": "2.7.2",
