@@ -1,5 +1,23 @@
 # Monaco Editor Change log
 
+## [0.13.0] (11.05.2018)
+### New & Noteworthy
+* New folding provider `registerFoldingRangeProvider`.
+* You can now specifies the stack order of a decoration by setting `IModelDecorationOptions.zIndex`. A decoration with greater stack order is always in front of a decoration with a lower stack order.
+* You can now tell Monaco if there is an `inlineClassName` which affects letter spacing. the stack order of a decoration by setting `IModelDecorationOptions.inlineClassNameAffectsLetterSpacing`.
+* Get the text length for a certain line on text model (`ITextModel.getLineLength(lineNumber: number)`)
+* New option `codeActionsOnSave`, controls whether code action kinds will be run on save.
+* New option `codeActionsOnSaveTimeout`, controls timeout for running code actions on save.
+* New option `multiCursorMergeOverlapping`, controls if overlapping selections should be merged. Default to `true`.
+
+### Breaking Change
+* Removed `ICodeEditor.getCenteredRangeInViewport`.
+* `RenameProvider.resolveRenameLocation` now returns `RenameLocation` instead of `IRange`.
+
+### Thank you
+* [Sergey Romanov @Serhioromano](https://github.com/Serhioromano): Add new language Structured Text support [PR monaco-languages#32](https://github.com/Microsoft/monaco-languages/pull/32)
+* [Yukai Huang @Yukaii](https://github.com/Yukaii): Fix backspace in IME composition on iOS Safari [PR vscode#40546](https://github.com/Microsoft/vscode/pull/40546)
+
 ## [0.12.0] (11.04.2018)
 * Special thanks to [Tim Kendrick](https://github.com/timkendrick) for contributing a webpack plugin - `monaco-editor-webpack-plugin` - now available on [npm](https://www.npmjs.com/package/monaco-editor-webpack-plugin).
 
