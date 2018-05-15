@@ -1,5 +1,8 @@
 # Monaco Editor Change log
 
+## [0.13.1] (15.05.2018)
+ - Fixes [issue #871](https://github.com/Microsoft/monaco-editor/issues/871): TypeScript import error after mocaco-editor upgraded from 0.12 to 0.13
+
 ## [0.13.0] (11.05.2018)
 ### New & Noteworthy
 * New folding provider `registerFoldingRangeProvider`.
