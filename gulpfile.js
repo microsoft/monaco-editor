@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const rimraf = require('rimraf');
 const cp = require('child_process');
+const os = require('os');
 const httpServer = require('http-server');
 const typedoc = require("gulp-typedoc");
 const CleanCSS = require('clean-css');
@@ -520,6 +521,8 @@ function addPluginThirdPartyNotices() {
 gulp.task('clean-website', function(cb) { rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb); });
 gulp.task('website', ['clean-website'], function() {
 
+	const initialCWD = process.cwd();
+
 	function replaceWithRelativeResource(dataPath, contents, regex, callback) {
 		return contents.replace(regex, function(_, m0) {
 			var filePath = path.join(path.dirname(dataPath), m0);
@@ -613,16 +616,28 @@ gulp.task('website', ['clean-website'], function() {
 			}))
 			.pipe(gulp.dest('../monaco-editor-website')),
 
+			// TypeDoc is silly and consumes the `exclude` option.
+			// This option does not make it to typescript compiler, which ends up including /node_modules/ .d.ts files.
+			// We work around this by changing the cwd... :O
+
 			gulp.src('monaco.d.ts')
+			.pipe(es.through(undefined, function() {
+				process.chdir(os.tmpdir());
+				this.emit('end');
+			}))
 			.pipe(typedoc({
 				mode: 'file',
-				out: '../monaco-editor-website/api',
+				out: path.join(__dirname, '../monaco-editor-website/api'),
 				includeDeclarations: true,
-				theme: 'website/typedoc-theme',
+				theme: path.join(__dirname, 'website/typedoc-theme'),
 				entryPoint: 'monaco',
 				name: 'Monaco Editor API v' + MONACO_EDITOR_VERSION,
 				readme: 'none',
 				hideGenerator: true
+			}))
+			.pipe(es.through(undefined, function() {
+				process.chdir(initialCWD);
+				this.emit('end');
 			}))
 		)
 
