@@ -23,7 +23,7 @@
     "gulp-typedoc": "^2.0.0",
     "http-server": "^0.11.1",
     "monaco-css": "2.1.1",
-    "monaco-editor-core": "0.13.1",
+    "monaco-editor-core": "0.13.2",
     "monaco-html": "2.1.1",
     "monaco-json": "2.1.1",
     "monaco-languages": "1.3.1",

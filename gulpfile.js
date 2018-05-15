@@ -203,7 +203,11 @@ function addPluginContribs(type) {
 
 function ESM_release() {
 	return es.merge(
-		gulp.src('node_modules/monaco-editor-core/esm/**/*')
+		gulp.src([
+			'node_modules/monaco-editor-core/esm/**/*',
+			// we will create our own editor.api.d.ts which also contains the plugins API
+			'!node_modules/monaco-editor-core/esm/vs/editor/editor.api.d.ts'
+		])
 			.pipe(ESM_addImportSuffix())
 			.pipe(ESM_addPluginContribs('release/esm'))
 			.pipe(gulp.dest('release/esm')),
@@ -414,48 +418,51 @@ function addPluginDTS() {
 
 		data.contents = new Buffer(contents);
 
-		{
-			let lines = contents.split('\n');
-			let killNextCloseCurlyBrace = false;
-			for (let i = 0; i < lines.length; i++) {
-				let line = lines[i];
-
-				if (killNextCloseCurlyBrace) {
-					if ('}' === line) {
-						lines[i] = '';
-						killNextCloseCurlyBrace = false;
-						continue;
-					}
-
-					if (line.indexOf('    ') === 0) {
-						lines[i] = line.substr(4);
-					}
-
-					continue;
-				}
-
-				if ('declare namespace monaco {' === line) {
-					lines[i] = '';
-					killNextCloseCurlyBrace = true;
-					continue;
-				}
-
-				if (line.indexOf('declare namespace monaco.') === 0) {
-					lines[i] = line.replace('declare namespace monaco.', 'export namespace ');
-				}
-			}
-
-			this.emit('data', new File({
-				path: path.join(path.dirname(data.path), 'esm/vs/editor/editor.api.d.ts'),
-				base: data.base,
-				contents: new Buffer(lines.join('\n'))
-			}));
-		}
+		this.emit('data', new File({
+			path: path.join(path.dirname(data.path), 'esm/vs/editor/editor.api.d.ts'),
+			base: data.base,
+			contents: new Buffer(toExternalDTS(contents))
+		}));
 
 		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
 		fs.writeFileSync('monaco.d.ts', contents);
 		this.emit('data', data);
 	});
+}
+
+function toExternalDTS(contents) {
+	let lines = contents.split('\n');
+	let killNextCloseCurlyBrace = false;
+	for (let i = 0; i < lines.length; i++) {
+		let line = lines[i];
+
+		if (killNextCloseCurlyBrace) {
+			if ('}' === line) {
+				lines[i] = '';
+				killNextCloseCurlyBrace = false;
+				continue;
+			}
+
+			if (line.indexOf('    ') === 0) {
+				lines[i] = line.substr(4);
+			} else if (line.charAt(0) === '\t') {
+				lines[i] = line.substr(1);
+			}
+
+			continue;
+		}
+
+		if ('declare namespace monaco {' === line) {
+			lines[i] = '';
+			killNextCloseCurlyBrace = true;
+			continue;
+		}
+
+		if (line.indexOf('declare namespace monaco.') === 0) {
+			lines[i] = line.replace('declare namespace monaco.', 'export namespace ');
+		}
+	}
+	return lines.join('\n');
 }
 
 /**
