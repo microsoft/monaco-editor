@@ -1,3 +1,2 @@
-dist/*.js
-dist/*.css
+dist/
 .cache
