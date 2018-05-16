@@ -141,6 +141,12 @@ var PLAY_SAMPLES = [
 	},
 	{
 		chapter: "Extending Language Services",
+		name: "Folding provider example",
+		id: "extending-language-services-folding-provider-example",
+		path: "extending-language-services/folding-provider-example"
+	},
+	{
+		chapter: "Extending Language Services",
 		name: "Hover provider example",
 		id: "extending-language-services-hover-provider-example",
 		path: "extending-language-services/hover-provider-example"
