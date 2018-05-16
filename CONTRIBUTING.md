@@ -58,7 +58,7 @@ You need to have all the build setup of being able to build VS Code to be able t
 /src/monaco-editor> npm run simpleserver
 ```
 
-Open [http://localhost:8080/monaco-editor/test/?editor=dev](http://localhost:8080/monaco-editor/test/?editor=dev) to run.
+Open [http://localhost:8080/monaco-editor/test/?editor=src](http://localhost:8080/monaco-editor/test/?editor=src) to run.
 
 ## Running a plugin from source (e.g. monaco-typescript)
 
@@ -73,13 +73,13 @@ Open [http://localhost:8080/monaco-editor/test/?editor=dev](http://localhost:808
 /src/monaco-typescript> npm run watch
 ```
 
-Open [http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev](http://localhost:8080/monaco-editor/test/?editor=dev&monaco-typescript=dev) to run.
+Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src](http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src) to run.
 
 ## Running the editor tests
 
 ```bash
 /src/vscode> npm run monaco-editor-test
-# or run a test page http://localhost:8080/monaco-editor/test/?editor=dev
+# or run a test page http://localhost:8080/monaco-editor/test/?editor=src
 ```
 
 > Tip: All folders must be cloned as siblings.
