@@ -8,6 +8,9 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
+// Allow for running under nodejs/requirejs in tests
+const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '#',
@@ -31,6 +34,12 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
 		{ open: '\'', close: '\'' },
+	],
+	onEnterRules: [
+		{
+			beforeText: new RegExp("^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async).*?:\\s*$"),
+			action: { indentAction: _monaco.languages.IndentAction.Indent }
+		}
 	],
 	folding: {
 		offSide: true,
