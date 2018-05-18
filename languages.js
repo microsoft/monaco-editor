@@ -194,6 +194,11 @@ module.exports = {
     worker: undefined,
     alias: undefined,
   },
+  st: {
+    entry: 'vs/basic-languages/st/st.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
   swift: {
     entry: 'vs/basic-languages/swift/swift.contribution',
     worker: undefined,

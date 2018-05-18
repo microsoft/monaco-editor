@@ -107,8 +107,8 @@ module.exports = {
     entry: 'vs/editor/standalone/browser/quickOpen/quickCommand',
     worker: undefined,
   },
-  quickFixCommands: {
-    entry: 'vs/editor/contrib/quickFix/quickFixCommands',
+  codeAction: {
+    entry: 'vs/editor/contrib/codeAction/codeActionContributions',
     worker: undefined,
   },
   quickOutline: {
