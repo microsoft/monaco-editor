@@ -15,9 +15,7 @@ helpers.packageESM({
 	entryPoints: [
 		'monaco.contribution.js',
 		'htmlMode.js',
-		'html.worker.js',
-		'../../node_modules/vscode-html-languageservice/lib/esm/beautify/beautify-css.js',
-		'../../node_modules/vscode-html-languageservice/lib/esm/beautify/beautify.js',
+		'html.worker.js'
 	],
 	resolveAlias: {
 		'vscode-nls': path.join(REPO_ROOT, "out/esm/fillers/vscode-nls.js")
