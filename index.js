@@ -99,6 +99,7 @@ function createLoaderRules(languages, features, workers, publicPath) {
     if(!publicPath && window.__webpack_public_path__) {
       return `${window.__webpack_public_path__}/${workerPath}`
     }
+    return workerPath;
   };
 
   const globals = {
