@@ -62,6 +62,7 @@ bundleOne('pgsql/pgsql');
 bundleOne('redis/redis');
 bundleOne('csp/csp');
 bundleOne('scheme/scheme');
+// bundleOne('clojure/clojure');
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({
