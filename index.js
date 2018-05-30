@@ -95,24 +95,32 @@ function createLoaderRules(languages, features, workers, publicPath) {
     [label]: `${publicPath ? `${stripTrailingSlash(publicPath)}/` : ''}${output}`,
   }), {});
 
-  const getBasePath = () => {
-    const bases = document.getElementsByTagName('base');
-    let contextPath = '/';
-    if (bases.length) {
-      contextPath = bases[0].getAttribute('context') || bases[0].href || '/';
-    }
-    return contextPath;
-  }
-
   const getWorkerPath = (workerPath) => {
-    return `${getBasePath()}/${workerPath}`.replace('//', '/');
-  }
+    const getBasePath = () => {
+      const bases = document.getElementsByTagName('base');
+      let contextPath = '/';
+      if (bases.length) {
+        contextPath = bases[0].getAttribute('context') || bases[0].href || '/';
+      }
+      return contextPath;
+    };
+
+    const basePath = getBasePath();
+    if (basePath[basePath.length - 1] !== '/') {
+      basePath = `${basePath}/`;
+    }
+    if (workerPath[0] === '/') {
+      workerPath = workerPath.substr(1);
+    }
+
+    const contextPath = basePath + workerPath;
+    return contextPath;
+  };
 
   const globals = {
-    'MonacoEnvironment': `((paths) => ({ getWorkerUrl: (moduleId, label) => ${getWorkerPath(paths[label])}}))(${
-      JSON.stringify(workerPaths, null, 2)
-      })`,
+    'MonacoEnvironment': `((paths) => ({ getWorkerUrl: (moduleId, label) => (${getWorkerPath.toString()})(paths[label]) }))(${JSON.stringify(workerPaths, null, 2)})`
   };
+
   return [
     {
       test: MONACO_EDITOR_API_PATHS,
