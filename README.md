@@ -5,6 +5,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 ![monaco-languages](https://cloud.githubusercontent.com/assets/5047891/15938606/1fd4bac6-2e74-11e6-8839-d455da8bc8a7.gif)
 
 * bat
+* clojure
 * coffee script
 * cpp
 * csharp
