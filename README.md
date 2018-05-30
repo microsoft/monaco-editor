@@ -8,15 +8,22 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * coffee script
 * cpp
 * csharp
+* csp
+* dockerfile
 * fsharp
 * go
 * handlebars
 * html
 * ini
+* java
 * lua
+* markdown
+* msdax
+* mysql
 * objective-c
-* postiats
+* pgsql
 * php
+* postiats
 * powershell
 * pug
 * python
@@ -24,11 +31,15 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * razor
 * ruby
 * rust
+* small basic
+* scheme
+* solidity
 * sql
+* st
 * swift
 * vb
 * xml
-* small basic
+* yaml
 
 Also `css` dialects:
 
