@@ -94,10 +94,24 @@ function createLoaderRules(languages, features, workers, publicPath) {
   const workerPaths = workers.reduce((acc, { label, output }) => Object.assign(acc, {
     [label]: `${publicPath ? `${stripTrailingSlash(publicPath)}/` : ''}${output}`,
   }), {});
+
+  const getBasePath = () => {
+    const bases = document.getElementsByTagName('base');
+    let contextPath = '/';
+    if (bases.length) {
+      contextPath = bases[0].getAttribute('context') || bases[0].href || '/';
+    }
+    return contextPath;
+  }
+
+  const getWorkerPath = (workerPath) => {
+    return `${getBasePath()}/${workerPath}`.replace('//', '/');
+  }
+
   const globals = {
-    'MonacoEnvironment': `((paths) => ({ getWorkerUrl: (moduleId, label) => paths[label] }))(${
+    'MonacoEnvironment': `((paths) => ({ getWorkerUrl: (moduleId, label) => ${getWorkerPath(paths[label])}}))(${
       JSON.stringify(workerPaths, null, 2)
-    })`,
+      })`,
   };
   return [
     {
