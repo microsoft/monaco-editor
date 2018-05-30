@@ -96,25 +96,9 @@ function createLoaderRules(languages, features, workers, publicPath) {
   }), {});
 
   const getWorkerPath = (workerPath) => {
-    const getBasePath = () => {
-      const bases = document.getElementsByTagName('base');
-      let contextPath = '/';
-      if (bases.length) {
-        contextPath = bases[0].getAttribute('context') || bases[0].href || '/';
-      }
-      return contextPath;
-    };
-
-    const basePath = getBasePath();
-    if (basePath[basePath.length - 1] !== '/') {
-      basePath = `${basePath}/`;
+    if(!publicPath && window.__webpack_public_path__) {
+      return `${window.__webpack_public_path__}/${workerPath}`
     }
-    if (workerPath[0] === '/') {
-      workerPath = workerPath.substr(1);
-    }
-
-    const contextPath = basePath + workerPath;
-    return contextPath;
   };
 
   const globals = {
