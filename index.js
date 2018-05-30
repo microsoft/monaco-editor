@@ -95,7 +95,7 @@ function createLoaderRules(languages, features, workers, publicPath) {
     [label]: `${publicPath ? `${stripTrailingSlash(publicPath)}/` : ''}${output}`,
   }), {});
   const globals = {
-    'MonacoEnvironment': `((paths) => ({ getWorkerUrl: (moduleId, label) => paths[label] }))(${
+    'MonacoEnvironment': `(function (paths) { return { getWorkerUrl: function (moduleId, label) { return paths[label]; } }; } )(${
       JSON.stringify(workerPaths, null, 2)
     })`,
   };
