@@ -45,3 +45,4 @@ import './vb/vb.contribution';
 import './xml/xml.contribution';
 import './yaml/yaml.contribution';
 import './scheme/scheme.contribution';
+import './clojure/clojure.contribution';
