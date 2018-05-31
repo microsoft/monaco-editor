@@ -92,7 +92,7 @@ function createLoaderRules(languages, features, workers, publicPath) {
   const globals = {
     'MonacoEnvironment': `(function (paths) {
       function stripTrailingSlash(str) {
-        return str.replace(/\\/$/, '');
+        return str.replace(/\/$/, '');
       }
       return {
         getWorkerUrl: function (moduleId, label) {
