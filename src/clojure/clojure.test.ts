@@ -27,6 +27,14 @@ testTokenization('clojure', [
 	{ startIndex: 8, type: 'string.clj'},
       ],
     },
+    {
+      line: 'in-ns "user',
+      tokens: [
+        { startIndex: 0, type: 'keyword.clj' },
+        { startIndex: 5, type: 'white.clj' },
+        { startIndex: 6, type: 'string.clj' },
+      ],
+    },
   ],
 
   // comments
