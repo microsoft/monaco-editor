@@ -83,27 +83,26 @@ function getPublicPath(compiler) {
   return compiler.options.output && compiler.options.output.publicPath || '';
 }
 
-function stripTrailingSlash(string) {
-  return string.replace(/\/$/, '');
-}
-
 function createLoaderRules(languages, features, workers, publicPath) {
   if (!languages.length && !features.length) { return []; }
   const languagePaths = languages.map(({ entry }) => entry).filter(Boolean);
   const featurePaths = features.map(({ entry }) => entry).filter(Boolean);
-  const workerPaths = workers.reduce((acc, { label, output }) => Object.assign(acc, {
-    [label]: `${publicPath ? `${stripTrailingSlash(publicPath)}/` : ''}${output}`,
-  }), {});
-
-  const getWorkerPath = (workerPath) => {
-    if(!publicPath && window.__webpack_public_path__) {
-      return `${window.__webpack_public_path__}/${workerPath}`
-    }
-    return workerPath;
-  };
+  const workerPaths = fromPairs(workers.map(({ label, output }) => [label, output]));
 
   const globals = {
-    'MonacoEnvironment': `((paths) => ({ getWorkerUrl: (moduleId, label) => (${getWorkerPath.toString()})(paths[label]) }))(${JSON.stringify(workerPaths, null, 2)})`
+    'MonacoEnvironment': `(function (paths) {
+      function stripTrailingSlash(string) {
+        return string.replace(/\\/$/, '');
+      }
+      return {
+        getWorkerUrl: function (moduleId, label) {
+          const pathPrefix = (typeof window.__webpack_public_path__ === 'string' ? window.__webpack_public_path__ : ${JSON.stringify(publicPath)});
+          var path = (pathPrefix ? stripTrailingSlash(pathPrefix) + '/' : '') + paths[label];
+          console.log('editor path: ' + path);
+          return path;
+        }
+      };
+    })(${JSON.stringify(workerPaths, null, 2)})`,
   };
 
   return [
