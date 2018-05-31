@@ -58,7 +58,7 @@ export const language = <ILanguage>{
     'new',
     'refer',
     'pos',
-    'pos\\?',
+    'pos\?',
     'filter',
     'map',
     'reduce',
