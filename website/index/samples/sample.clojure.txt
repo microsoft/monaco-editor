@@ -1,0 +1,8 @@
+(def object "call object via def()")
+(defn say-hello
+      "Takes name argument and say hello to the name"
+      [name]
+      (println (str "God said let there be " name)))
+(let [l "light"] (println (str (say-hello l) " " object)))
+(doc say-hello)
+(meta (var say-hello))
