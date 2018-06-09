@@ -155,9 +155,11 @@ export const language = <ILanguage>{
         'go',
         'go-loop',
         'thread',
+        'boolean',
+        'str',
     ],
 
-    constants: ['true', 'false', 'nil', 'boolean', 'str'],
+    constants: ['true', 'false', 'nil'],
 
     operators: [
         '=',
