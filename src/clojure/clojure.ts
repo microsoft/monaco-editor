@@ -204,6 +204,8 @@ export const language = <ILanguage>{
                 },
             ],
 
+            [/\/#"(?:\.|(?:\")|[^""\n])*"\/g/, 'regexp'],
+
             { include: '@whitespace' },
             { include: '@strings' },
         ],
