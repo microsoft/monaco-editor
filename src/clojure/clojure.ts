@@ -188,7 +188,7 @@ export const language = <ILanguage>{
             [/[+-]?\d+(?:(?:\.\d*)?(?:[eE][+-]?\d+)?)?/, 'number.float'],
 
             [
-                /(?:\b(?:(def|defn|defn-|defmacro|defmulti|defonce|ns|ns-unmap|fn))\b)(\s+)((?:\w|\-|\!|\?)*)/,
+                /(?:\b(?:(ns|def|defn|defn-|defmacro|defmulti|defonce|ns|ns-unmap|fn))(?![\w-]))(\s+)((?:\w|\-|\!|\?)*)/,
                 ['keyword', 'white', 'variable'],
             ],
 
