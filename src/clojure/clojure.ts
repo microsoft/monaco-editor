@@ -182,7 +182,7 @@ export const language = <ILanguage>{
 
     tokenizer: {
         root: [
-            [/#[xXoObB][0-9a-fA-F]+/, 'number.hex'],
+            [/0[xX][0-9a-fA-F]+/, 'number.hex'],
             [/[+-]?\d+(?:(?:\.\d*)?(?:[eE][+-]?\d+)?)?/, 'number.float'],
 
             [
