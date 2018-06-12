@@ -20,6 +20,12 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 
 	var tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js')).toString();
 
+	// Ensure we never run into the node system...
+	// (this also removes require calls that trick webpack into shimming those modules...)
+	tsServices = (
+		tsServices.replace(/\n    ts\.sys =([^]*)\n    \}\)\(\);/m, `\n    // MONACOCHANGE\n    ts.sys = undefined;\n    // END MONACOCHANGE`)
+	);
+
 	var tsServices_amd = tsServices +
 	`
 // MONACOCHANGE
