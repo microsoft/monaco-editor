@@ -61,7 +61,7 @@ class MonacoWebpackPlugin {
     const workers = modules.map(
       ({ label, alias, worker }) => worker && ({ label, alias, ...worker })
     ).filter(Boolean);
-    const rules = createLoaderRules(languages, features, workers, publicPath);
+    const rules = createLoaderRules(languages, features, workers, output, publicPath);
     const plugins = createPlugins(workers, output);
     addCompilerRules(compiler, rules);
     addCompilerPlugins(compiler, plugins);
@@ -83,11 +83,11 @@ function getPublicPath(compiler) {
   return compiler.options.output && compiler.options.output.publicPath || '';
 }
 
-function createLoaderRules(languages, features, workers, publicPath) {
+function createLoaderRules(languages, features, workers, outputPath, publicPath) {
   if (!languages.length && !features.length) { return []; }
   const languagePaths = languages.map(({ entry }) => entry).filter(Boolean);
   const featurePaths = features.map(({ entry }) => entry).filter(Boolean);
-  const workerPaths = fromPairs(workers.map(({ label, output }) => [label, output]));
+  const workerPaths = fromPairs(workers.map(({ label, output }) => [label, path.join(outputPath, output)]));
 
   const globals = {
     'MonacoEnvironment': `(function (paths) {
