@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <script type="module">
+    import * as monaco from './release/esm/vs/editor/editor.main.js';
+
+    monaco.editor.create(document.getElementById('container'), {
+      value: [
+        'function x() {',
+        '\tconsole.log("Hello world!");',
+        '}'
+      ].join('\n'),
+      language: 'javascript'
+    });
+  </script>
+</head>
+<body>
+  <div id="container"></div>
+</body>
+</html>
