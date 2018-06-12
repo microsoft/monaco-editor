@@ -31,10 +31,10 @@ gulp.task('release', ['clean-release'], function() {
 	return es.merge(
 
 		// dev folder
-		releaseOne('dev'),
+		// releaseOne('dev'),
 
 		// min folder
-		releaseOne('min'),
+		// releaseOne('min'),
 
 		// esm folder
 		ESM_release(),
@@ -53,7 +53,7 @@ gulp.task('release', ['clean-release'], function() {
 			.pipe(gulp.dest('release')),
 
 		// min-maps folder
-		gulp.src('node_modules/monaco-editor-core/min-maps/**/*').pipe(gulp.dest('release/min-maps')),
+		// gulp.src('node_modules/monaco-editor-core/min-maps/**/*').pipe(gulp.dest('release/min-maps')),
 
 		// other files
 		gulp.src([
@@ -210,6 +210,7 @@ function ESM_release() {
 			'!node_modules/monaco-editor-core/esm/vs/editor/editor.api.d.ts'
 		])
 			.pipe(ESM_addImportSuffix())
+			.pipe(ESM_transformCSSModules())
 			.pipe(ESM_addPluginContribs('release/esm'))
 			.pipe(gulp.dest('release/esm')),
 		ESM_pluginStreams('release/esm/')
@@ -302,8 +303,25 @@ function ESM_pluginStream(plugin, destinationPath) {
 			this.emit('data', data);
 		}))
 		.pipe(ESM_addImportSuffix())
+		.pipe(ESM_transformCSSModules())
 		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
 	);
+}
+
+function ESM_transformCSSModules() {
+	return es.through(function(data) {
+		if (!/\.css$/.test(data.path)) {
+			this.emit('data', data);
+			return;
+		}
+		const contents = data.contents.toString();
+		data.contents = new Buffer(`
+const styleElement = document.createElement('style');
+styleElement.textContent = \`${contents}\`;
+document.head.appendChild(styleElement);`);
+		data.path = data.path.replace(/\.css$/, '.css.js');
+		this.emit('data', data);
+	});
 }
 
 function ESM_addImportSuffix() {
@@ -320,10 +338,6 @@ function ESM_addImportSuffix() {
 			const importText = info.importedFiles[i].fileName;
 			const pos = info.importedFiles[i].pos;
 			const end = info.importedFiles[i].end;
-
-			if (/\.css$/.test(importText)) {
-				continue;
-			}
 
 			contents = (
 				contents.substring(0, pos + 1)
