@@ -1,6 +1,6 @@
 # Monaco Editor Webpack Loader Plugin
 
-A plugin to simplify loading the [Monaco Editor](https://github.com/Microsoft/monaco-editor) with [webpack](https://webpack.js.org/) contributed by [Tim Kendrik](https://github.com/timkendrick).
+A plugin to simplify loading the [Monaco Editor](https://github.com/Microsoft/monaco-editor) with [webpack](https://webpack.js.org/).
 
 ## Installing
 ```sh
@@ -38,7 +38,7 @@ monaco.editor.create(document.getElementById('container'), {
 
 Options can be passed in to `MonacoWebpackPlugin`. They can be used to generate a smaller editor bundle by selecting only certain languages or only certain editor features:
 
-* `output` (`string`) - append a certain string to all generated files.
+* `output` (`string`) - custom output path for worker scripts, relative to the main webpack `output.path`.
   * default value: `''`.
 * `languages` (`string[]`) - include only a subset of the languages supported.
   * default value: `['bat', 'coffee', 'cpp', 'csharp', 'csp', 'css', 'dockerfile', 'fsharp', 'go', 'handlebars', 'html', 'ini', 'java', 'json', 'less', 'lua', 'markdown', 'msdax', 'mysql', 'objective', 'pgsql', 'php', 'postiats', 'powershell', 'pug', 'python', 'r', 'razor', 'redis', 'redshift', 'ruby', 'sb', 'scss', 'solidity', 'sql', 'swift', 'typescript', 'vb', 'xml', 'yaml']`.
