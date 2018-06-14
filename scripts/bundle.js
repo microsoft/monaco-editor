@@ -63,6 +63,7 @@ bundleOne('redis/redis');
 bundleOne('csp/csp');
 bundleOne('scheme/scheme');
 bundleOne('clojure/clojure');
+bundleOne('shell/shell');
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({
@@ -74,7 +75,7 @@ function bundleOne(moduleId, exclude) {
 			'vs/basic-languages': REPO_ROOT + '/release/dev'
 		},
 		optimize: 'none'
-	}, function(buildResponse) {
+	}, function (buildResponse) {
 		const filePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
 		const fileContents = fs.readFileSync(filePath).toString();
 		console.log();
