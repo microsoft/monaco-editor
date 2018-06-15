@@ -67,7 +67,8 @@ define(['require'], function (require) {
 			'release/dev/st/st.test',
 			'release/dev/scheme/scheme.test',
 			'release/dev/clojure/clojure.test',
-			'release/dev/shell/shell.test'
+			'release/dev/shell/shell.test',
+			'release/dev/perl/perl.test'
 		], function () {
 			run(); // We can launch the tests!
 		}, function (err) {

@@ -47,3 +47,4 @@ import './yaml/yaml.contribution';
 import './scheme/scheme.contribution';
 import './clojure/clojure.contribution';
 import './shell/shell.contribution';
+import './perl/perl.contribution';
