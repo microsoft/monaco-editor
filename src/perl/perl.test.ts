@@ -34,7 +34,7 @@ testTokenization('perl', [
 	// Shebang
 	[
 		{
-			line: '#!/bin/env bash',
+			line: '#!/bin/env perl',
 			tokens: [{ startIndex: 0, type: 'metatag.perl' }],
 		},
 	],
