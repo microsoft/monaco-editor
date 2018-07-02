@@ -1,4 +1,27 @@
 const webpack = require('webpack');
+const webpackVersion = require('webpack/package.json').version;
+const SingleEntryPlugin = require('webpack/lib/SingleEntryPlugin');
+const LoaderTargetPlugin = require('webpack/lib/LoaderTargetPlugin');
+const WebWorkerTemplatePlugin = require('webpack/lib/webworker/WebWorkerTemplatePlugin');
+
+function getCompilerHook(compiler, {id, entry, filename, chunkFilename, plugins}) {
+  return function(compilation, callback) {
+    const outputOptions = {
+      filename,
+      chunkFilename,
+      publicPath: compilation.outputOptions.publicPath,
+      // HACK: globalObject is necessary to fix https://github.com/webpack/webpack/issues/6642
+      globalObject: 'this',
+    };
+    const childCompiler = compilation.createChildCompiler(id, outputOptions, [
+      new WebWorkerTemplatePlugin(),
+      new LoaderTargetPlugin('webworker'),
+      new SingleEntryPlugin(compiler.context, entry, 'main'),
+    ]);
+    plugins.forEach((plugin) => plugin.apply(childCompiler));
+    childCompiler.runAsChild(callback);
+  }
+}
 
 class AddWorkerEntryPointPlugin {
   constructor({
@@ -12,23 +35,12 @@ class AddWorkerEntryPointPlugin {
   }
 
   apply(compiler) {
-    const { id, entry, filename, chunkFilename, plugins } = this.options;
-    compiler.hooks.make.tapAsync('AddWorkerEntryPointPlugin', (compilation, callback) => {
-      const outputOptions = {
-        filename,
-        chunkFilename,
-        publicPath: compilation.outputOptions.publicPath,
-        // HACK: globalObject is necessary to fix https://github.com/webpack/webpack/issues/6642
-        globalObject: 'this',
-      };
-      const childCompiler = compilation.createChildCompiler(id, outputOptions, [
-        new webpack.webworker.WebWorkerTemplatePlugin(),
-        new webpack.LoaderTargetPlugin('webworker'),
-        new webpack.SingleEntryPlugin(compiler.context, entry, 'main'),
-      ]);
-      plugins.forEach((plugin) => plugin.apply(childCompiler));
-      childCompiler.runAsChild(callback);
-    });
+    const compilerHook = getCompilerHook(compiler, this.options);
+    if (webpackVersion < '4') {
+      compiler.plugin('make', compilerHook);
+    } else {
+      compiler.hooks.make.tapAsync('AddWorkerEntryPointPlugin', compilerHook);
+    }
   }
 }
 
