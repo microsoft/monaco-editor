@@ -37,10 +37,10 @@ function resolveMonacoPath(filePath) {
 
 const languagesById = fromPairs(
   flatMap(toPairs(LANGUAGES), ([id, language]) =>
-    [id, ...(language.alias || [])].map((label) => [label, { label, ...language }])
+    [id, ...(language.alias || [])].map((label) => [label, Object.assign({ label }, language )])
   )
 );
-const featuresById = mapValues(FEATURES, (feature, key) => ({ label: key, ...feature }))
+const featuresById = mapValues(FEATURES, (feature, key) => (Object.assign({ label: key }, feature )));
 
 class MonacoWebpackPlugin {
   constructor(options = {}) {
@@ -59,7 +59,7 @@ class MonacoWebpackPlugin {
     const publicPath = getPublicPath(compiler);
     const modules = [EDITOR_MODULE, ...languages, ...features];
     const workers = modules.map(
-      ({ label, alias, worker }) => worker && ({ label, alias, ...worker })
+      ({ label, alias, worker }) => worker && Object.assign({ label, alias }, worker)
     ).filter(Boolean);
     const rules = createLoaderRules(languages, features, workers, output, publicPath);
     const plugins = createPlugins(workers, output);
