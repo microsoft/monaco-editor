@@ -4,7 +4,7 @@
   "description": "A webpack plugin for the Monaco Editor",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/webpack --config test/webpack.config.js"
   },
   "repository": {
     "type": "git",
