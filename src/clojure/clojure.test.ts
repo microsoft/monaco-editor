@@ -83,7 +83,7 @@ testTokenization('clojure', [
 	],
 	[
 		{
-			line: '#x03BB',
+			line: '0xff',
 			tokens: [{ startIndex: 0, type: 'number.hex.clj' }],
 		},
 	],
