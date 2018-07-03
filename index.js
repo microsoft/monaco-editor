@@ -37,10 +37,10 @@ function resolveMonacoPath(filePath) {
 
 const languagesById = fromPairs(
   flatMap(toPairs(LANGUAGES), ([id, language]) =>
-    [id, ...(language.alias || [])].map((label) => [label, { label, ...language }])
+    [id].concat(language.alias || []).map((label) => [label, mixin({ label }, language)])
   )
 );
-const featuresById = mapValues(FEATURES, (feature, key) => ({ label: key, ...feature }))
+const featuresById = mapValues(FEATURES, (feature, key) => mixin({ label: key }, feature))
 
 class MonacoWebpackPlugin {
   constructor(options = {}) {
@@ -57,9 +57,9 @@ class MonacoWebpackPlugin {
   apply(compiler) {
     const { languages, features, output } = this.options;
     const publicPath = getPublicPath(compiler);
-    const modules = [EDITOR_MODULE, ...languages, ...features];
+    const modules = [EDITOR_MODULE].concat(languages).concat(features);
     const workers = modules.map(
-      ({ label, alias, worker }) => worker && ({ label, alias, ...worker })
+      ({ label, alias, worker }) => worker && (mixin({ label, alias }, worker))
     ).filter(Boolean);
     const rules = createLoaderRules(languages, features, workers, output, publicPath);
     const plugins = createPlugins(workers, output);
@@ -71,8 +71,7 @@ class MonacoWebpackPlugin {
 function addCompilerRules(compiler, rules) {
   const compilerOptions = compiler.options;
   const moduleOptions = compilerOptions.module || (compilerOptions.module = {});
-  const existingRules = moduleOptions.rules || (moduleOptions.rules = []);
-  existingRules.push(...rules);
+  moduleOptions.rules = (moduleOptions.rules || []).concat(rules);
 }
 
 function addCompilerPlugins(compiler, plugins) {
@@ -124,11 +123,12 @@ function createPlugins(workers, outputPath) {
   const workerFallbacks = workers.reduce((acc, { id, fallback }) => (fallback ? Object.assign(acc, {
     [id]: resolveMonacoPath(fallback)
   }) : acc), {});
-  return [
-    ...Object.keys(IGNORED_IMPORTS).map((id) =>
+  return (
+    []
+    .concat(Object.keys(IGNORED_IMPORTS).map((id) =>
       createIgnoreImportsPlugin(id, IGNORED_IMPORTS[id])
-    ),
-    ...uniqBy(workers, ({ id }) => id).map(({ id, entry, output }) =>
+    ))
+    .concat(uniqBy(workers, ({ id }) => id).map(({ id, entry, output }) =>
       new AddWorkerEntryPointPlugin({
         id,
         entry: resolveMonacoPath(entry),
@@ -138,9 +138,9 @@ function createPlugins(workers, outputPath) {
           new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
         ],
       })
-    ),
-    ...(workerFallbacks ? [createContextPlugin(WORKER_LOADER_PATH, workerFallbacks)] : []),
-  ];
+    ))
+    .concat(workerFallbacks ? [createContextPlugin(WORKER_LOADER_PATH, workerFallbacks)] : [])
+  );
 }
 
 function createContextPlugin(filePath, contextPaths) {
@@ -159,7 +159,7 @@ function createIgnoreImportsPlugin(targetPath, ignoredModules) {
 }
 
 function flatMap(items, iteratee) {
-  return items.map(iteratee).reduce((acc, item) => [...acc, ...item], []);
+  return items.map(iteratee).reduce((acc, item) => [].concat(acc).concat(item), []);
 }
 
 function toPairs(object) {
@@ -186,6 +186,15 @@ function uniqBy(items, iteratee) {
     acc.push(item);
     return acc;
   }, []);
+}
+
+function mixin(dest, src) {
+  for (let prop in src) {
+    if (Object.hasOwnProperty.call(src, prop)) {
+      dest[prop] = src[prop];
+    }
+  }
+  return dest;
 }
 
 module.exports = MonacoWebpackPlugin;
