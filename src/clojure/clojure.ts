@@ -11,7 +11,6 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: ';;',
-		blockComment: ['(comment', ')'],
 	},
 
 	brackets: [['(', ')'], ['{', '}'], ['[', ']']],
@@ -210,18 +209,7 @@ export const language = <ILanguage>{
 			{ include: '@strings' },
 		],
 
-		comment: [
-			[/[^comment\(\)]+/, 'comment'],
-			[/\(comment/, 'comment', '@push'],
-			[/\)/, 'comment', '@pop'],
-			[/[comment\(\)]/, 'comment'],
-		],
-
-		whitespace: [
-			[/[ \t\r\n]+/, 'white'],
-			[/\(comment/, 'comment', '@comment'],
-			[/;;.*$/, 'comment'],
-		],
+		whitespace: [[/[ \t\r\n]+/, 'white'], [/;;.*$/, 'comment']],
 
 		strings: [
 			[/"$/, 'string', '@popall'],
