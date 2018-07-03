@@ -145,7 +145,7 @@ function createPlugins(workers, outputPath) {
 
 function createContextPlugin(filePath, contextPaths) {
   return new webpack.ContextReplacementPlugin(
-    new RegExp(`^${path.dirname(filePath)}$`),
+    new RegExp(`^${path.dirname(filePath).replace(/[\/\\]/g, '(/|\\\\)')}$`),
     '',
     contextPaths
   );
@@ -154,7 +154,7 @@ function createContextPlugin(filePath, contextPaths) {
 function createIgnoreImportsPlugin(targetPath, ignoredModules) {
   return new webpack.IgnorePlugin(
     new RegExp(`^(${ignoredModules.map((id) => `(${id})`).join('|')})$`),
-    new RegExp(`^${path.dirname(targetPath)}$`)
+    new RegExp(`^${path.dirname(targetPath).replace(/[\/\\]/g, '(/|\\\\)')}$`)
   );
 }
 
