@@ -40,7 +40,7 @@ const languagesById = fromPairs(
     [id, ...(language.alias || [])].map((label) => [label, Object.assign({ label }, language )])
   )
 );
-const featuresById = mapValues(FEATURES, (feature, key) => (Object.assign({ label: key }, feature )));
+const featuresById = mapValues(FEATURES, (feature, key) => Object.assign({ label: key }, feature ));
 
 class MonacoWebpackPlugin {
   constructor(options = {}) {
