@@ -4,6 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "../node_modules/.bin/webpack --config webpack.config.js"
+    "test": "node ../node_modules/webpack/bin/webpack.js --config webpack.config.js"
   }
 }
