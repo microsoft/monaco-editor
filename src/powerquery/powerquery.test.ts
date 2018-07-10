@@ -70,7 +70,7 @@ testTokenization('powerquery', [
 		tokens: [
 			{ startIndex: 0, type: 'number.pq' },
 			{ startIndex: 1, type: 'white.pq' },
-			{ startIndex: 2, type: 'operator.pq' },
+			{ startIndex: 2, type: 'operators.pq' },
 			{ startIndex: 3, type: 'white.pq' },
 			{ startIndex: 4, type: 'number.pq' },
 			{ startIndex: 5, type: 'delimiter.pq' },
@@ -92,10 +92,10 @@ testTokenization('powerquery', [
 		tokens: [
 			{ startIndex: 0, type: 'identifier.quote.pq' },
 			{ startIndex: 7, type: 'white.pq' },
-			{ startIndex: 8, type: 'operator.pq' },
+			{ startIndex: 8, type: 'operators.pq' },
 			{ startIndex: 9, type: 'white.pq' },
 			{ startIndex: 10, type: 'number.pq' },
-			{ startIndex: 11, type: 'operator.pq' },
+			{ startIndex: 11, type: 'operators.pq' },
 			{ startIndex: 12, type: 'number.pq' },
 			{ startIndex: 13, type: 'delimiter.pq' },
 		]
@@ -106,10 +106,10 @@ testTokenization('powerquery', [
 		tokens: [
 			{ startIndex: 0, type: 'identifier.pq' },
 			{ startIndex: 1, type: 'white.pq' },
-			{ startIndex: 2, type: 'operator.pq' },
+			{ startIndex: 2, type: 'operators.pq' },
 			{ startIndex: 3, type: 'white.pq' },
 			{ startIndex: 4, type: 'identifier.quote.pq' },
-			{ startIndex: 15, type: 'operator.pq' },
+			{ startIndex: 15, type: 'operators.pq' },
 			{ startIndex: 16, type: 'white.pq' },
 			{ startIndex: 17, type: 'number.pq' }
 		]
@@ -121,11 +121,11 @@ testTokenization('powerquery', [
 		tokens: [
 			{ startIndex: 0, type: 'number.pq' },
 			{ startIndex: 1, type: 'white.pq' },
-			{ startIndex: 2, type: 'operator.pq' },
+			{ startIndex: 2, type: 'operators.pq' },
 			{ startIndex: 3, type: 'white.pq' },
 			{ startIndex: 4, type: 'number.float.pq' },
 			{ startIndex: 10, type: 'white.pq' },
-			{ startIndex: 11, type: 'operator.pq' },
+			{ startIndex: 11, type: 'operators.pq' },
 			{ startIndex: 12, type: 'white.pq'},
 			{ startIndex: 13, type: 'number.hex.pq'}
 		]
@@ -136,7 +136,7 @@ testTokenization('powerquery', [
 		tokens: [
 			{ startIndex: 0, type: 'number.hex.pq' },
 			{ startIndex: 3, type: 'white.pq' },
-			{ startIndex: 4, type: 'operator.pq' },
+			{ startIndex: 4, type: 'operators.pq' },
 			{ startIndex: 5, type: 'delimiter.parenthesis.pq' },
 			{ startIndex: 6, type: 'number.float.pq' },
 			{ startIndex: 8, type: 'delimiter.parenthesis.pq' }
@@ -147,9 +147,9 @@ testTokenization('powerquery', [
 		line: '1.23e34+1.2e-2-.3e2',
 		tokens: [
 			{ startIndex: 0, type: 'number.float.pq' },
-			{ startIndex: 7, type: 'operator.pq' },
+			{ startIndex: 7, type: 'operators.pq' },
 			{ startIndex: 8, type: 'number.float.pq' },
-			{ startIndex: 14, type: 'operator.pq' },
+			{ startIndex: 14, type: 'operators.pq' },
 			{ startIndex: 15, type: 'number.float.pq' }
 		]
 	}],
@@ -168,7 +168,7 @@ testTokenization('powerquery', [
 		tokens: [
 			{ startIndex: 0, type: 'string.pq' },
 			{ startIndex: 8, type: 'white.pq' },
-			{ startIndex: 9, type: 'operator.pq' },
+			{ startIndex: 9, type: 'operators.pq' },
 			{ startIndex: 10, type: 'white.pq' },
 			{ startIndex: 11, type: 'string.pq' }
 		]
@@ -240,7 +240,7 @@ testTokenization('powerquery', [
 			{ startIndex: 3, type: "delimiter.parenthesis.pq"},
 			{ startIndex: 4, type: "identifier.pq" },
 			{ startIndex: 5, type: "white.pq" },
-			{ startIndex: 6, type: "operator.pq" },
+			{ startIndex: 6, type: "operators.pq" },
 			{ startIndex: 7, type: "white.pq" },
 			{ startIndex: 8, type: "constant.pq" },
 			{ startIndex: 12, type: "delimiter.parenthesis.pq"},
@@ -252,6 +252,32 @@ testTokenization('powerquery', [
 			{ startIndex: 24, type: "keyword.pq" },
 			{ startIndex: 28, type: "white.pq" },
 			{ startIndex: 29, type: "identifier.pq" },
+		]
+	}],
+
+	// statements
+	[{
+		line: '[version="1.0.0.1"] section Foo; shared Member.Name = 1;',
+		tokens: [
+			{ startIndex: 0, type: "delimiter.square.pq" },
+			{ startIndex: 1, type: "identifier.pq" },
+			{ startIndex: 8, type: "operators.pq" },
+			{ startIndex: 9, type: "string.pq" },
+			{ startIndex: 18, type: "delimiter.square.pq" },
+			{ startIndex: 19, type: "white.pq" },
+			{ startIndex: 20, type: "keyword.pq" },
+			{ startIndex: 27, type: "white.pq" },
+			{ startIndex: 28, type: "identifier.pq" },
+			{ startIndex: 31, type: "delimiter.pq" },
+			{ startIndex: 32, type: "white.pq" },
+			{ startIndex: 33, type: "keyword.pq" },
+			{ startIndex: 39, type: "white.pq" },
+			{ startIndex: 40, type: "identifier.pq" },
+			{ startIndex: 51, type: "white.pq" },
+			{ startIndex: 52, type: "operators.pq" },
+			{ startIndex: 53, type: "white.pq" },
+			{ startIndex: 54, type: "number.pq" },
+			{ startIndex: 55, type: "delimiter.pq" }
 		]
 	}],
 ]);

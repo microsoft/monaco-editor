@@ -33,11 +33,17 @@ export const language = <ILanguage>{
 		{ open: '(', close: ')', token: 'delimiter.parenthesis' }
 	],
 
+	operatorKeywords: [
+		"and",
+		"not",
+		"or"
+	],
+
 	keywords: [
-		"and", "as", "each", "else",
+		"as", "each", "else",
 		"error", "false", "if", "in",
-		"is", "let", "meta", "not",
-		"otherwise", "or", "section",
+		"is", "let", "meta",
+		"otherwise", "section",
 		"shared", "then", "true",
 		"try", "type"
 	],
@@ -98,6 +104,7 @@ export const language = <ILanguage>{
 						"@keywords": "keyword",
 						"@constants": "constant",
 						"@constructors": "constructor",
+						"@operatorKeywords": "operators",
 						"@default": "identifier"
 					}
 				}
@@ -111,7 +118,7 @@ export const language = <ILanguage>{
 			{ include: "@strings" },
 
 			[/[{}()\[\]]/, "@brackets"],
-			[/([=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/, "operator"],
+			[/([=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/, "operators"],
 			[/[,;]/, "delimiter"],
 		],
 
