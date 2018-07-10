@@ -15,10 +15,10 @@ export const conf: IRichLanguageConfiguration = {
 	},
 	brackets: [['[', ']'], ['(', ')'], ['{', '}']],
 	autoClosingPairs: [
-		{ open: '"', close: '"', notIn: ['string', 'comment'] },	// quoted identifier?
-		{ open: '[', close: ']', notIn: ['string', 'comment'] },
-		{ open: '(', close: ')', notIn: ['string', 'comment'] },
-		{ open: '{', close: '}', notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string', 'comment', 'identifier'] },
+		{ open: '[', close: ']', notIn: ['string', 'comment', 'identifier'] },
+		{ open: '(', close: ')', notIn: ['string', 'comment', 'identifier'] },
+		{ open: '{', close: '}', notIn: ['string', 'comment', 'identifier'] },
 	]
 };
 
@@ -47,6 +47,10 @@ export const language = <ILanguage>{
 	],
 
 	typeKeywords: [
+		"action",
+		"any",
+		"anynonnull",
+		"none",
 		"null",
 		"logical",
 		"number",
@@ -63,54 +67,63 @@ export const language = <ILanguage>{
 		"function"
 	],
 
-	wordDefinition: /([a-zA-Z_\.][a-zA-Z\._0-9]*)|([0-9][_\.a-zA-Z0-9]*[_\.a-zA-Z])/,
+	// (identifier|keyword or type|quoted identifier)
+	wordDefinition: /([a-zA-Z_][\w\.]*)|(#?[a-z]+)|(#"[\w \.]+")/,
 
 	tokenizer: {
 		root: [
-			{ include: "@comments" },
+			// escaped identifier
+			[/#"[\w \.]+"/, "identifier"],
 
-			[/\d+(\.\d+)?/, "number"],
-			[/(([a-zA-Z_\.][a-zA-Z\._0-9]*)|([0-9][_\.a-zA-Z0-9]*[_\.a-zA-Z]))|(#["]([ \[\]_\.a-zA-Z0-9]+)["])/,
+			// numbers
+			[/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
+			[/0[xX][0-9a-fA-F]+/, "number.hex"],
+			[/\d+([eE][\-+]?\d+)?/, "number"],
+
+			// keywords
+			[/(#?[a-z]+)/,
 				{
 					cases: {
+						"@typeKeywords": "keyword.type",
 						"@keywords": "keyword",
 						"@default": "identifier"
 					}
-				}],
-			{ include: "@strings" },
-			[/[{}()\[\]]/, "@brackets"],
-			// Removed forward slash for now to allow comments
-			[/[,;=+<>\-*&@?]|([<>]=)|(<>)|([\.\.][\.]?)|(=>)/, "punctuator"],
+				}
+			],
 
+			// other identifiers
+			[/([a-zA-Z_][\w\.]*)/, "identifier"],
+
+			{ include: "@whitespace" },
+			{ include: "@comments" },
+			{ include: "@strings" },
+
+			[/[{}()\[\]]/, "@brackets"],
+			[/([,;=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/, "punctuator"],
 		],
+
+		whitespace: [
+			[/\s+/, "white"]
+		],
+
 		comments: [
 			["\\/\\*", "comment", "@comment"],
 			["\\/\\/+.*", "comment"]
 		],
+
 		comment: [
 			["\\*\\/", "comment", "@pop"],
 			[".", "comment"]
 		],
-		// Recognize strings, including those broken across lines with \ (but not without)
+
 		strings: [
-			[/"$/, "string.escape", "@root"],
-			[/"/, "string.escape", "@stringBody"],
-			[/"$/, "string.escape", "@root"],
-			[/"/, "string.escape", "@dblStringBody"]
+			["\"", "string", "@string"]
 		],
-		stringBody: [
-			[/\\./, "string"],
-			[/"/, "string.escape", "@root"],
-			[/.(?=.*")/, "string"],
-			[/.*\\$/, "string"],
-			[/.*$/, "string", "@root"]
-		],
-		dblStringBody: [
-			[/\\./, "string"],
-			[/"/, "string.escape", "@root"],
-			[/.(?=.*")/, "string"],
-			[/.*\\$/, "string"],
-			[/.*$/, "string", "@root"]
+
+		string: [
+			["\"\"", "string.escape"],
+			["\"", "string", "@pop"],
+			[".", "string"]
 		]
 	}
 };
