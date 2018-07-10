@@ -96,7 +96,8 @@ export const language = <ILanguage>{
 			{ include: "@strings" },
 
 			[/[{}()\[\]]/, "@brackets"],
-			[/([,;=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/, "punctuator"],
+			[/([=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/, "operator"],
+			[/[,;]/, "delimiter"],
 		],
 
 		whitespace: [
