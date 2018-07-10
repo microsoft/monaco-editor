@@ -67,9 +67,6 @@ export const language = <ILanguage>{
 		"function"
 	],
 
-	// (identifier|keyword or type|quoted identifier)
-	wordDefinition: /([a-zA-Z_][\w\.]*)|(#?[a-z]+)|(#"[\w \.]+")/,
-
 	tokenizer: {
 		root: [
 			// escaped identifier
