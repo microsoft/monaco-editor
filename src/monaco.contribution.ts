@@ -26,6 +26,7 @@ import './objective-c/objective-c.contribution';
 import './pgsql/pgsql.contribution';
 import './php/php.contribution';
 import './postiats/postiats.contribution';
+import './powerquery/powerquery.contribution';
 import './powershell/powershell.contribution';
 import './pug/pug.contribution';
 import './python/python.contribution';
