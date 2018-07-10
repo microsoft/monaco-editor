@@ -79,18 +79,18 @@ testTokenization('powerquery', [
 		]
 	}],
 
-	// Escaped Identifiers
+	// Quoted Identifiers
 	[{
 		line: '#"Change Types"',
 		tokens: [
-			{ startIndex: 0, type: 'identifier.pq' }
+			{ startIndex: 0, type: 'identifier.quote.pq' }
 		]
 	}],
 
 	[{
 		line: '#"A  B" = 1+2,',
 		tokens: [
-			{ startIndex: 0, type: 'identifier.pq' },
+			{ startIndex: 0, type: 'identifier.quote.pq' },
 			{ startIndex: 7, type: 'white.pq' },
 			{ startIndex: 8, type: 'operator.pq' },
 			{ startIndex: 9, type: 'white.pq' },
@@ -108,7 +108,7 @@ testTokenization('powerquery', [
 			{ startIndex: 1, type: 'white.pq' },
 			{ startIndex: 2, type: 'operator.pq' },
 			{ startIndex: 3, type: 'white.pq' },
-			{ startIndex: 4, type: 'identifier.pq' },
+			{ startIndex: 4, type: 'identifier.quote.pq' },
 			{ startIndex: 15, type: 'operator.pq' },
 			{ startIndex: 16, type: 'white.pq' },
 			{ startIndex: 17, type: 'number.pq' }

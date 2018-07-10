@@ -69,8 +69,8 @@ export const language = <ILanguage>{
 
 	tokenizer: {
 		root: [
-			// escaped identifier
-			[/#"[\w \.]+"/, "identifier"],
+			// quoted identifier
+			[/#"[\w \.]+"/, "identifier.quote"],
 
 			// numbers
 			[/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
