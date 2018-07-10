@@ -185,7 +185,7 @@ testTokenization('powerquery', [
 		]
 	}],
 
-	// keywords and identifiers
+	// built-in keywords/identifiers
 	[{
 		line: 'And as Each each _',
 		tokens: [
@@ -205,7 +205,7 @@ testTokenization('powerquery', [
 		line: '  #table({})',
 		tokens: [
 			{ startIndex: 0, type: 'white.pq' },
-			{ startIndex: 2, type: 'keyword.pq' },
+			{ startIndex: 2, type: 'constructor.pq' },
 			{ startIndex: 8, type: "delimiter.parenthesis.pq" },
 			{ startIndex: 9, type: "delimiter.brackets.pq" },
 			{ startIndex: 11, type: "delimiter.parenthesis.pq" }
@@ -219,7 +219,39 @@ testTokenization('powerquery', [
 			{ startIndex: 5, type: 'white.pq' },
 			{ startIndex: 6, type: 'keyword.pq' },
 			{ startIndex: 8, type: 'white.pq' },
-			{ startIndex: 9, type: 'keyword.type.pq' }
+			{ startIndex: 9, type: 'type.pq' }
+		]
+	}],
+
+	[{
+		line: 'type table',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.pq' },
+			{ startIndex: 4, type: 'white.pq' },
+			{ startIndex: 5, type: 'type.pq' }
+		]
+	}],
+
+	[{
+		line: 'if (a = #nan) then null else a',
+		tokens: [
+			{ startIndex: 0, type: "keyword.pq" },
+			{ startIndex: 2, type: "white.pq" },
+			{ startIndex: 3, type: "delimiter.parenthesis.pq"},
+			{ startIndex: 4, type: "identifier.pq" },
+			{ startIndex: 5, type: "white.pq" },
+			{ startIndex: 6, type: "operator.pq" },
+			{ startIndex: 7, type: "white.pq" },
+			{ startIndex: 8, type: "constant.pq" },
+			{ startIndex: 12, type: "delimiter.parenthesis.pq"},
+			{ startIndex: 13, type: "white.pq" },
+			{ startIndex: 14, type: "keyword.pq" },
+			{ startIndex: 18, type: "white.pq" },
+			{ startIndex: 19, type: "type.pq" },
+			{ startIndex: 23, type: "white.pq" },
+			{ startIndex: 24, type: "keyword.pq" },
+			{ startIndex: 28, type: "white.pq" },
+			{ startIndex: 29, type: "identifier.pq" },
 		]
 	}],
 ]);

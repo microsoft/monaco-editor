@@ -39,11 +39,24 @@ export const language = <ILanguage>{
 		"is", "let", "meta", "not",
 		"otherwise", "or", "section",
 		"shared", "then", "true",
-		"try", "type", "#binary",
-		"#date", "#datetime",
-		"#datetimezone", "#duration",
-		"#infinity", "#nan", "#sections",
-		"#shared", "#table", "#time"
+		"try", "type"
+	],
+
+	constructors: [
+		"#binary",
+		"#date",
+		"#datetime",
+		"#datetimezone",
+		"#duration",
+		"#table",
+		"#time"
+	],
+
+	constants: [
+		"#infinity",
+		"#nan",
+		"#sections",
+		"#shared"
 	],
 
 	typeKeywords: [
@@ -81,8 +94,10 @@ export const language = <ILanguage>{
 			[/(#?[a-z]+)/,
 				{
 					cases: {
-						"@typeKeywords": "keyword.type",
+						"@typeKeywords": "type",
 						"@keywords": "keyword",
+						"@constants": "constant",
+						"@constructors": "constructor",
 						"@default": "identifier"
 					}
 				}
