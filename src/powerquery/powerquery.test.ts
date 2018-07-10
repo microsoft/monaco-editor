@@ -227,8 +227,8 @@ testTokenization('powerquery', [
 		tokens: [
 			{ startIndex: 0, type: 'white.pq' },
 			{ startIndex: 2, type: 'constructor.pq' },
-			{ startIndex: 8, type: "delimiter.parenthesis.pq" },
-			{ startIndex: 9, type: "delimiter.brackets.pq" },
+			{ startIndex: 8, type: 'delimiter.parenthesis.pq' },
+			{ startIndex: 9, type: 'delimiter.brackets.pq' },
 			{ startIndex: 11, type: "delimiter.parenthesis.pq" }
 		]
 	}],
@@ -276,7 +276,52 @@ testTokenization('powerquery', [
 		]
 	}],
 
-	// statements
+	// built-ins
+	[{
+		line: 'Text.From(1)',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.function.pq' },
+			{ startIndex: 9, type: 'delimiter.parenthesis.pq'},
+			{ startIndex: 10, type: 'number.pq' },
+			{ startIndex: 11, type: 'delimiter.parenthesis.pq'}
+		]
+	}],
+
+	[{
+		line: 'Text.ToBinary("123", BinaryEncoding.Base64)',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.function.pq' },
+			{ startIndex: 13, type: 'delimiter.parenthesis.pq' },
+			{ startIndex: 14, type: 'string.pq' },
+			{ startIndex: 19, type: 'delimiter.pq' },
+			{ startIndex: 20, type: 'white.pq' },
+			{ startIndex: 21, type: 'constant.pq' },
+			{ startIndex: 42, type: 'delimiter.parenthesis.pq' }
+		]
+	}],
+
+	[{
+		line: 'Int8.Type',
+		tokens: [
+			{ startIndex: 0, type: 'type.pq' }
+		]
+	}],
+
+	[{
+		line: 'DB2.Database',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.function.pq' }
+		]
+	}],
+
+	[{
+		line: 'RelativePosition.Type',
+		tokens: [
+			{ startIndex: 0, type: 'type.pq' }
+		]
+	}],
+
+	// other statements
 	[{
 		line: '[version="1.0.0.1"] section Foo; shared Member.Name = 1;',
 		tokens: [
@@ -312,6 +357,18 @@ testTokenization('powerquery', [
 			{ startIndex: 17, type: 'number.pq' },
 			{ startIndex: 18, type: 'delimiter.pq' },
 			{ startIndex: 19, type: 'comment.pq' },
+		]
+	}],
+
+	[{
+		line: '@RecursiveFunction()+@Rec.Func()',
+		tokens: [
+			{ startIndex: 0, type: 'operators.pq' },
+			{ startIndex: 1, type: 'identifier.pq' },
+			{ startIndex: 18, type: "delimiter.parenthesis.pq"},
+			{ startIndex: 20, type: 'operators.pq' },
+			{ startIndex: 22, type: 'identifier.pq' },
+			{ startIndex: 30, type: "delimiter.parenthesis.pq"},
 		]
 	}],
 ]);
