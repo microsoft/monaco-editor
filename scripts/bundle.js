@@ -65,6 +65,7 @@ bundleOne('scheme/scheme');
 bundleOne('clojure/clojure');
 bundleOne('shell/shell');
 bundleOne('perl/perl')
+bundleOne('powerquery/powerquery')
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({
