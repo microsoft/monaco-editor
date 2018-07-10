@@ -117,6 +117,27 @@ testTokenization('powerquery', [
 
 	// Number formats
 	[{
+		line: '0Xabc',
+		tokens: [
+			{ startIndex: 0, type: 'number.hex.pq' }
+		]
+	}],
+
+	[{
+		line: '0xA',
+		tokens: [
+			{ startIndex: 0, type: 'number.hex.pq' }
+		]
+	}],
+
+	[{
+		line: '1e1',
+		tokens: [
+			{ startIndex: 0, type: 'number.pq' }
+		]
+	}],
+
+	[{
 		line: '5 / 1.2e+2 + 0x1234abc',
 		tokens: [
 			{ startIndex: 0, type: 'number.pq' },
@@ -278,6 +299,19 @@ testTokenization('powerquery', [
 			{ startIndex: 53, type: "white.pq" },
 			{ startIndex: 54, type: "number.pq" },
 			{ startIndex: 55, type: "delimiter.pq" }
+		]
+	}],
+
+	[{
+		line: 'isFunctionthen = 1;// comment',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.pq' },
+			{ startIndex: 14, type: 'white.pq' },
+			{ startIndex: 15, type: 'operators.pq' },
+			{ startIndex: 16, type: 'white.pq' },
+			{ startIndex: 17, type: 'number.pq' },
+			{ startIndex: 18, type: 'delimiter.pq' },
+			{ startIndex: 19, type: 'comment.pq' },
 		]
 	}],
 ]);

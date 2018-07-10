@@ -97,7 +97,7 @@ export const language = <ILanguage>{
 			[/\d+([eE][\-+]?\d+)?/, "number"],
 
 			// keywords
-			[/(#?[a-z]+)/,
+			[/(#?[a-z]+)\b/,
 				{
 					cases: {
 						"@typeKeywords": "type",
@@ -111,7 +111,7 @@ export const language = <ILanguage>{
 			],
 
 			// other identifiers
-			[/([a-zA-Z_][\w\.]*)/, "identifier"],
+			[/\b([a-zA-Z_][\w\.]*)\b/, "identifier"],
 
 			{ include: "@whitespace" },
 			{ include: "@comments" },
