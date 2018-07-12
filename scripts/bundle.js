@@ -64,7 +64,8 @@ bundleOne('csp/csp');
 bundleOne('scheme/scheme');
 bundleOne('clojure/clojure');
 bundleOne('shell/shell');
-bundleOne('perl/perl')
+bundleOne('perl/perl'),
+bundleOne('azcli/azcli')
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({
