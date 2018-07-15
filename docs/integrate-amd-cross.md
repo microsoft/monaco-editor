@@ -26,7 +26,7 @@ Assuming the HTML lives on `www.mydomain.com` and the editor is hosted on `www.m
     getWorkerUrl: function(workerId, label) {
       return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
         self.MonacoEnvironment = {
-          baseUrl: 'http://www.mycdn.com/monaco-editor/min/vs'
+          baseUrl: 'http://www.mycdn.com/monaco-editor/min/'
         };
         importScripts('http://www.mycdn.com/monaco-editor/min/vs/base/worker/workerMain.js');`
       )}`;
