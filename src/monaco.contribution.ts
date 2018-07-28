@@ -44,8 +44,9 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 const diagnosticDefault: monaco.languages.json.DiagnosticsOptions = {
 	validate: true,
 	allowComments: true,
-	schemas: []
-}
+	schemas: [],
+    enableSchemaRequest: false
+};
 
 const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault);
 

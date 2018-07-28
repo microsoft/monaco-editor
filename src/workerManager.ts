@@ -69,7 +69,8 @@ export class WorkerManager {
 				// passed in to the create() method
 				createData: {
 					languageSettings: this._defaults.diagnosticsOptions,
-					languageId: this._defaults.languageId
+					languageId: this._defaults.languageId,
+					enableSchemaRequest: this._defaults.diagnosticsOptions.enableSchemaRequest
 				}
 			});
 
