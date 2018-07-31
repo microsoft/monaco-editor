@@ -121,21 +121,34 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	// --- language features
 
+	private static clearFiles(diagnostics: ts.Diagnostic[]) {
+		// Clear the `file` field, which cannot be JSON'yfied because it
+		// contains cyclic data structures.
+		diagnostics.forEach(diag => {
+			diag.file = undefined;
+			// FIXME: What is the procedure to upgrade the TypeScript typings?
+			const related = <ts.Diagnostic[]>(<any>diag).relatedInformation;
+			if (related) {
+				related.forEach(diag2 => diag2.file = undefined);
+			}
+		});
+	}
+
 	getSyntacticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getSyntacticDiagnostics(fileName);
-		diagnostics.forEach(diag => diag.file = undefined); // diag.file cannot be JSON'yfied
+		TypeScriptWorker.clearFiles(diagnostics);
 		return Promise.as(diagnostics);
 	}
 
 	getSemanticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
-		diagnostics.forEach(diag => diag.file = undefined); // diag.file cannot be JSON'yfied
+		TypeScriptWorker.clearFiles(diagnostics);
 		return Promise.as(diagnostics);
 	}
 
 	getCompilerOptionsDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getCompilerOptionsDiagnostics();
-		diagnostics.forEach(diag => diag.file = undefined); // diag.file cannot be JSON'yfied
+		TypeScriptWorker.clearFiles(diagnostics);
 		return Promise.as(diagnostics);
 	}
 
