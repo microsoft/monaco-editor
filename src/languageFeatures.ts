@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
-import {HTMLWorker} from './htmlWorker';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
+import { HTMLWorker } from './htmlWorker';
 
 import * as ls from 'vscode-languageserver-types';
 
@@ -48,11 +48,11 @@ export class DiagnosticsAdapter {
 		const onModelRemoved = (model: monaco.editor.IModel): void => {
 			monaco.editor.setModelMarkers(model, this._languageId, []);
 			let uriStr = model.uri.toString();
- 			let listener = this._listener[uriStr];
- 			if (listener) {
- 				listener.dispose();
- 				delete this._listener[uriStr];
- 			}
+			let listener = this._listener[uriStr];
+			if (listener) {
+				listener.dispose();
+				delete this._listener[uriStr];
+			}
 		};
 
 		this._disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
@@ -239,7 +239,7 @@ function fromMarkdownString(entry: string | monaco.IMarkdownString): ls.MarkupCo
 }
 
 function fromCompletionItem(entry: DataCompletionItem): ls.CompletionItem {
-	let item : ls.CompletionItem = {
+	let item: ls.CompletionItem = {
 		label: entry.label,
 		sortText: entry.sortText,
 		filterText: entry.filterText,
@@ -252,7 +252,7 @@ function fromCompletionItem(entry: DataCompletionItem): ls.CompletionItem {
 		item.insertText = entry.insertText.value;
 		item.insertTextFormat = ls.InsertTextFormat.Snippet
 	} else {
-		item.insertText = <string> entry.insertText;
+		item.insertText = <string>entry.insertText;
 	}
 	if (entry.range) {
 		item.textEdit = ls.TextEdit.replace(fromRange(entry.range), item.insertText);
@@ -281,7 +281,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 				return;
 			}
 			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
-				let item : monaco.languages.CompletionItem = {
+				let item: monaco.languages.CompletionItem = {
 					label: entry.label,
 					insertText: entry.insertText,
 					sortText: entry.sortText,
@@ -295,7 +295,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 					item.insertText = entry.textEdit.newText;
 				}
 				if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
-					item.insertText = { value: <string> item.insertText };
+					item.insertText = { value: <string>item.insertText };
 				}
 				return item;
 			});
@@ -332,54 +332,7 @@ function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMa
 	return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
 }
 
-function toMarkedStringArray(contents: ls.MarkedString | ls.MarkedString[]): monaco.IMarkdownString[] {
-	if (!contents) {
-		return void 0;
-	}
-	if (Array.isArray(contents)) {
-		return contents.map(toMarkdownString);
-	}
-	return [toMarkdownString(contents)];
-}
 
-
-// --- definition ------
-
-function toLocation(location: ls.Location): monaco.languages.Location {
-	return {
-		uri: Uri.parse(location.uri),
-		range: toRange(location.range)
-	};
-}
-
-
-// --- document symbols ------
-
-function toSymbolKind(kind: ls.SymbolKind): monaco.languages.SymbolKind {
-	let mKind = monaco.languages.SymbolKind;
-
-	switch (kind) {
-		case ls.SymbolKind.File: return mKind.Array;
-		case ls.SymbolKind.Module: return mKind.Module;
-		case ls.SymbolKind.Namespace: return mKind.Namespace;
-		case ls.SymbolKind.Package: return mKind.Package;
-		case ls.SymbolKind.Class: return mKind.Class;
-		case ls.SymbolKind.Method: return mKind.Method;
-		case ls.SymbolKind.Property: return mKind.Property;
-		case ls.SymbolKind.Field: return mKind.Field;
-		case ls.SymbolKind.Constructor: return mKind.Constructor;
-		case ls.SymbolKind.Enum: return mKind.Enum;
-		case ls.SymbolKind.Interface: return mKind.Interface;
-		case ls.SymbolKind.Function: return mKind.Function;
-		case ls.SymbolKind.Variable: return mKind.Variable;
-		case ls.SymbolKind.Constant: return mKind.Constant;
-		case ls.SymbolKind.String: return mKind.String;
-		case ls.SymbolKind.Number: return mKind.Number;
-		case ls.SymbolKind.Boolean: return mKind.Boolean;
-		case ls.SymbolKind.Array: return mKind.Array;
-	}
-	return mKind.Function;
-}
 
 function toHighlighKind(kind: ls.DocumentHighlightKind): monaco.languages.DocumentHighlightKind {
 	let mKind = monaco.languages.DocumentHighlightKind;
@@ -437,7 +390,7 @@ export class DocumentLinkAdapter implements monaco.languages.LinkProvider {
 function fromFormattingOptions(options: monaco.languages.FormattingOptions): ls.FormattingOptions {
 	return {
 		tabSize: options.tabSize,
-        insertSpaces: options.insertSpaces
+		insertSpaces: options.insertSpaces
 	};
 }
 
@@ -477,6 +430,42 @@ export class DocumentRangeFormattingEditProvider implements monaco.languages.Doc
 			});
 		}));
 	}
+}
+
+export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	public provideFoldingRanges(model: monaco.editor.IReadOnlyModel, context: monaco.languages.FoldingContext, token: CancellationToken): Thenable<monaco.languages.FoldingRange[]> {
+		const resource = model.uri;
+
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.provideFoldingRanges(resource.toString(), context)).then(ranges => {
+			if (!ranges) {
+				return;
+			}
+			return ranges.map(range => {
+				let result: monaco.languages.FoldingRange = {
+					start: range.startLine,
+					end: range.endLine
+				};
+				if (typeof range.kind !== 'undefined') {
+					result.kind = toFoldingRangeKind(<ls.FoldingRangeKind>range.kind);
+				}
+				return result;
+			});
+		}));
+	}
+
+}
+
+function toFoldingRangeKind(kind: ls.FoldingRangeKind): monaco.languages.FoldingRangeKind {
+	switch (kind) {
+		case ls.FoldingRangeKind.Comment: return monaco.languages.FoldingRangeKind.Comment;
+		case ls.FoldingRangeKind.Imports: return monaco.languages.FoldingRangeKind.Imports;
+		case ls.FoldingRangeKind.Region: return monaco.languages.FoldingRangeKind.Region;
+	}
+	return void 0;
 }
 
 /**

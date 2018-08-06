@@ -8,7 +8,6 @@ import * as mode from './htmlMode';
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
-import IDisposable = monaco.IDisposable;
 
 // --- HTML configuration and defaults ---------
 

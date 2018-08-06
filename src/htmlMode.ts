@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {WorkerManager} from './workerManager';
-import {HTMLWorker} from './htmlWorker';
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
+import { WorkerManager } from './workerManager';
+import { HTMLWorker } from './htmlWorker';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 
 import Promise = monaco.Promise;
@@ -26,6 +26,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 	monaco.languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker));
 	monaco.languages.registerDocumentHighlightProvider(languageId, new languageFeatures.DocumentHighlightAdapter(worker));
 	monaco.languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
+	monaco.languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker));
 
 	// only html
 	if (languageId === 'html') {

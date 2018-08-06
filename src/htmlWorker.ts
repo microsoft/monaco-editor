@@ -15,12 +15,12 @@ import * as ls from 'vscode-languageserver-types';
 
 export class HTMLWorker {
 
-	private _ctx:IWorkerContext;
+	private _ctx: IWorkerContext;
 	private _languageService: htmlService.LanguageService;
 	private _languageSettings: monaco.languages.html.Options;
 	private _languageId: string;
 
-	constructor(ctx:IWorkerContext, createData: ICreateData) {
+	constructor(ctx: IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
@@ -52,6 +52,11 @@ export class HTMLWorker {
 		let links = this._languageService.findDocumentLinks(document, null);
 		return Promise.as(links);
 	}
+	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<ls.FoldingRange[]> {
+		let document = this._getTextDocument(uri);
+		let ranges = this._languageService.getFoldingRanges(document, context);
+		return Promise.as(ranges);
+	}
 	private _getTextDocument(uri: string): ls.TextDocument {
 		let models = this._ctx.getMirrorModels();
 		for (let model of models) {
@@ -68,6 +73,6 @@ export interface ICreateData {
 	languageSettings: monaco.languages.html.Options;
 }
 
-export function create(ctx:IWorkerContext, createData: ICreateData): HTMLWorker {
+export function create(ctx: IWorkerContext, createData: ICreateData): HTMLWorker {
 	return new HTMLWorker(ctx, createData);
 }
