@@ -517,6 +517,43 @@ export class DocumentColorAdapter implements monaco.languages.DocumentColorProvi
 	}
 }
 
+export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	public provideFoldingRanges(model: monaco.editor.IReadOnlyModel, context: monaco.languages.FoldingContext, token: CancellationToken): Thenable<monaco.languages.FoldingRange[]> {
+		const resource = model.uri;
+
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.provideFoldingRanges(resource.toString(), context)).then(ranges => {
+			if (!ranges) {
+				return;
+			}
+			return ranges.map(range => {
+				let result: monaco.languages.FoldingRange = {
+					start: range.startLine,
+					end: range.endLine
+				};
+				if (typeof range.kind !== 'undefined') {
+					result.kind = toFoldingRangeKind(<ls.FoldingRangeKind>range.kind);
+				}
+				return result;
+			});
+		}));
+	}
+
+}
+
+function toFoldingRangeKind(kind: ls.FoldingRangeKind): monaco.languages.FoldingRangeKind {
+	switch (kind) {
+		case ls.FoldingRangeKind.Comment: return monaco.languages.FoldingRangeKind.Comment;
+		case ls.FoldingRangeKind.Imports: return monaco.languages.FoldingRangeKind.Imports;
+		case ls.FoldingRangeKind.Region: return monaco.languages.FoldingRangeKind.Region;
+	}
+	return void 0;
+}
+
+
 /**
  * Hook a cancellation token to a WinJS Promise
  */

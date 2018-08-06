@@ -104,6 +104,11 @@ export class CSSWorker {
 		let colorPresentations = this._languageService.getColorPresentations(document, stylesheet, color, range);
 		return Promise.as(colorPresentations);
 	}
+	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Promise<cssService.FoldingRange[]> {
+		let document = this._getTextDocument(uri);
+		let ranges = this._languageService.getFoldingRanges(document, context);
+		return Promise.as(ranges);
+	}
 	doRename(uri: string, position: ls.Position, newName: string): Promise<ls.WorkspaceEdit> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
