@@ -41,6 +41,7 @@ import './solidity/solidity.contribution';
 import './sql/sql.contribution';
 import './st/st.contribution';
 import './swift/swift.contribution';
+import './typescript/typescript.contribution';
 import './vb/vb.contribution';
 import './xml/xml.contribution';
 import './yaml/yaml.contribution';

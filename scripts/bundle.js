@@ -51,6 +51,7 @@ bundleOne('scss/scss');
 bundleOne('sql/sql');
 bundleOne('st/st');
 bundleOne('swift/swift');
+bundleOne('typescript/typescript');
 bundleOne('vb/vb');
 bundleOne('xml/xml');
 bundleOne('yaml/yaml');
