@@ -13,7 +13,7 @@ monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
 	}
 });
 
-// Define a new theme that constains only rules that match this language
+// Define a new theme that contains only rules that match this language
 monaco.editor.defineTheme('myCoolTheme', {
 	base: 'vs',
 	inherit: false,
