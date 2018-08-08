@@ -22,7 +22,6 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * `npm install .`
 * `npm run watch`
 * open `$/monaco-typescript/test/index.html` in your favorite browser.
-* test with `npm run test`
 
 ## Updating TypeScript
 

@@ -187,23 +187,8 @@ function getMode(): monaco.Promise<typeof mode> {
 	return monaco.Promise.wrap(import('./tsMode'))
 }
 
-monaco.languages.register({
-	id: 'typescript',
-	extensions: ['.ts', '.tsx'],
-	aliases: ['TypeScript', 'ts', 'typescript'],
-	mimetypes: ['text/typescript']
-});
 monaco.languages.onLanguage('typescript', () => {
 	return getMode().then(mode => mode.setupTypeScript(typescriptDefaults));
-});
-
-monaco.languages.register({
-	id: 'javascript',
-	extensions: ['.js', '.es6', '.jsx'],
-	firstLine: '^#!.*\\bnode',
-	filenames: ['jakefile'],
-	aliases: ['JavaScript', 'javascript', 'js'],
-	mimetypes: ['text/javascript'],
 });
 monaco.languages.onLanguage('javascript', () => {
 	return getMode().then(mode => mode.setupJavaScript(javascriptDefaults));

@@ -12,6 +12,7 @@
 
 <script>
 	var paths = {
+		'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
 		'vs/language/typescript': '../release/dev',
 		'vs': '../node_modules/monaco-editor-core/dev/vs'
 	};
@@ -33,6 +34,7 @@
 
 <script>
 	require([
+		'vs/basic-languages/monaco.contribution',
 		'vs/language/typescript/monaco.contribution'
 	], function() {
 		var editor = monaco.editor.create(document.getElementById('container'), {
