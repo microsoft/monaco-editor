@@ -5,20 +5,19 @@
 'use strict';
 
 import * as ts from './lib/typescriptServices';
-import { contents as libdts } from './lib/lib-ts';
-import { contents as libes6ts } from './lib/lib-es6-ts';
+import { lib_dts, lib_es6_dts } from './lib/lib';
 
 import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
 
 const DEFAULT_LIB = {
 	NAME: 'defaultLib:lib.d.ts',
-	CONTENTS: libdts
+	CONTENTS: lib_dts
 };
 
 const ES6_LIB = {
 	NAME: 'defaultLib:lib.es6.d.ts',
-	CONTENTS: libes6ts
+	CONTENTS: lib_es6_dts
 };
 
 export class TypeScriptWorker implements ts.LanguageServiceHost {
