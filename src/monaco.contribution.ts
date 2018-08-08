@@ -100,7 +100,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	}
 }
 
-// --- BEGIN enums copied from typescript to prevent loading the entire typescriptServices ---
+//#region enums copied from typescript to prevent loading the entire typescriptServices ---
 
 enum ModuleKind {
 	None = 0,
@@ -109,26 +109,17 @@ enum ModuleKind {
 	UMD = 3,
 	System = 4,
 	ES2015 = 5,
+	ESNext = 6
 }
 enum JsxEmit {
 	None = 0,
 	Preserve = 1,
 	React = 2,
+	ReactNative = 3
 }
 enum NewLineKind {
 	CarriageReturnLineFeed = 0,
-	LineFeed = 1,
-}
-interface LineAndCharacter {
-	line: number;
-	character: number;
-}
-enum ScriptKind {
-	Unknown = 0,
-	JS = 1,
-	JSX = 2,
-	TS = 3,
-	TSX = 4,
+	LineFeed = 1
 }
 enum ScriptTarget {
 	ES3 = 0,
@@ -136,18 +127,16 @@ enum ScriptTarget {
 	ES2015 = 2,
 	ES2016 = 3,
 	ES2017 = 4,
-	ESNext = 5,
-	Latest = 5,
-}
-enum LanguageVariant {
-	Standard = 0,
-	JSX = 1,
+	ES2018 = 5,
+	ESNext = 6,
+	JSON = 100,
+	Latest = 6
 }
 enum ModuleResolutionKind {
 	Classic = 1,
-	NodeJs = 2,
+	NodeJs = 2
 }
-// --- END enums copied from typescript to prevent loading the entire typescriptServices ---
+//#endregion
 
 const typescriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },

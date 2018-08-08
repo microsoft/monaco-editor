@@ -26,9 +26,8 @@ const BUNDLED_FILE_HEADER = [
 ].join('\n');
 
 bundleOne('monaco.contribution');
-bundleOne('lib/typescriptServices');
-bundleOne('tsMode', ['vs/language/typescript/lib/typescriptServices']);
-bundleOne('tsWorker', ['vs/language/typescript/lib/typescriptServices']);
+bundleOne('tsMode');
+bundleOne('tsWorker');
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({

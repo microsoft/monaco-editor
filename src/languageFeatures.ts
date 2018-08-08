@@ -16,6 +16,45 @@ import Promise = monaco.Promise;
 import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
 
+//#region utils copied from typescript to prevent loading the entire typescriptServices ---
+
+enum IndentStyle {
+	None = 0,
+	Block = 1,
+	Smart = 2
+}
+
+function flattenDiagnosticMessageText(messageText: string | ts.DiagnosticMessageChain, newLine: '\n'): string {
+	if (typeof messageText === "string") {
+		return messageText;
+	} else {
+		let diagnosticChain = messageText;
+		let result = "";
+		let indent = 0;
+		while (diagnosticChain) {
+			if (indent) {
+				result += newLine;
+				for (let i = 0; i < indent; i++) {
+					result += "  ";
+				}
+			}
+			result += diagnosticChain.messageText;
+			indent++;
+			diagnosticChain = diagnosticChain.next;
+		}
+		return result;
+	}
+}
+
+function displayPartsToString(displayParts: ts.SymbolDisplayPart[]): string {
+	if (displayParts) {
+		return displayParts.map((displayPart) => displayPart.text).join("");
+	}
+	return "";
+}
+
+//#endregion
+
 export abstract class Adapter {
 
 	constructor(protected _worker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>) {
@@ -153,7 +192,7 @@ export class DiagnostcsAdapter extends Adapter {
 			startColumn,
 			endLineNumber,
 			endColumn,
-			message: ts.flattenDiagnosticMessageText(diag.messageText, '\n')
+			message: flattenDiagnosticMessageText(diag.messageText, '\n')
 		};
 	}
 }
@@ -215,8 +254,8 @@ export class SuggestAdapter extends Adapter implements monaco.languages.Completi
 				position: position,
 				label: details.name,
 				kind: SuggestAdapter.convertKind(details.kind),
-				detail: ts.displayPartsToString(details.displayParts),
-				documentation: ts.displayPartsToString(details.documentation)
+				detail: displayPartsToString(details.displayParts),
+				documentation: displayPartsToString(details.documentation)
 			};
 		}));
 	}
@@ -281,20 +320,20 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 					parameters: []
 				};
 
-				signature.label += ts.displayPartsToString(item.prefixDisplayParts);
+				signature.label += displayPartsToString(item.prefixDisplayParts);
 				item.parameters.forEach((p, i, a) => {
-					let label = ts.displayPartsToString(p.displayParts);
+					let label = displayPartsToString(p.displayParts);
 					let parameter: monaco.languages.ParameterInformation = {
 						label: label,
-						documentation: ts.displayPartsToString(p.documentation)
+						documentation: displayPartsToString(p.documentation)
 					};
 					signature.label += label;
 					signature.parameters.push(parameter);
 					if (i < a.length - 1) {
-						signature.label += ts.displayPartsToString(item.separatorDisplayParts);
+						signature.label += displayPartsToString(item.separatorDisplayParts);
 					}
 				});
-				signature.label += ts.displayPartsToString(item.suffixDisplayParts);
+				signature.label += displayPartsToString(item.suffixDisplayParts);
 				ret.signatures.push(signature);
 			});
 
@@ -317,7 +356,7 @@ export class QuickInfoAdapter extends Adapter implements monaco.languages.HoverP
 			if (!info) {
 				return;
 			}
-			let documentation = ts.displayPartsToString(info.documentation);
+			let documentation = displayPartsToString(info.documentation);
 			let tags = info.tags ? info.tags.map(tag => {
 				const label = `*@${tag.name}*`;
 				if (!tag.text) {
@@ -326,7 +365,7 @@ export class QuickInfoAdapter extends Adapter implements monaco.languages.HoverP
 				return label + (tag.text.match(/\r\n|\n/g) ? ' \n' + tag.text : ` - ${tag.text}`);
 			})
 				.join('  \n\n') : '';
-			let contents = ts.displayPartsToString(info.displayParts);
+			let contents = displayPartsToString(info.displayParts);
 			return {
 				range: this._textSpanToRange(resource, info.textSpan),
 				contents: [{
@@ -512,7 +551,7 @@ export abstract class FormatHelper extends Adapter {
 			ConvertTabsToSpaces: options.insertSpaces,
 			TabSize: options.tabSize,
 			IndentSize: options.tabSize,
-			IndentStyle: ts.IndentStyle.Smart,
+			IndentStyle: IndentStyle.Smart,
 			NewLineCharacter: '\n',
 			InsertSpaceAfterCommaDelimiter: true,
 			InsertSpaceAfterSemicolonInForStatements: true,
