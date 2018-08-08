@@ -7,12 +7,11 @@
 import { registerLanguage } from '../_.contribution';
 
 // Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
+const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
 
 registerLanguage({
-	id: 'clojure',
-	extensions: ['.clj', '.clojure'],
-	aliases: ['clojure', 'Clojure'],
-	loader: () => _monaco.Promise.wrap(import('./clojure')),
+	id: 'powerquery',
+	extensions: ['.pq', '.pqm'],
+	aliases: ['PQ', 'M', 'Power Query', 'Power Query M'],
+	loader: () => _monaco.Promise.wrap(import('./powerquery'))
 });

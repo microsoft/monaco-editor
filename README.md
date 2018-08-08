@@ -18,6 +18,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * html
 * ini
 * java
+* javascript
 * lua
 * markdown
 * msdax
@@ -39,6 +40,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * sql
 * st
 * swift
+* typescript
 * vb
 * xml
 * yaml

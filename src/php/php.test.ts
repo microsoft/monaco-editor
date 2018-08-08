@@ -7,7 +7,7 @@
 
 import { testTokenization } from '../test/testRunner';
 
-testTokenization(['php', 'css'], [
+testTokenization(['php', 'css', 'javascript'], [
 	// Bug 13596:[ErrorTelemetry] Stream did not advance while tokenizing. Mode id is php (stuck)
 	// We're testing the fact that tokenize does not throw
 	[
@@ -1863,7 +1863,13 @@ testTokenization(['php', 'css'], [
 			// { startIndex:5, type: 'delimiter.html' },
 			{ startIndex: 6, type: 'tag.html' },
 			{ startIndex: 12, type: 'delimiter.html' },
-			{ startIndex: 13, type: '' },
+			{ startIndex: 13, type: 'keyword.js' },
+			{ startIndex: 16, type: '' },
+			{ startIndex: 17, type: 'identifier.js' },
+			{ startIndex: 18, type: 'delimiter.js' },
+			{ startIndex: 19, type: '' },
+			{ startIndex: 20, type: 'number.js' },
+			{ startIndex: 22, type: 'delimiter.js' },
 			{ startIndex: 23, type: 'delimiter.html' },
 			{ startIndex: 25, type: 'tag.html' },
 			{ startIndex: 31, type: 'delimiter.html' },
@@ -1888,7 +1894,13 @@ testTokenization(['php', 'css'], [
 			// { startIndex:5, type: 'delimiter.html' },
 			{ startIndex: 6, type: 'tag.html' },
 			{ startIndex: 12, type: 'delimiter.html' },
-			{ startIndex: 13, type: '' },
+			{ startIndex: 13, type: 'keyword.js' },
+			{ startIndex: 16, type: '' },
+			{ startIndex: 17, type: 'identifier.js' },
+			{ startIndex: 18, type: 'delimiter.js' },
+			{ startIndex: 19, type: '' },
+			{ startIndex: 20, type: 'number.js' },
+			{ startIndex: 22, type: 'delimiter.js' },
 			{ startIndex: 23, type: 'delimiter.html' },
 			{ startIndex: 25, type: 'tag.html' },
 			{ startIndex: 31, type: 'delimiter.html' },
@@ -1900,7 +1912,13 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 42, type: 'delimiter.html' },
 			{ startIndex: 43, type: 'tag.html' },
 			{ startIndex: 49, type: 'delimiter.html' },
-			{ startIndex: 50, type: '' },
+			{ startIndex: 50, type: 'keyword.js' },
+			{ startIndex: 53, type: '' },
+			{ startIndex: 54, type: 'identifier.js' },
+			{ startIndex: 55, type: 'delimiter.js' },
+			{ startIndex: 56, type: '' },
+			{ startIndex: 57, type: 'number.js' },
+			{ startIndex: 59, type: 'delimiter.js' },
 			{ startIndex: 60, type: 'delimiter.html' },
 			{ startIndex: 62, type: 'tag.html' },
 			{ startIndex: 68, type: 'delimiter.html' }
@@ -1969,12 +1987,28 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 73, type: 'delimiter.html' },
 			{ startIndex: 74, type: 'tag.html' },
 			{ startIndex: 80, type: 'delimiter.html' },
-			{ startIndex: 81, type: '' },
+			{ startIndex: 81, type: 'keyword.js' },
+			{ startIndex: 84, type: '' },
+			{ startIndex: 85, type: 'identifier.js' },
+			{ startIndex: 86, type: '' },
+			{ startIndex: 87, type: 'delimiter.js' },
+			{ startIndex: 88, type: '' },
+			{ startIndex: 89, type: 'number.js' },
+			{ startIndex: 90, type: 'delimiter.js' },
+			{ startIndex: 91, type: 'comment.js' },
 			{ startIndex: 94, type: 'metatag.php' },
 			{ startIndex: 97, type: 'string.php' },
 			{ startIndex: 109, type: 'comment.php' },
 			{ startIndex: 122, type: 'metatag.php' },
 			{ startIndex: 124, type: '' },
+			{ startIndex: 127, type: 'keyword.js' },
+			{ startIndex: 130, type: '' },
+			{ startIndex: 131, type: 'identifier.js' },
+			{ startIndex: 132, type: '' },
+			{ startIndex: 133, type: 'delimiter.js' },
+			{ startIndex: 134, type: '' },
+			{ startIndex: 135, type: 'number.js' },
+			{ startIndex: 136, type: 'delimiter.js' },
 			{ startIndex: 137, type: 'delimiter.html' },
 			{ startIndex: 139, type: 'tag.html' },
 			{ startIndex: 145, type: 'delimiter.html' },
@@ -2010,7 +2044,7 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 0, type: 'delimiter.html' },
 			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: 'delimiter.html' },
-			{ startIndex: 8, type: '' },
+			{ startIndex: 8, type: 'comment.js' },
 			{ startIndex: 10, type: 'metatag.php' }
 		]
 	}],
@@ -2021,13 +2055,13 @@ testTokenization(['php', 'css'], [
 			{ startIndex: 0, type: 'delimiter.html' },
 			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: 'delimiter.html' },
-			{ startIndex: 8, type: '' },
+			{ startIndex: 8, type: 'string.invalid.js' },
 			{ startIndex: 9, type: 'metatag.php' },
 			{ startIndex: 14, type: 'number.php' },
 			{ startIndex: 15, type: 'delimiter.php' },
 			{ startIndex: 16, type: 'number.php' },
 			{ startIndex: 17, type: 'metatag.php' },
-			{ startIndex: 19, type: '' }
+			{ startIndex: 19, type: 'string.invalid.js' }
 		]
 	}],
 
