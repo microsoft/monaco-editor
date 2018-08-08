@@ -8,11 +8,11 @@ import { registerLanguage } from '../_.contribution';
 
 // Allow for running under nodejs/requirejs in tests
 const _monaco: typeof monaco =
-    typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
+	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
 
 registerLanguage({
-    id: 'clojure',
-    extensions: ['.clj', '.clojure'],
-    aliases: ['clojure', 'Clojure'],
-    loader: () => _monaco.Promise.wrap(import('./clojure')),
+	id: 'clojure',
+	extensions: ['.clj', '.clojure'],
+	aliases: ['clojure', 'Clojure'],
+	loader: () => _monaco.Promise.wrap(import('./clojure')),
 });
