@@ -34,6 +34,7 @@ bundleOne('html/html');
 bundleOne('ini/ini');
 bundleOne('pug/pug');
 bundleOne('java/java');
+bundleOne('javascript/javascript');
 bundleOne('less/less');
 bundleOne('lua/lua');
 bundleOne('markdown/markdown');

@@ -7,7 +7,7 @@
 
 import { testTokenization } from '../test/testRunner';
 
-testTokenization(['less'], [
+testTokenization(['less', 'javascript'], [
 
 	// Keywords
 	[{
@@ -641,7 +641,10 @@ testTokenization(['less'], [
 			{ startIndex: 5, type: 'delimiter.less' },
 			{ startIndex: 6, type: '' },
 			{ startIndex: 7, type: 'delimiter.backtick.less' },
-			{ startIndex: 8, type: '' },
+			{ startIndex: 8, type: 'keyword.js' },
+			{ startIndex: 16, type: '' },
+			{ startIndex: 17, type: 'identifier.js' },
+			{ startIndex: 24, type: 'delimiter.parenthesis.js' },
 			{ startIndex: 26, type: 'delimiter.backtick.less' },
 			{ startIndex: 27, type: '' },
 			{ startIndex: 28, type: 'comment.less' }

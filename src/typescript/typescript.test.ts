@@ -527,7 +527,7 @@ testTokenization('typescript', [
 
 
 	[{
-		line: '`${5 + \'x\' + (<any>)3}`',
+		line: '`${5 + \'x\' + (<any>)3}a${4}`',
 		tokens: [
 			{ startIndex: 0, type: 'string.ts' },
 			{ startIndex: 1, type: 'delimiter.bracket.ts' },
@@ -547,6 +547,10 @@ testTokenization('typescript', [
 			{ startIndex: 20, type: 'number.ts' },
 			{ startIndex: 21, type: 'delimiter.bracket.ts' },
 			{ startIndex: 22, type: 'string.ts' },
+			{ startIndex: 23, type: 'delimiter.bracket.ts' },
+			{ startIndex: 25, type: 'number.ts' },
+			{ startIndex: 26, type: 'delimiter.bracket.ts' },
+			{ startIndex: 27, type: 'string.ts' },
 		]
 	}]
 

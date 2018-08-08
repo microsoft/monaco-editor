@@ -67,7 +67,7 @@ export const conf: IRichLanguageConfiguration = {
 	}
 };
 
-export const language = <ILanguage>{
+export const language = {
 	// Set defaultToken to invalid to see what you do not tokenize yet
 	defaultToken: 'invalid',
 	tokenPostfix: '.ts',
@@ -190,7 +190,7 @@ export const language = <ILanguage>{
 
 		string_backtick: [
 			[/\$\{/, { token: 'delimiter.bracket', next: '@bracketCounting' }],
-			[/[^\\`]+/, 'string'],
+			[/[^\\`$]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/`/, 'string', '@pop']

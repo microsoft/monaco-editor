@@ -38,6 +38,7 @@ define(['require'], function (require) {
 			'release/dev/html/html.test',
 			'release/dev/pug/pug.test',
 			'release/dev/java/java.test',
+			'release/dev/javascript/javascript.test',
 			'release/dev/less/less.test',
 			'release/dev/lua/lua.test',
 			'release/dev/markdown/markdown.test',
