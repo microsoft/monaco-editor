@@ -46,6 +46,7 @@ define(['require'], function (require) {
 			'release/dev/objective-c/objective-c.test',
 			'release/dev/php/php.test',
 			'release/dev/postiats/postiats.test',
+			'release/dev/powerquery/powerquery.test',
 			'release/dev/powershell/powershell.test',
 			'release/dev/python/python.test',
 			'release/dev/r/r.test',
