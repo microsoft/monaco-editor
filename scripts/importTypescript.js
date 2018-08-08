@@ -67,9 +67,8 @@ export = ts;
  */
 function importLibDeclarationFile(name) {
 	var dstName = name.replace(/\.d\.ts$/, '').replace(/\./g, '-') + '-ts';
-	var srcPath = path.join(TYPESCRIPT_LIB_SOURCE, name);
 
-	var contents = fs.readFileSync(srcPath).toString();
+	var contents = resolveLibFile(null, name);
 
 	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, dstName + '.ts');
 	fs.writeFileSync(dstPath,
@@ -80,6 +79,29 @@ function importLibDeclarationFile(name) {
 
 export const contents = "${escapeText(contents)}";
 `);
+}
+
+function resolveLibFile(name, filename) {
+	var srcPath;
+	if (filename) {
+		srcPath = path.join(TYPESCRIPT_LIB_SOURCE, filename);
+	} else {
+		srcPath = path.join(TYPESCRIPT_LIB_SOURCE, `lib.${name}.d.ts`);
+	}
+
+	var contents = fs.readFileSync(srcPath).toString();
+	var lines = contents.split(/\r\n|\r|\n/);
+	var result = [];
+	for (let i = 0; i < lines.length; i++) {
+		let m = lines[i].match(/\/\/\/\s*<reference\s*lib="([^"]+)"/);
+		if (m) {
+			result.push('\n' + resolveLibFile(m[1], null) + '\n');
+			continue;
+		}
+		result.push(lines[i]);
+	}
+
+	return result.join('\n');
 }
 
 /**
