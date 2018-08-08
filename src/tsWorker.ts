@@ -126,8 +126,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		// contains cyclic data structures.
 		diagnostics.forEach(diag => {
 			diag.file = undefined;
-			// FIXME: What is the procedure to upgrade the TypeScript typings?
-			const related = <ts.Diagnostic[]>(<any>diag).relatedInformation;
+			const related = <ts.Diagnostic[]>diag.relatedInformation;
 			if (related) {
 				related.forEach(diag2 => diag2.file = undefined);
 			}
