@@ -14,5 +14,5 @@ registerLanguage({
 	extensions: ['.ts', '.tsx'],
 	aliases: ['TypeScript', 'ts', 'typescript'],
 	mimetypes: ['text/typescript'],
-	loader: () => _monaco.Promise.wrap(import('./typescript'))
+	loader: () => _monaco.Promise.wrap(<Promise<any>>import('./typescript'))
 });
