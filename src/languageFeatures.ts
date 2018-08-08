@@ -542,8 +542,8 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 			}
 			return ranges.map(range => {
 				let result: monaco.languages.FoldingRange = {
-					start: range.startLine,
-					end: range.endLine
+					start: range.startLine + 1,
+					end: range.endLine + 1
 				};
 				if (typeof range.kind !== 'undefined') {
 					result.kind = toFoldingRangeKind(<ls.FoldingRangeKind>range.kind);
