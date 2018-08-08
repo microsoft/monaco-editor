@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {Language, createTokenizationSupport} from './tokenization';
-import {WorkerManager} from './workerManager';
-import {TypeScriptWorker} from './tsWorker';
-import {LanguageServiceDefaultsImpl} from './monaco.contribution';
+import { Language, createTokenizationSupport } from './tokenization';
+import { WorkerManager } from './workerManager';
+import { TypeScriptWorker } from './tsWorker';
+import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 
 import Promise = monaco.Promise;
@@ -16,7 +16,7 @@ import Uri = monaco.Uri;
 let javaScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
 let typeScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
 
-export function setupTypeScript(defaults:LanguageServiceDefaultsImpl): void {
+export function setupTypeScript(defaults: LanguageServiceDefaultsImpl): void {
 	typeScriptWorker = setupMode(
 		defaults,
 		'typescript',
@@ -24,7 +24,7 @@ export function setupTypeScript(defaults:LanguageServiceDefaultsImpl): void {
 	);
 }
 
-export function setupJavaScript(defaults:LanguageServiceDefaultsImpl): void {
+export function setupJavaScript(defaults: LanguageServiceDefaultsImpl): void {
 	javaScriptWorker = setupMode(
 		defaults,
 		'javascript',
@@ -52,7 +52,7 @@ export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => P
 	});
 }
 
-function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language:Language): (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker> {
+function setupMode(defaults: LanguageServiceDefaultsImpl, modeId: string, language: Language): (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker> {
 
 	const client = new WorkerManager(modeId, defaults);
 	const worker = (first: Uri, ...more: Uri[]): Promise<TypeScriptWorker> => {
@@ -75,7 +75,7 @@ function setupMode(defaults:LanguageServiceDefaultsImpl, modeId:string, language
 	return worker;
 }
 
-const richEditConfiguration:monaco.languages.LanguageConfiguration = {
+const richEditConfiguration: monaco.languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 
 	comments: {

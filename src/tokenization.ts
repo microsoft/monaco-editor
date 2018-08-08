@@ -11,7 +11,7 @@ export enum Language {
 	EcmaScript5
 }
 
-export function createTokenizationSupport(language:Language): monaco.languages.TokensProvider {
+export function createTokenizationSupport(language: Language): monaco.languages.TokensProvider {
 
 	var classifier = ts.createClassifier(),
 		bracketTypeTable = language === Language.TypeScript ? tsBracketTypeTable : jsBracketTypeTable,
@@ -19,7 +19,7 @@ export function createTokenizationSupport(language:Language): monaco.languages.T
 
 	return {
 		getInitialState: () => new State(language, ts.EndOfLineState.None, false),
-		tokenize: (line, state) => tokenize(bracketTypeTable, tokenTypeTable, classifier, <State> state, line)
+		tokenize: (line, state) => tokenize(bracketTypeTable, tokenTypeTable, classifier, <State>state, line)
 	};
 }
 
@@ -29,7 +29,7 @@ class State implements monaco.languages.IState {
 	public eolState: ts.EndOfLineState;
 	public inJsDocComment: boolean;
 
-	constructor(language:Language, eolState: ts.EndOfLineState, inJsDocComment: boolean) {
+	constructor(language: Language, eolState: ts.EndOfLineState, inJsDocComment: boolean) {
 		this.language = language;
 		this.eolState = eolState;
 		this.inJsDocComment = inJsDocComment;
@@ -39,17 +39,17 @@ class State implements monaco.languages.IState {
 		return new State(this.language, this.eolState, this.inJsDocComment);
 	}
 
-	public equals(other:monaco.languages.IState):boolean {
-		if(other === this) {
+	public equals(other: monaco.languages.IState): boolean {
+		if (other === this) {
 			return true;
 		}
-		if(!other || !(other instanceof State)) {
+		if (!other || !(other instanceof State)) {
 			return false;
 		}
-		if (this.eolState !== (<State> other).eolState) {
+		if (this.eolState !== (<State>other).eolState) {
 			return false;
 		}
-		if(this.inJsDocComment !== (<State> other).inJsDocComment) {
+		if (this.inJsDocComment !== (<State>other).inJsDocComment) {
 			return false;
 		}
 		return true;
@@ -65,8 +65,8 @@ function tokenize(bracketTypeTable: { [i: number]: string }, tokenTypeTable: { [
 		endState: new State(state.language, ts.EndOfLineState.None, false)
 	};
 
-	function appendFn(startIndex:number, type:string):void {
-		if(ret.tokens.length === 0 || ret.tokens[ret.tokens.length - 1].scopes !== type) {
+	function appendFn(startIndex: number, type: string): void {
+		if (ret.tokens.length === 0 || ret.tokens[ret.tokens.length - 1].scopes !== type) {
 			ret.tokens.push({
 				startIndex: startIndex,
 				scopes: type
@@ -120,7 +120,7 @@ interface INumberStringDictionary {
 	[idx: number]: string;
 }
 
-var tsBracketTypeTable:INumberStringDictionary = Object.create(null);
+var tsBracketTypeTable: INumberStringDictionary = Object.create(null);
 tsBracketTypeTable['('.charCodeAt(0)] = 'delimiter.parenthesis.ts';
 tsBracketTypeTable[')'.charCodeAt(0)] = 'delimiter.parenthesis.ts';
 tsBracketTypeTable['{'.charCodeAt(0)] = 'delimiter.bracket.ts';
@@ -128,7 +128,7 @@ tsBracketTypeTable['}'.charCodeAt(0)] = 'delimiter.bracket.ts';
 tsBracketTypeTable['['.charCodeAt(0)] = 'delimiter.array.ts';
 tsBracketTypeTable[']'.charCodeAt(0)] = 'delimiter.array.ts';
 
-var tsTokenTypeTable:INumberStringDictionary = Object.create(null);
+var tsTokenTypeTable: INumberStringDictionary = Object.create(null);
 tsTokenTypeTable[ts.TokenClass.Identifier] = 'identifier.ts';
 tsTokenTypeTable[ts.TokenClass.Keyword] = 'keyword.ts';
 tsTokenTypeTable[ts.TokenClass.Operator] = 'delimiter.ts';
@@ -137,7 +137,7 @@ tsTokenTypeTable[ts.TokenClass.NumberLiteral] = 'number.ts';
 tsTokenTypeTable[ts.TokenClass.RegExpLiteral] = 'regexp.ts';
 tsTokenTypeTable[ts.TokenClass.StringLiteral] = 'string.ts';
 
-var jsBracketTypeTable:INumberStringDictionary = Object.create(null);
+var jsBracketTypeTable: INumberStringDictionary = Object.create(null);
 jsBracketTypeTable['('.charCodeAt(0)] = 'delimiter.parenthesis.js';
 jsBracketTypeTable[')'.charCodeAt(0)] = 'delimiter.parenthesis.js';
 jsBracketTypeTable['{'.charCodeAt(0)] = 'delimiter.bracket.js';
@@ -145,7 +145,7 @@ jsBracketTypeTable['}'.charCodeAt(0)] = 'delimiter.bracket.js';
 jsBracketTypeTable['['.charCodeAt(0)] = 'delimiter.array.js';
 jsBracketTypeTable[']'.charCodeAt(0)] = 'delimiter.array.js';
 
-var jsTokenTypeTable:INumberStringDictionary = Object.create(null);
+var jsTokenTypeTable: INumberStringDictionary = Object.create(null);
 jsTokenTypeTable[ts.TokenClass.Identifier] = 'identifier.js';
 jsTokenTypeTable[ts.TokenClass.Keyword] = 'keyword.js';
 jsTokenTypeTable[ts.TokenClass.Operator] = 'delimiter.js';

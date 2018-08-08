@@ -34,8 +34,8 @@ export abstract class Adapter {
 	protected _textSpanToRange(uri: Uri, span: ts.TextSpan): monaco.IRange {
 		let p1 = this._offsetToPosition(uri, span.start);
 		let p2 = this._offsetToPosition(uri, span.start + span.length);
-		let {lineNumber: startLineNumber, column: startColumn} = p1;
-		let {lineNumber: endLineNumber, column: endColumn} = p2;
+		let { lineNumber: startLineNumber, column: startColumn } = p1;
+		let { lineNumber: endLineNumber, column: endColumn } = p2;
 		return { startLineNumber, startColumn, endLineNumber, endColumn };
 	}
 }
@@ -120,7 +120,7 @@ export class DiagnostcsAdapter extends Adapter {
 				return null;
 			}
 			const promises: Promise<ts.Diagnostic[]>[] = [];
-			const {noSyntaxValidation, noSemanticValidation} = this._defaults.getDiagnosticsOptions();
+			const { noSyntaxValidation, noSemanticValidation } = this._defaults.getDiagnosticsOptions();
 			if (!noSyntaxValidation) {
 				promises.push(worker.getSyntacticDiagnostics(resource.toString()));
 			}
@@ -144,8 +144,8 @@ export class DiagnostcsAdapter extends Adapter {
 	}
 
 	private _convertDiagnostics(resource: Uri, diag: ts.Diagnostic): monaco.editor.IMarkerData {
-		const {lineNumber: startLineNumber, column: startColumn} = this._offsetToPosition(resource, diag.start);
-		const {lineNumber: endLineNumber, column: endColumn} = this._offsetToPosition(resource, diag.start + diag.length);
+		const { lineNumber: startLineNumber, column: startColumn } = this._offsetToPosition(resource, diag.start);
+		const { lineNumber: endLineNumber, column: endColumn } = this._offsetToPosition(resource, diag.start + diag.length);
 
 		return {
 			severity: monaco.MarkerSeverity.Error,
@@ -325,7 +325,7 @@ export class QuickInfoAdapter extends Adapter implements monaco.languages.HoverP
 				}
 				return label + (tag.text.match(/\r\n|\n/g) ? ' \n' + tag.text : ` - ${tag.text}`);
 			})
-			.join('  \n\n') : '';
+				.join('  \n\n') : '';
 			let contents = ts.displayPartsToString(info.displayParts);
 			return {
 				range: this._textSpanToRange(resource, info.textSpan),
