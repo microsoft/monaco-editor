@@ -209,7 +209,7 @@ testTokenization('apex', [
 			{ startIndex: 13, type: '' },
 			{ startIndex: 14, type: 'keyword.class.apex' },
 			{ startIndex: 19, type: '' },
-			{ startIndex: 20, type: 'identifier.apex' },
+			{ startIndex: 20, type: 'type.identifier.apex' },
 			{ startIndex: 27, type: '' },
 			{ startIndex: 28, type: 'delimiter.curly.apex' },
 			{ startIndex: 29, type: '' },
@@ -219,7 +219,7 @@ testTokenization('apex', [
 			{ startIndex: 41, type: '' },
 			{ startIndex: 42, type: 'identifier.apex' },
 			{ startIndex: 46, type: 'delimiter.parenthesis.apex' },
-			{ startIndex: 47, type: 'identifier.apex' },
+			{ startIndex: 47, type: 'type.identifier.apex' },
 			{ startIndex: 53, type: 'delimiter.square.apex' },
 			{ startIndex: 55, type: '' },
 			{ startIndex: 56, type: 'identifier.apex' },
@@ -530,7 +530,7 @@ testTokenization('apex', [
 		line: '23.5L',
 		tokens: [
 			{ startIndex: 0, type: 'number.float.apex' },
-			{ startIndex: 4, type: 'identifier.apex' }
+			{ startIndex: 4, type: 'type.identifier.apex' }
 		]
 	}],
 
@@ -567,7 +567,7 @@ testTokenization('apex', [
 	[{
 		line: 'String s = "I\'m an Apex String";',
 		tokens: [
-			{ startIndex: 0, type: 'identifier.apex' },
+			{ startIndex: 0, type: 'type.identifier.apex' },
 			{ startIndex: 6, type: '' },
 			{ startIndex: 7, type: 'identifier.apex' },
 			{ startIndex: 8, type: '' },
@@ -581,7 +581,7 @@ testTokenization('apex', [
 	[{
 		line: 'String s = "concatenated" + " String" ;',
 		tokens: [
-			{ startIndex: 0, type: 'identifier.apex' },
+			{ startIndex: 0, type: 'type.identifier.apex' },
 			{ startIndex: 6, type: '' },
 			{ startIndex: 7, type: 'identifier.apex' },
 			{ startIndex: 8, type: '' },
