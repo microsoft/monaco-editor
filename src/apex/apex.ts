@@ -211,10 +211,18 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_$][\w$]*/, {
+			[/[a-z_$][\w$]*/, {
 				cases: {
 					'@keywords': { token: 'keyword.$0' },
 					'@default': 'identifier'
+				}
+			}],
+
+			// assume that identifiers starting with an uppercase letter are types
+			[/[A-Z][\w\$]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'type.identifier'
 				}
 			}],
 
