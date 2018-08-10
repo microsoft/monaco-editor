@@ -1,6 +1,21 @@
 module.exports = {
+  apex: {
+    entry: 'vs/basic-languages/apex/apex.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
+  azcli: {
+    entry: 'vs/basic-languages/azcli/azcli.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
   bat: {
     entry: 'vs/basic-languages/bat/bat.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
+  clojure: {
+    entry: 'vs/basic-languages/clojure/clojure.contribution',
     worker: undefined,
     alias: undefined,
   },
@@ -25,7 +40,10 @@ module.exports = {
     alias: undefined,
   },
   css: {
-    entry: 'vs/language/css/monaco.contribution',
+    entry: [
+      'vs/basic-languages/css/css.contribution',
+      'vs/language/css/monaco.contribution',
+    ],
     worker: {
       id: 'vs/language/css/cssWorker',
       entry: 'vs/language/css/css.worker',
@@ -55,7 +73,10 @@ module.exports = {
     alias: undefined,
   },
   html: {
-    entry: 'vs/language/html/monaco.contribution',
+    entry: [
+      'vs/basic-languages/html/html.contribution',
+      'vs/language/html/monaco.contribution',
+    ],
     worker: {
       id: 'vs/language/html/htmlWorker',
       entry: 'vs/language/html/html.worker',
@@ -71,6 +92,11 @@ module.exports = {
   },
   java: {
     entry: 'vs/basic-languages/java/java.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
+  javascript: {
+    entry: 'vs/basic-languages/javascript/javascript.contribution',
     worker: undefined,
     alias: undefined,
   },
@@ -114,6 +140,11 @@ module.exports = {
     worker: undefined,
     alias: undefined,
   },
+  perl: {
+    entry: 'vs/basic-languages/perl/perl.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
   pgsql: {
     entry: 'vs/basic-languages/pgsql/pgsql.contribution',
     worker: undefined,
@@ -126,6 +157,11 @@ module.exports = {
   },
   postiats: {
     entry: 'vs/basic-languages/postiats/postiats.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
+  powerquery: {
+    entry: 'vs/basic-languages/powerquery/powerquery.contribution',
     worker: undefined,
     alias: undefined,
   },
@@ -179,8 +215,18 @@ module.exports = {
     worker: undefined,
     alias: undefined,
   },
+  scheme: {
+    entry: 'vs/basic-languages/scheme/scheme.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
   scss: {
     entry: 'vs/basic-languages/scss/scss.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
+  shell: {
+    entry: 'vs/basic-languages/shell/shell.contribution',
     worker: undefined,
     alias: undefined,
   },
@@ -205,14 +251,17 @@ module.exports = {
     alias: undefined,
   },
   typescript: {
-    entry: 'vs/language/typescript/monaco.contribution',
+    entry: [
+      'vs/basic-languages/typescript/typescript.contribution',
+      'vs/language/typescript/monaco.contribution',
+    ],
     worker: {
       id: 'vs/language/typescript/tsWorker',
       entry: 'vs/language/typescript/ts.worker',
       output: 'typescript.worker.js',
       fallback: 'vs/language/typescript/tsWorker',
     },
-    alias: ['javascript'],
+    alias: undefined,
   },
   vb: {
     entry: 'vs/basic-languages/vb/vb.contribution',

@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const webpackVersion = require('webpack/package.json').version;
 const SingleEntryPlugin = require('webpack/lib/SingleEntryPlugin');
 const LoaderTargetPlugin = require('webpack/lib/LoaderTargetPlugin');

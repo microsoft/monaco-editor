@@ -3,15 +3,6 @@ const webpack = require('webpack');
 const AddWorkerEntryPointPlugin = require('./plugins/AddWorkerEntryPointPlugin');
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
 
-const IGNORED_IMPORTS = {
-  [resolveMonacoPath('vs/language/typescript/lib/typescriptServices')]: [
-    'fs',
-    'path',
-    'os',
-    'crypto',
-    'source-map-support',
-  ],
-};
 const MONACO_EDITOR_API_PATHS = [
   resolveMonacoPath('vs/editor/editor.main'),
   resolveMonacoPath('vs/editor/editor.api')
@@ -87,6 +78,15 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
   const languagePaths = flatArr(languages.map(({ entry }) => entry).filter(Boolean));
   const featurePaths = flatArr(features.map(({ entry }) => entry).filter(Boolean));
   const workerPaths = fromPairs(workers.map(({ label, output }) => [label, path.join(outputPath, output)]));
+  if (workerPaths['typescript']) {
+    // javascript shares the same worker
+    workerPaths['javascript'] = workerPaths['typescript'];
+  }
+  if (workerPaths['css']) {
+    // scss and less share the same worker
+    workerPaths['less'] = workerPaths['css'];
+    workerPaths['scss'] = workerPaths['css'];
+  }
 
   const globals = {
     'MonacoEnvironment': `(function (paths) {
@@ -125,9 +125,6 @@ function createPlugins(workers, outputPath) {
   }) : acc), {});
   return (
     []
-    .concat(Object.keys(IGNORED_IMPORTS).map((id) =>
-      createIgnoreImportsPlugin(id, IGNORED_IMPORTS[id])
-    ))
     .concat(uniqBy(workers, ({ id }) => id).map(({ id, entry, output }) =>
       new AddWorkerEntryPointPlugin({
         id,
@@ -148,13 +145,6 @@ function createContextPlugin(filePath, contextPaths) {
     new RegExp(`^${path.dirname(filePath).replace(/[\/\\]/g, '(/|\\\\)')}$`),
     '',
     contextPaths
-  );
-}
-
-function createIgnoreImportsPlugin(targetPath, ignoredModules) {
-  return new webpack.IgnorePlugin(
-    new RegExp(`^(${ignoredModules.map((id) => `(${id})`).join('|')})$`),
-    new RegExp(`^${path.dirname(targetPath).replace(/[\/\\]/g, '(/|\\\\)')}$`)
   );
 }
 
