@@ -275,55 +275,6 @@ testTokenization('apex', [
 	}],
 
 	[{
-		line: '0x123',
-		tokens: [
-			{ startIndex: 0, type: 'number.hex.apex' }
-		]
-	}],
-
-	[{
-		line: '0x5_2',
-		tokens: [
-			{ startIndex: 0, type: 'number.hex.apex' }
-		]
-	}],
-
-	[{
-		line: '023L',
-		tokens: [
-			{ startIndex: 0, type: 'number.octal.apex' }
-		]
-	}],
-
-	[{
-		line: '0123l',
-		tokens: [
-			{ startIndex: 0, type: 'number.octal.apex' }
-		]
-	}],
-
-	[{
-		line: '05_2',
-		tokens: [
-			{ startIndex: 0, type: 'number.octal.apex' }
-		]
-	}],
-
-	[{
-		line: '0b1010_0101',
-		tokens: [
-			{ startIndex: 0, type: 'number.binary.apex' }
-		]
-	}],
-
-	[{
-		line: '0B001',
-		tokens: [
-			{ startIndex: 0, type: 'number.binary.apex' }
-		]
-	}],
-
-	[{
 		line: '10e3',
 		tokens: [
 			{ startIndex: 0, type: 'number.float.apex' }
@@ -525,22 +476,6 @@ testTokenization('apex', [
 		tokens: [
 			{ startIndex: 0, type: 'number.apex' },
 			{ startIndex: 1, type: 'identifier.apex' }
-		]
-	}],
-
-	[{
-		line: '0x52_',
-		tokens: [
-			{ startIndex: 0, type: 'number.hex.apex' },
-			{ startIndex: 4, type: 'identifier.apex' }
-		]
-	}],
-
-	[{
-		line: '052_',
-		tokens: [
-			{ startIndex: 0, type: 'number.octal.apex' },
-			{ startIndex: 3, type: 'identifier.apex' }
 		]
 	}],
 
