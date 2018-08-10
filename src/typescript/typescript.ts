@@ -120,8 +120,8 @@ export const language = {
 					'@default': 'identifier'
 				}
 			}],
-			// [/[A-Z][\w\$]*/, 'type.identifier' ],  // to show class names nicely
-			[/[A-Z][\w\$]*/, 'identifier'],
+			[/[A-Z][\w\$]*/, 'type.identifier' ],  // to show class names nicely
+			// [/[A-Z][\w\$]*/, 'identifier'],
 
 			// whitespace
 			{ include: '@whitespace' },
