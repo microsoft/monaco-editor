@@ -12,14 +12,21 @@
 
 <script>
 	// Loading basic-languages to get the html language definition
-	// Loading monaco-typescript to get javascript coloring
-	var require = {
-		paths: {
-			'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
-			'vs/language/typescript': '../node_modules/monaco-typescript/release/dev',
-			'vs/language/html': '../release/dev',
-			'vs': '../node_modules/monaco-editor-core/dev/vs'
+	var paths = {
+		'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
+		'vs/language/html': '../release/dev',
+		'vs': '../node_modules/monaco-editor-core/dev/vs'
+	};
+	if (document.location.protocol === 'http:') {
+		// Add support for running local http server
+		let testIndex = document.location.pathname.indexOf('/test/');
+		if (testIndex !== -1) {
+			let prefix = document.location.pathname.substr(0, testIndex);
+			paths['vs/language/html'] = prefix + '/release/dev';
 		}
+	}
+	var require = {
+		paths: paths
 	};
 </script>
 <script src="../node_modules/monaco-editor-core/dev/vs/loader.js"></script>
@@ -29,7 +36,6 @@
 <script>
 	require([
 		'vs/basic-languages/monaco.contribution',
-		'vs/language/typescript/monaco.contribution',
 		'vs/language/html/monaco.contribution'
 	], function() {
 		var editor = monaco.editor.create(document.getElementById('container'), {
