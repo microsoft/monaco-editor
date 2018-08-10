@@ -94,6 +94,7 @@ export const language = <ILanguage>{
 		'for',
 		'from',
 		'future',
+		'get',
 		'global',
 		'goto',
 		'group',
