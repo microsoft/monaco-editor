@@ -64,7 +64,6 @@ export const language = <ILanguage>{
 		'break',
 		'bulk',
 		'by',
-		'byte',
 		'case',
 		'cast',
 		'catch',
