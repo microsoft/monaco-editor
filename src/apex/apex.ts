@@ -269,6 +269,7 @@ export const language = <ILanguage>{
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@apexdoc'],
 			[/\/\*/, 'comment', '@comment'],
 			[/\/\/.*$/, 'comment'],
 		],
@@ -279,6 +280,13 @@ export const language = <ILanguage>{
 			// [/\/\*/,    'comment.invalid' ],    // this breaks block comments in the shape of /* //*/
 			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
+		],
+
+		//Identical copy of comment above, except for the addition of .doc
+		apexdoc: [
+			[/[^\/*]+/, 'comment.doc'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
 		],
 
 		string: [

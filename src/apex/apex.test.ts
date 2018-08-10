@@ -198,6 +198,24 @@ testTokenization('apex', [
 		]
 	}],
 
+	// Comments - apex doc, multiple lines
+	[{
+		line: '/** start of Apex Doc',
+		tokens: [
+			{ startIndex: 0, type: 'comment.doc.apex' }
+		]
+	}, {
+		line: 'a comment between without a star',
+		tokens: [
+			{ startIndex: 0, type: 'comment.doc.apex' }
+		]
+	}, {
+		line: 'end of multiline comment*/',
+		tokens: [
+			{ startIndex: 0, type: 'comment.doc.apex' }
+		]
+	}],
+
 	// Keywords
 	[{
 		line: 'package test; class Program { static void main(String[] args) {} } }',
