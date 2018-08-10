@@ -84,8 +84,8 @@ function getPublicPath(compiler) {
 
 function createLoaderRules(languages, features, workers, outputPath, publicPath) {
   if (!languages.length && !features.length) { return []; }
-  const languagePaths = languages.map(({ entry }) => entry).filter(Boolean);
-  const featurePaths = features.map(({ entry }) => entry).filter(Boolean);
+  const languagePaths = flatArr(languages.map(({ entry }) => entry).filter(Boolean));
+  const featurePaths = flatArr(features.map(({ entry }) => entry).filter(Boolean));
   const workerPaths = fromPairs(workers.map(({ label, output }) => [label, path.join(outputPath, output)]));
 
   const globals = {
@@ -160,6 +160,15 @@ function createIgnoreImportsPlugin(targetPath, ignoredModules) {
 
 function flatMap(items, iteratee) {
   return items.map(iteratee).reduce((acc, item) => [].concat(acc).concat(item), []);
+}
+
+function flatArr(items) {
+  return items.reduce((acc, item) => {
+    if (Array.isArray(item)) {
+      return [].concat(acc).concat(item);
+    }
+    return [].concat(acc).concat([item]);
+  }, []);
 }
 
 function toPairs(object) {

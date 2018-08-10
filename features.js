@@ -119,9 +119,11 @@ module.exports = {
     entry: 'vs/editor/standalone/browser/quickOpen/quickOutline',
     worker: undefined,
   },
-  // TODO: here
   referenceSearch: {
-    entry: 'vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch',
+    entry: [
+      'vs/editor/contrib/referenceSearch/referenceSearch',
+      'vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch',
+    ],
     worker: undefined,
   },
   rename: {
