@@ -5,6 +5,7 @@
   "description": "A browser based code editor",
   "author": "Microsoft Corporation",
   "license": "MIT",
+  "sideEffects": false,
   "scripts": {
     "simpleserver": "gulp simpleserver",
     "release": "gulp release",
