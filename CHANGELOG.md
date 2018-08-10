@@ -1,5 +1,20 @@
 # Monaco Editor Change log
 
+## [0.14.0] (10.08.2018)
+### New & Noteworthy
+* Added editor options: `scrollBeyondLastColumn`, `hover`, `suggest`, `highlightActiveIndentGuide`, `showUnused`.
+* Added `setTokensProvider` with `EncodedTokensProvider`.
+* Added `monaco.languages.getEncodedLanguageId` to get the numeric language id.
+* `DefinitionProvider.provideDefinition`, `ImplementationProvider.provideImplementation`, `TypeDefinitionProvider.provideTypeDefinition` can now return a `DefinitionLink`.
+
+### Breaking Change
+* Removed no longer used `Severity`.
+* Renamed `IEditor.isFocused` to `IEditor.hasTextFocus`.
+* Renamed `ICodeEditor.onDidFocusEditor` to `ICodeEditor.onDidFocusEditorWidget`.
+* Renamed `ICodeEditor.onDidBlurEditor` to `ICodeEditor.onDidBlurEditorWidget`.
+* `DocumentSymbolProvider.provideDocumentSymbols` must now return a `DocumentSymbol`.
+
+
 ## [0.13.1] (15.05.2018)
  - Fixes [issue #871](https://github.com/Microsoft/monaco-editor/issues/871): TypeScript import error after mocaco-editor upgraded from 0.12 to 0.13
 
