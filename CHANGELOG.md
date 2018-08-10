@@ -1,5 +1,8 @@
 # Monaco Editor Change log
 
+## [0.14.1] (10.08.2018)
+* Fixes Find All References (https://github.com/Microsoft/vscode/issues/56160)
+
 ## [0.14.0] (10.08.2018)
 ### New & Noteworthy
 * Using tree-shaking to reduce the amount of shipped code.
