@@ -2,18 +2,62 @@
 
 ## [0.14.0] (10.08.2018)
 ### New & Noteworthy
+* Using tree-shaking to reduce the amount of shipped code.
+* TypeScript and JavaScript coloring is now done with Monarch.
+* `typescriptServices` is no longer loaded on the UI thread, this helps with webpack's bundle output size.
+* Added coloring for: apex, azcli, clojure, powerquery, rust, scheme and shell.
+* Added sub-word navigation commands.
+* Added font zoom commands.
+* Syntax highlighting for deleted lines in inline diff editor.
+* Highlighted indent guide.
+* Column selection using middle mouse button.
 * Added editor options: `scrollBeyondLastColumn`, `hover`, `suggest`, `highlightActiveIndentGuide`, `showUnused`.
 * Added `setTokensProvider` with `EncodedTokensProvider`.
 * Added `monaco.languages.getEncodedLanguageId` to get the numeric language id.
 * `DefinitionProvider.provideDefinition`, `ImplementationProvider.provideImplementation`, `TypeDefinitionProvider.provideTypeDefinition` can now return a `DefinitionLink`.
 
-### Breaking Change
+### Breaking Changes
 * Removed no longer used `Severity`.
 * Renamed `IEditor.isFocused` to `IEditor.hasTextFocus`.
 * Renamed `ICodeEditor.onDidFocusEditor` to `ICodeEditor.onDidFocusEditorWidget`.
 * Renamed `ICodeEditor.onDidBlurEditor` to `ICodeEditor.onDidBlurEditorWidget`.
-* `DocumentSymbolProvider.provideDocumentSymbols` must now return a `DocumentSymbol`.
+* `DocumentSymbolProvider.provideDocumentSymbols` must now return `DocumentSymbol[]`.
 
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [Ali Mirlou (@AliMirlou)](https://github.com/AliMirlou): Fix typo [PR #952](https://github.com/Microsoft/monaco-editor/pull/952)
+* [Avelino (@avelino)](https://github.com/avelino): added clojure exampple [PR #904](https://github.com/Microsoft/monaco-editor/pull/904)
+* [Sebastián Gurin (@cancerberoSgx)](https://github.com/cancerberoSgx): fix small error in integration docs [PR #957](https://github.com/Microsoft/monaco-editor/pull/957)
+* [Haegyun Jung (@haeguri)](https://github.com/haeguri): Fix playground sample option [PR #962](https://github.com/Microsoft/monaco-editor/pull/962)
+(https://github.com/Microsoft/monaco-editor/pull/914)
+* [Myles Scolnick (@mscolnick)](https://github.com/mscolnick): add sideEffects false for tree-shaking in webpack [PR #981](https://github.com/Microsoft/monaco-editor/pull/981)
+* [Niklas Mollenhauer (@nikeee)](https://github.com/nikeee): Fix hash comment in xdot sample [PR #916](https://github.com/Microsoft/monaco-editor/pull/916)
+* [Remy Suen (@rcjsuen)](https://github.com/rcjsuen): Add folding provider sample to the playground [PR #878](https://github.com/Microsoft/monaco-
+
+Contributions to `monaco-typescript`:
+
+* [Fathy Boundjadj (@fathyb)](https://github.com/fathyb): Use Mardown code block for hover tooltip [PR #20](https://github.com/Microsoft/monaco-typescript/pull/20)
+* [Matt McCutchen (@mattmccutchen)](https://github.com/mattmccutchen): Clear the `file` fields of `relatedInformation` too. (WIP) [PR #21](https://github.com/Microsoft/monaco-typescript/pull/21)
+
+Contributions to `monaco-languages`:
+
+* [Avelino (@avelino)](https://github.com/avelino)
+  * upgrade all language support (today) [PR #35](https://github.com/Microsoft/monaco-languages/pull/35)
+  * Clojure support [PR #36](https://github.com/Microsoft/monaco-languages/pull/36)
+  * Clojure: added more keywords [PR #37](https://github.com/Microsoft/monaco-languages/pull/37)
+* [Faris Masad (@masad-frost)](https://github.com/masad-frost)
+  * Fix Clojure syntax highlighting [PR #38](https://github.com/Microsoft/monaco-languages/pull/38)
+  * Add Scheme language [PR #34](https://github.com/Microsoft/monaco-languages/pull/34)
+  * Add auto-indentation for python [PR #33](https://github.com/Microsoft/monaco-languages/pull/33)
+* [Matt Masson (@mattmasson)](https://github.com/mattmasson): Add support for Power Query (M) language [PR #42](https://github.com/Microsoft/monaco-languages/pull/42)
+* [Oli Lane (@olane)](https://github.com/olane): Add Apex language [PR #44](https://github.com/Microsoft/monaco-languages/pull/44)
+* [Viktar Pakanechny (@Vityanchys)](https://github.com/Vityanchys): Added azcli [PR #43](https://github.com/Microsoft/monaco-languages/pull/43)
+* [zqlu (@zqlu)](https://github.com/zqlu)
+  * Add Shell language [PR #39](https://github.com/Microsoft/monaco-languages/pull/39)
+  * Add Perl language [PR #40](https://github.com/Microsoft/monaco-languages/pull/40)
+  * add perl to bundle.js [PR #41](https://github.com/Microsoft/monaco-languages/pull/41)
 
 ## [0.13.1] (15.05.2018)
  - Fixes [issue #871](https://github.com/Microsoft/monaco-editor/issues/871): TypeScript import error after mocaco-editor upgraded from 0.12 to 0.13
