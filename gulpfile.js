@@ -190,7 +190,7 @@ function addPluginContribs(type) {
 			extraContent.push(contribContents);
 		});
 
-		extraContent.push(`define("vs/editor/editor.main", ["vs/editor/edcore.main","${allPluginsModuleIds.join('","')}"], function() {});`);
+		extraContent.push(`define("vs/editor/editor.main", ["vs/editor/edcore.main","${allPluginsModuleIds.join('","')}"], function(api) { return api; });`);
 		var insertIndex = contents.lastIndexOf('//# sourceMappingURL=');
 		if (insertIndex === -1) {
 			insertIndex = contents.length;
