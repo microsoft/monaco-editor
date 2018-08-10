@@ -1,0 +1,14 @@
+FUNCTION_BLOCK SubFB
+VAR_INPUT
+TimeIN : BOOL; (* Boolean input variable *)
+TimeQ : BOOL; (* Boolean input variable *)
+END_VAR
+VAR_IN_OUT
+Timer : TON; (* pointer to instance Time1 of TON – input/output variable *)
+END_VAR
+VAR_OUTPUT
+Time3 : TON; (* 3rd instance of TON *)
+END_VAR
+VAR
+Start : BOOL := TRUE; (* local Boolean variable *)
+END_VAR
