@@ -1,5 +1,8 @@
 # Monaco Editor Change log
 
+## [0.14.2] (10.08.2018)
+* Reverts https://github.com/Microsoft/monaco-editor/pull/981
+
 ## [0.14.1] (10.08.2018)
 * Fixes Find All References (https://github.com/Microsoft/vscode/issues/56160)
 
