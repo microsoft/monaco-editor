@@ -72,7 +72,8 @@ define(['require'], function (require) {
 			'release/dev/clojure/clojure.test',
 			'release/dev/shell/shell.test',
 			'release/dev/perl/perl.test',
-			'release/dev/azcli/azcli.test'
+			'release/dev/azcli/azcli.test',
+			'release/dev/apex/apex.test'
 		], function () {
 			run(); // We can launch the tests!
 		}, function (err) {

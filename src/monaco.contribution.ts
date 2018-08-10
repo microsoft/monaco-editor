@@ -52,3 +52,4 @@ import './clojure/clojure.contribution';
 import './shell/shell.contribution';
 import './perl/perl.contribution';
 import './azcli/azcli.contribution';
+import './apex/apex.contribution';
