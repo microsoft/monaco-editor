@@ -461,7 +461,7 @@ export class ReferenceAdapter extends Adapter implements monaco.languages.Refere
 
 export class OutlineAdapter extends Adapter implements monaco.languages.DocumentSymbolProvider {
 
-	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.SymbolInformation[]> {
+	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.DocumentSymbol[]> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => worker.getNavigationBarItems(resource.toString())).then(items => {
@@ -469,14 +469,13 @@ export class OutlineAdapter extends Adapter implements monaco.languages.Document
 				return;
 			}
 
-			const convert = (bucket: monaco.languages.SymbolInformation[], item: ts.NavigationBarItem, containerLabel?: string): void => {
-				let result: monaco.languages.SymbolInformation = {
+			const convert = (bucket: monaco.languages.DocumentSymbol[], item: ts.NavigationBarItem, containerLabel?: string): void => {
+				let result: monaco.languages.DocumentSymbol = {
 					name: item.text,
+					detail: '',
 					kind: <monaco.languages.SymbolKind>(outlineTypeTable[item.kind] || monaco.languages.SymbolKind.Variable),
-					location: {
-						uri: resource,
-						range: this._textSpanToRange(resource, item.spans[0])
-					},
+					range: this._textSpanToRange(resource, item.spans[0]),
+					selectionRange: this._textSpanToRange(resource, item.spans[0]),
 					containerName: containerLabel
 				};
 
@@ -489,7 +488,7 @@ export class OutlineAdapter extends Adapter implements monaco.languages.Document
 				bucket.push(result);
 			}
 
-			let result: monaco.languages.SymbolInformation[] = [];
+			let result: monaco.languages.DocumentSymbol[] = [];
 			items.forEach(item => convert(result, item));
 			return result;
 		}));
