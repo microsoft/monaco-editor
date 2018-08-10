@@ -120,9 +120,6 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
 }
 
 function createPlugins(workers, outputPath) {
-  const workerFallbacks = workers.reduce((acc, { id, fallback }) => (fallback ? Object.assign(acc, {
-    [id]: resolveMonacoPath(fallback)
-  }) : acc), {});
   return (
     []
     .concat(uniqBy(workers, ({ id }) => id).map(({ id, entry, output }) =>
@@ -131,20 +128,10 @@ function createPlugins(workers, outputPath) {
         entry: resolveMonacoPath(entry),
         filename: path.join(outputPath, output),
         plugins: [
-          createContextPlugin(WORKER_LOADER_PATH, {}),
           new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
         ],
       })
     ))
-    .concat(workerFallbacks ? [createContextPlugin(WORKER_LOADER_PATH, workerFallbacks)] : [])
-  );
-}
-
-function createContextPlugin(filePath, contextPaths) {
-  return new webpack.ContextReplacementPlugin(
-    new RegExp(`^${path.dirname(filePath).replace(/[\/\\]/g, '(/|\\\\)')}$`),
-    '',
-    contextPaths
   );
 }
 
