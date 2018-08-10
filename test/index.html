@@ -12,12 +12,21 @@
 
 <script>
 	// Loading basic-languages to get the css language definition
-	var require = {
-		paths: {
-			'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
-			'vs/language/css': '../release/dev',
-			'vs': '../node_modules/monaco-editor-core/dev/vs'
+	var paths = {
+		'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
+		'vs/language/css': '../release/dev',
+		'vs': '../node_modules/monaco-editor-core/dev/vs'
+	}
+	if (document.location.protocol === 'http:') {
+		// Add support for running local http server
+		let testIndex = document.location.pathname.indexOf('/test/');
+		if (testIndex !== -1) {
+			let prefix = document.location.pathname.substr(0, testIndex);
+			paths['vs/language/css'] = prefix + '/release/dev';
 		}
+	}
+	var require = {
+		paths: paths
 	};
 </script>
 <script src="../node_modules/monaco-editor-core/dev/vs/loader.js"></script>
