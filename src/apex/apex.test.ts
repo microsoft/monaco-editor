@@ -251,6 +251,41 @@ testTokenization('apex', [
 		]
 	}],
 
+	// Keywords with case variations
+	[{
+		line: 'Package test; CLASS Program { Static void main(String[] args) {} } }',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.Package.apex' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'identifier.apex' },
+			{ startIndex: 12, type: 'delimiter.apex' },
+			{ startIndex: 13, type: '' },
+			{ startIndex: 14, type: 'keyword.CLASS.apex' },
+			{ startIndex: 19, type: '' },
+			{ startIndex: 20, type: 'type.identifier.apex' },
+			{ startIndex: 27, type: '' },
+			{ startIndex: 28, type: 'delimiter.curly.apex' },
+			{ startIndex: 29, type: '' },
+			{ startIndex: 30, type: 'keyword.Static.apex' },
+			{ startIndex: 36, type: '' },
+			{ startIndex: 37, type: 'keyword.void.apex' },
+			{ startIndex: 41, type: '' },
+			{ startIndex: 42, type: 'identifier.apex' },
+			{ startIndex: 46, type: 'delimiter.parenthesis.apex' },
+			{ startIndex: 47, type: 'type.identifier.apex' },
+			{ startIndex: 53, type: 'delimiter.square.apex' },
+			{ startIndex: 55, type: '' },
+			{ startIndex: 56, type: 'identifier.apex' },
+			{ startIndex: 60, type: 'delimiter.parenthesis.apex' },
+			{ startIndex: 61, type: '' },
+			{ startIndex: 62, type: 'delimiter.curly.apex' },
+			{ startIndex: 64, type: '' },
+			{ startIndex: 65, type: 'delimiter.curly.apex' },
+			{ startIndex: 66, type: '' },
+			{ startIndex: 67, type: 'delimiter.curly.apex' }
+		]
+	}],
+
 	// Numbers
 	[{
 		line: '0',
