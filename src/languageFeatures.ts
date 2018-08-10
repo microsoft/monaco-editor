@@ -423,7 +423,7 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.SymbolInformation[]> {
+	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.DocumentSymbol[]> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentSymbols(resource.toString())).then(items => {
@@ -432,9 +432,11 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 			}
 			return items.map(item => ({
 				name: item.name,
+				detail: '',
 				containerName: item.containerName,
 				kind: toSymbolKind(item.kind),
-				location: toLocation(item.location)
+				range: toRange(item.location.range),
+				selectionRange: toRange(item.location.range)
 			}));
 		}));
 	}
