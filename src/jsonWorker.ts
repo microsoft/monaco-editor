@@ -96,17 +96,22 @@ export class JSONWorker {
 		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
 		return Promise.as(symbols);
 	}
-	findDocumentColors(uri: string): Thenable<jsonService.ColorInformation[]> {
+	findDocumentColors(uri: string): Thenable<ls.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseJSONDocument(document);
 		let colorSymbols = this._languageService.findDocumentColors(document, stylesheet);
 		return Promise.as(colorSymbols);
 	}
-	getColorPresentations(uri: string, color: jsonService.Color, range: ls.Range): Thenable<jsonService.ColorPresentation[]> {
+	getColorPresentations(uri: string, color: ls.Color, range: ls.Range): Thenable<ls.ColorPresentation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseJSONDocument(document);
 		let colorPresentations = this._languageService.getColorPresentations(document, stylesheet, color, range);
 		return Promise.as(colorPresentations);
+	}
+	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<ls.FoldingRange[]> {
+		let document = this._getTextDocument(uri);
+		let ranges = this._languageService.getFoldingRanges(document, context);
+		return Promise.as(ranges);
 	}
 	private _getTextDocument(uri: string): ls.TextDocument {
 		let models = this._ctx.getMirrorModels();

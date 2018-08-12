@@ -423,7 +423,7 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.SymbolInformation[]> {
+	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.DocumentSymbol[]> {
 		const resource = model.uri;
 
 		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentSymbols(resource.toString())).then(items => {
@@ -432,9 +432,11 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 			}
 			return items.map(item => ({
 				name: item.name,
+				detail: '',
 				containerName: item.containerName,
 				kind: toSymbolKind(item.kind),
-				location: toLocation(item.location)
+				range: toRange(item.location.range),
+				selectionRange: toRange(item.location.range)
 			}));
 		}));
 	}
@@ -526,6 +528,42 @@ export class DocumentColorAdapter implements monaco.languages.DocumentColorProvi
 			});
 		}));
 	}
+}
+
+export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	public provideFoldingRanges(model: monaco.editor.IReadOnlyModel, context: monaco.languages.FoldingContext, token: CancellationToken): Thenable<monaco.languages.FoldingRange[]> {
+		const resource = model.uri;
+
+		return wireCancellationToken(token, this._worker(resource).then(worker => worker.provideFoldingRanges(resource.toString(), context)).then(ranges => {
+			if (!ranges) {
+				return;
+			}
+			return ranges.map(range => {
+				let result: monaco.languages.FoldingRange = {
+					start: range.startLine + 1,
+					end: range.endLine + 1
+				};
+				if (typeof range.kind !== 'undefined') {
+					result.kind = toFoldingRangeKind(<ls.FoldingRangeKind>range.kind);
+				}
+				return result;
+			});
+		}));
+	}
+
+}
+
+function toFoldingRangeKind(kind: ls.FoldingRangeKind): monaco.languages.FoldingRangeKind {
+	switch (kind) {
+		case ls.FoldingRangeKind.Comment: return monaco.languages.FoldingRangeKind.Comment;
+		case ls.FoldingRangeKind.Imports: return monaco.languages.FoldingRangeKind.Imports;
+		case ls.FoldingRangeKind.Region: return monaco.languages.FoldingRangeKind.Region;
+	}
+	return void 0;
 }
 
 /**
