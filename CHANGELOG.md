@@ -1,5 +1,8 @@
 # Monaco Editor Change log
 
+## [0.14.3] (17.08.2018)
+* Fixes TypeScript/JavaScript coloring of regular expressions https://github.com/Microsoft/monaco-editor/issues/1009
+
 ## [0.14.2] (10.08.2018)
 * Reverts https://github.com/Microsoft/monaco-editor/pull/981
 
