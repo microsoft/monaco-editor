@@ -430,6 +430,47 @@ testTokenization('javascript', [
 		]
 	}],
 
+[{
+		line: 'x = /foo/.test(\'\')',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.js' },
+			{ startIndex: 1, type: '' },
+			{ startIndex: 2, type: 'delimiter.js' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'regexp.js' },
+			{ startIndex: 9, type: 'delimiter.js' },
+			{ startIndex: 10, type: 'identifier.js' },
+			{ startIndex: 14, type: 'delimiter.parenthesis.js' },
+			{ startIndex: 15, type: 'string.js' },
+			{ startIndex: 17, type: 'delimiter.parenthesis.js' }
+		]
+	}],
+
+	[{
+		line: 'x = 1 + f(2 / 3, /foo/)',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.js' },
+			{ startIndex: 1, type: '' },
+			{ startIndex: 2, type: 'delimiter.js' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'number.js' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.js' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'identifier.js' },
+			{ startIndex: 9, type: 'delimiter.parenthesis.js' },
+			{ startIndex: 10, type: 'number.js' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'delimiter.js' },
+			{ startIndex: 13, type: '' },
+			{ startIndex: 14, type: 'number.js' },
+			{ startIndex: 15, type: 'delimiter.js' },
+			{ startIndex: 16, type: '' },
+			{ startIndex: 17, type: 'regexp.js' },
+			{ startIndex: 22, type: 'delimiter.parenthesis.js' }
+		]
+	}],
+
 	[{
 		line: 'a /ads/ b;',
 		tokens: [

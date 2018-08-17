@@ -431,6 +431,47 @@ testTokenization('typescript', [
 	}],
 
 	[{
+		line: 'x = /foo/.test(\'\')',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.ts' },
+			{ startIndex: 1, type: '' },
+			{ startIndex: 2, type: 'delimiter.ts' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'regexp.ts' },
+			{ startIndex: 9, type: 'delimiter.ts' },
+			{ startIndex: 10, type: 'identifier.ts' },
+			{ startIndex: 14, type: 'delimiter.parenthesis.ts' },
+			{ startIndex: 15, type: 'string.ts' },
+			{ startIndex: 17, type: 'delimiter.parenthesis.ts' }
+		]
+	}],
+
+	[{
+		line: 'x = 1 + f(2 / 3, /foo/)',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.ts' },
+			{ startIndex: 1, type: '' },
+			{ startIndex: 2, type: 'delimiter.ts' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'number.ts' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.ts' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'identifier.ts' },
+			{ startIndex: 9, type: 'delimiter.parenthesis.ts' },
+			{ startIndex: 10, type: 'number.ts' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'delimiter.ts' },
+			{ startIndex: 13, type: '' },
+			{ startIndex: 14, type: 'number.ts' },
+			{ startIndex: 15, type: 'delimiter.ts' },
+			{ startIndex: 16, type: '' },
+			{ startIndex: 17, type: 'regexp.ts' },
+			{ startIndex: 22, type: 'delimiter.parenthesis.ts' }
+		]
+	}],
+
+	[{
 		line: 'a /ads/ b;',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.ts' },

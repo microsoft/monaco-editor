@@ -37,5 +37,7 @@ export const language = <ILanguage>{
 	octaldigits: tsLanguage.octaldigits,
 	binarydigits: tsLanguage.binarydigits,
 	hexdigits: tsLanguage.hexdigits,
+	regexpctl: tsLanguage.regexpctl,
+	regexpesc: tsLanguage.regexpesc,
 	tokenizer: tsLanguage.tokenizer,
 };

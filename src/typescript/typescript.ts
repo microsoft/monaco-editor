@@ -104,6 +104,9 @@ export const language = {
 	binarydigits: /[0-1]+(_+[0-1]+)*/,
 	hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
 
+	regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
+	regexpesc: /\\(?:[bBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/,
+
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
@@ -120,11 +123,14 @@ export const language = {
 					'@default': 'identifier'
 				}
 			}],
-			[/[A-Z][\w\$]*/, 'type.identifier' ],  // to show class names nicely
+			[/[A-Z][\w\$]*/, 'type.identifier'],  // to show class names nicely
 			// [/[A-Z][\w\$]*/, 'identifier'],
 
 			// whitespace
 			{ include: '@whitespace' },
+
+			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
+			[/\/(?=([^\\\/]|\\.)+\/([gimuy]*)(\s*)(\.|;|\/|,|\)|\]|\}|$))/, { token: 'regexp', bracket: '@open', next: '@regexp' }],
 
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],
@@ -172,6 +178,27 @@ export const language = {
 			[/[^\/*]+/, 'comment.doc'],
 			[/\*\//, 'comment.doc', '@pop'],
 			[/[\/*]/, 'comment.doc']
+		],
+
+		// We match regular expression quite precisely
+		regexp: [
+			[/(\{)(\d+(?:,\d*)?)(\})/, ['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']],
+			[/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/, ['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]],
+			[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
+			[/[()]/, 'regexp.escape.control'],
+			[/@regexpctl/, 'regexp.escape.control'],
+			[/[^\\\/]/, 'regexp'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/\\\./, 'regexp.invalid'],
+			['/', { token: 'regexp', bracket: '@close' }, '@pop'],
+		],
+
+		regexrange: [
+			[/-/, 'regexp.escape.control'],
+			[/\^/, 'regexp.invalid'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/[^\]]/, 'regexp'],
+			[/\]/, '@brackets.regexp.escape.control', '@pop'],
 		],
 
 		string_double: [
