@@ -1,5 +1,5 @@
 var requirejs = require("requirejs");
-var jsdom = require('jsdom-no-contextify');
+var jsdom = require('jsdom');
 
 requirejs.config({
 	baseUrl: '',
@@ -12,15 +12,10 @@ requirejs.config({
 	nodeRequire: require
 });
 
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.document.queryCommandSupported = function() {};
-global.self = global.window = global.document.parentWindow;
-global.navigator = global.window.navigator;
-global.window.require = requirejs;
-
-function MyWorker() {}
-MyWorker.prototype.postMessage = function() {};
-global.Worker = MyWorker;
+let tmp = new jsdom.JSDOM('<!DOCTYPE html><html><body></body></html>');
+global.document = tmp.window.document;
+global.navigator = tmp.window.navigator;
+global.self = global;
 
 requirejs(['./test/setup'], function() {
 }, function(err) {
