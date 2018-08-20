@@ -31,7 +31,7 @@ declare module monaco.languages.json {
             readonly schema?: any;
         }[];
         /**
-         *  If set, the schema service would load schema content on-demand with 'fetch' if available, otherwise content would be taken from `schemas` property
+         *  If set, the schema service would load schema content on-demand with 'fetch' if available
          */
         readonly enableSchemaRequest? : boolean
     }
