@@ -420,6 +420,13 @@ Contributions to `monaco-languages`:
 - The editor functions now correctly when hosted inside a `position:fixed` element.
 - Cross origin configuration is now picked up (as advertised in documentation from MonacoEnvironment)
 
+[0.14.3]: https://github.com/Microsoft/monaco-editor/compare/v0.14.2...v0.14.3
+[0.14.2]: https://github.com/Microsoft/monaco-editor/compare/v0.14.1...v0.14.2
+[0.14.1]: https://github.com/Microsoft/monaco-editor/compare/v0.14.0...v0.14.1
+[0.14.0]: https://github.com/Microsoft/monaco-editor/compare/v0.13.1...v0.14.0
+[0.13.1]: https://github.com/Microsoft/monaco-editor/compare/v0.13.0...v0.13.1
+[0.13.0]: https://github.com/Microsoft/monaco-editor/compare/v0.12.0...v0.13.0
+[0.12.0]: https://github.com/Microsoft/monaco-editor/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/Microsoft/monaco-editor/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/Microsoft/monaco-editor/compare/v0.10.1...v0.11.0
 [0.10.1]: https://github.com/Microsoft/monaco-editor/compare/v0.10.0...v0.10.1
