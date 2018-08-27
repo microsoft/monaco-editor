@@ -4723,7 +4723,7 @@ declare namespace monaco.languages {
          * position will be merged by the editor. A hover can have a range which defaults
          * to the word range at the position when omitted.
          */
-        provideHover(model: editor.ITextModel, position: Position, token: CancellationToken): Hover | Thenable<Hover>;
+        provideHover(model: editor.ITextModel, position: Position, token: CancellationToken): Hover | undefined | null | Thenable<Hover | undefined | null>;
     }
 
     /**
