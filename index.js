@@ -3,11 +3,6 @@ const webpack = require('webpack');
 const AddWorkerEntryPointPlugin = require('./plugins/AddWorkerEntryPointPlugin');
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
 
-const MONACO_EDITOR_API_PATHS = [
-  resolveMonacoPath('vs/editor/editor.main'),
-  resolveMonacoPath('vs/editor/editor.api')
-];
-const WORKER_LOADER_PATH = resolveMonacoPath('vs/editor/common/services/editorSimpleWorker');
 const EDITOR_MODULE = {
   label: 'editorWorkerService',
   entry: undefined,
@@ -101,10 +96,9 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
       };
     })(${JSON.stringify(workerPaths, null, 2)})`,
   };
-
   return [
     {
-      test: MONACO_EDITOR_API_PATHS,
+      test: /monaco-editor\/esm\/vs\/editor\/editor.(api|main).js/,
       use: [
         {
           loader: INCLUDE_LOADER_PATH,
