@@ -747,6 +747,7 @@ testTokenization('clojure', [
 		'\\space',
 		'\\return',
 		'\\tab',
+		'\\o123',
 		'\\u1000',
 		'\\uAaAa',
 		'\\u9F9F'

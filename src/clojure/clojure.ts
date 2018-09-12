@@ -718,7 +718,7 @@ export const language = <ILanguage>{
 
 	numbers: /^[+\-]?\d+(?:(?:N|(?:[eE][+\-]?\d+))|(?:\.?\d*(?:M|(?:[eE][+\-]?\d+))?)|\/\d+|[xX][0-9a-fA-F]+|r[0-9a-zA-Z]+)?/,
 
-	characters: /\\(?:@symbolCharacter+|[\\"()\[\]{}]|x[0-9A-Fa-f]{4}|u[0-9A-Fa-f]{4}|o[0-7]{3})/,
+	characters: /\\(?:backspace|formfeed|newline|return|space|tab|x[0-9A-Fa-f]{4}|u[0-9A-Fa-f]{4}|o[0-7]{3}|@symbolCharacter|[\\"()\[\]{}])/,
 
 	tokenizer: {
 		root: [
@@ -733,9 +733,6 @@ export const language = <ILanguage>{
 
 			// regular expressions
 			[/\/#"(?:\.|(?:")|[^"\n])*"\/g/, 'regexp'],
-
-			// inline comments
-			[/;.*$/, 'comment'],
 
 			// reader macro characters
 			[/[#'@^`~]/, 'meta'],
@@ -760,7 +757,7 @@ export const language = <ILanguage>{
 
 		whitespace: [
 			[/[ \t\r\n]+/, 'white'],
-			[/;;.*$/, 'comment']],
+			[/;.*$/, 'comment']],
 
 		string: [
 			[/"/, 'string', '@multiLineString'],
