@@ -768,6 +768,44 @@ testTokenization('clojure', [
 		';; this is a line comment.',
 	], 'comment'),
 
+	// `comment`
+	[
+		{
+			line: '(comment)',
+			tokens: [
+				{startIndex: 0, type: 'comment.clj'},
+			],
+		},
+		{
+			line: 'foo :bar 42',
+			tokens: [
+				{startIndex: 0, type: 'identifier.clj'},
+				{startIndex: 3, type: 'white.clj'},
+				{startIndex: 4, type: 'constant.clj'},
+				{startIndex: 8, type: 'white.clj'},
+				{startIndex: 9, type: 'number.clj'},
+			],
+		},
+		{
+			line: '(comment (foo [bar :baz 1 "qux"]))',
+			tokens: [
+				{startIndex: 0, type: 'comment.clj'},
+			],
+		},
+		{
+			line: '(comment foo',
+			tokens: [
+				{startIndex: 0, type: 'comment.clj'},
+			],
+		},
+		{
+			line: 'foo',
+			tokens: [
+				{startIndex: 0, type: 'comment.clj'},
+			],
+		},
+	],
+
 	// reader macro characters
 	createTestCases([
 		'#',

@@ -716,17 +716,23 @@ export const language = <ILanguage>{
 
 	symbolCharacter: /[!#'*+\-.\/:<=>?_\w\xa1-\uffff]/,
 
-	numbers: /^[+\-]?\d+(?:(?:N|(?:[eE][+\-]?\d+))|(?:\.?\d*(?:M|(?:[eE][+\-]?\d+))?)|\/\d+|[xX][0-9a-fA-F]+|r[0-9a-zA-Z]+)?/,
+	numbers: /[+\-]?\d+(?:(?:N|(?:[eE][+\-]?\d+))|(?:\.?\d*(?:M|(?:[eE][+\-]?\d+))?)|\/\d+|[xX][0-9a-fA-F]+|r[0-9a-zA-Z]+)?/,
 
 	characters: /\\(?:backspace|formfeed|newline|return|space|tab|x[0-9A-Fa-f]{4}|u[0-9A-Fa-f]{4}|o[0-7]{3}|@symbolCharacter|[\\"()\[\]{}])/,
 
 	tokenizer: {
 		root: [
+			// whitespaces and comments
+			{include: '@whitespace'},
+
 			// numbers
 			[/@numbers/, 'number'],
 
 			// characters
 			[/@characters/, 'string'],
+
+			// strings
+			{include: '@string'},
 
 			// brackets
 			[/[()\[\]{}]/, '@brackets'],
@@ -751,20 +757,26 @@ export const language = <ILanguage>{
 			},
 			],
 
-			{include: '@whitespace'},
-			{include: '@string'},
 		],
 
 		whitespace: [
-			[/[ \t\r\n]+/, 'white'],
-			[/;.*$/, 'comment']],
+			[/\s+/, 'white'],
+			[/;.*$/, 'comment'],
+			[/\(comment/, 'comment', '@comment'],
+		],
+
+		comment: [
+			[/\(/, 'comment', '@push'],
+			[/\)/, 'comment', '@pop'],
+			[/[^)]/, 'comment'],
+		],
 
 		string: [
 			[/"/, 'string', '@multiLineString'],
 		],
 
 		multiLineString: [
-			[/[^\\"$]+/, 'string'],
+			[/[^\\"]+/, 'string'],
 			[/@characters/, 'string'],
 			[/"/, 'string', '@pop']
 		],
