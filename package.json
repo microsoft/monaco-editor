@@ -1,6 +1,6 @@
 {
   "name": "monaco-editor-webpack-plugin",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "A webpack plugin for the Monaco Editor",
   "main": "index.js",
   "scripts": {
