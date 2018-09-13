@@ -793,6 +793,30 @@ testTokenization('clojure', [
 			],
 		},
 		{
+			line: '(comments foo bar)',
+			tokens: [
+				{startIndex: 0, type: 'delimiter.parenthesis.clj'},
+				{startIndex: 1, type: 'identifier.clj'},
+				{startIndex: 9, type: 'white.clj'},
+				{startIndex: 10, type: 'identifier.clj'},
+				{startIndex: 13, type: 'white.clj'},
+				{startIndex: 14, type: 'identifier.clj'},
+				{startIndex: 17, type: 'delimiter.parenthesis.clj'},
+			]
+		},
+		{
+			line: '(comment6 foo bar)',
+			tokens: [
+				{startIndex: 0, type: 'delimiter.parenthesis.clj'},
+				{startIndex: 1, type: 'identifier.clj'},
+				{startIndex: 9, type: 'white.clj'},
+				{startIndex: 10, type: 'identifier.clj'},
+				{startIndex: 13, type: 'white.clj'},
+				{startIndex: 14, type: 'identifier.clj'},
+				{startIndex: 17, type: 'delimiter.parenthesis.clj'},
+			]
+		},
+		{
 			line: '(comment foo',
 			tokens: [
 				{startIndex: 0, type: 'comment.clj'},
