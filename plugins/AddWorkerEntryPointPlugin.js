@@ -15,9 +15,10 @@ function getCompilerHook(compiler, {id, entry, filename, chunkFilename, plugins}
     const childCompiler = compilation.createChildCompiler(id, outputOptions, [
       new WebWorkerTemplatePlugin(),
       new LoaderTargetPlugin('webworker'),
-      new SingleEntryPlugin(compiler.context, entry, 'main'),
     ]);
+    new SingleEntryPlugin(compiler.context, entry, 'main').apply(childCompiler);
     plugins.forEach((plugin) => plugin.apply(childCompiler));
+
     childCompiler.runAsChild(callback);
   }
 }
