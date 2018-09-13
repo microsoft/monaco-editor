@@ -28,10 +28,31 @@ const languagesById = fromPairs(
 );
 const featuresById = mapValues(FEATURES, (feature, key) => mixin({ label: key }, feature))
 
+function getFeaturesIds(userFeatures, predefinedFeaturesById) {
+  function notContainedIn(arr) {
+    return (element) => arr.indexOf(element) === -1;
+  }
+
+  let featuresIds;
+
+  if (userFeatures.length) {
+    const excludedFeatures = userFeatures.filter(f => f[0] === '!').map(f => f.slice(1));
+    if (excludedFeatures.length) {
+      featuresIds = Object.keys(predefinedFeaturesById).filter(notContainedIn(excludedFeatures))
+    } else {
+      featuresIds = userFeatures;
+    }
+  } else {
+    featuresIds = Object.keys(predefinedFeaturesById);
+  }
+
+  return featuresIds;
+}
+
 class MonacoWebpackPlugin {
   constructor(options = {}) {
     const languages = options.languages || Object.keys(languagesById);
-    const features = options.features || Object.keys(featuresById);
+    const features = getFeaturesIds(options.features || [], featuresById);
     const output = options.output || '';
     this.options = {
       languages: languages.map((id) => languagesById[id]).filter(Boolean),
