@@ -83,6 +83,11 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
     workerPaths['scss'] = workerPaths['css'];
   }
 
+  if (workerPaths['html']) {
+    // handlebars and html share the same worker
+    workerPaths['handlebars'] = workerPaths['html'];
+  }
+
   const globals = {
     'MonacoEnvironment': `(function (paths) {
       function stripTrailingSlash(str) {
