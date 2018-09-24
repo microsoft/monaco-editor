@@ -255,7 +255,9 @@ export class SuggestAdapter extends Adapter implements monaco.languages.Completi
 				label: details.name,
 				kind: SuggestAdapter.convertKind(details.kind),
 				detail: displayPartsToString(details.displayParts),
-				documentation: displayPartsToString(details.documentation)
+				documentation: {
+					value: displayPartsToString(details.documentation)
+				}
 			};
 		}));
 	}
