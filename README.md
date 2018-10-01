@@ -8,7 +8,7 @@ Simple TypeScript and JavaScript language support for the Monaco Editor.
 
 ## Issues
 
-Please file issues concering `monaco-typescript` in the [`monaco-editor` repository](https://github.com/Microsoft/monaco-editor/issues).
+Please file issues concerning `monaco-typescript` in the [`monaco-editor` repository](https://github.com/Microsoft/monaco-editor/issues).
 
 ## Installing
 
