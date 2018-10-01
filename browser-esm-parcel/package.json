@@ -2,7 +2,7 @@
   "name": "helloworld",
   "dependencies": {},
   "devDependencies": {
-    "monaco-editor": "^0.12.0",
-    "parcel-bundler": "^1.6.2"
+    "monaco-editor": "^0.14.3",
+    "parcel-bundler": "^1.10.1"
   }
 }

@@ -93,18 +93,18 @@ import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js';
 self.MonacoEnvironment = {
 	getWorker: function (moduleId, label) {
 		if (label === 'json') {
-			return new Worker('../node_modules/monaco-editor/esm/vs/language/json/json.worker')
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/json/json.worker.js')
 		}
 		if (label === 'css') {
-			return new Worker('../node_modules/monaco-editor/esm/vs/language/css/css.worker')
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/css/css.worker.js')
 		}
 		if (label === 'html') {
-			return new Worker('../node_modules/monaco-editor/esm/vs/language/html/html.worker')
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/html/html.worker.js')
 		}
 		if (label === 'typescript' || label === 'javascript') {
-			return new Worker('../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')
+			return new Worker('../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js')
 		}
-		return new Worker('../node_modules/monaco-editor/esm/vs/editor/editor.worker')
+		return new Worker('../node_modules/monaco-editor/esm/vs/editor/editor.worker.js')
 	}
 }
 
