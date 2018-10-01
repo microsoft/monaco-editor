@@ -447,6 +447,39 @@ testTokenization('typescript', [
 	}],
 
 	[{
+		line: '/foo/',
+		tokens: [
+			{ startIndex: 0, type: 'regexp.ts' }
+		]
+	}],
+
+	[{
+		line: '/foo/g',
+		tokens: [
+			{ startIndex: 0, type: 'regexp.ts' },
+			{ startIndex: 5, type: 'keyword.other.ts' }
+		]
+	}],
+
+	[{
+		line: '/foo/gimsuy',
+		tokens: [
+			{ startIndex: 0, type: 'regexp.ts' },
+			{ startIndex: 5, type: 'keyword.other.ts' }
+		]
+	}],
+
+	[{
+		line: '/foo/q', // invalid flag
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.ts' },
+			{ startIndex: 1, type: 'identifier.ts' },
+			{ startIndex: 4, type: 'delimiter.ts' },
+			{ startIndex: 5, type: 'identifier.ts' }
+		]
+	}],
+
+	[{
 		line: 'x = 1 + f(2 / 3, /foo/)',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.ts' },

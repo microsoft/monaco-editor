@@ -430,7 +430,7 @@ testTokenization('javascript', [
 		]
 	}],
 
-[{
+	[{
 		line: 'x = /foo/.test(\'\')',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.js' },
@@ -443,6 +443,39 @@ testTokenization('javascript', [
 			{ startIndex: 14, type: 'delimiter.parenthesis.js' },
 			{ startIndex: 15, type: 'string.js' },
 			{ startIndex: 17, type: 'delimiter.parenthesis.js' }
+		]
+	}],
+
+	[{
+		line: '/foo/',
+		tokens: [
+			{ startIndex: 0, type: 'regexp.js' }
+		]
+	}],
+
+	[{
+		line: '/foo/g',
+		tokens: [
+			{ startIndex: 0, type: 'regexp.js' },
+			{ startIndex: 5, type: 'keyword.other.js' }
+		]
+	}],
+
+	[{
+		line: '/foo/gimsuy',
+		tokens: [
+			{ startIndex: 0, type: 'regexp.js' },
+			{ startIndex: 5, type: 'keyword.other.js' }
+		]
+	}],
+
+	[{
+		line: '/foo/q', // invalid flag
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.js' },
+			{ startIndex: 1, type: 'identifier.js' },
+			{ startIndex: 4, type: 'delimiter.js' },
+			{ startIndex: 5, type: 'identifier.js' }
 		]
 	}],
 

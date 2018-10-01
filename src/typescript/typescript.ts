@@ -190,7 +190,7 @@ export const language = {
 			[/[^\\\/]/, 'regexp'],
 			[/@regexpesc/, 'regexp.escape'],
 			[/\\\./, 'regexp.invalid'],
-			['/', { token: 'regexp', bracket: '@close' }, '@pop'],
+			[/(\/)([gimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']],
 		],
 
 		regexrange: [
