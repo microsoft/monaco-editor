@@ -130,7 +130,7 @@ export const language = {
 			{ include: '@whitespace' },
 
 			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
-			[/\/(?=([^\\\/]|\\.)+\/([gimuy]*)(\s*)(\.|;|\/|,|\)|\]|\}|$))/, { token: 'regexp', bracket: '@open', next: '@regexp' }],
+			[/\/(?=([^\\\/]|\\.)+\/([gimsuy]*)(\s*)(\.|;|\/|,|\)|\]|\}|$))/, { token: 'regexp', bracket: '@open', next: '@regexp' }],
 
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],
@@ -190,7 +190,7 @@ export const language = {
 			[/[^\\\/]/, 'regexp'],
 			[/@regexpesc/, 'regexp.escape'],
 			[/\\\./, 'regexp.invalid'],
-			['/', { token: 'regexp', bracket: '@close' }, '@pop'],
+			[/(\/)([gimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']],
 		],
 
 		regexrange: [
