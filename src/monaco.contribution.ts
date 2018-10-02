@@ -79,11 +79,17 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		return {
 			dispose: () => {
 				if (paths.length > 0) {
+					let changed = false;
+
 					paths.forEach(filePath => {
-						delete this._extraLibs[filePath];
+						if (delete this._extraLibs[filePath]) {
+							changed = true;
+						}
 					});
 
-					this._onDidChange.fire(this);
+					if (changed) {
+						this._onDidChange.fire(this);
+					}
 				}
 			}
 		}
