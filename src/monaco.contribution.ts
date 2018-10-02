@@ -61,7 +61,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		};
 	}
 
-	setExtraLibs(libs: Array<{ content: string; filePath?: string }> = []): IDisposable {
+	setExtraLibs(libs: Array<{ content: string; filePath?: string }>): IDisposable {
 		const paths = [];
 
 		if (libs && libs.length > 0) {

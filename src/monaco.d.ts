@@ -135,10 +135,22 @@ declare module monaco.languages.typescript {
          *
          * @param content The file content
          * @param filePath An optional file path
-         * @returns A disposabled which will remove the file from the
-         * language service upon disposal.
+         * @returns A disposable which will remove the file from the
+         * language service upon cleanup.
          */
         addExtraLib(content: string, filePath?: string): IDisposable;
+
+        /**
+         * Add multiple source files to the language service.
+         * Use this for multiple typescript (definition) files that won't be loaded
+         * as editor document, like `jquery.d.ts`.
+         * This method is optimised for performance and raises change events only once
+         * for the whole list.
+         * @param libs An array of entries to register.
+         * @returns A disposable which will remove the file from the
+         * language service upon cleanup.
+         */
+        setExtraLibs(libs: Array<{ content: string; filePath?: string }>): IDisposable;
 
         /**
          * Set TypeScript compiler options.
