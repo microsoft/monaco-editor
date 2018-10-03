@@ -202,6 +202,8 @@ export const language = <ILanguage>{
 
 		// Start Flow Scalars (quoted strings)
 		flowScalars: [
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],
+			[/'([^'\\]|\\.)*$/, 'string.invalid'],
 			[/"/, 'string', '@string."'],
 			[/'/, 'string', '@string.\'']
 		],
