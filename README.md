@@ -1,6 +1,6 @@
 # Monaco Editor
 
-The Monaco Editor is the code editor that powers [VS Code](https://github.com/Microsoft/vscode), a good page describing the code editor's features is [here](https://code.visualstudio.com/docs/editor/editingevolved).
+The Monaco Editor is the code editor that powers [VS Code](https://github.com/Microsoft/vscode), a right page describing the code editor's features is [here](https://code.visualstudio.com/docs/editor/editingevolved).
 
 ![image](https://cloud.githubusercontent.com/assets/5047891/19600675/5eaae9e6-97a6-11e6-97ad-93903167d8ba.png)
 
@@ -26,9 +26,9 @@ It is recommended to develop against the `dev` version, and in production to use
 ## Documentation
 
 * Learn how to integrate the editor with these [complete samples](https://github.com/Microsoft/monaco-editor-samples/).
-	* [Integrate the AMD version](./docs/integrate-amd.md).
-	* [Integrate the AMD version cross-domain](./docs/integrate-amd-cross.md)
-	* [Integrate the ESM version](./docs/integrate-esm.md)
+    * [Integrate the AMD version](./docs/integrate-amd.md).
+    * [Integrate the AMD version cross-domain](./docs/integrate-amd-cross.md)
+    * [Integrate the ESM version](./docs/integrate-esm.md)
 * Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
 * Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
 * Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
@@ -41,7 +41,7 @@ It is recommended to develop against the `dev` version, and in production to use
 Create issues in this repository for anything Monaco Editor related. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
 
 ## Known issues
-In IE 11, the editor must be completely surrounded in the body element, otherwise the hit testing we do for mouse operations does not work. You can inspect this using F12 and clicking on the body element and confirm that visually it surrounds the editor.
+In IE 11, the editor must be surrounded in the body element, otherwise, the hit testing we do for mouse operations does not work. You can inspect this using F12 and click on the body element and confirm that visually it surrounds the editor.
 
 
 ## FAQ
@@ -62,7 +62,7 @@ No.
 
 ❓ **Why all these web workers and why should I care?**
 
-Language services create web workers to compute heavy stuff outside the UI thread. They cost hardly anything in terms of resource overhead and you shouldn't worry too much about them, as long as you get them to work (see above the cross-domain case).
+Language services create web workers to compute heavy stuff outside of the UI thread. They cost hardly anything in terms of resource overhead and you shouldn't worry too much about them, as long as you get them to work (see above the cross-domain case).
 
 ❓ **What is this `loader.js`? Can I use `require.js`?**
 
@@ -70,7 +70,7 @@ It is an AMD loader that we use in VS Code. Yes.
 
 ❓ **I see the warning "Could not create web worker". What should I do?**
 
-HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross domain case above.
+HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross-domain case above.
 
 ❓ **Is the editor supported in mobile browsers or mobile web app frameworks?**
 
