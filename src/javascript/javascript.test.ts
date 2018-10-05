@@ -375,6 +375,27 @@ testTokenization('javascript', [
 		]
 	}],
 
+	[{
+		line: '0X123',
+		tokens: [
+			{ startIndex: 0, type: 'number.hex.js' }
+		]
+	}],
+
+	[{
+		line: '0b101',
+		tokens: [
+			{ startIndex: 0, type: 'number.binary.js' }
+		]
+	}],
+
+	[{
+		line: '0B101',
+		tokens: [
+			{ startIndex: 0, type: 'number.binary.js' }
+		]
+	}],
+
 	// Regular Expressions
 	[{
 		line: '//',

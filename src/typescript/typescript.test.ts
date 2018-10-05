@@ -375,6 +375,27 @@ testTokenization('typescript', [
 		]
 	}],
 
+	[{
+		line: '0X123',
+		tokens: [
+			{ startIndex: 0, type: 'number.hex.ts' }
+		]
+	}],
+
+	[{
+		line: '0b101',
+		tokens: [
+			{ startIndex: 0, type: 'number.binary.ts' }
+		]
+	}],
+
+	[{
+		line: '0B101',
+		tokens: [
+			{ startIndex: 0, type: 'number.binary.ts' }
+		]
+	}],
+
 	// Regular Expressions
 	[{
 		line: '//',
