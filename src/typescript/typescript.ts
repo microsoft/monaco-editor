@@ -146,7 +146,7 @@ export const language = {
 			[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
 			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
 			[/0[xX](@hexdigits)/, 'number.hex'],
-			[/0(@octaldigits)/, 'number.octal'],
+			[/0[oO]?(@octaldigits)/, 'number.octal'],
 			[/0[bB](@binarydigits)/, 'number.binary'],
 			[/(@digits)/, 'number'],
 

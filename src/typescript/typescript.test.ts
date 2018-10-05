@@ -347,6 +347,20 @@ testTokenization('typescript', [
 	}],
 
 	[{
+		line: '0o123',
+		tokens: [
+			{ startIndex: 0, type: 'number.octal.ts' }
+		]
+	}],
+
+	[{
+		line: '0O123',
+		tokens: [
+			{ startIndex: 0, type: 'number.octal.ts' }
+		]
+	}],
+
+	[{
 		line: '0x',
 		tokens: [
 			{ startIndex: 0, type: 'number.ts' },
