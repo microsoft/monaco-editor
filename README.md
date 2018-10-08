@@ -70,7 +70,7 @@ It is an AMD loader that we use in VS Code. Yes.
 
 ❓ **I see the warning "Could not create web worker". What should I do?**
 
-HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross domain case above.
+HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes, i.e using `http://localhost:<PORT>/<DIRECTORY>` Please also see the cross domain case above.
 
 ❓ **Is the editor supported in mobile browsers or mobile web app frameworks?**
 
