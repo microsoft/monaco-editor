@@ -347,6 +347,20 @@ testTokenization('javascript', [
 	}],
 
 	[{
+		line: '0o123',
+		tokens: [
+			{ startIndex: 0, type: 'number.octal.js' }
+		]
+	}],
+
+	[{
+		line: '0O123',
+		tokens: [
+			{ startIndex: 0, type: 'number.octal.js' }
+		]
+	}],
+
+	[{
 		line: '0x',
 		tokens: [
 			{ startIndex: 0, type: 'number.js' },
@@ -358,6 +372,27 @@ testTokenization('javascript', [
 		line: '0x123',
 		tokens: [
 			{ startIndex: 0, type: 'number.hex.js' }
+		]
+	}],
+
+	[{
+		line: '0X123',
+		tokens: [
+			{ startIndex: 0, type: 'number.hex.js' }
+		]
+	}],
+
+	[{
+		line: '0b101',
+		tokens: [
+			{ startIndex: 0, type: 'number.binary.js' }
+		]
+	}],
+
+	[{
+		line: '0B101',
+		tokens: [
+			{ startIndex: 0, type: 'number.binary.js' }
 		]
 	}],
 
