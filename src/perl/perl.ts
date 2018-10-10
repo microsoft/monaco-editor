@@ -48,15 +48,11 @@ export const language = <ILanguage>{
 		'__DATA__',
 		'else',
 		'lock',
-		'qw',
 		'__END__',
 		'elsif',
 		'lt',
-		'qx',
 		'__FILE__',
 		'eq',
-		'm',
-		's',
 		'__LINE__',
 		'exp',
 		'ne',
@@ -64,7 +60,6 @@ export const language = <ILanguage>{
 		'__PACKAGE__',
 		'for',
 		'no',
-		'tr',
 		'and',
 		'foreach',
 		'or',
@@ -75,16 +70,12 @@ export const language = <ILanguage>{
 		'until',
 		'continue',
 		'gt',
-		'q',
 		'while',
 		'CORE',
 		'if',
-		'qq',
 		'xor',
 		'do',
 		'le',
-		'qr',
-		'y',
 
 		'__DIE__',
 		'__WARN__',
@@ -468,6 +459,7 @@ export const language = <ILanguage>{
 
 	// operators
 	symbols: /[:+\-\^*$&%@=<>!?|\/~\.]/,
+	quoteLikeOps: ['qr', 'm', 's', 'q', 'qq', 'qx', 'qw', 'tr', 'y'],
 
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 
