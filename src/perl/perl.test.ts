@@ -310,14 +310,23 @@ testTokenization('perl', [
 	[
 		{
 			line: 'm/abc/',
-			tokens: [{ startIndex: 0, type: 'regexp.perl' }],
+			tokens: [
+				{ startIndex: 0, type: 'regexp.delim.perl' },
+				{ startIndex: 2, type: 'regexp.perl' },
+				{ startIndex: 5, type: 'regexp.delim.perl' },
+			],
 		},
 	],
 
 	[
 		{
 			line: 'm/[abc]+/e',
-			tokens: [{ startIndex: 0, type: 'regexp.perl' }],
+			tokens: [
+				{ startIndex: 0, type: 'regexp.delim.perl' },
+				{ startIndex: 2, type: 'regexp.perl' },
+				{ startIndex: 8, type: 'regexp.delim.perl' },
+        { startIndex: 9, type: 'regexp.modifier.perl' },
+			],
 		},
 	],
 

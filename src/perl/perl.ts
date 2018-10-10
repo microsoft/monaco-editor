@@ -601,13 +601,17 @@ export const language = <ILanguage>{
 			[/\\./, 'regexp.escape'],
 			[/./, {
 				cases: {
-					'$#==$S3': { token: 'regexp.delim', next: '@pop' },
+					'$#==$S3': { token: 'regexp.delim', next: '@regexpModifiers' },
 					'$#==$S2': { token: 'regexp.delim', next: '@push' }, // nested delimiters
 					'@default': 'regexp'
 				}
 			}],
 		],
-		
+
+    regexpModifiers: [
+			[/[msixpodualngcer]+/, { token: 'regexp.modifier', next: '@popall' }],
+		],
+
 		// Expanded quoted string
 		// qqstring.<open>.<close>
 		//  open = open delimiter
