@@ -87,7 +87,7 @@ No.
 
 ## Development setup
 
-Please see [CONTRIBUTING](./CONTRIBUTING.md)
+Please see [CONTRIBUTING](./CONTRIBUTING.md).
 
 ## Code of Conduct
 
