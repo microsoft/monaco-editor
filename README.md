@@ -1,6 +1,6 @@
 # Monaco Editor
 
-The Monaco Editor is the code editor that powers [VS Code](https://github.com/Microsoft/vscode), a good page describing the code editor's features is [here](https://code.visualstudio.com/docs/editor/editingevolved).
+The Monaco Editor is the code editor that powers [VS Code](https://github.com/Microsoft/vscode). A good page describing the code editor's features is [here](https://code.visualstudio.com/docs/editor/editingevolved).
 
 ![image](https://cloud.githubusercontent.com/assets/5047891/19600675/5eaae9e6-97a6-11e6-97ad-93903167d8ba.png)
 
