@@ -12,7 +12,7 @@ const _monaco: typeof monaco =
 
 registerLanguage({
 	id: 'clojure',
-	extensions: ['.clj', '.clojure'],
+	extensions: ['.clj', '.cljs', '.cljc', '.clojure'],
 	aliases: ['clojure', 'Clojure'],
 	loader: () => _monaco.Promise.wrap(import('./clojure')),
 });
