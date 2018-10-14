@@ -19,6 +19,7 @@ $(document).ready(function() {
 		})();
 
 		var startModeIndex = 0;
+		
 		for (var i = 0; i < MODES.length; i++) {
 			var o = document.createElement('option');
 			o.textContent = MODES[i].modeId;
@@ -27,7 +28,9 @@ $(document).ready(function() {
 			}
 			$(".language-picker").append(o);
 		}
+		
 		$(".language-picker")[0].selectedIndex = startModeIndex;
+		
 		loadSample(MODES[startModeIndex]);
 		$(".language-picker").change(function() {
 			loadSample(MODES[this.selectedIndex]);
@@ -54,6 +57,7 @@ $(document).ready(function() {
 			diffEditor.layout();
 		}
 	};
+	
 });
 
 var preloaded = {};
@@ -65,9 +69,11 @@ var preloaded = {};
 		preloaded[path] = el.innerText || el.textContent;
 		el.parentNode.removeChild(el);
 	});
+	
 })();
 
 function xhr(url, cb) {
+	
 	if (preloaded[url]) {
 		return cb(null, preloaded[url]);
 	}
@@ -81,9 +87,11 @@ function xhr(url, cb) {
 	}).done(function(data) {
 		cb(null, data);
 	});
+	
 }
 
 function loadSample(mode) {
+	
 	$('.loading.editor').show();
 	xhr(mode.sampleURL, function(err, data) {
 		if (err) {
@@ -115,6 +123,7 @@ function loadSample(mode) {
 		}
 		$('.loading.editor').fadeOut({ duration: 300 });
 	})
+	
 }
 
 function loadDiffSample() {
@@ -144,6 +153,7 @@ function loadDiffSample() {
 	})
 
 	function onProgress() {
+		
 		if (lhsData && rhsData) {
 			diffEditor = monaco.editor.createDiffEditor(document.getElementById('diff-editor'), {
 				enableSplitViewResizing: false
@@ -160,9 +170,12 @@ function loadDiffSample() {
 			$('.loading.diff-editor').fadeOut({ duration: 300 });
 		}
 	}
+	
 }
 
 function changeTheme(theme) {
+	
 	var newTheme = (theme === 1 ? 'vs-dark' : ( theme === 0 ? 'vs' : 'hc-black' ));
 	monaco.editor.setTheme(newTheme);
+	
 }
