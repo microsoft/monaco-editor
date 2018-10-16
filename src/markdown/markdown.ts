@@ -131,7 +131,7 @@ export const language = <ILanguage>{
 			[/`([^\\`]|@escapes)+`/, 'variable'],
 
 			// links
-			[/\{[^}]+\}/, 'string.target'],
+			[/\{+[^}]+\}+/, 'string.target'],
 			[/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/, ['string.link', '', 'string.link']],
 			[/(!?\[)((?:[^\]\\]|@escapes)*)(\])/, 'string.link'],
 
