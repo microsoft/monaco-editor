@@ -1,6 +1,6 @@
 # Monaco Editor
 
-The Monaco Editor is the code editor that powers [VS Code](https://github.com/Microsoft/vscode). A good page describing the code editor's features is [here](https://code.visualstudio.com/docs/editor/editingevolved).
+The Monaco Editor is the code editor which powers [VS Code](https://github.com/Microsoft/vscode), with the features better described [here](https://code.visualstudio.com/docs/editor/editingevolved).
 
 ![image](https://cloud.githubusercontent.com/assets/5047891/19600675/5eaae9e6-97a6-11e6-97ad-93903167d8ba.png)
 
@@ -33,16 +33,14 @@ It is recommended to develop against the `dev` version, and in production to use
 * Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
 * Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
 * Create a Monarch tokenizer for a new programming language [in the Monarch playground](https://microsoft.github.io/monaco-editor/monarch.html).
-* Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor)!
-* Search open and closed issues, there are a lot of tips in there!
+* Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor)! Search open and closed issues, there are a lot of tips in there!
 
 ## Issues
 
-Create issues in this repository for anything Monaco Editor related. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates. Please remember to use ISSUE_TEMPLATE to avoid your issue being prematurely closed. 
+Create [issues](https://github.com/Microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
 
 ## Known issues
-In IE 11, the editor must be surrounded in the body element, otherwise, the hit testing we do for mouse operations does not work. You can inspect this using F12 and click on the body element and confirm that visually it surrounds the editor.
-
+In IE 11, the editor must be surrounded in the body element, otherwise the hit testing performed for mouse operations does not work. You can inspect this using F12 and click on the body element and confirm that visually it surrounds the editor.
 
 ## FAQ
 
@@ -78,12 +76,12 @@ No.
 
 ❓ **Why doesn't the editor support TextMate grammars?**
 
-* all the regular expressions in TM grammars are based on [oniguruma](https://github.com/kkos/oniguruma), a regular expression library written in C.
-* the only way to interpret the grammars and get anywhere near original fidelity is to use the exact same regular expression library (with its custom syntax constructs)
-* in VSCode, our runtime is node.js and we can use a node native module that exposes the library to JavaScript
-* in Monaco, we are constrained to a browser environment where we cannot do anything similar
-* we have experimented with Emscripten to compile the C library to asm.js, but performance was very poor even in Firefox (10x slower) and extremely poor in Chrome (100x slower).
-* we can revisit this once WebAssembly gets traction in the major browsers, but we will still need to consider the browser matrix we support. i.e. if we support IE11 and only Edge will add WebAssembly support, what will the experience be in IE11, etc.
+* All the regular expressions in TM grammars are based on [oniguruma](https://github.com/kkos/oniguruma), a regular expression library written in C.
+* The only way to interpret the grammars and get anywhere near original fidelity is to use the exact same regular expression library (with its custom syntax constructs).
+* In VSCode, our runtime is node.js and we can use a node native module that exposes the library to JavaScript.
+* In Monaco, we are constrained to a browser environment where we cannot do anything similar.
+* We have experimented with Emscripten to compile the C library to asm.js, but performance was very poor even in Firefox (10x slower) and extremely poor in Chrome (100x slower).
+* We can revisit this once WebAssembly gets traction in the major browsers, but we will still need to consider the browser matrix we support, i.e. if we support IE11 and only Edge will add WebAssembly support, what will the experience be in IE11, etc.
 
 ## Development setup
 
