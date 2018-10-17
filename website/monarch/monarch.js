@@ -84,14 +84,6 @@ function readSamples(sampleSelect) {
 
 		var languageId = 'monarch-language-' + id;
 
-		// monaco.languages.register({ id: languageId });
-
-		// var langModel = monaco.editor.createModel(getTextFromId(id), 'javascript');
-		// var update = function() {
-		// 	console.log()
-		// };
-		// langModel.onDidChangeContent(update);
-
 		var sampleText = getTextFromId(id + "-sample");
 
 		samples[id] = {
