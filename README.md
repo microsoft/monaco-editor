@@ -38,7 +38,7 @@ It is recommended to develop against the `dev` version, and in production to use
 
 ## Issues
 
-Create issues in this repository for anything Monaco Editor related. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
+Create issues in this repository for anything Monaco Editor related. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates. Please remember to use ISSUE_TEMPLATE to avoid your issue being prematurely closed. 
 
 ## Known issues
 In IE 11, the editor must be surrounded in the body element, otherwise, the hit testing we do for mouse operations does not work. You can inspect this using F12 and click on the body element and confirm that visually it surrounds the editor.
