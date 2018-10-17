@@ -152,7 +152,6 @@ delimiter .[curly,square,parenthesis,angle,array,bracket]
 number    .[hex,octal,binary,float]
 variable  .[name,value]
 meta      .[content]</pre>
-    <p>Note: The token classes in the third column are currently only highlighted correctly if you include the <code>monarch.css</code> style file (Aug 2012).</p>
 
     <h3>States</h3>
     <p>A tokenizer consists of an object that defines states. The initial state of the tokenizer is the first state defined in the tokenizer. When a tokenizer is in a certain state, only the rules in that state will be applied. All rules are matched in order and when the first one matches its action is used to determine the token class. No further rules are tried. Therefore, it can
