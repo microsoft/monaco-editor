@@ -5706,3 +5706,5 @@ declare namespace monaco.languages.html {
     export var handlebarDefaults: LanguageServiceDefaults;
     export var razorDefaults: LanguageServiceDefaults;
 }
+
+declare namespace monaco.languages.setLanguageConfiguration('myCustomLanguage', {brackets:[['(',')']]});
