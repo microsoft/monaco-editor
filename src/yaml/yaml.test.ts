@@ -145,6 +145,15 @@ testTokenization('yaml', [
 		}]
 	}],
 
+	//String
+	[{
+		line: '\'\'\'',
+		tokens: [
+			{ startIndex: 0, type: 'string.yaml' },
+			{ startIndex: 2, type: 'string.invalid.yaml' },
+		]
+	}],
+
 	// Block Scalar
 	[{
 		line: '>',
