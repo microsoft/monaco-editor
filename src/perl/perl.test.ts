@@ -310,14 +310,23 @@ testTokenization('perl', [
 	[
 		{
 			line: 'm/abc/',
-			tokens: [{ startIndex: 0, type: 'regexp.perl' }],
+			tokens: [
+				{ startIndex: 0, type: 'regexp.delim.perl' },
+				{ startIndex: 2, type: 'regexp.perl' },
+				{ startIndex: 5, type: 'regexp.delim.perl' },
+			],
 		},
 	],
 
 	[
 		{
 			line: 'm/[abc]+/e',
-			tokens: [{ startIndex: 0, type: 'regexp.perl' }],
+			tokens: [
+				{ startIndex: 0, type: 'regexp.delim.perl' },
+				{ startIndex: 2, type: 'regexp.perl' },
+				{ startIndex: 8, type: 'regexp.delim.perl' },
+        { startIndex: 9, type: 'regexp.modifier.perl' },
+			],
 		},
 	],
 
@@ -426,6 +435,41 @@ testTokenization('perl', [
 					type: 'white.perl',
 				},
 				{ startIndex: 3, type: 'variable.perl' },
+			],
+		},
+	],
+
+  // Quoted constructs
+	[
+		{
+			line: "m!can't!",
+			tokens: [
+				{ startIndex: 0, type: 'regexp.delim.perl' },
+				{ startIndex: 2, type: 'regexp.perl' },
+				{ startIndex: 7, type: 'regexp.delim.perl' },
+			],
+		},
+	],
+
+	[
+		{
+			line: 'q XfooX',
+			tokens: [
+				{ startIndex: 0, type: 'string.delim.perl' },
+				{ startIndex: 3, type: 'string.perl' },
+				{ startIndex: 6, type: 'string.delim.perl' },
+			],
+		},
+	],
+
+	[
+		{
+			line: 'qq(test $foo)',
+			tokens: [
+				{ startIndex: 0, type: 'string.delim.perl' },
+				{ startIndex: 3, type: 'string.perl' },
+				{ startIndex: 8, type: 'variable.perl' },
+        { startIndex: 12, type: 'string.delim.perl' },
 			],
 		},
 	],
