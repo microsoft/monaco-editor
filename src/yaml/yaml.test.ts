@@ -250,6 +250,35 @@ testTokenization('yaml', [
 		},]
 	}],
 
+    // Flow Scalars
+    [{
+        line: '\'this is a single quote string\'',
+        tokens: [{
+            startIndex: 0,
+            type: 'string.yaml'
+        }]
+    }],
+
+    [{
+        line: "\"this is a double \\quote string\\n\"",
+        tokens: [{
+            startIndex: 0,
+            type: 'string.yaml'
+        }, {
+            startIndex: 18,
+            type: 'string.escape.invalid.yaml'
+        }, {
+            startIndex: 20,
+            type: 'string.yaml'
+        }, {
+            startIndex: 31,
+            type: 'string.escape.yaml'
+        }, {
+            startIndex: 33,
+            type: 'string.yaml'
+        }]
+    }],
+
 	// Flow Sequence - Data types
 	[{
 		line: '[string,"double",\'single\',1,1.1,2002-04-28]',
