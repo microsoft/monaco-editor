@@ -93,4 +93,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 
 ## License
-[MIT](https://github.com/Microsoft/monaco-editor/blob/master/LICENSE.md)
+Licensed under the [MIT](https://github.com/Microsoft/monaco-editor/blob/master/LICENSE.md) License.
