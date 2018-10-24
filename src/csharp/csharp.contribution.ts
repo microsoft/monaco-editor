@@ -11,7 +11,7 @@ const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).mona
 
 registerLanguage({
 	id: 'csharp',
-	extensions: ['.cs', '.csx'],
+	extensions: ['.cs', '.csx', '.cake'],
 	aliases: ['C#', 'csharp'],
 	loader: () => _monaco.Promise.wrap(import('./csharp'))
 });
