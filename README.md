@@ -1,6 +1,6 @@
 # Monaco Editor
 
-The Monaco Editor is the code editor which powers [VS Code](https://github.com/Microsoft/vscode), with the features better described [here](https://code.visualstudio.com/docs/editor/editingevolved).
+The Monaco Editor is the code editor which powers [VS Code](https://github.com/Microsoft/vscode), with it's features better described [here](https://code.visualstudio.com/docs/editor/editingevolved).
 
 ![image](https://cloud.githubusercontent.com/assets/5047891/19600675/5eaae9e6-97a6-11e6-97ad-93903167d8ba.png)
 
@@ -10,6 +10,7 @@ See the editor in action [on the website](https://microsoft.github.io/monaco-edi
 
 ## Installing
 
+Using the NPM (Node Package Manager)
 ```
 $ npm install monaco-editor
 ```
@@ -37,7 +38,7 @@ It is recommended to develop against the `dev` version, and in production to use
 
 ## Issues
 
-Create [issues](https://github.com/Microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
+Create [issues](https://github.com/Microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search the existing issues to avoid duplicates.
 
 ## Known issues
 In IE 11, the editor must be surrounded in the body element, otherwise the hit testing performed for mouse operations does not work. You can inspect this using F12 and click on the body element and confirm that visually it surrounds the editor.
