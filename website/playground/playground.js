@@ -19,15 +19,15 @@ window.onload = function() {
 			].join('\n'), 'require.d.ts');
 		});
 
-		var loading = document.getElementById('loading');
+		const loading = document.getElementById('loading');
 		loading.parentNode.removeChild(loading);
 		load();
 
 	});
 };
 
-var editor = null;
-var data = {
+let editor = null;
+const data = {
 	js: {
 		model: null,
 		state: null
@@ -45,19 +45,19 @@ var data = {
 function load() {
 
 	function layout() {
-		var GLOBAL_PADDING = 20;
+		let GLOBAL_PADDING = 20;
 
-		var WIDTH = window.innerWidth - 2 * GLOBAL_PADDING;
-		var HEIGHT = window.innerHeight;
+		let WIDTH = window.innerWidth - 2 * GLOBAL_PADDING;
+		let HEIGHT = window.innerHeight;
 
-		var TITLE_HEIGHT = 110;
-		var FOOTER_HEIGHT = 80;
-		var TABS_HEIGHT = 20;
-		var INNER_PADDING = 20;
-		var SWITCHER_HEIGHT = 30;
+		let TITLE_HEIGHT = 110;
+		let FOOTER_HEIGHT = 80;
+		let TABS_HEIGHT = 20;
+		let INNER_PADDING = 20;
+		let SWITCHER_HEIGHT = 30;
 
-		var HALF_WIDTH = Math.floor((WIDTH - INNER_PADDING) / 2);
-		var REMAINING_HEIGHT = HEIGHT - TITLE_HEIGHT - FOOTER_HEIGHT - SWITCHER_HEIGHT;
+		let HALF_WIDTH = Math.floor((WIDTH - INNER_PADDING) / 2);
+		let REMAINING_HEIGHT = HEIGHT - TITLE_HEIGHT - FOOTER_HEIGHT - SWITCHER_HEIGHT;
 
 		playgroundContainer.style.width = WIDTH + 'px';
 		playgroundContainer.style.height = (HEIGHT - FOOTER_HEIGHT) + 'px';
@@ -101,22 +101,22 @@ function load() {
 
 		runIframeHeight = (REMAINING_HEIGHT - TABS_HEIGHT);
 		if (runIframe) {
-			runIframe.style.height = runIframeHeight + 'px';
+			runIframe.style.height = `${runIframeHeight}px`;
 		}
 	}
 
 	function changeTab(selectedTabNode, desiredModelId) {
-		for (var i = 0; i < tabArea.childNodes.length; i++) {
-			var child = tabArea.childNodes[i];
+		for (let i = 0; i < tabArea.childNodes.length; i++) {
+			let child = tabArea.childNodes[i];
 			if (/tab/.test(child.className)) {
 				child.className = 'tab';
 			}
 		}
 		selectedTabNode.className = 'tab active';
 
-		var currentState = editor.saveViewState();
+		let currentState = editor.saveViewState();
 
-		var currentModel = editor.getModel();
+		let currentModel = editor.getModel();
 		if (currentModel === data.js.model) {
 			data.js.state = currentState;
 		} else if (currentModel === data.css.model) {
@@ -132,32 +132,32 @@ function load() {
 
 
 	// create the typing side
-	var typingContainer = document.createElement('div');
+	const typingContainer = document.createElement('div');
 	typingContainer.className = 'typingContainer';
 
-	var tabArea = (function() {
-		var tabArea = document.createElement('div');
+	let tabArea = (function() {
+		let tabArea = document.createElement('div');
 		tabArea.className = 'tabArea';
 
-		var jsTab = document.createElement('span');
+		let jsTab = document.createElement('span');
 		jsTab.className = 'tab active';
 		jsTab.appendChild(document.createTextNode('JavaScript'));
 		jsTab.onclick = function() { changeTab(jsTab, 'js'); };
 		tabArea.appendChild(jsTab);
 
-		var cssTab = document.createElement('span');
+		const cssTab = document.createElement('span');
 		cssTab.className = 'tab';
 		cssTab.appendChild(document.createTextNode('CSS'));
 		cssTab.onclick = function() { changeTab(cssTab, 'css'); };
 		tabArea.appendChild(cssTab);
 
-		var htmlTab = document.createElement('span');
+		let htmlTab = document.createElement('span');
 		htmlTab.className = 'tab';
 		htmlTab.appendChild(document.createTextNode('HTML'));
 		htmlTab.onclick = function() { changeTab(htmlTab, 'html'); };
 		tabArea.appendChild(htmlTab);
 
-		var runBtn = document.createElement('span');
+		let runBtn = document.createElement('span');
 		runBtn.className = 'action run';
 		runBtn.appendChild(document.createTextNode('Run'));
 		runBtn.onclick = function() { run(); };
@@ -166,34 +166,34 @@ function load() {
 		return tabArea;
 	})();
 
-	var editorContainer = document.createElement('div');
+	let editorContainer = document.createElement('div');
 	editorContainer.className = 'editor-container';
 
 	typingContainer.appendChild(tabArea);
 	typingContainer.appendChild(editorContainer);
 
-	var runContainer = document.createElement('div');
+	let runContainer = document.createElement('div');
 	runContainer.className = 'run-container';
 
-	var sampleSwitcher = document.createElement('select');
-	var sampleChapter;
+	let sampleSwitcher = document.createElement('select');
+	let sampleChapter;
 	PLAY_SAMPLES.forEach(function (sample) {
 		if (!sampleChapter || sampleChapter.label !== sample.chapter) {
 			sampleChapter = document.createElement('optgroup');
 			sampleChapter.label = sample.chapter;
 			sampleSwitcher.appendChild(sampleChapter);
 		}
-		var sampleOption = document.createElement('option');
+		let sampleOption = document.createElement('option');
 		sampleOption.value = sample.id;
 		sampleOption.appendChild(document.createTextNode(sample.name));
 		sampleChapter.appendChild(sampleOption);
 	});
 	sampleSwitcher.className = 'sample-switcher';
 
-	var LOADED_SAMPLES = [];
+	let LOADED_SAMPLES = [];
 	function findLoadedSample(sampleId) {
-		for (var i = 0; i < LOADED_SAMPLES.length; i++) {
-			var sample = LOADED_SAMPLES[i];
+		for (let i = 0; i < LOADED_SAMPLES.length; i++) {
+			let sample = LOADED_SAMPLES[i];
 			if (sample.id === sampleId) {
 				return sample;
 			}
@@ -202,8 +202,8 @@ function load() {
 	}
 
 	function findSamplePath(sampleId) {
-		for (var i = 0; i < PLAY_SAMPLES.length; i++) {
-			var sample = PLAY_SAMPLES[i];
+		for (let i = 0; i < PLAY_SAMPLES.length; i++) {
+			let sample = PLAY_SAMPLES[i];
 			if (sample.id === sampleId) {
 				return sample.path;
 			}
@@ -217,20 +217,20 @@ function load() {
 			return callback(null, sample);
 		}
 
-		var samplePath = findSamplePath(sampleId);
+		let samplePath = findSamplePath(sampleId);
 		if (!samplePath) {
 			return callback(new Error('sample not found'));
 		}
 
 		samplePath = 'playground/new-samples/' + samplePath;
 
-		var js = xhr(samplePath + '/sample.js').then(function(response) { return response.responseText});
-		var css = xhr(samplePath + '/sample.css').then(function(response) { return response.responseText});
-		var html = xhr(samplePath + '/sample.html').then(function(response) { return response.responseText});
+		let js = xhr(samplePath + '/sample.js').then(function(response) { return response.responseText});
+		let css = xhr(samplePath + '/sample.css').then(function(response) { return response.responseText});
+		let html = xhr(samplePath + '/sample.html').then(function(response) { return response.responseText});
 		monaco.Promise.join([js, css, html]).then(function(_) {
-			var js = _[0];
-			var css = _[1];
-			var html = _[2];
+			let js = _[0];
+			let css = _[1];
+			let html = _[2];
 			LOADED_SAMPLES.push({
 				id: sampleId,
 				js: js,
@@ -244,11 +244,11 @@ function load() {
 	}
 
 	sampleSwitcher.onchange = function() {
-		var sampleId = sampleSwitcher.options[sampleSwitcher.selectedIndex].value;
+		let sampleId = sampleSwitcher.options[sampleSwitcher.selectedIndex].value;
 		window.location.hash = sampleId;
 	};
 
-	var playgroundContainer = document.getElementById('playground');
+	const playgroundContainer = document.getElementById('playground');
 
 	layout();
 	window.onresize = layout;
@@ -268,16 +268,16 @@ function load() {
 		}
 	});
 
-	var currentToken = 0;
+	let currentToken = 0;
 	function parseHash(firstTime) {
-		var sampleId = window.location.hash.replace(/^#/, '');
+		let sampleId = window.location.hash.replace(/^#/, '');
 		if (!sampleId) {
 			sampleId = PLAY_SAMPLES[0].id;
 		}
 
 		if (firstTime) {
-			for (var i = 0; i < sampleSwitcher.options.length; i++) {
-				var opt = sampleSwitcher.options[i];
+			for (let i = 0; i < sampleSwitcher.options.length; i++) {
+				let opt = sampleSwitcher.options[i];
 				if (opt.value === sampleId) {
 					sampleSwitcher.selectedIndex = i;
 					break;
@@ -285,7 +285,7 @@ function load() {
 			}
 		}
 
-		var myToken = (++currentToken);
+		let myToken = (++currentToken);
 		loadSample(sampleId, function(err, sample) {
 			if (err) {
 				alert('Sample not found! ' + err.message);
@@ -309,7 +309,7 @@ function load() {
 	}
 }
 
-var runIframe = null, runIframeHeight = 0;
+let runIframe = null, runIframeHeight = 0;
 function doRun(runContainer) {
 	if (runIframe) {
 		// Unload old iframe
@@ -328,7 +328,7 @@ function doRun(runContainer) {
 	runIframe.frameborder = '0';
 	runContainer.appendChild(runIframe);
 
-	var getLang = function(lang) {
+	let getLang = function(lang) {
 		return data[lang].model.getValue();
 	};
 
@@ -337,12 +337,12 @@ function doRun(runContainer) {
 	});
 }
 
-var preloaded = {};
+let preloaded = {};
 (function() {
-	var elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0);
+	let elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0);
 
 	elements.forEach(function(el) {
-		var path = el.getAttribute('data-preload');
+		let path = el.getAttribute('data-preload');
 		preloaded[path] = el.innerText || el.textContent;
 		el.parentNode.removeChild(el);
 	});
@@ -355,7 +355,7 @@ function xhr(url) {
 		});
 	}
 
-	var req = null;
+	let req = null;
 	return new monaco.Promise(function(c,e,p) {
 		req = new XMLHttpRequest();
 		req.onreadystatechange = function () {
