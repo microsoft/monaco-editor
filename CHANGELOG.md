@@ -47,7 +47,7 @@ Contributions to `monaco-editor`:
 
 Contributions to `monaco-typescript`:
 
-* [Fathy Boundjadj (@fathyb)](https://github.com/fathyb): Use Mardown code block for hover tooltip [PR #20](https://github.com/Microsoft/monaco-typescript/pull/20)
+* [Fathy Boundjadj (@fathyb)](https://github.com/fathyb): Use Markdown code block for hover tooltip [PR #20](https://github.com/Microsoft/monaco-typescript/pull/20)
 * [Matt McCutchen (@mattmccutchen)](https://github.com/mattmccutchen): Clear the `file` fields of `relatedInformation` too. (WIP) [PR #21](https://github.com/Microsoft/monaco-typescript/pull/21)
 
 Contributions to `monaco-languages`:
