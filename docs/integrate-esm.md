@@ -10,7 +10,7 @@ More self-contained samples are available at [monaco-editor-samples](https://git
 
 ### Option 1: Using the Monaco Editor Loader Plugin
 
-This is the easiest method, and it allows for options to be passed in to the plugin in order to select only a subset of editor features or editor languages. Read more about the [Monaco Editor Loader Plugin](https://github.com/Microsoft/monaco-editor-webpack-plugin), which is a community authored plugin.
+This is the easiest method, and it allows for options to be passed into the plugin in order to select only a subset of editor features or editor languages. Read more about the [Monaco Editor Loader Plugin](https://github.com/Microsoft/monaco-editor-webpack-plugin), which is a community authored plugin.
 
 * `index.js`
 ```js

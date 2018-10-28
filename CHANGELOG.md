@@ -1,4 +1,4 @@
-# Monaco Editor Change log
+# Monaco Editor Changelog
 
 ## [0.14.3] (17.08.2018)
 * Fixes TypeScript/JavaScript coloring of regular expressions https://github.com/Microsoft/monaco-editor/issues/1009
@@ -47,7 +47,7 @@ Contributions to `monaco-editor`:
 
 Contributions to `monaco-typescript`:
 
-* [Fathy Boundjadj (@fathyb)](https://github.com/fathyb): Use Mardown code block for hover tooltip [PR #20](https://github.com/Microsoft/monaco-typescript/pull/20)
+* [Fathy Boundjadj (@fathyb)](https://github.com/fathyb): Use Markdown code block for hover tooltip [PR #20](https://github.com/Microsoft/monaco-typescript/pull/20)
 * [Matt McCutchen (@mattmccutchen)](https://github.com/mattmccutchen): Clear the `file` fields of `relatedInformation` too. (WIP) [PR #21](https://github.com/Microsoft/monaco-typescript/pull/21)
 
 Contributions to `monaco-languages`:
@@ -165,7 +165,7 @@ Contributions to `monaco-languages`:
 ### Notable Fixes
 * No longer use CSS class `.row` for command palette to avoid CSS conflicts with Bootstrap.
 * Fix Accessibility Help Dialog accessible issue on IE/Edge.
-* Fix Find Widget CSS compability issues with IE11.
+* Fix Find Widget CSS compatibility issues with IE11.
 * Toggle Block Comment can remove extra whitespaces.
 
 ### Thank you
@@ -195,7 +195,7 @@ Contributions to `monaco-languages`:
 * Support for the internal snippet syntax **has been discontinued** and snippet must now use the official, TextMate-like syntax. Find its grammar and samples [here](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_snippet-syntax).
 * Changed `IModel.findMatches` to accept a list of word separators.
 * Changed the shape of the `IModelContentChangedEvent` emitted via `IModel.onDidChangeContent` to **now contain a batch** of all the changes that the model had.
-* No longer using `transform: translate3d`, now using `will-change: transform` for browser layer hinting. Use the `disableLayerHinting` option if you have any trouble with browser layers (bluriness or high GPU memory usage).
+* No longer using `transform: translate3d`, now using `will-change: transform` for browser layer hinting. Use the `disableLayerHinting` option if you have any trouble with browser layers (blurriness or high GPU memory usage).
 * Simplified wrapping settings: `wordWrap`, `wordWrapColumn` and `wordWrapMinified`.
 
 ### API changes
@@ -275,7 +275,7 @@ Contributions to `monaco-languages`:
  - now using **Typed Arrays** in a number of key places resulting in considerable speed boosts and lower memory consumption.
 
 ### Monarch Tokenizer
- - Monarch states are now memoized up to a depth of 5. This results in considerable memory improvements for files with many lines.
+ - Monarch states are now memorized up to a depth of 5. This results in considerable memory improvements for files with many lines.
  - Speed improvements to Monarch tokenizer that resulted in one **breaking change**:
  - when entering an embedded mode (i.e. `nextEmbedded`), the state ending up in must immediately contain a `nextEmbedded: "@pop"` rule. This helps in quickly figuring out where the embedded mode should be left. The editor will throw an error if the Monarch grammar does not respect this condition.
 
@@ -340,10 +340,10 @@ Contributions to `monaco-languages`:
   - removed `model.setMode()`, as `IMode` will soon disappear from the API.
 
 ### Debt work
-  - Removed html, razor, php and handlebars from `monaco-editor-core`:
+  - Removed HTML, razor, PHP and handlebars from `monaco-editor-core`:
     - the `monaco-editor-core` is now finally language agnostic.
-    - coloring for html, razor, php and handlebars is now coming in from `monaco-languages`.
-    - language smarts for html, razor and handlebars now comes from `monaco-html`.
+    - coloring for HTML, razor, PHP and handlebars is now coming in from `monaco-languages`.
+    - language smarts for HTML, razor and handlebars now comes from `monaco-html`.
   - Packaging improvements:
     - thanks to the removal of the old languages from `monaco-editor-core`, we could improve the bundling and reduce the number of .js files we ship.
     - we are thinking about simplifying this further in the upcoming releases.
@@ -418,7 +418,7 @@ Contributions to `monaco-languages`:
 - Broken configurations (loading from `file://` or misconfigured cross-domain loading) now load the web worker code in the UI thread. This caused a **breaking change** in the behaviour of `monaco.editor.createWebWorker`
 - The right-pointing mouse pointer is oversized in high DPI - [issue](https://github.com/Microsoft/monaco-editor/issues/5)
 - The editor functions now correctly when hosted inside a `position:fixed` element.
-- Cross origin configuration is now picked up (as advertised in documentation from MonacoEnvironment)
+- Cross-origin configuration is now picked up (as advertised in documentation from MonacoEnvironment)
 
 [0.14.3]: https://github.com/Microsoft/monaco-editor/compare/v0.14.2...v0.14.3
 [0.14.2]: https://github.com/Microsoft/monaco-editor/compare/v0.14.1...v0.14.2
