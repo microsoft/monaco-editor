@@ -2,6 +2,8 @@
 
 The Monaco Editor is the code editor which powers [VS Code](https://github.com/Microsoft/vscode), with the features better described [here](https://code.visualstudio.com/docs/editor/editingevolved).
 
+Please note that this repository contains no source code for the code editor, it only contains the scripts to package everything together and ship the `monaco-editor` npm module.
+
 ![image](https://cloud.githubusercontent.com/assets/5047891/19600675/5eaae9e6-97a6-11e6-97ad-93903167d8ba.png)
 
 ## Try it out
