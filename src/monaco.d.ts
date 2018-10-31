@@ -25,7 +25,7 @@ declare module monaco.languages.html {
 
     export interface Options {
         /**
-         * If set, comments are tolerated. If set to false, syntax errors will be emmited for comments.
+         * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
          */
         readonly format?: HTMLFormatConfiguration;
         /**
