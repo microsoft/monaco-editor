@@ -135,7 +135,7 @@ declare module monaco.languages.typescript {
          *
          * @param content The file content
          * @param filePath An optional file path
-         * @returns A disposabled which will remove the file from the
+         * @returns A disposable which will remove the file from the
          * language service upon disposal.
          */
         addExtraLib(content: string, filePath?: string): IDisposable;
