@@ -160,7 +160,7 @@ Contributions to `monaco-languages`:
 * Method `provideCodeActions` in `CodeActionProvider` now returns `Command[] | Thenable<Command[]>` instead of `CodeAction[] | Thenable<CodeAction[]>`, which is already removed.
 
 ### API changes
-* added `monaco.editor.getModelMarkers`. Get markers for owner and/or resource.
+* Added `monaco.editor.getModelMarkers`. Get markers for owner and/or resource.
 
 ### Notable Fixes
 * No longer use CSS class `.row` for command palette to avoid CSS conflicts with Bootstrap.
@@ -174,7 +174,7 @@ Contributions to `monaco-languages`:
 * [Remy Suen @rcjsuen](https://github.com/rcjsuen): Update Dockerfile grammar with STOPSIGNAL and SHELL instructions [PR monaco-languages#22](https://github.com/Microsoft/monaco-languages/pull/22)
 * [Marlene Cota @marlenecota](https://github.com/marlenecota): Add Small Basic support [PR monaco-languages#23](https://github.com/Microsoft/monaco-languages/pull/23)
 * [Ben Jacobson @bjacobso](https://github.com/bjacobso): Add LIMIT to sql keywords [PR monaco-languages#24](https://github.com/Microsoft/monaco-languages/pull/24)
-* to the many others that have contributed PRs to [vscode](https://github.com/Microsoft/vscode) which have also made their way into the monaco-editor.
+* To the many others that have contributed PRs to [vscode](https://github.com/Microsoft/vscode) which have also made their way into the monaco-editor.
 
 ## [0.9.0] (03.07.2017)
 
@@ -201,7 +201,7 @@ Contributions to `monaco-languages`:
 ### API changes
 
 * added `monaco.languages.registerTypeDefinitionProvider`.
-* new editor options:
+* New editor options:
   * `accessibilityHelpUrl` - the url of a page to open for documentation about how to operate the editor when using a Screen Reader.
    * `find.seedSearchStringFromSelection` - Ctrl+F/Cmd+F seeds search string from the editor selection.
    * `find.autoFindInSelection` - Ctrl+F/Cmd+F turns on the find in selection toggle if the editor selection is multiline.
@@ -271,8 +271,8 @@ Contributions to `monaco-languages`:
  - Now shipping TypeScript v2.1.5 in `monaco-typescript` (JS and TS language support).
 
 ### No longer supporting IE9 and IE10
- - we have not made the editor fail on purpose in these browsers, but we have removed IE9/IE10 targeted workarounds from our codebase;
- - now using **Typed Arrays** in a number of key places resulting in considerable speed boosts and lower memory consumption.
+ - We have not made the editor fail on purpose in these browsers, but we have removed IE9/IE10 targeted workarounds from our codebase;
+ - Now using **Typed Arrays** in a number of key places resulting in considerable speed boosts and lower memory consumption.
 
 ### Monarch Tokenizer
  - Monarch states are now memoized up to a depth of 5. This results in considerable memory improvements for files with many lines.
