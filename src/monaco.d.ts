@@ -10,7 +10,7 @@ declare module monaco.languages.json {
          */
         readonly validate?: boolean;
         /**
-         * If set, comments are tolerated. If set to false, syntax errors will be emmited for comments.
+         * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
          */
         readonly allowComments?: boolean;
         /**
