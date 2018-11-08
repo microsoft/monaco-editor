@@ -1987,7 +1987,7 @@ declare namespace monaco.editor {
      */
     export type IEditorViewState = ICodeEditorViewState | IDiffEditorViewState;
 
-    export const enum ScrollType {
+    export enum ScrollType {
         Smooth = 0,
         Immediate = 1
     }
@@ -3140,7 +3140,7 @@ declare namespace monaco.editor {
         readonly wordWrapBreakObtrusiveCharacters: string;
     }
 
-    export const enum RenderLineNumbersType {
+    export enum RenderLineNumbersType {
         Off = 0,
         On = 1,
         Relative = 2,
