@@ -4,7 +4,8 @@ REMOTE_URL="$(git remote get-url origin)"
 COMMITTER_USER_NAME="$(git log --format='%an' -1)"
 COMMITTER_EMAIL="$(git log --format='%ae' -1)"
 
-cd ../../monaco-editor-website
+cd ../monaco-editor-website
+git init
 git config user.name "${COMMITTER_USER_NAME}"
 git config user.email "${COMMITTER_EMAIL}"
 git remote add origin "${REMOTE_URL}"
