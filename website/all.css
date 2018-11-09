@@ -84,7 +84,8 @@ h6 small {
 
 .navbar-inverse .navbar-inner {
   background-color: #68217A;
-  filter: none;
+  -webkit-filter: none;
+          filter: none;
 }
 
 .navbar-inverse.home .navbar-inner {
@@ -177,7 +178,8 @@ body > section > .container {
 .navbar-inverse .nav .active>a.nav-item, .navbar-inverse .nav .active>a.nav-item:hover, .navbar-inverse .nav .active>a.nav-item:focus {
   color:#fff;
   background-color: rgba(0,0,0,.24);
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .navbar .logo {
