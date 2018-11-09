@@ -70,7 +70,7 @@ define([], function() { return[
 	},
 	{
 		"name": "sample.csharp.txt",
-		"content": "using System;\r\nusing System.Collections.Generic;\r\nusing System.Diagnostics;\r\nusing System.Linq;\r\nusing System.Text;\r\nusing System.Threading.Tasks;\r\n\r\nnamespace VS\r\n{\r\n\tclass Program\r\n\t{\r\n\t\tstatic void Main(string[] args)\r\n\t\t{\r\n\t\t\tProcessStartInfo si = new ProcessStartInfo();\r\n\t\t\tfloat load= 3.2e02f;\r\n\r\n\t\t\tsi.FileName = @\"tools\\\\node.exe\";\r\n\t\t\tsi.Arguments = \"tools\\\\simpleserver.js\";\r\n\r\n\t\t\tProcess.Start(si);\r\n\t\t}\r\n\t}\r\n}\r\n"
+		"content": "/*\r\n* C# Program to Display All the Prime Numbers Between 1 to 100\r\n*/\r\n\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing System.Text;\r\n\r\nnamespace VS\r\n{\r\n\tclass Program\r\n\t{\r\n\t\tstatic void Main(string[] args)\r\n    \t\t{\r\n\t\t\tbool isPrime = true;\r\n\t\t\tConsole.WriteLine(\"Prime Numbers : \");\r\n\t\t\tfor (int i = 2; i <= 100; i++)\r\n\t\t\t{\r\n\t\t\t\tfor (int j = 2; j <= 100; j++)\r\n\t\t\t\t{\r\n\t\t\t\t\tif (i != j && i % j == 0)\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\tisPrime = false;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t\r\n\t\t\t\tif (isPrime)\r\n\t\t\t\t{\r\n\t\t\t\t\tConsole.Write(\"\\t\" +i);\r\n\t\t\t\t}\r\n\t\t\t\tisPrime = true;\r\n\t\t\t}\r\n\t\t\tConsole.ReadKey();\r\n\t\t}\r\n\t}\r\n}\r\n"
 	},
 	{
 		"name": "sample.css.txt",
@@ -102,7 +102,7 @@ define([], function() { return[
 	},
 	{
 		"name": "sample.java.txt",
-		"content": "import java.util.ArrayList;\nimport org.junit.Test;\n\npublic class Example {\n    @Test \n    public void method() {\n       org.junit.Assert.assertTrue( \"isEmpty\", new ArrayList<Integer>().isEmpty());\n    }\n\t\n   @Test(timeout=100) public void infinity() {\n       while(true);\n    }\n }\n "
+		"content": "/*\n\tBasic Java example using FizzBuzz\n*/\n\nimport java.util.Random;\n\npublic class Example {\n\tpublic static void main (String[] args){\n\t\t// Generate a random number between 1-100. (See generateRandomNumber method.)\n\t\tint random = generateRandomNumber(100);\n\n\t\t// Output generated number.\n\t\tSystem.out.println(\"Generated number: \" + random + \"\\n\");\n\n\t\t// Loop between 1 and the number we just generated.\n\t\tfor (int i=1; i<=random; i++){\n\t\t\t// If i is divisible by both 3 and 5, output \"FizzBuzz\".\n\t\t\tif (i % 3 == 0 && i % 5 == 0){\n\t\t\t\tSystem.out.println(\"FizzBuzz\");\n\t\t\t}\n\t\t\t// If i is divisible by 3, output \"Fizz\"\n\t\t\telse if (i % 3 == 0){\n\t\t\t\tSystem.out.println(\"Fizz\");\n\t\t\t}\n\t\t\t// If i is divisible by 5, output \"Buzz\".\n\t\t\telse if (i % 5 == 0){\n\t\t\t\tSystem.out.println(\"Buzz\");\n\t\t\t}\n\t\t\t// If i is not divisible by either 3 or 5, output the number.\n\t\t\telse {\n\t\t\t\tSystem.out.println(i);\n\t\t\t}\n\t\t}\n\t}\n\n\t/**\n\t\tGenerates a new random number between 0 and 100.\n\t\t@param bound The highest number that should be generated.\n\t\t@return An integer representing a randomly generated number between 0 and 100.\n\t*/\n\tprivate static int generateRandomNumber(int bound){\n\t\t// Create new Random generator object and generate the random number.\n\t\tRandom randGen = new Random();\n\t\tint randomNum = randGen.nextInt(bound);\n\n\t\t// If the random number generated is zero, use recursion to regenerate the number until it is not zero.\n\t\tif (randomNum < 1){\n\t\t\trandomNum = generateRandomNumber(bound);\n\t\t}\n\n\t\treturn randomNum;\n\t}\n}\n "
 	},
 	{
 		"name": "sample.javascript.txt",
@@ -154,7 +154,7 @@ define([], function() { return[
 	},
 	{
 		"name": "sample.python.txt",
-		"content": "from banana import *\r\n\r\nclass Monkey:\r\n\t# Bananas the monkey can eat.\r\n\tcapacity = 10\r\n\tdef eat(self, N):\r\n\t\t'''Make the monkey eat N bananas!'''\r\n\t\tcapacity = capacity - N*banana.size\r\n\r\n\tdef feeding_frenzy(self):\r\n\t\teat(9.25)\r\n\t\treturn \"Yum yum\""
+		"content": "import banana\r\n\r\n\r\nclass Monkey:\r\n    # Bananas the monkey can eat.\r\n    capacity = 10\r\n    def eat(self, n):\r\n        \"\"\"Make the monkey eat n bananas!\"\"\"\r\n        self.capacity -= n * banana.size\r\n\r\n    def feeding_frenzy(self):\r\n        self.eat(9.25)\r\n        return \"Yum yum\"\r\n"
 	},
 	{
 		"name": "sample.r.txt",
