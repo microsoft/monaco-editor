@@ -16,4 +16,6 @@ steps:
 
 - script: |
     ./build/publish-website.sh
+  env:
+    GITHUB_TOKEN: $(GITHUB_TOKEN)
   displayName: 'Publish website'
