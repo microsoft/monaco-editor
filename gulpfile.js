@@ -656,7 +656,19 @@ gulp.task('website', ['clean-website'], function() {
 			cp.execSync('git init', {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
-			cp.execSync('git remote add origin https://github.com/Microsoft/monaco-editor.git', {
+
+			let remoteUrl = cp.execSync('git remote get-url origin')
+			let committerUserName = cp.execSync('git log --format=\'%an\' -1');
+			let committerEmail = cp.execSync('git log --format=\'%ae\' -1');
+
+			cp.execSync(`git config user.name ${committerUserName}`, {
+				cwd: path.join(__dirname, '../monaco-editor-website')
+			});
+			cp.execSync(`git config user.email ${committerEmail}`, {
+				cwd: path.join(__dirname, '../monaco-editor-website')
+			});
+
+			cp.execSync(`git remote add origin ${remoteUrl}`, {
 				cwd: path.join(__dirname, '../monaco-editor-website')
 			});
 			cp.execSync('git checkout -b gh-pages', {
