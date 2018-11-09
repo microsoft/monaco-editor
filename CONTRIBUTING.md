@@ -23,7 +23,7 @@ These packages are described in the root file called `metadata.js` and it is pos
 
 You need to have all the build setup of VS Code to be able to build the Monaco Editor.
 
-* Install all the prerequisites: https://github.com/Microsoft/vscode/wiki/How-to-Contribute#installing-prerequisites
+* Install all the [prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
 
 ### OS X and Linux
 ```
