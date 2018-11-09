@@ -12,3 +12,4 @@ git remote add origin "${REMOTE_URL}"
 git checkout -b gh-pages
 git add .
 git commit -m "Publish website"
+git push origin gh-pages --force
