@@ -519,7 +519,7 @@ function addPluginThirdPartyNotices() {
 // --- website
 
 gulp.task('clean-website', function(cb) { rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb); });
-gulp.task('website', ['clean-website'], function() {
+gulp.task('build-website', ['clean-website'], function() {
 
 	const initialCWD = process.cwd();
 
@@ -653,38 +653,41 @@ gulp.task('website', ['clean-website'], function() {
 			});
 			fs.unlink('../monaco-editor-website/package.json');
 
-			cp.execSync('git init', {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-
-			let remoteUrl = cp.execSync('git remote get-url origin')
-			let committerUserName = cp.execSync('git log --format=\'%an\' -1');
-			let committerEmail = cp.execSync('git log --format=\'%ae\' -1');
-
-			cp.execSync(`git config user.name ${committerUserName}`, {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-			cp.execSync(`git config user.email ${committerEmail}`, {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-
-			cp.execSync(`git remote add origin ${remoteUrl}`, {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-			cp.execSync('git checkout -b gh-pages', {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-			cp.execSync('git add .', {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-			cp.execSync('git commit -m "Publish website"', {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-			console.log('RUN monaco-editor-website>git push origin gh-pages --force')
 			this.emit('end');
 		}))
 	);
 
+});
+
+gulp.task('website', ['build-website'], function() {
+	cp.execSync('git init', {
+		cwd: path.join(__dirname, '../monaco-editor-website')
+	});
+
+	let remoteUrl = cp.execSync('git remote get-url origin')
+	let committerUserName = cp.execSync('git log --format=\'%an\' -1');
+	let committerEmail = cp.execSync('git log --format=\'%ae\' -1');
+
+	cp.execSync(`git config user.name ${committerUserName}`, {
+		cwd: path.join(__dirname, '../monaco-editor-website')
+	});
+	cp.execSync(`git config user.email ${committerEmail}`, {
+		cwd: path.join(__dirname, '../monaco-editor-website')
+	});
+
+	cp.execSync(`git remote add origin ${remoteUrl}`, {
+		cwd: path.join(__dirname, '../monaco-editor-website')
+	});
+	cp.execSync('git checkout -b gh-pages', {
+		cwd: path.join(__dirname, '../monaco-editor-website')
+	});
+	cp.execSync('git add .', {
+		cwd: path.join(__dirname, '../monaco-editor-website')
+	});
+	cp.execSync('git commit -m "Publish website"', {
+		cwd: path.join(__dirname, '../monaco-editor-website')
+	});
+	console.log('RUN monaco-editor-website>git push origin gh-pages --force')
 });
 
 gulp.task('generate-test-samples', function() {
