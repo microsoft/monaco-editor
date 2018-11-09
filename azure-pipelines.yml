@@ -12,4 +12,8 @@ steps:
 - script: |
     npm install
     npm run website
-  displayName: 'Build and publish website'
+  displayName: 'Build website'
+
+- script: |
+    ./build/publish-website.sh
+  displayName: 'Publish website'

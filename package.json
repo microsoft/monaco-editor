@@ -8,7 +8,8 @@
   "scripts": {
     "simpleserver": "gulp simpleserver",
     "release": "gulp release",
-    "website": "gulp website"
+    "website": "gulp website",
+    "build-website": "gulp build-website"
   },
   "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",
