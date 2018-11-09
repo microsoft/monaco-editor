@@ -11,7 +11,7 @@ steps:
 
 - script: |
     npm install
-    npm run website
+    npm run build-website
   displayName: 'Build website'
 
 - script: |
