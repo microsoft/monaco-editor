@@ -275,7 +275,7 @@ Contributions to `monaco-languages`:
  - now using **Typed Arrays** in a number of key places resulting in considerable speed boosts and lower memory consumption.
 
 ### Monarch Tokenizer
- - Monarch states are now memorized up to a depth of 5. This results in considerable memory improvements for files with many lines.
+ - Monarch states are now memoized up to a depth of 5. This results in considerable memory improvements for files with many lines.
  - Speed improvements to Monarch tokenizer that resulted in one **breaking change**:
  - when entering an embedded mode (i.e. `nextEmbedded`), the state ending up in must immediately contain a `nextEmbedded: "@pop"` rule. This helps in quickly figuring out where the embedded mode should be left. The editor will throw an error if the Monarch grammar does not respect this condition.
 
