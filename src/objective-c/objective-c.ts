@@ -201,18 +201,18 @@ export const language = <ILanguage>{
 			[/"/, 'string.escape', '@dblStringBody']
 		],
 		stringBody: [
+			[/[^\\']+$/, 'string', '@popall'],
+			[/[^\\']+/, 'string'],
 			[/\\./, 'string'],
 			[/'/, 'string.escape', '@popall'],
-			[/.(?=.*')/, 'string'],
-			[/.*\\$/, 'string'],
-			[/.*$/, 'string', '@popall']
+			[/\\$/, 'string']
 		],
 		dblStringBody: [
+			[/[^\\"]+$/, 'string', '@popall'],
+			[/[^\\"]+/, 'string'],
 			[/\\./, 'string'],
 			[/"/, 'string.escape', '@popall'],
-			[/.(?=.*")/, 'string'],
-			[/.*\\$/, 'string'],
-			[/.*$/, 'string', '@popall']
+			[/\\$/, 'string']
 		]
 	}
 };

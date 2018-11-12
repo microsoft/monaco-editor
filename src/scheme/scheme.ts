@@ -117,11 +117,11 @@ export const language = <ILanguage>{
 		],
 
 		multiLineString: [
+			[/[^\\"]+$/, 'string', '@popall'],
+			[/[^\\"]+/, 'string'],
 			[/\\./, 'string.escape'],
 			[/"/, 'string', '@popall'],
-			[/.(?=.*")/, 'string'],
-			[/.*\\$/, 'string'],
-			[/.*$/, 'string', '@popall'],
+			[/\\$/, 'string']
 		],
 	},
 };
