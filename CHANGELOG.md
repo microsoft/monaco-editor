@@ -1,5 +1,73 @@
 # Monaco Editor Changelog
 
+## [0.15.0] (12.11.2018)
+
+### New & Noteworthy
+
+* Improved typings in `monaco.d.ts` to better reflect null types.
+
+### Breaking changes
+
+* We are slowly migrating our code-base away from WinJS promises, so the exposed `monaco.Promise` API has been reduced to indicate that. We are setting up a Promise polyfill to cover browsers which do not have a native Promise implementation yet (i.e. IE11).
+* `CompletionItemProvider.provideCompletionItems` and `CompletionItemProvider.resolveCompletionItem` have been modified to better reflect the API of VS Code. Both arguments and return type have changed.
+* `SignatureHelpProvider.provideSignatureHelp` now receives an extra argument for the context.
+* Various new editor options or tweaks to existing ones: `parameterHints`, `autoClosingBrackets`, `autoClosingQuotes`, `autoSurround`, `copyWithSyntaxHighlighting`, `tabCompletion`.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [Arvind S (@arvind0598)](https://github.com/arvind0598): Updated C# sample code for a simpler game. [PR #1160](https://github.com/Microsoft/monaco-editor/pull/1160)
+* [Brooks Becton (@brooksbecton)](https://github.com/brooksbecton): Removing obsolete Note in Monarch Docs [PR #1089](https://github.com/Microsoft/monaco-editor/pull/1089)
+* [James Orr (@buzzcola)](https://github.com/buzzcola): Correct comma splice in README.md [PR #1111](https://github.com/Microsoft/monaco-editor/pull/1111)
+* [Chintogtokh Batbold (@chintogtokh)](https://github.com/chintogtokh): Clarify that repo doesn't contain source code [PR #1119](https://github.com/Microsoft/monaco-editor/pull/1119)
+* [Chris Helgert (@chrishelgert)](https://github.com/chrishelgert): Move issue template to '.github' folder and add some styling for better readability [PR #1121](https://github.com/Microsoft/monaco-editor/pull/1121)
+* [Steven Bock (@dabockster)](https://github.com/dabockster): Added better Java sample (FizzBuzz instead of JUnit) [PR #1161](https://github.com/Microsoft/monaco-editor/pull/1161)
+* [Michele Gobbi (@dynamick)](https://github.com/dynamick): Added Ruby [PR #1102](https://github.com/Microsoft/monaco-editor/pull/1102)
+* [Edilson Ngulele (@EdNgulele)](https://github.com/EdNgulele): style: Updated CONTRIBUTING.md [PR #1088](https://github.com/Microsoft/monaco-editor/pull/1088)
+* [Evan Walters (@evanwaltersdev)](https://github.com/evanwaltersdev): issue guidelines [PR #1096](https://github.com/Microsoft/monaco-editor/pull/1096)
+* [Abdussalam Abdurrahman (@finalfantasia)](https://github.com/finalfantasia): [clojure] Update Clojure example with one that's more representative. [PR #1059](https://github.com/Microsoft/monaco-editor/pull/1059)
+* [@flash76](https://github.com/flash76): Update README.md [PR #1141](https://github.com/Microsoft/monaco-editor/pull/1141)
+* [Daniel Pasch (@gempir)](https://github.com/gempir): fix 2 of 7 npm package vurnerabilities [PR #1087](https://github.com/Microsoft/monaco-editor/pull/1087)
+* [@Hotlar](https://github.com/Hotlar): lingual fixes to readme [PR #1086](https://github.com/Microsoft/monaco-editor/pull/1086)
+* [Jeremy Meiss (@jerdog)](https://github.com/jerdog): correct README grammar [PR #1114](https://github.com/Microsoft/monaco-editor/pull/1114)
+* [Joaquim Honório (@JoaquimCMH)](https://github.com/JoaquimCMH): Update CHANGELOG [PR #1152](https://github.com/Microsoft/monaco-editor/pull/1152)
+* [Ricardo Ambrogi (@KadoBOT)](https://github.com/KadoBOT): Remove commented code [PR #1113](https://github.com/Microsoft/monaco-editor/pull/1113)
+* [Abhinav Srivastava (@krototype)](https://github.com/krototype): changed the license block of readme [PR #1133](https://github.com/Microsoft/monaco-editor/pull/1133)
+* [Mera Gangapersaud (@Mera-Gangapersaud)](https://github.com/Mera-Gangapersaud): Fixed prerequisites link in Contributing.md [PR #1155](https://github.com/Microsoft/monaco-editor/pull/1155)
+* [Michael (@michael-k)](https://github.com/michael-k): Use python examples that work [PR #1053](https://github.com/Microsoft/monaco-editor/pull/1053)
+* [Remy Suen (@rcjsuen)](https://github.com/rcjsuen): Add missing links in CHANGELOG.md [PR #1029](https://github.com/Microsoft/monaco-editor/pull/1029)
+* [Shivansh Saini (@shivanshs9)](https://github.com/shivanshs9): Fixed typos in website page and CHANGELOG [PR #1153](https://github.com/Microsoft/monaco-editor/pull/1153)
+* [Sachin Saini (@thetinygoat)](https://github.com/thetinygoat): hacktoberfest fix [PR #1131](https://github.com/Microsoft/monaco-editor/pull/1131)
+
+Contributions to `monaco-languages`:
+
+* [Aastha (@AasthaGupta)](https://github.com/AasthaGupta): Fix markdown bug #1107 [PR #52](https://github.com/Microsoft/monaco-languages/pull/52)
+* [Abdussalam Abdurrahman (@finalfantasia)](https://github.com/finalfantasia): [clojure] Improve Clojure syntax highlighting. [PR #45](https://github.com/Microsoft/monaco-languages/pull/45)
+* [Abhishek (@GeekAb)](https://github.com/GeekAb): Markdown bug fix for #1107 [PR #51](https://github.com/Microsoft/monaco-languages/pull/51)
+* [Matthew D. Miller (@goober99)](https://github.com/goober99):  Added support for Perl quote-like operators to fix #1101 [PR #50](https://github.com/Microsoft/monaco-languages/pull/50)
+* [Grzegorz Wcisło (@grzegorz-wcislo)](https://github.com/grzegorz-wcislo): Fix yaml string tokenization [PR #47](https://github.com/Microsoft/monaco-languages/pull/47)
+* [Pascal Berger (@pascalberger)](https://github.com/pascalberger): Use C# highlighting for Cake scripts [PR #53](https://github.com/Microsoft/monaco-languages/pull/53)
+* [Sebastian Pahnke (@spahnke)](https://github.com/spahnke)
+  * [JS/TS] Add support for alternative octal integer literal syntax [PR #49](https://github.com/Microsoft/monaco-languages/pull/49)
+  * Improve tokenization of regular expressions [PR #46](https://github.com/Microsoft/monaco-languages/pull/46)
+* [Tiago Danin (@TiagoDanin)](https://github.com/TiagoDanin): New rule for non-teminated string in yaml [PR #48](https://github.com/Microsoft/monaco-languages/pull/48)
+
+Contributions to `monaco-typescript`:
+
+* [Parikshit Hooda (@Parikshit-Hooda)](https://github.com/Parikshit-Hooda): fixed typo in line 11 [PR #23](https://github.com/Microsoft/monaco-typescript/pull/23)
+* [Sebastian Pahnke (@spahnke)](https://github.com/spahnke): Render documentation in suggestion widget as Markdown [PR #22](https://github.com/Microsoft/monaco-typescript/pull/22)
+
+Contributions to `monaco-json`:
+
+* [Igor Nesterenko (@nesterone)](https://github.com/nesterone): Provide diagnostic option to enable on-demand schema loading [PR #7](https://github.com/Microsoft/monaco-json/pull/7)
+
+Contributions to `monaco-css`:
+
+* [Richard Samuelson (@ricsam)](https://github.com/ricsam): Fix indentation on the CSS test page [PR #7](https://github.com/Microsoft/monaco-css/pull/7)
+
+
+
 ## [0.14.3] (17.08.2018)
 * Fixes TypeScript/JavaScript coloring of regular expressions https://github.com/Microsoft/monaco-editor/issues/1009
 
