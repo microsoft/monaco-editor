@@ -509,99 +509,114 @@ public class HelloWorld {
 <pre id="java">// Difficulty: "Easy"
 // Language definition for Java
 return {
-  // Set defaultToken to invalid to see what you do not tokenize yet
-  // defaultToken: 'invalid',
+	defaultToken: '',
+	tokenPostfix: '.java',
 
-  keywords: [
-    'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
-    'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',
-    'this', 'break', 'double', 'implements', 'protected', 'throw', 'byte',
-    'else', 'import', 'public', 'throws', 'case', 'enum', 'instanceof', 'return',
-    'transient', 'catch', 'extends', 'int', 'short', 'try', 'char', 'final',
-    'interface', 'static', 'void', 'class', 'finally', 'long', 'strictfp',
-    'volatile', 'const', 'float', 'native', 'super', 'while', 'true', 'false'
-  ],
+	keywords: [
+		'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
+		'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',
+		'this', 'break', 'double', 'implements', 'protected', 'throw', 'byte',
+		'else', 'import', 'public', 'throws', 'case', 'enum', 'instanceof', 'return',
+		'transient', 'catch', 'extends', 'int', 'short', 'try', 'char', 'final',
+		'interface', 'static', 'void', 'class', 'finally', 'long', 'strictfp',
+		'volatile', 'const', 'float', 'native', 'super', 'while', 'true', 'false'
+	],
 
-  typeKeywords: [
-    'boolean', 'double', 'byte', 'int', 'short', 'char', 'void', 'long', 'float'
-  ],
+	operators: [
+		'=', '&gt;', '&lt;', '!', '~', '?', ':',
+		'==', '&lt;=', '&gt;=', '!=', '&amp;&amp;', '||', '++', '--',
+		'+', '-', '*', '/', '&amp;', '|', '^', '%', '&lt;&lt;',
+		'&gt;&gt;', '&gt;&gt;&gt;', '+=', '-=', '*=', '/=', '&amp;=', '|=',
+		'^=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;&gt;='
+	],
 
-  operators: [
-    '=', '&gt;', '&lt;', '!', '~', '?', ':',
-    '==', '&lt;=', '&gt;=', '!=', '&amp;&amp;', '||', '++', '--',
-    '+', '-', '*', '/', '&amp;', '|', '^', '%', '&lt;&lt;',
-    '&gt;&gt;', '&gt;&gt;&gt;', '+=', '-=', '*=', '/=', '&amp;=', '|=',
-    '^=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;&gt;='
-  ],
+	// we include these common regular expressions
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	digits: /\d+(_+\d+)*/,
+	octaldigits: /[0-7]+(_+[0-7]+)*/,
+	binarydigits: /[0-1]+(_+[0-1]+)*/,
+	hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
 
-  // we include these common regular expressions
-  symbols:  /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
-  escapes:  /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+			// identifiers and keywords
+			[/[a-zA-Z_$][\w$]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
+			}],
 
-  // The main tokenizer for our languages
-  tokenizer: {
-    root: [
-      // identifiers and keywords
-      [/[a-z_$][\w$]*/, { cases: { '@typeKeywords': 'keyword',
-                                   '@keywords': 'keyword',
-                                   '@default': 'identifier' } }],
-      [/[A-Z][\w\$]*/, 'type.identifier' ],  // to show class names nicely
+			// whitespace
+			{ include: '@whitespace' },
 
-      // whitespace
-      { include: '@whitespace' },
+			// delimiters and operators
+			[/[{}()\[\]]/, '@brackets'],
+			[/[&lt;&gt;](?!@symbols)/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
 
-      // delimiters and operators
-      [/[{}()\[\]]/, '@brackets'],
-      [/[&lt;&gt;](?!@symbols)/, '@brackets'],
-      [/@symbols/, { cases: { '@operators': 'operator',
-                              '@default'  : '' } } ],
+			// @ annotations.
+			[/@\s*[a-zA-Z_\$][\w\$]*/, 'annotation'],
 
-      // @ annotations.
-      // As an example, we emit a debugging log message on these tokens.
-      // Note: message are supressed during the first load -- change some lines to see them.
-      [/@\s*[a-zA-Z_\$][\w\$]*/, { token: 'annotation', log: 'annotation token: $0' }],
+			// numbers
+			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
+			[/0[xX](@hexdigits)[Ll]?/, 'number.hex'],
+			[/0(@octaldigits)[Ll]?/, 'number.octal'],
+			[/0[bB](@binarydigits)[Ll]?/, 'number.binary'],
+			[/(@digits)[fFdD]/, 'number.float'],
+			[/(@digits)[lL]?/, 'number'],
 
-      // numbers
-      [/\d*\.\d+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
-      [/0[xX][0-9a-fA-F_]*[0-9a-fA-F][Ll]?/, 'number.hex'],
-      [/0[0-7_]*[0-7][Ll]?/, 'number.octal'],
-      [/0[bB][0-1_]*[0-1][Ll]?/, 'number.binary'],
-      [/\d+[lL]?/, 'number'],
+			// delimiter: after number because of .\d floats
+			[/[;,.]/, 'delimiter'],
 
-      // delimiter: after number because of .\d floats
-      [/[;,.]/, 'delimiter'],
+			// strings
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, 'string', '@string'],
 
-      // strings
-      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/"/,  'string', '@string' ],
+			// characters
+			[/'[^\\']'/, 'string'],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
+			[/'/, 'string.invalid']
+		],
 
-      // characters
-      [/'[^\\']'/, 'string'],
-      [/(')(@escapes)(')/, ['string','string.escape','string']],
-      [/'/, 'string.invalid']
-    ],
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
+		],
 
-    whitespace: [
-      [/[ \t\r\n]+/, 'white'],
-      [/\/\*/,       'comment', '@comment' ],
-      [/\/\/.*$/,    'comment'],
-    ],
+		comment: [
+			[/[^\/*]+/, 'comment'],
+			// [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
+			// [/\/\*/,    'comment.invalid' ],    // this breaks block comments in the shape of /* //*/
+			[/\*\//, 'comment', '@pop'],
+			[/[\/*]/, 'comment']
+		],
+		//Identical copy of comment above, except for the addition of .doc
+		javadoc: [
+			[/[^\/*]+/, 'comment.doc'],
+			// [/\/\*/, 'comment.doc', '@push' ],    // nested comment not allowed :-(
+			[/\/\*/, 'comment.doc.invalid'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
+		],
 
-    comment: [
-      [/[^\/*]+/, 'comment' ],
-      // [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
-      [/\/\*/,    'comment.invalid' ],
-      ["\\*/",    'comment', '@pop'  ],
-      [/[\/*]/,   'comment' ]
-    ],
-
-    string: [
-      [/[^\\"]+/,  'string'],
-      [/@escapes/, 'string.escape'],
-      [/\\./,      'string.escape.invalid'],
-      [/"/,        'string', '@pop' ]
-    ],
-  },
+		string: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, 'string', '@pop']
+		],
+	},
 };
 </pre>
 
@@ -629,124 +644,165 @@ define('module',[],function()
 // expressions correctly, which is convenient when writing
 // syntax highlighter specifications.
 return {
-  tokenPostfix:     '.js',
+	// Set defaultToken to invalid to see what you do not tokenize yet
+	defaultToken: 'invalid',
+	tokenPostfix: '.js',
 
-  keywords: [
-    'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class', 'const', 'continue', 'debugger',
-    'default', 'delete', 'do', 'double', 'else', 'enum', 'export', 'extends', 'false', 'final',
-    'finally', 'float', 'for', 'function', 'goto', 'if', 'implements', 'import', 'in',
-    'instanceof', 'int', 'interface', 'long', 'native', 'new', 'null', 'package', 'private',
-    'protected', 'public', 'return', 'short', 'static', 'super', 'switch', 'synchronized', 'this',
-    'throw', 'throws', 'transient', 'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while',
-    'with'
-  ],
+	keywords: [
+		'break', 'case', 'catch', 'class', 'continue', 'const',
+		'constructor', 'debugger', 'default', 'delete', 'do', 'else',
+		'export', 'extends', 'false', 'finally', 'for', 'from', 'function',
+		'get', 'if', 'import', 'in', 'instanceof', 'let', 'new', 'null',
+		'return', 'set', 'super', 'switch', 'symbol', 'this', 'throw', 'true',
+		'try', 'typeof', 'undefined', 'var', 'void', 'while', 'with', 'yield',
+		'async', 'await', 'of'
+	],
 
-  builtins: [
-    'define','require','window','document','undefined'
-  ],
+	typeKeywords: [
+		'any', 'boolean', 'number', 'object', 'string', 'undefined'
+	],
 
-  operators: [
-    '=', '&gt;', '&lt;', '!', '~', '?', ':',
-    '==', '&lt;=', '&gt;=', '!=', '&amp;&amp;', '||', '++', '--',
-    '+', '-', '*', '/', '&amp;', '|', '^', '%', '&lt;&lt;',
-    '&gt;&gt;', '&gt;&gt;&gt;', '+=', '-=', '*=', '/=', '&amp;=', '|=',
-    '^=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;&gt;='
-  ],
+	operators: [
+		'&lt;=', '&gt;=', '==', '!=', '===', '!==', '=&gt;', '+', '-', '**',
+		'*', '/', '%', '++', '--', '&lt;&lt;', '&lt;/', '&gt;&gt;', '&gt;&gt;&gt;', '&amp;',
+		'|', '^', '!', '~', '&amp;&amp;', '||', '?', ':', '=', '+=', '-=',
+		'*=', '**=', '/=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;&gt;=', '&amp;=', '|=',
+		'^=', '@',
+	],
 
-  // define our own brackets as '&lt;' and '&gt;' do not match in javascript
-  brackets: [
-    ['(',')','bracket.parenthesis'],
-    ['{','}','bracket.curly'],
-    ['[',']','bracket.square']
-  ],
+	// we include these common regular expressions
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	digits: /\d+(_+\d+)*/,
+	octaldigits: /[0-7]+(_+[0-7]+)*/,
+	binarydigits: /[0-1]+(_+[0-1]+)*/,
+	hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
 
-  // common regular expressions
-  symbols:  /[~!@#%\^&amp;*-+=|\\:`&lt;&gt;.?\/]+/,
-  escapes:  /\\(?:[btnfr\\"']|[0-7][0-7]?|[0-3][0-7]{2})/,
-  exponent: /[eE][\-+]?[0-9]+/,
+	regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
+	regexpesc: /\\(?:[bBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/,
 
-  regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
-  regexpesc: /\\(?:[bBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/,
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+			[/[{}]/, 'delimiter.bracket'],
+			{ include: 'common' }
+		],
 
-  tokenizer: {
-    root: [
-      // identifiers and keywords
-      [/([a-zA-Z_\$][\w\$]*)(\s*)(:?)/, {
-        cases: { '$1@keywords': ['keyword','white','delimiter'],
-                 '$3': ['key.identifier','white','delimiter'],   // followed by :
-                 '$1@builtins': ['predefined.identifier','white','delimiter'],
-                 '@default': ['identifier','white','delimiter'] } }],
+		common: [
+			// identifiers and keywords
+			[/[a-z_$][\w$]*/, {
+				cases: {
+					'@typeKeywords': 'keyword',
+					'@keywords': 'keyword',
+					'@default': 'identifier'
+				}
+			}],
+			[/[A-Z][\w\$]*/, 'type.identifier'],  // to show class names nicely
+			// [/[A-Z][\w\$]*/, 'identifier'],
 
-      // whitespace
-      { include: '@whitespace' },
+			// whitespace
+			{ include: '@whitespace' },
 
-      // regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
-      [/\/(?=([^\\\/]|\\.)+\/)/, { token: 'regexp.slash', bracket: '@open', next: '@regexp'}],
+			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
+			[/\/(?=([^\\\/]|\\.)+\/([gimsuy]*)(\s*)(\.|;|\/|,|\)|\]|\}|$))/, { token: 'regexp', bracket: '@open', next: '@regexp' }],
 
-      // delimiters and operators
-      [/[{}()\[\]]/, '@brackets'],
-      [/[;,.]/, 'delimiter'],
-      [/@symbols/, { cases: {'@operators': 'operator',
-                             '@default': '' }}],
+			// delimiters and operators
+			[/[()\[\]]/, '@brackets'],
+			[/[&lt;&gt;](?!@symbols)/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
 
-      // numbers
-      [/\d+\.\d*(@exponent)?/, 'number.float'],
-      [/\.\d+(@exponent)?/, 'number.float'],
-      [/\d+@exponent/, 'number.float'],
-      [/0[xX][\da-fA-F]+/, 'number.hex'],
-      [/0[0-7]+/, 'number.octal'],
-      [/\d+/, 'number'],
+			// numbers
+			[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
+			[/0[xX](@hexdigits)/, 'number.hex'],
+			[/0[oO]?(@octaldigits)/, 'number.octal'],
+			[/0[bB](@binarydigits)/, 'number.binary'],
+			[/(@digits)/, 'number'],
 
-      // strings: recover on non-terminated strings
-      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/"/,  'string', '@string."' ],
-      [/'/,  'string', '@string.\'' ],
-    ],
+			// delimiter: after number because of .\d floats
+			[/[;,.]/, 'delimiter'],
 
-    whitespace: [
-      [/[ \t\r\n]+/, 'white'],
-      [/\/\*/,       'comment', '@comment' ],
-      [/\/\/.*$/,    'comment'],
-    ],
+			// strings
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/'([^'\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, 'string', '@string_double'],
+			[/'/, 'string', '@string_single'],
+			[/`/, 'string', '@string_backtick'],
+		],
 
-    comment: [
-      [/[^\/*]+/, 'comment' ],
-      // [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
-      [/\/\*/,    'comment.invalid' ],
-      ["\\*/",    'comment', '@pop'  ],
-      [/[\/*]/,   'comment' ]
-    ],
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@jsdoc'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
+		],
 
-    string: [
-      [/[^\\"']+/, 'string'],
-      [/@escapes/, 'string.escape'],
-      [/\\./,      'string.escape.invalid'],
-      [/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-                              '@default': 'string' }} ]
-    ],
+		comment: [
+			[/[^\/*]+/, 'comment'],
+			[/\*\//, 'comment', '@pop'],
+			[/[\/*]/, 'comment']
+		],
 
-    // We match regular expression quite precisely
-    regexp: [
-      [/(\{)(\d+(?:,\d*)?)(\})/, ['@brackets.regexp.escape.control', 'regexp.escape.control', '@brackets.regexp.escape.control'] ],
-      [/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/, ['@brackets.regexp.escape.control',{ token: 'regexp.escape.control', next: '@regexrange'}]],
-      [/(\()(\?:|\?=|\?!)/, ['@brackets.regexp.escape.control','regexp.escape.control'] ],
-      [/[()]/,        '@brackets.regexp.escape.control'],
-      [/@regexpctl/,  'regexp.escape.control'],
-      [/[^\\\/]/,     'regexp' ],
-      [/@regexpesc/,  'regexp.escape' ],
-      [/\\\./,        'regexp.invalid' ],
-      ['/',           { token: 'regexp.slash', bracket: '@close'}, '@pop' ],
-    ],
+		jsdoc: [
+			[/[^\/*]+/, 'comment.doc'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
+		],
 
-    regexrange: [
-      [/-/,     'regexp.escape.control'],
-      [/\^/,    'regexp.invalid'],
-      [/@regexpesc/, 'regexp.escape'],
-      [/[^\]]/, 'regexp'],
-      [/\]/,    '@brackets.regexp.escape.control', '@pop'],
-    ],
-  },
+		// We match regular expression quite precisely
+		regexp: [
+			[/(\{)(\d+(?:,\d*)?)(\})/, ['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']],
+			[/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/, ['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]],
+			[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
+			[/[()]/, 'regexp.escape.control'],
+			[/@regexpctl/, 'regexp.escape.control'],
+			[/[^\\\/]/, 'regexp'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/\\\./, 'regexp.invalid'],
+			[/(\/)([gimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']],
+		],
+
+		regexrange: [
+			[/-/, 'regexp.escape.control'],
+			[/\^/, 'regexp.invalid'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/[^\]]/, 'regexp'],
+			[/\]/, '@brackets.regexp.escape.control', '@pop'],
+		],
+
+		string_double: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, 'string', '@pop']
+		],
+
+		string_single: [
+			[/[^\\']+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/'/, 'string', '@pop']
+		],
+
+		string_backtick: [
+			[/\$\{/, { token: 'delimiter.bracket', next: '@bracketCounting' }],
+			[/[^\\`$]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/`/, 'string', '@pop']
+		],
+
+		bracketCounting: [
+			[/\{/, 'delimiter.bracket', '@bracketCounting'],
+			[/\}/, 'delimiter.bracket', '@pop'],
+			{ include: 'common' }
+		],
+	},
 };
 </pre>
 
@@ -1254,91 +1310,143 @@ return {
 // - and to embed scripts dynamically
 // See also the documentation for an explanation of these techniques
 return {
-  ignoreCase: true,
+	defaultToken: '',
+	tokenPostfix: '.html',
+	ignoreCase: true,
 
-  // escape codes for javascript/CSS strings
-  escapes:  /\\(?:[btnfr\\"']|[0-7][0-7]?|[0-3][0-7]{2})/,
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+			[/&lt;!DOCTYPE/, 'metatag', '@doctype'],
+			[/&lt;!--/, 'comment', '@comment'],
+			[/(&lt;)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/&gt;)/, ['delimiter', 'tag', '', 'delimiter']],
+			[/(&lt;)(script)/, ['delimiter', { token: 'tag', next: '@script' }]],
+			[/(&lt;)(style)/, ['delimiter', { token: 'tag', next: '@style' }]],
+			[/(&lt;)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
+			[/(&lt;\/)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
+			[/&lt;/, 'delimiter'],
+			[/[^&lt;]+/], // text
+		],
 
-  // non matched elements
-  empty: [
-    'area', 'base', 'basefont', 'br', 'col', 'frame',
-    'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param'
-  ],
+		doctype: [
+			[/[^&gt;]+/, 'metatag.content'],
+			[/&gt;/, 'metatag', '@pop'],
+		],
 
-  tokenizer: {
-    root: [
-      [/[^&lt;&amp;]+/,''],
-      { include: '@whitespace' },
-      [/&lt;!DOCTYPE/, 'metatag', '@doctype' ],
-      [/&lt;(\w+)\/&gt;/, 'tag.tag-$1' ],
-      [/&lt;(\w+)/,  {cases: { '@empty':   { token: 'tag.tag-$1', next: '@tag.$1' },
-                            '@default': { token: 'tag.tag-$1', bracket: '@open', next: '@tag.$1' } }}],
-      [/&lt;\/(\w+)\s*&gt;/,  { token: 'tag.tag-$1', bracket: '@close' } ],
-      [/&amp;\w+;/, 'string.escape'],
-    ],
+		comment: [
+			[/--&gt;/, 'comment', '@pop'],
+			[/[^-]+/, 'comment.content'],
+			[/./, 'comment.content']
+		],
 
-    doctype: [
-      [/[^&gt;]+/, 'metatag.content' ],
-      [/&gt;/, 'metatag', '@pop' ]
-    ],
+		otherTag: [
+			[/\/?&gt;/, 'delimiter', '@pop'],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/[ \t\r\n]+/], // whitespace
+		],
 
-    // tag mode is used to scan inside a tag
-    // tag.&lt;name&gt;.&lt;type&gt; where name is the tag name (i.e. 'div')
-    // and where 'type' is the value of the 'type' attribute
-    // (used to see what language to embed in a script tag)
-    tag: [
-      [/[ \t\r\n]+/, 'white' ],
-      [/(type)(\s*=\s*)(")([^"]+)(")/, [ 'attribute.name', 'delimiter', 'attribute.value',
-                                         {token: 'attribute.value', switchTo: '@tag.$S2.$4' },
-                                         'attribute.value'] ],
-      [/(type)(\s*=\s*)(')([^']+)(')/, [ 'attribute.name', 'delimiter', 'attribute.value',
-                                         {token: 'attribute.value', switchTo: '@tag.$S2.$4' },
-                                         'attribute.value'] ],
-      [/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name','delimiter','attribute.value']],
-      [/\w+/, 'attribute.name' ],
-      [/\/&gt;/, 'tag.tag-$S2', '@pop'],
-      [/&gt;/, { cases: { '$S2==style' : { token: 'tag.tag-$S2', switchTo: '@embedded.$S2', nextEmbedded: 'text/css'},
-                       '$S2==script': { cases: { '$S3'     : { token: 'tag.tag-$S2', switchTo: '@embedded.$S2', nextEmbedded: '$S3' },
-                                                 '@default': { token: 'tag.tag-$S2', switchTo: '@embedded.$S2', nextEmbedded: 'mjavascript' } } },
-                       '@default'   : { token: 'tag.tag-$S2', next: '@pop' } } }],
-    ],
+		// -- BEGIN &lt;script&gt; tags handling
 
-    // Scan embedded code in a script/style tag
-    // embedded.&lt;endtag&gt;
-    embedded: [
-      [/[^"'&lt;]+/, ''],
-      [/&lt;\/(\w+)\s*&gt;/, { cases: { '$1==$S2' : { token: '@rematch', next: '@pop', nextEmbedded: '@pop' },
-                                  '@default': '' } }],
-      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/"/, 'string', '@string."' ],
-      [/'/, 'string', '@string.\'' ],
-      [/&lt;/, '']
-    ],
+		// After &lt;script
+		script: [
+			[/type/, 'attribute.name', '@scriptAfterType'],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }],
+			[/[ \t\r\n]+/], // whitespace
+			[/(&lt;\/)(script\s*)(&gt;)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
+		],
 
-    // scan embedded strings in javascript or css
-    // string.&lt;delimiter&gt;
-    string: [
-      [/[^\\"']+/, 'string'],
-      [/@escapes/, 'string.escape'],
-      [/\\./,      'string.escape.invalid'],
-      [/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-                              '@default': 'string' }} ]
-    ],
+		// After &lt;script ... type
+		scriptAfterType: [
+			[/=/, 'delimiter', '@scriptAfterTypeEquals'],
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }], // cover invalid e.g. &lt;script type&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;script ... type =
+		scriptAfterTypeEquals: [
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }], // cover invalid e.g. &lt;script type=&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;script ... type = $S2
+		scriptWithCustomType: [
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded.$S2', nextEmbedded: '$S2' }],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		scriptEmbedded: [
+			[/&lt;\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^&lt;]+/, '']
+		],
+
+		// -- END &lt;script&gt; tags handling
 
 
-    whitespace: [
-      [/[ \t\r\n]+/, 'white'],
-      [/&lt;!--/, 'comment', '@comment']
-    ],
+		// -- BEGIN &lt;style&gt; tags handling
 
-    comment: [
-      [/[^&lt;\-]+/, 'comment.content' ],
-      [/--&gt;/, 'comment', '@pop' ],
-      [/&lt;!--/, 'comment.content.invalid'],
-      [/[&lt;\-]/, 'comment.content' ]
-    ],
-  },
+		// After &lt;style
+		style: [
+			[/type/, 'attribute.name', '@styleAfterType'],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded', nextEmbedded: 'text/css' }],
+			[/[ \t\r\n]+/], // whitespace
+			[/(&lt;\/)(style\s*)(&gt;)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
+		],
+
+		// After &lt;style ... type
+		styleAfterType: [
+			[/=/, 'delimiter', '@styleAfterTypeEquals'],
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded', nextEmbedded: 'text/css' }], // cover invalid e.g. &lt;style type&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;style ... type =
+		styleAfterTypeEquals: [
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded', nextEmbedded: 'text/css' }], // cover invalid e.g. &lt;style type=&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;style ... type = $S2
+		styleWithCustomType: [
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded.$S2', nextEmbedded: '$S2' }],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		styleEmbedded: [
+			[/&lt;\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^&lt;]+/, '']
+		],
+
+		// -- END &lt;style&gt; tags handling
+	},
 };
 </pre>
 
@@ -1457,148 +1565,155 @@ Pop
 // Quite complex definition mostly due to almost full inclusion
 // of the HTML mode (so we can properly match nested HTML tag definitions)
 return {
-  // escape codes
-  control:  /[\\`*_\[\]{}()#+\-\.!]/,
-  noncontrol: /[^\\`*_\[\]{}()#+\-\.!]/,
-  escapes:  /\\(?:@control)/,
+	defaultToken: '',
+	tokenPostfix: '.md',
 
-  // escape codes for javascript/CSS strings
-  jsescapes:  /\\(?:[btnfr\\"']|[0-7][0-7]?|[0-3][0-7]{2})/,
+	// escape codes
+	control: /[\\`*_\[\]{}()#+\-\.!]/,
+	noncontrol: /[^\\`*_\[\]{}()#+\-\.!]/,
+	escapes: /\\(?:@control)/,
 
-  // non matched elements
-  empty: [
-    'area', 'base', 'basefont', 'br', 'col', 'frame',
-    'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param'
-  ],
+	// escape codes for javascript/CSS strings
+	jsescapes: /\\(?:[btnfr\\"']|[0-7][0-7]?|[0-3][0-7]{2})/,
 
-  tokenizer: {
-    root: [
-      // headers
-      [/^(\s*)(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white','keyword.$1','keyword.$1','keyword.$1']],
-      [/^\s*(=+|\-+)\s*$/, 'keyword.header'],
-      [/^\s*((\*[ ]?)+)\s*$/, 'keyword.header'],
+	// non matched elements
+	empty: [
+		'area', 'base', 'basefont', 'br', 'col', 'frame',
+		'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param'
+	],
 
-      // code &amp; quote
-      [/^\s*&gt;+/, 'string.quote' ],
-      [/^(\t|[ ]{4}).*$/, 'namespace.code'], // code line
-      [/^\s*~+\s*$/, { token: 'namespace.code', bracket: '@open', next: '@codeblock' }],
+	tokenizer: {
+		root: [
 
-      // github style code blocks
-      [/^\s*````\s*(\w+)\s*$/, { token: 'namespace.code', bracket: '@open', next: '@codeblockgh', nextEmbedded: 'text/x-$1' }],
-      [/^\s*````\s*((?:\w|[\/\-])+)\s*$/, { token: 'namespace.code', bracket: '@open', next: '@codeblockgh', nextEmbedded: '$1' }],
+			// headers (with #)
+			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', 'keyword', 'keyword', 'keyword']],
 
-      // list
-      [/^\s*([\*\-+:]|\d\.)/, 'string.list'],
+			// headers (with =)
+			[/^\s*(=+|\-+)\s*$/, 'keyword'],
 
-      // markup within lines
-      { include: '@linecontent' },
-    ],
+			// headers (with ***)
+			[/^\s*((\*[ ]?)+)\s*$/, 'meta.separator'],
 
-    codeblock: [
-      [/^\s*~+\s*$/, { token: 'namespace.code', bracket: '@close', next: '@pop' }],
-      [/.*$/, 'namespace.code' ],
-    ],
+			// quote
+			[/^\s*&gt;+/, 'comment'],
 
-    // github style code blocks
-    codeblockgh: [
-      [/````\s*$/, { token: '@rematch', bracket: '@close', switchTo: '@codeblockghend', nextEmbedded: '@pop' }],
-      [/[^`]*$/, 'namespace.code' ],
-    ],
+			// list (starting with * or number)
+			[/^\s*([\*\-+:]|\d+\.)\s/, 'keyword'],
 
-    codeblockghend: [
-      [/\s*````/, { token: 'namespace.code', bracket: '@close', next: '@pop' } ],
-      [/./, '@rematch', '@pop'],
-    ],
+			// code block (4 spaces indent)
+			[/^(\t|[ ]{4})[^ ].*$/, 'string'],
 
-    linecontent: [
-      // [/\s(?=&lt;(\w+)[^&gt;]*&gt;)/, {token: 'html', next: 'html.$1', nextEmbedded: 'text/html' } ],
-      // [/&lt;(\w+)[^&gt;]*&gt;/, {token: '@rematch', next: 'html.$1', nextEmbedded: 'text/html' } ],
+			// code block (3 tilde)
+			[/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: 'string', next: '@codeblock' }],
 
-      // escapes
-      [/&amp;\w+;/, 'string.escape'],
-      [/@escapes/, 'escape' ],
+			// github style code blocks (with backticks and language)
+			[/^\s*```\s*((?:\w|[\/\-#])+)\s*$/, { token: 'string', next: '@codeblockgh', nextEmbedded: '$1' }],
 
-      // various markup
-      [/\b__([^\\_]|@escapes|_(?!_))+__\b/, 'strong'],
-      [/\*\*([^\\*]|@escapes|\*(?!\*))+\*\*/, 'strong'],
-      [/\b_[^_]+_\b/, 'emphasis'],
-      [/\*([^\\*]|@escapes)+\*/, 'emphasis'],
-      [/`([^\\`]|@escapes)+`/, 'namespace.code'],
+			// github style code blocks (with backticks but no language)
+			[/^\s*```\s*$/, { token: 'string', next: '@codeblock' }],
 
-      // links
-      [/\{[^}]+\}/, 'string.target'],
-      [/(!?\[)((?:[^\]\\]|@escapes)+)(\]\([^\)]+\))/, ['string.link', '', 'string.link' ]],
-      [/(!?\[)((?:[^\]\\]|@escapes)+)(\])/, 'string.link'],
+			// markup within lines
+			{ include: '@linecontent' },
+		],
 
-      // or html
-      { include: 'html' },
-    ],
+		codeblock: [
+			[/^\s*~~~\s*$/, { token: 'string', next: '@pop' }],
+			[/^\s*```\s*$/, { token: 'string', next: '@pop' }],
+			[/.*$/, 'variable.source'],
+		],
 
-    html: [
-      // html tags
-      [/&lt;(\w+)\/&gt;/, 'tag.tag-$1' ],
-      [/&lt;(\w+)/,  {cases: { '@empty':   { token: 'tag.tag-$1', next: '@tag.$1' },
-                            '@default': { token: 'tag.tag-$1', bracket: '@open', next: '@tag.$1' } }}],
-      [/&lt;\/(\w+)\s*&gt;/,  { token: 'tag.tag-$1', bracket: '@close', next: '@pop' } ],
+		// github style code blocks
+		codeblockgh: [
+			[/```\s*$/, { token: 'variable.source', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^`]+/, 'variable.source'],
+		],
 
-      // whitespace
-      { include: '@whitespace' },
-    ],
+		linecontent: [
 
+			// escapes
+			[/&amp;\w+;/, 'string.escape'],
+			[/@escapes/, 'escape'],
 
-    // whitespace and (html style) comments
-    whitespace: [
-      [/[ ]{2}$/, 'invalid'],
-      [/[ \t\r\n]+/, 'white'],
-      [/&lt;!--/, 'comment', '@comment']
-    ],
+			// various markup
+			[/\b__([^\\_]|@escapes|_(?!_))+__\b/, 'strong'],
+			[/\*\*([^\\*]|@escapes|\*(?!\*))+\*\*/, 'strong'],
+			[/\b_[^_]+_\b/, 'emphasis'],
+			[/\*([^\\*]|@escapes)+\*/, 'emphasis'],
+			[/`([^\\`]|@escapes)+`/, 'variable'],
 
-    comment: [
-      [/[^&lt;\-]+/, 'comment.content' ],
-      [/--&gt;/, 'comment', '@pop' ],
-      [/&lt;!--/, 'comment.content.invalid'],
-      [/[&lt;\-]/, 'comment.content' ]
-    ],
+			// links
+			[/\{+[^}]+\}+/, 'string.target'],
+			[/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/, ['string.link', '', 'string.link']],
+			[/(!?\[)((?:[^\]\\]|@escapes)*)(\])/, 'string.link'],
 
-    // Almost full HTML tag matching, complete with embedded scripts &amp; styles
-    tag: [
-      [/[ \t\r\n]+/, 'white' ],
-      [/(type)(\s*=\s*)(")([^"]+)(")/, [ 'attribute.name', 'delimiter', 'attribute.value',
-                                         {token: 'attribute.value', switchTo: '@tag.$S2.$4' },
-                                         'attribute.value'] ],
-      [/(type)(\s*=\s*)(')([^']+)(')/, [ 'attribute.name', 'delimiter', 'attribute.value',
-                                         {token: 'attribute.value', switchTo: '@tag.$S2.$4' },
-                                         'attribute.value'] ],
-      [/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name','delimiter','attribute.value']],
-      [/\w+/, 'attribute.name' ],
-      [/\/&gt;/, 'tag.tag-$S2', '@pop'],
-      [/&gt;/, { cases: { '$S2==style' : { token: 'tag.tag-$S2', switchTo: '@embedded.$S2', nextEmbedded: 'text/css'},
-                       '$S2==script': { cases: { '$S3'     : { token: 'tag.tag-$S2', switchTo: '@embedded.$S2', nextEmbedded: '$S3' },
-                                                 '@default': { token: 'tag.tag-$S2', switchTo: '@embedded.$S2', nextEmbedded: 'mjavascript' } } },
-                       '@default'   : { token: 'tag.tag-$S2', switchTo: 'html' } } }],
-    ],
+			// or html
+			{ include: 'html' },
+		],
 
-    embedded: [
-      [/[^"'&lt;]+/, ''],
-      [/&lt;\/(\w+)\s*&gt;/, { cases: { '$1==$S2' : { token: '@rematch', switchTo: '@html', nextEmbedded: '@pop' },
-                                  '@default': '' } }],
-      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/"/, 'string', '@string."' ],
-      [/'/, 'string', '@string.\'' ],
-      [/&lt;/, '']
-    ],
+		// Note: it is tempting to rather switch to the real HTML mode instead of building our own here
+		// but currently there is a limitation in Monarch that prevents us from doing it: The opening
+		// '&lt;' would start the HTML mode, however there is no way to jump 1 character back to let the
+		// HTML mode also tokenize the opening angle bracket. Thus, even though we could jump to HTML,
+		// we cannot correctly tokenize it in that mode yet.
+		html: [
+			// html tags
+			[/&lt;(\w+)\/&gt;/, 'tag'],
+			[/&lt;(\w+)/, {
+				cases: {
+					'@empty': { token: 'tag', next: '@tag.$1' },
+					'@default': { token: 'tag', next: '@tag.$1' }
+				}
+			}],
+			[/&lt;\/(\w+)\s*&gt;/, { token: 'tag' }],
 
-    // scan embedded strings in javascript or css
-    string: [
-      [/[^\\"']+/, 'string'],
-      [/@jsescapes/, 'string.escape'],
-      [/\\./,      'string.escape.invalid'],
-      [/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-                              '@default': 'string' }} ]
-    ],
+			[/&lt;!--/, 'comment', '@comment']
+		],
 
-  },
+		comment: [
+			[/[^&lt;\-]+/, 'comment.content'],
+			[/--&gt;/, 'comment', '@pop'],
+			[/&lt;!--/, 'comment.content.invalid'],
+			[/[&lt;\-]/, 'comment.content']
+		],
+
+		// Almost full HTML tag matching, complete with embedded scripts &amp; styles
+		tag: [
+			[/[ \t\r\n]+/, 'white'],
+			[/(type)(\s*=\s*)(")([^"]+)(")/, ['attribute.name.html', 'delimiter.html', 'string.html',
+				{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+				'string.html']],
+			[/(type)(\s*=\s*)(')([^']+)(')/, ['attribute.name.html', 'delimiter.html', 'string.html',
+				{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+				'string.html']],
+			[/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name.html', 'delimiter.html', 'string.html']],
+			[/\w+/, 'attribute.name.html'],
+			[/\/&gt;/, 'tag', '@pop'],
+			[/&gt;/, {
+				cases: {
+					'$S2==style': { token: 'tag', switchTo: 'embeddedStyle', nextEmbedded: 'text/css' },
+					'$S2==script': {
+						cases: {
+							'$S3': { token: 'tag', switchTo: 'embeddedScript', nextEmbedded: '$S3' },
+							'@default': { token: 'tag', switchTo: 'embeddedScript', nextEmbedded: 'text/javascript' }
+						}
+					},
+					'@default': { token: 'tag', next: '@pop' }
+				}
+			}],
+		],
+
+		embeddedStyle: [
+			[/[^&lt;]+/, ''],
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/&lt;/, '']
+		],
+
+		embeddedScript: [
+			[/[^&lt;]+/, ''],
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/&lt;/, '']
+		],
+	}
 };
 </pre>
 
@@ -1789,318 +1904,361 @@ ruby expressions again (and span multiple lines). Moreover, expanded
 regular expression can also contain comments.
 */
 return {
-  keywords: [
-    '__LINE__', '__ENCODING__', '__FILE__', 'BEGIN', 'END', 'alias', 'and', 'begin',
-    'break', 'case', 'class', 'def', 'defined?', 'do', 'else', 'elsif', 'end',
-    'ensure', 'for', 'false', 'if', 'in', 'module', 'next', 'nil', 'not', 'or', 'redo',
-    'rescue', 'retry', 'return', 'self', 'super', 'then', 'true', 'undef', 'unless',
-    'until', 'when', 'while', 'yield',
-  ],
+	tokenPostfix: '.ruby',
 
-  keywordops: [
-    '::', '..', '...', '?', ':', '=&gt;'
-  ],
+	keywords: [
+		'__LINE__', '__ENCODING__', '__FILE__', 'BEGIN', 'END', 'alias', 'and', 'begin',
+		'break', 'case', 'class', 'def', 'defined?', 'do', 'else', 'elsif', 'end',
+		'ensure', 'for', 'false', 'if', 'in', 'module', 'next', 'nil', 'not', 'or', 'redo',
+		'rescue', 'retry', 'return', 'self', 'super', 'then', 'true', 'undef', 'unless',
+		'until', 'when', 'while', 'yield',
+	],
 
-  builtins: [
-    'require', 'public', 'private', 'include'
-  ],
+	keywordops: [
+		'::', '..', '...', '?', ':', '=&gt;'
+	],
 
-  // these are closed by 'end' (if, while and until are handled separately)
-  declarations: [
-    'module','class','def','case','do','begin','for','if','while','until','unless'
-  ],
+	builtins: [
+		'require', 'public', 'private', 'include', 'extend', 'attr_reader',
+		'protected', 'private_class_method', 'protected_class_method', 'new'
+	],
 
-  linedecls: [
-    'def','case','do','begin','for','if','while','until','unless'
-  ],
+	// these are closed by 'end' (if, while and until are handled separately)
+	declarations: [
+		'module', 'class', 'def', 'case', 'do', 'begin', 'for', 'if', 'while', 'until', 'unless'
+	],
 
-  operators: [
-     '^', '&amp;', '|', '&lt;=&gt;', '==', '===', '!~', '=~', '&gt;', '&gt;=', '&lt;', '&lt;=', '&lt;&lt;', '&gt;&gt;', '+',
-     '-', '*', '/', '%', '**', '~', '+@', '-@', '[]', '[]=', '`',
-     '+=', '-=', '*=', '**=', '/=', '^=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&amp;=', '&amp;&amp;=', '||=', '|='
-  ],
+	linedecls: [
+		'def', 'case', 'do', 'begin', 'for', 'if', 'while', 'until', 'unless'
+	],
 
-  brackets: [
-    ['(',')','delimiter.parenthesis'],
-    ['{','}','delimiter.curly'],
-    ['[',']','delimiter.square']
-  ],
+	operators: [
+		'^', '&amp;', '|', '&lt;=&gt;', '==', '===', '!~', '=~', '&gt;', '&gt;=', '&lt;', '&lt;=', '&lt;&lt;', '&gt;&gt;', '+',
+		'-', '*', '/', '%', '**', '~', '+@', '-@', '[]', '[]=', '`',
+		'+=', '-=', '*=', '**=', '/=', '^=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&amp;=', '&amp;&amp;=', '||=', '|='
+	],
 
-  // trigger outdenting on 'end'
-  outdentTriggers: 'd',
+	brackets: [
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.square' }
+	],
 
-  // we include these common regular expressions
-  symbols:  /[=&gt;&lt;!~?:&amp;|+\-*\/\^%\.]+/,
+	// we include these common regular expressions
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%\.]+/,
 
-  // escape sequences
-  escape:  /(?:[abefnrstv\\"'\n\r]|[0-7]{1,3}|x[0-9A-Fa-f]{1,2}|u[0-9A-Fa-f]{4})/,
-  escapes: /\\(?:C\-(@escape|.)|c(@escape|.)|@escape)/,
+	// escape sequences
+	escape: /(?:[abefnrstv\\"'\n\r]|[0-7]{1,3}|x[0-9A-Fa-f]{1,2}|u[0-9A-Fa-f]{4})/,
+	escapes: /\\(?:C\-(@escape|.)|c(@escape|.)|@escape)/,
 
-  decpart: /\d(_?\d)*/,
-  decimal: /0|[1-9]@decpart/,
+	decpart: /\d(_?\d)*/,
+	decimal: /0|@decpart/,
 
-  delim:     /[^a-zA-Z0-9\s\n\r]/,
-  heredelim: /(?:\w+|'[^']*'|"[^"]*"|`[^`]*`)/,
+	delim: /[^a-zA-Z0-9\s\n\r]/,
+	heredelim: /(?:\w+|'[^']*'|"[^"]*"|`[^`]*`)/,
 
-  regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
-  regexpesc: /\\(?:[AzZbBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})?/,
-
-
-  // The main tokenizer for our languages
-  tokenizer: {
-    // Main entry.
-    // root.&lt;decl&gt; where decl is the current opening declaration (like 'class')
-    root: [
-      // identifiers and keywords
-      // most complexity here is due to matching 'end' correctly with declarations.
-      // We distinguish a declaration that comes first on a line, versus declarations further on a line (which are most likey modifiers)
-      [/^(\s*)([a-z_]\w*[!?=]?)/, ['white',
-        { cases: { 'for|until|while': { token: 'keyword.$2', bracket: '@open', next: '@dodecl.$2' },
-                   '@declarations':   { token: 'keyword.$2', bracket: '@open', next: '@root.$2' },
-                   'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' },
-                   '@keywords': 'keyword',
-                   '@builtins': 'predefined',
-                   '@default': 'identifier' } }]],
-      [/[a-z_]\w*[!?=]?/,
-        { cases: { 'if|unless|while|until': { token: 'keyword.$0x', bracket: '@open', next: '@modifier.$0x' },
-                   'for': { token: 'keyword.$2', bracket: '@open', next: '@dodecl.$2' },
-                   '@linedecls': { token: 'keyword.$0', bracket: '@open', next: '@root.$0' },
-                   'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' },
-                   '@keywords': 'keyword',
-                   '@builtins': 'predefined',
-                   '@default': 'identifier' } }],
-
-      [/[A-Z][\w]*[!?=]?/, 'constructor.identifier' ],     // constant
-      [/\$[\w]*/,    'global.constant' ],               // global
-      [/@[\w]*/,     'namespace.instance.identifier' ], // instance
-      [/@@[\w]*/,    'namespace.class.identifier' ],    // class
-
-      // whitespace
-      { include: '@whitespace' },
-
-      // strings
-      [/"/,  { token: 'string.d.delim', bracket: '@open', next: '@dstring.d."'} ],
-      [/'/,  { token: 'string.sq.delim', bracket: '@open', next: '@sstring.sq' } ],
-
-      // % literals. For efficiency, rematch in the 'pstring' state
-      [/%([rsqxwW]|Q?)/,  { token: '@rematch', next: 'pstring' } ],
-
-      // here documents
-      [/\-?&lt;&lt;(@heredelim).*/, { token: 'string.heredoc.delimiter', bracket: '@open', next: '@heredoc.$1' } ],
-
-      // commands and symbols
-      [/`/,  { token: 'string.x.delim', bracket: '@open', next: '@dstring.x.`' } ],
-      [/:(\w|[$@])\w*[!?=]?/, 'string.s'],
-      [/:"/, { token: 'string.s.delim', bracket: '@open', next: '@dstring.s."' } ],
-      [/:'/, { token: 'string.s.delim', bracket: '@open', next: '@sstring.s' } ],
-
-      // regular expressions
-      ['/', { token: 'regexp.delim', bracket: '@open', next: '@regexp' } ],
-
-      // delimiters and operators
-      [/[{}()\[\]]/, '@brackets'],
-      [/@symbols/, { cases: { '@keywordops': 'keyword',
-                              '@operators' : 'operator',
-                              '@default'   : '' } } ],
-
-      [/[;,]/, 'delimiter'],
-
-      // numbers
-      [/0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/, 'number.hex'],
-      [/0[_oO][0-7](_?[0-7])*/, 'number.octal'],
-      [/0[bB][01](_?[01])*/, 'number.binary'],
-      [/0[dD]@decpart/, 'number'],
-      [/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)/, { cases: { '$1': 'number.float',
-                                                                  '@default': 'number' }}],
-
-    ],
-
-    // used to not treat a 'do' as a block opener if it occurs on the same
-    // line as a 'do' statement: 'while|until|for'
-    // dodecl.&lt;decl&gt; where decl is the declarations started, like 'while'
-    dodecl: [
-      [/^/, { token: '', switchTo: '@root.$S2' }], // get out of do-skipping mode on a new line
-      [/[a-z_]\w*[!?=]?/, { cases: { 'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' }, // end on same line
-                                     'do' : { token: 'keyword', switchTo: '@root.$S2' }, // do on same line: not an open bracket here
-                                     '@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration on same line: rematch
-                                     '@keywords': 'keyword',
-                                     '@builtins': 'predefined',
-                                     '@default': 'identifier' } }],
-      { include: '@root' }
-    ],
-
-    // used to prevent potential modifiers ('if|until|while|unless') to match
-    // with 'end' keywords.
-    // modifier.&lt;decl&gt;x where decl is the declaration starter, like 'if'
-    modifier: [
-      [/^/, '', '@pop'], // it was a modifier: get out of modifier mode on a new line
-      [/[a-z_]\w*[!?=]?/, { cases: { 'end': { token: 'keyword.$S2', bracket: '@close', next: '@pop' }, // end on same line
-                                     'then|else|elsif|do': { token: 'keyword', switchTo: '@root.$S2' }, // real declaration and not a modifier
-                                     '@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration =&gt; not a modifier
-                                     '@keywords': 'keyword',
-                                     '@builtins': 'predefined',
-                                     '@default': 'identifier' } }],
-      { include: '@root' }
-    ],
-
-    // single quote strings (also used for symbols)
-    // sstring.&lt;kind&gt;  where kind is 'sq' (single quote) or 's' (symbol)
-    sstring: [
-      [/[^\\']+/,      'string.$S2' ],
-      [/\\\\|\\'|\\$/, 'string.$S2.escape'],
-      [/\\./,          'string.$S2.invalid'],
-      [/'/,            { token: 'string.$S2.delim', bracket: '@close', next: '@pop'} ]
-    ],
-
-    // double quoted "string".
-    // dstring.&lt;kind&gt;.&lt;delim&gt; where kind is 'd' (double quoted), 'x' (command), or 's' (symbol)
-    // and delim is the ending delimiter (" or `)
-    dstring: [
-      [/[^\\`"#]+/, 'string.$S2'],
-      [/#/,         'string.$S2.escape', '@interpolated' ],
-      [/\\$/,       'string.$S2.escape' ],
-      [/@escapes/,  'string.$S2.escape'],
-      [/\\./,       'string.$S2.escape.invalid'],
-      [/[`"]/,      { cases: { '$#==$S3':  { token: 'string.$S2.delim', bracket: '@close', next: '@pop'},
-                               '@default': 'string.$S2' } } ]
-    ],
-
-    // literal documents
-    // heredoc.&lt;close&gt; where close is the closing delimiter
-    heredoc: [
-      [/^(\s*)(@heredelim)$/, { cases: { '$2==$S2': ['string.heredoc', { token: 'string.heredoc.delimiter', bracket: '@close', next: '@pop' }],
-                                         '@default': ['string.heredoc','string.heredoc'] }}],
-      [/.*/, 'string.heredoc' ],
-    ],
-
-    // interpolated sequence
-    interpolated: [
-      [/\$\w*/,      'global.constant', '@pop' ],
-      [/@\w*/,       'namespace.class.identifier', '@pop' ],
-      [/@@\w*/,      'namespace.instance.identifier', '@pop' ],
-      [/[{]/, { token: 'string.escape.curly', bracket: '@open', switchTo: '@interpolated_compound' }],
-      ['', '', '@pop' ], // just a # is interpreted as a #
-    ],
-
-    // any code
-    interpolated_compound: [
-      [/[}]/, { token: 'string.escape.curly', bracket: '@close', next: '@pop'} ],
-      { include: '@root' },
-    ],
-
-    // %r quoted regexp
-    // pregexp.&lt;open&gt;.&lt;close&gt; where open/close are the open/close delimiter
-    pregexp: [
-      { include: '@whitespace' },
-      // turns out that you can quote using regex control characters, aargh!
-      // for example; %r|kgjgaj| is ok (even though | is used for alternation)
-      // so, we need to match those first
-      [/[^\(\{\[\\]/, { cases: { '$#==$S3' : { token: 'regexp.delim', bracket: '@close', next: '@pop' },
-                                 '$#==$S2' : { token: 'regexp.delim', bracket: '@open', next: '@push' }, // nested delimiters are allowed..
-                                 '~[)}\\]]' : '@brackets.regexp.escape.control',
-                                 '~@regexpctl': 'regexp.escape.control',
-                                 '@default': 'regexp' }}],
-      { include: '@regexcontrol' },
-    ],
-
-    // We match regular expression quite precisely
-    regexp: [
-      { include:   '@regexcontrol' },
-      [/[^\\\/]/,  'regexp' ],
-      ['/[ixmp]*', { token: 'regexp.delim', bracket: '@close'}, '@pop' ],
-    ],
-
-    regexcontrol: [
-      [/(\{)(\d+(?:,\d*)?)(\})/, ['@brackets.regexp.escape.control', 'regexp.escape.control', '@brackets.regexp.escape.control'] ],
-      [/(\[)(\^?)/,     ['@brackets.regexp.escape.control',{ token: 'regexp.escape.control', next: '@regexrange'}]],
-      [/(\()(\?[:=!])/, ['@brackets.regexp.escape.control', 'regexp.escape.control'] ],
-      [/\(\?#/,         { token: 'regexp.escape.control', bracket: '@open', next: '@regexpcomment' }],
-      [/[()]/,        '@brackets.regexp.escape.control'],
-      [/@regexpctl/,  'regexp.escape.control'],
-      [/\\$/,         'regexp.escape' ],
-      [/@regexpesc/,  'regexp.escape' ],
-      [/\\\./,        'regexp.invalid' ],
-      [/#/,           'regexp.escape', '@interpolated' ],
-    ],
-
-    regexrange: [
-      [/-/,     'regexp.escape.control'],
-      [/\^/,    'regexp.invalid'],
-      [/\\$/,   'regexp.escape' ],
-      [/@regexpesc/, 'regexp.escape'],
-      [/[^\]]/, 'regexp'],
-      [/\]/,    '@brackets.regexp.escape.control', '@pop'],
-    ],
-
-    regexpcomment: [
-      [ /[^)]+/, 'comment' ],
-      [ /\)/, { token: 'regexp.escape.control', bracket: '@close', next: '@pop' } ]
-    ],
+	regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
+	regexpesc: /\\(?:[AzZbBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})?/,
 
 
-    // % quoted strings
-    // A bit repetitive since we need to often special case the kind of ending delimiter
-    pstring: [
-      [/%([qws])\(/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.(.)' } ],
-      [/%([qws])\[/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.[.]' } ],
-      [/%([qws])\{/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.{.}' } ],
-      [/%([qws])&lt;/,   { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.&lt;.&gt;' } ],
-      [/%([qws])(@delim)/, { token: 'string.$1.delim', bracket: '@open', switchTo: '@qstring.$1.$2.$2' } ],
+	// The main tokenizer for our languages
+	tokenizer: {
+		// Main entry.
+		// root.&lt;decl&gt; where decl is the current opening declaration (like 'class')
+		root: [
+			// identifiers and keywords
+			// most complexity here is due to matching 'end' correctly with declarations.
+			// We distinguish a declaration that comes first on a line, versus declarations further on a line (which are most likey modifiers)
+			[/^(\s*)([a-z_]\w*[!?=]?)/, ['white',
+				{
+					cases: {
+						'for|until|while': { token: 'keyword.$2', next: '@dodecl.$2' },
+						'@declarations': { token: 'keyword.$2', next: '@root.$2' },
+						'end': { token: 'keyword.$S2', next: '@pop' },
+						'@keywords': 'keyword',
+						'@builtins': 'predefined',
+						'@default': 'identifier'
+					}
+				}]],
+			[/[a-z_]\w*[!?=]?/,
+				{
+					cases: {
+						'if|unless|while|until': { token: 'keyword.$0x', next: '@modifier.$0x' },
+						'for': { token: 'keyword.$2', next: '@dodecl.$2' },
+						'@linedecls': { token: 'keyword.$0', next: '@root.$0' },
+						'end': { token: 'keyword.$S2', next: '@pop' },
+						'@keywords': 'keyword',
+						'@builtins': 'predefined',
+						'@default': 'identifier'
+					}
+				}],
 
-      [/%r\(/,  { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.(.)' } ],
-      [/%r\[/,  { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.[.]' } ],
-      [/%r\{/,  { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.{.}' } ],
-      [/%r&lt;/,   { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.&lt;.&gt;' } ],
-      [/%r(@delim)/, { token: 'regexp.delim', bracket: '@open', switchTo: '@pregexp.$1.$1' } ],
+			[/[A-Z][\w]*[!?=]?/, 'constructor.identifier'],     // constant
+			[/\$[\w]*/, 'global.constant'],               // global
+			[/@[\w]*/, 'namespace.instance.identifier'], // instance
+			[/@@[\w]*/, 'namespace.class.identifier'],    // class
 
-      [/%(x|W|Q?)\(/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.(.)' } ],
-      [/%(x|W|Q?)\[/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.[.]' } ],
-      [/%(x|W|Q?)\{/,  { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.{.}' } ],
-      [/%(x|W|Q?)&lt;/,   { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.&lt;.&gt;' } ],
-      [/%(x|W|Q?)(@delim)/, { token: 'string.$1.delim', bracket: '@open', switchTo: '@qqstring.$1.$2.$2' } ],
-
-      [/%([rqwsxW]|Q?)./, { token: 'invalid', next: '@pop' } ], // recover
-      [/./, { token: 'invalid', next: '@pop' } ], // recover
-    ],
-
-    // non-expanded quoted string.
-    // qstring.&lt;kind&gt;.&lt;open&gt;.&lt;close&gt;
-    //  kind = q|w|s  (single quote, array, symbol)
-    //  open = open delimiter
-    //  close = close delimiter
-    qstring: [
-      [/\\$/, 'string.$S2.escape' ],
-      [/\\./, 'string.$S2.escape' ],
-      [/./,   { cases: { '$#==$S4' : { token: 'string.$S2.delim', bracket: '@close', next: '@pop' },
-                         '$#==$S3' : { token: 'string.$S2.delim', bracket: '@open', next: '@push' }, // nested delimiters are allowed..
-                         '@default': 'string.$S2' }}],
-    ],
-
-    // expanded quoted string.
-    // qqstring.&lt;kind&gt;.&lt;open&gt;.&lt;close&gt;
-    //  kind = Q|W|x  (double quote, array, command)
-    //  open = open delimiter
-    //  close = close delimiter
-    qqstring: [
-      [/#/, 'string.$S2.escape', '@interpolated' ],
-      { include: '@qstring' }
-    ],
+			// here document
+			[/&lt;&lt;[-~](@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
+			[/[ \t\r\n]+&lt;&lt;(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
+			[/^&lt;&lt;(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 
 
-    // whitespace &amp; comments
-    whitespace: [
-      [/[ \t\r\n]+/, 'white'],
-      [/^\s*=begin\b/,       'comment', '@comment' ],
-      [/#.*$/,    'comment'],
-    ],
+			// whitespace
+			{ include: '@whitespace' },
 
-    comment: [
-      [/[^=]+/, 'comment' ],
-      [/^\s*=begin\b/, 'comment.invalid' ],    // nested comment
-      [/^\s*=end\b.*/, 'comment', '@pop'  ],
-      [/[=]/, 'comment' ]
-    ],
-  },
+			// strings
+			[/"/, { token: 'string.d.delim', next: '@dstring.d."' }],
+			[/'/, { token: 'string.sq.delim', next: '@sstring.sq' }],
+
+			// % literals. For efficiency, rematch in the 'pstring' state
+			[/%([rsqxwW]|Q?)/, { token: '@rematch', next: 'pstring' }],
+
+			// commands and symbols
+			[/`/, { token: 'string.x.delim', next: '@dstring.x.`' }],
+			[/:(\w|[$@])\w*[!?=]?/, 'string.s'],
+			[/:"/, { token: 'string.s.delim', next: '@dstring.s."' }],
+			[/:'/, { token: 'string.s.delim', next: '@sstring.s' }],
+
+			// regular expressions. Lookahead for a (not escaped) closing forwardslash on the same line
+			[/\/(?=(\\\/|[^\/\n])+\/)/, { token: 'regexp.delim', next: '@regexp' }],
+
+			// delimiters and operators
+			[/[{}()\[\]]/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@keywordops': 'keyword',
+					'@operators': 'operator',
+					'@default': ''
+				}
+			}],
+
+			[/[;,]/, 'delimiter'],
+
+			// numbers
+			[/0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/, 'number.hex'],
+			[/0[_oO][0-7](_?[0-7])*/, 'number.octal'],
+			[/0[bB][01](_?[01])*/, 'number.binary'],
+			[/0[dD]@decpart/, 'number'],
+			[/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)/, {
+				cases: {
+					'$1': 'number.float',
+					'@default': 'number'
+				}
+			}],
+
+		],
+
+		// used to not treat a 'do' as a block opener if it occurs on the same
+		// line as a 'do' statement: 'while|until|for'
+		// dodecl.&lt;decl&gt; where decl is the declarations started, like 'while'
+		dodecl: [
+			[/^/, { token: '', switchTo: '@root.$S2' }], // get out of do-skipping mode on a new line
+			[/[a-z_]\w*[!?=]?/, {
+				cases: {
+					'end': { token: 'keyword.$S2', next: '@pop' }, // end on same line
+					'do': { token: 'keyword', switchTo: '@root.$S2' }, // do on same line: not an open bracket here
+					'@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration on same line: rematch
+					'@keywords': 'keyword',
+					'@builtins': 'predefined',
+					'@default': 'identifier'
+				}
+			}],
+			{ include: '@root' }
+		],
+
+		// used to prevent potential modifiers ('if|until|while|unless') to match
+		// with 'end' keywords.
+		// modifier.&lt;decl&gt;x where decl is the declaration starter, like 'if'
+		modifier: [
+			[/^/, '', '@pop'], // it was a modifier: get out of modifier mode on a new line
+			[/[a-z_]\w*[!?=]?/, {
+				cases: {
+					'end': { token: 'keyword.$S2', next: '@pop' }, // end on same line
+					'then|else|elsif|do': { token: 'keyword', switchTo: '@root.$S2' }, // real declaration and not a modifier
+					'@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration =&gt; not a modifier
+					'@keywords': 'keyword',
+					'@builtins': 'predefined',
+					'@default': 'identifier'
+				}
+			}],
+			{ include: '@root' }
+		],
+
+		// single quote strings (also used for symbols)
+		// sstring.&lt;kind&gt;  where kind is 'sq' (single quote) or 's' (symbol)
+		sstring: [
+			[/[^\\']+/, 'string.$S2'],
+			[/\\\\|\\'|\\$/, 'string.$S2.escape'],
+			[/\\./, 'string.$S2.invalid'],
+			[/'/, { token: 'string.$S2.delim', next: '@pop' }]
+		],
+
+		// double quoted "string".
+		// dstring.&lt;kind&gt;.&lt;delim&gt; where kind is 'd' (double quoted), 'x' (command), or 's' (symbol)
+		// and delim is the ending delimiter (" or `)
+		dstring: [
+			[/[^\\`"#]+/, 'string.$S2'],
+			[/#/, 'string.$S2.escape', '@interpolated'],
+			[/\\$/, 'string.$S2.escape'],
+			[/@escapes/, 'string.$S2.escape'],
+			[/\\./, 'string.$S2.escape.invalid'],
+			[/[`"]/, {
+				cases: {
+					'$#==$S3': { token: 'string.$S2.delim', next: '@pop' },
+					'@default': 'string.$S2'
+				}
+			}]
+		],
+
+		// literal documents
+		// heredoc.&lt;close&gt; where close is the closing delimiter
+		heredoc: [
+			[/^(\s*)(@heredelim)$/, {
+				cases: {
+					'$2==$S2': ['string.heredoc', { token: 'string.heredoc.delimiter', next: '@pop' }],
+					'@default': ['string.heredoc', 'string.heredoc']
+				}
+			}],
+			[/.*/, 'string.heredoc'],
+		],
+
+		// interpolated sequence
+		interpolated: [
+			[/\$\w*/, 'global.constant', '@pop'],
+			[/@\w*/, 'namespace.class.identifier', '@pop'],
+			[/@@\w*/, 'namespace.instance.identifier', '@pop'],
+			[/[{]/, { token: 'string.escape.curly', switchTo: '@interpolated_compound' }],
+			['', '', '@pop'], // just a # is interpreted as a #
+		],
+
+		// any code
+		interpolated_compound: [
+			[/[}]/, { token: 'string.escape.curly', next: '@pop' }],
+			{ include: '@root' },
+		],
+
+		// %r quoted regexp
+		// pregexp.&lt;open&gt;.&lt;close&gt; where open/close are the open/close delimiter
+		pregexp: [
+			{ include: '@whitespace' },
+			// turns out that you can quote using regex control characters, aargh!
+			// for example; %r|kgjgaj| is ok (even though | is used for alternation)
+			// so, we need to match those first
+			[/[^\(\{\[\\]/, {
+				cases: {
+					'$#==$S3': { token: 'regexp.delim', next: '@pop' },
+					'$#==$S2': { token: 'regexp.delim', next: '@push' }, // nested delimiters are allowed..
+					'~[)}\\]]': '@brackets.regexp.escape.control',
+					'~@regexpctl': 'regexp.escape.control',
+					'@default': 'regexp'
+				}
+			}],
+			{ include: '@regexcontrol' },
+		],
+
+		// We match regular expression quite precisely
+		regexp: [
+			{ include: '@regexcontrol' },
+			[/[^\\\/]/, 'regexp'],
+			['/[ixmp]*', { token: 'regexp.delim' }, '@pop'],
+		],
+
+		regexcontrol: [
+			[/(\{)(\d+(?:,\d*)?)(\})/, ['@brackets.regexp.escape.control', 'regexp.escape.control', '@brackets.regexp.escape.control']],
+			[/(\[)(\^?)/, ['@brackets.regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]],
+			[/(\()(\?[:=!])/, ['@brackets.regexp.escape.control', 'regexp.escape.control']],
+			[/\(\?#/, { token: 'regexp.escape.control', next: '@regexpcomment' }],
+			[/[()]/, '@brackets.regexp.escape.control'],
+			[/@regexpctl/, 'regexp.escape.control'],
+			[/\\$/, 'regexp.escape'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/\\\./, 'regexp.invalid'],
+			[/#/, 'regexp.escape', '@interpolated'],
+		],
+
+		regexrange: [
+			[/-/, 'regexp.escape.control'],
+			[/\^/, 'regexp.invalid'],
+			[/\\$/, 'regexp.escape'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/[^\]]/, 'regexp'],
+			[/\]/, '@brackets.regexp.escape.control', '@pop'],
+		],
+
+		regexpcomment: [
+			[/[^)]+/, 'comment'],
+			[/\)/, { token: 'regexp.escape.control', next: '@pop' }]
+		],
+
+
+		// % quoted strings
+		// A bit repetitive since we need to often special case the kind of ending delimiter
+		pstring: [
+			[/%([qws])\(/, { token: 'string.$1.delim', switchTo: '@qstring.$1.(.)' }],
+			[/%([qws])\[/, { token: 'string.$1.delim', switchTo: '@qstring.$1.[.]' }],
+			[/%([qws])\{/, { token: 'string.$1.delim', switchTo: '@qstring.$1.{.}' }],
+			[/%([qws])&lt;/, { token: 'string.$1.delim', switchTo: '@qstring.$1.&lt;.&gt;' }],
+			[/%([qws])(@delim)/, { token: 'string.$1.delim', switchTo: '@qstring.$1.$2.$2' }],
+
+			[/%r\(/, { token: 'regexp.delim', switchTo: '@pregexp.(.)' }],
+			[/%r\[/, { token: 'regexp.delim', switchTo: '@pregexp.[.]' }],
+			[/%r\{/, { token: 'regexp.delim', switchTo: '@pregexp.{.}' }],
+			[/%r&lt;/, { token: 'regexp.delim', switchTo: '@pregexp.&lt;.&gt;' }],
+			[/%r(@delim)/, { token: 'regexp.delim', switchTo: '@pregexp.$1.$1' }],
+
+			[/%(x|W|Q?)\(/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.(.)' }],
+			[/%(x|W|Q?)\[/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.[.]' }],
+			[/%(x|W|Q?)\{/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.{.}' }],
+			[/%(x|W|Q?)&lt;/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.&lt;.&gt;' }],
+			[/%(x|W|Q?)(@delim)/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.$2.$2' }],
+
+			[/%([rqwsxW]|Q?)./, { token: 'invalid', next: '@pop' }], // recover
+			[/./, { token: 'invalid', next: '@pop' }], // recover
+		],
+
+		// non-expanded quoted string.
+		// qstring.&lt;kind&gt;.&lt;open&gt;.&lt;close&gt;
+		//  kind = q|w|s  (single quote, array, symbol)
+		//  open = open delimiter
+		//  close = close delimiter
+		qstring: [
+			[/\\$/, 'string.$S2.escape'],
+			[/\\./, 'string.$S2.escape'],
+			[/./, {
+				cases: {
+					'$#==$S4': { token: 'string.$S2.delim', next: '@pop' },
+					'$#==$S3': { token: 'string.$S2.delim', next: '@push' }, // nested delimiters are allowed..
+					'@default': 'string.$S2'
+				}
+			}],
+		],
+
+		// expanded quoted string.
+		// qqstring.&lt;kind&gt;.&lt;open&gt;.&lt;close&gt;
+		//  kind = Q|W|x  (double quote, array, command)
+		//  open = open delimiter
+		//  close = close delimiter
+		qqstring: [
+			[/#/, 'string.$S2.escape', '@interpolated'],
+			{ include: '@qstring' }
+		],
+
+
+		// whitespace &amp; comments
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/^\s*=begin\b/, 'comment', '@comment'],
+			[/#.*$/, 'comment'],
+		],
+
+		comment: [
+			[/[^=]+/, 'comment'],
+			[/^\s*=begin\b/, 'comment.invalid'],    // nested comment
+			[/^\s*=end\b.*/, 'comment', '@pop'],
+			[/[=]/, 'comment']
+		],
+	}
 };
 </pre>
 
@@ -2283,147 +2441,213 @@ Calculator().mainloop()
 // since they have letter prefixes. We also treat ':' as an @open bracket
 // in order to get auto identation.
 return {
-  // Set defaultToken to invalid to see what you do not tokenize yet
-  // defaultToken: 'invalid',
+	defaultToken: '',
+	tokenPostfix: '.python',
 
-  keywords: [
-    'and', 'del', 'from', 'not', 'while',
-    'as', 'elif', 'global', 'or', 'with',
-    'assert', 'else', 'if', 'pass', 'yield',
-    'break', 'except', 'import', 'print',
-    'class', 'exec', 'in', 'raise', 'continue', 'finally', 'is',
-    'return', 'def', 'for', 'lambda', 'try',
-    ':','=',
-    'isinstance','__debug__',
-  ],
+	keywords: [
+		'and',
+		'as',
+		'assert',
+		'break',
+		'class',
+		'continue',
+		'def',
+		'del',
+		'elif',
+		'else',
+		'except',
+		'exec',
+		'finally',
+		'for',
+		'from',
+		'global',
+		'if',
+		'import',
+		'in',
+		'is',
+		'lambda',
+		'None',
+		'not',
+		'or',
+		'pass',
+		'print',
+		'raise',
+		'return',
+		'self',
+		'try',
+		'while',
+		'with',
+		'yield',
 
-  operators: [
-    '+', '-', '*', '**', '/', '//', '%',
-    '&lt;&lt;', '&gt;&gt;', '&amp;', '|', '^', '~',
-    '&lt;', '&gt;', '&lt;=', '&gt;=', '==', '!=', '&lt;&gt;',
-    '+=', '-=', '*=', '/=', '//=', '%=',
-    '&amp;=', '|=', '^=', '&gt;&gt;=', '&lt;&lt;=', '**=',
-  ],
+		'int',
+		'float',
+		'long',
+		'complex',
+		'hex',
 
+		'abs',
+		'all',
+		'any',
+		'apply',
+		'basestring',
+		'bin',
+		'bool',
+		'buffer',
+		'bytearray',
+		'callable',
+		'chr',
+		'classmethod',
+		'cmp',
+		'coerce',
+		'compile',
+		'complex',
+		'delattr',
+		'dict',
+		'dir',
+		'divmod',
+		'enumerate',
+		'eval',
+		'execfile',
+		'file',
+		'filter',
+		'format',
+		'frozenset',
+		'getattr',
+		'globals',
+		'hasattr',
+		'hash',
+		'help',
+		'id',
+		'input',
+		'intern',
+		'isinstance',
+		'issubclass',
+		'iter',
+		'len',
+		'locals',
+		'list',
+		'map',
+		'max',
+		'memoryview',
+		'min',
+		'next',
+		'object',
+		'oct',
+		'open',
+		'ord',
+		'pow',
+		'print',
+		'property',
+		'reversed',
+		'range',
+		'raw_input',
+		'reduce',
+		'reload',
+		'repr',
+		'reversed',
+		'round',
+		'set',
+		'setattr',
+		'slice',
+		'sorted',
+		'staticmethod',
+		'str',
+		'sum',
+		'super',
+		'tuple',
+		'type',
+		'unichr',
+		'unicode',
+		'vars',
+		'xrange',
+		'zip',
 
-  brackets: [
-    ['(',')','delimiter.parenthesis'],
-    ['{','}','delimiter.curly'],
-    ['[',']','delimiter.square']
-  ],
+		'True',
+		'False',
 
-  // operator symbols
-  symbols:    /[=&gt;&lt;!~&amp;|+\-*\/\^%]+/,
-  delimiters: /[;=.@:,`]/,
+		'__dict__',
+		'__methods__',
+		'__members__',
+		'__class__',
+		'__bases__',
+		'__name__',
+		'__mro__',
+		'__subclasses__',
+		'__init__',
+		'__import__'
+	],
 
-  // strings
-  escapes: /\\(?:[abfnrtv\\"'\n\r]|x[0-9A-Fa-f]{2}|[0-7]{3}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8}|N\{\w+\})/,
-  rawpre: /(?:[rR]|ur|Ur|uR|UR|br|Br|bR|BR)/,
-  strpre: /(?:[buBU])/,
+	brackets: [
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.bracket' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' }
+	],
 
-  // The main tokenizer for our languages
-  tokenizer: {
-    root: [
-      // strings: need to check first due to the prefix
-      [/@strpre?("""|''')/, { token: 'string.delim', bracket: '@open', next: '@mstring.$1' } ],
-      [/@strpre?"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/@strpre?'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/@strpre?(["'])/,  { token: 'string.delim', bracket: '@open', next: '@string.$1' } ],
+	tokenizer: {
+		root: [
+			{ include: '@whitespace' },
+			{ include: '@numbers' },
+			{ include: '@strings' },
 
-      [/@rawpre("""|''')/, { token: 'string.delim', bracket: '@open', next: '@mrawstring.$1' } ],
-      [/@rawpre"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/@rawpre'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/@rawpre(["'])/,  { token: 'string.delim', bracket: '@open', next: '@rawstring.$1' } ],
+			[/[,:;]/, 'delimiter'],
+			[/[{}\[\]()]/, '@brackets'],
 
-      // identifiers and keywords
-      [/__[\w$]*/, 'predefined' ],
-      [/[a-z_$][\w$]*/, { cases: { '@keywords': 'keyword',
-                                   '@default': 'identifier' } }],
-      [/[A-Z][\w]*/, { cases: { '~[A-Z0-9_]+': 'constructor.identifier',
-                                '@default'   : 'namespace.identifier' }}],  // to show class names nicely
+			[/@[a-zA-Z]\w*/, 'tag'],
+			[/[a-zA-Z]\w*/, {
+				cases: {
+					'@keywords': 'keyword',
+					'@default': 'identifier'
+				}
+			}]
+		],
 
-      // whitespace
-      { include: '@whitespace' },
+		// Deal with white space, including single and multi-line comments
+		whitespace: [
+			[/\s+/, 'white'],
+			[/(^#.*$)/, 'comment'],
+			[/('''.*''')|(""".*""")/, 'string'],
+			[/'''.*$/, 'string', '@endDocString'],
+			[/""".*$/, 'string', '@endDblDocString']
+		],
+		endDocString: [
+			[/\\'/, 'string'],
+			[/.*'''/, 'string', '@popall'],
+			[/.*$/, 'string']
+		],
+		endDblDocString: [
+			[/\\"/, 'string'],
+			[/.*"""/, 'string', '@popall'],
+			[/.*$/, 'string']
+		],
 
-      // delimiters and operators
-      [/[{}()\[\]]/, '@brackets'],
-      [/@symbols/, { cases: { '@keywords' : 'keyword',
-                              '@operators': 'operator',
-                              '@default'  : '' } } ],
+		// Recognize hex, negatives, decimals, imaginaries, longs, and scientific notation
+		numbers: [
+			[/-?0x([abcdef]|[ABCDEF]|\d)+[lL]?/, 'number.hex'],
+			[/-?(\d*\.)?\d+([eE][+\-]?\d+)?[jJ]?[lL]?/, 'number']
+		],
 
-      // numbers
-      [/\d*\.\d+([eE][\-+]?\d+)?/,   'number.float'],
-      [/0[xX][0-9a-fA-F]+[lL]?/,     'number.hex'],
-      [/0[bB][0-1]+[lL]?/,           'number.binary'],
-      [/(0[oO][0-7]+|0[0-7]+)[lL]?/, 'number.octal'],
-      [/(0|[1-9]\d*)[lL]?/,          'number'],
-
-      // delimiter: after number because of .\d floats
-      [':', { token: 'keyword', bracket: '@open' }], // bracket for indentation
-      [/@delimiters/, { cases: { '@keywords': 'keyword',
-                                 '@default': 'delimiter' }}],
-
-    ],
-
-    comment: [
-      [/[^\/*]+/, 'comment' ],
-      [/\/\*/,    'comment', '@push' ],    // nested comment
-      ["\\*/",    'comment', '@pop'  ],
-      [/[\/*]/,   'comment' ]
-    ],
-
-    // Regular strings
-    mstring: [
-      { include: '@strcontent' },
-      [/"""|'''/,  { cases: { '$#==$S2':  { token: 'string.delim', bracket: '@close', next: '@pop' },
-                              '@default': { token: 'string' } } }],
-      [/["']/, 'string' ],
-      [/./,    'string.invalid'],
-    ],
-
-    string: [
-      { include: '@strcontent' },
-      [/["']/, { cases: { '$#==$S2': { token: 'string.delim', bracket: '@close', next: '@pop' },
-                          '@default': { token: 'string' } } } ],
-      [/./, 'string.invalid'],
-    ],
-
-    strcontent: [
-      [/[^\\"']+/,  'string'],
-      [/\\$/,       'string.escape'],
-      [/@escapes/,  'string.escape'],
-      [/\\./,       'string.escape.invalid'],
-    ],
-
-    // Raw strings: we distinguish them to color escape sequences correctly
-    mrawstring: [
-      { include: '@rawstrcontent' },
-      [/"""|'''/,  { cases: { '$#==$S2':  { token: 'string.delim', bracket: '@close', next: '@pop' },
-                              '@default': { token: 'string' } } }],
-      [/["']/, 'string' ],
-      [/./,    'string.invalid'],
-    ],
-
-    rawstring: [
-      { include: '@rawstrcontent' },
-      [/["']/, { cases: { '$#==$S2': { token: 'string.delim', bracket: '@close', next: '@pop' },
-                          '@default': { token: 'string' } } } ],
-      [/./, 'string.invalid'],
-    ],
-
-    rawstrcontent: [
-      [/[^\\"']+/, 'string'],
-      [/\\["']/,   'string'],
-      [/\\u[0-9A-Fa-f]{4}/, 'string.escape'],
-      [/\\/, 'string' ],
-    ],
-
-    // whitespace
-    whitespace: [
-      [/[ \t\r\n]+/, 'white'],
-      [/#.*$/,       'comment'],
-    ],
-  },
+		// Recognize strings, including those broken across lines with \ (but not without)
+		strings: [
+			[/'$/, 'string.escape', '@popall'],
+			[/'/, 'string.escape', '@stringBody'],
+			[/"$/, 'string.escape', '@popall'],
+			[/"/, 'string.escape', '@dblStringBody']
+		],
+		stringBody: [
+			[/[^\\']+$/, 'string', '@popall'],
+			[/[^\\']+/, 'string'],
+			[/\\./, 'string'],
+			[/'/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
+		],
+		dblStringBody: [
+			[/[^\\"]+$/, 'string', '@popall'],
+			[/[^\\"]+/, 'string'],
+			[/\\./, 'string'],
+			[/"/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
+		]
+	}
 };
 </pre>
 
@@ -3406,171 +3630,174 @@ namespace RayTracer {
 // Todo: support unicode identifiers
 // Todo: special color for documentation comments and attributes
 return {
-  keywords: [
-    'extern', 'alias', 'using', 'bool', 'decimal', 'sbyte', 'byte', 'short',
-    'ushort', 'int', 'uint', 'long', 'ulong', 'char', 'float', 'double',
-    'object', 'dynamic', 'string', 'assembly', 'module', 'is', 'as', 'ref',
-    'out', 'this', 'base', 'new', 'typeof', 'void', 'checked', 'unchecked',
-    'default', 'delegate', 'var', 'const', 'if', 'else', 'switch', 'case',
-    'while', 'do', 'for', 'foreach', 'in', 'break', 'continue', 'goto',
-    'return', 'throw', 'try', 'catch', 'finally', 'lock', 'yield', 'from',
-    'let', 'where', 'join', 'on', 'equals', 'into', 'orderby', 'ascending',
-    'descending', 'select', 'group', 'by', 'namespace', 'partial', 'class',
-    'field', 'event', 'method', 'param', 'property', 'public', 'protected',
-    'internal', 'private', 'abstract', 'sealed', 'static', 'struct', 'readonly',
-    'volatile', 'virtual', 'override', 'params', 'get', 'set', 'add', 'remove',
-    'operator', 'true', 'false', 'implicit', 'explicit', 'interface', 'enum',
-    'null',
-    '=',':',
-  ],
+	defaultToken: '',
+	tokenPostfix: '.cs',
 
-  typeKeywords: [
-    'bool', 'byte', 'char', 'decimal', 'double', 'fixed', 'float',
-    'int', 'long','object','sbyte','short','string','uint','ulong',
-    'ushort','void'
-  ],
+	brackets: [
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.square' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '&lt;', close: '&gt;', token: 'delimiter.angle' }
+	],
 
-  keywordInType: [
-    'struct','new','where','class'
-  ],
+	keywords: [
+		'extern', 'alias', 'using', 'bool', 'decimal', 'sbyte', 'byte', 'short',
+		'ushort', 'int', 'uint', 'long', 'ulong', 'char', 'float', 'double',
+		'object', 'dynamic', 'string', 'assembly', 'is', 'as', 'ref',
+		'out', 'this', 'base', 'new', 'typeof', 'void', 'checked', 'unchecked',
+		'default', 'delegate', 'var', 'const', 'if', 'else', 'switch', 'case',
+		'while', 'do', 'for', 'foreach', 'in', 'break', 'continue', 'goto',
+		'return', 'throw', 'try', 'catch', 'finally', 'lock', 'yield', 'from',
+		'let', 'where', 'join', 'on', 'equals', 'into', 'orderby', 'ascending',
+		'descending', 'select', 'group', 'by', 'namespace', 'partial', 'class',
+		'field', 'event', 'method', 'param', 'property', 'public', 'protected',
+		'internal', 'private', 'abstract', 'sealed', 'static', 'struct', 'readonly',
+		'volatile', 'virtual', 'override', 'params', 'get', 'set', 'add', 'remove',
+		'operator', 'true', 'false', 'implicit', 'explicit', 'interface', 'enum',
+		'null', 'async', 'await', 'fixed', 'sizeof', 'stackalloc', 'unsafe', 'nameof',
+		'when'
+	],
 
-  typeFollows: [
-    'as', 'class', 'interface', 'struct', 'enum', 'new','where',
-    ':',
-  ],
+	namespaceFollows: [
+		'namespace', 'using',
+	],
 
-  namespaceFollows: [
-    'namespace', 'using',
-  ],
+	parenFollows: [
+		'if', 'for', 'while', 'switch', 'foreach', 'using', 'catch', 'when'
+	],
 
-  operators: [
-    '??', '||', '&amp;&amp;', '|', '^', '&amp;', '==', '!=', '&lt;=', '&gt;=', '&lt;&lt;',
-    '+', '-', '*', '/', '%', '!', '~', '++', '--','+=',
-    '-=', '*=', '/=', '%=', '&amp;=', '|=', '^=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;', '=&gt;'
-  ],
+	operators: [
+		'=', '??', '||', '&amp;&amp;', '|', '^', '&amp;', '==', '!=', '&lt;=', '&gt;=', '&lt;&lt;',
+		'+', '-', '*', '/', '%', '!', '~', '++', '--', '+=',
+		'-=', '*=', '/=', '%=', '&amp;=', '|=', '^=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;', '=&gt;'
+	],
 
-  symbols:  /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
 
-  // escape sequences
-  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	// escape sequences
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 
-  // The main tokenizer for our languages
-  tokenizer: {
-    root: [
-      // Try to show type names nicely: for parameters: Type name
-      [/[A-Z][\w]*(?=[\.\w]*(\s|\/\*!\*\/)+\w)/, 'type.identifier' ],
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
 
-      // Generic types List&lt;int&gt;.
-      // Unfortunately, colors explicit nested generic method instantiation as Method&lt;List&lt;int&gt;&gt;(x) wrongly
-      [/([A-Z][\w]*[\.\w]*)(&lt;)(?![^&gt;]+&gt;\s*(?:\(|$))/, ['type.identifier', { token: '@brackets', next: '@type' } ]],
-      [/([A-Z][\w]*[\.\w]*)(&lt;)/, ['identifier', { token: '@brackets', next: '@type' } ]],
+			// identifiers and keywords
+			[/\@?[a-zA-Z_]\w*/, {
+				cases: {
+					'@namespaceFollows': { token: 'keyword.$0', next: '@namespace' },
+					'@keywords': { token: 'keyword.$0', next: '@qualified' },
+					'@default': { token: 'identifier', next: '@qualified' }
+				}
+			}],
 
-      // These take care of 'System.Console.WriteLine'.
-      // These two rules are not 100% right: if a non-qualified field has an uppercase name
-      // it colors it as a type.. but you could use this.Field to circumenvent this.
-      [/[A-Z][\w]*(?=\.[A-Z])/, 'type.identifier' ],
-      [/[A-Z][\w]*(?=\.[a-z_])/, 'type.identifier', '@qualified' ],
+			// whitespace
+			{ include: '@whitespace' },
 
-      // identifiers and keywords
-      [/[a-zA-Z_]\w*/, { cases: {'@typeFollows': { token: 'keyword', next: '@type' },
-                                 '@namespaceFollows': { token: 'keyword', next: '@namespace' },
-                                 '@typeKeywords': { token: 'type.identifier', next: '@qualified' },
-                                 '@keywords': { token: 'keyword', next: '@qualified' },
-                                 '@default': { token: 'identifier', next: '@qualified' } } }],
+			// delimiters and operators
+			[/}/, {
+				cases: {
+					'$S2==interpolatedstring': { token: 'string.quote', next: '@pop' },
+					'$S2==litinterpstring': { token: 'string.quote', next: '@pop' },
+					'@default': '@brackets'
+				}
+			}],
+			[/[{}()\[\]]/, '@brackets'],
+			[/[&lt;&gt;](?!@symbols)/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
 
-      // whitespace
-      { include: '@whitespace' },
 
-      // delimiters and operators
-      [/[{}()\[\]]/, '@brackets'],
-      [/[&lt;&gt;](?!@symbols)/, '@brackets'],
-      [/@symbols/, { cases: { '@operators': 'operator',
-                              '@default'  : '' } } ],
+			// numbers
+			[/[0-9_]*\.[0-9_]+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
+			[/0[xX][0-9a-fA-F_]+/, 'number.hex'],
+			[/0[bB][01_]+/, 'number.hex'], // binary: use same theme style as hex
+			[/[0-9_]+/, 'number'],
 
-      // literal string
-      [/@"/, { token: 'string.quote', bracket: '@open', next: '@litstring' } ],
+			// delimiter: after number because of .\d floats
+			[/[;,.]/, 'delimiter'],
 
-      // numbers
-      [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
-      [/0[xX][0-9a-fA-F]+/, 'number.hex'],
-      [/\d+/, 'number'],
+			// strings
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, { token: 'string.quote', next: '@string' }],
+			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' }],
+			[/\@"/, { token: 'string.quote', next: '@litstring' }],
+			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' }],
 
-      // delimiter: after number because of .\d floats
-      [/[;,.]/, 'delimiter'],
+			// characters
+			[/'[^\\']'/, 'string'],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
+			[/'/, 'string.invalid']
+		],
 
-      // strings
-      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-      [/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+		qualified: [
+			[/[a-zA-Z_][\w]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
+			}],
+			[/\./, 'delimiter'],
+			['', '', '@pop'],
+		],
 
-      // characters
-      [/'[^\\']'/, 'string'],
-      [/(')(@escapes)(')/, ['string','string.escape','string']],
-      [/'/, 'string.invalid']
-    ],
+		namespace: [
+			{ include: '@whitespace' },
+			[/[A-Z]\w*/, 'namespace'],
+			[/[\.=]/, 'delimiter'],
+			['', '', '@pop'],
+		],
 
-    qualified: [
-      [/[a-zA-Z_][\w]*/, { cases: { '@typeFollows': { token: 'keyword', next: '@type' },
-                                    '@typeKeywords': 'type.identifier',
-                                    '@keywords': 'keyword',
-                                    '@default': 'identifier' } }],
-      [/\./, 'delimiter'],
-      ['','','@pop'],
-    ],
+		comment: [
+			[/[^\/*]+/, 'comment'],
+			// [/\/\*/,    'comment', '@push' ],    // no nested comments :-(
+			['\\*/', 'comment', '@pop'],
+			[/[\/*]/, 'comment']
+		],
 
-    type: [
-      { include: '@whitespace' },
-      [/[A-Z]\w*/, 'type.identifier'],
-      // identifiers and keywords
-      [/[a-zA-Z_]\w*/, { cases: {'@typeKeywords': 'type.identifier',
-                                 '@keywordInType': 'keyword',
-                                 '@keywords': {token: '@rematch', next: '@popall'},
-                                 '@default': 'type.identifier' } }],
-      [/[&lt;]/, '@brackets', '@type_nested' ],
-      [/[&gt;]/, '@brackets', '@pop' ],
-      [/[\.,:]/, { cases: { '@keywords': 'keyword',
-                            '@default': 'delimiter' }}],
-      ['','','@popall'], // catch all
-    ],
+		string: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
 
-    type_nested: [
-      [/[&lt;]/, '@brackets', '@type_nested' ],
-      { include: 'type' }
-    ],
+		litstring: [
+			[/[^"]+/, 'string'],
+			[/""/, 'string.escape'],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
 
-    namespace: [
-      { include: '@whitespace' },
-      [/[A-Z]\w*/, 'namespace'],
-      [/[\.=]/, 'keyword'],
-      ['','','@pop'],
-    ],
+		litinterpstring: [
+			[/[^"{]+/, 'string'],
+			[/""/, 'string.escape'],
+			[/{{/, 'string.escape'],
+			[/}}/, 'string.escape'],
+			[/{/, { token: 'string.quote', next: 'root.litinterpstring' }],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
 
-    comment: [
-      [/[^\/*]+/, 'comment' ],
-      // [/\/\*/,    'comment', '@push' ],    // no nested comments :-(
-      ["\\*/",    'comment', '@pop'  ],
-      [/[\/*]/,   'comment' ]
-    ],
+		interpolatedstring: [
+			[/[^\\"{]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/{{/, 'string.escape'],
+			[/}}/, 'string.escape'],
+			[/{/, { token: 'string.quote', next: 'root.interpolatedstring' }],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
 
-    string: [
-      [/[^\\"]+/,  'string'],
-      [/@escapes/, 'string.escape'],
-      [/\\./,      'string.escape.invalid'],
-      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
-    ],
-
-    litstring: [
-      [/[^"]+/,    'string'],
-      [/""/,       'string.escape'],
-      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
-    ],
-
-    whitespace: [
-      [/^[ \t\v\f]*#\w.*$/, 'namespace.cpp' ],
-      [/[ \t\v\f\r\n]+/, 'white'],
-      [/\/\*/,       'comment', '@comment' ],
-      [/\/\/.*$/,    'comment'],
-    ],
-  },
+		whitespace: [
+			[/^[ \t\v\f]*#((r)|(load))(?=\s)/, 'directive.csx'],
+			[/^[ \t\v\f]*#\w.*$/, 'namespace.cpp'],
+			[/[ \t\v\f\r\n]+/, ''],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
+		],
+	},
 };
 </pre>
 
