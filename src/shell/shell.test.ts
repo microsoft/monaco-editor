@@ -279,4 +279,13 @@ testTokenization('shell', [
 			{ startIndex: 4, type: 'string.heredoc.shell' }
 		]
 	}],
+
+	[{
+		line: 'echo $( echo "hi" )',
+		tokens: [
+			{ startIndex: 0, type: 'type.identifier.shell' },
+			{ startIndex: 4, type: 'white.shell' },
+			{ startIndex: 5, type: 'variable.shell' }
+		]
+	}],
 ])
