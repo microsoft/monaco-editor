@@ -98,7 +98,7 @@ export class DiagnosticsAdapter {
 			if (model.getModeId() === languageId) {
 				monaco.editor.setModelMarkers(model, languageId, markers);
 			}
-		}).done(undefined, err => {
+		}).then(undefined, err => {
 			console.error(err);
 		});
 	}
@@ -199,11 +199,11 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 		return [' ', ':'];
 	}
 
-	provideCompletionItems(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.CompletionList> {
+	provideCompletionItems(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.CompletionContext, token: CancellationToken): Thenable<monaco.languages.CompletionList> {
 		const wordInfo = model.getWordUntilPosition(position);
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => {
+		return this._worker(resource).then(worker => {
 			return worker.doComplete(resource.toString(), fromPosition(position));
 		}).then(info => {
 			if (!info) {
@@ -212,7 +212,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
 				let item: monaco.languages.CompletionItem = {
 					label: entry.label,
-					insertText: entry.insertText,
+					insertText: entry.insertText || entry.label,
 					sortText: entry.sortText,
 					filterText: entry.filterText,
 					documentation: entry.documentation,
@@ -227,16 +227,16 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 					item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit)
 				}
 				if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
-					item.insertText = { value: <string>item.insertText };
+					item.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
 				}
 				return item;
 			});
 
 			return {
 				isIncomplete: info.isIncomplete,
-				items: items
+				suggestions: items
 			};
-		}));
+		});
 	}
 }
 
@@ -286,7 +286,7 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 	provideHover(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Hover> {
 		let resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => {
+		return this._worker(resource).then(worker => {
 			return worker.doHover(resource.toString(), fromPosition(position));
 		}).then(info => {
 			if (!info) {
@@ -296,7 +296,7 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 				range: toRange(info.range),
 				contents: toMarkedStringArray(info.contents)
 			};
-		}));
+		});
 	}
 }
 
@@ -320,7 +320,7 @@ export class DocumentHighlightAdapter implements monaco.languages.DocumentHighli
 	public provideDocumentHighlights(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.DocumentHighlight[]> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => {
+		return this._worker(resource).then(worker => {
 			return worker.findDocumentHighlights(resource.toString(), fromPosition(position))
 		}).then(entries => {
 			if (!entries) {
@@ -332,7 +332,7 @@ export class DocumentHighlightAdapter implements monaco.languages.DocumentHighli
 					kind: toDocumentHighlightKind(entry.kind)
 				};
 			});
-		}));
+		});
 	}
 }
 
@@ -353,14 +353,14 @@ export class DefinitionAdapter {
 	public provideDefinition(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Definition> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => {
+		return this._worker(resource).then(worker => {
 			return worker.findDefinition(resource.toString(), fromPosition(position));
 		}).then(definition => {
 			if (!definition) {
 				return;
 			}
 			return [toLocation(definition)];
-		}));
+		});
 	}
 }
 
@@ -374,14 +374,14 @@ export class ReferenceAdapter implements monaco.languages.ReferenceProvider {
 	provideReferences(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.ReferenceContext, token: CancellationToken): Thenable<monaco.languages.Location[]> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => {
+		return this._worker(resource).then(worker => {
 			return worker.findReferences(resource.toString(), fromPosition(position));
 		}).then(entries => {
 			if (!entries) {
 				return;
 			}
 			return entries.map(toLocation);
-		}));
+		});
 	}
 }
 
@@ -416,11 +416,11 @@ export class RenameAdapter implements monaco.languages.RenameProvider {
 	provideRenameEdits(model: monaco.editor.IReadOnlyModel, position: Position, newName: string, token: CancellationToken): Thenable<monaco.languages.WorkspaceEdit> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => {
+		return this._worker(resource).then(worker => {
 			return worker.doRename(resource.toString(), fromPosition(position), newName);
 		}).then(edit => {
 			return toWorkspaceEdit(edit);
-		}));
+		});
 	}
 }
 
@@ -461,7 +461,7 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.DocumentSymbol[]> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentSymbols(resource.toString())).then(items => {
+		return this._worker(resource).then(worker => worker.findDocumentSymbols(resource.toString())).then(items => {
 			if (!items) {
 				return;
 			}
@@ -473,7 +473,7 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 				range: toRange(item.location.range),
 				selectionRange: toRange(item.location.range)
 			}));
-		}));
+		});
 	}
 }
 
@@ -485,7 +485,7 @@ export class DocumentColorAdapter implements monaco.languages.DocumentColorProvi
 	public provideDocumentColors(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.IColorInformation[]> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => worker.findDocumentColors(resource.toString())).then(infos => {
+		return this._worker(resource).then(worker => worker.findDocumentColors(resource.toString())).then(infos => {
 			if (!infos) {
 				return;
 			}
@@ -493,13 +493,13 @@ export class DocumentColorAdapter implements monaco.languages.DocumentColorProvi
 				color: item.color,
 				range: toRange(item.range)
 			}));
-		}));
+		});
 	}
 
 	public provideColorPresentations(model: monaco.editor.IReadOnlyModel, info: monaco.languages.IColorInformation, token: CancellationToken): Thenable<monaco.languages.IColorPresentation[]> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range))).then(presentations => {
+		return this._worker(resource).then(worker => worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range))).then(presentations => {
 			if (!presentations) {
 				return;
 			}
@@ -515,7 +515,7 @@ export class DocumentColorAdapter implements monaco.languages.DocumentColorProvi
 				}
 				return item;
 			});
-		}));
+		});
 	}
 }
 
@@ -527,7 +527,7 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 	public provideFoldingRanges(model: monaco.editor.IReadOnlyModel, context: monaco.languages.FoldingContext, token: CancellationToken): Thenable<monaco.languages.FoldingRange[]> {
 		const resource = model.uri;
 
-		return wireCancellationToken(token, this._worker(resource).then(worker => worker.provideFoldingRanges(resource.toString(), context)).then(ranges => {
+		return this._worker(resource).then(worker => worker.provideFoldingRanges(resource.toString(), context)).then(ranges => {
 			if (!ranges) {
 				return;
 			}
@@ -541,7 +541,7 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 				}
 				return result;
 			});
-		}));
+		});
 	}
 
 }
@@ -553,13 +553,4 @@ function toFoldingRangeKind(kind: ls.FoldingRangeKind): monaco.languages.Folding
 		case ls.FoldingRangeKind.Region: return monaco.languages.FoldingRangeKind.Region;
 	}
 	return void 0;
-}
-
-
-/**
- * Hook a cancellation token to a WinJS Promise
- */
-function wireCancellationToken<T>(token: CancellationToken, promise: Promise<T>): Thenable<T> {
-	token.onCancellationRequested(() => promise.cancel());
-	return promise;
 }
