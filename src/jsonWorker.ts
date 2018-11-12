@@ -29,9 +29,6 @@ class PromiseAdapter<T> implements jsonService.Thenable<T> {
 	public getWrapped(): monaco.Thenable<T> {
 		return this.wrapped;
 	}
-	public cancel(): void {
-		this.wrapped.cancel();
-	}
 	public static resolve<T>(v: T | Thenable<T>): jsonService.Thenable<T> {
 		return <monaco.Thenable<T>>monaco.Promise.as(v);
 	}
