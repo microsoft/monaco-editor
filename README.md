@@ -65,7 +65,7 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * initial setup with `npm install .`
 * compile with `npm run watch`
 * test with `npm run test`
-* bundle with `npm run prepublish`
+* bundle with `npm run prepublishOnly`
 
 ## Dev: Adding a new language
 
