@@ -93,26 +93,10 @@ export class WorkerManager {
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<TypeScriptWorker> {
 		let _client: TypeScriptWorker;
-		return toShallowCancelPromise(
-			this._getClient().then((client) => {
-				_client = client
-			}).then(_ => {
-				return this._worker.withSyncedResources(resources)
-			}).then(_ => _client)
-		);
+		return this._getClient().then((client) => {
+			_client = client
+		}).then(_ => {
+			return this._worker.withSyncedResources(resources)
+		}).then(_ => _client);
 	}
-}
-
-function toShallowCancelPromise<T>(p: Promise<T>): Promise<T> {
-	let completeCallback: (value: T) => void;
-	let errorCallback: (err: any) => void;
-
-	let r = new Promise<T>((c, e) => {
-		completeCallback = c;
-		errorCallback = e;
-	}, () => { });
-
-	p.then(completeCallback, errorCallback);
-
-	return r;
 }
