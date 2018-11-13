@@ -3,6 +3,7 @@
   "version": "1.5.4",
   "description": "A webpack plugin for the Monaco Editor",
   "main": "index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "test": "node ./node_modules/webpack/bin/webpack.js --config test/webpack.config.js"
   },
