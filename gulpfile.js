@@ -262,7 +262,7 @@ function ESM_pluginStream(plugin, destinationPath) {
 
 					const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
 					const importFilePath = path.join(DESTINATION, importText.substr('monaco-editor-core/esm/'.length));
-					let relativePath = path.relative(path.dirname(myFileDestPath), importFilePath);
+					let relativePath = path.relative(path.dirname(myFileDestPath), importFilePath).replace(/\\/g, '/');
 					if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 						relativePath = './' + relativePath;
 					}
@@ -286,7 +286,7 @@ function ESM_pluginStream(plugin, destinationPath) {
 
 			const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
 			const apiFilePath = path.join(DESTINATION, 'vs/editor/editor.api');
-			let relativePath = path.relative(path.dirname(myFileDestPath), apiFilePath);
+			let relativePath = path.relative(path.dirname(myFileDestPath), apiFilePath).replace(/\\/g, '/');
 			if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 				relativePath = './' + relativePath;
 			}
@@ -360,7 +360,7 @@ function ESM_addPluginContribs(dest) {
 		metadata.METADATA.PLUGINS.forEach(function(plugin) {
 			const contribDestPath = path.join(DESTINATION, plugin.contrib);
 
-			let relativePath = path.relative(path.dirname(mainFileDestPath), contribDestPath);
+			let relativePath = path.relative(path.dirname(mainFileDestPath), contribDestPath).replace(/\\/g, '/');
 			if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 				relativePath = './' + relativePath;
 			}
