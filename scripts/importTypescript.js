@@ -25,6 +25,11 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 		tsServices.replace(/\n    ts\.sys =([^]*)\n    \}\)\(\);/m, `\n    // MONACOCHANGE\n    ts.sys = undefined;\n    // END MONACOCHANGE`)
 	);
 
+	// Eliminate another require() call...
+	tsServices = (
+		tsServices.replace(/return require\(fileNameToRequire\);/, `// MONACOCHANGE\n            return undefined;\n            // END MONACOCHANGE`)
+	);
+
 	var tsServices_amd = tsServices +
 		`
 // MONACOCHANGE
