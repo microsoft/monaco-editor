@@ -1,5 +1,8 @@
 # Monaco Editor Changelog
 
+## [0.15.1] (13.11.2018)
+* Fixes the `/esm/` distribution (https://github.com/Microsoft/monaco-editor/issues/1178)
+
 ## [0.15.0] (12.11.2018)
 
 ### New & Noteworthy
