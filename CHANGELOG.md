@@ -1,5 +1,8 @@
 # Monaco Editor Changelog
 
+## [0.15.2] (14.11.2018)
+* Fixes usage of `marked` to allow for packaging with rollup (https://github.com/Microsoft/monaco-editor/issues/1183)
+
 ## [0.15.1] (13.11.2018)
 * Fixes the `/esm/` distribution (https://github.com/Microsoft/monaco-editor/issues/1178)
 
