@@ -1,8 +1,5 @@
 # Contributing & Maintaining
 
-This guide contains the lightweight setup version (that **only requires you to have node.js installed**).
-If you wish to be able to run vscode from source, please see [VSCode's How to Contribute](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#build-and-run-from-source).
-
 ## A brief explanation on the source code structure
 
 This repository contains no source code, it only contains the scripts to package everything together and ship the `monaco-editor` npm module:
@@ -30,9 +27,9 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 /src> git clone https://github.com/microsoft/vscode
 /src> cd vscode
 # install npm deps for vscode
-/src/vscode> ./scripts/npm.sh install
+/src/vscode> yarn
 # start the compiler in the background
-/src/vscode> npm run watch
+/src/vscode> yarn run watch
 ```
 
 ### Windows
@@ -40,9 +37,9 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 /src> git clone https://github.com/microsoft/vscode
 /src> cd vscode
 # install npm deps for vscode
-/src/vscode> scripts\npm.bat install
+/src/vscode> yarn
 # start the compiler in the background
-/src/vscode> npm run watch
+/src/vscode> yarn run watch
 ```
 
 * For the monaco editor test pages:
@@ -87,7 +84,9 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 > Tip: When running the test pages, use the control panel in the top right corner to switch between running from source, running from npm or running from the local release:
 ![image](https://cloud.githubusercontent.com/assets/5047891/19599080/eb0d7622-979e-11e6-96ce-dde98cd95dc1.png)
 
-## Running the website
+## Running the website locally
+
+> Note: The website is published automatically when pushing to the `master` branch.
 
 ```bash
 # create a local release
@@ -96,12 +95,10 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 # open http://localhost:8080/monaco-editor/website/
 
 # build the website
-/src/monaco-editor> npm run website
+/src/monaco-editor> npm run build-website
 
 # open http://localhost:8080/monaco-editor-website/
 
-# publish the website
-/src/monaco-editor-website> git push origin gh-pages --force
 ```
 
 ---
