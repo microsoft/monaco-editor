@@ -1,5 +1,8 @@
 # Monaco Editor Changelog
 
+## [0.15.3] (15.11.2018)
+* Remove cast to any from our code base to allow for tree shaking to not shake useful code (https://github.com/Microsoft/monaco-editor/issues/1013)
+
 ## [0.15.2] (14.11.2018)
 * Fixes usage of `marked` to allow for packaging with rollup (https://github.com/Microsoft/monaco-editor/issues/1183)
 
