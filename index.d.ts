@@ -1,3 +1,4 @@
+import { Plugin } from 'webpack'
 
 export interface IMonacoEditorWebpackPluginOpts {
     /**
@@ -18,7 +19,7 @@ export interface IMonacoEditorWebpackPluginOpts {
     features: string[];
 }
 
-export default class MonacoEditorWebpackPlugin {
+export default class MonacoEditorWebpackPlugin extends Plugin {
     constructor(opts?: IMonacoEditorWebpackPluginOpts)
 }
 
