@@ -1,6 +1,6 @@
 import { Plugin } from 'webpack'
 
-export interface IMonacoEditorWebpackPluginOpts {
+interface IMonacoEditorWebpackPluginOpts {
     /**
      * custom output path for worker scripts, relative to the main webpack `output.path`.
      * Defaults to ''.
@@ -19,7 +19,8 @@ export interface IMonacoEditorWebpackPluginOpts {
     features: string[];
 }
 
-export default class MonacoEditorWebpackPlugin extends Plugin {
+declare class MonacoEditorWebpackPlugin extends Plugin {
     constructor(opts?: IMonacoEditorWebpackPluginOpts)
 }
 
+export = MonacoEditorWebpackPlugin
