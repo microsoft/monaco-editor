@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.15.4] (15.11.2018)
+* Fixes context menu in IE11 - https://github.com/Microsoft/monaco-editor/issues/1191
+* Fixes suggest widget - https://github.com/Microsoft/monaco-editor/issues/1185 and https://github.com/Microsoft/monaco-editor/issues/1186
+
 ## [0.15.3] (15.11.2018)
 * Remove cast to any from our code base to allow for tree shaking to not shake useful code (https://github.com/Microsoft/monaco-editor/issues/1013)
 
