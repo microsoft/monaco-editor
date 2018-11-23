@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "css-loader": "^1.0.1",
-    "monaco-editor": "^0.15.1",
+    "monaco-editor": "^0.15.6",
     "style-loader": "^0.23.1",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"
