@@ -16,6 +16,6 @@ module.exports = {
         }]
     },
     plugins: [
-        new MonacoWebpackPlugin({features: ['!contextmenu']})
+        new MonacoWebpackPlugin()
     ]
 };

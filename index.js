@@ -105,8 +105,9 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
   }
 
   if (workerPaths['html']) {
-    // handlebars and html share the same worker
+    // handlebars, razor and html share the same worker
     workerPaths['handlebars'] = workerPaths['html'];
+    workerPaths['razor'] = workerPaths['html'];
   }
 
   const globals = {
