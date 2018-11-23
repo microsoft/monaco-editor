@@ -1,5 +1,8 @@
 # Monaco Editor Changelog
 
+## [0.15.6] (23.11.2018)
+* Fixes issue with context menu (https://github.com/Microsoft/monaco-editor/issues/1199)
+
 ## [0.15.5] (16.11.2018)
 * Re-remove cast to any from our code base to allow for tree shaking to not shake useful code (https://github.com/Microsoft/monaco-editor/issues/1013)
 
