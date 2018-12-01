@@ -4,7 +4,7 @@ The Monaco Editor is the code editor which powers [VS Code](https://github.com/M
 
 ![image](https://cloud.githubusercontent.com/assets/5047891/19600675/5eaae9e6-97a6-11e6-97ad-93903167d8ba.png)
 
-## Try it out
+## Try it out!
 
 See the editor in action [on the website](https://microsoft.github.io/monaco-editor/index.html).
 
