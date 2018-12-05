@@ -482,6 +482,26 @@ testTokenization('typescript', [
 	}],
 
 	[{
+		line: 'var x = !/`/.test(\'a\');',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.ts' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.ts' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.ts' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'delimiter.ts' },
+			{ startIndex: 9, type: 'regexp.ts' },
+			{ startIndex: 12, type: 'delimiter.ts' },
+			{ startIndex: 13, type: 'identifier.ts' },
+			{ startIndex: 17, type: 'delimiter.parenthesis.ts' },
+			{ startIndex: 18, type: 'string.ts' },
+			{ startIndex: 21, type: 'delimiter.parenthesis.ts' },
+			{ startIndex: 22, type: 'delimiter.ts' },
+		]
+	}],
+
+	[{
 		line: '/foo/',
 		tokens: [
 			{ startIndex: 0, type: 'regexp.ts' }

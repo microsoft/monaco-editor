@@ -135,6 +135,7 @@ export const language = {
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
+			[/!(?=([^=]|$))/, 'delimiter'],
 			[/@symbols/, {
 				cases: {
 					'@operators': 'delimiter',
