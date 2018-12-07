@@ -82,10 +82,68 @@ testTokenization('graphql', [
 			{ startIndex: 83, type: "identifier.gql" },             // 'field2'
 			{ startIndex: 89, type: "delimiter.curly.gql" },        // '}}'
 		],
-	}]
+	}],
 
-	// Comments - single line
-
-	// Comments - range comment, single line
+	// More complex test:
+	//   """
+	//   Node interface
+	//   - allows (re)fetch arbitrary entity only by ID
+	//   """
+	//   interface Node {
+	//     id: ID!
+	//   }
+	[
+		{
+			line: '"""',
+			tokens: [
+				{ startIndex: 0, type: "string.gql" }
+			],
+		},
+		{
+			line: 'Node interface',
+			tokens: [
+				{ startIndex: 0, type: "string.gql" }
+			],
+		},
+		{
+			line: '- allows (re)fetch arbitrary entity only by ID',
+			tokens: [
+				{ startIndex: 0, type: "string.gql" }
+			],
+		},
+		{
+			line: '"""',
+			tokens: [
+				{ startIndex: 0, type: "string.gql" }
+			],
+		},
+		{
+			line: 'interface Node {',
+			tokens: [
+				{ startIndex: 0, type: "keyword.gql" },
+				{ startIndex: 9, type: "" },
+				{ startIndex: 10, type: "type.identifier.gql" },
+				{ startIndex: 14, type: "" },
+				{ startIndex: 15, type: "delimiter.curly.gql" },
+			],
+		},
+		{
+			line: '  id: ID!',
+			tokens: [
+				{ startIndex: 0, type: "" },
+				{ startIndex: 2, type: "identifier.gql" },
+				{ startIndex: 4, type: "operator.gql" },
+				{ startIndex: 5, type: "" },
+				{ startIndex: 6, type: "keyword.gql" },
+				{ startIndex: 8, type: "operator.gql" },
+			],
+		},
+		{
+			line: '}',
+			tokens: [
+				{ startIndex: 0, type: "delimiter.curly.gql", },
+			],
+		},
+	]
 
 ]);
