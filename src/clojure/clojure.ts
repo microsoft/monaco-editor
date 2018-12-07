@@ -53,7 +53,7 @@ export const language = <ILanguage>{
 
 	characters: /^(?:\\(?:backspace|formfeed|newline|return|space|tab|o[0-7]{3}|u[0-9A-Fa-f]{4}|x[0-9A-Fa-f]{4}|.)?(?=[\\\[\]\s"(),;@^`{}~]|$))/,
 
-	escapes: /^\\(?:backspace|formfeed|newline|return|space|tab|o[0-7]{3}|u[0-9A-Fa-f]{4}|x[0-9A-Fa-f]{4}|.)?/,
+	escapes: /^\\(?:["'\\bfnrt]|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 
 	// simple-namespace := /^[^\\\/\[\]\d\s"#'(),;@^`{}~][^\\\[\]\s"(),;@^`{}~]*/
 	// simple-symbol    := /^(?:\/|[^\\\/\[\]\d\s"#'(),;@^`{}~][^\\\[\]\s"(),;@^`{}~]*)/
@@ -756,16 +756,15 @@ export const language = <ILanguage>{
 
 			// symbols
 			[/@qualifiedSymbols/, {
-				cases: {
-					'^:.+$': 'constant',  // Clojure keywords (e.g., `:foo/bar`)
-					'@specialForms': 'keyword',
-					'@coreSymbols': 'keyword',
-					'@constants': 'constant',
-					'@default': 'identifier',
+					cases: {
+						'^:.+$': 'constant',  // Clojure keywords (e.g., `:foo/bar`)
+						'@specialForms': 'keyword',
+						'@coreSymbols': 'keyword',
+						'@constants': 'constant',
+						'@default': 'identifier',
+					},
 				},
-			},
 			],
-
 		],
 
 		whitespace: [
@@ -785,9 +784,9 @@ export const language = <ILanguage>{
 		],
 
 		multiLineString: [
-			[/[^\\"]+/, 'string'],
-			[/@escapes/, 'string'],
-			[/"/, 'string', '@pop']
+			[/"/, 'string', '@popall'],
+			[/@escapes/, 'string.escape'],
+			[/./, 'string']
 		],
 	},
 };
