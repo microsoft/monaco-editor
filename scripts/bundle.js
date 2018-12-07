@@ -70,6 +70,7 @@ bundleOne('perl/perl'),
 bundleOne('powerquery/powerquery')
 bundleOne('azcli/azcli')
 bundleOne('apex/apex');
+bundleOne('graphql/graphql');
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({
