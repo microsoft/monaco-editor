@@ -10,10 +10,10 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	// the default separators except `@$`
-	//wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
+	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/**', '*/'],
 	},
 	brackets: [
 		['{', '}'],
@@ -37,8 +37,8 @@ export const conf: IRichLanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			//start: new RegExp("^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"),
-			//end: new RegExp("^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))")
+			start: new RegExp("^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"),
+			end: new RegExp("^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))")
 		}
 	}
 };
