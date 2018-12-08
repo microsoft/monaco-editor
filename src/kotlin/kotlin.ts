@@ -60,11 +60,10 @@ export const language = <ILanguage>{
 	],
 
 	operators: [
-		'=', '>', '<', '!', '~', '?', ':',
-		'==', '<=', '>=', '!=', '&&', '||', '++', '--',
-		'+', '-', '*', '/', '&', '|', '^', '%', '<<',
-		'>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=',
-		'^=', '%=', '<<=', '>>=', '>>>='
+		'+', '-', '*', '/', '%', '=', '+=', '-=', '*=', '/=',
+		'%=', '++', '--', '&&', '||', '!', '==', '!=', '===',
+		'!==', '>', '<', '<=', '>=', '[', ']', '!!', '?.', '?:',
+		'::', '..', ':', '?', '->', '@', ';', '$', '_'
 	],
 
 	// we include these common regular expressions
@@ -133,8 +132,6 @@ export const language = <ILanguage>{
 
 		comment: [
 			[/[^\/*]+/, 'comment'],
-			// [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
-			// [/\/\*/,    'comment.invalid' ],    // this breaks block comments in the shape of /* //*/
 			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
 		],
