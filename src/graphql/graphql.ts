@@ -115,14 +115,19 @@ export const language = <ILanguage>{
 			// delimiter: after number because of .\d floats
 			[/[;,.]/, 'delimiter'],
 
-			[/"""/, 'string', '@mlstring'],
+			[/"""/,
+				{ token: 'string', next: '@mlstring', nextEmbedded: 'markdown' }
+			],
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
 		],
 
-		mlstring: [[/[^"]+/, 'string'], ['"""', 'string', '@pop']],
+		mlstring: [
+			[/[^"]+/, 'string'],
+			['"""', { token: 'string', next: '@pop', nextEmbedded: '@pop' }]
+		],
 
 		string: [
 			[/[^\\"]+/, 'string'],

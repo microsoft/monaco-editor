@@ -100,15 +100,9 @@ testTokenization('graphql', [
 			],
 		},
 		{
-			line: 'Node interface',
+			line: 'This is MarkDown',
 			tokens: [
-				{ startIndex: 0, type: "string.gql" }
-			],
-		},
-		{
-			line: '- allows (re)fetch arbitrary entity only by ID',
-			tokens: [
-				{ startIndex: 0, type: "string.gql" }
+				{ startIndex: 0, type: "" }
 			],
 		},
 		{
