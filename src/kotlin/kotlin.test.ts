@@ -184,36 +184,43 @@ testTokenization('kotlin', [
 		]
 	}],
 
+/**
+
+package test class Program { fun main(vararg args: String) {} } }
+
+ */
+
 	// Keywords
 	[{
-		line: 'package test; class Program { fun main(args: String[]) {} } }',
+		line: 'package test class Program { fun main(vararg args: String) {} } }',
 		tokens: [
 			{ startIndex: 0, type: 'keyword.package.kt' },
 			{ startIndex: 7, type: '' },
 			{ startIndex: 8, type: 'identifier.kt' },
-			{ startIndex: 12, type: 'delimiter.kt' },
-			{ startIndex: 13, type: '' },
-			{ startIndex: 14, type: 'keyword.class.kt' },
-			{ startIndex: 19, type: '' },
-			{ startIndex: 20, type: 'identifier.kt' },
-			{ startIndex: 27, type: '' },
-			{ startIndex: 28, type: 'delimiter.curly.kt' },
-			{ startIndex: 29, type: '' },
-			{ startIndex: 30, type: 'keyword.fun.kt' },
-			{ startIndex: 36, type: '' },
-			{ startIndex: 42, type: 'identifier.kt' },
-			{ startIndex: 46, type: 'delimiter.parenthesis.kt' },
-			{ startIndex: 47, type: 'identifier.kt' },
-			{ startIndex: 53, type: 'delimiter.square.kt' },
-			{ startIndex: 55, type: '' },
-			{ startIndex: 56, type: 'identifier.kt' },
-			{ startIndex: 60, type: 'delimiter.parenthesis.kt' },
+			{ startIndex: 12, type: '' },
+			{ startIndex: 13, type: 'keyword.class.kt' },
+			{ startIndex: 18, type: '' },
+			{ startIndex: 19, type: 'identifier.kt' },
+			{ startIndex: 26, type: '' },
+			{ startIndex: 27, type: 'delimiter.curly.kt' },
+			{ startIndex: 28, type: '' },
+			{ startIndex: 29, type: 'keyword.fun.kt' },
+			{ startIndex: 32, type: '' },
+			{ startIndex: 33, type: 'identifier.kt' },
+			{ startIndex: 37, type: 'delimiter.parenthesis.kt' },
+			{ startIndex: 38, type: 'keyword.vararg.kt' },
+			{ startIndex: 44, type: '' },
+			{ startIndex: 45, type: 'identifier.kt' },
+			{ startIndex: 49, type: 'delimiter.kt' },
+			{ startIndex: 50, type: '' },
+			{ startIndex: 51, type: 'identifier.kt' },
+			{ startIndex: 57, type: 'delimiter.parenthesis.kt' },
+			{ startIndex: 58, type: '' },
+			{ startIndex: 59, type: 'delimiter.curly.kt' },
 			{ startIndex: 61, type: '' },
 			{ startIndex: 62, type: 'delimiter.curly.kt' },
-			{ startIndex: 64, type: '' },
-			{ startIndex: 65, type: 'delimiter.curly.kt' },
-			{ startIndex: 66, type: '' },
-			{ startIndex: 67, type: 'delimiter.curly.kt' }
+			{ startIndex: 63, type: '' },
+			{ startIndex: 64, type: 'delimiter.curly.kt' }
 		]
 	}],
 
@@ -549,35 +556,32 @@ testTokenization('kotlin', [
 
 	// single line Strings
 	[{
-		line: 'var s = "I\'m a Kotlin String";',
+		line: 'var s = "I\'m a Kotlin String"',
 		tokens: [
-			{ startIndex: 0, type: 'identifier.kt' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'identifier.kt' },
-			{ startIndex: 8, type: '' },
-			{ startIndex: 9, type: 'delimiter.kt' },
-			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'string.kt' },
-			{ startIndex: 30, type: 'delimiter.kt' }
+			{ startIndex: 0, type: 'keyword.var.kt' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.kt' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.kt' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'string.kt' },
 		]
 	}],
 
 	[{
-		line: 'String s = "concatenated" + " String" ;',
+		line: 'var s = "concatenated" + " String"',
 		tokens: [
-			{ startIndex: 0, type: 'identifier.kt' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'identifier.kt' },
-			{ startIndex: 8, type: '' },
-			{ startIndex: 9, type: 'delimiter.kt' },
-			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'string.kt' },
-			{ startIndex: 25, type: '' },
-			{ startIndex: 26, type: 'delimiter.kt' },
-			{ startIndex: 27, type: '' },
-			{ startIndex: 28, type: 'string.kt' },
-			{ startIndex: 37, type: '' },
-			{ startIndex: 38, type: 'delimiter.kt' }
+			{ startIndex: 0, type: 'keyword.var.kt' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.kt' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.kt' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'string.kt' },
+			{ startIndex: 22, type: '' },
+			{ startIndex: 23, type: 'delimiter.kt' },
+			{ startIndex: 24, type: '' },
+			{ startIndex: 25, type: 'string.kt' },
 		]
 	}],
 
@@ -615,23 +619,19 @@ testTokenization('kotlin', [
 	}],
 
 	[{
-		line: '@Override',
+		line: '@Inject',
 		tokens: [
 			{ startIndex: 0, type: 'annotation.kt' }
 		]
 	}],
 
 	[{
-		line: '@SuppressWarnings(value = "aString")',
+		line: '@SuppressWarnings("aString")',
 		tokens: [
 			{ startIndex: 0, type: 'annotation.kt' },
 			{ startIndex: 17, type: 'delimiter.parenthesis.kt' },
-			{ startIndex: 18, type: 'identifier.kt' },
-			{ startIndex: 23, type: '' },
-			{ startIndex: 24, type: 'delimiter.kt' },
-			{ startIndex: 25, type: '' },
-			{ startIndex: 26, type: 'string.kt' },
-			{ startIndex: 35, type: 'delimiter.parenthesis.kt' }
+			{ startIndex: 18, type: 'string.kt' },
+			{ startIndex: 27, type: 'delimiter.parenthesis.kt' }
 		]
 	}],
 
