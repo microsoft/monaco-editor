@@ -20,11 +20,11 @@
     "url": "https://github.com/Microsoft/monaco-typescript/issues"
   },
   "devDependencies": {
-    "monaco-editor-core": "0.15.0",
+    "monaco-editor-core": "^0.15.5",
     "monaco-languages": "^1.6.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "typescript": "3.1.6",
+    "typescript": "^3.2.2",
     "uglify-js": "^3.4.9"
   }
 }
