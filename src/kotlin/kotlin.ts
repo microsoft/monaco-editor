@@ -13,7 +13,7 @@ export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '//',
-		blockComment: ['/**', '*/'],
+		blockComment: ['/*', '*/'],
 	},
 	brackets: [
 		['{', '}'],
@@ -45,7 +45,7 @@ export const conf: IRichLanguageConfiguration = {
 
 export const language = <ILanguage>{
 	defaultToken: '',
-	tokenPostfix: '.java',
+	tokenPostfix: '.kt',
 
 	keywords: [
 		'as', 'as?', 'break', 'class', 'continue', 'do', 'else', 'false', 'for', 'fun', 'if',
