@@ -45,7 +45,7 @@ export const language = <ILanguage>{
 		'null', 'true', 'false',
 		'query', 'mutation', 'subscription',
 		'extend', 'schema', 'directive',
-		'scalar', 'type', 'interface', 'union', 'enum', 'input',
+		'scalar', 'type', 'interface', 'union', 'enum', 'input', 'implements',
 		'fragment', 'on',
 	],
 
