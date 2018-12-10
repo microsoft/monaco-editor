@@ -76,7 +76,11 @@ export const language = <ILanguage>{
 
 	// The main tokenizer for our languages
 	tokenizer: {
+
 		root: [
+			// class name highlighting
+			[/[A-Z][\w\$]*/, 'type.identifier' ],
+
 			// identifiers and keywords
 			[/[a-zA-Z_$][\w$]*/, {
 				cases: {

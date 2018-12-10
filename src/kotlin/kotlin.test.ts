@@ -8,6 +8,44 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('kotlin', [
+	// inline reified function
+	[{
+		line: 'inline fun <reified T : Any> foo()',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.inline.kt' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'keyword.fun.kt' },
+			{ startIndex: 10, type: '' },
+			{ startIndex: 11, type: 'delimiter.angle.kt' },
+			{ startIndex: 12, type: 'keyword.reified.kt' },
+			{ startIndex: 19, type: '' },
+			{ startIndex: 20, type: 'type.identifier.kt' },
+			{ startIndex: 21, type: '' },
+			{ startIndex: 22, type: 'delimiter.kt' },
+			{ startIndex: 23, type: '' },
+			{ startIndex: 24, type: 'type.identifier.kt' },
+			{ startIndex: 27, type: 'delimiter.angle.kt' },
+			{ startIndex: 28, type: '' },
+			{ startIndex: 29, type: 'identifier.kt' },
+			{ startIndex: 32, type: 'delimiter.parenthesis.kt' },
+		]
+	}],
+
+	// Val declaration and assignment
+	[{
+		line: 'val x: X=5',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.val.kt' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.kt' },
+			{ startIndex: 5, type: 'delimiter.kt' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'type.identifier.kt' },
+			{ startIndex: 8, type: 'delimiter.kt' },
+			{ startIndex: 9, type: 'number.kt' },
+		]
+	}],
+
 	// Comments - single line
 	[{
 		line: '//',
@@ -184,12 +222,6 @@ testTokenization('kotlin', [
 		]
 	}],
 
-/**
-
-package test class Program { fun main(vararg args: String) {} } }
-
- */
-
 	// Keywords
 	[{
 		line: 'package test class Program { fun main(vararg args: String) {} } }',
@@ -200,7 +232,7 @@ package test class Program { fun main(vararg args: String) {} } }
 			{ startIndex: 12, type: '' },
 			{ startIndex: 13, type: 'keyword.class.kt' },
 			{ startIndex: 18, type: '' },
-			{ startIndex: 19, type: 'identifier.kt' },
+			{ startIndex: 19, type: 'type.identifier.kt' },
 			{ startIndex: 26, type: '' },
 			{ startIndex: 27, type: 'delimiter.curly.kt' },
 			{ startIndex: 28, type: '' },
@@ -213,7 +245,7 @@ package test class Program { fun main(vararg args: String) {} } }
 			{ startIndex: 45, type: 'identifier.kt' },
 			{ startIndex: 49, type: 'delimiter.kt' },
 			{ startIndex: 50, type: '' },
-			{ startIndex: 51, type: 'identifier.kt' },
+			{ startIndex: 51, type: 'type.identifier.kt' },
 			{ startIndex: 57, type: 'delimiter.parenthesis.kt' },
 			{ startIndex: 58, type: '' },
 			{ startIndex: 59, type: 'delimiter.curly.kt' },
@@ -514,14 +546,6 @@ package test class Program { fun main(vararg args: String) {} } }
 		tokens: [
 			{ startIndex: 0, type: 'number.octal.kt' },
 			{ startIndex: 3, type: 'identifier.kt' }
-		]
-	}],
-
-	[{
-		line: '23.5L',
-		tokens: [
-			{ startIndex: 0, type: 'number.float.kt' },
-			{ startIndex: 4, type: 'identifier.kt' }
 		]
 	}],
 
