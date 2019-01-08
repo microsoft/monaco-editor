@@ -166,11 +166,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.as(this._languageService.getQuickInfoAtPosition(fileName, position));
 	}
 
-	getOccurrencesAtPosition(fileName: string, position: number): Promise<ts.ReferenceEntry[]> {
+	getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.ReferenceEntry>> {
 		return Promise.as(this._languageService.getOccurrencesAtPosition(fileName, position));
 	}
 
-	getDefinitionAtPosition(fileName: string, position: number): Promise<ts.DefinitionInfo[]> {
+	getDefinitionAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.DefinitionInfo>> {
 		return Promise.as(this._languageService.getDefinitionAtPosition(fileName, position));
 	}
 
