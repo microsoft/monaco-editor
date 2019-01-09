@@ -9,7 +9,6 @@ import { CSSWorker } from './cssWorker';
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 
-import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 
 export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
@@ -33,7 +32,3 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 	monaco.languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker));
 	new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults);
 }
-
-
-
-

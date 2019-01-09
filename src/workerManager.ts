@@ -7,7 +7,6 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import { CSSWorker } from './cssWorker';
 
-import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
 
@@ -73,7 +72,7 @@ export class WorkerManager {
 				}
 			});
 
-			this._client = this._worker.getProxy();
+			this._client = <Promise<CSSWorker>><any>this._worker.getProxy();
 		}
 
 		return this._client;

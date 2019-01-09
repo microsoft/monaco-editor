@@ -14,7 +14,6 @@ import Position = monaco.Position;
 import IRange = monaco.IRange;
 import Range = monaco.Range;
 import Thenable = monaco.Thenable;
-import Promise = monaco.Promise;
 import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
 

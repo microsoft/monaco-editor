@@ -5,7 +5,6 @@
 'use strict';
 
 import Thenable = monaco.Thenable;
-import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
 
 import * as cssService from 'vscode-css-languageservice';
@@ -47,74 +46,74 @@ export class CSSWorker {
 		if (document) {
 			let stylesheet = this._languageService.parseStylesheet(document);
 			let diagnostics = this._languageService.doValidation(document, stylesheet);
-			return Promise.as(diagnostics)
+			return Promise.resolve(diagnostics)
 		}
-		return Promise.as([]);
+		return Promise.resolve([]);
 	}
 	doComplete(uri: string, position: ls.Position): Thenable<ls.CompletionList> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let completions = this._languageService.doComplete(document, position, stylesheet);
-		return Promise.as(completions);
+		return Promise.resolve(completions);
 	}
 	doHover(uri: string, position: ls.Position): Thenable<ls.Hover> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let hover = this._languageService.doHover(document, position, stylesheet);
-		return Promise.as(hover);
+		return Promise.resolve(hover);
 	}
 	findDefinition(uri: string, position: ls.Position): Thenable<ls.Location> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let definition = this._languageService.findDefinition(document, position, stylesheet);
-		return Promise.as(definition);
+		return Promise.resolve(definition);
 	}
 	findReferences(uri: string, position: ls.Position): Thenable<ls.Location[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let references = this._languageService.findReferences(document, position, stylesheet);
-		return Promise.as(references);
+		return Promise.resolve(references);
 	}
 	findDocumentHighlights(uri: string, position: ls.Position): Thenable<ls.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let highlights = this._languageService.findDocumentHighlights(document, position, stylesheet);
-		return Promise.as(highlights);
+		return Promise.resolve(highlights);
 	}
 	findDocumentSymbols(uri: string): Thenable<ls.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let symbols = this._languageService.findDocumentSymbols(document, stylesheet);
-		return Promise.as(symbols);
+		return Promise.resolve(symbols);
 	}
 	doCodeActions(uri: string, range: ls.Range, context: ls.CodeActionContext): Thenable<ls.Command[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let actions = this._languageService.doCodeActions(document, range, context, stylesheet);
-		return Promise.as(actions);
+		return Promise.resolve(actions);
 	}
 	findDocumentColors(uri: string): Thenable<ls.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let colorSymbols = this._languageService.findDocumentColors(document, stylesheet);
-		return Promise.as(colorSymbols);
+		return Promise.resolve(colorSymbols);
 	}
 	getColorPresentations(uri: string, color: ls.Color, range: ls.Range): Thenable<ls.ColorPresentation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let colorPresentations = this._languageService.getColorPresentations(document, stylesheet, color, range);
-		return Promise.as(colorPresentations);
+		return Promise.resolve(colorPresentations);
 	}
 	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<ls.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getFoldingRanges(document, context);
-		return Promise.as(ranges);
+		return Promise.resolve(ranges);
 	}
 	doRename(uri: string, position: ls.Position, newName: string): Thenable<ls.WorkspaceEdit> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let renames = this._languageService.doRename(document, position, newName, stylesheet);
-		return Promise.as(renames);
+		return Promise.resolve(renames);
 	}
 	private _getTextDocument(uri: string): ls.TextDocument {
 		let models = this._ctx.getMirrorModels();

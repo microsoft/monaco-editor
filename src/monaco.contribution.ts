@@ -82,8 +82,8 @@ monaco.languages.css = createAPI();
 
 // --- Registration to monaco editor ---
 
-function getMode(): monaco.Promise<typeof mode> {
-	return monaco.Promise.wrap(import('./cssMode'))
+function getMode(): Promise<typeof mode> {
+	return import('./cssMode');
 }
 
 monaco.languages.onLanguage('less', () => {
