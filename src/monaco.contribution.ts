@@ -61,8 +61,8 @@ monaco.languages.json = createAPI();
 
 // --- Registration to monaco editor ---
 
-function getMode(): monaco.Promise<typeof mode> {
-	return monaco.Promise.wrap(import('./jsonMode'))
+function getMode(): Promise<typeof mode> {
+	return import('./jsonMode');
 }
 
 monaco.languages.register({

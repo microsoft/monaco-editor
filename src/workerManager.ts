@@ -7,7 +7,6 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import { JSONWorker } from './jsonWorker';
 
-import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
 
@@ -74,7 +73,7 @@ export class WorkerManager {
 				}
 			});
 
-			this._client = this._worker.getProxy();
+			this._client = <Promise<JSONWorker>><any>this._worker.getProxy();
 		}
 
 		return this._client;

@@ -10,7 +10,6 @@ import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 import { createTokenizationSupport } from './tokenization';
 
-import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 import IDisposable = monaco.IDisposable;
 

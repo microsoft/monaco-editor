@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import Promise = monaco.Promise;
 import Thenable = monaco.Thenable;
 import IWorkerContext = monaco.worker.IWorkerContext;
 
@@ -17,10 +16,10 @@ if (typeof fetch !== 'undefined'){
 }
 
 class PromiseAdapter<T> implements jsonService.Thenable<T> {
-	private wrapped: monaco.Promise<T>;
+	private wrapped: Promise<T>;
 
 	constructor(executor: (resolve: (value?: T | jsonService.Thenable<T>) => void, reject: (reason?: any) => void) => void) {
-		this.wrapped = new monaco.Promise<T>(executor);
+		this.wrapped = new Promise<T>(executor);
 	}
 	public then<TResult>(onfulfilled?: (value: T) => TResult | jsonService.Thenable<TResult>, onrejected?: (reason: any) => void): jsonService.Thenable<TResult> {
 		let thenable: jsonService.Thenable<T> = this.wrapped;
@@ -30,13 +29,13 @@ class PromiseAdapter<T> implements jsonService.Thenable<T> {
 		return this.wrapped;
 	}
 	public static resolve<T>(v: T | Thenable<T>): jsonService.Thenable<T> {
-		return <monaco.Thenable<T>>monaco.Promise.as(v);
+		return <monaco.Thenable<T>>Promise.resolve(v);
 	}
 	public static reject<T>(v: T): jsonService.Thenable<T> {
-		return monaco.Promise.wrapError(<any>v);
+		return Promise.reject(<any>v);
 	}
 	public static all<T>(values: jsonService.Thenable<T>[]): jsonService.Thenable<T[]> {
-		return monaco.Promise.join(values);
+		return Promise.all(values);
 	}
 }
 
@@ -64,7 +63,7 @@ export class JSONWorker {
 			let jsonDocument = this._languageService.parseJSONDocument(document);
 			return this._languageService.doValidation(document, jsonDocument);
 		}
-		return Promise.as([]);
+		return Promise.resolve([]);
 	}
 	doComplete(uri: string, position: ls.Position): Thenable<ls.CompletionList> {
 		let document = this._getTextDocument(uri);
@@ -82,33 +81,33 @@ export class JSONWorker {
 	format(uri: string, range: ls.Range, options: ls.FormattingOptions): Thenable<ls.TextEdit[]> {
 		let document = this._getTextDocument(uri);
 		let textEdits = this._languageService.format(document, range, options);
-		return Promise.as(textEdits);
+		return Promise.resolve(textEdits);
 	}
 	resetSchema(uri: string): Thenable<boolean> {
-		return Promise.as(this._languageService.resetSchema(uri));
+		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
 	findDocumentSymbols(uri: string): Thenable<ls.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
-		return Promise.as(symbols);
+		return Promise.resolve(symbols);
 	}
 	findDocumentColors(uri: string): Thenable<ls.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseJSONDocument(document);
 		let colorSymbols = this._languageService.findDocumentColors(document, stylesheet);
-		return Promise.as(colorSymbols);
+		return Promise.resolve(colorSymbols);
 	}
 	getColorPresentations(uri: string, color: ls.Color, range: ls.Range): Thenable<ls.ColorPresentation[]> {
 		let document = this._getTextDocument(uri);
 		let stylesheet = this._languageService.parseJSONDocument(document);
 		let colorPresentations = this._languageService.getColorPresentations(document, stylesheet, color, range);
-		return Promise.as(colorPresentations);
+		return Promise.resolve(colorPresentations);
 	}
 	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<ls.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getFoldingRanges(document, context);
-		return Promise.as(ranges);
+		return Promise.resolve(ranges);
 	}
 	private _getTextDocument(uri: string): ls.TextDocument {
 		let models = this._ctx.getMirrorModels();
