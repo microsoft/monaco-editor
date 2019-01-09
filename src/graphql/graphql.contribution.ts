@@ -6,14 +6,10 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
-
 registerLanguage({
 	id: 'graphql',
 	extensions: ['.graphql', '.gql'],
 	aliases: ['GraphQL', 'graphql', 'gql'],
 	mimetypes: ['application/graphql'],
-	loader: () => _monaco.Promise.wrap(import('./graphql')),
+	loader: () => import('./graphql')
 });
