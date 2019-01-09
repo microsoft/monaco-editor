@@ -8,7 +8,7 @@
 const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
 
 interface ILang extends monaco.languages.ILanguageExtensionPoint {
-	loader: () => monaco.Promise<ILangImpl>;
+	loader: () => Promise<ILangImpl>;
 }
 
 interface ILangImpl {
@@ -18,7 +18,7 @@ interface ILangImpl {
 
 let languageDefinitions: { [languageId: string]: ILang } = {};
 
-function _loadLanguage(languageId: string): monaco.Promise<void> {
+function _loadLanguage(languageId: string): Promise<void> {
 	const loader = languageDefinitions[languageId].loader;
 	return loader().then((mod) => {
 		_monaco.languages.setMonarchTokensProvider(languageId, mod.language);
@@ -26,9 +26,9 @@ function _loadLanguage(languageId: string): monaco.Promise<void> {
 	});
 }
 
-let languagePromises: { [languageId: string]: monaco.Promise<void> } = {};
+let languagePromises: { [languageId: string]: Promise<void> } = {};
 
-export function loadLanguage(languageId: string): monaco.Promise<void> {
+export function loadLanguage(languageId: string): Promise<void> {
 	if (!languagePromises[languageId]) {
 		languagePromises[languageId] = _loadLanguage(languageId);
 	}

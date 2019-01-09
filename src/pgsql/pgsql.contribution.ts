@@ -6,12 +6,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'pgsql',
 	extensions: [],
 	aliases: ['PostgreSQL', 'postgres', 'pg', 'postgre'],
-	loader: () => _monaco.Promise.wrap(import('./pgsql'))
+	loader: () => import('./pgsql')
 });

@@ -6,12 +6,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'objective-c',
 	extensions: ['.m'],
 	aliases: ['Objective-C'],
-	loader: () => _monaco.Promise.wrap(import('./objective-c'))
+	loader: () => import('./objective-c')
 });
