@@ -7,7 +7,6 @@
 import * as ts from './lib/typescriptServices';
 import { lib_dts, lib_es6_dts } from './lib/lib';
 
-import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
 
 const DEFAULT_LIB = {
@@ -135,67 +134,67 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	getSyntacticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getSyntacticDiagnostics(fileName);
 		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.as(diagnostics);
+		return Promise.resolve(diagnostics);
 	}
 
 	getSemanticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
 		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.as(diagnostics);
+		return Promise.resolve(diagnostics);
 	}
 
 	getCompilerOptionsDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getCompilerOptionsDiagnostics();
 		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.as(diagnostics);
+		return Promise.resolve(diagnostics);
 	}
 
 	getCompletionsAtPosition(fileName: string, position: number): Promise<ts.CompletionInfo> {
-		return Promise.as(this._languageService.getCompletionsAtPosition(fileName, position, undefined));
+		return Promise.resolve(this._languageService.getCompletionsAtPosition(fileName, position, undefined));
 	}
 
 	getCompletionEntryDetails(fileName: string, position: number, entry: string): Promise<ts.CompletionEntryDetails> {
-		return Promise.as(this._languageService.getCompletionEntryDetails(fileName, position, entry, undefined, undefined, undefined));
+		return Promise.resolve(this._languageService.getCompletionEntryDetails(fileName, position, entry, undefined, undefined, undefined));
 	}
 
 	getSignatureHelpItems(fileName: string, position: number): Promise<ts.SignatureHelpItems> {
-		return Promise.as(this._languageService.getSignatureHelpItems(fileName, position, undefined));
+		return Promise.resolve(this._languageService.getSignatureHelpItems(fileName, position, undefined));
 	}
 
 	getQuickInfoAtPosition(fileName: string, position: number): Promise<ts.QuickInfo> {
-		return Promise.as(this._languageService.getQuickInfoAtPosition(fileName, position));
+		return Promise.resolve(this._languageService.getQuickInfoAtPosition(fileName, position));
 	}
 
 	getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.ReferenceEntry>> {
-		return Promise.as(this._languageService.getOccurrencesAtPosition(fileName, position));
+		return Promise.resolve(this._languageService.getOccurrencesAtPosition(fileName, position));
 	}
 
 	getDefinitionAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.DefinitionInfo>> {
-		return Promise.as(this._languageService.getDefinitionAtPosition(fileName, position));
+		return Promise.resolve(this._languageService.getDefinitionAtPosition(fileName, position));
 	}
 
 	getReferencesAtPosition(fileName: string, position: number): Promise<ts.ReferenceEntry[]> {
-		return Promise.as(this._languageService.getReferencesAtPosition(fileName, position));
+		return Promise.resolve(this._languageService.getReferencesAtPosition(fileName, position));
 	}
 
 	getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]> {
-		return Promise.as(this._languageService.getNavigationBarItems(fileName));
+		return Promise.resolve(this._languageService.getNavigationBarItems(fileName));
 	}
 
 	getFormattingEditsForDocument(fileName: string, options: ts.FormatCodeOptions): Promise<ts.TextChange[]> {
-		return Promise.as(this._languageService.getFormattingEditsForDocument(fileName, options));
+		return Promise.resolve(this._languageService.getFormattingEditsForDocument(fileName, options));
 	}
 
 	getFormattingEditsForRange(fileName: string, start: number, end: number, options: ts.FormatCodeOptions): Promise<ts.TextChange[]> {
-		return Promise.as(this._languageService.getFormattingEditsForRange(fileName, start, end, options));
+		return Promise.resolve(this._languageService.getFormattingEditsForRange(fileName, start, end, options));
 	}
 
 	getFormattingEditsAfterKeystroke(fileName: string, postion: number, ch: string, options: ts.FormatCodeOptions): Promise<ts.TextChange[]> {
-		return Promise.as(this._languageService.getFormattingEditsAfterKeystroke(fileName, postion, ch, options));
+		return Promise.resolve(this._languageService.getFormattingEditsAfterKeystroke(fileName, postion, ch, options));
 	}
 
 	getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
-		return Promise.as(this._languageService.getEmitOutput(fileName));
+		return Promise.resolve(this._languageService.getEmitOutput(fileName));
 	}
 }
 

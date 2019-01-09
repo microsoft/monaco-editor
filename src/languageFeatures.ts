@@ -12,7 +12,6 @@ import Uri = monaco.Uri;
 import Position = monaco.Position;
 import Range = monaco.Range;
 import Thenable = monaco.Thenable;
-import Promise = monaco.Promise;
 import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
 
@@ -166,7 +165,7 @@ export class DiagnostcsAdapter extends Adapter {
 			if (!noSemanticValidation) {
 				promises.push(worker.getSemanticDiagnostics(resource.toString()));
 			}
-			return Promise.join(promises);
+			return Promise.all(promises);
 		}).then(diagnostics => {
 			if (!diagnostics || !monaco.editor.getModel(resource)) {
 				// model was disposed in the meantime

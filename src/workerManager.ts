@@ -7,7 +7,6 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import { TypeScriptWorker } from './tsWorker';
 
-import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
 
@@ -74,7 +73,7 @@ export class WorkerManager {
 				}
 			});
 
-			let p = this._worker.getProxy();
+			let p = <Promise<TypeScriptWorker>>this._worker.getProxy();
 
 			if (this._defaults.getEagerModelSync()) {
 				p = p.then(worker => {

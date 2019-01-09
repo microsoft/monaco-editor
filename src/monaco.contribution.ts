@@ -146,11 +146,11 @@ const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false });
 
-function getTypeScriptWorker(): monaco.Promise<any> {
+function getTypeScriptWorker(): Promise<any> {
 	return getMode().then(mode => mode.getTypeScriptWorker());
 }
 
-function getJavaScriptWorker(): monaco.Promise<any> {
+function getJavaScriptWorker(): Promise<any> {
 	return getMode().then(mode => mode.getJavaScriptWorker());
 }
 
@@ -172,8 +172,8 @@ monaco.languages.typescript = createAPI();
 
 // --- Registration to monaco editor ---
 
-function getMode(): monaco.Promise<typeof mode> {
-	return monaco.Promise.wrap(import('./tsMode'))
+function getMode(): Promise<typeof mode> {
+	return import('./tsMode');
 }
 
 monaco.languages.onLanguage('typescript', () => {

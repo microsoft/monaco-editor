@@ -9,7 +9,6 @@ import { TypeScriptWorker } from './tsWorker';
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 
-import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 
 let javaScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
@@ -30,7 +29,7 @@ export function setupJavaScript(defaults: LanguageServiceDefaultsImpl): void {
 }
 
 export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
-	return new monaco.Promise((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		if (!javaScriptWorker) {
 			return reject("JavaScript not registered!");
 		}
@@ -40,7 +39,7 @@ export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => P
 }
 
 export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
-	return new monaco.Promise((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		if (!typeScriptWorker) {
 			return reject("TypeScript not registered!");
 		}
