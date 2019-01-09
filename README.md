@@ -15,6 +15,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * dockerfile
 * fsharp
 * go
+* graphql
 * handlebars
 * html
 * ini

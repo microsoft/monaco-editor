@@ -38,6 +38,7 @@ define(['require'], function () {
 			'release/dev/dockerfile/dockerfile.test',
 			'release/dev/fsharp/fsharp.test',
 			'release/dev/go/go.test',
+			'release/dev/graphql/graphql.test',
 			'release/dev/handlebars/handlebars.test',
 			'release/dev/html/html.test',
 			'release/dev/java/java.test',

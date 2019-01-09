@@ -53,3 +53,4 @@ import './shell/shell.contribution';
 import './perl/perl.contribution';
 import './azcli/azcli.contribution';
 import './apex/apex.contribution';
+import './graphql/graphql.contribution';
