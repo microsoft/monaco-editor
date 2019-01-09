@@ -90,8 +90,8 @@ monaco.languages.html = createAPI();
 
 // --- Registration to monaco editor ---
 
-function getMode(): monaco.Promise<typeof mode> {
-	return monaco.Promise.wrap(import('./htmlMode'))
+function getMode(): Promise<typeof mode> {
+	return import('./htmlMode');
 }
 
 monaco.languages.onLanguage(htmlLanguageId, () => {

@@ -13,7 +13,6 @@ import Uri = monaco.Uri;
 import Position = monaco.Position;
 import Range = monaco.Range;
 import Thenable = monaco.Thenable;
-import Promise = monaco.Promise;
 import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
 

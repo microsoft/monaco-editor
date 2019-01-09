@@ -7,7 +7,6 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import { HTMLWorker } from './htmlWorker';
 
-import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
 
@@ -73,7 +72,7 @@ export class WorkerManager {
 				label: this._defaults.languageId
 			});
 
-			this._client = this._worker.getProxy();
+			this._client = <Promise<HTMLWorker>>this._worker.getProxy();
 		}
 
 		return this._client;

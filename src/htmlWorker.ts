@@ -7,7 +7,6 @@
 import IWorkerContext = monaco.worker.IWorkerContext;
 
 import Thenable = monaco.Thenable;
-import Promise = monaco.Promise;
 
 import * as htmlService from 'vscode-html-languageservice';
 import * as ls from 'vscode-languageserver-types';
@@ -29,33 +28,33 @@ export class HTMLWorker {
 
 	doValidation(uri: string): Thenable<ls.Diagnostic[]> {
 		// not yet suported
-		return Promise.as([]);
+		return Promise.resolve([]);
 	}
 	doComplete(uri: string, position: ls.Position): Thenable<ls.CompletionList> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		return Promise.as(this._languageService.doComplete(document, position, htmlDocument, this._languageSettings && this._languageSettings.suggest));
+		return Promise.resolve(this._languageService.doComplete(document, position, htmlDocument, this._languageSettings && this._languageSettings.suggest));
 	}
 	format(uri: string, range: ls.Range, options: ls.FormattingOptions): Thenable<ls.TextEdit[]> {
 		let document = this._getTextDocument(uri);
 		let textEdits = this._languageService.format(document, range, this._languageSettings && this._languageSettings.format);
-		return Promise.as(textEdits);
+		return Promise.resolve(textEdits);
 	}
 	findDocumentHighlights(uri: string, position: ls.Position): Thenable<ls.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		let highlights = this._languageService.findDocumentHighlights(document, position, htmlDocument);
-		return Promise.as(highlights);
+		return Promise.resolve(highlights);
 	}
 	findDocumentLinks(uri: string): Thenable<ls.DocumentLink[]> {
 		let document = this._getTextDocument(uri);
 		let links = this._languageService.findDocumentLinks(document, null);
-		return Promise.as(links);
+		return Promise.resolve(links);
 	}
 	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<ls.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getFoldingRanges(document, context);
-		return Promise.as(ranges);
+		return Promise.resolve(ranges);
 	}
 	private _getTextDocument(uri: string): ls.TextDocument {
 		let models = this._ctx.getMirrorModels();
