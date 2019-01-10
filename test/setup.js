@@ -1,4 +1,3 @@
-
 define('vs/css', [], {
 	load: function (name, req, load) {
 		load({});
@@ -70,6 +69,7 @@ define(['require'], function () {
 			'release/dev/sql/sql.test',
 			'release/dev/st/st.test',
 			'release/dev/swift/swift.test',
+			'release/dev/tcl/tcl.test',
 			'release/dev/typescript/typescript.test',
 			'release/dev/vb/vb.test',
 			'release/dev/xml/xml.test',
