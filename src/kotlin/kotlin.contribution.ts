@@ -6,13 +6,10 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'kotlin',
 	extensions: ['.kt'],
 	aliases: ['Kotlin', 'kotlin'],
 	mimetypes: ['text/x-kotlin-source', 'text/x-kotlin'],
-	loader: () => _monaco.Promise.wrap(import('./kotlin'))
+	loader: () => import('./kotlin')
 });
