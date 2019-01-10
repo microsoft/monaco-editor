@@ -8,7 +8,7 @@ import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
 	id: 'clojure',
-	extensions: ['.clj', '.clojure'],
+	extensions: ['.clj', '.cljs', '.cljc', '.edn'],
 	aliases: ['clojure', 'Clojure'],
 	loader: () => import('./clojure')
 });

@@ -13,20 +13,24 @@ export const conf: IRichLanguageConfiguration = {
 		lineComment: ';;',
 	},
 
-	brackets: [['(', ')'], ['[', ']'], ['{', '}']],
+	brackets: [
+		['[', ']'],
+		['(', ')'],
+		['{', '}']
+	],
 
 	autoClosingPairs: [
-		{open: '(', close: ')'},
 		{open: '[', close: ']'},
-		{open: '{', close: '}'},
 		{open: '"', close: '"'},
+		{open: '(', close: ')'},
+		{open: '{', close: '}'},
 	],
 
 	surroundingPairs: [
-		{open: '(', close: ')'},
 		{open: '[', close: ']'},
-		{open: '{', close: '}'},
 		{open: '"', close: '"'},
+		{open: '(', close: ')'},
+		{open: '{', close: '}'},
 	],
 };
 
@@ -36,10 +40,25 @@ export const language = <ILanguage>{
 	tokenPostfix: '.clj',
 
 	brackets: [
+		{open: '[', close: ']', token: 'delimiter.square'},
 		{open: '(', close: ')', token: 'delimiter.parenthesis'},
 		{open: '{', close: '}', token: 'delimiter.curly'},
-		{open: '[', close: ']', token: 'delimiter.square'},
 	],
+
+	constants: ['true', 'false', 'nil'],
+
+	// delimiters: /[\\\[\]\s"#'(),;@^`{}~]|$/,
+
+	numbers: /^(?:[+\-]?\d+(?:(?:N|(?:[eE][+\-]?\d+))|(?:\.?\d*(?:M|(?:[eE][+\-]?\d+))?)|\/\d+|[xX][0-9a-fA-F]+|r[0-9a-zA-Z]+)?(?=[\\\[\]\s"#'(),;@^`{}~]|$))/,
+
+	characters: /^(?:\\(?:backspace|formfeed|newline|return|space|tab|o[0-7]{3}|u[0-9A-Fa-f]{4}|x[0-9A-Fa-f]{4}|.)?(?=[\\\[\]\s"(),;@^`{}~]|$))/,
+
+	escapes: /^\\(?:["'\\bfnrt]|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+	// simple-namespace := /^[^\\\/\[\]\d\s"#'(),;@^`{}~][^\\\[\]\s"(),;@^`{}~]*/
+	// simple-symbol    := /^(?:\/|[^\\\/\[\]\d\s"#'(),;@^`{}~][^\\\[\]\s"(),;@^`{}~]*)/
+	// qualified-symbol := (<simple-namespace>(<.><simple-namespace>)*</>)?<simple-symbol>
+	qualifiedSymbols: /^(?:(?:[^\\\/\[\]\d\s"#'(),;@^`{}~][^\\\[\]\s"(),;@^`{}~]*(?:\.[^\\\/\[\]\d\s"#'(),;@^`{}~][^\\\[\]\s"(),;@^`{}~]*)*\/)?(?:\/|[^\\\/\[\]\d\s"#'(),;@^`{}~][^\\\[\]\s"(),;@^`{}~]*)*(?=[\\\[\]\s"(),;@^`{}~]|$))/,
 
 	specialForms: [
 		'.',
@@ -712,14 +731,6 @@ export const language = <ILanguage>{
 		'zipmap',
 	],
 
-	constants: ['true', 'false', 'nil'],
-
-	symbolCharacter: /[!#'*+\-.\/:<=>?_\w\xa1-\uffff]/,
-
-	numbers: /[+\-]?\d+(?:(?:N|(?:[eE][+\-]?\d+))|(?:\.?\d*(?:M|(?:[eE][+\-]?\d+))?)|\/\d+|[xX][0-9a-fA-F]+|r[0-9a-zA-Z]+)?/,
-
-	characters: /\\(?:backspace|formfeed|newline|return|space|tab|x[0-9A-Fa-f]{4}|u[0-9A-Fa-f]{4}|o[0-7]{3}|@symbolCharacter|[\\"()\[\]{}])/,
-
 	tokenizer: {
 		root: [
 			// whitespaces and comments
@@ -743,32 +754,29 @@ export const language = <ILanguage>{
 			// reader macro characters
 			[/[#'@^`~]/, 'meta'],
 
-			// keywords
-			[/:@symbolCharacter+/, 'constant'],
-
 			// symbols
-			[/@symbolCharacter+/, {
-				cases: {
-					'@specialForms': 'keyword',
-					'@coreSymbols': 'keyword',
-					'@constants': 'constant',
-					'@default': 'identifier',
+			[/@qualifiedSymbols/, {
+					cases: {
+						'^:.+$': 'constant',  // Clojure keywords (e.g., `:foo/bar`)
+						'@specialForms': 'keyword',
+						'@coreSymbols': 'keyword',
+						'@constants': 'constant',
+						'@default': 'identifier',
+					},
 				},
-			},
 			],
-
 		],
 
 		whitespace: [
 			[/\s+/, 'white'],
 			[/;.*$/, 'comment'],
-			[/\(comment/, 'comment', '@comment'],
+			[/\(comment\b/, 'comment', '@comment'],
 		],
 
 		comment: [
 			[/\(/, 'comment', '@push'],
 			[/\)/, 'comment', '@pop'],
-			[/[^)]/, 'comment'],
+			[/[^()]/, 'comment'],
 		],
 
 		string: [
@@ -776,9 +784,9 @@ export const language = <ILanguage>{
 		],
 
 		multiLineString: [
-			[/[^\\"]+/, 'string'],
-			[/@characters/, 'string'],
-			[/"/, 'string', '@pop']
+			[/"/, 'string', '@popall'],
+			[/@escapes/, 'string.escape'],
+			[/./, 'string']
 		],
 	},
 };
