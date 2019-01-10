@@ -67,10 +67,11 @@ bundleOne('csp/csp');
 bundleOne('scheme/scheme');
 bundleOne('clojure/clojure');
 bundleOne('shell/shell');
-bundleOne('perl/perl'),
-bundleOne('powerquery/powerquery')
-bundleOne('azcli/azcli')
+bundleOne('perl/perl');
+bundleOne('powerquery/powerquery');
+bundleOne('azcli/azcli');
 bundleOne('apex/apex');
+bundleOne('tcl/tcl');
 bundleOne('graphql/graphql');
 
 function bundleOne(moduleId, exclude) {
