@@ -6,12 +6,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'redis',
 	extensions: ['.redis'],
 	aliases: ['redis'],
-	loader: () => _monaco.Promise.wrap(import('./redis'))
+	loader: () => import('./redis')
 });

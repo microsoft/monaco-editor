@@ -6,13 +6,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
-
 registerLanguage({
 	id: 'shell',
 	extensions: ['.sh', '.bash'],
 	aliases: ['Shell', 'sh'],
-	loader: () => _monaco.Promise.wrap(import('./shell')),
+	loader: () => import('./shell'),
 });

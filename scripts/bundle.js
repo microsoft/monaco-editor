@@ -35,6 +35,7 @@ bundleOne('ini/ini');
 bundleOne('pug/pug');
 bundleOne('java/java');
 bundleOne('javascript/javascript');
+bundleOne('kotlin/kotlin');
 bundleOne('less/less');
 bundleOne('lua/lua');
 bundleOne('markdown/markdown');
@@ -71,6 +72,7 @@ bundleOne('powerquery/powerquery');
 bundleOne('azcli/azcli');
 bundleOne('apex/apex');
 bundleOne('tcl/tcl');
+bundleOne('graphql/graphql');
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({

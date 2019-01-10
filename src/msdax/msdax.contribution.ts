@@ -6,12 +6,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'msdax',
 	extensions: ['.dax', '.msdax'],
 	aliases: ['DAX', 'MSDAX'],
-	loader: () => _monaco.Promise.wrap(import('./msdax'))
+	loader: () => import('./msdax')
 });

@@ -6,12 +6,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'powerquery',
 	extensions: ['.pq', '.pqm'],
 	aliases: ['PQ', 'M', 'Power Query', 'Power Query M'],
-	loader: () => _monaco.Promise.wrap(import('./powerquery'))
+	loader: () => import('./powerquery')
 });

@@ -754,13 +754,72 @@ testTokenization('clojure', [
 	], 'string'),
 
 	// strings
-	createTestCases([
-		'\"I\'m a little teapot.\"',
-		'\"I\'m a \\\"little\\\" teapot.\"',
-		'\"I\'m',      // this is
-		'a little',    // a multi-line
-		'teapot.\"'    // string
-	], 'string'),
+	[
+		{
+			line: '"I\'m a little teapot."',
+			tokens: [
+				{startIndex: 0, type: 'string.clj'},
+			]
+		},
+		{
+			line: '"I\'m a \\"little\\" teapot."',
+			tokens: [
+				{startIndex: 0, type: 'string.clj'},
+				{startIndex: 7, type: 'string.escape.clj'},
+				{startIndex: 9, type: 'string.clj'},
+				{startIndex: 15, type: 'string.escape.clj'},
+				{startIndex: 17, type: 'string.clj'},
+			]
+		}
+	],
+
+	// multi-line strings
+	[
+		{
+			line: '"I\'m',
+			tokens: [
+				{startIndex: 0, type: 'string.clj'},
+			]
+		},
+		{
+			line: '\\"a little\\"',
+			tokens: [
+				{startIndex: 0, type: 'string.escape.clj'},
+				{startIndex: 2, type: 'string.clj'},
+				{startIndex: 10, type: 'string.escape.clj'},
+			]
+		},
+		{
+			line: 'teapot."',
+			tokens: [
+				{startIndex: 0, type: 'string.clj'},
+			]
+		}
+	],
+
+	// strings with other escapes in them (\" \' \\ \b \f \n \r \t)
+	[{
+		line: '"the escape \\" \\\' \\\\ \\b \\f \\n \\r \\t characters"',
+		tokens: [
+			{startIndex: 0, type: 'string.clj'},
+			{startIndex: 12, type: 'string.escape.clj'},
+			{startIndex: 14, type: 'string.clj'},
+			{startIndex: 15, type: 'string.escape.clj'},
+			{startIndex: 17, type: 'string.clj'},
+			{startIndex: 18, type: 'string.escape.clj'},
+			{startIndex: 20, type: 'string.clj'},
+			{startIndex: 21, type: 'string.escape.clj'},
+			{startIndex: 23, type: 'string.clj'},
+			{startIndex: 24, type: 'string.escape.clj'},
+			{startIndex: 26, type: 'string.clj'},
+			{startIndex: 27, type: 'string.escape.clj'},
+			{startIndex: 29, type: 'string.clj'},
+			{startIndex: 30, type: 'string.escape.clj'},
+			{startIndex: 32, type: 'string.clj'},
+			{startIndex: 33, type: 'string.escape.clj'},
+			{startIndex: 35, type: 'string.clj'},
+		]
+	}],
 
 	// comments
 	createTestCases([
@@ -791,6 +850,30 @@ testTokenization('clojure', [
 			tokens: [
 				{startIndex: 0, type: 'comment.clj'},
 			],
+		},
+		{
+			line: '(comments foo bar)',
+			tokens: [
+				{startIndex: 0, type: 'delimiter.parenthesis.clj'},
+				{startIndex: 1, type: 'identifier.clj'},
+				{startIndex: 9, type: 'white.clj'},
+				{startIndex: 10, type: 'identifier.clj'},
+				{startIndex: 13, type: 'white.clj'},
+				{startIndex: 14, type: 'identifier.clj'},
+				{startIndex: 17, type: 'delimiter.parenthesis.clj'},
+			]
+		},
+		{
+			line: '(comment6 foo bar)',
+			tokens: [
+				{startIndex: 0, type: 'delimiter.parenthesis.clj'},
+				{startIndex: 1, type: 'identifier.clj'},
+				{startIndex: 9, type: 'white.clj'},
+				{startIndex: 10, type: 'identifier.clj'},
+				{startIndex: 13, type: 'white.clj'},
+				{startIndex: 14, type: 'identifier.clj'},
+				{startIndex: 17, type: 'delimiter.parenthesis.clj'},
+			]
 		},
 		{
 			line: '(comment foo',

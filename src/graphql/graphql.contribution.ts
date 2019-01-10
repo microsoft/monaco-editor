@@ -7,8 +7,9 @@
 import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
-	id: 'sql',
-	extensions: ['.sql'],
-	aliases: ['SQL'],
-	loader: () => import('./sql')
+	id: 'graphql',
+	extensions: ['.graphql', '.gql'],
+	aliases: ['GraphQL', 'graphql', 'gql'],
+	mimetypes: ['application/graphql'],
+	loader: () => import('./graphql')
 });

@@ -6,11 +6,9 @@
 
 import {registerLanguage} from '../_.contribution';
 
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'tcl',
 	extensions: ['.tcl'],
 	aliases: ['tcl', 'Tcl', 'tcltk', 'TclTk', 'tcl/tk', 'Tcl/Tk'],
-	loader: () => _monaco.Promise.wrap(import('./tcl'))
+	loader: () => import('./tcl')
 });

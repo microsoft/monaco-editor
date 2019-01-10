@@ -7,8 +7,9 @@
 import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
-	id: 'sql',
-	extensions: ['.sql'],
-	aliases: ['SQL'],
-	loader: () => import('./sql')
+	id: 'kotlin',
+	extensions: ['.kt'],
+	aliases: ['Kotlin', 'kotlin'],
+	mimetypes: ['text/x-kotlin-source', 'text/x-kotlin'],
+	loader: () => import('./kotlin')
 });

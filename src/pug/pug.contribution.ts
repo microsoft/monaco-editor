@@ -6,12 +6,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'pug',
 	extensions: ['.jade', '.pug'],
 	aliases: ['Pug', 'Jade', 'jade'],
-	loader: () => _monaco.Promise.wrap(import('./pug'))
+	loader: () => import('./pug')
 });

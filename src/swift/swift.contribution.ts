@@ -6,13 +6,10 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'swift',
 	aliases: ['Swift', 'swift'],
 	extensions: ['.swift'],
 	mimetypes: ['text/swift'],
-	loader: () => _monaco.Promise.wrap(import('./swift'))
+	loader: () => import('./swift')
 });
