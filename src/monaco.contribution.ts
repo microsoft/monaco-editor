@@ -25,6 +25,7 @@ import './markdown/markdown.contribution';
 import './msdax/msdax.contribution';
 import './mysql/mysql.contribution';
 import './objective-c/objective-c.contribution';
+import './pascal/pascal.contribution';
 import './pgsql/pgsql.contribution';
 import './php/php.contribution';
 import './postiats/postiats.contribution';

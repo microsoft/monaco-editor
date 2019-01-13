@@ -41,6 +41,7 @@ bundleOne('lua/lua');
 bundleOne('markdown/markdown');
 bundleOne('msdax/msdax');
 bundleOne('objective-c/objective-c');
+bundleOne('pascal/pascal');
 bundleOne('php/php');
 bundleOne('powershell/powershell');
 bundleOne('postiats/postiats');
