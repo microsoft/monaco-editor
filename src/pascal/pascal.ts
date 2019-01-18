@@ -126,7 +126,8 @@ export const language = <ILanguage>{
 
 			// characters
 			[/'[^\\']'/, 'string'],
-			[/'/, 'string.invalid']
+			[/'/, 'string.invalid'],
+			[/\#\d+/,'string']
 		],
 
 		comment: [
