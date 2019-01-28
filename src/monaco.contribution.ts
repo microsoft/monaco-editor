@@ -42,7 +42,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	addExtraLib(content: string, filePath?: string): IDisposable {
 		if (typeof filePath === 'undefined') {
-			filePath = `ts:extralib-${Date.now()}`;
+			filePath = `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
 		}
 
 		if (this._extraLibs[filePath]) {
