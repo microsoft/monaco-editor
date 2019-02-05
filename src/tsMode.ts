@@ -11,40 +11,23 @@ import * as languageFeatures from './languageFeatures';
 
 import Uri = monaco.Uri;
 
-let javaScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
-let typeScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
+let scriptWorkerMap: { [name: string]: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker> } = {};
 
-export function setupTypeScript(defaults: LanguageServiceDefaultsImpl): void {
-	typeScriptWorker = setupMode(
+export function setupNamedLanguage(languageName: string, isTypescript: boolean, defaults: LanguageServiceDefaultsImpl): void {
+	scriptWorkerMap[languageName + "Worker"] = setupMode(
 		defaults,
-		'typescript'
+		languageName
 	);
 }
 
-export function setupJavaScript(defaults: LanguageServiceDefaultsImpl): void {
-	javaScriptWorker = setupMode(
-		defaults,
-		'javascript'
-	);
-}
-
-export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
+export function getNamedLanguageWorker(languageName: string): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
+	let workerName = languageName + "Worker";
 	return new Promise((resolve, reject) => {
-		if (!javaScriptWorker) {
-			return reject("JavaScript not registered!");
+		if (!scriptWorkerMap[workerName]) {
+			return reject(languageName + " not registered!");
 		}
 
-		resolve(javaScriptWorker);
-	});
-}
-
-export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
-	return new Promise((resolve, reject) => {
-		if (!typeScriptWorker) {
-			return reject("TypeScript not registered!");
-		}
-
-		resolve(typeScriptWorker);
+		resolve(scriptWorkerMap[workerName]);
 	});
 }
 

@@ -29,6 +29,8 @@ bundleOne('monaco.contribution');
 bundleOne('tsMode');
 bundleOne('tsWorker');
 
+updateImports('monaco.contribution');
+
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({
 		baseUrl: 'release/dev/',
@@ -36,7 +38,8 @@ function bundleOne(moduleId, exclude) {
 		out: 'release/min/' + moduleId + '.js',
 		exclude: exclude,
 		paths: {
-			'vs/language/typescript': REPO_ROOT + '/release/dev'
+			'vs/language/typescript': REPO_ROOT + '/release/dev',
+			'vs/basic-languages': REPO_ROOT + '/node_modules/monaco-languages/release/dev'
 		},
 		optimize: 'none'
 	}, function(buildResponse) {
@@ -52,4 +55,12 @@ function bundleOne(moduleId, exclude) {
 		console.log(`Done.`);
 		fs.writeFileSync(filePath, BUNDLED_FILE_HEADER + result.code);
 	})
+}
+
+function updateImports(moduleId) {
+	console.log(`ESM: updating relative imports paths for ${moduleId}...`);
+	const filePath = path.join(REPO_ROOT, 'release/esm/' + moduleId + '.js');
+	var fileContents = fs.readFileSync(filePath).toString();
+	fileContents = fileContents.replace(/vs\/basic-languages\//g, "../../basic-languages/");
+	fs.writeFileSync(filePath, fileContents);
 }

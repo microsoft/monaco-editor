@@ -9,7 +9,13 @@
       "es5",
       "es2015.collection",
       "es2015.promise"
-    ]
+    ],
+    "baseUrl": "",
+    "paths": {
+      "vs/basic-languages/*": [
+        "../node_modules/monaco-languages/release/esm/*"
+      ]
+    },
   },
   "include": [
     "**/*.ts"

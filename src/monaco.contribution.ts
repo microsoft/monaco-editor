@@ -5,6 +5,8 @@
 'use strict';
 
 import * as mode from './tsMode';
+import * as tsDefinitions from 'vs/basic-languages/typescript/typescript';
+import * as jsDefinitions from 'vs/basic-languages/javascript/javascript';
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
@@ -15,17 +17,20 @@ import IDisposable = monaco.IDisposable;
 export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.LanguageServiceDefaults {
 
 	private _onDidChange = new Emitter<monaco.languages.typescript.LanguageServiceDefaults>();
-	private _extraLibs: { [path: string]: string };
+	private _extraLibs: { [path: string]: { content: string, version: number } };
 	private _workerMaxIdleTime: number;
 	private _eagerModelSync: boolean;
 	private _compilerOptions: monaco.languages.typescript.CompilerOptions;
 	private _diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions;
+	private _languageId: string;
+	private _eagerExtraLibSync: boolean = true;
 
-	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
+	constructor(langualgeId: string, compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
 		this._extraLibs = Object.create(null);
 		this._workerMaxIdleTime = 2 * 60 * 1000;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
+		this._languageId = langualgeId;
 	}
 
 	get onDidChange(): IEvent<monaco.languages.typescript.LanguageServiceDefaults> {
@@ -46,19 +51,42 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		}
 
 		if (this._extraLibs[filePath]) {
-			throw new Error(`${filePath} already a extra lib`);
+			this._extraLibs[filePath].version++;
+			this._extraLibs[filePath].content = content;
+		} else {
+			this._extraLibs[filePath] = {
+				content: content,
+				version: 1
+			};
 		}
-
-		this._extraLibs[filePath] = content;
-		this._onDidChange.fire(this);
+		if (this._eagerExtraLibSync) {
+			this.syncExtraLibs();
+		}
 
 		return {
 			dispose: () => {
-				if (delete this._extraLibs[filePath]) {
-					this._onDidChange.fire(this);
+				if (delete this._extraLibs[filePath] && this._eagerExtraLibSync) {
+					this.syncExtraLibs();
 				}
 			}
 		};
+	}
+
+	async syncExtraLibs() {
+		try {
+			let worker;
+			// we don't care if the get language worker fails.
+			// This happens because the worker initialzies much slower than the addExtraLib calls
+			try {
+				worker = await getLanguageWorker(this._languageId);
+			} catch (ignored) {
+				return;
+			}
+			const client = await worker("");
+			client.syncExtraLibs(this._extraLibs);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	getCompilerOptions(): monaco.languages.typescript.CompilerOptions {
@@ -97,6 +125,10 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	getEagerModelSync() {
 		return this._eagerModelSync;
+	}
+
+	setEagerExtraLibSync(value: boolean) {
+		this._eagerExtraLibSync = value;
 	}
 }
 
@@ -138,20 +170,57 @@ enum ModuleResolutionKind {
 }
 //#endregion
 
-const typescriptDefaults = new LanguageServiceDefaultsImpl(
-	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: false, noSyntaxValidation: false });
+const languageDefaultOptions = {
+	javascript: {
+		compilerOptions: { allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
+		diagnosticsOptions: { noSemanticValidation: true, noSyntaxValidation: false },
+	},
+	typescript: {
+		compilerOptions: { allowNonTsExtensions: true, target: ScriptTarget.Latest },
+		diagnosticsOptions: { noSemanticValidation: false, noSyntaxValidation: false }
+	}
+}
 
-const javascriptDefaults = new LanguageServiceDefaultsImpl(
-	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: true, noSyntaxValidation: false });
+const languageDefaults: { [name: string]: LanguageServiceDefaultsImpl } = {};
+
+function setupLanguageServiceDefaults(languageId, isTypescript) {
+	const languageOptions = languageDefaultOptions[isTypescript ? "typescript" : "javascript"]
+	languageDefaults[languageId] = new LanguageServiceDefaultsImpl(languageId, languageOptions.compilerOptions, languageOptions.diagnosticsOptions);
+}
+
+setupLanguageServiceDefaults("typescript", true);
+setupLanguageServiceDefaults("javascript", false);
 
 function getTypeScriptWorker(): Promise<any> {
-	return getMode().then(mode => mode.getTypeScriptWorker());
+	return getLanguageWorker("typescript");
 }
 
 function getJavaScriptWorker(): Promise<any> {
-	return getMode().then(mode => mode.getJavaScriptWorker());
+	return getLanguageWorker("javascript");
+}
+
+function getLanguageWorker(languageName: string): Promise<any> {
+	return getMode().then(mode => mode.getNamedLanguageWorker(languageName));
+}
+
+function getLanguageDefaults(languageName: string): LanguageServiceDefaultsImpl {
+	return languageDefaults[languageName];
+}
+
+function setupNamedLanguage(languageDefinition: monaco.languages.ILanguageExtensionPoint, isTypescript: boolean, registerLanguage?: boolean): void {
+	if (registerLanguage) {
+		monaco.languages.register(languageDefinition);
+
+		const langageConfig = isTypescript ? tsDefinitions : jsDefinitions;
+		monaco.languages.setMonarchTokensProvider(languageDefinition.id, langageConfig.language);
+		monaco.languages.setLanguageConfiguration(languageDefinition.id, langageConfig.conf);
+	}
+
+	setupLanguageServiceDefaults(languageDefinition.id, isTypescript);
+
+	monaco.languages.onLanguage(languageDefinition.id, () => {
+		return getMode().then(mode => mode.setupNamedLanguage(languageDefinition.id, isTypescript, languageDefaults[languageDefinition.id]));
+	});
 }
 
 // Export API
@@ -162,10 +231,13 @@ function createAPI(): typeof monaco.languages.typescript {
 		NewLineKind: NewLineKind,
 		ScriptTarget: ScriptTarget,
 		ModuleResolutionKind: ModuleResolutionKind,
-		typescriptDefaults: typescriptDefaults,
-		javascriptDefaults: javascriptDefaults,
+		typescriptDefaults: getLanguageDefaults("typescript"),
+		javascriptDefaults: getLanguageDefaults("javascript"),
+		getLanguageDefaults: getLanguageDefaults,
 		getTypeScriptWorker: getTypeScriptWorker,
-		getJavaScriptWorker: getJavaScriptWorker
+		getJavaScriptWorker: getJavaScriptWorker,
+		getLanguageWorker: getLanguageWorker,
+		setupNamedLanguage: setupNamedLanguage
 	}
 }
 monaco.languages.typescript = createAPI();
@@ -176,9 +248,18 @@ function getMode(): Promise<typeof mode> {
 	return import('./tsMode');
 }
 
-monaco.languages.onLanguage('typescript', () => {
-	return getMode().then(mode => mode.setupTypeScript(typescriptDefaults));
-});
-monaco.languages.onLanguage('javascript', () => {
-	return getMode().then(mode => mode.setupJavaScript(javascriptDefaults));
-});
+setupNamedLanguage({
+	id: 'typescript',
+	extensions: ['.ts', '.tsx'],
+	aliases: ['TypeScript', 'ts', 'typescript'],
+	mimetypes: ['text/typescript']
+}, true);
+
+setupNamedLanguage({
+	id: 'javascript',
+	extensions: ['.js', '.es6', '.jsx'],
+	firstLine: '^#!.*\\bnode',
+	filenames: ['jakefile'],
+	aliases: ['JavaScript', 'javascript', 'js'],
+	mimetypes: ['text/javascript'],
+}, false);
