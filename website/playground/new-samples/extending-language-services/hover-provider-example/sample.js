@@ -2,8 +2,8 @@
 monaco.languages.register({ id: 'mySpecialLanguage' });
 
 monaco.languages.registerHoverProvider('mySpecialLanguage', {
-	provideHover: function(model, position) {
-		return xhr('../playground.html').then(function(res) {
+	provideHover: function (model, position) {
+		return xhr('../playground.html').then(function (res) {
 			return {
 				range: new monaco.Range(1, 1, model.getLineCount(), model.getLineMaxColumn(model.getLineCount())),
 				contents: [
@@ -22,7 +22,7 @@ monaco.editor.create(document.getElementById("container"), {
 
 function xhr(url) {
 	var req = null;
-	return new monaco.Promise(function(c,e,p) {
+	return new Promise(function (c, e) {
 		req = new XMLHttpRequest();
 		req.onreadystatechange = function () {
 			if (req._canceled) { return; }
@@ -34,12 +34,10 @@ function xhr(url) {
 					e(req);
 				}
 				req.onreadystatechange = function () { };
-			} else {
-				p(req);
 			}
 		};
 
-		req.open("GET", url, true );
+		req.open("GET", url, true);
 		req.responseType = "";
 
 		req.send(null);

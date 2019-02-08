@@ -60,7 +60,7 @@ monaco.editor.create(document.getElementById("container"), {
 
 function xhr(url) {
 	var req = null;
-	return new monaco.Promise(function(c,e,p) {
+	return new Promise(function(c,e) {
 		req = new XMLHttpRequest();
 		req.onreadystatechange = function () {
 			if (req._canceled) { return; }
@@ -72,8 +72,6 @@ function xhr(url) {
 					e(req);
 				}
 				req.onreadystatechange = function () { };
-			} else {
-				p(req);
 			}
 		};
 

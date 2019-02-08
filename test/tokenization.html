@@ -69,7 +69,7 @@
 			}
 
 			require(['./samples'], function(SAMPLES) {
-				monaco.Promise.join(
+				Promise.all(
 					SAMPLES.map(resolveSample)
 				).then(function(samples) {
 					renderSamples(samples);
