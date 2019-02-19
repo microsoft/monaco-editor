@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "clean-css": "^4.2.1",
-    "event-stream": "4.0.1",
+    "event-stream": "3.3.4",
     "gulp": "^4.0.0",
     "gulp-typedoc": "^2.2.2",
     "http-server": "^0.11.1",
