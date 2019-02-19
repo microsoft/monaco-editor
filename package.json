@@ -30,8 +30,8 @@
     "monaco-languages": "1.6.0",
     "monaco-typescript": "3.3.1",
     "rimraf": "^2.6.3",
-    "typedoc": "^0.11.1",
-    "typescript": "^3.0.1",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.3.3",
     "uncss": "^0.16.2",
     "vinyl": "^2.2.0"
   }
