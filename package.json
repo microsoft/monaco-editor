@@ -19,9 +19,9 @@
   },
   "devDependencies": {
     "clean-css": "^4.2.1",
-    "event-stream": "3.3.4",
-    "gulp": "^3.9.1",
-    "gulp-typedoc": "^2.2.0",
+    "event-stream": "4.0.1",
+    "gulp": "^4.0.0",
+    "gulp-typedoc": "^2.2.2",
     "http-server": "^0.11.1",
     "monaco-css": "2.3.0",
     "monaco-editor-core": "0.15.5",
@@ -29,10 +29,10 @@
     "monaco-json": "2.3.0",
     "monaco-languages": "1.6.0",
     "monaco-typescript": "3.3.1",
-    "rimraf": "^2.6.2",
+    "rimraf": "^2.6.3",
     "typedoc": "^0.11.1",
     "typescript": "^3.0.1",
     "uncss": "^0.16.2",
-    "vinyl": "^0.5.3"
+    "vinyl": "^2.2.0"
   }
 }
