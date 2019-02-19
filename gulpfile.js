@@ -699,6 +699,7 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function() {
 	);
 
 });
+gulp.task('build-website', buildWebsiteTask);
 
 gulp.task('website', taskSeries(buildWebsiteTask, function() {
 	cp.execSync('git init', {
