@@ -17,6 +17,8 @@ import IDisposable = monaco.IDisposable;
 export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.LanguageServiceDefaults {
 
 	private _onDidChange = new Emitter<monaco.languages.typescript.LanguageServiceDefaults>();
+	private _onDidExtraLibsChange = new Emitter<monaco.languages.typescript.LanguageServiceDefaults>();
+
 	private _extraLibs: { [path: string]: { content: string, version: number } };
 	private _workerMaxIdleTime: number;
 	private _eagerModelSync: boolean;
@@ -35,6 +37,10 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	get onDidChange(): IEvent<monaco.languages.typescript.LanguageServiceDefaults> {
 		return this._onDidChange.event;
+	}
+
+	get onDidExtraLibsChange(): IEvent<monaco.languages.typescript.LanguageServiceDefaults> {
+		return this._onDidExtraLibsChange.event;
 	}
 
 	getExtraLibs(): { [path: string]: string; } {
@@ -84,6 +90,8 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 			}
 			const client = await worker("");
 			client.syncExtraLibs(this._extraLibs);
+			// let all listeners know that the extra libs have changed
+			this._onDidExtraLibsChange.fire(this);
 		} catch (error) {
 			console.error(error);
 		}
