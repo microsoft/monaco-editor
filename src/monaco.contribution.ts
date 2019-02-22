@@ -196,8 +196,21 @@ function setupLanguageServiceDefaults(languageId, isTypescript) {
 	languageDefaults[languageId] = new LanguageServiceDefaultsImpl(languageId, languageOptions.compilerOptions, languageOptions.diagnosticsOptions);
 }
 
-setupLanguageServiceDefaults("typescript", true);
-setupLanguageServiceDefaults("javascript", false);
+setupNamedLanguage({
+	id: 'typescript',
+	extensions: ['.ts', '.tsx'],
+	aliases: ['TypeScript', 'ts', 'typescript'],
+	mimetypes: ['text/typescript']
+}, true, true);
+
+setupNamedLanguage({
+	id: 'javascript',
+	extensions: ['.js', '.es6', '.jsx'],
+	firstLine: '^#!.*\\bnode',
+	filenames: ['jakefile'],
+	aliases: ['JavaScript', 'javascript', 'js'],
+	mimetypes: ['text/javascript'],
+}, false, true);
 
 function getTypeScriptWorker(): Promise<any> {
 	return getLanguageWorker("typescript");
@@ -255,19 +268,3 @@ monaco.languages.typescript = createAPI();
 function getMode(): Promise<typeof mode> {
 	return import('./tsMode');
 }
-
-setupNamedLanguage({
-	id: 'typescript',
-	extensions: ['.ts', '.tsx'],
-	aliases: ['TypeScript', 'ts', 'typescript'],
-	mimetypes: ['text/typescript']
-}, true);
-
-setupNamedLanguage({
-	id: 'javascript',
-	extensions: ['.js', '.es6', '.jsx'],
-	firstLine: '^#!.*\\bnode',
-	filenames: ['jakefile'],
-	aliases: ['JavaScript', 'javascript', 'js'],
-	mimetypes: ['text/javascript'],
-}, false);
