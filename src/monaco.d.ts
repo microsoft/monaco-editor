@@ -174,7 +174,7 @@ declare module monaco.languages.typescript {
         /**
          * If EagerExtraLibSync is disabled, call this to trigger the changes.
          */
-        syncExtraLibs(): void;
+        syncExtraLibs(): Promise<void>;
     }
 
     export var typescriptDefaults: LanguageServiceDefaults;

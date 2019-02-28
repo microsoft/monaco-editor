@@ -134,7 +134,7 @@ export class DiagnostcsAdapter extends Adapter {
 				}
 			}
 		});
-		let redoDiagosticsCallback = () => {
+		const redoDiagosticsCallback = () => {
 			// redo diagnostics when options change
 			for (const model of monaco.editor.getModels()) {
 				onModelRemoved(model);

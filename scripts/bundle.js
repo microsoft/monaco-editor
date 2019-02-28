@@ -58,9 +58,8 @@ function bundleOne(moduleId, exclude) {
 }
 
 function updateImports(moduleId) {
-	console.log(`ESM: updating relative imports paths for ${moduleId}...`);
 	const filePath = path.join(REPO_ROOT, 'release/esm/' + moduleId + '.js');
-	var fileContents = fs.readFileSync(filePath).toString();
+	let fileContents = fs.readFileSync(filePath).toString();
 	fileContents = fileContents.replace(/vs\/basic-languages\//g, "../../basic-languages/");
 	fs.writeFileSync(filePath, fileContents);
 }

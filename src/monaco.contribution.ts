@@ -27,12 +27,12 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	private _languageId: string;
 	private _eagerExtraLibSync: boolean = true;
 
-	constructor(langualgeId: string, compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
+	constructor(languageId: string, compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
 		this._extraLibs = Object.create(null);
 		this._workerMaxIdleTime = 2 * 60 * 1000;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
-		this._languageId = langualgeId;
+		this._languageId = languageId;
 	}
 
 	get onDidChange(): IEvent<monaco.languages.typescript.LanguageServiceDefaults> {
@@ -57,12 +57,14 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		}
 
 		if (this._extraLibs[filePath]) {
-			this._extraLibs[filePath].version++;
-			this._extraLibs[filePath].content = content;
+			if(this._extraLibs[filePath].content !== content) {
+				this._extraLibs[filePath].version++;
+				this._extraLibs[filePath].content = content;
+			}
 		} else {
 			this._extraLibs[filePath] = {
 				content: content,
-				version: 1
+				version: 1,
 			};
 		}
 		if (this._eagerExtraLibSync) {
@@ -78,12 +80,14 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		};
 	}
 
-	async syncExtraLibs() {
+	async syncExtraLibs(): Promise<void> {
 		try {
 			let worker;
-			// we don't care if the get language worker fails.
-			// This happens because the worker initialzies much slower than the addExtraLib calls
 			try {
+				// we don't care if the get language worker fails.
+				// This happens if addExtraLib is called before the worker has initialized.
+				// however, when the worker has finished downloading and initializes,
+				// it does so with the latest extraLibs so no sync issue can appear
 				worker = await getLanguageWorker(this._languageId);
 			} catch (ignored) {
 				return;
@@ -191,8 +195,13 @@ const languageDefaultOptions = {
 
 const languageDefaults: { [name: string]: LanguageServiceDefaultsImpl } = {};
 
-function setupLanguageServiceDefaults(languageId, isTypescript) {
-	const languageOptions = languageDefaultOptions[isTypescript ? "typescript" : "javascript"]
+/**
+ * Generate the LanguageServiceDefaults for a new langauage with the given name
+ * @param languageId Name of the language
+ * @param isTypescriptBased Whether the language inherits from a typescript base or a javascript one
+ */
+function setupLanguageServiceDefaults(languageId: string, isTypescriptBased: boolean) {
+	const languageOptions = isTypescriptBased ? languageDefaultOptions.typescript : languageDefaultOptions.javascript;
 	languageDefaults[languageId] = new LanguageServiceDefaultsImpl(languageId, languageOptions.compilerOptions, languageOptions.diagnosticsOptions);
 }
 
