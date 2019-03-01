@@ -4,7 +4,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 
 	<title>Monaco Editor Monarch</title>
@@ -52,7 +51,7 @@
 **********************************************-->
 
   <div id="main">
-    <div id="header"><img src="monarch/monarch-34px.png" id="logo"></img>Monarch Documentation
+    <div id="header"><img src="monarch/monarch-34px.png" id="logo" alt="Monarch-Logo">Monarch Documentation
     </div>
 
     <div id="leftPane">
@@ -66,7 +65,7 @@
             <option>csharp</option>
             <option>xdot</option>
             <option>koka</option>
-            <option disabled=true></option>
+            <option disabled label=" "></option>
             <option>boogie</option>
             <option>chalice</option>
             <option>dafny</option>
@@ -74,7 +73,7 @@
             <option>smt2</option>
             <option>specsharp</option>
             <option>z3python</option>
-            <option disabled=true></option>
+            <option disabled label=" "></option>
             <option>html</option>
             <option>markdown</option>
             <option>ruby</option>
@@ -118,27 +117,28 @@
 
     <p>A language definition is basically just a JSON value describing various properties of your language. Recognized attributes are:</p>
 
-    <dt>ignoreCase</dt><dd>(optional=<code>false</code>, boolean) Is the language case insensitive?. The regular expressions in the tokenizer use this to do case (in)sensitive matching, as well
-    as tests in the <code>cases</code> construct.</dd>
+    <dl>
+      <dt>ignoreCase</dt><dd>(optional=<code>false</code>, boolean) Is the language case insensitive?. The regular expressions in the tokenizer use this to do case (in)sensitive matching, as well
+      as tests in the <code>cases</code> construct.</dd>
 
-    <dt>defaultToken</dt><dd>(optional=<code>"source"</code>, string) The default token returned if nothing matches in the tokenizer. It can be convenient to set this to <code>"invalid"</code> during development of your colorizer to easily spot what is not matched yet.</dd>
-
-    <dt id="brackets">brackets</dt><dd>(optional, array of bracket definitions) This is used by the tokenizer to easily define matching braces. See <a href="#@brackets"><code class="dt">@brackets</code></a> and <a href="#bracket"><code class="dt">bracket</code></a> for more information. Each bracket definition is an array of 3 elements, or object, describing the <code>open</code> brace, the <code>close</code> brace, and the <code>token</code> class. The default definition is:
-    <pre class="highlight">
-[ ['{','}','delimiter.curly'],
-  ['[',']','delimiter.square'],
-  ['(',')','delimiter.parenthesis'],
-  ['&lt;','>','delimiter.angle'] ]</pre>
-    </dd>
-
-    <dt>tokenizer</dt><dd>(required, object with states) This defines the tokenization rules &ndash; see the next section for a detailed description.</dd>
+      <dt>defaultToken</dt><dd>(optional=<code>"source"</code>, string) The default token returned if nothing matches in the tokenizer. It can be convenient to set this to <code>"invalid"</code> during development of your colorizer to easily spot what is not matched yet.</dd>
+      <dt id="brackets">brackets</dt><dd>(optional, array of bracket definitions) This is used by the tokenizer to easily define matching braces. See <a href="#@brackets"><code class="dt">@brackets</code></a> and <a href="#bracket"><code class="dt">bracket</code></a> for more information. Each bracket definition is an array of 3 elements, or object, describing the <code>open</code> brace, the <code>close</code> brace, and the <code>token</code> class. The default definition is:
+        <pre class="highlight">
+    [ ['{','}','delimiter.curly'],
+      ['[',']','delimiter.square'],
+      ['(',')','delimiter.parenthesis'],
+      ['&lt;','>','delimiter.angle'] ]</pre>
+        </dd>
+      <dt>tokenizer</dt><dd>(required, object with states) This defines the tokenization rules &ndash; see the next section for a detailed description.</dd>
     </dl>
+
+
     <p>There are more attributes that can be specified which are described in the <a href="#moreattr">advanced attributes</a> section later in this document.</p>
 
     <h2>Creating a tokenizer</h2>
 
     <p>The <code>tokenizer</code> attribute describes how lexical analysis takes place, and how the input is divided into tokens. Each token is given a CSS class name which is used to render each token in the editor. Standard CSS token classes include:</p>
-    <pre class="highlight" type="text/plain">
+    <pre class="highlight">
 identifier         entity           constructor
 operators          tag              namespace
 keyword            info-token       type
@@ -185,7 +185,7 @@ meta      .[content]</pre>
       <dt id="token">{ token: <em>tokenclass</em> }</dt><dd>An object that defines the token class used with CSS rendering. Common token classes are for example <code>&apos;keyword&apos;</code>, <code>&apos;comment&apos;</code> or <code>&apos;identifier&apos;</code>. You can use a dot to use hierarchical CSS names, like <code>&apos;type.identifier&apos;</code> or <code>&apos;string.escape&apos;</code>. You can also include <code>$</code> patterns that are substituted with a captured group from the matched input or the tokenizer state. The patterns are described in the <a href="#pattern">guard section</a> of this document.
       There are some special token classes:
       <dl>
-        <dt id="@brackets">"@brackets"</dt> or
+        <dt id="@brackets">"@brackets"</dt> <dd>or</dd>
         <dt>"@brackets.<em>tokenclass</em></dt><dd>Signifies that brackets were tokenized. The token class for CSS is determined by the token class defined in the <a href="#brackets"><code>brackets</code></a> attribute (together with <code><em>tokenclass</em></code> if present). Moreover, <a href="#bracket"><code class="dt">bracket</code></a> attribute is set such that the editor is matches the braces (and does auto indentation). For example:
         <pre class="highlight">[/[{}()\[\]]/, '@brackets']</pre>
         </dd>
@@ -219,7 +219,7 @@ meta      .[content]</pre>
         <dt id="bracket">bracket: <em>kind</em></dt><dd><span class="adv">(Advanced)</span> The <code><em>kind</em></code> can be either <code>'@open'</code> or <code>'@close'</code>. This signifies that a token is either an open or close brace. This attribute is set automatically if the token class is <a href="#@brackets"><code class="dt">@brackets</code></a>.
         The editor uses the bracket information to show matching braces (where an open bracket matches with a close bracket if their token classes are the same). Moreover, when a user opens a new line the editor will do auto indentation on open braces. Normally, this attribute does not need to be set if you are using the <a href="#brackets"><code class="dt">brackets</code></a> attribute and it is only used for complex brace matching. This is discussed further in the next section on <a href="#complexmatch">advanced brace matching</a>.</dd>
 
-        <dt id="nextEmbedded">nextEmbedded: <em>langId</em> <span style="color=black">or</span> '@pop'</dt><dd><span class="adv">(Advanced)</span> Signifies to the editor that this token is followed by code in another language specified by the <code><em>langId</em></code>, i.e. for example <code>javascript</code>. Internally, our syntax highlighter keeps tokenizing the source until it finds an an ending sequence. At that point, you can use <code class="dt">nextEmbedded</code> with a <code class="dt">'@pop'</code> value to pop out of the embedded mode again. Usually, we need to use a <code class="dt">next</code> attribute too to switch to a state where we can tokenize the foreign code. As an example, here is how we could support CSS fragments in our language:
+        <dt id="nextEmbedded">nextEmbedded: <em>langId</em> <span>or</span> '@pop'</dt><dd><span class="adv">(Advanced)</span> Signifies to the editor that this token is followed by code in another language specified by the <code><em>langId</em></code>, i.e. for example <code>javascript</code>. Internally, our syntax highlighter keeps tokenizing the source until it finds an an ending sequence. At that point, you can use <code class="dt">nextEmbedded</code> with a <code class="dt">'@pop'</code> value to pop out of the embedded mode again. Usually, we need to use a <code class="dt">next</code> attribute too to switch to a state where we can tokenize the foreign code. As an example, here is how we could support CSS fragments in our language:
         <pre class="highlight">root: [
   [/&lt;style\s*>/,   { token: 'keyword', bracket: '@open'
                    , next: '@css_block', nextEmbedded: 'text/css' }],
@@ -241,7 +241,7 @@ css_block: [
       <dt id="log">log: <em>message</em></dt><dd>Used for debugging. Logs <code><em>message</em></code> to the console window in the browser (press F12 to see it). This can be useful to see if a certain action is executing. For example:
       <pre class="highlight">[/\d+/, { token: 'number', log: 'found number $0 in state $S0' } ]</pre>
       </dd>
-      <p>&nbsp;</p>
+      <dd>&nbsp;</dd>
         <!--
         <dt>bracketType: <em>bracketType</em></dt><dd>If <code>token</code> is <code>"@brackets"</code>, this attribute can specify for an arbitrary matched input (like <code>"end"</code>), which is not present in the <code>brackets</code> attribute, what kind of bracket this is: <code>"@open"</code>, <code>"@close"</code>, or <code>"@none"</code>.</dd>
       -->
@@ -300,8 +300,6 @@ css_block: [
            , '@default': 'identifier.constructor' }}
 ]</pre>
       </dd>
-    </dl>
-
     </dl>
 
     <p>&nbsp;</p>
@@ -818,7 +816,7 @@ return {
 // Hint: Your program does not have to compute the sum and
 // max of the array, despite the suggestive names of the
 // out-parameters.
-method M(N: int, a: array<int>) returns (sum: int, max: int)
+method M(N: int, a: array&lt;int&gt;) returns (sum: int, max: int)
   requires 0 &lt;= N &amp; a != null &amp; a.Length == N;
   ensures sum &lt;= N * max;
 {
@@ -4521,14 +4519,14 @@ return {
 		</p>
 	</footer>
 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js" integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js" integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8=" crossorigin="anonymous"></script>
 
 	<script>var require = { paths: { 'vs': '../release/dev/vs' } };</script>
 	<script src="../release/dev/vs/loader.js"></script>
 	<script src="../release/dev/vs/editor/editor.main.nls.js"></script>
 	<script src="../release/dev/vs/editor/editor.main.js"></script>
 
-	<script data-inline="yes-please" src="./monarch/monarch.js" type="text/javascript"></script>
+	<script data-inline="yes-please" src="./monarch/monarch.js"></script>
 </body>
 </html>
