@@ -588,7 +588,7 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function() {
 				var contents = data.contents.toString();
 				contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
 				contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
-				// contents = contents.replace('&copy; 2017 Microsoft', '&copy; 2017 Microsoft [' + builtTime + ']');
+				contents = contents.replace(/{{year}}/g, new Date().getFullYear());
 
 				// Preload xhr contents
 				contents = replaceWithRelativeResource(data.path, contents, /<pre data-preload="([^"]+)".*/g, function(m0, fileContents) {
