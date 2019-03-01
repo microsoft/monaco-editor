@@ -199,7 +199,7 @@ export const language = {
 			[/\^/, 'regexp.invalid'],
 			[/@regexpesc/, 'regexp.escape'],
 			[/[^\]]/, 'regexp'],
-			[/\]/, '@brackets.regexp.escape.control', '@pop'],
+			[/\]/, { token: 'regexp.escape.control', next: '@pop', bracket: '@close' }]
 		],
 
 		string_double: [
