@@ -116,12 +116,12 @@
     <h2>Creating a language definition</h2>
 
     <p>A language definition is basically just a JSON value describing various properties of your language. Recognized attributes are:</p>
-    
+
     <dl>
       <dt>ignoreCase</dt><dd>(optional=<code>false</code>, boolean) Is the language case insensitive?. The regular expressions in the tokenizer use this to do case (in)sensitive matching, as well
       as tests in the <code>cases</code> construct.</dd>
-  
-      <dt>defaultToken</dt><dd>(optional=<code>"source"</code>, string) The default token returned if nothing matches in the tokenizer. It can be convenient to set this to <code>"invalid"</code> during development of your colorizer to easily spot what is not matched yet.</dd>      
+
+      <dt>defaultToken</dt><dd>(optional=<code>"source"</code>, string) The default token returned if nothing matches in the tokenizer. It can be convenient to set this to <code>"invalid"</code> during development of your colorizer to easily spot what is not matched yet.</dd>
       <dt id="brackets">brackets</dt><dd>(optional, array of bracket definitions) This is used by the tokenizer to easily define matching braces. See <a href="#@brackets"><code class="dt">@brackets</code></a> and <a href="#bracket"><code class="dt">bracket</code></a> for more information. Each bracket definition is an array of 3 elements, or object, describing the <code>open</code> brace, the <code>close</code> brace, and the <code>token</code> class. The default definition is:
         <pre class="highlight">
     [ ['{','}','delimiter.curly'],
@@ -816,7 +816,7 @@ return {
 // Hint: Your program does not have to compute the sum and
 // max of the array, despite the suggestive names of the
 // out-parameters.
-method M(N: int, a: array&lsaquo;int&rsaquo;) returns (sum: int, max: int)
+method M(N: int, a: array&lt;int&gt;) returns (sum: int, max: int)
   requires 0 &lt;= N &amp; a != null &amp; a.Length == N;
   ensures sum &lt;= N * max;
 {
