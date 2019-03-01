@@ -55,23 +55,25 @@
 	Component.prototype.isRelease = function() {
 		return /release/.test(this.selectedPath);
 	};
-	Component.prototype.getResolvedPath = function() {
+	Component.prototype.getResolvedPath = function(PATH_PREFIX) {
 		let resolvedPath = this.paths[this.selectedPath];
 		if (this.selectedPath === 'npm/dev' || this.selectedPath === 'npm/min' || this.isRelease()) {
 			if (IS_FILE_PROTOCOL) {
 				resolvedPath = DIRNAME + '/../' + resolvedPath;
 			} else {
-				resolvedPath = '/monaco-editor/' + resolvedPath;
+				resolvedPath = PATH_PREFIX + '/monaco-editor/' + resolvedPath;
 			}
 		} else {
 			if (IS_FILE_PROTOCOL) {
 				resolvedPath = DIRNAME + '/../..' + resolvedPath;
+			} else {
+				resolvedPath = PATH_PREFIX + resolvedPath;
 			}
 		}
 		return resolvedPath;
 	};
-	Component.prototype.generateLoaderConfig = function(dest) {
-		dest[this.modulePrefix] = this.getResolvedPath();
+	Component.prototype.generateLoaderConfig = function(dest, PATH_PREFIX) {
+		dest[this.modulePrefix] = this.getResolvedPath(PATH_PREFIX);
 	};
 	Component.prototype.generateUrlForPath = function(pathName) {
 		let NEW_LOADER_OPTS = {};
@@ -103,7 +105,7 @@
 
 
 	let RESOLVED_CORE = new Component('editor', 'vs', METADATA.CORE.paths);
-	self.RESOLVED_CORE_PATH = RESOLVED_CORE.getResolvedPath();
+	self.RESOLVED_CORE_PATH = RESOLVED_CORE.getResolvedPath('');
 	let RESOLVED_PLUGINS = METADATA.PLUGINS.map(function(plugin) {
 		return new Component(plugin.name, plugin.modulePrefix, plugin.paths, plugin.contrib);
 	});
@@ -151,14 +153,14 @@
 	self.loadEditor = function(callback, PATH_PREFIX) {
 		PATH_PREFIX = PATH_PREFIX || '';
 
-		loadScript(PATH_PREFIX + RESOLVED_CORE.getResolvedPath() + '/loader.js', function() {
+		loadScript(RESOLVED_CORE.getResolvedPath(PATH_PREFIX) + '/loader.js', function() {
 			let loaderPathsConfig = {};
 			if (!RESOLVED_CORE.isRelease()) {
 				RESOLVED_PLUGINS.forEach(function(plugin) {
-					plugin.generateLoaderConfig(loaderPathsConfig);
+					plugin.generateLoaderConfig(loaderPathsConfig, PATH_PREFIX);
 				});
 			}
-			RESOLVED_CORE.generateLoaderConfig(loaderPathsConfig);
+			RESOLVED_CORE.generateLoaderConfig(loaderPathsConfig, PATH_PREFIX);
 
 			console.log('LOADER CONFIG: ');
 			console.log(JSON.stringify(loaderPathsConfig, null, '\t'));
