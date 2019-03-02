@@ -1,8 +1,19 @@
 {
   "name": "helloworld",
   "dependencies": {},
+  "scripts": {
+    "simpleserver": "http-server -c-1 ./dist -p 9999",
+    "build": "npm run build-index && npm run build-json && npm run build-css && npm run build-html && npm run build-ts && npm run build-worker",
+    "build-index": "parcel build src/index.html",
+    "build-json": "parcel build node_modules/monaco-editor/esm/vs/language/json/json.worker.js --no-source-maps",
+    "build-css": "parcel build node_modules/monaco-editor/esm/vs/language/css/css.worker.js --no-source-maps",
+    "build-html": "parcel build node_modules/monaco-editor/esm/vs/language/html/html.worker.js --no-source-maps",
+    "build-ts": "parcel build node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js --no-source-maps",
+    "build-worker": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps"
+  },
   "devDependencies": {
     "monaco-editor": "^0.14.3",
-    "parcel-bundler": "^1.10.1"
+    "parcel-bundler": "^1.10.1",
+    "http-server": "^0.11.1"
   }
 }
