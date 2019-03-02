@@ -58,6 +58,8 @@ module.exports = {
 
 ### Option 2: Using plain webpack
 
+Full working samples are available at https://github.com/Microsoft/monaco-editor-samples/tree/master/browser-esm-webpack or https://github.com/Microsoft/monaco-editor-samples/tree/master/browser-esm-webpack-small
+
 * `index.js`
 ```js
 import * as monaco from 'monaco-editor';
@@ -124,6 +126,8 @@ module.exports = {
 ---
 
 ### Using parcel
+
+A full working sample is available at https://github.com/Microsoft/monaco-editor-samples/tree/master/browser-esm-parcel
 
 When using parcel, we need to use the `getWorkerUrl` function and build the workers seperately from our main source. To simplify things, we can write a tiny bash script to build the workers for us.
 
