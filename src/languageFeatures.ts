@@ -30,7 +30,7 @@ export class DiagnosticsAdapter {
 
 	constructor(private _languageId: string, private _worker: WorkerAccessor, defaults: LanguageServiceDefaultsImpl) {
 		const onModelAdd = (model: monaco.editor.IModel): void => {
-			let modeId = model.getModeId();
+			const modeId = model.getModeId();
 			if (modeId !== this._languageId) {
 				return;
 			}
@@ -46,8 +46,8 @@ export class DiagnosticsAdapter {
 
 		const onModelRemoved = (model: monaco.editor.IModel): void => {
 			monaco.editor.setModelMarkers(model, this._languageId, []);
-			let uriStr = model.uri.toString();
-			let listener = this._listener[uriStr];
+			const uriStr = model.uri.toString();
+			const listener = this._listener[uriStr];
 			if (listener) {
 				listener.dispose();
 				delete this._listener[uriStr];
@@ -74,7 +74,7 @@ export class DiagnosticsAdapter {
 
 		this._disposables.push({
 			dispose: () => {
-				for (let key in this._listener) {
+				for (const key in this._listener) {
 					this._listener[key].dispose();
 				}
 			}
@@ -113,7 +113,7 @@ function toSeverity(lsSeverity: number): monaco.MarkerSeverity {
 }
 
 function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarkerData {
-	let code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
+	const code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
 
 	return {
 		severity: toSeverity(diag.severity),
@@ -151,7 +151,7 @@ function toRange(range: ls.Range): Range {
 }
 
 function toCompletionItemKind(kind: number): monaco.languages.CompletionItemKind {
-	let mItemKind = monaco.languages.CompletionItemKind;
+	const mItemKind = monaco.languages.CompletionItemKind;
 
 	switch (kind) {
 		case ls.CompletionItemKind.Text: return mItemKind.Text;
@@ -177,7 +177,7 @@ function toCompletionItemKind(kind: number): monaco.languages.CompletionItemKind
 }
 
 function fromCompletionItemKind(kind: monaco.languages.CompletionItemKind): ls.CompletionItemKind {
-	let mItemKind = monaco.languages.CompletionItemKind;
+	const mItemKind = monaco.languages.CompletionItemKind;
 
 	switch (kind) {
 		case mItemKind.Text: return ls.CompletionItemKind.Text;
@@ -212,10 +212,6 @@ function toTextEdit(textEdit: ls.TextEdit): monaco.editor.ISingleEditOperation {
 	}
 }
 
-interface DataCompletionItem extends monaco.languages.CompletionItem {
-	data?: any;
-}
-
 export class CompletionAdapter implements monaco.languages.CompletionItemProvider {
 
 	constructor(private _worker: WorkerAccessor) {
@@ -235,14 +231,18 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 			if (!info) {
 				return;
 			}
-			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
-				let item: monaco.languages.CompletionItem = {
+			const wordInfo = model.getWordUntilPosition(position);
+			const wordRange = new Range(position.lineNumber, wordInfo.startColumn, position.lineNumber, wordInfo.endColumn);
+
+			const items: monaco.languages.CompletionItem[] = info.items.map(entry => {
+				const item: monaco.languages.CompletionItem = {
 					label: entry.label,
 					insertText: entry.insertText || entry.label,
 					sortText: entry.sortText,
 					filterText: entry.filterText,
 					documentation: entry.documentation,
 					detail: entry.detail,
+					range: wordRange,
 					kind: toCompletionItemKind(entry.kind),
 				};
 				if (entry.textEdit) {
@@ -266,34 +266,8 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 	}
 }
 
-function isMarkupContent(thing: any): thing is ls.MarkupContent {
-	return thing && typeof thing === 'object' && typeof (<ls.MarkupContent>thing).kind === 'string';
-}
-
-function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMarkdownString {
-	if (typeof entry === 'string') {
-		return {
-			value: entry
-		};
-	}
-	if (isMarkupContent(entry)) {
-		if (entry.kind === 'plaintext') {
-			return {
-				value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&')
-			};
-		}
-		return {
-			value: entry.value
-		};
-	}
-
-	return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
-}
-
-
-
 function toHighlighKind(kind: ls.DocumentHighlightKind): monaco.languages.DocumentHighlightKind {
-	let mKind = monaco.languages.DocumentHighlightKind;
+	const mKind = monaco.languages.DocumentHighlightKind;
 
 	switch (kind) {
 		case ls.DocumentHighlightKind.Read: return mKind.Read;
@@ -403,7 +377,7 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 				return;
 			}
 			return ranges.map(range => {
-				let result: monaco.languages.FoldingRange = {
+				const result: monaco.languages.FoldingRange = {
 					start: range.startLine + 1,
 					end: range.endLine + 1
 				};
