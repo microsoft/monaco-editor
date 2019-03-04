@@ -6,6 +6,7 @@
 
 import * as ts from './lib/typescriptServices';
 import { lib_dts, lib_es6_dts } from './lib/lib';
+import { IExtraLibs } from './monaco.contribution';
 
 import IWorkerContext = monaco.worker.IWorkerContext;
 
@@ -24,7 +25,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	// --- model sync -----------------------
 
 	private _ctx: IWorkerContext;
-	private _extraLibs: { [path: string]: { content: string, version: number } } = Object.create(null);
+	private _extraLibs: IExtraLibs = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 
@@ -62,8 +63,8 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		} else if (this.isDefaultLibFileName(fileName)) {
 			// default lib is static
 			return '1';
-		} else if(fileName in this._extraLibs) {
-			return this._extraLibs[fileName].version.toString();
+		} else if (fileName in this._extraLibs) {
+			return String(this._extraLibs[fileName].version);
 		}
 	}
 
@@ -75,7 +76,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 			text = model.getValue();
 
 		} else if (fileName in this._extraLibs) {
-			// static extra lib
+			// extra lib
 			text = this._extraLibs[fileName].content;
 
 		} else if (fileName === DEFAULT_LIB.NAME) {
@@ -199,14 +200,14 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.resolve(this._languageService.getEmitOutput(fileName));
 	}
 
-	syncExtraLibs(extraLibs: { [path: string]: { content: string, version: number } }) {
+	updateExtraLibs(extraLibs: IExtraLibs) {
 		this._extraLibs = extraLibs;
 	}
 }
 
 export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
-	extraLibs: { [path: string]: { content: string, version: number } };
+	extraLibs: IExtraLibs;
 }
 
 export function create(ctx: IWorkerContext, createData: ICreateData): TypeScriptWorker {

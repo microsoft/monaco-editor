@@ -17,6 +17,8 @@ export class WorkerManager {
 	private _idleCheckInterval: number;
 	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
+	private _updateExtraLibsToken: number;
+	private _extraLibsChangeListener: IDisposable;
 
 	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker>;
 	private _client: Promise<TypeScriptWorker>;
@@ -28,6 +30,8 @@ export class WorkerManager {
 		this._idleCheckInterval = setInterval(() => this._checkIfIdle(), 30 * 1000);
 		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
+		this._updateExtraLibsToken = 0;
+		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(() => this._updateExtraLibs());
 	}
 
 	private _stopWorker(): void {
@@ -41,7 +45,21 @@ export class WorkerManager {
 	dispose(): void {
 		clearInterval(this._idleCheckInterval);
 		this._configChangeListener.dispose();
+		this._extraLibsChangeListener.dispose();
 		this._stopWorker();
+	}
+
+	private async _updateExtraLibs(): Promise<void> {
+		if (!this._worker) {
+			return;
+		}
+		const myToken = ++this._updateExtraLibsToken;
+		const proxy = await this._worker.getProxy();
+		if (this._updateExtraLibsToken !== myToken) {
+			// avoid multiple calls
+			return;
+		}
+		proxy.updateExtraLibs(this._defaults.getExtraLibs());
 	}
 
 	private _checkIfIdle(): void {
