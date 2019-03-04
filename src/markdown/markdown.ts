@@ -79,7 +79,7 @@ export const language = <ILanguage>{
 			[/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: 'string', next: '@codeblock' }],
 
 			// github style code blocks (with backticks and language)
-			[/^\s*```\s*((?:\w|[\/\-#])+)\s*$/, { token: 'string', next: '@codeblockgh', nextEmbedded: '$1' }],
+			[/^\s*```\s*((?:\w|[\/\-#])+).*$/, { token: 'string', next: '@codeblockgh', nextEmbedded: '$1' }],
 
 			// github style code blocks (with backticks but no language)
 			[/^\s*```\s*$/, { token: 'string', next: '@codeblock' }],
