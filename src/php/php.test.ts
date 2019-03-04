@@ -2076,5 +2076,23 @@ testTokenization(['php', 'css', 'javascript'], [
 			{ startIndex: 17, type: '' },
 			{ startIndex: 18, type: 'metatag.php' }
 		]
+	}],
+
+	[{
+		line: '<?php',
+		tokens: [
+			{ startIndex: 0, type: 'metatag.php' },
+		]
+	}, {
+		line: '  //',
+		tokens: [
+			{ startIndex: 0, type: '' },
+			{ startIndex: 2, type: 'comment.php' },
+		]
+	}, {
+		line: 'if',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.php' },
+		]
 	}]
 ]);
