@@ -6,6 +6,7 @@
 
 import * as ts from './lib/typescriptServices';
 import { lib_dts, lib_es6_dts } from './lib/lib';
+import { IExtraLibs } from './monaco.contribution';
 
 import IWorkerContext = monaco.worker.IWorkerContext;
 
@@ -24,7 +25,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	// --- model sync -----------------------
 
 	private _ctx: IWorkerContext;
-	private _extraLibs: { [fileName: string]: string } = Object.create(null);
+	private _extraLibs: IExtraLibs = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 
@@ -59,9 +60,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		let model = this._getModel(fileName);
 		if (model) {
 			return model.version.toString();
-		} else if (this.isDefaultLibFileName(fileName) || fileName in this._extraLibs) {
-			// extra lib and default lib are static
+		} else if (this.isDefaultLibFileName(fileName)) {
+			// default lib is static
 			return '1';
+		} else if (fileName in this._extraLibs) {
+			return String(this._extraLibs[fileName].version);
 		}
 	}
 
@@ -73,8 +76,8 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 			text = model.getValue();
 
 		} else if (fileName in this._extraLibs) {
-			// static extra lib
-			text = this._extraLibs[fileName];
+			// extra lib
+			text = this._extraLibs[fileName].content;
 
 		} else if (fileName === DEFAULT_LIB.NAME) {
 			text = DEFAULT_LIB.CONTENTS;
@@ -196,11 +199,15 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
 		return Promise.resolve(this._languageService.getEmitOutput(fileName));
 	}
+
+	updateExtraLibs(extraLibs: IExtraLibs) {
+		this._extraLibs = extraLibs;
+	}
 }
 
 export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
-	extraLibs: { [path: string]: string };
+	extraLibs: IExtraLibs;
 }
 
 export function create(ctx: IWorkerContext, createData: ICreateData): TypeScriptWorker {

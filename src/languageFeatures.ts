@@ -135,13 +135,15 @@ export class DiagnostcsAdapter extends Adapter {
 			}
 		});
 
-		this._disposables.push(this._defaults.onDidChange(() => {
+		const recomputeDiagostics = () => {
 			// redo diagnostics when options change
 			for (const model of monaco.editor.getModels()) {
 				onModelRemoved(model);
 				onModelAdd(model);
 			}
-		}));
+		};
+		this._disposables.push(this._defaults.onDidChange(recomputeDiagostics));
+		this._disposables.push(this._defaults.onDidExtraLibsChange(recomputeDiagostics));
 
 		monaco.editor.getModels().forEach(onModelAdd);
 	}
