@@ -222,7 +222,6 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 	}
 
 	provideCompletionItems(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.CompletionContext, token: CancellationToken): Thenable<monaco.languages.CompletionList> {
-		const wordInfo = model.getWordUntilPosition(position);
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => {
