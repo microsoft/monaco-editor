@@ -442,5 +442,20 @@ testTokenization('fsharp', [
 		tokens: [
 			{ startIndex: 0, type: 'number.float.fs' }
 		]
+	}],
+
+	[{
+		line: '(* This operator -> (*) should be ignored *) let i = 0',
+		tokens: [
+			{ startIndex: 0, type: 'comment.fs' },
+			{ startIndex: 44, type: '' },
+			{ startIndex: 45, type: 'keyword.let.fs' },
+			{ startIndex: 48, type: '' },
+			{ startIndex: 49, type: 'identifier.fs' },
+			{ startIndex: 50, type: '' },
+			{ startIndex: 51, type: 'delimiter.fs' },
+			{ startIndex: 52, type: '' },
+			{ startIndex: 53, type: 'number.fs' }
+		]
 	}]
 ]);
