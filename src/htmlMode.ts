@@ -23,9 +23,12 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 
 	// all modes
 	monaco.languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker));
+	monaco.languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker));
+
 	monaco.languages.registerDocumentHighlightProvider(languageId, new languageFeatures.DocumentHighlightAdapter(worker));
 	monaco.languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
 	monaco.languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker));
+	monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker));
 
 	// only html
 	if (languageId === 'html') {

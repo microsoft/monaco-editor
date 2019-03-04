@@ -265,6 +265,66 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 	}
 }
 
+// --- hover ------
+
+function isMarkupContent(thing: any): thing is ls.MarkupContent {
+	return thing && typeof thing === 'object' && typeof (<ls.MarkupContent>thing).kind === 'string';
+}
+
+function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMarkdownString {
+	if (typeof entry === 'string') {
+		return {
+			value: entry
+		};
+	}
+	if (isMarkupContent(entry)) {
+		if (entry.kind === 'plaintext') {
+			return {
+				value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&')
+			};
+		}
+		return {
+			value: entry.value
+		};
+	}
+
+	return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
+}
+
+function toMarkedStringArray(contents: ls.MarkupContent | ls.MarkedString | ls.MarkedString[]): monaco.IMarkdownString[] {
+	if (!contents) {
+		return void 0;
+	}
+	if (Array.isArray(contents)) {
+		return contents.map(toMarkdownString);
+	}
+	return [toMarkdownString(contents)];
+}
+
+export class HoverAdapter implements monaco.languages.HoverProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	provideHover(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Hover> {
+		let resource = model.uri;
+
+		return this._worker(resource).then(worker => {
+			return worker.doHover(resource.toString(), fromPosition(position));
+		}).then(info => {
+			if (!info) {
+				return;
+			}
+			return <monaco.languages.Hover>{
+				range: toRange(info.range),
+				contents: toMarkedStringArray(info.contents)
+			};
+		});
+	}
+}
+
+// --- document highlights ------
+
 function toHighlighKind(kind: ls.DocumentHighlightKind): monaco.languages.DocumentHighlightKind {
 	const mKind = monaco.languages.DocumentHighlightKind;
 
@@ -292,6 +352,58 @@ export class DocumentHighlightAdapter implements monaco.languages.DocumentHighli
 			return items.map(item => ({
 				range: toRange(item.range),
 				kind: toHighlighKind(item.kind)
+			}));
+		});
+	}
+}
+
+// --- document symbols ------
+
+function toSymbolKind(kind: ls.SymbolKind): monaco.languages.SymbolKind {
+	let mKind = monaco.languages.SymbolKind;
+
+	switch (kind) {
+		case ls.SymbolKind.File: return mKind.Array;
+		case ls.SymbolKind.Module: return mKind.Module;
+		case ls.SymbolKind.Namespace: return mKind.Namespace;
+		case ls.SymbolKind.Package: return mKind.Package;
+		case ls.SymbolKind.Class: return mKind.Class;
+		case ls.SymbolKind.Method: return mKind.Method;
+		case ls.SymbolKind.Property: return mKind.Property;
+		case ls.SymbolKind.Field: return mKind.Field;
+		case ls.SymbolKind.Constructor: return mKind.Constructor;
+		case ls.SymbolKind.Enum: return mKind.Enum;
+		case ls.SymbolKind.Interface: return mKind.Interface;
+		case ls.SymbolKind.Function: return mKind.Function;
+		case ls.SymbolKind.Variable: return mKind.Variable;
+		case ls.SymbolKind.Constant: return mKind.Constant;
+		case ls.SymbolKind.String: return mKind.String;
+		case ls.SymbolKind.Number: return mKind.Number;
+		case ls.SymbolKind.Boolean: return mKind.Boolean;
+		case ls.SymbolKind.Array: return mKind.Array;
+	}
+	return mKind.Function;
+}
+
+export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.DocumentSymbol[]> {
+		const resource = model.uri;
+
+		return this._worker(resource).then(worker => worker.findDocumentSymbols(resource.toString())).then(items => {
+			if (!items) {
+				return;
+			}
+			return items.map(item => ({
+				name: item.name,
+				detail: '',
+				containerName: item.containerName,
+				kind: toSymbolKind(item.kind),
+				range: toRange(item.location.range),
+				selectionRange: toRange(item.location.range)
 			}));
 		});
 	}

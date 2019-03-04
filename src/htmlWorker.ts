@@ -40,6 +40,12 @@ export class HTMLWorker {
 		let textEdits = this._languageService.format(document, range, this._languageSettings && this._languageSettings.format);
 		return Promise.resolve(textEdits);
 	}
+	doHover(uri: string, position: ls.Position): Thenable<ls.Hover> {
+		let document = this._getTextDocument(uri);
+		let htmlDocument = this._languageService.parseHTMLDocument(document);
+		let hover = this._languageService.doHover(document, position, htmlDocument);
+		return Promise.resolve(hover);
+	}
 	findDocumentHighlights(uri: string, position: ls.Position): Thenable<ls.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
@@ -50,6 +56,12 @@ export class HTMLWorker {
 		let document = this._getTextDocument(uri);
 		let links = this._languageService.findDocumentLinks(document, null);
 		return Promise.resolve(links);
+	}
+	findDocumentSymbols(uri: string): Thenable<ls.SymbolInformation[]> {
+		let document = this._getTextDocument(uri);
+		let htmlDocument = this._languageService.parseHTMLDocument(document);
+		let symbols = this._languageService.findDocumentSymbols(document, htmlDocument);
+		return Promise.resolve(symbols);
 	}
 	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<ls.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
