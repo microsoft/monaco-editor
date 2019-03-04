@@ -234,7 +234,6 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 	}
 
 	provideCompletionItems(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.CompletionContext, token: CancellationToken): Thenable<monaco.languages.CompletionList> {
-		const wordInfo = model.getWordUntilPosition(position);
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => {
@@ -243,6 +242,9 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 			if (!info) {
 				return;
 			}
+			const wordInfo = model.getWordUntilPosition(position);
+			const wordRange = new Range(position.lineNumber, wordInfo.startColumn, position.lineNumber, wordInfo.endColumn);
+
 			let items: monaco.languages.CompletionItem[] = info.items.map(entry => {
 				let item: monaco.languages.CompletionItem = {
 					label: entry.label,
@@ -251,6 +253,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 					filterText: entry.filterText,
 					documentation: entry.documentation,
 					detail: entry.detail,
+					range: wordRange,
 					kind: toCompletionItemKind(entry.kind),
 				};
 				if (entry.textEdit) {
