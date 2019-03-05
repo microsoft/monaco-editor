@@ -1,6 +1,6 @@
 {
   "name": "monaco-css",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "CSS, LESS and SCSS plugin for the Monaco Editor",
   "scripts": {
     "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
