@@ -26,7 +26,7 @@
     "requirejs": "^2.3.6",
     "typescript": "3.3.3333",
     "uglify-js": "^3.4.9",
-    "vscode-json-languageservice": "3.3.0-next.5",
+    "vscode-json-languageservice": "3.3.0-next.6",
     "vscode-languageserver-types": "3.14.0"
   }
 }
