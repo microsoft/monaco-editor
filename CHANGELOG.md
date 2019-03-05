@@ -1,5 +1,46 @@
 # Monaco Editor Changelog
 
+## [0.16.0] (05.03.2018)
+
+### New & Noteworthy
+
+* Added built-in support for AMD cross-domain web worker loading.
+* Added API to remeasure fonts (`monaco.editor.remeasureFonts`) in case custom fonts are used and the editor is painted at a time when the fonts are not finished loading.
+* Various editor improvements, such as an option to `renderFinalNewline`, or to have a `cursorSmoothCaretAnimation`
+* Colorization support for Tcl, Pascal, Kotlin and GraphQL.
+
+### Breaking changes
+
+* We are no longer shipping WinJS.Promise, but we are shipping with a Promise shim (for IE11).
+* `CompletionItem.range` is now mandatory. Most times, you can use `model.getWordUntilPosition()` to get a good range.
+* `DefinitionLink` has been renamed to `LocationLink` and a couple of its fields have also been renamed.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [Sebastián Gurin (@cancerberoSgx)](https://github.com/cancerberoSgx): fix worker paths in parcel [PR #1339](https://github.com/Microsoft/monaco-editor/pull/1339)
+* [@datou0412](https://github.com/datou0412): Fix lineDecoration example css error [PR #1337](https://github.com/Microsoft/monaco-editor/pull/1337)
+* [Joshua Sullivan (@jbsulli)](https://github.com/jbsulli): Fix JavaScript RegExp range closing bracket [PR #1329](https://github.com/Microsoft/monaco-editor/pull/1329)
+* [Krish De Souza (@Kedstar99)](https://github.com/Kedstar99): Fixed various HTML errors with the various webpages [PR #1309](https://github.com/Microsoft/monaco-editor/pull/1309)
+* [Swarnava Sengupta (@swarnava)](https://github.com/swarnava): Make copyright year dynamic [PR #1303](https://github.com/Microsoft/monaco-editor/pull/1303)
+
+Contributions to `monaco-languages`:
+
+* [alan.invents (@ALANVF)](https://github.com/ALANVF): Add Tcl support [PR #59](https://github.com/Microsoft/monaco-languages/pull/59)
+* [Alessandro Fragnani (@alefragnani)](https://github.com/alefragnani): Pascal language support [PR #60](https://github.com/Microsoft/monaco-languages/pull/60)
+* [Brijesh Bittu (@brijeshb42)](https://github.com/brijeshb42): Update ruby auto indentation rules [PR #58](https://github.com/Microsoft/monaco-languages/pull/58)
+* [Andrew (@creativedrewy)](https://github.com/creativedrewy): Add Kotlin Language Support [PR #57](https://github.com/Microsoft/monaco-languages/pull/57)
+* [Salam Elbilig (@finalfantasia)](https://github.com/finalfantasia): [clojure] Improve the regular expressions for various symbols [PR #56](https://github.com/Microsoft/monaco-languages/pull/56)
+* [Neil Jones (@futurejones)](https://github.com/futurejones): Solidity - add "constructor" to main keywords [PR #55](https://github.com/Microsoft/monaco-languages/pull/55)
+* [Pavel Lang (@langpavel)](https://github.com/langpavel): GraphQL language support [PR #54](https://github.com/Microsoft/monaco-languages/pull/54)
+* [Samuel Helms (@samghelms)](https://github.com/samghelms): allows annotation in markdown language block headers [PR #61](https://github.com/Microsoft/monaco-languages/pull/61)
+
+Contributions to `monaco-typescript`:
+
+* [Olga Lesnikova (@Geloosa)](https://github.com/Geloosa): more safe extra lib filePath generation [PR #29](https://github.com/Microsoft/monaco-typescript/pull/29)
+* [Stefan Lacatus (@stefan-lacatus)](https://github.com/stefan-lacatus): Optimize how external libs are handled and allow for custom languages [PR #30](https://github.com/Microsoft/monaco-typescript/pull/30)
+
 ## [0.15.6] (23.11.2018)
 * Fixes issue with context menu (https://github.com/Microsoft/monaco-editor/issues/1199)
 
