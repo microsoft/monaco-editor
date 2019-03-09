@@ -172,7 +172,7 @@ body > section > .container {
 }
 
 .navbar-inverse .nav>li>a.nav-item:focus, .navbar-inverse .nav>li>a.nav-item:hover {
-  background-color: rgba(0,0,0,.12);
+  background-color: rgb(175, 79, 201);
 }
 
 .navbar-inverse .nav .active>a.nav-item, .navbar-inverse .nav .active>a.nav-item:hover, .navbar-inverse .nav .active>a.nav-item:focus {
