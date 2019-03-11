@@ -22,6 +22,7 @@
     "gulp": "^3.9.1",
     "gulp-typedoc": "^2.2.0",
     "http-server": "^0.11.1",
+    "lodash": "^4.17.11",
     "monaco-css": "2.2.0",
     "monaco-editor-core": "0.14.6",
     "monaco-html": "2.2.0",
