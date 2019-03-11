@@ -46,6 +46,7 @@
     "broccoli": "^2.1.0",
     "browserify": "^16.2.3",
     "ember": "^1.0.3",
+    "ember-cli": "^3.8.1",
     "ember-source": "^3.8.0",
     "instant-icons": "^1.0.0",
     "karma": "^4.0.1",
