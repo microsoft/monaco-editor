@@ -4,7 +4,7 @@
   "version": "0.14.3",
   "description": "A browser based code editor",
   "author": "Microsoft Corporation",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "simpleserver": "gulp simpleserver",
     "release": "gulp release",
@@ -14,12 +14,12 @@
   "module": "./esm/vs/editor/editor.main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/monaco-editor"
+    "url": "git+https://github.com/Microsoft/monaco-editor.git"
   },
   "devDependencies": {
     "clean-css": "^4.2.1",
     "event-stream": "^3.3.4",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-typedoc": "^2.2.0",
     "http-server": "^0.11.1",
     "lodash": "^4.17.11",
@@ -55,8 +55,25 @@
     "prettier-eslint-plugin": "^1.1.4",
     "python": "0.0.4",
     "react": "^16.8.4",
+    "run": "^1.4.0",
     "tslint": "^5.13.1",
     "uglify": "^0.1.5",
-    "vue": "^2.6.8"
-  }
+    "vue": "^2.6.8",
+    "yarn": "^1.13.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Microsoft/monaco-editor/issues"
+  },
+  "homepage": "https://github.com/Microsoft/monaco-editor#readme",
+  "main": "gulpfile.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "keywords": [
+    "npm",
+    "vscode",
+    "javascript",
+    "app"
+  ]
 }
