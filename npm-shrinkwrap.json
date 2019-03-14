@@ -1818,9 +1818,9 @@
       }
     },
     "broccoli": {
-      "version": "2.1.0",
-      "resolved": "https://registry.npmjs.org/broccoli/-/broccoli-2.1.0.tgz",
-      "integrity": "sha512-huFxLd4oD96nnqFbakmxwV05okdw8d9Xto0dQ20nfgL5O3No4TlKltNvRIcnDAQVJe+VCMQleFRMdgzrRbGT3Q==",
+      "version": "2.2.0",
+      "resolved": "https://registry.npmjs.org/broccoli/-/broccoli-2.2.0.tgz",
+      "integrity": "sha512-g+3h+vpxTccfhIXkVqb+Ep43Cp0I9RjL27BY63/IpjOLlBI9RGcAjL5aYnCxB7ewfb4y0212xp4tFj+oDWAe+A==",
       "requires": {
         "broccoli-node-info": "1.1.0",
         "broccoli-slow-trees": "^3.0.1",
@@ -1830,7 +1830,7 @@
         "esm": "^3.2.4",
         "findup-sync": "^2.0.0",
         "handlebars": "^4.0.11",
-        "heimdalljs": "^0.2.5",
+        "heimdalljs": "^0.2.6",
         "heimdalljs-logger": "^0.1.9",
         "mime-types": "^2.1.19",
         "promise.prototype.finally": "^3.1.0",
@@ -4535,9 +4535,9 @@
       "integrity": "sha512-qzm/XxIbxm/FHyH341ZrbnMUpe+5Bocte9xkmFMzPMjRaZMcXww+MpBptFvtU+79L362nqiLhekCxCxDPaUMBQ=="
     },
     "esm": {
-      "version": "3.2.16",
-      "resolved": "https://registry.npmjs.org/esm/-/esm-3.2.16.tgz",
-      "integrity": "sha512-iACZMQvYFc66Y7QC+vD3oGA/fFsPA/IQwewRJ3K0gbMV52E59pdko02kF2TfVdtp5aHO62PHxL6fxtHJmhm3NQ=="
+      "version": "3.2.17",
+      "resolved": "https://registry.npmjs.org/esm/-/esm-3.2.17.tgz",
+      "integrity": "sha512-C9o9bz51z5upkD7wCsTKgWwWSZ+OztN2eXLL8senHAULFAXCXGSmw1EW2zengsoyyDh9D/H4Twxk7ZkMEW360Q=="
     },
     "espree": {
       "version": "3.5.4",
@@ -13180,9 +13180,9 @@
       "integrity": "sha1-wGavtYK7HLQSjWDqkjkulNXp2+w="
     },
     "vue": {
-      "version": "2.6.8",
-      "resolved": "https://registry.npmjs.org/vue/-/vue-2.6.8.tgz",
-      "integrity": "sha512-+vp9lEC2Kt3yom673pzg1J7T1NVGuGzO9j8Wxno+rQN2WYVBX2pyo/RGQ3fXCLh2Pk76Skw/laAPCuBuEQ4diw=="
+      "version": "2.6.9",
+      "resolved": "https://registry.npmjs.org/vue/-/vue-2.6.9.tgz",
+      "integrity": "sha512-t1+tvH8hybPM86oNne3ZozCD02zj/VoZIiojOBPJLjwBn7hxYU5e1gBObFpq8ts1NEn1VhPf/hVXBDAJ3X5ljg=="
     },
     "vue-eslint-parser": {
       "version": "2.0.3",
