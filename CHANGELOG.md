@@ -1,5 +1,8 @@
 # Monaco Editor Changelog
 
+## [0.16.1] (14.03.2018)
+* Fixes issue with context menu (https://github.com/Microsoft/monaco-editor/issues/1357)
+
 ## [0.16.0] (05.03.2018)
 
 ### New & Noteworthy
