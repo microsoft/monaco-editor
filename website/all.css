@@ -164,6 +164,7 @@ body > section > .container {
   padding-top: 18px;
   font-size: 14px;
   text-transform: uppercase;
+  transition-duration: 200ms;
 }
 
 .navbar-inverse .nav-collapse .nav>li>a {
@@ -172,7 +173,7 @@ body > section > .container {
 }
 
 .navbar-inverse .nav>li>a.nav-item:focus, .navbar-inverse .nav>li>a.nav-item:hover {
-  background-color: rgba(0,0,0,.12);
+  background-color: #c176d5;
 }
 
 .navbar-inverse .nav .active>a.nav-item, .navbar-inverse .nav .active>a.nav-item:hover, .navbar-inverse .nav .active>a.nav-item:focus {
