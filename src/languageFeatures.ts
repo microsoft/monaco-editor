@@ -103,7 +103,7 @@ export class DiagnosticsAdapter {
 			return worker.doValidation(resource.toString()).then(diagnostics => {
 				const markers = diagnostics.map(d => toDiagnostics(resource, d));
 				let model = monaco.editor.getModel(resource);
-				if (model.getModeId() === languageId) {
+				if (model && model.getModeId() === languageId) {
 					monaco.editor.setModelMarkers(model, languageId, markers);
 				}
 			});
