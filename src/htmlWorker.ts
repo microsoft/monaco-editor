@@ -11,6 +11,9 @@ import Thenable = monaco.Thenable;
 import * as htmlService from 'vscode-html-languageservice';
 import * as ls from 'vscode-languageserver-types';
 
+import * as poli from './fillers/polyfills';
+
+poli.polyfill();
 
 export class HTMLWorker {
 
