@@ -57,8 +57,8 @@
 			background-color: #727272;
 			color: #fff;
 			outline: 0;
-    		border: none;
-    		cursor: pointer;
+    			border: none;
+    			cursor: pointer;
 		}
 
 		button.Gray:hover
