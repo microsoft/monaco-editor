@@ -166,7 +166,12 @@
 			console.log(JSON.stringify(loaderPathsConfig, null, '\t'));
 
 			require.config({
-				paths: loaderPathsConfig
+				paths: loaderPathsConfig,
+				// 'vs/nls' : {
+				// 	availableLanguages: {
+				// 		'*': 'de'
+				// 	}
+				// }
 			});
 
 			require(['vs/editor/editor.main'], function() {
