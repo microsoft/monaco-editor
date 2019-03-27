@@ -1,12 +1,12 @@
 # Monaco Editor Changelog
 
-## [0.16.2] (19.03.2018)
+## [0.16.2] (19.03.2019)
 * Fixes for HTML and JSON (https://github.com/Microsoft/monaco-editor/issues/1367, https://github.com/Microsoft/monaco-editor/issues/1254)
 
-## [0.16.1] (14.03.2018)
+## [0.16.1] (14.03.2019)
 * Fixes issue with context menu (https://github.com/Microsoft/monaco-editor/issues/1357)
 
-## [0.16.0] (05.03.2018)
+## [0.16.0] (05.03.2019)
 
 ### New & Noteworthy
 
