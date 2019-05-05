@@ -1,5 +1,22 @@
 # Monaco Editor Changelog
 
+## [0.17.0] (05.05.2019)
+
+### New & Noteworthy
+
+* Localization support is brought back for AMD bundle. We lost the localization support when VS Code moved to the localization system but now AMD bundles ships the same localized strings VS Code localization extensions ship. For more details, please read [Monaco#822](https://github.com/Microsoft/monaco-editor/issues/822) and related [VS Code upstream issue](https://github.com/Microsoft/vscode/issues/71065)
+* `LinkProvider.ProvideLinks` should now return `ILinksList` instead of `ILink[]`.
+* `IEditorOptions.iconsInSuggestions` and `EditorContribOptions.iconsInSuggestions` are now replaced by `EditorContribOptions.suggest.showIcons`.
+* We introduced `EditorContribOptions.suggest.maxVisibleSuggestions` to control maximum suggestions to show in suggestions widget.
+* `EditorContribOptions.suggest.filteredTypes` is now introduced to allow suggestions to be filtered by the user. For more details, please read [vscode#45039](https://github.com/Microsoft/vscode/issues/45039).
+
+### Thank You
+
+Contributions to `monaco-editor`:
+
+* [Jonas Fonseca @jonas](https://github.com/jonas): Fix year for releases made in 2019 [PR #1388](https://github.com/Microsoft/monaco-editor/pull/1388)
+
+
 ## [0.16.2] (19.03.2019)
 * Fixes for HTML and JSON (https://github.com/Microsoft/monaco-editor/issues/1367, https://github.com/Microsoft/monaco-editor/issues/1254)
 

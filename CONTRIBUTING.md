@@ -23,7 +23,11 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 * Install all the [prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
 
 ### OS X and Linux
-```
+
+```bash
+# clone vscode-loc repository for localized string resources
+/src> git clone https://github.com/microsoft/vscode-loc
+# clone VS Code repository
 /src> git clone https://github.com/microsoft/vscode
 /src> cd vscode
 # install npm deps for vscode
@@ -33,7 +37,11 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 ```
 
 ### Windows
-```
+
+```cmd
+# clone vscode-loc repository for localized string resources
+/src> git clone https://github.com/microsoft/vscode-loc
+# clone VS Code repository
 /src> git clone https://github.com/microsoft/vscode
 /src> cd vscode
 # install npm deps for vscode
