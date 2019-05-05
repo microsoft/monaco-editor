@@ -414,17 +414,19 @@ export class DocumentLinkAdapter implements monaco.languages.LinkProvider {
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideLinks(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.ILink[]> {
+	public provideLinks(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.ILinksList> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => worker.findDocumentLinks(resource.toString())).then(items => {
 			if (!items) {
 				return;
 			}
-			return items.map(item => ({
-				range: toRange(item.range),
-				url: item.target
-			}));
+			return {
+				links: items.map(item => ({
+					range: toRange(item.range),
+					url: item.target
+				}))
+			};
 		});
 	}
 }
