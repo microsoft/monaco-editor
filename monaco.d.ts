@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Type definitions for monaco-editor v0.16.2
+ * Type definitions for monaco-editor v0.17.0
  * Released under the MIT license
 *-----------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------
@@ -2556,24 +2556,24 @@ declare namespace monaco.editor {
          * Enable using global storage for remembering suggestions.
          */
         shareSuggestSelections?: boolean;
-		/**
-		 * Enable or disable icons in suggestions. Defaults to true.
-		 */
+        /**
+         * Enable or disable icons in suggestions. Defaults to true.
+         */
         showIcons?: boolean;
-		/**
-		 * Max suggestions to show in suggestions. Defaults to 12.
-		 */
+        /**
+         * Max suggestions to show in suggestions. Defaults to 12.
+         */
         maxVisibleSuggestions?: boolean;
-		/**
-		 * Names of suggestion types to filter.
-		 */
+        /**
+         * Names of suggestion types to filter.
+         */
         filteredTypes?: Record<string, boolean>;
     }
 
     export interface IGotoLocationOptions {
-		/**
-		 * Control how goto-command work when having multiple results.
-		 */
+        /**
+         * Control how goto-command work when having multiple results.
+         */
         multiple?: 'peek' | 'gotoAndPeek' | 'goto';
     }
 
@@ -2617,7 +2617,7 @@ declare namespace monaco.editor {
         lineNumbers?: 'on' | 'off' | 'relative' | 'interval' | ((lineNumber: number) => string);
         /**
          * Render last line number when the file ends with a newline.
-		 * Defaults to true.
+         * Defaults to true.
         */
         renderFinalNewline?: boolean;
         /**
@@ -2852,10 +2852,10 @@ declare namespace monaco.editor {
          */
         suggest?: ISuggestOptions;
         /**
-		 *
-		 */
+         *
+         */
         gotoLocation?: IGotoLocationOptions;
-		/**
+        /**
          * Enable quick suggestions (shadow suggestions)
          * Defaults to true.
          */
