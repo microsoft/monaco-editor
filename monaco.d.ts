@@ -1583,7 +1583,7 @@ declare namespace monaco.editor {
         /**
          * Converts the position to a zero-based offset.
          *
-         * The position will be [adjusted](#TextDocument.validatePosition).
+         * The position will be [adjusted](#ITextModel.validatePosition).
          *
          * @param position A position.
          * @return A valid zero-based offset.
@@ -4807,13 +4807,13 @@ declare namespace monaco.languages {
         /**
          * A range of text that should be replaced by this completion item.
          *
-         * Defaults to a range from the start of the [current word](#TextDocument.getWordRangeAtPosition) to the
+         * Defaults to a range from the start of the [current word](#ITextModel.getWordAtPosition) to the
          * current position.
          *
          * *Note:* The range must be a [single line](#Range.isSingleLine) and it must
          * [contain](#Range.contains) the position at which completion has been [requested](#CompletionItemProvider.provideCompletionItems).
          */
-        range: IRange;
+        range?: IRange;
         /**
          * An optional set of characters that when pressed while this completion is active will accept it first and
          * then type that character. *Note* that all commit characters should have `length=1` and that superfluous
@@ -5871,7 +5871,7 @@ declare namespace monaco.languages.json {
         /**
          *  If set, the schema service would load schema content on-demand with 'fetch' if available
          */
-        readonly enableSchemaRequest? : boolean
+        readonly enableSchemaRequest?: boolean
     }
 
     export interface LanguageServiceDefaults {
