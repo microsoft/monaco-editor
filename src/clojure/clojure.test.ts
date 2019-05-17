@@ -897,5 +897,23 @@ testTokenization('clojure', [
 		'`',
 		'~',
 		"'",
-	], 'meta')
+	], 'meta'),
+
+	// treat comma as whitespace
+	[
+		{
+			line: ', foo, :bar, "one", 2, ',
+			tokens: [
+				{startIndex: 0, type: 'white.clj'},
+				{startIndex: 2, type: 'identifier.clj'},
+				{startIndex: 5, type: 'white.clj'},
+				{startIndex: 7, type: 'constant.clj'},
+				{startIndex: 11, type: 'white.clj'},
+				{startIndex: 13, type: 'string.clj'},
+				{startIndex: 18, type: 'white.clj'},
+				{startIndex: 20, type: 'number.clj'},
+				{startIndex: 21, type: 'white.clj'}
+			]
+		}
+	]
 ]);
