@@ -1583,7 +1583,7 @@ declare namespace monaco.editor {
         /**
          * Converts the position to a zero-based offset.
          *
-         * The position will be [adjusted](#ITextModel.validatePosition).
+         * The position will be [adjusted]{@link ITextModel.validatePosition}.
          *
          * @param position A position.
          * @return A valid zero-based offset.
@@ -1593,7 +1593,7 @@ declare namespace monaco.editor {
          * Converts a zero-based offset to a position.
          *
          * @param offset A zero-based offset.
-         * @return A valid [position](#Position).
+         * @return A valid [position]{@link Position}.
          */
         getPositionAt(offset: number): Position;
         /**
@@ -4417,7 +4417,7 @@ declare namespace monaco.languages {
 
     /**
      * Contains additional diagnostic information about the context in which
-     * a [code action](#CodeActionProvider.provideCodeActions) is run.
+     * a [code action]{@link CodeActionProvider.provideCodeActions} is run.
      */
     export interface CodeActionContext {
         /**
@@ -4672,7 +4672,7 @@ declare namespace monaco.languages {
     }
 
     /**
-     * A provider result represents the values a provider, like the [`HoverProvider`](#HoverProvider),
+     * A provider result represents the values a provider, like the [`HoverProvider`]{@link HoverProvider},
      * may return. For once this is the actual result type `T`, like `Hover`, or a thenable that resolves
      * to that type `T`. In addition, `null` and `undefined` can be returned - either directly or from a
      * thenable.
@@ -4777,13 +4777,13 @@ declare namespace monaco.languages {
         documentation?: string | IMarkdownString;
         /**
          * A string that should be used when comparing this item
-         * with other items. When `falsy` the [label](#CompletionItem.label)
+         * with other items. When `falsy` the [label]{@link CompletionItem.label}
          * is used.
          */
         sortText?: string;
         /**
          * A string that should be used when filtering a set of
-         * completion items. When `falsy` the [label](#CompletionItem.label)
+         * completion items. When `falsy` the [label]{@link CompletionItem.label}
          * is used.
          */
         filterText?: string;
@@ -4807,11 +4807,11 @@ declare namespace monaco.languages {
         /**
          * A range of text that should be replaced by this completion item.
          *
-         * Defaults to a range from the start of the [current word](#ITextModel.getWordAtPosition) to the
+         * Defaults to a range from the start of the [current word]{@link ITextModel.getWordAtPosition} to the
          * current position.
          *
-         * *Note:* The range must be a [single line](#Range.isSingleLine) and it must
-         * [contain](#Range.contains) the position at which completion has been [requested](#CompletionItemProvider.provideCompletionItems).
+         * *Note:* The range must be a [single line]{@link Range.spansMultipleLines} and it must
+         * [contain]{@link Range.containsPosition} the position at which completion has been [requested]{@link CompletionItemProvider.provideCompletionItems}.
          */
         range?: IRange;
         /**
@@ -4849,7 +4849,7 @@ declare namespace monaco.languages {
 
     /**
      * Contains additional information about the context in which
-     * [completion provider](#CompletionItemProvider.provideCompletionItems) is triggered.
+     * [completion provider]{@link CompletionItemProvider.provideCompletionItems} is triggered.
      */
     export interface CompletionContext {
         /**
@@ -4870,10 +4870,10 @@ declare namespace monaco.languages {
      *
      * When computing *complete* completion items is expensive, providers can optionally implement
      * the `resolveCompletionItem`-function. In that case it is enough to return completion
-     * items with a [label](#CompletionItem.label) from the
-     * [provideCompletionItems](#CompletionItemProvider.provideCompletionItems)-function. Subsequently,
+     * items with a [label]{@link CompletionItem.label} from the
+     * [provideCompletionItems]{@link CompletionItemProvider.provideCompletionItems}-function. Subsequently,
      * when a completion item is shown in the UI and gains focus this provider is asked to resolve
-     * the item, like adding [doc-comment](#CompletionItem.documentation) or [details](#CompletionItem.detail).
+     * the item, like adding [doc-comment]{@link CompletionItem.documentation} or [details]{@link CompletionItem.detail}.
      */
     export interface CompletionItemProvider {
         triggerCharacters?: string[];
@@ -4882,8 +4882,8 @@ declare namespace monaco.languages {
          */
         provideCompletionItems(model: editor.ITextModel, position: Position, context: CompletionContext, token: CancellationToken): ProviderResult<CompletionList>;
         /**
-         * Given a completion item fill in more data, like [doc-comment](#CompletionItem.documentation)
-         * or [details](#CompletionItem.detail).
+         * Given a completion item fill in more data, like [doc-comment]{@link CompletionItem.documentation}
+         * or [details]{@link CompletionItem.detail}.
          *
          * The editor will only resolve a completion item once.
          */
@@ -5013,7 +5013,7 @@ declare namespace monaco.languages {
          */
         range: IRange;
         /**
-         * The highlight kind, default is [text](#DocumentHighlightKind.Text).
+         * The highlight kind, default is [text]{@link DocumentHighlightKind.Text}.
          */
         kind?: DocumentHighlightKind;
     }
@@ -5307,12 +5307,12 @@ declare namespace monaco.languages {
          */
         label: string;
         /**
-         * An [edit](#TextEdit) which is applied to a document when selecting
+         * An [edit]{@link TextEdit} which is applied to a document when selecting
          * this presentation for the color.
          */
         textEdit?: TextEdit;
         /**
-         * An optional array of additional [text edits](#TextEdit) that are applied when
+         * An optional array of additional [text edits]{@link TextEdit} that are applied when
          * selecting this color presentation.
          */
         additionalTextEdits?: TextEdit[];
@@ -5381,10 +5381,10 @@ declare namespace monaco.languages {
          */
         end: number;
         /**
-         * Describes the [Kind](#FoldingRangeKind) of the folding range such as [Comment](#FoldingRangeKind.Comment) or
-         * [Region](#FoldingRangeKind.Region). The kind is used to categorize folding ranges and used by commands
+         * Describes the [Kind]{@link FoldingRangeKind} of the folding range such as [Comment]{@link FoldingRangeKind.Comment} or
+         * [Region]{@link FoldingRangeKind.Region}. The kind is used to categorize folding ranges and used by commands
          * like 'Fold all comments'. See
-         * [FoldingRangeKind](#FoldingRangeKind) for an enumeration of standardized kinds.
+         * [FoldingRangeKind]{@link FoldingRangeKind} for an enumeration of standardized kinds.
          */
         kind?: FoldingRangeKind;
     }
@@ -5405,7 +5405,7 @@ declare namespace monaco.languages {
          */
         static readonly Region: FoldingRangeKind;
         /**
-         * Creates a new [FoldingRangeKind](#FoldingRangeKind).
+         * Creates a new [FoldingRangeKind]{@link FoldingRangeKind}.
          *
          * @param value of the kind.
          */
