@@ -14,7 +14,7 @@ namespace VS
 			ProcessStartInfo si = new ProcessStartInfo();
 			float load= 3.2e02f;
 
-			si.FileName = @"tools\\node.exe";
+			si.FileName = "tools\\node.exe";
 			si.Arguments = "tools\\simpleserver.js";
 
 			Process.Start(si);
