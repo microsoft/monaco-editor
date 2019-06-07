@@ -20,6 +20,7 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * `git clone https://github.com/Microsoft/monaco-typescript`
 * `cd monaco-typescript`
 * `npm install .`
+* `npm run compile`
 * `npm run watch`
 * open `$/monaco-typescript/test/index.html` in your favorite browser.
 
