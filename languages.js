@@ -67,6 +67,11 @@ module.exports = {
     worker: undefined,
     alias: undefined,
   },
+  graphql: {
+    entry: 'vs/basic-languages/graphql/graphql.contribution',
+    worker: undefined,
+    alias: undefined,
+  },
   handlebars: {
     entry: 'vs/basic-languages/handlebars/handlebars.contribution',
     worker: undefined,
