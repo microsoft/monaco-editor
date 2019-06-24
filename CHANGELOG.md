@@ -1,5 +1,8 @@
 # Monaco Editor Changelog
 
+## [0.17.1] (25.06.2019)
+* Update monaco-typescript to TypeScript 3.5.0.
+
 ## [0.17.0] (05.05.2019)
 
 ### New & Noteworthy
