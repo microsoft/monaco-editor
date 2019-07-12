@@ -10,6 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "http-server": "^0.11.1",
-    "monaco-editor": "0.14.3"
+    "monaco-editor": "0.17.1"
   }
 }
