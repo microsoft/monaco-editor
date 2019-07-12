@@ -18,12 +18,12 @@
     "url": "https://github.com/Microsoft/monaco-languages/issues"
   },
   "devDependencies": {
-    "jsdom": "^13.2.0",
-    "mocha": "^6.0.2",
-    "monaco-editor-core": "0.16.0",
+    "jsdom": "^15.1.1",
+    "mocha": "^6.1.4",
+    "monaco-editor-core": "0.17.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "typescript": "3.3.3333",
-    "uglify-js": "^3.4.9"
+    "typescript": "3.5.3",
+    "uglify-js": "^3.6.0"
   }
 }
