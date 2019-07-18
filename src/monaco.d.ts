@@ -8,8 +8,9 @@ declare module monaco.languages.typescript {
         UMD = 3,
         System = 4,
         ES2015 = 5,
-        ESNext = 6
+        ESNext = 99
     }
+
     enum JsxEmit {
         None = 0,
         Preserve = 1,
@@ -28,9 +29,11 @@ declare module monaco.languages.typescript {
         ES2016 = 3,
         ES2017 = 4,
         ES2018 = 5,
-        ESNext = 6,
+        ES2019 = 6,
+        ES2020 = 7,
+        ESNext = 99,
         JSON = 100,
-        Latest = 6
+        Latest = ESNext,
     }
 
     export enum ModuleResolutionKind {
