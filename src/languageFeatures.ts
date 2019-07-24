@@ -23,26 +23,29 @@ enum IndentStyle {
 	Smart = 2
 }
 
-function flattenDiagnosticMessageText(messageText: string | ts.DiagnosticMessageChain, newLine: '\n'): string {
-	if (typeof messageText === "string") {
-		return messageText;
-	} else {
-		let diagnosticChain = messageText;
-		let result = "";
-		let indent = 0;
-		while (diagnosticChain) {
-			if (indent) {
-				result += newLine;
-				for (let i = 0; i < indent; i++) {
-					result += "  ";
-				}
-			}
-			result += diagnosticChain.messageText;
-			indent++;
-			diagnosticChain = diagnosticChain.next;
-		}
-		return result;
+export function flattenDiagnosticMessageText(diag: string | ts.DiagnosticMessageChain | undefined, newLine: string, indent = 0): string {
+	if (typeof diag === "string") {
+			return diag;
 	}
+	else if (diag === undefined) {
+			return "";
+	}
+	let result = "";
+	if (indent) {
+			result += newLine;
+
+			for (let i = 0; i < indent; i++) {
+					result += "  ";
+			}
+	}
+	result += diag.messageText;
+	indent++;
+	if (diag.next) {
+			for (const kid of diag.next) {
+					result += flattenDiagnosticMessageText(kid, newLine, indent);
+			}
+	}
+	return result;
 }
 
 function displayPartsToString(displayParts: ts.SymbolDisplayPart[]): string {

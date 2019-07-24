@@ -1,6 +1,6 @@
 {
   "name": "monaco-typescript",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "TypeScript and JavaScript language support for Monaco Editor",
   "scripts": {
     "compile-amd": "mcopy ./src/lib/typescriptServices-amd.js ./release/dev/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
@@ -8,7 +8,8 @@
     "compile": "mrmdir ./release && npm run compile-amd && npm run compile-esm",
     "watch": "tsc -p ./src --watch",
     "prepublishOnly": "npm run compile && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
-    "import-typescript": "node ./scripts/importTypescript"
+    "import-typescript": "node ./scripts/importTypescript",
+    "run-nightly": "node ./scripts/runDaily",
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
