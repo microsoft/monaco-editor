@@ -9,7 +9,7 @@
     "watch": "tsc -p ./src --watch",
     "prepublishOnly": "npm run compile && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "import-typescript": "node ./scripts/importTypescript",
-    "run-nightly": "node ./scripts/runDaily",
+    "run-nightly": "node ./scripts/runDaily"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "monaco-editor-core": "^0.16.0",
     "monaco-languages": "^1.7.0",
     "monaco-plugin-helpers": "^1.0.2",
+    "node-fetch": "^2.6.0",
     "requirejs": "^2.3.6",
     "typescript": "^3.5.1",
     "uglify-js": "^3.4.9"
