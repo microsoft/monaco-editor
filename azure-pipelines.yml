@@ -16,6 +16,10 @@ steps:
 - bash: |
     npm install
     npm run run-nightly
-    npm publish
+  displayName: 'Update & Build'
+
+- bash: |
+    echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+    npm publish --tag next
 
   displayName: 'Publish to NPM'
