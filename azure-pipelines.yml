@@ -1,7 +1,7 @@
 # triggered by schedule at 5am to try make sure it's done after the TS daily build
 schedules:
 - cron: '0 5 * * *'
-  displayName: Daily midnight build
+  displayName: Daily 5am build
   branches:
     include:
     - master
@@ -13,11 +13,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: DownloadSecureFile@1
-  inputs:
-    secureFile: vscode_typescript_next_deploy_key
-  displayName: 'Get the deploy key'
-
 - bash: |
     npm run run-nightly
     npm publish
