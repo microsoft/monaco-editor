@@ -45,7 +45,8 @@ const diagnosticDefault: monaco.languages.json.DiagnosticsOptions = {
 	validate: true,
 	allowComments: true,
 	schemas: [],
-    enableSchemaRequest: false
+	enableSchemaRequest: false,
+	disableDefaultFormatter: false
 };
 
 const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault);
