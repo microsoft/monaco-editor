@@ -46,6 +46,7 @@ define(['require'], function () {
 			'release/dev/less/less.test',
 			'release/dev/lua/lua.test',
 			'release/dev/markdown/markdown.test',
+			'release/dev/mips/mips.test',
 			'release/dev/msdax/msdax.test',
 			'release/dev/mysql/mysql.test',
 			'release/dev/objective-c/objective-c.test',

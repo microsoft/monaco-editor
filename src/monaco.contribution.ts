@@ -22,6 +22,7 @@ import './kotlin/kotlin.contribution';
 import './less/less.contribution';
 import './lua/lua.contribution';
 import './markdown/markdown.contribution';
+import './mips/mips.contribution';
 import './msdax/msdax.contribution';
 import './mysql/mysql.contribution';
 import './objective-c/objective-c.contribution';
