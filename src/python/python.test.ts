@@ -92,6 +92,69 @@ testTokenization('python', [
 		]
 	}],
 
+	// https://github.com/Microsoft/monaco-editor/issues/1170
+	[{
+		line: 'def f():',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.python' },
+			{ startIndex: 3, type: 'white.python' },
+			{ startIndex: 4, type: 'identifier.python' },
+			{ startIndex: 5, type: 'delimiter.parenthesis.python' },
+			{ startIndex: 7, type: 'delimiter.python' },
+		]
+	}, {
+		line: '   """multi',
+		tokens: [
+			{ startIndex: 0, type: 'white.python' },
+			{ startIndex: 3, type: 'string.python' },
+		]
+	}, {
+		line: '   line',
+		tokens: [
+			{ startIndex: 0, type: 'string.python' },
+		]
+	}, {
+		line: '   comment',
+		tokens: [
+			{ startIndex: 0, type: 'string.python' },
+		]
+	}, {
+		line: '   """ + """',
+		tokens: [
+			{ startIndex: 0, type: 'string.python' },
+			{ startIndex: 6, type: 'white.python' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'white.python' },
+			{ startIndex: 9, type: 'string.python' },
+		]
+	}, {
+		line: '   another',
+		tokens: [
+			{ startIndex: 0, type: 'string.python' },
+		]
+	}, {
+		line: '   multi',
+		tokens: [
+			{ startIndex: 0, type: 'string.python' },
+		]
+	}, {
+		line: '   line',
+		tokens: [
+			{ startIndex: 0, type: 'string.python' },
+		]
+	}, {
+		line: '   comment"""',
+		tokens: [
+			{ startIndex: 0, type: 'string.python' },
+		]
+	}, {
+		line: '   code',
+		tokens: [
+			{ startIndex: 0, type: 'white.python' },
+			{ startIndex: 3, type: 'identifier.python' },
+		]
+	}],
+
 	// Numbers
 	[{
 		line: '0xAcBFd',

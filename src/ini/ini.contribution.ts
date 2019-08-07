@@ -6,13 +6,10 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'ini',
 	extensions: ['.ini', '.properties', '.gitconfig'],
 	filenames: ['config', '.gitattributes', '.gitconfig', '.editorconfig'],
 	aliases: ['Ini', 'ini'],
-	loader: () => _monaco.Promise.wrap(import('./ini'))
+	loader: () => import('./ini')
 });

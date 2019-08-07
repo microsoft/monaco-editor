@@ -225,8 +225,8 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/],
 
 			// comments
-			[/#/, 'comment.php', '@phpLineComment'],
-			[/\/\//, 'comment.php', '@phpLineComment'],
+			[/(#|\/\/)$/, 'comment.php'],
+			[/(#|\/\/)/, 'comment.php', '@phpLineComment'],
 
 			// block comments
 			[/\/\*/, 'comment.php', '@phpComment'],

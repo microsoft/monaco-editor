@@ -43,6 +43,7 @@ export const language = <ILanguage>{
 		'struct',
 		'function',
 		'modifier',
+		'constructor',
 		//Built-in types
 		'address',
 		'string',

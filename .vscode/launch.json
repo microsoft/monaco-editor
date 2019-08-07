@@ -8,8 +8,8 @@
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "stopOnEntry": false,
             "args": [
-                "--grep",
-                "php"
+                // "--grep",
+                // "typescript"
             ],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,

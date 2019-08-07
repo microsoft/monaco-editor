@@ -391,17 +391,19 @@ testTokenization('cpp', [
 	[{
 		line: '#include<iostream>',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.cpp' },
-			{ startIndex: 8, type: 'delimiter.angle.cpp' },
-			{ startIndex: 9, type: 'identifier.cpp' },
-			{ startIndex: 17, type: 'delimiter.angle.cpp' }
+			{ startIndex: 0, type: 'keyword.directive.include.cpp' },
+			{ startIndex: 8, type: 'keyword.directive.include.begin.cpp' },
+			{ startIndex: 9, type: 'string.include.identifier.cpp' },
+			{ startIndex: 17, type: 'keyword.directive.include.end.cpp' }
 		]
 	}, {
 		line: '#include "/path/to/my/file.h"',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.cpp' },
+			{ startIndex: 0, type: 'keyword.directive.include.cpp' },
 			{ startIndex: 8, type: '' },
-			{ startIndex: 9, type: 'string.cpp' }
+			{ startIndex: 9, type: 'keyword.directive.include.begin.cpp' },
+			{ startIndex: 10, type: 'string.include.identifier.cpp' },
+			{ startIndex: 28, type: 'keyword.directive.include.end.cpp' }
 		]
 	}, {
 		line: '',

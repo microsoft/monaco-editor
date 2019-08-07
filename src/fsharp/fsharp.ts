@@ -132,9 +132,11 @@ export const language = <ILanguage>{
 		],
 
 		comment: [
-			[/[^\*]+/, 'comment'],
+			[/[^*(]+/, 'comment'],
 			[/\*\)/, 'comment', '@pop'],
-			[/\*/, 'comment']
+			[/\*/, 'comment'],
+			[/\(\*\)/, 'comment'],
+			[/\(/, 'comment']
 		],
 
 		string: [

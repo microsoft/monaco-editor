@@ -8,23 +8,6 @@
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
-const TOKEN_HEADER_LEAD = 'keyword';
-const TOKEN_HEADER = 'keyword';
-const TOKEN_EXT_HEADER = 'keyword';
-const TOKEN_SEPARATOR = 'meta.separator';
-const TOKEN_QUOTE = 'comment';
-const TOKEN_LIST = 'keyword';
-const TOKEN_BLOCK = 'string';
-const TOKEN_BLOCK_CODE = 'variable.source';
-
-const DELIM_ASSIGN = 'delimiter.html';
-const ATTRIB_NAME = 'attribute.name.html';
-const ATTRIB_VALUE = 'string.html';
-
-function getTag(name: string) {
-	return 'tag';
-}
-
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		blockComment: ['<!--', '-->',]
@@ -75,46 +58,46 @@ export const language = <ILanguage>{
 		root: [
 
 			// headers (with #)
-			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', TOKEN_HEADER_LEAD, TOKEN_HEADER, TOKEN_HEADER]],
+			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', 'keyword', 'keyword', 'keyword']],
 
 			// headers (with =)
-			[/^\s*(=+|\-+)\s*$/, TOKEN_EXT_HEADER],
+			[/^\s*(=+|\-+)\s*$/, 'keyword'],
 
 			// headers (with ***)
-			[/^\s*((\*[ ]?)+)\s*$/, TOKEN_SEPARATOR],
+			[/^\s*((\*[ ]?)+)\s*$/, 'meta.separator'],
 
 			// quote
-			[/^\s*>+/, TOKEN_QUOTE],
+			[/^\s*>+/, 'comment'],
 
 			// list (starting with * or number)
-			[/^\s*([\*\-+:]|\d+\.)\s/, TOKEN_LIST],
+			[/^\s*([\*\-+:]|\d+\.)\s/, 'keyword'],
 
 			// code block (4 spaces indent)
-			[/^(\t|[ ]{4})[^ ].*$/, TOKEN_BLOCK],
+			[/^(\t|[ ]{4})[^ ].*$/, 'string'],
 
 			// code block (3 tilde)
-			[/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: TOKEN_BLOCK, next: '@codeblock' }],
+			[/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: 'string', next: '@codeblock' }],
 
 			// github style code blocks (with backticks and language)
-			[/^\s*```\s*((?:\w|[\/\-#])+)\s*$/, { token: TOKEN_BLOCK, next: '@codeblockgh', nextEmbedded: '$1' }],
+			[/^\s*```\s*((?:\w|[\/\-#])+).*$/, { token: 'string', next: '@codeblockgh', nextEmbedded: '$1' }],
 
 			// github style code blocks (with backticks but no language)
-			[/^\s*```\s*$/, { token: TOKEN_BLOCK, next: '@codeblock' }],
+			[/^\s*```\s*$/, { token: 'string', next: '@codeblock' }],
 
 			// markup within lines
 			{ include: '@linecontent' },
 		],
 
 		codeblock: [
-			[/^\s*~~~\s*$/, { token: TOKEN_BLOCK, next: '@pop' }],
-			[/^\s*```\s*$/, { token: TOKEN_BLOCK, next: '@pop' }],
-			[/.*$/, TOKEN_BLOCK_CODE],
+			[/^\s*~~~\s*$/, { token: 'string', next: '@pop' }],
+			[/^\s*```\s*$/, { token: 'string', next: '@pop' }],
+			[/.*$/, 'variable.source'],
 		],
 
 		// github style code blocks
 		codeblockgh: [
-			[/```\s*$/, { token: TOKEN_BLOCK_CODE, next: '@pop', nextEmbedded: '@pop' }],
-			[/[^`]+/, TOKEN_BLOCK_CODE],
+			[/```\s*$/, { token: 'variable.source', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^`]+/, 'variable.source'],
 		],
 
 		linecontent: [
@@ -131,7 +114,7 @@ export const language = <ILanguage>{
 			[/`([^\\`]|@escapes)+`/, 'variable'],
 
 			// links
-			[/\{[^}]+\}/, 'string.target'],
+			[/\{+[^}]+\}+/, 'string.target'],
 			[/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/, ['string.link', '', 'string.link']],
 			[/(!?\[)((?:[^\]\\]|@escapes)*)(\])/, 'string.link'],
 
@@ -146,14 +129,14 @@ export const language = <ILanguage>{
 		// we cannot correctly tokenize it in that mode yet.
 		html: [
 			// html tags
-			[/<(\w+)\/>/, getTag('$1')],
+			[/<(\w+)\/>/, 'tag'],
 			[/<(\w+)/, {
 				cases: {
-					'@empty': { token: getTag('$1'), next: '@tag.$1' },
-					'@default': { token: getTag('$1'), next: '@tag.$1' }
+					'@empty': { token: 'tag', next: '@tag.$1' },
+					'@default': { token: 'tag', next: '@tag.$1' }
 				}
 			}],
-			[/<\/(\w+)\s*>/, { token: getTag('$1') }],
+			[/<\/(\w+)\s*>/, { token: 'tag' }],
 
 			[/<!--/, 'comment', '@comment']
 		],
@@ -168,25 +151,25 @@ export const language = <ILanguage>{
 		// Almost full HTML tag matching, complete with embedded scripts & styles
 		tag: [
 			[/[ \t\r\n]+/, 'white'],
-			[/(type)(\s*=\s*)(")([^"]+)(")/, [ATTRIB_NAME, DELIM_ASSIGN, ATTRIB_VALUE,
-				{ token: ATTRIB_VALUE, switchTo: '@tag.$S2.$4' },
-				ATTRIB_VALUE]],
-			[/(type)(\s*=\s*)(')([^']+)(')/, [ATTRIB_NAME, DELIM_ASSIGN, ATTRIB_VALUE,
-				{ token: ATTRIB_VALUE, switchTo: '@tag.$S2.$4' },
-				ATTRIB_VALUE]],
-			[/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, [ATTRIB_NAME, DELIM_ASSIGN, ATTRIB_VALUE]],
-			[/\w+/, ATTRIB_NAME],
-			[/\/>/, getTag('$S2'), '@pop'],
+			[/(type)(\s*=\s*)(")([^"]+)(")/, ['attribute.name.html', 'delimiter.html', 'string.html',
+				{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+				'string.html']],
+			[/(type)(\s*=\s*)(')([^']+)(')/, ['attribute.name.html', 'delimiter.html', 'string.html',
+				{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+				'string.html']],
+			[/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name.html', 'delimiter.html', 'string.html']],
+			[/\w+/, 'attribute.name.html'],
+			[/\/>/, 'tag', '@pop'],
 			[/>/, {
 				cases: {
-					'$S2==style': { token: getTag('$S2'), switchTo: 'embeddedStyle', nextEmbedded: 'text/css' },
+					'$S2==style': { token: 'tag', switchTo: 'embeddedStyle', nextEmbedded: 'text/css' },
 					'$S2==script': {
 						cases: {
-							'$S3': { token: getTag('$S2'), switchTo: 'embeddedScript', nextEmbedded: '$S3' },
-							'@default': { token: getTag('$S2'), switchTo: 'embeddedScript', nextEmbedded: 'text/javascript' }
+							'$S3': { token: 'tag', switchTo: 'embeddedScript', nextEmbedded: '$S3' },
+							'@default': { token: 'tag', switchTo: 'embeddedScript', nextEmbedded: 'text/javascript' }
 						}
 					},
-					'@default': { token: getTag('$S2'), next: '@pop' }
+					'@default': { token: 'tag', next: '@pop' }
 				}
 			}],
 		],

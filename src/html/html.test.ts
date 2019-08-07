@@ -7,7 +7,7 @@
 
 import { testTokenization } from '../test/testRunner';
 
-testTokenization(['html', 'css'], [
+testTokenization(['html', 'css', 'javascript'], [
 
 	// Open Start Tag #1'
 	[{
@@ -147,7 +147,13 @@ testTokenization(['html', 'css'], [
 			{ startIndex: 12, type: 'delimiter.html' },
 			{ startIndex: 13, type: 'attribute.value.html' },
 			{ startIndex: 30, type: 'delimiter.html' },
-			{ startIndex: 31, type: '' },
+			{ startIndex: 31, type: 'keyword.js' },
+			{ startIndex: 34, type: '' },
+			{ startIndex: 35, type: 'identifier.js' },
+			{ startIndex: 36, type: 'delimiter.js' },
+			{ startIndex: 37, type: '' },
+			{ startIndex: 38, type: 'number.js' },
+			{ startIndex: 40, type: 'delimiter.js' },
 			{ startIndex: 41, type: 'delimiter.html' },
 			{ startIndex: 43, type: 'tag.html' },
 			{ startIndex: 49, type: 'delimiter.html' }
@@ -169,7 +175,13 @@ testTokenization(['html', 'css'], [
 	}, {
 		line: 'var i= 10;',
 		tokens: [
-			{ startIndex: 0, type: '' },
+			{ startIndex: 0, type: 'keyword.js' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.js' },
+			{ startIndex: 5, type: 'delimiter.js' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'number.js' },
+			{ startIndex: 9, type: 'delimiter.js' },
 		]
 	}, {
 		line: '</script>',
@@ -191,7 +203,14 @@ testTokenization(['html', 'css'], [
 			{ startIndex: 12, type: 'delimiter.html' },
 			{ startIndex: 13, type: 'attribute.value.html' },
 			{ startIndex: 30, type: 'delimiter.html' },
-			{ startIndex: 31, type: '' },
+			{ startIndex: 31, type: 'keyword.js' },
+			{ startIndex: 34, type: '' },
+			{ startIndex: 35, type: 'identifier.js' },
+			{ startIndex: 36, type: 'delimiter.js' },
+			{ startIndex: 37, type: '' },
+			{ startIndex: 38, type: 'number.js' },
+			{ startIndex: 40, type: 'delimiter.js' },
+
 		]
 	}, {
 		line: '</script>',
@@ -217,7 +236,13 @@ testTokenization(['html', 'css'], [
 	}, {
 		line: 'var i= 10;</script>',
 		tokens: [
-			{ startIndex: 0, type: '' },
+			{ startIndex: 0, type: 'keyword.js' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.js' },
+			{ startIndex: 5, type: 'delimiter.js' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'number.js' },
+			{ startIndex: 9, type: 'delimiter.js' },
 			{ startIndex: 10, type: 'delimiter.html' },
 			{ startIndex: 12, type: 'tag.html' },
 			{ startIndex: 18, type: 'delimiter.html' }
@@ -254,14 +279,14 @@ testTokenization(['html', 'css'], [
 			{ startIndex: 0, type: 'delimiter.html' },
 			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: 'delimiter.html' },
-			{ startIndex: 8, type: '' },
+			{ startIndex: 8, type: 'identifier.js' },
 			{ startIndex: 9, type: 'delimiter.html' },
 			{ startIndex: 11, type: 'tag.html' },
 			{ startIndex: 17, type: 'delimiter.html' },
 			// { startIndex:18, type: 'delimiter.html' },
 			{ startIndex: 19, type: 'tag.html' },
 			{ startIndex: 25, type: 'delimiter.html' },
-			{ startIndex: 26, type: '' },
+			{ startIndex: 26, type: 'identifier.js' },
 			{ startIndex: 27, type: 'delimiter.html' },
 			{ startIndex: 29, type: 'tag.html' },
 			{ startIndex: 35, type: 'delimiter.html' }
@@ -292,7 +317,13 @@ testTokenization(['html', 'css'], [
 			{ startIndex: 0, type: 'delimiter.html' },
 			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: 'delimiter.html' },
-			{ startIndex: 8, type: '' },
+			{ startIndex: 8, type: 'keyword.js' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'identifier.js' },
+			{ startIndex: 13, type: 'delimiter.js' },
+			{ startIndex: 14, type: '' },
+			{ startIndex: 15, type: 'number.js' },
+			{ startIndex: 17, type: 'delimiter.js' },
 			{ startIndex: 18, type: 'delimiter.html' },
 			{ startIndex: 20, type: 'tag.html' },
 			{ startIndex: 26, type: 'delimiter.html' }

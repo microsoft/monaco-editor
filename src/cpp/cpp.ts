@@ -268,6 +268,8 @@ export const language = <ILanguage>{
 			// [[ attributes ]].
 			[/\[\[.*\]\]/, 'annotation'],
 
+			[/^\s*#include/, { token: 'keyword.directive.include', next: '@include' }],
+
 			// Preprocessor directive
 			[/^\s*#\s*\w+/, 'keyword'],
 
@@ -338,6 +340,11 @@ export const language = <ILanguage>{
 				}
 			],
 			[/.*/, 'string.raw']
+		],
+
+		include: [
+			[/(\s*)(<)([^<>]*)(>)/, ['', 'keyword.directive.include.begin', 'string.include.identifier', { token: 'keyword.directive.include.end', next: '@pop'}]],
+			[/(\s*)(")([^"]*)(")/, ['', 'keyword.directive.include.begin', 'string.include.identifier', { token: 'keyword.directive.include.end', next: '@pop'}]]
 		]
 	},
 };

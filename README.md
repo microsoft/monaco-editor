@@ -1,22 +1,35 @@
-# Monaco Languages [![Build Status](https://travis-ci.org/Microsoft/monaco-languages.svg?branch=master)](https://travis-ci.org/Microsoft/monaco-languages)
+# Monaco Languages [![Build Status](https://dev.azure.com/ms/monaco-languages/_apis/build/status/microsoft.monaco-languages?branchName=master)](https://dev.azure.com/ms/monaco-languages/_build/latest?definitionId=140&branchName=master)
 
 Colorization and configuration supports for multiple languages for the Monaco Editor:
 
 ![monaco-languages](https://cloud.githubusercontent.com/assets/5047891/15938606/1fd4bac6-2e74-11e6-8839-d455da8bc8a7.gif)
 
+* apex
+* azcli
 * bat
+* clojure
 * coffee script
 * cpp
 * csharp
+* csp
+* dockerfile
 * fsharp
 * go
+* graphql
 * handlebars
 * html
 * ini
+* java
+* javascript
 * lua
+* markdown
+* msdax
+* mysql
 * objective-c
-* postiats
+* pascal
+* pgsql
 * php
+* postiats
 * powershell
 * pug
 * python
@@ -24,11 +37,16 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * razor
 * ruby
 * rust
+* small basic
+* scheme
+* solidity
 * sql
+* st
 * swift
+* typescript
 * vb
 * xml
-* small basic
+* yaml
 
 Also `css` dialects:
 
@@ -49,7 +67,7 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * initial setup with `npm install .`
 * compile with `npm run watch`
 * test with `npm run test`
-* bundle with `npm run prepublish`
+* bundle with `npm run prepublishOnly`
 
 ## Dev: Adding a new language
 

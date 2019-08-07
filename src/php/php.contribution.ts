@@ -6,13 +6,10 @@
 
 import { registerLanguage } from '../_.contribution';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
-
 registerLanguage({
 	id: 'php',
 	extensions: ['.php', '.php4', '.php5', '.phtml', '.ctp'],
 	aliases: ['PHP', 'php'],
 	mimetypes: ['application/x-php'],
-	loader: () => _monaco.Promise.wrap(import('./php'))
+	loader: () => import('./php')
 });
