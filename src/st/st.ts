@@ -195,10 +195,10 @@ export const language = <ILanguage>{
 			[/\b(T|DT|TOD)#[0-9:-_shmyd]+\b/, 'tag'],
 			[/\%(I|Q|M)(X|B|W|D|L)[0-9\.]+/, 'tag'],
 			[/\%(I|Q|M)[0-9\.]*/, 'tag'],
-			[/[A-Za-z]{1,6}#[0-9]*/, 'tag'],
+			[/\b[A-Za-z]{1,6}#[0-9]+/, 'tag'],
 
-			[/(TO_|CTU_|CTD_|CTUD_|MUX_|SEL_)[A_Za-z]*/, 'predefined'],
-			[/[A_Za-z]*(_TO_)[A_Za-z]*/, 'predefined'],
+			[/\b(TO_|CTU_|CTD_|CTUD_|MUX_|SEL_)[A_Za-z]+\b/, 'predefined'],
+			[/\b[A_Za-z]+(_TO_)[A_Za-z]+\b/, 'predefined'],
 
 			[/[;]/, 'delimiter'],
 			[/[.]/, { token: 'delimiter', next: '@params' }],
