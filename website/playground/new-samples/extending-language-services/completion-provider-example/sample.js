@@ -28,7 +28,7 @@ monaco.languages.registerCompletionItemProvider('json', {
     provideCompletionItems: function(model, position) {
         // find out if we are completing a property in the 'dependencies' object.
         var textUntilPosition = model.getValueInRange({startLineNumber: 1, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column});
-        var match = textUntilPosition.match(/"dependencies"\s*:\s*{\s*("[^"]*"\s*:\s*"[^"]*"\s*,\s*)*("[^"]*)?$/);
+        var match = textUntilPosition.match(/"dependencies"\s*:\s*\{\s*("[^"]*"\s*:\s*"[^"]*"\s*,\s*)*([^"]*)?$/);
         var suggestions = match ? createDependencyProposals() : [];
         return {
             suggestions: suggestions
