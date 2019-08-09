@@ -8,12 +8,6 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('aes', [
-
-	// contract HackBG =
-	// 	record state = { developers : map(address, developer) }
-	// 	record developer = { name : string, experience : int, skillset : list(string) }
-	// 	entrypoint init() = { developers = {} }
-
 	[{
 		line: 'contract HackBG =',
 		tokens: [
