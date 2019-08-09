@@ -68,6 +68,7 @@ define(['require'], function () {
 			'release/dev/scheme/scheme.test',
 			'release/dev/scss/scss.test',
 			'release/dev/shell/shell.test',
+			'release/dev/sophia/sophia.test',
 			'release/dev/solidity/solidity.test',
 			'release/dev/sql/sql.test',
 			'release/dev/st/st.test',

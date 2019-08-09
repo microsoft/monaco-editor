@@ -58,6 +58,7 @@ bundleOne('typescript/typescript');
 bundleOne('vb/vb');
 bundleOne('xml/xml');
 bundleOne('yaml/yaml');
+bundleOne('sophia/sophia');
 bundleOne('solidity/solidity');
 bundleOne('sb/sb');
 bundleOne('mysql/mysql');
