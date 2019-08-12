@@ -42,6 +42,7 @@ import './ruby/ruby.contribution';
 import './rust/rust.contribution';
 import './sb/sb.contribution';
 import './scss/scss.contribution';
+import './sophia/sophia.contribution';
 import './solidity/solidity.contribution';
 import './sql/sql.contribution';
 import './st/st.contribution';
