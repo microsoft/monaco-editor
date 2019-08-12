@@ -396,6 +396,96 @@ testTokenization('javascript', [
 		]
 	}],
 
+	// Bigint
+	[{
+		line: '0n',
+		tokens: [
+			{ startIndex: 0, type: 'number.js' }
+		]
+	}],
+
+	[{
+		line: ' 0n',
+		tokens: [
+			{ startIndex: 0, type: '' },
+			{ startIndex: 1, type: 'number.js' }
+		]
+	}],
+
+	[{
+		line: ' 0n ',
+		tokens: [
+			{ startIndex: 0, type: '' },
+			{ startIndex: 1, type: 'number.js' },
+			{ startIndex: 3, type: '' }
+		]
+	}],
+
+	[{
+		line: '0n ',
+		tokens: [
+			{ startIndex: 0, type: 'number.js' },
+			{ startIndex: 2, type: '' }
+		]
+	}],
+
+	[{
+		line: '0n+0n',
+		tokens: [
+			{ startIndex: 0, type: 'number.js' },
+			{ startIndex: 2, type: 'delimiter.js' },
+			{ startIndex: 3, type: 'number.js' }
+		]
+	}],
+
+	[{
+		line: '100n+10n',
+		tokens: [
+			{ startIndex: 0, type: 'number.js' },
+			{ startIndex: 4, type: 'delimiter.js' },
+			{ startIndex: 5, type: 'number.js' }
+		]
+	}],
+
+	[{
+		line: '0n + 0n',
+		tokens: [
+			{ startIndex: 0, type: 'number.js' },
+			{ startIndex: 2, type: '' },
+			{ startIndex: 3, type: 'delimiter.js' },
+			{ startIndex: 4, type: '' },
+			{ startIndex: 5, type: 'number.js' }
+		]
+	}],
+
+	[{
+		line: '0b101n',
+		tokens: [
+			{ startIndex: 0, type: 'number.binary.js' }
+		]
+	}],
+
+	[{
+		line: '0123n',
+		tokens: [
+			{ startIndex: 0, type: 'number.octal.js' }
+		]
+	}],
+
+	[{
+		line: '0o123n',
+		tokens: [
+			{ startIndex: 0, type: 'number.octal.js' }
+		]
+	}],
+
+	[{
+		line: '0x123n',
+		tokens: [
+			{ startIndex: 0, type: 'number.hex.js' }
+		]
+	}],
+
 	// Regular Expressions
 	[{
 		line: '//',

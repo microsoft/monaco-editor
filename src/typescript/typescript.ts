@@ -146,10 +146,10 @@ export const language = {
 			// numbers
 			[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
 			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
-			[/0[xX](@hexdigits)/, 'number.hex'],
-			[/0[oO]?(@octaldigits)/, 'number.octal'],
-			[/0[bB](@binarydigits)/, 'number.binary'],
-			[/(@digits)/, 'number'],
+			[/0[xX](@hexdigits)n?/, 'number.hex'],
+			[/0[oO]?(@octaldigits)n?/, 'number.octal'],
+			[/0[bB](@binarydigits)n?/, 'number.binary'],
+			[/(@digits)n?/, 'number'],
 
 			// delimiter: after number because of .\d floats
 			[/[;,.]/, 'delimiter'],
