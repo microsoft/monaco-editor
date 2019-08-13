@@ -21,9 +21,10 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	const npmLsOutput = JSON.parse(child_process.execSync("npm ls typescript --depth=0 --json=true").toString());
 	const typeScriptDependencyVersion = npmLsOutput.dependencies.typescript.version;
 
-	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
-	`export const typeScriptVersion = "${typeScriptDependencyVersion}";
-`);
+	fs.writeFileSync(
+		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
+		`export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
+	);
 
 	var tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js')).toString();
 

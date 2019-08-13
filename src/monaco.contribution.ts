@@ -5,7 +5,7 @@
 'use strict';
 
 import * as mode from './tsMode';
-import { typeScriptVersion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
+import { typescriptVersion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
@@ -205,7 +205,7 @@ function createAPI(): typeof monaco.languages.typescript {
 		NewLineKind: NewLineKind,
 		ScriptTarget: ScriptTarget,
 		ModuleResolutionKind: ModuleResolutionKind,
-		typeScriptVersion,
+		typescriptVersion,
 		typescriptDefaults: typescriptDefaults,
 		javascriptDefaults: javascriptDefaults,
 		getTypeScriptWorker: getTypeScriptWorker,
