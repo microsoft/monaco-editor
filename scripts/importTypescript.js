@@ -5,6 +5,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const child_process = require('child_process');
 
 const TYPESCRIPT_LIB_SOURCE = path.join(__dirname, '../node_modules/typescript/lib');
 const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
@@ -16,6 +17,14 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 		fs.mkdirSync(TYPESCRIPT_LIB_DESTINATION);
 	}
 	importLibs();
+
+	const npmLsOutput = JSON.parse(child_process.execSync("npm ls typescript --depth=0 --json=true").toString());
+	const typeScriptDependencyVersion = npmLsOutput.dependencies.typescript.version;
+
+	fs.writeFileSync(
+		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
+		`export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
+	);
 
 	var tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js')).toString();
 
