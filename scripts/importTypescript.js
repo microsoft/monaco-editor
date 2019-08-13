@@ -52,15 +52,15 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 	var tsServices_esm = tsServices +
 		`
 // MONACOCHANGE
-export const createClassifier = ts.createClassifier;
-export const createLanguageService = ts.createLanguageService;
-export const displayPartsToString = ts.displayPartsToString;
-export const EndOfLineState = ts.EndOfLineState;
-export const flattenDiagnosticMessageText = ts.flattenDiagnosticMessageText;
-export const IndentStyle = ts.IndentStyle;
-export const ScriptKind = ts.ScriptKind;
-export const ScriptTarget = ts.ScriptTarget;
-export const TokenClass = ts.TokenClass;
+export var createClassifier = ts.createClassifier;
+export var createLanguageService = ts.createLanguageService;
+export var displayPartsToString = ts.displayPartsToString;
+export var EndOfLineState = ts.EndOfLineState;
+export var flattenDiagnosticMessageText = ts.flattenDiagnosticMessageText;
+export var IndentStyle = ts.IndentStyle;
+export var ScriptKind = ts.ScriptKind;
+export var ScriptTarget = ts.ScriptTarget;
+export var TokenClass = ts.TokenClass;
 // END MONACOCHANGE
 `;
 	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'), tsServices_esm);
