@@ -166,6 +166,8 @@ declare module monaco.languages.typescript {
         setEagerModelSync(value: boolean): void;
     }
 
+    export var typescriptVersion: string;
+
     export var typescriptDefaults: LanguageServiceDefaults;
     export var javascriptDefaults: LanguageServiceDefaults;
 
