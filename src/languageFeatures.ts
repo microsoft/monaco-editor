@@ -25,25 +25,25 @@ enum IndentStyle {
 
 export function flattenDiagnosticMessageText(diag: string | ts.DiagnosticMessageChain | undefined, newLine: string, indent = 0): string {
 	if (typeof diag === "string") {
-			return diag;
+		return diag;
 	}
 	else if (diag === undefined) {
-			return "";
+		return "";
 	}
 	let result = "";
 	if (indent) {
-			result += newLine;
+		result += newLine;
 
-			for (let i = 0; i < indent; i++) {
-					result += "  ";
-			}
+		for (let i = 0; i < indent; i++) {
+			result += "  ";
+		}
 	}
 	result += diag.messageText;
 	indent++;
 	if (diag.next) {
-			for (const kid of diag.next) {
-					result += flattenDiagnosticMessageText(kid, newLine, indent);
-			}
+		for (const kid of diag.next) {
+			result += flattenDiagnosticMessageText(kid, newLine, indent);
+		}
 	}
 	return result;
 }

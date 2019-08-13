@@ -144,15 +144,14 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 //#region enums copied from typescript to prevent loading the entire typescriptServices ---
 
-
 enum ModuleKind {
-		None = 0,
-		CommonJS = 1,
-		AMD = 2,
-		UMD = 3,
-		System = 4,
-		ES2015 = 5,
-		ESNext = 99
+	None = 0,
+	CommonJS = 1,
+	AMD = 2,
+	UMD = 3,
+	System = 4,
+	ES2015 = 5,
+	ESNext = 99
 }
 
 enum JsxEmit {
@@ -168,17 +167,17 @@ enum NewLineKind {
 }
 
 enum ScriptTarget {
-		ES3 = 0,
-		ES5 = 1,
-		ES2015 = 2,
-		ES2016 = 3,
-		ES2017 = 4,
-		ES2018 = 5,
-		ES2019 = 6,
-		ES2020 = 7,
-		ESNext = 99,
-		JSON = 100,
-		Latest = ESNext,
+	ES3 = 0,
+	ES5 = 1,
+	ES2015 = 2,
+	ES2016 = 3,
+	ES2017 = 4,
+	ES2018 = 5,
+	ES2019 = 6,
+	ES2020 = 7,
+	ESNext = 99,
+	JSON = 100,
+	Latest = ESNext,
 }
 
 enum ModuleResolutionKind {
