@@ -631,3 +631,48 @@ export class FormatOnTypeAdapter extends FormatHelper implements monaco.language
 		});
 	}
 }
+
+// --- rename ----
+
+export class RenameAdapter extends Adapter implements monaco.languages.RenameProvider {
+
+	async provideRenameEdits(model: monaco.editor.ITextModel, position: Position, newName: string, token: CancellationToken): Promise<monaco.languages.WorkspaceEdit & monaco.languages.Rejection> {
+		const resource = model.uri;
+		const fileName = resource.toString();
+		const offset = this._positionToOffset(resource, position);
+		const worker = await this._worker(resource);
+
+		const renameInfo = await worker.getRenameInfo(fileName, offset, { allowRenameOfImportPath: false });
+		if (renameInfo.canRename === false) { // use explicit comparison so that the discriminated union gets resolved properly
+			return {
+				edits: [],
+				rejectReason: renameInfo.localizedErrorMessage
+			};
+		}
+		if (renameInfo.fileToRename !== undefined) {
+			throw new Error("Renaming files is not supported.");
+		}
+
+		const renameLocations = await worker.findRenameLocations(fileName, offset, /*strings*/ false, /*comments*/ false, /*prefixAndSuffix*/ false);
+		const fileNameToResourceTextEditMap: { [fileName: string]: monaco.languages.ResourceTextEdit } = {};
+
+		const edits: monaco.languages.ResourceTextEdit[] = [];
+		for (const renameLocation of renameLocations) {
+			if (!(renameLocation.fileName in fileNameToResourceTextEditMap)) {
+				const resourceTextEdit = {
+					edits: [],
+					resource: monaco.Uri.parse(renameLocation.fileName)
+				};
+				fileNameToResourceTextEditMap[renameLocation.fileName] = resourceTextEdit;
+				edits.push(resourceTextEdit);
+			}
+
+			fileNameToResourceTextEditMap[renameLocation.fileName].edits.push({
+				range: this._textSpanToRange(resource, renameLocation.textSpan),
+				text: newName
+			});
+		}
+
+		return { edits };
+	}
+}
