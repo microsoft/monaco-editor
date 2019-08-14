@@ -1,0 +1,24 @@
+{
+	"name": "monaco",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"private": true,
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "webpack --progress"
+	},
+	"keywords": [],
+	"author": "",
+	"devDependencies": {
+		"css-loader": "^3.2.0",
+		"file-loader": "^4.2.0",
+		"monaco-editor-webpack-plugin": "^1.7.0",
+		"style-loader": "^1.0.0",
+		"webpack": "^4.39.2",
+		"webpack-cli": "^3.3.6"
+	},
+	"dependencies": {
+		"monaco-editor": "^0.16.2"
+	}
+}
