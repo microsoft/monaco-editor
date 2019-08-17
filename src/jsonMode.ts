@@ -24,12 +24,12 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
-	let languageId = defaults.languageId;
+	const {disableDefaultFormatter, languageId} = defaults;
 
 	disposables.push(monaco.languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker)));
 	disposables.push(monaco.languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker)));
 	disposables.push(monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker)));
-	if (!defaults.diagnosticsOptions.disableDefaultFormatter) {
+	if (!disableDefaultFormatter) {
 		disposables.push(monaco.languages.registerDocumentFormattingEditProvider(languageId, new languageFeatures.DocumentFormattingEditProvider(worker)));
 		disposables.push(monaco.languages.registerDocumentRangeFormattingEditProvider(languageId, new languageFeatures.DocumentRangeFormattingEditProvider(worker)));
 	}

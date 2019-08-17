@@ -31,10 +31,6 @@ declare module monaco.languages.json {
             readonly schema?: any;
         }[];
         /**
-         * Disable the default JSON formatter.
-         */
-        readonly disableDefaultFormatter?: boolean;
-        /**
          *  If set, the schema service would load schema content on-demand with 'fetch' if available
          */
         readonly enableSchemaRequest? : boolean;
@@ -44,6 +40,11 @@ declare module monaco.languages.json {
         readonly onDidChange: IEvent<LanguageServiceDefaults>;
         readonly diagnosticsOptions: DiagnosticsOptions;
         setDiagnosticsOptions(options: DiagnosticsOptions): void;
+        /**
+         * Disable the default JSON formatter.
+         */
+        readonly disableDefaultFormatter?: boolean;
+        setDisableDefaultFormatter(disable: boolean): void;
     }
 
     export var jsonDefaults: LanguageServiceDefaults;

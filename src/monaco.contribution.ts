@@ -16,11 +16,13 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 
 	private _onDidChange = new Emitter<monaco.languages.json.LanguageServiceDefaults>();
 	private _diagnosticsOptions: monaco.languages.json.DiagnosticsOptions;
+	private _disableDefaultFormatter: boolean;
 	private _languageId: string;
 
-	constructor(languageId: string, diagnosticsOptions: monaco.languages.json.DiagnosticsOptions) {
+	constructor(languageId: string, diagnosticsOptions: monaco.languages.json.DiagnosticsOptions, disableDefaultFormatter: boolean) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
+		this.setDisableDefaultFormatter(disableDefaultFormatter)
 	}
 
 	get onDidChange(): IEvent<monaco.languages.json.LanguageServiceDefaults> {
@@ -31,6 +33,10 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 		return this._languageId;
 	}
 
+	get disableDefaultFormatter(): boolean {
+		return this._disableDefaultFormatter;
+	}
+
 	get diagnosticsOptions(): monaco.languages.json.DiagnosticsOptions {
 		return this._diagnosticsOptions;
 	}
@@ -39,17 +45,20 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 		this._diagnosticsOptions = options || Object.create(null);
 		this._onDidChange.fire(this);
 	}
+	setDisableDefaultFormatter(disable: boolean): void {
+		this._disableDefaultFormatter = disable;
+		this._onDidChange.fire(this);
+	};
 }
 
 const diagnosticDefault: monaco.languages.json.DiagnosticsOptions = {
 	validate: true,
 	allowComments: true,
 	schemas: [],
-	enableSchemaRequest: false,
-	disableDefaultFormatter: false
+	enableSchemaRequest: false
 };
 
-const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault);
+const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, false);
 
 
 // Export API
