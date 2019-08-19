@@ -16,13 +16,13 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 
 	private _onDidChange = new Emitter<monaco.languages.json.LanguageServiceDefaults>();
 	private _diagnosticsOptions: monaco.languages.json.DiagnosticsOptions;
-	private _disableDefaultFormatter: boolean;
+	private _capabilities: monaco.languages.json.Capabilities;
 	private _languageId: string;
 
-	constructor(languageId: string, diagnosticsOptions: monaco.languages.json.DiagnosticsOptions, disableDefaultFormatter: boolean) {
+	constructor(languageId: string, diagnosticsOptions: monaco.languages.json.DiagnosticsOptions, capabilities: monaco.languages.json.Capabilities) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
-		this.setDisableDefaultFormatter(disableDefaultFormatter)
+		this.setCapabilities(capabilities)
 	}
 
 	get onDidChange(): IEvent<monaco.languages.json.LanguageServiceDefaults> {
@@ -33,8 +33,8 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 		return this._languageId;
 	}
 
-	get disableDefaultFormatter(): boolean {
-		return this._disableDefaultFormatter;
+	get capabilities(): monaco.languages.json.Capabilities {
+		return this._capabilities;
 	}
 
 	get diagnosticsOptions(): monaco.languages.json.DiagnosticsOptions {
@@ -45,8 +45,8 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 		this._diagnosticsOptions = options || Object.create(null);
 		this._onDidChange.fire(this);
 	}
-	setDisableDefaultFormatter(disable: boolean): void {
-		this._disableDefaultFormatter = disable;
+	setCapabilities(capabilities: monaco.languages.json.Capabilities): void {
+		this._capabilities = capabilities || Object.create(null);
 		this._onDidChange.fire(this);
 	};
 }
@@ -58,13 +58,16 @@ const diagnosticDefault: monaco.languages.json.DiagnosticsOptions = {
 	enableSchemaRequest: false
 };
 
-const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, false);
+const capabilitiesDefault: monaco.languages.json.Capabilities = {
+	disableDefaultFormatter: false
+}
 
+const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, capabilitiesDefault);
 
 // Export API
 function createAPI(): typeof monaco.languages.json {
 	return {
-		jsonDefaults: jsonDefaults,
+		jsonDefaults: jsonDefaults
 	}
 }
 monaco.languages.json = createAPI();

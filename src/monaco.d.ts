@@ -36,15 +36,19 @@ declare module monaco.languages.json {
         readonly enableSchemaRequest? : boolean;
     }
 
-    export interface LanguageServiceDefaults {
-        readonly onDidChange: IEvent<LanguageServiceDefaults>;
-        readonly diagnosticsOptions: DiagnosticsOptions;
-        setDiagnosticsOptions(options: DiagnosticsOptions): void;
+    export interface Capabilities {
         /**
          * Disable the default JSON formatter.
          */
         readonly disableDefaultFormatter?: boolean;
-        setDisableDefaultFormatter(disable: boolean): void;
+    }
+
+    export interface LanguageServiceDefaults {
+        readonly onDidChange: IEvent<LanguageServiceDefaults>;
+        readonly diagnosticsOptions: DiagnosticsOptions;
+        readonly capabilities: Capabilities;
+        setDiagnosticsOptions(options: DiagnosticsOptions): void;
+        setCapabilities(capabilities: Capabilities): void;
     }
 
     export var jsonDefaults: LanguageServiceDefaults;
