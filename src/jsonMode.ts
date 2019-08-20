@@ -16,7 +16,7 @@ import IDisposable = monaco.IDisposable;
 export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 
 	const disposables: IDisposable[] = [];
-	let formattingDisposables: IDisposable[] = []
+	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
@@ -25,40 +25,61 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
-	const {languageId, capabilities} = defaults;
 
-	function registerFormattingDisposables() {
-		formattingDisposables.push(monaco.languages.registerDocumentFormattingEditProvider(languageId, new languageFeatures.DocumentFormattingEditProvider(worker)));
-		formattingDisposables.push(monaco.languages.registerDocumentRangeFormattingEditProvider(languageId, new languageFeatures.DocumentRangeFormattingEditProvider(worker)));
-	}
+	function registerProviders(): void {
+		const { languageId, modeConfiguration } = defaults;
 
-	if (!capabilities.disableDefaultFormatter) {
-		registerFormattingDisposables()
-	}
+		disposeAll(providers);
 
-	disposables.push(monaco.languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker)));
-	disposables.push(monaco.languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker)));
-	disposables.push(monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker)));
-	disposables.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
-	disposables.push(monaco.languages.setTokensProvider(languageId, createTokenizationSupport(true)));
-	disposables.push(monaco.languages.setLanguageConfiguration(languageId, richEditConfiguration));
-	disposables.push(monaco.languages.registerColorProvider(languageId, new languageFeatures.DocumentColorAdapter(worker)));
-	disposables.push(monaco.languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker)));
-
-	defaults.onDidChange((newDefaults) => {
-		const {capabilities} = newDefaults;
-		const formattingDisabled = formattingDisposables.length === 0;
-		if (formattingDisabled != capabilities.disableDefaultFormatter) {
-			if (capabilities.disableDefaultFormatter) {
-				formattingDisposables.forEach(d => d.dispose())
-				formattingDisposables = [];
-			} else {
-				registerFormattingDisposables();
-			}
+		if (modeConfiguration.documentFormattingEdits) {
+			providers.push(monaco.languages.registerDocumentFormattingEditProvider(languageId, new languageFeatures.DocumentFormattingEditProvider(worker)));
 		}
-	})
+		if (modeConfiguration.documentRangeFormattingEdits) {
+			providers.push(monaco.languages.registerDocumentRangeFormattingEditProvider(languageId, new languageFeatures.DocumentRangeFormattingEditProvider(worker)));
+		}
+		if (modeConfiguration.completionItems) {
+			providers.push(monaco.languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker)));
+		}
+		if (modeConfiguration.hovers) {
+			providers.push(monaco.languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker)));
+		}
+		if (modeConfiguration.documentSymbols) {
+			providers.push(monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker)));
+		}
+		if (modeConfiguration.tokens) {
+			providers.push(monaco.languages.setTokensProvider(languageId, createTokenizationSupport(true)));
+		}
+		if (modeConfiguration.colors) {
+			providers.push(monaco.languages.registerColorProvider(languageId, new languageFeatures.DocumentColorAdapter(worker)));
+		}
+		if (modeConfiguration.foldingRanges) {
+			providers.push(monaco.languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker)));
+		}
+		if (modeConfiguration.diagnostics) {
+			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
+		}
+	}
+
+	registerProviders();
+
+	disposables.push(monaco.languages.setLanguageConfiguration(defaults.languageId, richEditConfiguration));
+
+	let modeConfiguration = defaults.modeConfiguration;
+	defaults.onDidChange((newDefaults) => {
+		if (newDefaults.modeConfiguration !== modeConfiguration) {
+			modeConfiguration = newDefaults.modeConfiguration;
+			registerProviders();
+		}
+	});
+
+	disposables.push({ dispose: () => disposeAll(providers) });
 }
 
+function disposeAll(disposables: IDisposable[]) {
+	while (disposables.length) {
+		disposables.pop().dispose();
+	}
+}
 
 const richEditConfiguration: monaco.languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\[\{\]\}\:\"\,\s]+)/g,

@@ -16,13 +16,13 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 
 	private _onDidChange = new Emitter<monaco.languages.json.LanguageServiceDefaults>();
 	private _diagnosticsOptions: monaco.languages.json.DiagnosticsOptions;
-	private _capabilities: monaco.languages.json.Capabilities;
+	private _modeConfiguration: monaco.languages.json.ModeConfiguration;
 	private _languageId: string;
 
-	constructor(languageId: string, diagnosticsOptions: monaco.languages.json.DiagnosticsOptions, capabilities: monaco.languages.json.Capabilities) {
+	constructor(languageId: string, diagnosticsOptions: monaco.languages.json.DiagnosticsOptions, modeConfiguration: monaco.languages.json.ModeConfiguration) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
-		this.setCapabilities(capabilities)
+		this.setModeConfiguration(modeConfiguration)
 	}
 
 	get onDidChange(): IEvent<monaco.languages.json.LanguageServiceDefaults> {
@@ -33,8 +33,8 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 		return this._languageId;
 	}
 
-	get capabilities(): monaco.languages.json.Capabilities {
-		return this._capabilities;
+	get modeConfiguration(): monaco.languages.json.ModeConfiguration {
+		return this._modeConfiguration;
 	}
 
 	get diagnosticsOptions(): monaco.languages.json.DiagnosticsOptions {
@@ -45,8 +45,8 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 		this._diagnosticsOptions = options || Object.create(null);
 		this._onDidChange.fire(this);
 	}
-	setCapabilities(capabilities: monaco.languages.json.Capabilities): void {
-		this._capabilities = capabilities || Object.create(null);
+	setModeConfiguration(modeConfiguration: monaco.languages.json.ModeConfiguration): void {
+		this._modeConfiguration = modeConfiguration || Object.create(null);
 		this._onDidChange.fire(this);
 	};
 }
@@ -58,11 +58,19 @@ const diagnosticDefault: monaco.languages.json.DiagnosticsOptions = {
 	enableSchemaRequest: false
 };
 
-const capabilitiesDefault: monaco.languages.json.Capabilities = {
-	disableDefaultFormatter: false
+const providersDefault: monaco.languages.json.ModeConfiguration = {
+	documentFormattingEdits: true,
+	documentRangeFormattingEdits: true,
+	completionItems: true,
+	hovers: true,
+	documentSymbols: true,
+	tokens: true,
+	colors: true,
+	foldingRanges: true,
+	diagnostics: true
 }
 
-const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, capabilitiesDefault);
+const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, providersDefault);
 
 // Export API
 function createAPI(): typeof monaco.languages.json {
@@ -84,6 +92,7 @@ monaco.languages.register({
 	aliases: ['JSON', 'json'],
 	mimetypes: ['application/json'],
 });
+
 monaco.languages.onLanguage('json', () => {
 	getMode().then(mode => mode.setupMode(jsonDefaults));
 });

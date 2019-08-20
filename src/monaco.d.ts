@@ -33,22 +33,63 @@ declare module monaco.languages.json {
         /**
          *  If set, the schema service would load schema content on-demand with 'fetch' if available
          */
-        readonly enableSchemaRequest? : boolean;
+        readonly enableSchemaRequest?: boolean;
     }
 
-    export interface Capabilities {
+    export interface ModeConfiguration {
         /**
-         * Disable the default JSON formatter.
+         * Defines wheter the built-in documentFormattingEdit provider is enabled.
          */
-        readonly disableDefaultFormatter?: boolean;
+        readonly documentFormattingEdits?: boolean;
+
+        /**
+         * Defines wheter the built-in documentRangeFormattingEdit provider is enabled.
+         */
+        readonly documentRangeFormattingEdits?: boolean;
+
+        /**
+         * Defines wheter the built-in completionItemProvider is enabled.
+         */
+        readonly completionItems?: boolean;
+
+        /**
+         * Defines wheter the built-in hoverProvider is enabled.
+         */
+        readonly hovers?: boolean;
+
+        /**
+         * Defines wheter the built-in documentSymbolProvider is enabled.
+         */
+        readonly documentSymbols?: boolean;
+
+        /**
+         * Defines wheter the built-in tokens provider is enabled.
+         */
+        readonly tokens?: boolean;
+
+        /**
+        * Defines wheter the built-in color provider is enabled.
+        */
+        readonly colors?: boolean;
+
+        /**
+        * Defines wheter the built-in foldingRange provider is enabled.
+        */
+       readonly foldingRanges?: boolean;
+
+        /**
+        * Defines wheter the built-in diagnostic provider is enabled.
+        */
+       readonly diagnostics?: boolean;
+
     }
 
     export interface LanguageServiceDefaults {
         readonly onDidChange: IEvent<LanguageServiceDefaults>;
         readonly diagnosticsOptions: DiagnosticsOptions;
-        readonly capabilities: Capabilities;
+        readonly modeConfiguration: ModeConfiguration;
         setDiagnosticsOptions(options: DiagnosticsOptions): void;
-        setCapabilities(capabilities: Capabilities): void;
+        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
     }
 
     export var jsonDefaults: LanguageServiceDefaults;
