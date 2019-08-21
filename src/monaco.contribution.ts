@@ -8,7 +8,6 @@ import * as mode from './jsonMode';
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
-import IDisposable = monaco.IDisposable;
 
 // --- JSON configuration and defaults ---------
 
@@ -58,7 +57,7 @@ const diagnosticDefault: monaco.languages.json.DiagnosticsOptions = {
 	enableSchemaRequest: false
 };
 
-const providersDefault: monaco.languages.json.ModeConfiguration = {
+const modeConfigurationDefault: monaco.languages.json.ModeConfiguration = {
 	documentFormattingEdits: true,
 	documentRangeFormattingEdits: true,
 	completionItems: true,
@@ -70,7 +69,7 @@ const providersDefault: monaco.languages.json.ModeConfiguration = {
 	diagnostics: true
 }
 
-const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, providersDefault);
+const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, modeConfigurationDefault);
 
 // Export API
 function createAPI(): typeof monaco.languages.json {

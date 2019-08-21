@@ -13,7 +13,7 @@ import { createTokenizationSupport } from './tokenization';
 import Uri = monaco.Uri;
 import IDisposable = monaco.IDisposable;
 
-export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
+export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 
 	const disposables: IDisposable[] = [];
 	const providers: IDisposable[] = [];
@@ -72,7 +72,13 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 		}
 	});
 
-	disposables.push({ dispose: () => disposeAll(providers) });
+	disposables.push(asDisposable(providers));
+
+	return asDisposable(disposables);
+}
+
+function asDisposable(disposables: IDisposable[]): IDisposable {
+	return { dispose: () => disposeAll(disposables) };
 }
 
 function disposeAll(disposables: IDisposable[]) {
