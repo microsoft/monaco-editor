@@ -38,47 +38,47 @@ declare module monaco.languages.json {
 
     export interface ModeConfiguration {
         /**
-         * Defines wheter the built-in documentFormattingEdit provider is enabled.
+         * Defines whether the built-in documentFormattingEdit provider is enabled.
          */
         readonly documentFormattingEdits?: boolean;
 
         /**
-         * Defines wheter the built-in documentRangeFormattingEdit provider is enabled.
+         * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
          */
         readonly documentRangeFormattingEdits?: boolean;
 
         /**
-         * Defines wheter the built-in completionItemProvider is enabled.
+         * Defines whether the built-in completionItemProvider is enabled.
          */
         readonly completionItems?: boolean;
 
         /**
-         * Defines wheter the built-in hoverProvider is enabled.
+         * Defines whether the built-in hoverProvider is enabled.
          */
         readonly hovers?: boolean;
 
         /**
-         * Defines wheter the built-in documentSymbolProvider is enabled.
+         * Defines whether the built-in documentSymbolProvider is enabled.
          */
         readonly documentSymbols?: boolean;
 
         /**
-         * Defines wheter the built-in tokens provider is enabled.
+         * Defines whether the built-in tokens provider is enabled.
          */
         readonly tokens?: boolean;
 
         /**
-        * Defines wheter the built-in color provider is enabled.
+        * Defines whether the built-in color provider is enabled.
         */
         readonly colors?: boolean;
 
         /**
-        * Defines wheter the built-in foldingRange provider is enabled.
+        * Defines whether the built-in foldingRange provider is enabled.
         */
        readonly foldingRanges?: boolean;
 
         /**
-        * Defines wheter the built-in diagnostic provider is enabled.
+        * Defines whether the built-in diagnostic provider is enabled.
         */
        readonly diagnostics?: boolean;
 
