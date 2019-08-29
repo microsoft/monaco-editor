@@ -64,6 +64,8 @@ function setupMode(defaults: LanguageServiceDefaultsImpl, modeId: string): (firs
 	monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker));
 	monaco.languages.registerDocumentRangeFormattingEditProvider(modeId, new languageFeatures.FormatAdapter(worker));
 	monaco.languages.registerOnTypeFormattingEditProvider(modeId, new languageFeatures.FormatOnTypeAdapter(worker));
+	monaco.languages.registerCodeActionProvider(modeId, new languageFeatures.CodeActionAdaptor(worker));
+
 	new languageFeatures.DiagnostcsAdapter(defaults, modeId, worker);
 
 	return worker;

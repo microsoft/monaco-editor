@@ -146,6 +146,12 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.resolve(diagnostics);
 	}
 
+	getSuggestionDiagnostics(fileName: string): Promise<ts.DiagnosticWithLocation[]> {
+		const diagnostics = this._languageService.getSuggestionDiagnostics(fileName);
+		TypeScriptWorker.clearFiles(diagnostics);
+		return Promise.resolve(diagnostics);
+	}
+
 	getCompilerOptionsDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getCompilerOptionsDiagnostics();
 		TypeScriptWorker.clearFiles(diagnostics);
@@ -198,6 +204,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
 		return Promise.resolve(this._languageService.getEmitOutput(fileName));
+	}
+
+	getCodeFixesAtPosition(fileName: string, start: number, end: number, errorCodes:number[], formatOptions: ts.FormatCodeOptions): Promise<ReadonlyArray<ts.CodeFixAction>> {
+		const preferences = {}
+		return Promise.resolve(this._languageService.getCodeFixesAtPosition(fileName, start, end, errorCodes, formatOptions, preferences));
 	}
 
 	updateExtraLibs(extraLibs: IExtraLibs) {
