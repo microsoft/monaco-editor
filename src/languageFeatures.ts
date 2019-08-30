@@ -15,7 +15,7 @@ import Thenable = monaco.Thenable;
 import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
 
-//#region utils copied and modified from typescript to prevent loading the entire typescriptServices ---
+//#region utils copied from typescript to prevent loading the entire typescriptServices ---
 
 enum IndentStyle {
 	None = 0,
@@ -41,27 +41,8 @@ export function flattenDiagnosticMessageText(diag: string | ts.DiagnosticMessage
 	result += diag.messageText;
 	indent++;
 	if (diag.next) {
-		const diagAny = diag as any
-		// Post 3.6 you can iterate through diags
-		if (typeof diagAny.next[Symbol.iterator] === 'function') {
-			for (const kid of diagAny.next) {
-				result += flattenDiagnosticMessageText(kid, newLine, indent);
-			}
-		} else {
-			// In 3.5 and below you iterate through manually, and don't recurse
-			// this is more or less a direct port of the original function from TS 3.5
-			let diagnosticChain = diagAny.next;
-			while (diagnosticChain) {
-				if (indent) {
-					result += newLine;
-					for (let i = 0; i < indent; i++) {
-						result += "  ";
-					}
-				}
-				result += diagnosticChain.messageText;
-				indent++;
-				diagnosticChain = diagnosticChain.next;
-			}
+		for (const kid of diag.next) {
+			result += flattenDiagnosticMessageText(kid, newLine, indent);
 		}
 	}
 	return result;
