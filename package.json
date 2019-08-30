@@ -8,7 +8,8 @@
     "compile": "mrmdir ./release && npm run compile-amd && npm run compile-esm",
     "watch": "tsc -p ./src --watch",
     "prepublishOnly": "npm run compile && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
-    "import-typescript": "node ./scripts/importTypescript"
+    "import-typescript": "node ./scripts/importTypescript",
+    "run-nightly": "node ./scripts/runDaily"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -24,7 +25,7 @@
     "monaco-languages": "^1.7.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "typescript": "^3.5.1",
+    "typescript": "^3.6.2",
     "uglify-js": "^3.4.9"
   }
 }
