@@ -64,6 +64,8 @@ export const language = <ILanguage>{
 		'Address',
 		'Auth',
 		'Chain',
+		'None',
+		'Some',
 		'bits',
 		'bytes',
 		'event',
