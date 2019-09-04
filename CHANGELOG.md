@@ -1,5 +1,31 @@
 # Monaco Editor Changelog
 
+## [0.18.0] (04.09.2019)
+
+### New & Noteworthy
+
+* Minimap enhancement
+  * Selections and find results are now rendered in the minimap.
+  * Model decorations now support `IModelDecorationOptions.minimap`, once set the decoration will be rendered in the minimap
+* New editor options
+  * `autoClosingOvertype`: it controls whether the editor allows [typing over closing quotes or brackets](https://github.com/microsoft/vscode/issues/37315#issuecomment-515200477).
+  * `cursorSurroundingLines`: it controls how many visible lines to display around the cursor while moving the cursor towards beginning or end of a file.
+  * `renderWhitespace: "selection"`: the editor can render whitespaces only in selection.
+
+### API changes
+
+* `DeclarationProvider`: The declaration provider interface defines the contract between extensions and the go to declaration feature.
+* `SelectionRangeProvider` Provide smart selection ranges for the given positions, see VS Code [issue](https://github.com/microsoft/vscode/issues/67872).
+* CodeLensProvider should now return `CodeLensList` instead of `ICodeLensSymbol[]`.
+* `DocumentSymbol` has a new property `tags` to support more types.
+* View Zone id is now `string` instead of `number`.
+
+### Thank you
+
+Contributions to `monaco-json`:
+
+* [Ԝеѕ @wesinator](https://github.com/wesinator): Add .har extension [#9](https://github.com/microsoft/monaco-json/pull/9)
+
 ## [0.17.1] (25.06.2019)
 * Update monaco-typescript to TypeScript 3.5.0.
 
