@@ -316,7 +316,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 
 	public signatureHelpTriggerCharacters = ['(', ','];
 
-	provideSignatureHelp(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.SignatureHelp> {
+	provideSignatureHelp(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.SignatureHelpResult> {
 		let resource = model.uri;
 		return this._worker(resource).then(worker => worker.getSignatureHelpItems(resource.toString(), this._positionToOffset(resource, position))).then(info => {
 
@@ -334,7 +334,6 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 
 				let signature: monaco.languages.SignatureInformation = {
 					label: '',
-					documentation: null,
 					parameters: []
 				};
 
@@ -355,8 +354,10 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 				ret.signatures.push(signature);
 			});
 
-			return ret;
-
+			return {
+				value: ret,
+				dispose() {}
+			};
 		});
 	}
 }
@@ -494,6 +495,7 @@ export class OutlineAdapter extends Adapter implements monaco.languages.Document
 					kind: <monaco.languages.SymbolKind>(outlineTypeTable[item.kind] || monaco.languages.SymbolKind.Variable),
 					range: this._textSpanToRange(resource, item.spans[0]),
 					selectionRange: this._textSpanToRange(resource, item.spans[0]),
+					tags: [],
 					containerName: containerLabel
 				};
 
