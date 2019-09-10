@@ -25,6 +25,7 @@ define(['require'], function () {
 		'vs/editor/editor.main'
 	], function () {
 		requirejs([
+			'release/dev/abap/abap.test',
 			'release/dev/apex/apex.test',
 			'release/dev/azcli/azcli.test',
 			'release/dev/bat/bat.test',

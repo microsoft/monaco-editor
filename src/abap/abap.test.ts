@@ -1,0 +1,18 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+'use strict';
+
+import { testTokenization } from '../test/testRunner';
+
+testTokenization('apex', [
+	// Comments - single line
+	[{
+		line: '* comment',
+		tokens: [
+			{ startIndex: 0, type: 'comment.abap' }
+		]
+	}]
+]);

@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
+import './abap/abap.contribution';
 import './bat/bat.contribution';
 import './coffee/coffee.contribution';
 import './cpp/cpp.contribution';
