@@ -41,6 +41,7 @@ export const conf: IRichLanguageConfiguration = {
 
 export const language = <ILanguage>{
 	defaultToken: 'invalid',
+	tokenPostfix: '',
 
 	keywords: [
 		// (opening) tags
