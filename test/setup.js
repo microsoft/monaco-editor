@@ -75,6 +75,7 @@ define(['require'], function () {
 			'release/dev/st/st.test',
 			'release/dev/swift/swift.test',
 			'release/dev/tcl/tcl.test',
+			'release/dev/twig/twig.test',
 			'release/dev/typescript/typescript.test',
 			'release/dev/vb/vb.test',
 			'release/dev/xml/xml.test',
