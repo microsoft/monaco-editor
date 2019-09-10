@@ -201,4 +201,80 @@ testTokenization(['twig'], [
 			{ startIndex: 40, type: 'delimiter.twig' },
 		],
 	}],
+
+	/**
+	 * Block Tags
+	 */
+	[{
+		line: '{%%}',
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.twig' },
+		],
+	}],
+	[{
+		line: '{% %}',
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.twig' },
+			{ startIndex: 2, type: '' },
+			{ startIndex: 3, type: 'delimiter.twig' },
+		],
+	}],
+	[{
+		line: '{% for item in navigation %}',
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.twig' },
+			{ startIndex: 2, type: '' },
+			{ startIndex: 3, type: 'keyword.twig' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'variable.twig' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'operators.twig' },
+			{ startIndex: 14, type: '' },
+			{ startIndex: 15, type: 'variable.twig' },
+			{ startIndex: 25, type: '' },
+			{ startIndex: 26, type: 'delimiter.twig' },
+		],
+	}],
+	[{
+		line: '{% set foo = 12 %}',
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.twig' },
+			{ startIndex: 2, type: '' },
+			{ startIndex: 3, type: 'keyword.twig' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'variable.twig' },
+			{ startIndex: 10, type: '' },
+			{ startIndex: 11, type: 'operators.twig' },
+			{ startIndex: 12, type: '' },
+			{ startIndex: 13, type: 'number.twig' },
+			{ startIndex: 15, type: '' },
+			{ startIndex: 16, type: 'delimiter.twig' },
+		],
+	}],
+	[{
+		line: '{% verbatim %}',
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.twig' },
+			{ startIndex: 2, type: '' },
+			{ startIndex: 3, type: 'keyword.twig' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'delimiter.twig' },
+		],
+	}],
+	[{
+		line: '{% verbatim %}raw data{% endverbatim %}',
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.twig' },
+			{ startIndex: 2, type: '' },
+			{ startIndex: 3, type: 'keyword.twig' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'delimiter.twig' },
+			{ startIndex: 14, type: 'string.twig' },
+			{ startIndex: 22, type: 'delimiter.twig' },
+			{ startIndex: 24, type: '' },
+			{ startIndex: 25, type: 'keyword.twig' },
+			{ startIndex: 36, type: '' },
+			{ startIndex: 37, type: 'delimiter.twig' },
+		],
+	}],
 ]);
