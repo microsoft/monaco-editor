@@ -5,6 +5,8 @@
 
 'use strict';
 
+import { conf as htmlConf, language as htmlLanguage } from '../html/html';
+
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
@@ -21,6 +23,7 @@ export const conf: IRichLanguageConfiguration = {
 		['{{', '}}'],
 		['(', ')'],
 		['[', ']'],
+		...htmlConf.brackets,
 	],
 
 	autoClosingPairs: [
@@ -36,6 +39,7 @@ export const conf: IRichLanguageConfiguration = {
 	surroundingPairs: [
 		{ open: '"', close: '"' },
 		{ open: '\'', close: '\'' },
+		...htmlConf.surroundingPairs,
 	],
 }
 
