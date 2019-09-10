@@ -51,6 +51,8 @@ export const language = <ILanguage>{
 		// closing tags
 		'endapply', 'endautoescape', 'endblock', 'endembed', 'endfor', 'endif',
 		'endmacro', 'endsandbox', 'endset', 'endwith',
+		// literals
+		'true', 'false',
 	],
 
 	tokenizer: {
