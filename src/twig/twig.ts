@@ -44,8 +44,9 @@ export const conf: IRichLanguageConfiguration = {
 }
 
 export const language = <ILanguage>{
-	defaultToken: 'invalid',
+	defaultToken: '',
 	tokenPostfix: '',
+	ignoreCase: true,
 
 	keywords: [
 		// (opening) tags
@@ -60,10 +61,13 @@ export const language = <ILanguage>{
 	],
 
 	tokenizer: {
+		...htmlLanguage.tokenizer,
+
 		root: [
 			[/{#/, 'comment.twig', '@commentState'],
 			[/{%[-~]?/, 'delimiter.twig', '@blockState'],
 			[/{{[-~]?/, 'delimiter.twig', '@variableState'],
+			...htmlLanguage.tokenizer.root,
 		],
 
 		/**
