@@ -236,22 +236,6 @@ testTokenization(['twig'], [
 		],
 	}],
 	[{
-		line: '{% set foo = 12 %}',
-		tokens: [
-			{ startIndex: 0, type: 'delimiter.twig' },
-			{ startIndex: 2, type: '' },
-			{ startIndex: 3, type: 'keyword.twig' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'variable.twig' },
-			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'operators.twig' },
-			{ startIndex: 12, type: '' },
-			{ startIndex: 13, type: 'number.twig' },
-			{ startIndex: 15, type: '' },
-			{ startIndex: 16, type: 'delimiter.twig' },
-		],
-	}],
-	[{
 		line: '{% verbatim %}',
 		tokens: [
 			{ startIndex: 0, type: 'delimiter.twig' },
