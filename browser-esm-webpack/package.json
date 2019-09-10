@@ -4,8 +4,8 @@
   "devDependencies": {
     "css-loader": "^1.0.0",
     "monaco-editor": "^0.14.3",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2"
+    "style-loader": "^1.0.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
   }
 }

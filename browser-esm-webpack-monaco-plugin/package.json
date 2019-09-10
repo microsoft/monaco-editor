@@ -15,8 +15,8 @@
 		"file-loader": "^4.2.0",
 		"monaco-editor-webpack-plugin": "^1.7.0",
 		"style-loader": "^1.0.0",
-		"webpack": "^4.39.2",
-		"webpack-cli": "^3.3.6"
+		"webpack": "^4.39.3",
+		"webpack-cli": "^3.3.8"
 	},
 	"dependencies": {
 		"monaco-editor": "^0.16.2"
