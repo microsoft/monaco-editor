@@ -9,7 +9,35 @@ import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
-};
+	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
+
+	comments: {
+		blockComment: ['{#', '#}'],
+	},
+
+	brackets: [
+		['{#', '#}'],
+		['{%', '%}'],
+		['{{', '}}'],
+		['(', ')'],
+		['[', ']'],
+	],
+
+	autoClosingPairs: [
+		{ open: '{# ', close: ' #}' },
+		{ open: '{% ', close: ' %}' },
+		{ open: '{{ ', close: ' }}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
+	],
+
+	surroundingPairs: [
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
+	],
+}
 
 export const language = <ILanguage>{
 	defaultToken: 'invalid',
