@@ -50,7 +50,7 @@ export const language = <ILanguage>{
 			// Unlike other blocks, verbatim ehas its own state
 			// transition to ensure we mark its contents as strings.
 			[/(verbatim)(\s*)([-~]?%})/, [
-				'keyword',
+				'keyword.twig',
 				'',
 				{ token: 'delimiter.twig', next: '@rawDataState' },
 			]],
@@ -62,11 +62,11 @@ export const language = <ILanguage>{
 			[/({%[-~]?)(\s*)(endverbatim)(\s*)([-~]?%})/, [
 				'delimiter.twig',
 				'',
-				'keyword',
+				'keyword.twig',
 				'',
 				{ token: 'delimiter.twig', next: '@popall' },
 			]],
-			[/./, 'string'],
+			[/./, 'string.twig'],
 		],
 
 		/**
