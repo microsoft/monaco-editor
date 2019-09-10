@@ -8,7 +8,7 @@
 import { testTokenization } from '../test/testRunner';
 
 /**
- * HTML Tests, without the html substate
+ * HTML Tests
  */
 testTokenization(['twig', 'css', 'javascript'], [
 
@@ -16,8 +16,8 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' }
 		]
 	}],
 
@@ -25,8 +25,8 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<input',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' }
 		]
 	}],
 
@@ -34,7 +34,7 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '< abc',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
+			{ startIndex: 0, type: 'delimiter.html' },
 			{ startIndex: 1, type: '' }
 		]
 	}],
@@ -43,7 +43,7 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '< abc>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
+			{ startIndex: 0, type: 'delimiter.html' },
 			{ startIndex: 1, type: '' }
 		]
 	}],
@@ -53,8 +53,8 @@ testTokenization(['twig', 'css', 'javascript'], [
 		line: 'i <len;',
 		tokens: [
 			{ startIndex: 0, type: '' },
-			{ startIndex: 2, type: 'delimiter' },
-			{ startIndex: 3, type: 'tag' },
+			{ startIndex: 2, type: 'delimiter.html' },
+			{ startIndex: 3, type: 'tag.html' },
 			{ startIndex: 6, type: '' }
 		]
 	}],
@@ -63,7 +63,7 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' }
+			{ startIndex: 0, type: 'delimiter.html' }
 		]
 	}],
 
@@ -71,8 +71,8 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '</a',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 2, type: 'tag' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 2, type: 'tag.html' }
 		]
 	}],
 
@@ -80,9 +80,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
-			{ startIndex: 4, type: 'delimiter' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 4, type: 'delimiter.html' }
 		]
 	}],
 
@@ -90,10 +90,10 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc >',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'delimiter' }
+			{ startIndex: 5, type: 'delimiter.html' }
 		]
 	}],
 
@@ -101,9 +101,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<foo:bar>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
-			{ startIndex: 8, type: 'delimiter' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 8, type: 'delimiter.html' }
 		]
 	}],
 
@@ -111,9 +111,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '</abc>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 2, type: 'tag' },
-			{ startIndex: 5, type: 'delimiter' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 2, type: 'tag.html' },
+			{ startIndex: 5, type: 'delimiter.html' }
 		]
 	}],
 
@@ -121,10 +121,10 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '</abc  >',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 2, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 2, type: 'tag.html' },
 			{ startIndex: 5, type: '' },
-			{ startIndex: 7, type: 'delimiter' }
+			{ startIndex: 7, type: 'delimiter.html' }
 		]
 	}],
 
@@ -132,10 +132,10 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc />',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'delimiter' }
+			{ startIndex: 5, type: 'delimiter.html' }
 		]
 	}],
 
@@ -143,13 +143,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script type="text/javascript">var i= 10;</script>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' },
-			{ startIndex: 13, type: 'attribute.value' },
-			{ startIndex: 30, type: 'delimiter' },
+			{ startIndex: 8, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
+			{ startIndex: 13, type: 'attribute.value.html' },
+			{ startIndex: 30, type: 'delimiter.html' },
 			{ startIndex: 31, type: 'keyword.js' },
 			{ startIndex: 34, type: '' },
 			{ startIndex: 35, type: 'identifier.js' },
@@ -157,9 +157,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 			{ startIndex: 37, type: '' },
 			{ startIndex: 38, type: 'number.js' },
 			{ startIndex: 40, type: 'delimiter.js' },
-			{ startIndex: 41, type: 'delimiter' },
-			{ startIndex: 43, type: 'tag' },
-			{ startIndex: 49, type: 'delimiter' }
+			{ startIndex: 41, type: 'delimiter.html' },
+			{ startIndex: 43, type: 'tag.html' },
+			{ startIndex: 49, type: 'delimiter.html' }
 		]
 	}],
 
@@ -167,13 +167,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script type="text/javascript">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' },
-			{ startIndex: 13, type: 'attribute.value' },
-			{ startIndex: 30, type: 'delimiter' }
+			{ startIndex: 8, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
+			{ startIndex: 13, type: 'attribute.value.html' },
+			{ startIndex: 30, type: 'delimiter.html' }
 		]
 	}, {
 		line: 'var i= 10;',
@@ -189,9 +189,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	}, {
 		line: '</script>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 2, type: 'tag' },
-			{ startIndex: 8, type: 'delimiter' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 2, type: 'tag.html' },
+			{ startIndex: 8, type: 'delimiter.html' }
 		]
 	}],
 
@@ -199,13 +199,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script type="text/javascript">var i= 10;',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' },
-			{ startIndex: 13, type: 'attribute.value' },
-			{ startIndex: 30, type: 'delimiter' },
+			{ startIndex: 8, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
+			{ startIndex: 13, type: 'attribute.value.html' },
+			{ startIndex: 30, type: 'delimiter.html' },
 			{ startIndex: 31, type: 'keyword.js' },
 			{ startIndex: 34, type: '' },
 			{ startIndex: 35, type: 'identifier.js' },
@@ -218,9 +218,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	}, {
 		line: '</script>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 2, type: 'tag' },
-			{ startIndex: 8, type: 'delimiter' }
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 2, type: 'tag.html' },
+			{ startIndex: 8, type: 'delimiter.html' }
 		]
 	}],
 
@@ -228,13 +228,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script type="text/javascript">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' },
-			{ startIndex: 13, type: 'attribute.value' },
-			{ startIndex: 30, type: 'delimiter' }
+			{ startIndex: 8, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
+			{ startIndex: 13, type: 'attribute.value.html' },
+			{ startIndex: 30, type: 'delimiter.html' }
 		]
 	}, {
 		line: 'var i= 10;</script>',
@@ -246,9 +246,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 			{ startIndex: 6, type: '' },
 			{ startIndex: 7, type: 'number.js' },
 			{ startIndex: 9, type: 'delimiter.js' },
-			{ startIndex: 10, type: 'delimiter' },
-			{ startIndex: 12, type: 'tag' },
-			{ startIndex: 18, type: 'delimiter' }
+			{ startIndex: 10, type: 'delimiter.html' },
+			{ startIndex: 12, type: 'tag.html' },
+			{ startIndex: 18, type: 'delimiter.html' }
 		]
 	}],
 
@@ -256,22 +256,22 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script type="text/plain">a',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' },
-			{ startIndex: 13, type: 'attribute.value' },
-			{ startIndex: 25, type: 'delimiter' },
+			{ startIndex: 8, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
+			{ startIndex: 13, type: 'attribute.value.html' },
+			{ startIndex: 25, type: 'delimiter.html' },
 			{ startIndex: 26, type: '' },
 		]
 	}, {
 		line: '<a</script>',
 		tokens: [
 			{ startIndex: 0, type: '' },
-			{ startIndex: 2, type: 'delimiter' },
-			{ startIndex: 4, type: 'tag' },
-			{ startIndex: 10, type: 'delimiter' }
+			{ startIndex: 2, type: 'delimiter.html' },
+			{ startIndex: 4, type: 'tag.html' },
+			{ startIndex: 10, type: 'delimiter.html' }
 		]
 	}],
 
@@ -279,20 +279,20 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script>a</script><script>b</script>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
-			{ startIndex: 7, type: 'delimiter' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 7, type: 'delimiter.html' },
 			{ startIndex: 8, type: 'identifier.js' },
-			{ startIndex: 9, type: 'delimiter' },
-			{ startIndex: 11, type: 'tag' },
-			{ startIndex: 17, type: 'delimiter' },
-			// { startIndex:18, type: 'delimiter' },
-			{ startIndex: 19, type: 'tag' },
-			{ startIndex: 25, type: 'delimiter' },
+			{ startIndex: 9, type: 'delimiter.html' },
+			{ startIndex: 11, type: 'tag.html' },
+			{ startIndex: 17, type: 'delimiter.html' },
+			// { startIndex:18, type: 'delimiter.html' },
+			{ startIndex: 19, type: 'tag.html' },
+			{ startIndex: 25, type: 'delimiter.html' },
 			{ startIndex: 26, type: 'identifier.js' },
-			{ startIndex: 27, type: 'delimiter' },
-			{ startIndex: 29, type: 'tag' },
-			{ startIndex: 35, type: 'delimiter' }
+			{ startIndex: 27, type: 'delimiter.html' },
+			{ startIndex: 29, type: 'tag.html' },
+			{ startIndex: 35, type: 'delimiter.html' }
 		]
 	}],
 
@@ -300,16 +300,16 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script type="text/javascript"></script>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' },
-			{ startIndex: 13, type: 'attribute.value' },
-			{ startIndex: 30, type: 'delimiter' },
-			// { startIndex:31, type: 'delimiter' },
-			{ startIndex: 33, type: 'tag' },
-			{ startIndex: 39, type: 'delimiter' }
+			{ startIndex: 8, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
+			{ startIndex: 13, type: 'attribute.value.html' },
+			{ startIndex: 30, type: 'delimiter.html' },
+			// { startIndex:31, type: 'delimiter.html' },
+			{ startIndex: 33, type: 'tag.html' },
+			{ startIndex: 39, type: 'delimiter.html' }
 		]
 	}],
 
@@ -317,9 +317,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script>var i= 10;</script>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
-			{ startIndex: 7, type: 'delimiter' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 7, type: 'delimiter.html' },
 			{ startIndex: 8, type: 'keyword.js' },
 			{ startIndex: 11, type: '' },
 			{ startIndex: 12, type: 'identifier.js' },
@@ -327,9 +327,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 			{ startIndex: 14, type: '' },
 			{ startIndex: 15, type: 'number.js' },
 			{ startIndex: 17, type: 'delimiter.js' },
-			{ startIndex: 18, type: 'delimiter' },
-			{ startIndex: 20, type: 'tag' },
-			{ startIndex: 26, type: 'delimiter' }
+			{ startIndex: 18, type: 'delimiter.html' },
+			{ startIndex: 20, type: 'tag.html' },
+			{ startIndex: 26, type: 'delimiter.html' }
 		]
 	}],
 
@@ -337,20 +337,20 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<script type="text/javascript" src="main.js"></script>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' },
-			{ startIndex: 13, type: 'attribute.value' },
+			{ startIndex: 8, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' },
+			{ startIndex: 13, type: 'attribute.value.html' },
 			{ startIndex: 30, type: '' },
-			{ startIndex: 31, type: 'attribute.name' },
-			{ startIndex: 34, type: 'delimiter' },
-			{ startIndex: 35, type: 'attribute.value' },
-			{ startIndex: 44, type: 'delimiter' },
-			// { startIndex:45, type: 'delimiter' },
-			{ startIndex: 47, type: 'tag' },
-			{ startIndex: 53, type: 'delimiter' }
+			{ startIndex: 31, type: 'attribute.name.html' },
+			{ startIndex: 34, type: 'delimiter.html' },
+			{ startIndex: 35, type: 'attribute.value.html' },
+			{ startIndex: 44, type: 'delimiter.html' },
+			// { startIndex:45, type: 'delimiter.html' },
+			{ startIndex: 47, type: 'tag.html' },
+			{ startIndex: 53, type: 'delimiter.html' }
 		]
 	}],
 
@@ -358,13 +358,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo="bar">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' },
-			{ startIndex: 9, type: 'attribute.value' },
-			{ startIndex: 14, type: 'delimiter' }
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' },
+			{ startIndex: 9, type: 'attribute.value.html' },
+			{ startIndex: 14, type: 'delimiter.html' }
 		]
 	}],
 
@@ -372,13 +372,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo=\'bar\'>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' },
-			{ startIndex: 9, type: 'attribute.value' },
-			{ startIndex: 14, type: 'delimiter' }
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' },
+			{ startIndex: 9, type: 'attribute.value.html' },
+			{ startIndex: 14, type: 'delimiter.html' }
 		]
 	}],
 
@@ -386,13 +386,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo="">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' },
-			{ startIndex: 9, type: 'attribute.value' },
-			{ startIndex: 11, type: 'delimiter' }
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' },
+			{ startIndex: 9, type: 'attribute.value.html' },
+			{ startIndex: 11, type: 'delimiter.html' }
 		]
 	}],
 
@@ -400,17 +400,17 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo="bar" bar=\'foo\'>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' },
-			{ startIndex: 9, type: 'attribute.value' },
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' },
+			{ startIndex: 9, type: 'attribute.value.html' },
 			{ startIndex: 14, type: '' },
-			{ startIndex: 15, type: 'attribute.name' },
-			{ startIndex: 18, type: 'delimiter' },
-			{ startIndex: 19, type: 'attribute.value' },
-			{ startIndex: 24, type: 'delimiter' }
+			{ startIndex: 15, type: 'attribute.name.html' },
+			{ startIndex: 18, type: 'delimiter.html' },
+			{ startIndex: 19, type: 'attribute.value.html' },
+			{ startIndex: 24, type: 'delimiter.html' }
 		]
 	}],
 
@@ -418,17 +418,17 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo=bar bar=help-me>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' },
-			{ startIndex: 9, type: 'attribute.name' }, // slightly incorrect
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' },
+			{ startIndex: 9, type: 'attribute.name.html' }, // slightly incorrect
 			{ startIndex: 12, type: '' },
-			{ startIndex: 13, type: 'attribute.name' },
-			{ startIndex: 16, type: 'delimiter' },
-			{ startIndex: 17, type: 'attribute.name' }, // slightly incorrect
-			{ startIndex: 24, type: 'delimiter' }
+			{ startIndex: 13, type: 'attribute.name.html' },
+			{ startIndex: 16, type: 'delimiter.html' },
+			{ startIndex: 17, type: 'attribute.name.html' }, // slightly incorrect
+			{ startIndex: 24, type: 'delimiter.html' }
 		]
 	}],
 
@@ -436,14 +436,14 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo=  "bar">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' },
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' },
 			{ startIndex: 9, type: '' },
-			{ startIndex: 11, type: 'attribute.value' },
-			{ startIndex: 16, type: 'delimiter' }
+			{ startIndex: 11, type: 'attribute.value.html' },
+			{ startIndex: 16, type: 'delimiter.html' }
 		]
 	}],
 
@@ -451,15 +451,15 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo = "bar">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
+			{ startIndex: 5, type: 'attribute.name.html' },
 			{ startIndex: 8, type: '' },
-			{ startIndex: 9, type: 'delimiter' },
+			{ startIndex: 9, type: 'delimiter.html' },
 			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'attribute.value' },
-			{ startIndex: 16, type: 'delimiter' }
+			{ startIndex: 11, type: 'attribute.value.html' },
+			{ startIndex: 16, type: 'delimiter.html' }
 		]
 	}],
 
@@ -467,11 +467,11 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' }
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' }
 		]
 	}],
 
@@ -479,13 +479,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo bar>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
+			{ startIndex: 5, type: 'attribute.name.html' },
 			{ startIndex: 8, type: '' },
-			{ startIndex: 9, type: 'attribute.name' },
-			{ startIndex: 12, type: 'delimiter' }
+			{ startIndex: 9, type: 'attribute.name.html' },
+			{ startIndex: 12, type: 'delimiter.html' }
 		]
 	}],
 
@@ -493,14 +493,14 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo!@#="bar">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
+			{ startIndex: 5, type: 'attribute.name.html' },
 			{ startIndex: 8, type: '' },
-			{ startIndex: 11, type: 'delimiter' },
-			{ startIndex: 12, type: 'attribute.value' },
-			{ startIndex: 17, type: 'delimiter' }
+			{ startIndex: 11, type: 'delimiter.html' },
+			{ startIndex: 12, type: 'attribute.value.html' },
+			{ startIndex: 17, type: 'delimiter.html' }
 		]
 	}],
 
@@ -508,25 +508,25 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc #myinput (click)="bar" [value]="someProperty" *ngIf="someCondition">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 6, type: 'attribute.name' },
+			{ startIndex: 6, type: 'attribute.name.html' },
 			{ startIndex: 13, type: '' },
-			{ startIndex: 15, type: 'attribute.name' },
+			{ startIndex: 15, type: 'attribute.name.html' },
 			{ startIndex: 20, type: '' },
-			{ startIndex: 21, type: 'delimiter' },
-			{ startIndex: 22, type: 'attribute.value' },
+			{ startIndex: 21, type: 'delimiter.html' },
+			{ startIndex: 22, type: 'attribute.value.html' },
 			{ startIndex: 27, type: '' },
-			{ startIndex: 29, type: 'attribute.name' },
+			{ startIndex: 29, type: 'attribute.name.html' },
 			{ startIndex: 34, type: '' },
-			{ startIndex: 35, type: 'delimiter' },
-			{ startIndex: 36, type: 'attribute.value' },
+			{ startIndex: 35, type: 'delimiter.html' },
+			{ startIndex: 36, type: 'attribute.value.html' },
 			{ startIndex: 50, type: '' },
-			{ startIndex: 52, type: 'attribute.name' },
-			{ startIndex: 56, type: 'delimiter' },
-			{ startIndex: 57, type: 'attribute.value' },
-			{ startIndex: 72, type: 'delimiter' }
+			{ startIndex: 52, type: 'attribute.name.html' },
+			{ startIndex: 56, type: 'delimiter.html' },
+			{ startIndex: 57, type: 'attribute.value.html' },
+			{ startIndex: 72, type: 'delimiter.html' }
 		]
 	}],
 
@@ -534,13 +534,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<abc foo=">',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
 			{ startIndex: 4, type: '' },
-			{ startIndex: 5, type: 'attribute.name' },
-			{ startIndex: 8, type: 'delimiter' },
+			{ startIndex: 5, type: 'attribute.name.html' },
+			{ startIndex: 8, type: 'delimiter.html' },
 			{ startIndex: 9, type: '' },
-			{ startIndex: 10, type: 'delimiter' }
+			{ startIndex: 10, type: 'delimiter.html' }
 		]
 	}],
 
@@ -548,9 +548,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<!--a-->',
 		tokens: [
-			{ startIndex: 0, type: 'comment' },
-			{ startIndex: 4, type: 'comment.content' },
-			{ startIndex: 5, type: 'comment' }
+			{ startIndex: 0, type: 'comment.html' },
+			{ startIndex: 4, type: 'comment.content.html' },
+			{ startIndex: 5, type: 'comment.html' }
 		]
 	}],
 
@@ -558,9 +558,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<!--a>foo bar</a -->',
 		tokens: [
-			{ startIndex: 0, type: 'comment' },
-			{ startIndex: 4, type: 'comment.content' },
-			{ startIndex: 17, type: 'comment' }
+			{ startIndex: 0, type: 'comment.html' },
+			{ startIndex: 4, type: 'comment.content.html' },
+			{ startIndex: 17, type: 'comment.html' }
 		]
 	}],
 
@@ -568,19 +568,19 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<!--a>',
 		tokens: [
-			{ startIndex: 0, type: 'comment' },
-			{ startIndex: 4, type: 'comment.content' }
+			{ startIndex: 0, type: 'comment.html' },
+			{ startIndex: 4, type: 'comment.content.html' }
 		]
 	}, {
 		line: 'foo ',
 		tokens: [
-			{ startIndex: 0, type: 'comment.content' },
+			{ startIndex: 0, type: 'comment.content.html' },
 		]
 	}, {
 		line: 'bar</a -->',
 		tokens: [
-			{ startIndex: 0, type: 'comment.content' },
-			{ startIndex: 7, type: 'comment' }
+			{ startIndex: 0, type: 'comment.content.html' },
+			{ startIndex: 7, type: 'comment.html' }
 		]
 	}],
 
@@ -588,9 +588,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<!DOCTYPE a>',
 		tokens: [
-			{ startIndex: 0, type: 'metatag' },
-			{ startIndex: 9, type: 'metatag.content' },
-			{ startIndex: 11, type: 'metatag' }
+			{ startIndex: 0, type: 'metatag.html' },
+			{ startIndex: 9, type: 'metatag.content.html' },
+			{ startIndex: 11, type: 'metatag.html' }
 		]
 	}],
 
@@ -598,9 +598,9 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<!doctype a>',
 		tokens: [
-			{ startIndex: 0, type: 'metatag' },
-			{ startIndex: 9, type: 'metatag.content' },
-			{ startIndex: 11, type: 'metatag' }
+			{ startIndex: 0, type: 'metatag.html' },
+			{ startIndex: 9, type: 'metatag.content.html' },
+			{ startIndex: 11, type: 'metatag.html' }
 		]
 	}],
 
@@ -608,14 +608,14 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<!DOCTYPE a',
 		tokens: [
-			{ startIndex: 0, type: 'metatag' },
-			{ startIndex: 9, type: 'metatag.content' },
+			{ startIndex: 0, type: 'metatag.html' },
+			{ startIndex: 9, type: 'metatag.content.html' },
 		]
 	}, {
 		line: '"foo" \'bar\'>',
 		tokens: [
-			{ startIndex: 0, type: 'metatag.content' },
-			{ startIndex: 11, type: 'metatag' }
+			{ startIndex: 0, type: 'metatag.content.html' },
+			{ startIndex: 11, type: 'metatag.html' }
 		]
 	}],
 
@@ -623,13 +623,13 @@ testTokenization(['twig', 'css', 'javascript'], [
 	[{
 		line: '<asdf:bar>asd</asdf:bar>',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter' },
-			{ startIndex: 1, type: 'tag' },
-			{ startIndex: 9, type: 'delimiter' },
+			{ startIndex: 0, type: 'delimiter.html' },
+			{ startIndex: 1, type: 'tag.html' },
+			{ startIndex: 9, type: 'delimiter.html' },
 			{ startIndex: 10, type: '' },
-			{ startIndex: 13, type: 'delimiter' },
-			{ startIndex: 15, type: 'tag' },
-			{ startIndex: 23, type: 'delimiter' }
+			{ startIndex: 13, type: 'delimiter.html' },
+			{ startIndex: 15, type: 'tag.html' },
+			{ startIndex: 23, type: 'delimiter.html' }
 		]
 	}]
 ]);
