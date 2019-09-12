@@ -87,7 +87,7 @@ export const language = <ILanguage> {
 		[/@symbols/, { cases: { '@operators': 'operator',
 								'@default'  : '' } } ],
 
-		[/'/,  { token: 'string', bracket: '@open', next: '@string' } ],
+		[/'/,  { token: 'string', bracket: '@open', next: '@stringquote' } ],
 		[/\|/,  { token: 'string', bracket: '@open', next: '@stringtemplate' } ],
 
 		[/\d+/, 'number'],
@@ -95,10 +95,11 @@ export const language = <ILanguage> {
 
 	  stringtemplate: [
 		[/[^\\\|]+/, 'string'],
-		[/\|/,       { token: 'string', bracket: '@close', next: '@pop' } ]
+    	[/\\\|/,   'string'],
+		[/\|/,     { token: 'string', bracket: '@close', next: '@pop' } ]
 	  ],
 
-	  string: [
+	  stringquote: [
 		[/[^\\']+/, 'string'],
 		[/'/,       { token: 'string', bracket: '@close', next: '@pop' } ]
 	  ],

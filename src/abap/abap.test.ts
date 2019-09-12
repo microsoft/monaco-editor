@@ -80,4 +80,16 @@ testTokenization('abap', [
 			{ startIndex: 20, type: 'delimiter.abap' },
 		]
 	}],
+	[{
+		line: '\'he\'\' llo\'',
+		tokens: [
+			{ startIndex: 0, type: 'string.abap' },
+		]
+	}],
+	[{
+		line: '|hel\\|lo|',
+		tokens: [
+			{ startIndex: 0, type: 'string.abap' },
+		]
+	}],
 ]);
