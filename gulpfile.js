@@ -7,7 +7,8 @@ const fs = require('fs');
 const rimraf = require('rimraf');
 const cp = require('child_process');
 const os = require('os');
-const httpServer = require('http-server');
+const serveHandler = require('serve-handler');
+const http = require('http');
 const typedoc = require("gulp-typedoc");
 const CleanCSS = require('clean-css');
 const uncss = require('uncss');
@@ -831,8 +832,20 @@ const generateTestSamplesTask = function() {
 	fs.writeFileSync(path.join(__dirname, 'test/playground.generated/index.html'), index.join('\n'));
 };
 
+function createSimpleServer(rootDir, port) {
+	const server = http.createServer((request, response) => {
+		return serveHandler(request, response, {
+			public: rootDir
+		});
+	});
+
+	server.listen(port, '127.0.0.1', () => {
+		console.log(`Running at http://127.0.0.1:${port}`);
+	});
+}
+
 gulp.task('simpleserver', taskSeries(generateTestSamplesTask, function() {
-	httpServer.createServer({ root: '../', cache: 5 }).listen(8080);
-	httpServer.createServer({ root: '../', cache: 5 }).listen(8088);
-	console.log('LISTENING on 8080 and 8088');
+	const SERVER_ROOT = path.normalize(path.join(__dirname, '../'));
+	createSimpleServer(SERVER_ROOT, 8080);
+	createSimpleServer(SERVER_ROOT, 8088);
 }));
