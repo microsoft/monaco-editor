@@ -21,6 +21,7 @@ const BUNDLED_FILE_HEADER = [
 ].join('\n');
 
 bundleOne('monaco.contribution');
+bundleOne('abap/abap');
 bundleOne('bat/bat');
 bundleOne('css/css');
 bundleOne('coffee/coffee');
