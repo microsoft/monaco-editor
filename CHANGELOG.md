@@ -2,6 +2,10 @@
 
 ## [0.18.1] (19.09.2019)
 
+* fixes 2 issues with the ESM distribution - [#1572](https://github.com/microsoft/monaco-editor/issues/1572) and [#1574](https://github.com/microsoft/monaco-editor/issues/1574)
+* fixes very slow scrolling in Firefox - [#1575](https://github.com/microsoft/monaco-editor/issues/1575)
+* new syntax highlighting for: pascaligo, ABAP, Sophia ML, Twig and MIPS.
+
 ### Thank you
 
 Contributions to `monaco-editor`:
