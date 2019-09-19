@@ -27,9 +27,10 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 ## Development
 
 * `git clone https://github.com/Microsoft/monaco-json`
-* `cd monaco-json`
 * `npm install .`
-* `npm run prepublish`
+* compile with `npm run compile`
+* watch with `npm run watch`
+* `npm run prepublishOnly`
 * open `$/monaco-json/test/index.html` in your favorite browser.
 
 ## License
