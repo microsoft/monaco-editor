@@ -1,5 +1,48 @@
 # Monaco Editor Changelog
 
+## [0.18.1] (19.09.2019)
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [Alessandro Fragnani (@alefragnani)](https://github.com/alefragnani): Add Pascal samples [PR #1358](https://github.com/microsoft/monaco-editor/pull/1358)
+* [Daniel Wang (@datou0412)](https://github.com/datou0412): Add koltin sample for website [PR #1351](https://github.com/microsoft/monaco-editor/pull/1351)
+* [Ehsan (@ehsan-mohammadi)](https://github.com/ehsan-mohammadi): Updated html sample code [PR #1387](https://github.com/microsoft/monaco-editor/pull/1387)
+* [Jonas Fonseca (@jonas)](https://github.com/jonas): CHANGELOG: Fix year for releases made in 2019 [PR #1388](https://github.com/microsoft/monaco-editor/pull/1388)
+* [Milen Radkov (@mradkov)](https://github.com/mradkov): Add Sophia ML example [PR #1543](https://github.com/microsoft/monaco-editor/pull/1543)
+* [Sergey Romanov (@Serhioromano)](https://github.com/Serhioromano): Structured text example [PR #1552](https://github.com/microsoft/monaco-editor/pull/1552)
+* [zhnlviing (@zhanghongnian)](https://github.com/zhanghongnian): fix demo: completion provider example [PR #1537](https://github.com/microsoft/monaco-editor/pull/1537)
+
+Contributions to `monaco-json`:
+
+* [Dominik Moritz (@domoritz)](https://github.com/domoritz)
+  * Upgrade dependencies [PR #11](https://github.com/microsoft/monaco-json/pull/11)
+  * Add config to disable default formatter [PR #10](https://github.com/microsoft/monaco-json/pull/10)
+
+Contributions to `monaco-languages`:
+
+* [Brice Aldrich (@DefinitelyNotAGoat)](https://github.com/DefinitelyNotAGoat): pascaligo: adding pascaligo language support [PR #69](https://github.com/microsoft/monaco-languages/pull/69)
+* [Salam Elbilig (@finalfantasia)](https://github.com/finalfantasia): [clojure] treat comma as whitespace [PR #63](https://github.com/microsoft/monaco-languages/pull/63)
+* [Alf Eaton (@hubgit)](https://github.com/hubgit): [xml] Add OPF and XSL file extensions [PR #64](https://github.com/microsoft/monaco-languages/pull/64)
+* [Lars Hvam (@larshp)](https://github.com/larshp)
+  * [ABAP] Add ABAP language support [PR #72](https://github.com/microsoft/monaco-languages/pull/72)
+  * readme: align "add new language" example [PR #70](https://github.com/microsoft/monaco-languages/pull/70)
+* [Milen Radkov (@mradkov)](https://github.com/mradkov)
+  * Add support for Sophia ML [PR #67](https://github.com/microsoft/monaco-languages/pull/67)
+  * add `None` and `Some` keywords to SophiaML [PR #68](https://github.com/microsoft/monaco-languages/pull/68)
+* [Marco Petersen (@ocrampete16)](https://github.com/ocrampete16): Add support for the Twig template language [PR #71](https://github.com/microsoft/monaco-languages/pull/71)
+* [Progyan Bhattacharya (@Progyan1997)](https://github.com/Progyan1997): [Feat] MIPS: Support for Syntax Highlight and Basic Colorization [PR #65](https://github.com/microsoft/monaco-languages/pull/65)
+* [Sergey Romanov (@Serhioromano)](https://github.com/Serhioromano): [ST] Some updated for Structured Text Language support [PR #66](https://github.com/microsoft/monaco-languages/pull/66)
+* [Sebastian Pahnke (@spahnke)](https://github.com/spahnke): [JS/TS] Add support for BigInt [PR #62](https://github.com/microsoft/monaco-languages/pull/62)
+
+Contributions to `monaco-typescript`:
+
+* [Andre Wachsmuth (@blutorange)](https://github.com/blutorange): Fix microsoft/monaco-editor#1576 update dependency to core [PR #41](https://github.com/microsoft/monaco-typescript/pull/41)
+* [Javey (@Javey)](https://github.com/Javey): Make it can be compressed by uglify-js [PR #34](https://github.com/microsoft/monaco-typescript/pull/34)
+* [Sebastian Pahnke (@spahnke)](https://github.com/spahnke): Add a rename provider [PR #39](https://github.com/microsoft/monaco-typescript/pull/39)
+* [@ulrichb](https://github.com/ulrichb): Expose TypeScript version via `monaco.languages.typescript.typeScriptVersion` [PR #31](https://github.com/microsoft/monaco-typescript/pull/31)
+
 ## [0.18.0] (04.09.2019)
 
 ### New & Noteworthy

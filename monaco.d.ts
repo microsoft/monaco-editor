@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Type definitions for monaco-editor v0.18.0
+ * Type definitions for monaco-editor v0.18.1
  * Released under the MIT license
 *-----------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------
@@ -5727,8 +5727,9 @@ declare namespace monaco.languages.typescript {
         UMD = 3,
         System = 4,
         ES2015 = 5,
-        ESNext = 6
+        ESNext = 99
     }
+
     enum JsxEmit {
         None = 0,
         Preserve = 1,
@@ -5747,9 +5748,11 @@ declare namespace monaco.languages.typescript {
         ES2016 = 3,
         ES2017 = 4,
         ES2018 = 5,
-        ESNext = 6,
+        ES2019 = 6,
+        ES2020 = 7,
+        ESNext = 99,
         JSON = 100,
-        Latest = 6
+        Latest = ESNext,
     }
 
     export enum ModuleResolutionKind {
@@ -5885,6 +5888,8 @@ declare namespace monaco.languages.typescript {
         setEagerModelSync(value: boolean): void;
     }
 
+    export var typescriptVersion: string;
+
     export var typescriptDefaults: LanguageServiceDefaults;
     export var javascriptDefaults: LanguageServiceDefaults;
 
@@ -5966,13 +5971,63 @@ declare namespace monaco.languages.json {
         /**
          *  If set, the schema service would load schema content on-demand with 'fetch' if available
          */
-        readonly enableSchemaRequest? : boolean
+        readonly enableSchemaRequest?: boolean;
+    }
+
+    export interface ModeConfiguration {
+        /**
+         * Defines whether the built-in documentFormattingEdit provider is enabled.
+         */
+        readonly documentFormattingEdits?: boolean;
+
+        /**
+         * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
+         */
+        readonly documentRangeFormattingEdits?: boolean;
+
+        /**
+         * Defines whether the built-in completionItemProvider is enabled.
+         */
+        readonly completionItems?: boolean;
+
+        /**
+         * Defines whether the built-in hoverProvider is enabled.
+         */
+        readonly hovers?: boolean;
+
+        /**
+         * Defines whether the built-in documentSymbolProvider is enabled.
+         */
+        readonly documentSymbols?: boolean;
+
+        /**
+         * Defines whether the built-in tokens provider is enabled.
+         */
+        readonly tokens?: boolean;
+
+        /**
+        * Defines whether the built-in color provider is enabled.
+        */
+        readonly colors?: boolean;
+
+        /**
+        * Defines whether the built-in foldingRange provider is enabled.
+        */
+       readonly foldingRanges?: boolean;
+
+        /**
+        * Defines whether the built-in diagnostic provider is enabled.
+        */
+       readonly diagnostics?: boolean;
+
     }
 
     export interface LanguageServiceDefaults {
         readonly onDidChange: IEvent<LanguageServiceDefaults>;
         readonly diagnosticsOptions: DiagnosticsOptions;
+        readonly modeConfiguration: ModeConfiguration;
         setDiagnosticsOptions(options: DiagnosticsOptions): void;
+        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
     }
 
     export var jsonDefaults: LanguageServiceDefaults;
