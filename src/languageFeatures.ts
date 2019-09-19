@@ -402,6 +402,7 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 				detail: '',
 				containerName: item.containerName,
 				kind: toSymbolKind(item.kind),
+				tags: [],
 				range: toRange(item.location.range),
 				selectionRange: toRange(item.location.range)
 			}));
