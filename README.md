@@ -25,10 +25,10 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 
 ## Development
 
-* `git clone https://github.com/Microsoft/monaco-css`
-* `cd monaco-css`
 * `npm install .`
-* `npm run prepublish`
+* compile with `npm run compile`
+* watch with `npm run watch`
+* `npm run prepublishOnly`
 * open `$/monaco-css/test/index.html` in your favorite browser.
 
 ## License
