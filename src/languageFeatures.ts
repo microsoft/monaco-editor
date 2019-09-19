@@ -204,8 +204,8 @@ export class DiagnostcsAdapter extends Adapter {
 		};
 	}
 
-	private _tsDiagnosticCategoryToMarkerSeverity(category: ts.DiagnosticCategory): monaco.MarkerSeverity  {
-		switch(category) {
+	private _tsDiagnosticCategoryToMarkerSeverity(category: ts.DiagnosticCategory): monaco.MarkerSeverity {
+		switch (category) {
 			case ts.DiagnosticCategory.Error: return monaco.MarkerSeverity.Error
 			case ts.DiagnosticCategory.Message: return monaco.MarkerSeverity.Info
 			case ts.DiagnosticCategory.Warning: return monaco.MarkerSeverity.Warning
@@ -369,7 +369,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 
 			return {
 				value: ret,
-				dispose() {}
+				dispose() { }
 			};
 		});
 	}
@@ -656,8 +656,7 @@ export class CodeActionAdaptor extends FormatHelper implements monaco.languages.
 			const start = this._positionToOffset(resource, { lineNumber: range.startLineNumber, column: range.startColumn });
 			const end = this._positionToOffset(resource, { lineNumber: range.endLineNumber, column: range.endColumn });
 
-			// TODO: where to get the current formatting options from?
-			const formatOptions = FormatHelper._convertOptions({insertSpaces: true, tabSize: 2});
+			const formatOptions = FormatHelper._convertOptions(model.getOptions());
 			const errorCodes = context.markers.filter(m => m.code).map(m => m.code).map(Number);
 
 			return worker.getCodeFixesAtPosition(resource.toString(), start, end, errorCodes, formatOptions);
@@ -665,15 +664,15 @@ export class CodeActionAdaptor extends FormatHelper implements monaco.languages.
 		}).then(codeFixes => {
 
 			return codeFixes.filter(fix => {
-					// Removes any 'make a new file'-type code fix
-					return fix.changes.filter(change => change.isNewFile).length === 0;
+				// Removes any 'make a new file'-type code fix
+				return fix.changes.filter(change => change.isNewFile).length === 0;
 			}).map(fix => {
 				return this._tsCodeFixActionToMonacoCodeAction(model, context, fix);
 			})
 		}).then(result => {
 			return {
 				actions: result,
-				dispose: () => {}
+				dispose: () => { }
 			};
 		});
 	}
@@ -681,12 +680,12 @@ export class CodeActionAdaptor extends FormatHelper implements monaco.languages.
 
 	private _tsCodeFixActionToMonacoCodeAction(model: monaco.editor.ITextModel, context: monaco.languages.CodeActionContext, codeFix: ts.CodeFixAction): monaco.languages.CodeAction {
 		const edits: monaco.languages.ResourceTextEdit[] = codeFix.changes.map(edit => ({
-				resource: model.uri,
-				edits: edit.textChanges.map(tc => ({
-					range: this._textSpanToRange(model.uri, tc.span),
-					text: tc.newText
-				}))
-			}));
+			resource: model.uri,
+			edits: edit.textChanges.map(tc => ({
+				range: this._textSpanToRange(model.uri, tc.span),
+				text: tc.newText
+			}))
+		}));
 
 		const action: monaco.languages.CodeAction = {
 			title: codeFix.description,

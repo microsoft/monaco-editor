@@ -214,7 +214,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.resolve(this._languageService.getEmitOutput(fileName));
 	}
 
-	getCodeFixesAtPosition(fileName: string, start: number, end: number, errorCodes:number[], formatOptions: ts.FormatCodeOptions): Promise<ReadonlyArray<ts.CodeFixAction>> {
+	getCodeFixesAtPosition(fileName: string, start: number, end: number, errorCodes: number[], formatOptions: ts.FormatCodeOptions): Promise<ReadonlyArray<ts.CodeFixAction>> {
 		const preferences = {}
 		return Promise.resolve(this._languageService.getCodeFixesAtPosition(fileName, start, end, errorCodes, formatOptions, preferences));
 	}
