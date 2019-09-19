@@ -76,6 +76,7 @@ bundleOne('azcli/azcli');
 bundleOne('apex/apex');
 bundleOne('tcl/tcl');
 bundleOne('graphql/graphql');
+bundleOne('twig/twig');
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({

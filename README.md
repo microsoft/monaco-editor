@@ -44,6 +44,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * sql
 * st
 * swift
+* twig
 * typescript
 * vb
 * xml
