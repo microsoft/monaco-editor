@@ -15,9 +15,10 @@ let tmp = new jsdom.JSDOM('<!DOCTYPE html><html><body></body></html>');
 global.document = tmp.window.document;
 global.navigator = tmp.window.navigator;
 global.self = global;
-global.document.queryCommandSupported = function() { return false; };
+global.document.queryCommandSupported = function () { return false; };
+global.window = { location: {} };
 
-requirejs(['./test/setup'], function() {
-}, function(err) {
+requirejs(['./test/setup'], function () {
+}, function (err) {
 	console.log(err);
 });
