@@ -51,6 +51,7 @@ define(['require'], function () {
 			'release/dev/mysql/mysql.test',
 			'release/dev/objective-c/objective-c.test',
 			'release/dev/pascal/pascal.test',
+			'release/dev/pascaligo/pascaligo.test',
 			'release/dev/perl/perl.test',
 			'release/dev/pgsql/pgsql.test',
 			'release/dev/php/php.test',

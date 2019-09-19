@@ -27,6 +27,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * mysql
 * objective-c
 * pascal
+* pascaligo
 * pgsql
 * php
 * postiats
