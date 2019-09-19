@@ -202,6 +202,14 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.resolve(this._languageService.getFormattingEditsAfterKeystroke(fileName, postion, ch, options));
 	}
 
+	findRenameLocations(fileName: string, positon: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename: boolean): Promise<readonly ts.RenameLocation[]> {
+		return Promise.resolve(this._languageService.findRenameLocations(fileName, positon, findInStrings, findInComments, providePrefixAndSuffixTextForRename));
+	}
+
+	getRenameInfo(fileName: string, positon: number, options: ts.RenameInfoOptions): Promise<ts.RenameInfo> {
+		return Promise.resolve(this._languageService.getRenameInfo(fileName, positon, options));
+	}
+
 	getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
 		return Promise.resolve(this._languageService.getEmitOutput(fileName));
 	}

@@ -152,18 +152,21 @@ enum ModuleKind {
 	UMD = 3,
 	System = 4,
 	ES2015 = 5,
-	ESNext = 6
+	ESNext = 99
 }
+
 enum JsxEmit {
 	None = 0,
 	Preserve = 1,
 	React = 2,
 	ReactNative = 3
 }
+
 enum NewLineKind {
 	CarriageReturnLineFeed = 0,
 	LineFeed = 1
 }
+
 enum ScriptTarget {
 	ES3 = 0,
 	ES5 = 1,
@@ -171,10 +174,13 @@ enum ScriptTarget {
 	ES2016 = 3,
 	ES2017 = 4,
 	ES2018 = 5,
-	ESNext = 6,
+	ES2019 = 6,
+	ES2020 = 7,
+	ESNext = 99,
 	JSON = 100,
-	Latest = 6
+	Latest = ESNext,
 }
+
 enum ModuleResolutionKind {
 	Classic = 1,
 	NodeJs = 2

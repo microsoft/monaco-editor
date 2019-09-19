@@ -39,6 +39,12 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 		tsServices.replace(/return require\(fileNameToRequire\);/, `// MONACOCHANGE\n            return undefined;\n            // END MONACOCHANGE`)
 	);
 
+	// Make sure process.args don't get called in the browser, this
+	// should only happen in TS 2.6.2
+	const beforeProcess = `ts.perfLogger.logInfoEvent("Starting TypeScript v" + ts.versionMajorMinor + " with command line: " + JSON.stringify(process.argv));`
+	const afterProcess = `// MONACOCHANGE\n    ts.perfLogger.logInfoEvent("Starting TypeScript v" + ts.versionMajorMinor + " with command line: " + JSON.stringify([]));\n// END MONACOCHANGE`
+	tsServices = tsServices.replace(beforeProcess, afterProcess);
+
 	var tsServices_amd = tsServices +
 		`
 // MONACOCHANGE
@@ -73,6 +79,7 @@ export = ts;
 // END MONACOCHANGE
 `;
 	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.d.ts'), dtsServices);
+
 })();
 
 function importLibs() {

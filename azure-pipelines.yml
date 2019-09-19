@@ -1,0 +1,25 @@
+# triggered by schedule at 5am to try make sure it's done after the TS daily build
+schedules:
+- cron: '0 5 * * *'
+  displayName: Daily 5am build
+  branches:
+    include:
+    - master
+  always: true
+
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- bash: |
+    npm install
+    npm run run-nightly
+  displayName: 'Update & Build'
+
+- bash: |
+    echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+    npm publish --tag next
+
+  displayName: 'Publish to NPM'
