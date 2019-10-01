@@ -83,7 +83,7 @@ export abstract class Adapter {
 
 // --- diagnostics --- ---
 
-export class DiagnostcsAdapter extends Adapter {
+export class DiagnosticsAdapter extends Adapter {
 
 	private _disposables: IDisposable[] = [];
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
