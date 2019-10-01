@@ -691,12 +691,7 @@ export class CodeActionAdaptor extends FormatHelper implements monaco.languages.
 			title: codeFix.description,
 			edit: { edits: edits },
 			diagnostics: context.markers,
-			command: {
-				id: codeFix.fixName,
-				title: codeFix.description,
-				tooltip: codeFix.description
-			},
-			kind: codeFix.fixName
+			kind: "quickfix"
 		};
 
 		return action;
