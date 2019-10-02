@@ -837,7 +837,8 @@ const generateTestSamplesTask = function() {
 function createSimpleServer(rootDir, port) {
 	const server = http.createServer((request, response) => {
 		return serveHandler(request, response, {
-			public: rootDir
+			public: rootDir,
+			etag: true
 		});
 	});
 
