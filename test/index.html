@@ -33,12 +33,9 @@
 <script src="../node_modules/monaco-editor-core/dev/vs/editor/editor.main.js"></script>
 
 <script>
-	require([
-		'vs/basic-languages/monaco.contribution',
-		'vs/language/typescript/monaco.contribution'
-	], function() {
-		var editor = monaco.editor.create(document.getElementById('container'), {
-			value: [
+	let text = localStorage.getItem("code")
+	if (!text) {
+		text = [
 				'/* Game of Life',
 				' * Implemented in TypeScript',
 				' * To learn more about TypeScript, please visit http://www.typescriptlang.org/',
@@ -164,9 +161,24 @@
 				'',
 				'var game = new Conway.GameOfLife();',
 
-			].join('\n'),
-			language: 'typescript'
+			].join('\n')
+	}
+
+	require([
+		'vs/basic-languages/monaco.contribution',
+		'vs/language/typescript/monaco.contribution'
+	], function() {
+
+		var editor = monaco.editor.create(document.getElementById('container'), {
+			value: text,
+			language: 'typescript',
+			lightbulb: { enabled: true }
 		});
+
+		editor.onDidChangeModelContent(() => {
+			const code = editor.getModel().getValue()
+			localStorage.setItem("code", code)
+		})
 	});
 </script>
 
