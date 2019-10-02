@@ -1,0 +1,14 @@
+name: "CI"
+on: [pull_request]
+jobs:
+  build:
+    name: "Builds and Compiles"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install
+      - run: npm run compile
