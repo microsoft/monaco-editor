@@ -5,7 +5,7 @@ jobs:
     name: "Builds and Compiles"
     runs-on: ubuntu-latest
 
-      steps:
+    steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v1
         with:
