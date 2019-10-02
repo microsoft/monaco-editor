@@ -128,6 +128,7 @@ declare module monaco.languages.typescript {
     export interface DiagnosticsOptions {
         noSemanticValidation?: boolean;
         noSyntaxValidation?: boolean;
+        noSuggestionDiagnostics?: boolean;
     }
 
     export interface LanguageServiceDefaults {

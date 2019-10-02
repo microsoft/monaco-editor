@@ -163,12 +163,15 @@ export class DiagnosticsAdapter extends Adapter {
 				return null;
 			}
 			const promises: Promise<ts.Diagnostic[]>[] = [];
-			const { noSyntaxValidation, noSemanticValidation } = this._defaults.getDiagnosticsOptions();
+			const { noSyntaxValidation, noSemanticValidation, noSuggestionDiagnostics } = this._defaults.getDiagnosticsOptions();
 			if (!noSyntaxValidation) {
 				promises.push(worker.getSyntacticDiagnostics(resource.toString()));
 			}
 			if (!noSemanticValidation) {
 				promises.push(worker.getSemanticDiagnostics(resource.toString()));
+			}
+			if (!noSuggestionDiagnostics) {
+				promises.push(worker.getSuggestionDiagnostics(resource.toString()));
 			}
 			return Promise.all(promises);
 		}).then(diagnostics => {
@@ -191,13 +194,23 @@ export class DiagnosticsAdapter extends Adapter {
 		const { lineNumber: endLineNumber, column: endColumn } = this._offsetToPosition(resource, diag.start + diag.length);
 
 		return {
-			severity: monaco.MarkerSeverity.Error,
+			severity: this._tsDiagnosticCategoryToMarkerSeverity(diag.category),
 			startLineNumber,
 			startColumn,
 			endLineNumber,
 			endColumn,
-			message: flattenDiagnosticMessageText(diag.messageText, '\n')
+			message: flattenDiagnosticMessageText(diag.messageText, '\n'),
+			code: diag.code.toString()
 		};
+	}
+
+	private _tsDiagnosticCategoryToMarkerSeverity(category: ts.DiagnosticCategory): monaco.MarkerSeverity {
+		switch (category) {
+			case ts.DiagnosticCategory.Error: return monaco.MarkerSeverity.Error
+			case ts.DiagnosticCategory.Message: return monaco.MarkerSeverity.Info
+			case ts.DiagnosticCategory.Warning: return monaco.MarkerSeverity.Warning
+			case ts.DiagnosticCategory.Suggestion: return monaco.MarkerSeverity.Hint
+		}
 	}
 }
 
@@ -356,7 +369,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 
 			return {
 				value: ret,
-				dispose() {}
+				dispose() { }
 			};
 		});
 	}
@@ -632,6 +645,58 @@ export class FormatOnTypeAdapter extends FormatHelper implements monaco.language
 	}
 }
 
+// --- code actions ------
+
+export class CodeActionAdaptor extends FormatHelper implements monaco.languages.CodeActionProvider {
+
+	public provideCodeActions(model: monaco.editor.ITextModel, range: Range, context: monaco.languages.CodeActionContext, token: CancellationToken): Promise<monaco.languages.CodeActionList> {
+		const resource = model.uri;
+
+		return this._worker(resource).then(worker => {
+			const start = this._positionToOffset(resource, { lineNumber: range.startLineNumber, column: range.startColumn });
+			const end = this._positionToOffset(resource, { lineNumber: range.endLineNumber, column: range.endColumn });
+
+			const formatOptions = FormatHelper._convertOptions(model.getOptions());
+			const errorCodes = context.markers.filter(m => m.code).map(m => m.code).map(Number);
+
+			return worker.getCodeFixesAtPosition(resource.toString(), start, end, errorCodes, formatOptions);
+
+		}).then(codeFixes => {
+
+			return codeFixes.filter(fix => {
+				// Removes any 'make a new file'-type code fix
+				return fix.changes.filter(change => change.isNewFile).length === 0;
+			}).map(fix => {
+				return this._tsCodeFixActionToMonacoCodeAction(model, context, fix);
+			})
+		}).then(result => {
+			return {
+				actions: result,
+				dispose: () => { }
+			};
+		});
+	}
+
+
+	private _tsCodeFixActionToMonacoCodeAction(model: monaco.editor.ITextModel, context: monaco.languages.CodeActionContext, codeFix: ts.CodeFixAction): monaco.languages.CodeAction {
+		const edits: monaco.languages.ResourceTextEdit[] = codeFix.changes.map(edit => ({
+			resource: model.uri,
+			edits: edit.textChanges.map(tc => ({
+				range: this._textSpanToRange(model.uri, tc.span),
+				text: tc.newText
+			}))
+		}));
+
+		const action: monaco.languages.CodeAction = {
+			title: codeFix.description,
+			edit: { edits: edits },
+			diagnostics: context.markers,
+			kind: "quickfix"
+		};
+
+		return action;
+	}
+}
 // --- rename ----
 
 export class RenameAdapter extends Adapter implements monaco.languages.RenameProvider {
