@@ -179,7 +179,7 @@ function createButton(label, onClick) {
 function createOptions(editor) {
 	var options = document.getElementById('options');
 
-	let lineNumbers;
+	var lineNumbers;
 	options.appendChild(createOptionToggle(
 		editor,
 		'lineNumbers',
@@ -189,10 +189,10 @@ function createOptions(editor) {
 		function(editor, newValue) {
 			lineNumbers = newValue;
 			editor.updateOptions({ lineNumbers: lineNumbers ? 'on' : 'off' });
-		},
+		}
 	));
 
-	let glyphMargin;
+	var glyphMargin;
 	options.appendChild(createOptionToggle(
 		editor,
 		'glyphMargin',
@@ -205,7 +205,7 @@ function createOptions(editor) {
 		}
 	));
 
-	let minimap;
+	var minimap;
 	options.appendChild(createOptionToggle(
 		editor,
 		'minimap',
@@ -218,7 +218,7 @@ function createOptions(editor) {
 		}
 	));
 
-	let roundedSelection;
+	var roundedSelection;
 	options.appendChild(createOptionToggle(
 		editor,
 		'roundedSelection',
@@ -231,31 +231,33 @@ function createOptions(editor) {
 		}
 	));
 
-	let scrollBeyondLastLine;
+	var scrollBeyondLastLine;
 	options.appendChild(createOptionToggle(
 		editor,
 		'scrollBeyondLastLine',
 		function() {
 			return (scrollBeyondLastLine === false ? false : true);
-		}, function(editor, newValue) {
+		},
+		function(editor, newValue) {
 			scrollBeyondLastLine = newValue;
 			editor.updateOptions({ scrollBeyondLastLine: scrollBeyondLastLine });
 		}
 	));
 
-	let renderWhitespace;
+	var renderWhitespace;
 	options.appendChild(createOptionToggle(
 		editor,
 		'renderWhitespace',
 		function() {
 			return (renderWhitespace === true ? true : false);
-		}, function(editor, newValue) {
+		},
+		function(editor, newValue) {
 			renderWhitespace = newValue;
 			editor.updateOptions({ renderWhitespace: renderWhitespace });
 		}
 	));
 
-	let readOnly;
+	var readOnly;
 	options.appendChild(createOptionToggle(
 		editor,
 		'readOnly',
@@ -268,25 +270,27 @@ function createOptions(editor) {
 		}
 	));
 
-	let wordWrap;
+	var wordWrap;
 	options.appendChild(createOptionToggle(
 		editor,
 		'wordWrap',
 		function() {
 			return (wordWrap === true ? true : false);
-		}, function(editor, newValue) {
+		},
+		function(editor, newValue) {
 			wordWrap = newValue;
 			editor.updateOptions({ wordWrap: wordWrap ? 'on' : 'off' });
 		}
 	));
 
-	let folding;
+	var folding;
 	options.appendChild(createOptionToggle(
 		editor,
 		'folding',
 		function() {
 			return (folding === false ? false : true);
-		}, function(editor, newValue) {
+		},
+		function(editor, newValue) {
 			folding = newValue;
 			editor.updateOptions({ folding: folding });
 		}
