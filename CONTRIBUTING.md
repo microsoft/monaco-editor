@@ -100,16 +100,15 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 # create a local release
 /src/monaco-editor> npm run release
 
-# open http://localhost:8080/monaco-editor/website/
-
 # build the website
 /src/monaco-editor> npm run build-website
+
+# start local webserver
+/src/monaco-editor> npm run simpleserver
 
 # open http://localhost:8080/monaco-editor-website/
 
 ```
-
----
 
 ## Shipping a new monaco-editor npm module
 
