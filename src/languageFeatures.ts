@@ -181,6 +181,7 @@ export class DiagnosticsAdapter extends Adapter {
 			}
 			const markers = diagnostics
 				.reduce((p, c) => c.concat(p), [])
+				.filter(d => (this._defaults.getDiagnosticsOptions().diagnosticCodesToIgnore || []).indexOf(d.code) === -1)
 				.map(d => this._convertDiagnostics(resource, d));
 
 			monaco.editor.setModelMarkers(monaco.editor.getModel(resource), this._selector, markers);
