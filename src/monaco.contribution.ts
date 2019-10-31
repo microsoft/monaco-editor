@@ -6,6 +6,7 @@
 
 import './abap/abap.contribution';
 import './bat/bat.contribution';
+import './cameligo/cameligo.contribution';
 import './coffee/coffee.contribution';
 import './cpp/cpp.contribution';
 import './csharp/csharp.contribution';
