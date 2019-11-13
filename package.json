@@ -29,10 +29,10 @@
     "monaco-languages": "1.8.0",
     "monaco-typescript": "3.5.1",
     "rimraf": "^2.6.3",
-    "serve-handler": "^6.1.1",
     "typedoc": "^0.15.0",
     "typescript": "^3.3.3",
     "uncss": "^0.16.2",
-    "vinyl": "^2.2.0"
+    "vinyl": "^2.2.0",
+    "yaserver": "^0.1.0"
   }
 }

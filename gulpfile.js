@@ -7,7 +7,7 @@ const fs = require('fs');
 const rimraf = require('rimraf');
 const cp = require('child_process');
 const os = require('os');
-const serveHandler = require('serve-handler');
+const yaserver = require('yaserver');
 const http = require('http');
 const typedoc = require("gulp-typedoc");
 const CleanCSS = require('clean-css');
@@ -835,15 +835,15 @@ const generateTestSamplesTask = function() {
 };
 
 function createSimpleServer(rootDir, port) {
-	const server = http.createServer((request, response) => {
-		return serveHandler(request, response, {
-			public: rootDir,
-			etag: true
+	yaserver.createServer({
+		rootDir: rootDir
+	}).then((staticServer) => {
+		const server = http.createServer((request, response) => {
+			return staticServer.handle(request, response);
 		});
-	});
-
-	server.listen(port, '127.0.0.1', () => {
-		console.log(`Running at http://127.0.0.1:${port}`);
+		server.listen(port, '127.0.0.1', () => {
+			console.log(`Running at http://127.0.0.1:${port}`);
+		});
 	});
 }
 
