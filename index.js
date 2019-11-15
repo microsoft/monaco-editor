@@ -53,22 +53,22 @@ class MonacoWebpackPlugin {
   constructor(options = {}) {
     const languages = options.languages || Object.keys(languagesById);
     const features = getFeaturesIds(options.features || [], featuresById);
-    const output = options.output || '';
     this.options = {
       languages: languages.map((id) => languagesById[id]).filter(Boolean),
       features: features.map(id => featuresById[id]).filter(Boolean),
-      output,
+      output: options.output || '',
+      publicPath: options.publicPath || ''
     };
   }
 
   apply(compiler) {
-    const { languages, features, output } = this.options;
-    const publicPath = getPublicPath(compiler);
+    const { languages, features, output, publicPath } = this.options;
+    const compilationPublicPath = getCompilationPublicPath(compiler);
     const modules = [EDITOR_MODULE].concat(languages).concat(features);
     const workers = modules.map(
       ({ label, alias, worker }) => worker && (mixin({ label, alias }, worker))
     ).filter(Boolean);
-    const rules = createLoaderRules(languages, features, workers, output, publicPath);
+    const rules = createLoaderRules(languages, features, workers, output, publicPath, compilationPublicPath);
     const plugins = createPlugins(workers, output);
     addCompilerRules(compiler, rules);
     addCompilerPlugins(compiler, plugins);
@@ -85,11 +85,11 @@ function addCompilerPlugins(compiler, plugins) {
   plugins.forEach((plugin) => plugin.apply(compiler));
 }
 
-function getPublicPath(compiler) {
+function getCompilationPublicPath(compiler) {
   return compiler.options.output && compiler.options.output.publicPath || '';
 }
 
-function createLoaderRules(languages, features, workers, outputPath, publicPath) {
+function createLoaderRules(languages, features, workers, outputPath, pluginPublicPath, compilationPublicPath) {
   if (!languages.length && !features.length) { return []; }
   const languagePaths = flatArr(languages.map(({ entry }) => entry).filter(Boolean));
   const featurePaths = flatArr(features.map(({ entry }) => entry).filter(Boolean));
@@ -110,6 +110,16 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
     workerPaths['razor'] = workerPaths['html'];
   }
 
+  // Determine the public path from which to load worker JS files. In order of precedence:
+  // 1. Plugin-specific public path.
+  // 2. Dynamic runtime public path.
+  // 3. Compilation public path.
+  const pathPrefix = Boolean(pluginPublicPath)
+    ? JSON.stringify(pluginPublicPath)
+    : `typeof window.__webpack_public_path__ === 'string' ` +
+      `? window.__webpack_public_path__ ` +
+      `: ${JSON.stringify(compilationPublicPath)}`
+
   const globals = {
     'MonacoEnvironment': `(function (paths) {
       function stripTrailingSlash(str) {
@@ -117,7 +127,7 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
       }
       return {
         getWorkerUrl: function (moduleId, label) {
-          var pathPrefix = (typeof window.__webpack_public_path__ === 'string' ? window.__webpack_public_path__ : ${JSON.stringify(publicPath)});
+          var pathPrefix = ${pathPrefix};
           return (pathPrefix ? stripTrailingSlash(pathPrefix) + '/' : '') + paths[label];
         }
       };
