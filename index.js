@@ -116,8 +116,8 @@ function createLoaderRules(languages, features, workers, outputPath, pluginPubli
   // 3. Compilation public path.
   const pathPrefix = Boolean(pluginPublicPath)
     ? JSON.stringify(pluginPublicPath)
-    : `typeof window.__webpack_public_path__ === 'string' ` +
-      `? window.__webpack_public_path__ ` +
+    : `typeof __webpack_public_path__ === 'string' ` +
+      `? __webpack_public_path__ ` +
       `: ${JSON.stringify(compilationPublicPath)}`
 
   const globals = {
