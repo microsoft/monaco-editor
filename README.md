@@ -46,11 +46,11 @@ monaco.editor.create(document.getElementById('container'), {
 
 Options can be passed in to `MonacoWebpackPlugin`. They can be used to generate a smaller editor bundle by selecting only certain languages or only certain editor features:
 
-* `output` (`string`) - custom output path for worker scripts, relative to the main webpack `output.path`.
-  * default value: `''`.
+* `filename` (`string`) - custom filename template for worker scripts, respects the same options as [loader-utils' interpolateName](https://github.com/webpack/loader-utils#interpolatename). Useful for adding content-based hashes so that files can be served with long-lived caching headers.
+  * default value: `'[name].worker.js'`.
 * `languages` (`string[]`) - include only a subset of the languages supported.
   * default value: `['apex', 'azcli', 'bat', 'clojure', 'coffee', 'cpp', 'csharp', 'csp', 'css', 'dockerfile', 'fsharp', 'go', 'handlebars', 'html', 'ini', 'java', 'javascript', 'json', 'less', 'lua', 'markdown', 'msdax', 'mysql', 'objective', 'perl', 'pgsql', 'php', 'postiats', 'powerquery', 'powershell', 'pug', 'python', 'r', 'razor', 'redis', 'redshift', 'ruby', 'rust', 'sb', 'scheme', 'scss', 'shell', 'solidity', 'sql', 'st', 'swift', 'typescript', 'vb', 'xml', 'yaml']`.
-  
+
 Some languages share the same web worker. If one of the following languages is included, you must also include the language responsible for instantiating their shared worker:
 
 | Language      | Instantiator  |

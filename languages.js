@@ -47,7 +47,6 @@ module.exports = {
     worker: {
       id: 'vs/language/css/cssWorker',
       entry: 'vs/language/css/css.worker',
-      output: 'css.worker.js',
       fallback: 'vs/language/css/cssWorker',
     },
     alias: undefined,
@@ -80,7 +79,6 @@ module.exports = {
     worker: {
       id: 'vs/language/html/htmlWorker',
       entry: 'vs/language/html/html.worker',
-      output: 'html.worker.js',
       fallback: 'vs/language/html/htmlWorker',
     },
     alias: undefined,
@@ -105,7 +103,6 @@ module.exports = {
     worker: {
       id: 'vs/language/json/jsonWorker',
       entry: 'vs/language/json/json.worker',
-      output: 'json.worker.js',
       fallback: 'vs/language/json/jsonWorker',
     },
     alias: undefined,
@@ -258,7 +255,6 @@ module.exports = {
     worker: {
       id: 'vs/language/typescript/tsWorker',
       entry: 'vs/language/typescript/ts.worker',
-      output: 'typescript.worker.js',
       fallback: 'vs/language/typescript/tsWorker',
     },
     alias: undefined,
