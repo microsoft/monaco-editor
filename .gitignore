@@ -2,3 +2,8 @@
 /*.iml
 /node_modules/
 /release/
+dist/*.js
+dist/fonts/*
+out-ci/
+.DS_Store
+vscode
