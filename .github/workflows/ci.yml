@@ -15,9 +15,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10.x
-      - uses: actions/checkout@v1
-        with:
-          ref: master
       - name: Checkout VS Code
         run: git clone --depth 1 https://github.com/microsoft/vscode vscode
       - name: VS Code yarn & Editor Distro
