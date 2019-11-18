@@ -13,8 +13,7 @@
     "build-test": "tsc -b ./ci/tsconfig.json --preserveWatchOutput",
     "bundle": "webpack --config ci/webpack.config.js --display-error-details --bail",
     "test": "mocha \"out-ci/*.test.js\" --headless",
-    "ciserver": "gulp ciserver",
-    "ci": "start-server-and-test ciserver 8080 test"
+    "ciserver": "gulp ciserver"
   },
   "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",
@@ -42,14 +41,13 @@
     "monaco-typescript": "3.5.1",
     "puppeteer": "^1.15.0",
     "rimraf": "^2.6.3",
-    "start-server-and-test": "^1.10.6",
     "style-loader": "^1.0.0",
     "typedoc": "^0.15.0",
     "typescript": "^3.3.3",
     "uncss": "^0.16.2",
     "vinyl": "^2.2.0",
-    "yaserver": "^0.1.0",
     "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "yaserver": "^0.1.0"
   }
 }
