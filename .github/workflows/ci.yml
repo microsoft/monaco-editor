@@ -29,7 +29,7 @@ jobs:
         run: npm install
       - name: Webpack Bundle
         run: |
-          npm run build
+          npm run bundle
       - name: Build Tests
         run: |
           npm run build-test
