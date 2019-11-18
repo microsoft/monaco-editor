@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "es6",
+        ],
+        "rootDir": ".",
+        "outDir": "../out-ci/",
+        "types": [
+            "../node_modules/@types/mocha"
+        ],
+        "sourceMap": true,
+        "removeComments": true,
+        "pretty": true,
+        "strict": true
+    }
+}

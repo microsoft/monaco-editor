@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+  schedule:
+    - cron:  '0 8 * * *'
+
+jobs:
+  build:
+    name: Smoke Test
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - name: Checkout VS Code
+        run: git clone --depth 1 https://github.com/microsoft/vscode vscode
+      - name: VS Code yarn & Editor Distro
+        working-directory: ./vscode
+        run: |
+          yarn
+          yarn gulp editor-distro
+      - name: NPM Install
+        run: npm install
+      - name: Webpack Bundle
+        run: |
+          npm run bundle
+      - name: Build Tests
+        run: |
+          npm run build-test
+      - name: Run Smoke Test
+        run: |
+          npm run ciserver &
+          sleep 10
+          npm run test

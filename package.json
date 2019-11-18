@@ -9,7 +9,11 @@
     "simpleserver": "gulp simpleserver",
     "release": "gulp release",
     "website": "gulp website",
-    "build-website": "gulp build-website"
+    "build-website": "gulp build-website",
+    "build-test": "tsc -b ./ci/tsconfig.json --preserveWatchOutput",
+    "bundle": "webpack --config ci/webpack.config.js --display-error-details --bail",
+    "test": "mocha \"out-ci/*.test.js\" --headless",
+    "ciserver": "gulp ciserver"
   },
   "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",
@@ -18,21 +22,32 @@
     "url": "https://github.com/Microsoft/monaco-editor"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.33",
+    "@types/puppeteer": "^1.12.4",
+    "chai": "^4.2.0",
     "clean-css": "^4.2.1",
+    "css-loader": "^3.2.0",
     "event-stream": "3.3.4",
+    "file-loader": "^4.2.0",
     "gulp": "^4.0.0",
     "gulp-typedoc": "^2.2.2",
+    "mocha": "^6.1.4",
     "monaco-css": "2.5.1",
     "monaco-editor-core": "0.18.1",
     "monaco-html": "2.5.3",
     "monaco-json": "2.7.0",
     "monaco-languages": "1.8.0",
     "monaco-typescript": "3.5.1",
+    "puppeteer": "^1.15.0",
     "rimraf": "^2.6.3",
+    "style-loader": "^1.0.0",
     "typedoc": "^0.15.0",
     "typescript": "^3.3.3",
     "uncss": "^0.16.2",
     "vinyl": "^2.2.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.10",
     "yaserver": "^0.1.0"
   }
 }
