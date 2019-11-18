@@ -58,7 +58,6 @@ Contributions to `monaco-typescript`:
   * `autoClosingOvertype`: it controls whether the editor allows [typing over closing quotes or brackets](https://github.com/microsoft/vscode/issues/37315#issuecomment-515200477).
   * `cursorSurroundingLines`: it controls how many visible lines to display around the cursor while moving the cursor towards beginning or end of a file.
   * `renderWhitespace: "selection"`: the editor can render whitespaces only in selection.
-* Deprecate `mouseWheel` event in favor of `wheel`. Scrolling works again in Firefox.
 
 ### API changes
 
