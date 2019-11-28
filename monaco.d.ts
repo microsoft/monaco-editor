@@ -963,7 +963,7 @@ declare namespace monaco.editor {
     };
 
     export interface ITokenThemeRule {
-        token: string;
+        token?: string;
         foreground?: string;
         background?: string;
         fontStyle?: string;
