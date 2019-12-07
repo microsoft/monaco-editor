@@ -350,6 +350,7 @@ export class SignatureHelpAdapter extends Adapter implements monaco.languages.Si
 					parameters: []
 				};
 
+				signature.documentation = displayPartsToString(item.documentation);
 				signature.label += displayPartsToString(item.prefixDisplayParts);
 				item.parameters.forEach((p, i, a) => {
 					let label = displayPartsToString(p.displayParts);
