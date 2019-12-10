@@ -32,7 +32,7 @@
     "file-loader": "^4.2.0",
     "gulp": "^4.0.0",
     "gulp-typedoc": "^2.2.2",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.2",
     "monaco-css": "2.5.1",
     "monaco-editor-core": "0.18.1",
     "monaco-html": "2.5.3",
@@ -41,12 +41,12 @@
     "monaco-typescript": "3.5.1",
     "puppeteer": "^1.15.0",
     "rimraf": "^2.6.3",
-    "style-loader": "^1.0.0",
+    "style-loader": "^1.0.1",
     "typedoc": "^0.15.4",
     "typescript": "^3.3.3",
     "uncss": "^0.16.2",
     "vinyl": "^2.2.0",
-    "webpack": "^4.39.3",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "yaserver": "^0.1.0"
   }
