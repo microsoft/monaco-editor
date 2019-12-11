@@ -48,6 +48,6 @@
     "vinyl": "^2.2.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
-    "yaserver": "^0.1.1"
+    "yaserver": "^0.1.2"
   }
 }
