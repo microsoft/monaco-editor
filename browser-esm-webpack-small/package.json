@@ -5,7 +5,7 @@
     "css-loader": "^3.3.0",
     "monaco-editor": "^0.18.1",
     "style-loader": "^1.0.1",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "terser-webpack-plugin": "^2.2.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   }
