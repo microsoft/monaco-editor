@@ -11,12 +11,12 @@
 	"keywords": [],
 	"author": "",
 	"devDependencies": {
-		"css-loader": "^3.2.0",
-		"file-loader": "^4.2.0",
+		"css-loader": "^3.3.0",
+		"file-loader": "^5.0.2",
 		"monaco-editor-webpack-plugin": "^1.7.0",
-		"style-loader": "^1.0.0",
-		"webpack": "^4.39.3",
-		"webpack-cli": "^3.3.8"
+		"style-loader": "^1.0.1",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.10"
 	},
 	"dependencies": {
 		"monaco-editor": "^0.16.2"

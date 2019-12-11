@@ -2,11 +2,11 @@
   "name": "helloworld",
   "dependencies": {},
   "devDependencies": {
-    "css-loader": "^3.2.0",
-    "monaco-editor": "^0.14.3",
-    "style-loader": "^1.0.0",
+    "css-loader": "^3.3.0",
+    "monaco-editor": "^0.18.1",
+    "style-loader": "^1.0.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.8"
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   }
 }
