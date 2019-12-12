@@ -94,13 +94,6 @@ monaco.editor.create(document.getElementById("container"), {
 'diffEditor.removedTextBackground' // Background color for text that got removed.
 'diffEditor.insertedTextBorder' // Outline color for the text that got inserted.
 'diffEditor.removedTextBorder' // Outline color for text that got removed.
-'merge.currentHeaderBackground' // Current header background in inline merge-conflicts.
-'merge.currentContentBackground' // Current content background in inline merge-conflicts.
-'merge.incomingHeaderBackground' // Incoming header background in inline merge-conflicts.
-'merge.incomingContentBackground' // Incoming content background in inline merge-conflicts.
-'merge.commonHeaderBackground' // Common ancestor header background in inline merge-conflicts.
-'merge.commonContentBackground' // Common ancester content background in inline merge-conflicts.
-'merge.border' // Border color on headers and the splitter in inline merge-conflicts.
 'editorOverviewRuler.currentContentForeground' // Current overview ruler foreground for inline merge-conflicts.
 'editorOverviewRuler.incomingContentForeground' // Incoming overview ruler foreground for inline merge-conflicts.
 'editorOverviewRuler.commonContentForeground' // Common ancestor overview ruler foreground for inline merge-conflicts.
