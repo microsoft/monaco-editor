@@ -57,6 +57,13 @@ function createDependencyProposals() {
             kind: monaco.languages.CompletionItemKind.Function,
             documentation: "Recursively mkdir, like <code>mkdir -p</code>",
             insertText: '"mkdirp": "*"'
+        },
+        {
+            label: '"my-third-party-library"',
+            kind: monaco.languages.CompletionItemKind.Function,
+            documentation: "Describe your library here",
+            insertText: '"${1:my-third-party-library}": "${2:1.2.3}"',
+            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
         }
     ];
 }
