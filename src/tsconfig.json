@@ -3,6 +3,7 @@
     "module": "amd",
     "outDir": "../release/dev",
     "target": "es5",
+	"strict": true,
     "lib": [
       "dom",
       "es5",

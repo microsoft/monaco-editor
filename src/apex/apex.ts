@@ -189,9 +189,9 @@ const keywords = [
 
 // create case variations of the keywords - apex is case insensitive, but we can't make the highlighter case insensitive
 // because we use a heuristic to assume that identifiers starting with an upper case letter are types.
-const uppercaseFirstLetter = (lowercase) => lowercase.charAt(0).toUpperCase() + lowercase.substr(1);
+const uppercaseFirstLetter = (lowercase: string) => lowercase.charAt(0).toUpperCase() + lowercase.substr(1);
 
-let keywordsWithCaseVariations = [];
+let keywordsWithCaseVariations: string[] = [];
 keywords.forEach(lowercase => {
 	keywordsWithCaseVariations.push(lowercase);
 	keywordsWithCaseVariations.push(lowercase.toUpperCase());
