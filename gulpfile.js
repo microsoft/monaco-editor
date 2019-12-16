@@ -800,7 +800,7 @@ const generateTestSamplesTask = function() {
 			'',
 			js,
 			'',
-			'/*----------------------------------------SAMPLE CSS END*/',
+			'/*----------------------------------------SAMPLE JS END*/',
 			'});',
 			'</script>',
 			'</body>',
