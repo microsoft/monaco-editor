@@ -746,6 +746,33 @@ testTokenization('typescript', [
 
 
 	[{
+		line: 'test ? 1 : 2',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.ts' },
+			{ startIndex: 4, type: '' },
+			{ startIndex: 5, type: 'delimiter.ts' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'number.ts' },
+			{ startIndex: 8, type: '' },
+			{ startIndex: 9, type: 'delimiter.ts' },
+			{ startIndex: 10, type: '' },
+			{ startIndex: 11, type: 'number.ts' },
+		]
+	}],
+
+	[{
+		line: 'couldBeNullish ?? 1',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.ts' },
+			{ startIndex: 14, type: '' },
+			{ startIndex: 15, type: 'delimiter.ts' },
+			{ startIndex: 17, type: '' },
+			{ startIndex: 18, type: 'number.ts' }
+		]
+	}],
+
+
+	[{
 		line: '`${5 + \'x\' + (<any>)3}a${4}`',
 		tokens: [
 			{ startIndex: 0, type: 'string.ts' },
