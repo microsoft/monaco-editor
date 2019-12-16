@@ -13,7 +13,7 @@
             name: '*question',
             allowTriggerByBot: true,
             action: 'close',
-            comment: "Please ask your question on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor). We have a great community over [there](https://stackoverflow.com/questions/tagged/monaco-editor). They have already answered hundreds of questions and are happy to answer yours as well. You can also try [searching through existing issues](https://github.com/microsoft/monaco-editor/issues?utf8=%E2%9C%93&q=is%3Aissue+). See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
+            comment: "Please ask your question on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor). We have a great community over [there](https://stackoverflow.com/questions/tagged/monaco-editor). They have already answered hundreds of questions and are happy to answer yours as well. You can also try [searching through existing issues](https://github.com/microsoft/monaco-editor/issues?utf8=%E2%9C%93&q=is%3Aissue+), looking at [API usage samples](https://microsoft.github.io/monaco-editor/playground.html) or at [integration samples](https://github.com/Microsoft/monaco-editor-samples). See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
         },
         {
             type: 'label',
