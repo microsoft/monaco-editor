@@ -169,7 +169,6 @@ export const language = <ILanguage>{
 			[/@symbols/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
 			[/"/, 'string', '@string'],
 
 		],
