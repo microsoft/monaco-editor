@@ -453,4 +453,14 @@ testTokenization('vb', [
 			{ startIndex: 0, type: 'string.vb' },
 		]
 	}],
+
+	[{
+		line: `End qweqweqweqweqwe'here always becomes highlighted Loop `,
+		tokens: [
+			{ startIndex: 0, type: 'keyword.end.vb' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.vb' },
+			{ startIndex: 19, type: 'comment.vb' },
+		]
+	}],
 ]);
