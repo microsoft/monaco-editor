@@ -798,6 +798,26 @@ testTokenization('typescript', [
 			{ startIndex: 26, type: 'delimiter.bracket.ts' },
 			{ startIndex: 27, type: 'string.ts' },
 		]
+	}],
+
+	[{
+		line: 'let x = 2 / 2; //asd',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.ts' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.ts' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.ts' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'number.ts' },
+			{ startIndex: 9, type: '' },
+			{ startIndex: 10, type: 'delimiter.ts' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'number.ts' },
+			{ startIndex: 13, type: 'delimiter.ts' },
+			{ startIndex: 14, type: '' },
+			{ startIndex: 15, type: 'comment.ts' },
+		]
 	}]
 
 ]);
