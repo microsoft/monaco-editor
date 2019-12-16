@@ -269,5 +269,17 @@ testTokenization(['handlebars', 'css'], [
 			{ startIndex: 8, type: 'attribute.value' },
 			{ startIndex: 30, type: 'delimiter.html' }
 		]
+	}],
+
+	[{
+		line: '{{test "coloring/looks broken"}}">',
+		tokens: [
+			{ startIndex: 0, type: 'delimiter.handlebars' },
+			{ startIndex: 2, type: 'variable.parameter.handlebars' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'string.handlebars' },
+			{ startIndex: 30, type: 'delimiter.handlebars' },
+			{ startIndex: 32, type: '' }
+		]
 	}]
 ]);
