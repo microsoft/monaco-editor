@@ -43,6 +43,10 @@ function bundleOne(moduleId, exclude) {
 			location: path.join(REPO_ROOT, 'node_modules/vscode-languageserver-types/lib/umd'),
 			main: 'main'
 		}, {
+			name: 'vscode-languageserver-textdocument',
+			location: path.join(REPO_ROOT, 'node_modules/vscode-languageserver-textdocument/lib/umd'),
+			main: 'main'
+		}, {
 			name: 'vscode-uri',
 			location: path.join(REPO_ROOT, 'node_modules/vscode-uri/lib/umd'),
 			main: 'index'
