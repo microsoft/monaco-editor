@@ -3,8 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {LocalizeInfo, LocalizeFunc, Options, LoadFunc} from 'vscode-nls';
-
 export interface Options {
 	locale?: string;
 	cacheLanguageResolution?: boolean;

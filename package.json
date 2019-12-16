@@ -19,14 +19,15 @@
     "url": "https://github.com/Microsoft/monaco-json/issues"
   },
   "devDependencies": {
-    "jsonc-parser": "^2.1.1",
+    "jsonc-parser": "^2.2.0",
     "monaco-editor-core": "0.18.1",
     "monaco-languages": "1.8.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "typescript": "3.5.3",
-    "terser": "^4.3.1",
-    "vscode-json-languageservice": "3.3.3",
-    "vscode-languageserver-types": "3.14.0"
+    "typescript": "3.7.3",
+    "terser": "^4.4.2",
+    "vscode-json-languageservice": "3.4.10",
+    "vscode-languageserver-types": "3.14.0",
+    "vscode-languageserver-textdocument": "1.0.0-next.5"
   }
 }

@@ -43,6 +43,10 @@ function bundleOne(moduleId, exclude) {
 			location: path.join(REPO_ROOT, 'node_modules/vscode-languageserver-types/lib/umd'),
 			main: 'main'
 		}, {
+			name: 'vscode-languageserver-textdocument',
+			location: path.join(REPO_ROOT, 'node_modules/vscode-languageserver-textdocument/lib/umd'),
+			main: 'main'
+		}, {
 			name: 'jsonc-parser',
 			location: path.join(REPO_ROOT, 'node_modules/jsonc-parser/lib/umd'),
 			main: 'main'
