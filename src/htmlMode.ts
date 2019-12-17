@@ -29,6 +29,8 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): void {
 	monaco.languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
 	monaco.languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker));
 	monaco.languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker));
+	monaco.languages.registerSelectionRangeProvider(languageId, new languageFeatures.SelectionRangeAdapter(worker));
+	monaco.languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker));
 
 	// only html
 	if (languageId === 'html') {

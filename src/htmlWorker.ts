@@ -65,10 +65,21 @@ export class HTMLWorker {
 		let symbols = this._languageService.findDocumentSymbols(document, htmlDocument);
 		return Promise.resolve(symbols);
 	}
-	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<htmlService.FoldingRange[]> {
+	getFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<htmlService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getFoldingRanges(document, context);
 		return Promise.resolve(ranges);
+	}
+	getSelectionRanges(uri: string, positions: htmlService.Position[]): Thenable<htmlService.SelectionRange[]> {
+		let document = this._getTextDocument(uri);
+		let ranges = this._languageService.getSelectionRanges(document, positions);
+		return Promise.resolve(ranges);
+	}
+	doRename(uri: string, position: htmlService.Position, newName: string): Thenable<htmlService.WorkspaceEdit> {
+		let document = this._getTextDocument(uri);
+		let htmlDocument = this._languageService.parseHTMLDocument(document);
+		let renames = this._languageService.doRename(document, position, newName, htmlDocument);
+		return Promise.resolve(renames);
 	}
 	private _getTextDocument(uri: string): htmlService.TextDocument {
 		let models = this._ctx.getMirrorModels();
