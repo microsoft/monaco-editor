@@ -51,7 +51,6 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '/*', close: '*/' },
 		{ open: '\'', close: '\'', notIn: ['string_sq'] },
 		{ open: '"', close: '"', notIn: ['string_dq'] },
-		{ open: 'var', close: 'end_var' },
 		{ open: 'var_input', close: 'end_var' },
 		{ open: 'var_output', close: 'end_var' },
 		{ open: 'var_in_out', close: 'end_var' },
@@ -130,12 +129,12 @@ export const language = <ILanguage>{
 		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
-	keywords: ['if', 'end_if', 'elsif', 'else', 'case', 'of', 'to',
+	keywords: ['if', 'end_if', 'elsif', 'else', 'case', 'of', 'to', '__try', '__catch', '__finally',
 		'do', 'with', 'by', 'while', 'repeat', 'end_while', 'end_repeat', 'end_case',
 		'for', 'end_for', 'task', 'retain', 'non_retain', 'constant', 'with', 'at',
 		'exit', 'return', 'interval', 'priority', 'address', 'port', 'on_channel',
 		'then', 'iec', 'file', 'uses', 'version', 'packagetype', 'displayname',
-		'copyright', 'summary', 'vendor', 'common_source', 'from'],
+		'copyright', 'summary', 'vendor', 'common_source', 'from','extends'],
 
 	constant: ['false', 'true', 'null'],
 
@@ -145,9 +144,11 @@ export const language = <ILanguage>{
 
 		'type', 'end_type', 'struct', 'end_struct', 'program', 'end_program',
 		'function', 'end_function', 'function_block', 'end_function_block',
+		'interface', 'end_interface', 'method', 'end_method',
+		'property', 'end_property', 'namespace', 'end_namespace',
 
-		'configuration', 'end_configuration', 'tcp', 'end_tcp', 'recource',
-		'end_recource', 'channel', 'end_channel', 'library', 'end_library',
+		'configuration', 'end_configuration', 'tcp', 'end_tcp', 'resource',
+		'end_resource', 'channel', 'end_channel', 'library', 'end_library',
 		'folder', 'end_folder', 'binaries', 'end_binaries', 'includes',
 		'end_includes', 'sources', 'end_sources',
 
@@ -156,13 +157,13 @@ export const language = <ILanguage>{
 
 	typeKeywords: ['int', 'sint', 'dint', 'lint', 'usint', 'uint', 'udint', 'ulint',
 		'real', 'lreal', 'time', 'date', 'time_of_day', 'date_and_time', 'string',
-		'bool', 'byte', 'world', 'dworld', 'array', 'pointer', 'lworld'],
+		'bool', 'byte', 'word', 'dword', 'array', 'pointer', 'lword'],
 
 	operators: ['=', '>', '<', ':', ':=', '<=', '>=', '<>', '&', '+', '-', '*', '**',
 		'MOD', '^', 'or', 'and', 'not', 'xor', 'abs', 'acos', 'asin', 'atan', 'cos',
 		'exp', 'expt', 'ln', 'log', 'sin', 'sqrt', 'tan', 'sel', 'max', 'min', 'limit',
 		'mux', 'shl', 'shr', 'rol', 'ror', 'indexof', 'sizeof', 'adr', 'adrinst',
-		'bitadr', 'is_valid'],
+		'bitadr', 'is_valid', 'ref', 'ref_to'],
 
 	builtinVariables: [
 
@@ -187,7 +188,7 @@ export const language = <ILanguage>{
 			[/\b(16#[0-9A-Fa-f\_]*)+\b/, 'number.hex'],
 			[/\b(2#[01\_]+)+\b/, 'number.binary'],
 			[/\b(8#[0-9\_]*)+\b/, 'number.octal'],
-			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+			[/\b\d*\.\d+([eE][\-+]?\d+)?\b/, 'number.float'],
 			[/\b(L?REAL)#[0-9\_\.e]+\b/, 'number.float'],
 			[/\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#[0-9\_]+\b/, 'number'],
 			[/\d+/, 'number'],
@@ -195,7 +196,7 @@ export const language = <ILanguage>{
 			[/\b(T|DT|TOD)#[0-9:-_shmyd]+\b/, 'tag'],
 			[/\%(I|Q|M)(X|B|W|D|L)[0-9\.]+/, 'tag'],
 			[/\%(I|Q|M)[0-9\.]*/, 'tag'],
-			[/\b[A-Za-z]{1,6}#[0-9]+/, 'tag'],
+			[/\b[A-Za-z]{1,6}#[0-9]+\b/, 'tag'],
 
 			[/\b(TO_|CTU_|CTD_|CTUD_|MUX_|SEL_)[A_Za-z]+\b/, 'predefined'],
 			[/\b[A_Za-z]+(_TO_)[A_Za-z]+\b/, 'predefined'],
