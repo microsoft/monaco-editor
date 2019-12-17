@@ -181,6 +181,7 @@ export class DiagnosticsAdapter extends Adapter {
 			}
 			const markers = diagnostics
 				.reduce((p, c) => c.concat(p), [])
+				.filter(d => (this._defaults.getDiagnosticsOptions().diagnosticCodesToIgnore || []).indexOf(d.code) === -1)
 				.map(d => this._convertDiagnostics(resource, d));
 
 			monaco.editor.setModelMarkers(monaco.editor.getModel(resource), this._selector, markers);
@@ -200,8 +201,30 @@ export class DiagnosticsAdapter extends Adapter {
 			endLineNumber,
 			endColumn,
 			message: flattenDiagnosticMessageText(diag.messageText, '\n'),
-			code: diag.code.toString()
+			code: diag.code.toString(),
+			tags: diag.reportsUnnecessary ? [monaco.MarkerTag.Unnecessary] : [],
+			relatedInformation: this._convertRelatedInformation(resource, diag.relatedInformation),
 		};
+	}
+
+	private _convertRelatedInformation(resource: Uri, relatedInformation?: ts.DiagnosticRelatedInformation[]): monaco.editor.IRelatedInformation[] {
+		if (relatedInformation === undefined)
+			return undefined;
+
+		return relatedInformation.map(info => {
+			const relatedResource = info.file === undefined ? resource : monaco.Uri.parse(info.file.fileName);
+			const { lineNumber: startLineNumber, column: startColumn } = this._offsetToPosition(relatedResource, info.start);
+			const { lineNumber: endLineNumber, column: endColumn } = this._offsetToPosition(relatedResource, info.start + info.length);
+
+			return {
+				resource: relatedResource,
+				startLineNumber,
+				startColumn,
+				endLineNumber,
+				endColumn,
+				message: flattenDiagnosticMessageText(info.messageText, '\n')
+			};
+		});
 	}
 
 	private _tsDiagnosticCategoryToMarkerSeverity(category: ts.DiagnosticCategory): monaco.MarkerSeverity {
