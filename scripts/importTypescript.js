@@ -19,7 +19,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	importLibs();
 
 	const npmLsOutput = JSON.parse(child_process.execSync("npm ls typescript --depth=0 --json=true").toString());
-	const typeScriptDependencyVersion = '3.5.1';//npmLsOutput.dependencies.typescript.version;
+	const typeScriptDependencyVersion = npmLsOutput.dependencies.typescript.version;
 
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
