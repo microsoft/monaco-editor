@@ -81,43 +81,30 @@ const razorOptionsDefault: Required<monaco.languages.html.Options> = {
 	suggest: { html5: true, razor: true }
 }
 
-const htmlModeConfigurationDefault: Required<monaco.languages.html.ModeConfiguration> = {
-	completionItems: true,
-	hovers: true,
-	documentSymbols: true,
-	links: true,
-	documentHighlights: true,
-	rename: true,
-	colors: true,
-	foldingRanges: true,
-	diagnostics: true,
-	selectionRanges: true,
-	documentFormattingEdits: true,
-	documentRangeFormattingEdits: true
-}
-
-const othersModeConfigurationDefault: Required<monaco.languages.html.ModeConfiguration> = {
-	completionItems: true,
-	hovers: true,
-	documentSymbols: true,
-	links: true,
-	documentHighlights: true,
-	rename: true,
-	colors: true,
-	foldingRanges: true,
-	selectionRanges: true,
-	diagnostics: false,  // turned off for Razor and Handlebar
-	documentFormattingEdits: false, // turned off for Razor and Handlebar
-	documentRangeFormattingEdits: false // turned off for Razor and Handlebar
+function getConfigurationDefault(languageId: string): Required<monaco.languages.html.ModeConfiguration> {
+	return {
+		completionItems: true,
+		hovers: true,
+		documentSymbols: true,
+		links: true,
+		documentHighlights: true,
+		rename: true,
+		colors: true,
+		foldingRanges: true,
+		selectionRanges: true,
+		diagnostics: languageId === htmlLanguageId, // turned off for Razor and Handlebar
+		documentFormattingEdits: languageId === htmlLanguageId, // turned off for Razor and Handlebar
+		documentRangeFormattingEdits: languageId === htmlLanguageId // turned off for Razor and Handlebar
+	};
 }
 
 const htmlLanguageId = 'html';
 const handlebarsLanguageId = 'handlebars';
 const razorLanguageId = 'razor';
 
-const htmlDefaults = new LanguageServiceDefaultsImpl(htmlLanguageId, htmlOptionsDefault, htmlModeConfigurationDefault);
-const handlebarDefaults = new LanguageServiceDefaultsImpl(handlebarsLanguageId, handlebarOptionsDefault, othersModeConfigurationDefault);
-const razorDefaults = new LanguageServiceDefaultsImpl(razorLanguageId, razorOptionsDefault, othersModeConfigurationDefault);
+const htmlDefaults = new LanguageServiceDefaultsImpl(htmlLanguageId, htmlOptionsDefault, getConfigurationDefault(htmlLanguageId));
+const handlebarDefaults = new LanguageServiceDefaultsImpl(handlebarsLanguageId, handlebarOptionsDefault, getConfigurationDefault(handlebarsLanguageId));
+const razorDefaults = new LanguageServiceDefaultsImpl(razorLanguageId, razorOptionsDefault, getConfigurationDefault(razorLanguageId));
 
 // Export API
 function createAPI(): typeof monaco.languages.html {
