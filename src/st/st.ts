@@ -194,8 +194,8 @@ export const language = <ILanguage>{
 			[/\d+/, 'number'],
 
 			[/\b(T|DT|TOD)#[0-9:-_shmyd]+\b/, 'tag'],
-			[/\b\%(I|Q|M)(X|B|W|D|L)[0-9\.]+\b/, 'tag'],
-			[/\b\%(I|Q|M)[0-9\.]*\b/, 'tag'],
+			[/\%(I|Q|M)(X|B|W|D|L)[0-9\.]+/, 'tag'],
+			[/\%(I|Q|M)[0-9\.]*/, 'tag'],
 			[/\b[A-Za-z]{1,6}#[0-9]+\b/, 'tag'],
 
 			[/\b(TO_|CTU_|CTD_|CTUD_|MUX_|SEL_)[A_Za-z]+\b/, 'predefined'],

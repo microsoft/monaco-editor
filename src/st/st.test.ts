@@ -37,7 +37,7 @@ testTokenization('st', [
 		]
 	}],
 	[{
-		line: "IF a > 2#0000_0110 THEN (* Somethign ' happens *)",
+		line: "IF a > 2#0000_0110 THEN (* Something ' happens *)",
 		tokens: [
 			{ startIndex: 0, type: 'keyword.st' },
 			{ startIndex: 2, type: 'white.st' },
