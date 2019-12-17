@@ -35,10 +35,8 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	);
 
 	// Eliminate more require() calls...
-	tsServices = (
-		tsServices.replace(/return require\(fileNameToRequire\);/, `// MONACOCHANGE\n            return undefined;\n            // END MONACOCHANGE`)
-	);
 	tsServices = tsServices.replace(/^( +)etwModule = require\(.*$/m, '$1// MONACOCHANGE\n$1etwModule = undefined;\n$1// END MONACOCHANGE');
+	tsServices = tsServices.replace(/^( +)var result = ts\.sys\.require\(.*$/m, '$1// MONACOCHANGE\n$1var result = undefined;\n$1// END MONACOCHANGE');
 
 	// Flag any new require calls (outside comments) so they can be corrected preemptively.
 	// To avoid missing cases (or using an even more complex regex), temporarily remove comments
