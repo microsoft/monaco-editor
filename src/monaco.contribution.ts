@@ -15,11 +15,13 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.html.Langua
 
 	private _onDidChange = new Emitter<monaco.languages.html.LanguageServiceDefaults>();
 	private _options: monaco.languages.html.Options;
+	private _modeConfiguration: monaco.languages.html.ModeConfiguration;
 	private _languageId: string;
 
-	constructor(languageId: string, options: monaco.languages.html.Options) {
+	constructor(languageId: string, options: monaco.languages.html.Options, modeConfiguration: monaco.languages.html.ModeConfiguration) {
 		this._languageId = languageId;
 		this.setOptions(options);
+		this.setModeConfiguration(modeConfiguration);
 	}
 
 	get onDidChange(): IEvent<monaco.languages.html.LanguageServiceDefaults> {
@@ -34,13 +36,22 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.html.Langua
 		return this._options;
 	}
 
+	get modeConfiguration(): monaco.languages.html.ModeConfiguration {
+		return this._modeConfiguration;
+	}
+
 	setOptions(options: monaco.languages.html.Options): void {
 		this._options = options || Object.create(null);
 		this._onDidChange.fire(this);
 	}
+
+	setModeConfiguration(modeConfiguration: monaco.languages.html.ModeConfiguration): void {
+		this._modeConfiguration = modeConfiguration || Object.create(null);
+		this._onDidChange.fire(this);
+	};
 }
 
-const formatDefaults: monaco.languages.html.HTMLFormatConfiguration = {
+const formatDefaults: Required<monaco.languages.html.HTMLFormatConfiguration> = {
 	tabSize: 4,
 	insertSpaces: false,
 	wrapLineLength: 120,
@@ -55,28 +66,58 @@ const formatDefaults: monaco.languages.html.HTMLFormatConfiguration = {
 	wrapAttributes: 'auto'
 };
 
-const htmlOptionsDefault: monaco.languages.html.Options = {
+const htmlOptionsDefault: Required<monaco.languages.html.Options> = {
 	format: formatDefaults,
 	suggest: { html5: true, angular1: true, ionic: true }
 }
 
-const handlebarOptionsDefault: monaco.languages.html.Options = {
+const handlebarOptionsDefault: Required<monaco.languages.html.Options> = {
 	format: formatDefaults,
 	suggest: { html5: true }
 }
 
-const razorOptionsDefault: monaco.languages.html.Options = {
+const razorOptionsDefault: Required<monaco.languages.html.Options> = {
 	format: formatDefaults,
 	suggest: { html5: true, razor: true }
+}
+
+const htmlModeConfigurationDefault: Required<monaco.languages.html.ModeConfiguration> = {
+	completionItems: true,
+	hovers: true,
+	documentSymbols: true,
+	links: true,
+	documentHighlights: true,
+	rename: true,
+	colors: true,
+	foldingRanges: true,
+	diagnostics: true,
+	selectionRanges: true,
+	documentFormattingEdits: true,
+	documentRangeFormattingEdits: true
+}
+
+const othersModeConfigurationDefault: Required<monaco.languages.html.ModeConfiguration> = {
+	completionItems: true,
+	hovers: true,
+	documentSymbols: true,
+	links: true,
+	documentHighlights: true,
+	rename: true,
+	colors: true,
+	foldingRanges: true,
+	selectionRanges: true,
+	diagnostics: false,  // turned off for Razor and Handlebar
+	documentFormattingEdits: false, // turned off for Razor and Handlebar
+	documentRangeFormattingEdits: false // turned off for Razor and Handlebar
 }
 
 const htmlLanguageId = 'html';
 const handlebarsLanguageId = 'handlebars';
 const razorLanguageId = 'razor';
 
-const htmlDefaults = new LanguageServiceDefaultsImpl(htmlLanguageId, htmlOptionsDefault);
-const handlebarDefaults = new LanguageServiceDefaultsImpl(handlebarsLanguageId, handlebarOptionsDefault);
-const razorDefaults = new LanguageServiceDefaultsImpl(razorLanguageId, razorOptionsDefault);
+const htmlDefaults = new LanguageServiceDefaultsImpl(htmlLanguageId, htmlOptionsDefault, htmlModeConfigurationDefault);
+const handlebarDefaults = new LanguageServiceDefaultsImpl(handlebarsLanguageId, handlebarOptionsDefault, othersModeConfigurationDefault);
+const razorDefaults = new LanguageServiceDefaultsImpl(razorLanguageId, razorOptionsDefault, othersModeConfigurationDefault);
 
 // Export API
 function createAPI(): typeof monaco.languages.html {
