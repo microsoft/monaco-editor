@@ -201,7 +201,8 @@ export class DiagnosticsAdapter extends Adapter {
 			endLineNumber,
 			endColumn,
 			message: flattenDiagnosticMessageText(diag.messageText, '\n'),
-			code: diag.code.toString()
+			code: diag.code.toString(),
+			tags: diag.reportsUnnecessary ? [monaco.MarkerTag.Unnecessary] : []
 		};
 	}
 
