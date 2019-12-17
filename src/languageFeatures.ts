@@ -7,7 +7,7 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import { CSSWorker } from './cssWorker';
 
-import * as ls from 'vscode-languageserver-types';
+import * as cssService from 'vscode-css-languageservice';
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;
@@ -106,16 +106,16 @@ export class DiagnosticsAdapter {
 
 function toSeverity(lsSeverity: number): monaco.MarkerSeverity {
 	switch (lsSeverity) {
-		case ls.DiagnosticSeverity.Error: return monaco.MarkerSeverity.Error;
-		case ls.DiagnosticSeverity.Warning: return monaco.MarkerSeverity.Warning;
-		case ls.DiagnosticSeverity.Information: return monaco.MarkerSeverity.Info;
-		case ls.DiagnosticSeverity.Hint: return monaco.MarkerSeverity.Hint;
+		case cssService.DiagnosticSeverity.Error: return monaco.MarkerSeverity.Error;
+		case cssService.DiagnosticSeverity.Warning: return monaco.MarkerSeverity.Warning;
+		case cssService.DiagnosticSeverity.Information: return monaco.MarkerSeverity.Info;
+		case cssService.DiagnosticSeverity.Hint: return monaco.MarkerSeverity.Hint;
 		default:
 			return monaco.MarkerSeverity.Info;
 	}
 }
 
-function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarkerData {
+function toDiagnostics(resource: Uri, diag: cssService.Diagnostic): monaco.editor.IMarkerData {
 	let code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
 
 	return {
@@ -132,21 +132,21 @@ function toDiagnostics(resource: Uri, diag: ls.Diagnostic): monaco.editor.IMarke
 
 // --- completion ------
 
-function fromPosition(position: Position): ls.Position {
+function fromPosition(position: Position): cssService.Position {
 	if (!position) {
 		return void 0;
 	}
 	return { character: position.column - 1, line: position.lineNumber - 1 };
 }
 
-function fromRange(range: IRange): ls.Range {
+function fromRange(range: IRange): cssService.Range {
 	if (!range) {
 		return void 0;
 	}
 	return { start: { line: range.startLineNumber - 1, character: range.startColumn - 1 }, end: { line: range.endLineNumber - 1, character: range.endColumn - 1 } };
 }
 
-function toRange(range: ls.Range): Range {
+function toRange(range: cssService.Range): Range {
 	if (!range) {
 		return void 0;
 	}
@@ -157,29 +157,29 @@ function toCompletionItemKind(kind: number): monaco.languages.CompletionItemKind
 	let mItemKind = monaco.languages.CompletionItemKind;
 
 	switch (kind) {
-		case ls.CompletionItemKind.Text: return mItemKind.Text;
-		case ls.CompletionItemKind.Method: return mItemKind.Method;
-		case ls.CompletionItemKind.Function: return mItemKind.Function;
-		case ls.CompletionItemKind.Constructor: return mItemKind.Constructor;
-		case ls.CompletionItemKind.Field: return mItemKind.Field;
-		case ls.CompletionItemKind.Variable: return mItemKind.Variable;
-		case ls.CompletionItemKind.Class: return mItemKind.Class;
-		case ls.CompletionItemKind.Interface: return mItemKind.Interface;
-		case ls.CompletionItemKind.Module: return mItemKind.Module;
-		case ls.CompletionItemKind.Property: return mItemKind.Property;
-		case ls.CompletionItemKind.Unit: return mItemKind.Unit;
-		case ls.CompletionItemKind.Value: return mItemKind.Value;
-		case ls.CompletionItemKind.Enum: return mItemKind.Enum;
-		case ls.CompletionItemKind.Keyword: return mItemKind.Keyword;
-		case ls.CompletionItemKind.Snippet: return mItemKind.Snippet;
-		case ls.CompletionItemKind.Color: return mItemKind.Color;
-		case ls.CompletionItemKind.File: return mItemKind.File;
-		case ls.CompletionItemKind.Reference: return mItemKind.Reference;
+		case cssService.CompletionItemKind.Text: return mItemKind.Text;
+		case cssService.CompletionItemKind.Method: return mItemKind.Method;
+		case cssService.CompletionItemKind.Function: return mItemKind.Function;
+		case cssService.CompletionItemKind.Constructor: return mItemKind.Constructor;
+		case cssService.CompletionItemKind.Field: return mItemKind.Field;
+		case cssService.CompletionItemKind.Variable: return mItemKind.Variable;
+		case cssService.CompletionItemKind.Class: return mItemKind.Class;
+		case cssService.CompletionItemKind.Interface: return mItemKind.Interface;
+		case cssService.CompletionItemKind.Module: return mItemKind.Module;
+		case cssService.CompletionItemKind.Property: return mItemKind.Property;
+		case cssService.CompletionItemKind.Unit: return mItemKind.Unit;
+		case cssService.CompletionItemKind.Value: return mItemKind.Value;
+		case cssService.CompletionItemKind.Enum: return mItemKind.Enum;
+		case cssService.CompletionItemKind.Keyword: return mItemKind.Keyword;
+		case cssService.CompletionItemKind.Snippet: return mItemKind.Snippet;
+		case cssService.CompletionItemKind.Color: return mItemKind.Color;
+		case cssService.CompletionItemKind.File: return mItemKind.File;
+		case cssService.CompletionItemKind.Reference: return mItemKind.Reference;
 	}
 	return mItemKind.Property;
 }
 
-function toTextEdit(textEdit: ls.TextEdit): monaco.editor.ISingleEditOperation {
+function toTextEdit(textEdit: cssService.TextEdit): monaco.editor.ISingleEditOperation {
 	if (!textEdit) {
 		return void 0;
 	}
@@ -228,7 +228,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 				if (entry.additionalTextEdits) {
 					item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit)
 				}
-				if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
+				if (entry.insertTextFormat === cssService.InsertTextFormat.Snippet) {
 					item.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
 				}
 				return item;
@@ -243,11 +243,11 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 }
 
 
-function isMarkupContent(thing: any): thing is ls.MarkupContent {
-	return thing && typeof thing === 'object' && typeof (<ls.MarkupContent>thing).kind === 'string';
+function isMarkupContent(thing: any): thing is cssService.MarkupContent {
+	return thing && typeof thing === 'object' && typeof (<cssService.MarkupContent>thing).kind === 'string';
 }
 
-function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMarkdownString {
+function toMarkdownString(entry: cssService.MarkupContent | cssService.MarkedString): monaco.IMarkdownString {
 	if (typeof entry === 'string') {
 		return {
 			value: entry
@@ -267,7 +267,7 @@ function toMarkdownString(entry: ls.MarkupContent | ls.MarkedString): monaco.IMa
 	return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
 }
 
-function toMarkedStringArray(contents: ls.MarkupContent | ls.MarkedString | ls.MarkedString[]): monaco.IMarkdownString[] {
+function toMarkedStringArray(contents: cssService.MarkupContent | cssService.MarkedString | cssService.MarkedString[]): monaco.IMarkdownString[] {
 	if (!contents) {
 		return void 0;
 	}
@@ -306,9 +306,9 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 
 function toDocumentHighlightKind(kind: number): monaco.languages.DocumentHighlightKind {
 	switch (kind) {
-		case ls.DocumentHighlightKind.Read: return monaco.languages.DocumentHighlightKind.Read;
-		case ls.DocumentHighlightKind.Write: return monaco.languages.DocumentHighlightKind.Write;
-		case ls.DocumentHighlightKind.Text: return monaco.languages.DocumentHighlightKind.Text;
+		case cssService.DocumentHighlightKind.Read: return monaco.languages.DocumentHighlightKind.Read;
+		case cssService.DocumentHighlightKind.Write: return monaco.languages.DocumentHighlightKind.Write;
+		case cssService.DocumentHighlightKind.Text: return monaco.languages.DocumentHighlightKind.Text;
 	}
 	return monaco.languages.DocumentHighlightKind.Text;
 }
@@ -340,7 +340,7 @@ export class DocumentHighlightAdapter implements monaco.languages.DocumentHighli
 
 // --- definition ------
 
-function toLocation(location: ls.Location): monaco.languages.Location {
+function toLocation(location: cssService.Location): monaco.languages.Location {
 	return {
 		uri: Uri.parse(location.uri),
 		range: toRange(location.range)
@@ -389,7 +389,7 @@ export class ReferenceAdapter implements monaco.languages.ReferenceProvider {
 
 // --- rename ------
 
-function toWorkspaceEdit(edit: ls.WorkspaceEdit): monaco.languages.WorkspaceEdit {
+function toWorkspaceEdit(edit: cssService.WorkspaceEdit): monaco.languages.WorkspaceEdit {
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
@@ -428,28 +428,28 @@ export class RenameAdapter implements monaco.languages.RenameProvider {
 
 // --- document symbols ------
 
-function toSymbolKind(kind: ls.SymbolKind): monaco.languages.SymbolKind {
+function toSymbolKind(kind: cssService.SymbolKind): monaco.languages.SymbolKind {
 	let mKind = monaco.languages.SymbolKind;
 
 	switch (kind) {
-		case ls.SymbolKind.File: return mKind.Array;
-		case ls.SymbolKind.Module: return mKind.Module;
-		case ls.SymbolKind.Namespace: return mKind.Namespace;
-		case ls.SymbolKind.Package: return mKind.Package;
-		case ls.SymbolKind.Class: return mKind.Class;
-		case ls.SymbolKind.Method: return mKind.Method;
-		case ls.SymbolKind.Property: return mKind.Property;
-		case ls.SymbolKind.Field: return mKind.Field;
-		case ls.SymbolKind.Constructor: return mKind.Constructor;
-		case ls.SymbolKind.Enum: return mKind.Enum;
-		case ls.SymbolKind.Interface: return mKind.Interface;
-		case ls.SymbolKind.Function: return mKind.Function;
-		case ls.SymbolKind.Variable: return mKind.Variable;
-		case ls.SymbolKind.Constant: return mKind.Constant;
-		case ls.SymbolKind.String: return mKind.String;
-		case ls.SymbolKind.Number: return mKind.Number;
-		case ls.SymbolKind.Boolean: return mKind.Boolean;
-		case ls.SymbolKind.Array: return mKind.Array;
+		case cssService.SymbolKind.File: return mKind.Array;
+		case cssService.SymbolKind.Module: return mKind.Module;
+		case cssService.SymbolKind.Namespace: return mKind.Namespace;
+		case cssService.SymbolKind.Package: return mKind.Package;
+		case cssService.SymbolKind.Class: return mKind.Class;
+		case cssService.SymbolKind.Method: return mKind.Method;
+		case cssService.SymbolKind.Property: return mKind.Property;
+		case cssService.SymbolKind.Field: return mKind.Field;
+		case cssService.SymbolKind.Constructor: return mKind.Constructor;
+		case cssService.SymbolKind.Enum: return mKind.Enum;
+		case cssService.SymbolKind.Interface: return mKind.Interface;
+		case cssService.SymbolKind.Function: return mKind.Function;
+		case cssService.SymbolKind.Variable: return mKind.Variable;
+		case cssService.SymbolKind.Constant: return mKind.Constant;
+		case cssService.SymbolKind.String: return mKind.String;
+		case cssService.SymbolKind.Number: return mKind.Number;
+		case cssService.SymbolKind.Boolean: return mKind.Boolean;
+		case cssService.SymbolKind.Array: return mKind.Array;
 	}
 	return mKind.Function;
 }
@@ -530,7 +530,7 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 	public provideFoldingRanges(model: monaco.editor.IReadOnlyModel, context: monaco.languages.FoldingContext, token: CancellationToken): Thenable<monaco.languages.FoldingRange[]> {
 		const resource = model.uri;
 
-		return this._worker(resource).then(worker => worker.provideFoldingRanges(resource.toString(), context)).then(ranges => {
+		return this._worker(resource).then(worker => worker.getFoldingRanges(resource.toString(), context)).then(ranges => {
 			if (!ranges) {
 				return;
 			}
@@ -540,7 +540,7 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 					end: range.endLine + 1
 				};
 				if (typeof range.kind !== 'undefined') {
-					result.kind = toFoldingRangeKind(<ls.FoldingRangeKind>range.kind);
+					result.kind = toFoldingRangeKind(<cssService.FoldingRangeKind>range.kind);
 				}
 				return result;
 			});
@@ -549,11 +549,35 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 
 }
 
-function toFoldingRangeKind(kind: ls.FoldingRangeKind): monaco.languages.FoldingRangeKind {
+function toFoldingRangeKind(kind: cssService.FoldingRangeKind): monaco.languages.FoldingRangeKind {
 	switch (kind) {
-		case ls.FoldingRangeKind.Comment: return monaco.languages.FoldingRangeKind.Comment;
-		case ls.FoldingRangeKind.Imports: return monaco.languages.FoldingRangeKind.Imports;
-		case ls.FoldingRangeKind.Region: return monaco.languages.FoldingRangeKind.Region;
+		case cssService.FoldingRangeKind.Comment: return monaco.languages.FoldingRangeKind.Comment;
+		case cssService.FoldingRangeKind.Imports: return monaco.languages.FoldingRangeKind.Imports;
+		case cssService.FoldingRangeKind.Region: return monaco.languages.FoldingRangeKind.Region;
 	}
-	return void 0;
+}
+
+export class SelectionRangeAdapter implements monaco.languages.SelectionRangeProvider {
+
+	constructor(private _worker: WorkerAccessor) {
+	}
+
+	public provideSelectionRanges(model: monaco.editor.IReadOnlyModel, positions: Position[], token: CancellationToken): Thenable<monaco.languages.SelectionRange[][]> {
+		const resource = model.uri;
+
+		return this._worker(resource).then(worker => worker.getSelectionRanges(resource.toString(), positions.map(fromPosition))).then(selectionRanges => {
+			if (!selectionRanges) {
+				return;
+			}
+			return selectionRanges.map(selectionRange => {
+				const result: monaco.languages.SelectionRange[] = [];
+				while (selectionRange) {
+					result.push({ range: toRange(selectionRange.range) });
+					selectionRange = selectionRange.parent;
+				}
+				return result;
+			});
+		});
+	}
+
 }

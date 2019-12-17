@@ -3,8 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {LocalizeInfo, LocalizeFunc, Options, LoadFunc} from 'vscode-nls';
-
 export interface Options {
 	locale?: string;
 	cacheLanguageResolution?: boolean;
@@ -22,7 +20,7 @@ export interface LoadFunc {
 }
 
 function format(message: string, args: any[]): string {
-	let result:string;
+	let result: string;
 
 	if (args.length === 0) {
 		result = message;

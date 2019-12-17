@@ -8,7 +8,6 @@ import * as mode from './cssMode';
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
-import IDisposable = monaco.IDisposable;
 
 // --- CSS configuration and defaults ---------
 
