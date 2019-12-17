@@ -21,7 +21,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 	constructor(languageId: string, diagnosticsOptions: monaco.languages.json.DiagnosticsOptions, modeConfiguration: monaco.languages.json.ModeConfiguration) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
-		this.setModeConfiguration(modeConfiguration)
+		this.setModeConfiguration(modeConfiguration);
 	}
 
 	get onDidChange(): IEvent<monaco.languages.json.LanguageServiceDefaults> {
@@ -44,20 +44,21 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.json.Langua
 		this._diagnosticsOptions = options || Object.create(null);
 		this._onDidChange.fire(this);
 	}
+
 	setModeConfiguration(modeConfiguration: monaco.languages.json.ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
 		this._onDidChange.fire(this);
 	};
 }
 
-const diagnosticDefault: monaco.languages.json.DiagnosticsOptions = {
+const diagnosticDefault: Required<monaco.languages.json.DiagnosticsOptions> = {
 	validate: true,
 	allowComments: true,
 	schemas: [],
 	enableSchemaRequest: false
 };
 
-const modeConfigurationDefault: monaco.languages.json.ModeConfiguration = {
+const modeConfigurationDefault: Required<monaco.languages.json.ModeConfiguration> = {
 	documentFormattingEdits: true,
 	documentRangeFormattingEdits: true,
 	completionItems: true,

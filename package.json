@@ -26,8 +26,6 @@
     "requirejs": "^2.3.6",
     "typescript": "3.7.3",
     "terser": "^4.4.3",
-    "vscode-json-languageservice": "3.4.10",
-    "vscode-languageserver-types": "3.15.0-next.9",
-    "vscode-languageserver-textdocument": "^1.0.0-next.5"
+    "vscode-json-languageservice": "3.4.11"
   }
 }
