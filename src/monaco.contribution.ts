@@ -93,6 +93,24 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		};
 	}
 
+	setExtraLibs(libs: { content: string; filePath?: string }[]): void {
+		// clear out everything
+		this._extraLibs = Object.create(null);
+
+		if (libs && libs.length > 0) {
+			for (const lib of libs) {
+				const filePath = lib.filePath || `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
+				const content = lib.content;
+				this._extraLibs[filePath] = {
+					content: content,
+					version: 1
+				};
+			}
+		}
+
+		this._fireOnDidExtraLibsChangeSoon();
+	}
+
 	private _fireOnDidExtraLibsChangeSoon(): void {
 		if (this._onDidExtraLibsChangeTimeout !== -1) {
 			// already scheduled

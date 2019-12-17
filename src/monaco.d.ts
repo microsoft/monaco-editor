@@ -136,7 +136,7 @@ declare module monaco.languages.typescript {
         /**
          * Add an additional source file to the language service. Use this
          * for typescript (definition) files that won't be loaded as editor
-         * document, like `jquery.d.ts`.
+         * documents, like `jquery.d.ts`.
          *
          * @param content The file content
          * @param filePath An optional file path
@@ -144,6 +144,14 @@ declare module monaco.languages.typescript {
          * language service upon disposal.
          */
         addExtraLib(content: string, filePath?: string): IDisposable;
+
+        /**
+         * Remove all existing extra libs and set the additional source
+         * files to the language service. Use this for typescript definition
+         * files that won't be loaded as editor documents, like `jquery.d.ts`.
+         * @param libs An array of entries to register.
+         */
+        setExtraLibs(libs: { content: string; filePath?: string }[]): void;
 
         /**
          * Set TypeScript compiler options.
