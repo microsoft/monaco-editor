@@ -23,7 +23,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib([
 	'     */',
 	'    static next():string',
 	'}',
-].join('\n'), 'filename/facts.d.ts');
+].join('\n'), 'ts:filename/facts.d.ts');
 
 var jsCode = [
 	'"use strict";',

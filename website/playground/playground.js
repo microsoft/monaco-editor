@@ -7,7 +7,7 @@
 	window.onload = function () {
 		require(['vs/editor/editor.main'], function () {
 			xhr('playground/monaco.d.ts.txt').then(function (response) {
-				monaco.languages.typescript.javascriptDefaults.addExtraLib(response.responseText, 'monaco.d.ts');
+				monaco.languages.typescript.javascriptDefaults.addExtraLib(response.responseText, 'ts:monaco.d.ts');
 				monaco.languages.typescript.javascriptDefaults.addExtraLib([
 					'declare var require: {',
 					'	toUrl(path: string): string;',
@@ -16,7 +16,7 @@
 					'	config(data: any): any;',
 					'	onError: Function;',
 					'};',
-				].join('\n'), 'require.d.ts');
+				].join('\n'), 'ts:require.d.ts');
 			});
 
 			var loading = document.getElementById('loading');
