@@ -8,11 +8,10 @@ import Thenable = monaco.Thenable;
 import IWorkerContext = monaco.worker.IWorkerContext;
 
 import * as jsonService from 'vscode-json-languageservice';
-import * as ls from 'vscode-languageserver-types';
 
 let defaultSchemaRequestService;
-if (typeof fetch !== 'undefined'){
-	defaultSchemaRequestService = function (url) { return fetch(url).then(response => response.text())};
+if (typeof fetch !== 'undefined') {
+	defaultSchemaRequestService = function (url) { return fetch(url).then(response => response.text()) };
 }
 
 class PromiseAdapter<T> implements jsonService.Thenable<T> {
@@ -57,7 +56,7 @@ export class JSONWorker {
 		this._languageService.configure(this._languageSettings);
 	}
 
-	doValidation(uri: string): Thenable<ls.Diagnostic[]> {
+	doValidation(uri: string): Thenable<jsonService.Diagnostic[]> {
 		let document = this._getTextDocument(uri);
 		if (document) {
 			let jsonDocument = this._languageService.parseJSONDocument(document);
@@ -65,20 +64,20 @@ export class JSONWorker {
 		}
 		return Promise.resolve([]);
 	}
-	doComplete(uri: string, position: ls.Position): Thenable<ls.CompletionList> {
+	doComplete(uri: string, position: jsonService.Position): Thenable<jsonService.CompletionList> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doComplete(document, position, jsonDocument);
 	}
-	doResolve(item: ls.CompletionItem): Thenable<ls.CompletionItem> {
+	doResolve(item: jsonService.CompletionItem): Thenable<jsonService.CompletionItem> {
 		return this._languageService.doResolve(item);
 	}
-	doHover(uri: string, position: ls.Position): Thenable<ls.Hover> {
+	doHover(uri: string, position: jsonService.Position): Thenable<jsonService.Hover> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doHover(document, position, jsonDocument);
 	}
-	format(uri: string, range: ls.Range, options: ls.FormattingOptions): Thenable<ls.TextEdit[]> {
+	format(uri: string, range: jsonService.Range, options: jsonService.FormattingOptions): Thenable<jsonService.TextEdit[]> {
 		let document = this._getTextDocument(uri);
 		let textEdits = this._languageService.format(document, range, options);
 		return Promise.resolve(textEdits);
@@ -86,34 +85,40 @@ export class JSONWorker {
 	resetSchema(uri: string): Thenable<boolean> {
 		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
-	findDocumentSymbols(uri: string): Thenable<ls.SymbolInformation[]> {
+	findDocumentSymbols(uri: string): Thenable<jsonService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
 		return Promise.resolve(symbols);
 	}
-	findDocumentColors(uri: string): Thenable<ls.ColorInformation[]> {
+	findDocumentColors(uri: string): Thenable<jsonService.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
-		let stylesheet = this._languageService.parseJSONDocument(document);
-		let colorSymbols = this._languageService.findDocumentColors(document, stylesheet);
+		let jsonDocument = this._languageService.parseJSONDocument(document);
+		let colorSymbols = this._languageService.findDocumentColors(document, jsonDocument);
 		return Promise.resolve(colorSymbols);
 	}
-	getColorPresentations(uri: string, color: ls.Color, range: ls.Range): Thenable<ls.ColorPresentation[]> {
+	getColorPresentations(uri: string, color: jsonService.Color, range: jsonService.Range): Thenable<jsonService.ColorPresentation[]> {
 		let document = this._getTextDocument(uri);
-		let stylesheet = this._languageService.parseJSONDocument(document);
-		let colorPresentations = this._languageService.getColorPresentations(document, stylesheet, color, range);
+		let jsonDocument = this._languageService.parseJSONDocument(document);
+		let colorPresentations = this._languageService.getColorPresentations(document, jsonDocument, color, range);
 		return Promise.resolve(colorPresentations);
 	}
-	provideFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<ls.FoldingRange[]> {
+	getFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<jsonService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getFoldingRanges(document, context);
 		return Promise.resolve(ranges);
 	}
-	private _getTextDocument(uri: string): ls.TextDocument {
+	getSelectionRanges(uri: string, positions: jsonService.Position[]): Thenable<jsonService.SelectionRange[]> {
+		let document = this._getTextDocument(uri);
+		let jsonDocument = this._languageService.parseJSONDocument(document);
+		let ranges = this._languageService.getSelectionRanges(document, positions, jsonDocument);
+		return Promise.resolve(ranges);
+	}
+	private _getTextDocument(uri: string): jsonService.TextDocument {
 		let models = this._ctx.getMirrorModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {
-				return ls.TextDocument.create(uri, this._languageId, model.version, model.getValue());
+				return jsonService.TextDocument.create(uri, this._languageId, model.version, model.getValue());
 			}
 		}
 		return null;
@@ -123,7 +128,7 @@ export class JSONWorker {
 export interface ICreateData {
 	languageId: string;
 	languageSettings: jsonService.LanguageSettings;
-    enableSchemaRequest: boolean;
+	enableSchemaRequest: boolean;
 }
 
 export function create(ctx: IWorkerContext, createData: ICreateData): JSONWorker {

@@ -66,7 +66,8 @@ const modeConfigurationDefault: monaco.languages.json.ModeConfiguration = {
 	tokens: true,
 	colors: true,
 	foldingRanges: true,
-	diagnostics: true
+	diagnostics: true,
+	selectionRanges: true
 }
 
 const jsonDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, modeConfigurationDefault);
