@@ -27,10 +27,70 @@ declare module monaco.languages.css {
 		}
 	}
 
+	export interface ModeConfiguration {
+		/**
+		 * Defines whether the built-in completionItemProvider is enabled.
+		 */
+		readonly completionItems?: boolean;
+
+		/**
+		 * Defines whether the built-in hoverProvider is enabled.
+		 */
+		readonly hovers?: boolean;
+
+		/**
+		 * Defines whether the built-in documentSymbolProvider is enabled.
+		 */
+		readonly documentSymbols?: boolean;
+
+		/**
+		 * Defines whether the built-in definitions provider is enabled.
+		 */
+		readonly definitions?: boolean;
+
+		/**
+		 * Defines whether the built-in references provider is enabled.
+		 */
+		readonly references?: boolean;
+
+		/**
+		 * Defines whether the built-in references provider is enabled.
+		 */
+		readonly documentHighlights?: boolean;
+
+		/**
+		 * Defines whether the built-in rename provider is enabled.
+		 */
+		readonly rename?: boolean;
+
+		/**
+		 * Defines whether the built-in color provider is enabled.
+		 */
+		readonly colors?: boolean;
+
+		/**
+		 * Defines whether the built-in foldingRange provider is enabled.
+		 */
+		readonly foldingRanges?: boolean;
+
+		/**
+		 * Defines whether the built-in diagnostic provider is enabled.
+		 */
+		readonly diagnostics?: boolean;
+
+		/**
+		 * Defines whether the built-in selection range provider is enabled.
+		 */
+		readonly selectionRanges?: boolean;
+
+	}
+
 	export interface LanguageServiceDefaults {
 		readonly onDidChange: IEvent<LanguageServiceDefaults>;
 		readonly diagnosticsOptions: DiagnosticsOptions;
+		readonly modeConfiguration: ModeConfiguration;
 		setDiagnosticsOptions(options: DiagnosticsOptions): void;
+		setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 	}
 
 	export var cssDefaults: LanguageServiceDefaults;
