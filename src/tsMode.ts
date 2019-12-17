@@ -9,7 +9,6 @@ import { TypeScriptWorker } from './tsWorker';
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 
-import Promise = monaco.Promise;
 import Uri = monaco.Uri;
 
 let javaScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
@@ -30,7 +29,7 @@ export function setupJavaScript(defaults: LanguageServiceDefaultsImpl): void {
 }
 
 export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
-	return new monaco.Promise((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		if (!javaScriptWorker) {
 			return reject("JavaScript not registered!");
 		}
@@ -40,7 +39,7 @@ export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => P
 }
 
 export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
-	return new monaco.Promise((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		if (!typeScriptWorker) {
 			return reject("TypeScript not registered!");
 		}
@@ -65,7 +64,9 @@ function setupMode(defaults: LanguageServiceDefaultsImpl, modeId: string): (firs
 	monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker));
 	monaco.languages.registerDocumentRangeFormattingEditProvider(modeId, new languageFeatures.FormatAdapter(worker));
 	monaco.languages.registerOnTypeFormattingEditProvider(modeId, new languageFeatures.FormatOnTypeAdapter(worker));
-	new languageFeatures.DiagnostcsAdapter(defaults, modeId, worker);
+	monaco.languages.registerCodeActionProvider(modeId, new languageFeatures.CodeActionAdaptor(worker));
+	monaco.languages.registerRenameProvider(modeId, new languageFeatures.RenameAdapter(worker));
+	new languageFeatures.DiagnosticsAdapter(defaults, modeId, worker);
 
 	return worker;
 }

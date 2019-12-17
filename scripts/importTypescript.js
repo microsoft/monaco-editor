@@ -5,6 +5,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const child_process = require('child_process');
 
 const TYPESCRIPT_LIB_SOURCE = path.join(__dirname, '../node_modules/typescript/lib');
 const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
@@ -17,6 +18,14 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	}
 	importLibs();
 
+	const npmLsOutput = JSON.parse(child_process.execSync("npm ls typescript --depth=0 --json=true").toString());
+	const typeScriptDependencyVersion = npmLsOutput.dependencies.typescript.version;
+
+	fs.writeFileSync(
+		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
+		`export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
+	);
+
 	var tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js')).toString();
 
 	// Ensure we never run into the node system...
@@ -24,6 +33,29 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	tsServices = (
 		tsServices.replace(/\n    ts\.sys =([^]*)\n    \}\)\(\);/m, `\n    // MONACOCHANGE\n    ts.sys = undefined;\n    // END MONACOCHANGE`)
 	);
+
+	// Eliminate more require() calls...
+	tsServices = tsServices.replace(/^( +)etwModule = require\(.*$/m, '$1// MONACOCHANGE\n$1etwModule = undefined;\n$1// END MONACOCHANGE');
+	tsServices = tsServices.replace(/^( +)var result = ts\.sys\.require\(.*$/m, '$1// MONACOCHANGE\n$1var result = undefined;\n$1// END MONACOCHANGE');
+
+	// Flag any new require calls (outside comments) so they can be corrected preemptively.
+	// To avoid missing cases (or using an even more complex regex), temporarily remove comments
+	// about require() and then check for lines actually calling require().
+	// \/[*/] matches the start of a comment (single or multi-line).
+	// ^\s+\*[^/] matches (presumably) a later line of a multi-line comment.
+	const tsServicesNoCommentedRequire = tsServices.replace(/(\/[*/]|^\s+\*[^/]).*\brequire\(.*/gm, '');
+	const linesWithRequire = tsServicesNoCommentedRequire.match(/^.*?\brequire\(.*$/gm);
+	if (linesWithRequire && linesWithRequire.length) {
+		console.error('Found new require() calls on the following lines. These should be removed to avoid breaking webpack builds.\n');
+		console.error(linesWithRequire.join('\n'));
+		process.exit(1);
+	}
+
+	// Make sure process.args don't get called in the browser, this
+	// should only happen in TS 2.6.2
+	const beforeProcess = `ts.perfLogger.logInfoEvent("Starting TypeScript v" + ts.versionMajorMinor + " with command line: " + JSON.stringify(process.argv));`
+	const afterProcess = `// MONACOCHANGE\n    ts.perfLogger.logInfoEvent("Starting TypeScript v" + ts.versionMajorMinor + " with command line: " + JSON.stringify([]));\n// END MONACOCHANGE`
+	tsServices = tsServices.replace(beforeProcess, afterProcess);
 
 	var tsServices_amd = tsServices +
 		`
@@ -38,15 +70,15 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 	var tsServices_esm = tsServices +
 		`
 // MONACOCHANGE
-export const createClassifier = ts.createClassifier;
-export const createLanguageService = ts.createLanguageService;
-export const displayPartsToString = ts.displayPartsToString;
-export const EndOfLineState = ts.EndOfLineState;
-export const flattenDiagnosticMessageText = ts.flattenDiagnosticMessageText;
-export const IndentStyle = ts.IndentStyle;
-export const ScriptKind = ts.ScriptKind;
-export const ScriptTarget = ts.ScriptTarget;
-export const TokenClass = ts.TokenClass;
+export var createClassifier = ts.createClassifier;
+export var createLanguageService = ts.createLanguageService;
+export var displayPartsToString = ts.displayPartsToString;
+export var EndOfLineState = ts.EndOfLineState;
+export var flattenDiagnosticMessageText = ts.flattenDiagnosticMessageText;
+export var IndentStyle = ts.IndentStyle;
+export var ScriptKind = ts.ScriptKind;
+export var ScriptTarget = ts.ScriptTarget;
+export var TokenClass = ts.TokenClass;
 // END MONACOCHANGE
 `;
 	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'), tsServices_esm);
@@ -59,6 +91,7 @@ export = ts;
 // END MONACOCHANGE
 `;
 	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.d.ts'), dtsServices);
+
 })();
 
 function importLibs() {

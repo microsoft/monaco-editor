@@ -5,6 +5,7 @@
 'use strict';
 
 import * as mode from './tsMode';
+import { typescriptVersion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
 
 import Emitter = monaco.Emitter;
 import IEvent = monaco.IEvent;
@@ -12,87 +13,113 @@ import IDisposable = monaco.IDisposable;
 
 // --- TypeScript configuration and defaults ---------
 
+export interface IExtraLib {
+	content: string;
+	version: number;
+}
+
+export interface IExtraLibs {
+	[path: string]: IExtraLib;
+}
+
 export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.LanguageServiceDefaults {
 
-	private _onDidChange = new Emitter<monaco.languages.typescript.LanguageServiceDefaults>();
-	private _extraLibs: { [path: string]: string };
+	private _onDidChange = new Emitter<void>();
+	private _onDidExtraLibsChange = new Emitter<void>();
+
+	private _extraLibs: IExtraLibs;
 	private _workerMaxIdleTime: number;
 	private _eagerModelSync: boolean;
 	private _compilerOptions: monaco.languages.typescript.CompilerOptions;
 	private _diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions;
+	private _onDidExtraLibsChangeTimeout: number;
 
 	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
 		this._extraLibs = Object.create(null);
 		this._workerMaxIdleTime = 2 * 60 * 1000;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
+		this._onDidExtraLibsChangeTimeout = -1;
 	}
 
-	get onDidChange(): IEvent<monaco.languages.typescript.LanguageServiceDefaults> {
+	get onDidChange(): IEvent<void> {
 		return this._onDidChange.event;
 	}
 
-	getExtraLibs(): { [path: string]: string; } {
-		const result = Object.create(null);
-		for (var key in this._extraLibs) {
-			result[key] = this._extraLibs[key];
-		}
-		return Object.freeze(result);
+	get onDidExtraLibsChange(): IEvent<void> {
+		return this._onDidExtraLibsChange.event;
+	}
+
+	getExtraLibs(): IExtraLibs {
+		return this._extraLibs;
 	}
 
 	addExtraLib(content: string, filePath?: string): IDisposable {
 		if (typeof filePath === 'undefined') {
-			filePath = `ts:extralib-${Date.now()}`;
+			filePath = `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
 		}
 
+		if (this._extraLibs[filePath] && this._extraLibs[filePath].content === content) {
+			// no-op, there already exists an extra lib with this content
+			return {
+				dispose: () => { }
+			};
+		}
+
+		let myVersion = 1;
 		if (this._extraLibs[filePath]) {
-			throw new Error(`${filePath} already a extra lib`);
+			myVersion = this._extraLibs[filePath].version + 1;
 		}
 
-		this._extraLibs[filePath] = content;
-		this._onDidChange.fire(this);
+		this._extraLibs[filePath] = {
+			content: content,
+			version: myVersion,
+		};
+		this._fireOnDidExtraLibsChangeSoon();
 
 		return {
 			dispose: () => {
-				if (delete this._extraLibs[filePath]) {
-					this._onDidChange.fire(this);
+				let extraLib = this._extraLibs[filePath];
+				if (!extraLib) {
+					return;
 				}
+				if (extraLib.version !== myVersion) {
+					return;
+				}
+
+				delete this._extraLibs[filePath];
+				this._fireOnDidExtraLibsChangeSoon();
 			}
 		};
 	}
 
-	setExtraLibs(libs: Array<{ content: string; filePath?: string }>): IDisposable {
-		const paths = [];
+	setExtraLibs(libs: { content: string; filePath?: string }[]): void {
+		// clear out everything
+		this._extraLibs = Object.create(null);
 
 		if (libs && libs.length > 0) {
-			libs.forEach(lib => {
-				const filePath = lib.filePath || `ts:extralib-${Date.now()}`;
+			for (const lib of libs) {
+				const filePath = lib.filePath || `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
 				const content = lib.content;
-
-				this._extraLibs[filePath] = content;
-				paths.push(filePath);
-			});
-
-			this._onDidChange.fire(this);
-		}
-
-		return {
-			dispose: () => {
-				if (paths.length > 0) {
-					let changed = false;
-
-					paths.forEach(filePath => {
-						if (delete this._extraLibs[filePath]) {
-							changed = true;
-						}
-					});
-
-					if (changed) {
-						this._onDidChange.fire(this);
-					}
-				}
+				this._extraLibs[filePath] = {
+					content: content,
+					version: 1
+				};
 			}
 		}
+
+		this._fireOnDidExtraLibsChangeSoon();
+	}
+
+	private _fireOnDidExtraLibsChangeSoon(): void {
+		if (this._onDidExtraLibsChangeTimeout !== -1) {
+			// already scheduled
+			return;
+		}
+		this._onDidExtraLibsChangeTimeout = setTimeout(() => {
+			this._onDidExtraLibsChangeTimeout = -1;
+			this._onDidExtraLibsChange.fire(undefined);
+		}, 0);
 	}
 
 	getCompilerOptions(): monaco.languages.typescript.CompilerOptions {
@@ -101,7 +128,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	setCompilerOptions(options: monaco.languages.typescript.CompilerOptions): void {
 		this._compilerOptions = options || Object.create(null);
-		this._onDidChange.fire(this);
+		this._onDidChange.fire(undefined);
 	}
 
 	getDiagnosticsOptions(): monaco.languages.typescript.DiagnosticsOptions {
@@ -110,7 +137,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	setDiagnosticsOptions(options: monaco.languages.typescript.DiagnosticsOptions): void {
 		this._diagnosticsOptions = options || Object.create(null);
-		this._onDidChange.fire(this);
+		this._onDidChange.fire(undefined);
 	}
 
 	setMaximumWorkerIdleTime(value: number): void {
@@ -143,18 +170,21 @@ enum ModuleKind {
 	UMD = 3,
 	System = 4,
 	ES2015 = 5,
-	ESNext = 6
+	ESNext = 99
 }
+
 enum JsxEmit {
 	None = 0,
 	Preserve = 1,
 	React = 2,
 	ReactNative = 3
 }
+
 enum NewLineKind {
 	CarriageReturnLineFeed = 0,
 	LineFeed = 1
 }
+
 enum ScriptTarget {
 	ES3 = 0,
 	ES5 = 1,
@@ -162,10 +192,13 @@ enum ScriptTarget {
 	ES2016 = 3,
 	ES2017 = 4,
 	ES2018 = 5,
-	ESNext = 6,
+	ES2019 = 6,
+	ES2020 = 7,
+	ESNext = 99,
 	JSON = 100,
-	Latest = 6
+	Latest = ESNext,
 }
+
 enum ModuleResolutionKind {
 	Classic = 1,
 	NodeJs = 2
@@ -180,11 +213,11 @@ const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false });
 
-function getTypeScriptWorker(): monaco.Promise<any> {
+function getTypeScriptWorker(): Promise<any> {
 	return getMode().then(mode => mode.getTypeScriptWorker());
 }
 
-function getJavaScriptWorker(): monaco.Promise<any> {
+function getJavaScriptWorker(): Promise<any> {
 	return getMode().then(mode => mode.getJavaScriptWorker());
 }
 
@@ -196,6 +229,7 @@ function createAPI(): typeof monaco.languages.typescript {
 		NewLineKind: NewLineKind,
 		ScriptTarget: ScriptTarget,
 		ModuleResolutionKind: ModuleResolutionKind,
+		typescriptVersion,
 		typescriptDefaults: typescriptDefaults,
 		javascriptDefaults: javascriptDefaults,
 		getTypeScriptWorker: getTypeScriptWorker,
@@ -206,8 +240,8 @@ monaco.languages.typescript = createAPI();
 
 // --- Registration to monaco editor ---
 
-function getMode(): monaco.Promise<typeof mode> {
-	return monaco.Promise.wrap(import('./tsMode'))
+function getMode(): Promise<typeof mode> {
+	return import('./tsMode');
 }
 
 monaco.languages.onLanguage('typescript', () => {

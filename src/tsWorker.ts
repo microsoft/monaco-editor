@@ -6,8 +6,8 @@
 
 import * as ts from './lib/typescriptServices';
 import { lib_dts, lib_es6_dts } from './lib/lib';
+import { IExtraLibs } from './monaco.contribution';
 
-import Promise = monaco.Promise;
 import IWorkerContext = monaco.worker.IWorkerContext;
 
 const DEFAULT_LIB = {
@@ -25,7 +25,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	// --- model sync -----------------------
 
 	private _ctx: IWorkerContext;
-	private _extraLibs: { [fileName: string]: string } = Object.create(null);
+	private _extraLibs: IExtraLibs = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 
@@ -60,9 +60,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		let model = this._getModel(fileName);
 		if (model) {
 			return model.version.toString();
-		} else if (this.isDefaultLibFileName(fileName) || fileName in this._extraLibs) {
-			// extra lib and default lib are static
+		} else if (this.isDefaultLibFileName(fileName)) {
+			// default lib is static
 			return '1';
+		} else if (fileName in this._extraLibs) {
+			return String(this._extraLibs[fileName].version);
 		}
 	}
 
@@ -74,8 +76,8 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 			text = model.getValue();
 
 		} else if (fileName in this._extraLibs) {
-			// static extra lib
-			text = this._extraLibs[fileName];
+			// extra lib
+			text = this._extraLibs[fileName].content;
 
 		} else if (fileName === DEFAULT_LIB.NAME) {
 			text = DEFAULT_LIB.CONTENTS;
@@ -135,73 +137,96 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 	getSyntacticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getSyntacticDiagnostics(fileName);
 		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.as(diagnostics);
+		return Promise.resolve(diagnostics);
 	}
 
 	getSemanticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
 		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.as(diagnostics);
+		return Promise.resolve(diagnostics);
+	}
+
+	getSuggestionDiagnostics(fileName: string): Promise<ts.DiagnosticWithLocation[]> {
+		const diagnostics = this._languageService.getSuggestionDiagnostics(fileName);
+		TypeScriptWorker.clearFiles(diagnostics);
+		return Promise.resolve(diagnostics);
 	}
 
 	getCompilerOptionsDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
 		const diagnostics = this._languageService.getCompilerOptionsDiagnostics();
 		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.as(diagnostics);
+		return Promise.resolve(diagnostics);
 	}
 
 	getCompletionsAtPosition(fileName: string, position: number): Promise<ts.CompletionInfo> {
-		return Promise.as(this._languageService.getCompletionsAtPosition(fileName, position, undefined));
+		return Promise.resolve(this._languageService.getCompletionsAtPosition(fileName, position, undefined));
 	}
 
 	getCompletionEntryDetails(fileName: string, position: number, entry: string): Promise<ts.CompletionEntryDetails> {
-		return Promise.as(this._languageService.getCompletionEntryDetails(fileName, position, entry, undefined, undefined, undefined));
+		return Promise.resolve(this._languageService.getCompletionEntryDetails(fileName, position, entry, undefined, undefined, undefined));
 	}
 
 	getSignatureHelpItems(fileName: string, position: number): Promise<ts.SignatureHelpItems> {
-		return Promise.as(this._languageService.getSignatureHelpItems(fileName, position, undefined));
+		return Promise.resolve(this._languageService.getSignatureHelpItems(fileName, position, undefined));
 	}
 
 	getQuickInfoAtPosition(fileName: string, position: number): Promise<ts.QuickInfo> {
-		return Promise.as(this._languageService.getQuickInfoAtPosition(fileName, position));
+		return Promise.resolve(this._languageService.getQuickInfoAtPosition(fileName, position));
 	}
 
-	getOccurrencesAtPosition(fileName: string, position: number): Promise<ts.ReferenceEntry[]> {
-		return Promise.as(this._languageService.getOccurrencesAtPosition(fileName, position));
+	getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.ReferenceEntry>> {
+		return Promise.resolve(this._languageService.getOccurrencesAtPosition(fileName, position));
 	}
 
-	getDefinitionAtPosition(fileName: string, position: number): Promise<ts.DefinitionInfo[]> {
-		return Promise.as(this._languageService.getDefinitionAtPosition(fileName, position));
+	getDefinitionAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.DefinitionInfo>> {
+		return Promise.resolve(this._languageService.getDefinitionAtPosition(fileName, position));
 	}
 
 	getReferencesAtPosition(fileName: string, position: number): Promise<ts.ReferenceEntry[]> {
-		return Promise.as(this._languageService.getReferencesAtPosition(fileName, position));
+		return Promise.resolve(this._languageService.getReferencesAtPosition(fileName, position));
 	}
 
 	getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]> {
-		return Promise.as(this._languageService.getNavigationBarItems(fileName));
+		return Promise.resolve(this._languageService.getNavigationBarItems(fileName));
 	}
 
 	getFormattingEditsForDocument(fileName: string, options: ts.FormatCodeOptions): Promise<ts.TextChange[]> {
-		return Promise.as(this._languageService.getFormattingEditsForDocument(fileName, options));
+		return Promise.resolve(this._languageService.getFormattingEditsForDocument(fileName, options));
 	}
 
 	getFormattingEditsForRange(fileName: string, start: number, end: number, options: ts.FormatCodeOptions): Promise<ts.TextChange[]> {
-		return Promise.as(this._languageService.getFormattingEditsForRange(fileName, start, end, options));
+		return Promise.resolve(this._languageService.getFormattingEditsForRange(fileName, start, end, options));
 	}
 
 	getFormattingEditsAfterKeystroke(fileName: string, postion: number, ch: string, options: ts.FormatCodeOptions): Promise<ts.TextChange[]> {
-		return Promise.as(this._languageService.getFormattingEditsAfterKeystroke(fileName, postion, ch, options));
+		return Promise.resolve(this._languageService.getFormattingEditsAfterKeystroke(fileName, postion, ch, options));
+	}
+
+	findRenameLocations(fileName: string, positon: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename: boolean): Promise<readonly ts.RenameLocation[]> {
+		return Promise.resolve(this._languageService.findRenameLocations(fileName, positon, findInStrings, findInComments, providePrefixAndSuffixTextForRename));
+	}
+
+	getRenameInfo(fileName: string, positon: number, options: ts.RenameInfoOptions): Promise<ts.RenameInfo> {
+		return Promise.resolve(this._languageService.getRenameInfo(fileName, positon, options));
 	}
 
 	getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
-		return Promise.as(this._languageService.getEmitOutput(fileName));
+		return Promise.resolve(this._languageService.getEmitOutput(fileName));
+	}
+
+	getCodeFixesAtPosition(fileName: string, start: number, end: number, errorCodes: number[], formatOptions: ts.FormatCodeOptions): Promise<ReadonlyArray<ts.CodeFixAction>> {
+		const preferences = {}
+		return Promise.resolve(this._languageService.getCodeFixesAtPosition(fileName, start, end, errorCodes, formatOptions, preferences));
+	}
+
+	updateExtraLibs(extraLibs: IExtraLibs) {
+		this._extraLibs = extraLibs;
 	}
 }
 
 export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
-	extraLibs: { [path: string]: string };
+	extraLibs: IExtraLibs;
 }
 
 export function create(ctx: IWorkerContext, createData: ICreateData): TypeScriptWorker {

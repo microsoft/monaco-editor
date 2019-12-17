@@ -7,7 +7,6 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import { TypeScriptWorker } from './tsWorker';
 
-import Promise = monaco.Promise;
 import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
 
@@ -18,6 +17,8 @@ export class WorkerManager {
 	private _idleCheckInterval: number;
 	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
+	private _updateExtraLibsToken: number;
+	private _extraLibsChangeListener: IDisposable;
 
 	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker>;
 	private _client: Promise<TypeScriptWorker>;
@@ -29,6 +30,8 @@ export class WorkerManager {
 		this._idleCheckInterval = setInterval(() => this._checkIfIdle(), 30 * 1000);
 		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
+		this._updateExtraLibsToken = 0;
+		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(() => this._updateExtraLibs());
 	}
 
 	private _stopWorker(): void {
@@ -42,7 +45,21 @@ export class WorkerManager {
 	dispose(): void {
 		clearInterval(this._idleCheckInterval);
 		this._configChangeListener.dispose();
+		this._extraLibsChangeListener.dispose();
 		this._stopWorker();
+	}
+
+	private async _updateExtraLibs(): Promise<void> {
+		if (!this._worker) {
+			return;
+		}
+		const myToken = ++this._updateExtraLibsToken;
+		const proxy = await this._worker.getProxy();
+		if (this._updateExtraLibsToken !== myToken) {
+			// avoid multiple calls
+			return;
+		}
+		proxy.updateExtraLibs(this._defaults.getExtraLibs());
 	}
 
 	private _checkIfIdle(): void {
@@ -74,7 +91,7 @@ export class WorkerManager {
 				}
 			});
 
-			let p = this._worker.getProxy();
+			let p = <Promise<TypeScriptWorker>>this._worker.getProxy();
 
 			if (this._defaults.getEagerModelSync()) {
 				p = p.then(worker => {
@@ -93,26 +110,10 @@ export class WorkerManager {
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<TypeScriptWorker> {
 		let _client: TypeScriptWorker;
-		return toShallowCancelPromise(
-			this._getClient().then((client) => {
-				_client = client
-			}).then(_ => {
-				return this._worker.withSyncedResources(resources)
-			}).then(_ => _client)
-		);
+		return this._getClient().then((client) => {
+			_client = client
+		}).then(_ => {
+			return this._worker.withSyncedResources(resources)
+		}).then(_ => _client);
 	}
-}
-
-function toShallowCancelPromise<T>(p: Promise<T>): Promise<T> {
-	let completeCallback: (value: T) => void;
-	let errorCallback: (err: any) => void;
-
-	let r = new Promise<T>((c, e) => {
-		completeCallback = c;
-		errorCallback = e;
-	}, () => { });
-
-	p.then(completeCallback, errorCallback);
-
-	return r;
 }

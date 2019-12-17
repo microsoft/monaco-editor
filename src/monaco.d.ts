@@ -8,8 +8,9 @@ declare module monaco.languages.typescript {
         UMD = 3,
         System = 4,
         ES2015 = 5,
-        ESNext = 6
+        ESNext = 99
     }
+
     enum JsxEmit {
         None = 0,
         Preserve = 1,
@@ -28,9 +29,11 @@ declare module monaco.languages.typescript {
         ES2016 = 3,
         ES2017 = 4,
         ES2018 = 5,
-        ESNext = 6,
+        ES2019 = 6,
+        ES2020 = 7,
+        ESNext = 99,
         JSON = 100,
-        Latest = 6
+        Latest = ESNext,
     }
 
     export enum ModuleResolutionKind {
@@ -125,32 +128,30 @@ declare module monaco.languages.typescript {
     export interface DiagnosticsOptions {
         noSemanticValidation?: boolean;
         noSyntaxValidation?: boolean;
+        noSuggestionDiagnostics?: boolean;
+        diagnosticCodesToIgnore?: number[];
     }
 
     export interface LanguageServiceDefaults {
         /**
          * Add an additional source file to the language service. Use this
          * for typescript (definition) files that won't be loaded as editor
-         * document, like `jquery.d.ts`.
+         * documents, like `jquery.d.ts`.
          *
          * @param content The file content
          * @param filePath An optional file path
          * @returns A disposable which will remove the file from the
-         * language service upon cleanup.
+         * language service upon disposal.
          */
         addExtraLib(content: string, filePath?: string): IDisposable;
 
         /**
-         * Add multiple source files to the language service.
-         * Use this for multiple typescript (definition) files that won't be loaded
-         * as editor document, like `jquery.d.ts`.
-         * This method is optimised for performance and raises change events only once
-         * for the whole list.
+         * Remove all existing extra libs and set the additional source
+         * files to the language service. Use this for typescript definition
+         * files that won't be loaded as editor documents, like `jquery.d.ts`.
          * @param libs An array of entries to register.
-         * @returns A disposable which will remove the file from the
-         * language service upon cleanup.
          */
-        setExtraLibs(libs: Array<{ content: string; filePath?: string }>): IDisposable;
+        setExtraLibs(libs: { content: string; filePath?: string }[]): void;
 
         /**
          * Set TypeScript compiler options.
@@ -177,6 +178,8 @@ declare module monaco.languages.typescript {
          */
         setEagerModelSync(value: boolean): void;
     }
+
+    export var typescriptVersion: string;
 
     export var typescriptDefaults: LanguageServiceDefaults;
     export var javascriptDefaults: LanguageServiceDefaults;
