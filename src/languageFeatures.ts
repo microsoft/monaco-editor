@@ -83,6 +83,13 @@ export abstract class Adapter {
 
 // --- diagnostics --- ---
 
+enum DiagnosticCategory {
+	Warning = 0,
+	Error = 1,
+	Suggestion = 2,
+	Message = 3
+}
+
 export class DiagnosticsAdapter extends Adapter {
 
 	private _disposables: IDisposable[] = [];
@@ -229,10 +236,10 @@ export class DiagnosticsAdapter extends Adapter {
 
 	private _tsDiagnosticCategoryToMarkerSeverity(category: ts.DiagnosticCategory): monaco.MarkerSeverity {
 		switch (category) {
-			case ts.DiagnosticCategory.Error: return monaco.MarkerSeverity.Error
-			case ts.DiagnosticCategory.Message: return monaco.MarkerSeverity.Info
-			case ts.DiagnosticCategory.Warning: return monaco.MarkerSeverity.Warning
-			case ts.DiagnosticCategory.Suggestion: return monaco.MarkerSeverity.Hint
+			case DiagnosticCategory.Error: return monaco.MarkerSeverity.Error
+			case DiagnosticCategory.Message: return monaco.MarkerSeverity.Info
+			case DiagnosticCategory.Warning: return monaco.MarkerSeverity.Warning
+			case DiagnosticCategory.Suggestion: return monaco.MarkerSeverity.Hint
 		}
 	}
 }
