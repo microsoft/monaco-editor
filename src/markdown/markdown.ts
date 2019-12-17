@@ -57,6 +57,9 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 
+			// markdown tables
+			[/^\s*\|/, '@rematch', '@table_header'],
+
 			// headers (with #)
 			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', 'keyword', 'keyword', 'keyword']],
 
@@ -86,6 +89,29 @@ export const language = <ILanguage>{
 
 			// markup within lines
 			{ include: '@linecontent' },
+		],
+
+		table_header: [
+			{ include: '@table_common' },
+			[/[^\|]+/, 'keyword.table.header'], // table header
+		],
+
+		table_body: [
+			{ include: '@table_common' },
+			{ include: '@linecontent' },
+		],
+
+		table_common: [
+			[/\s*[\-:]+\s*/, { token: 'keyword', switchTo: 'table_body' }], // header-divider
+			[/^\s*\|/, 'keyword.table.left'], // opening |
+			[/^\s*[^\|]/, '@rematch', '@pop'], // exiting
+			[/^\s*$/, '@rematch', '@pop'], // exiting
+			[/\|/, {
+				cases: {
+					'@eos': 'keyword.table.right', // closing |
+					'@default': 'keyword.table.middle', // inner |
+				}
+			}],
 		],
 
 		codeblock: [

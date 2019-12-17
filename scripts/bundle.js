@@ -23,6 +23,7 @@ const BUNDLED_FILE_HEADER = [
 bundleOne('monaco.contribution');
 bundleOne('abap/abap');
 bundleOne('bat/bat');
+bundleOne('cameligo/cameligo'),
 bundleOne('css/css');
 bundleOne('coffee/coffee');
 bundleOne('cpp/cpp');

@@ -62,16 +62,6 @@ testTokenization('kotlin', [
 		]
 	}],
 
-	// Broken nested tokens due to invalid comment tokenization
-	[{
-		line: '/* //*/ a',
-		tokens: [
-			{ startIndex: 0, type: 'comment.kt' },
-			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'identifier.kt' }
-		]
-	}],
-
 	[{
 		line: '// a comment',
 		tokens: [
@@ -665,6 +655,20 @@ testTokenization('kotlin', [
 			{ startIndex: 0, type: 'annotation.kt' },
 			{ startIndex: 28, type: '' },
 			{ startIndex: 29, type: 'keyword.private.kt' }
+		]
+	}],
+
+	[{
+		line: 'fun /* /* */ */ main() {',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.fun.kt' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'comment.kt' },
+			{ startIndex: 15, type: '' },
+			{ startIndex: 16, type: 'identifier.kt' },
+			{ startIndex: 20, type: 'delimiter.parenthesis.kt' },
+			{ startIndex: 22, type: '' },
+			{ startIndex: 23, type: 'delimiter.curly.kt' },
 		]
 	}]
 ]);

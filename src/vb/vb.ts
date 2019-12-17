@@ -140,7 +140,7 @@ export const language = <ILanguage>{
 			[/loop(?!\w)/, { token: 'keyword.tag-do' }],
 
 			// usual ending tags
-			[/end\s+(?!for|do)([a-zA-Z_]\w*)/, { token: 'keyword.tag-$1' }],
+			[/end\s+(?!for|do)(addhandler|class|enum|event|function|get|if|interface|module|namespace|operator|property|raiseevent|removehandler|select|set|structure|sub|synclock|try|while|with|using)/, { token: 'keyword.tag-$1' }],
 
 			// identifiers, tagwords, and keywords
 			[/[a-zA-Z_]\w*/, {
@@ -169,7 +169,6 @@ export const language = <ILanguage>{
 			[/@symbols/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
 			[/"/, 'string', '@string'],
 
 		],

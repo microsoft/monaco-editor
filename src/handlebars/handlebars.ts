@@ -220,6 +220,7 @@ export const language = <ILanguage>{
 		],
 
 		handlebarsRoot: [
+			[/"[^"]*"/, 'string.handlebars'],
 			[/[#/][^\s}]+/, 'keyword.helper.handlebars'],
 			[/else\b/, 'keyword.helper.handlebars'],
 			[/[\s]+/],

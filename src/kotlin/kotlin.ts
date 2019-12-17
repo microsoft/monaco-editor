@@ -136,13 +136,14 @@ export const language = <ILanguage>{
 
 		comment: [
 			[/[^\/*]+/, 'comment'],
+			[/\/\*/, 'comment', '@comment'],
 			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
 		],
 		//Identical copy of comment above, except for the addition of .doc
 		javadoc: [
 			[/[^\/*]+/, 'comment.doc'],
-			// [/\/\*/, 'comment.doc', '@push' ],    // nested comment not allowed :-(
+			[/\/\*/, 'comment.doc', '@push' ],
 			[/\/\*/, 'comment.doc.invalid'],
 			[/\*\//, 'comment.doc', '@pop'],
 			[/[\/*]/, 'comment.doc']

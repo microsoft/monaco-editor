@@ -726,6 +726,33 @@ testTokenization('javascript', [
 
 
 	[{
+		line: 'test ? 1 : 2',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.js' },
+			{ startIndex: 4, type: '' },
+			{ startIndex: 5, type: 'delimiter.js' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'number.js' },
+			{ startIndex: 8, type: '' },
+			{ startIndex: 9, type: 'delimiter.js' },
+			{ startIndex: 10, type: '' },
+			{ startIndex: 11, type: 'number.js' },
+		]
+	}],
+
+	[{
+		line: 'couldBeNullish ?? 1',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.js' },
+			{ startIndex: 14, type: '' },
+			{ startIndex: 15, type: 'delimiter.js' },
+			{ startIndex: 17, type: '' },
+			{ startIndex: 18, type: 'number.js' }
+		]
+	}],
+
+
+	[{
 		line: '`${5 + \'x\' + 3}a${4}`',
 		tokens: [
 			{ startIndex: 0, type: 'string.js' },

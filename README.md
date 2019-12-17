@@ -8,6 +8,7 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * apex
 * azcli
 * bat
+* cameligo
 * clojure
 * coffee script
 * cpp

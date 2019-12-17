@@ -746,6 +746,33 @@ testTokenization('typescript', [
 
 
 	[{
+		line: 'test ? 1 : 2',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.ts' },
+			{ startIndex: 4, type: '' },
+			{ startIndex: 5, type: 'delimiter.ts' },
+			{ startIndex: 6, type: '' },
+			{ startIndex: 7, type: 'number.ts' },
+			{ startIndex: 8, type: '' },
+			{ startIndex: 9, type: 'delimiter.ts' },
+			{ startIndex: 10, type: '' },
+			{ startIndex: 11, type: 'number.ts' },
+		]
+	}],
+
+	[{
+		line: 'couldBeNullish ?? 1',
+		tokens: [
+			{ startIndex: 0, type: 'identifier.ts' },
+			{ startIndex: 14, type: '' },
+			{ startIndex: 15, type: 'delimiter.ts' },
+			{ startIndex: 17, type: '' },
+			{ startIndex: 18, type: 'number.ts' }
+		]
+	}],
+
+
+	[{
 		line: '`${5 + \'x\' + (<any>)3}a${4}`',
 		tokens: [
 			{ startIndex: 0, type: 'string.ts' },
@@ -770,6 +797,26 @@ testTokenization('typescript', [
 			{ startIndex: 25, type: 'number.ts' },
 			{ startIndex: 26, type: 'delimiter.bracket.ts' },
 			{ startIndex: 27, type: 'string.ts' },
+		]
+	}],
+
+	[{
+		line: 'let x = 2 / 2; //asd',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.ts' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.ts' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.ts' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'number.ts' },
+			{ startIndex: 9, type: '' },
+			{ startIndex: 10, type: 'delimiter.ts' },
+			{ startIndex: 11, type: '' },
+			{ startIndex: 12, type: 'number.ts' },
+			{ startIndex: 13, type: 'delimiter.ts' },
+			{ startIndex: 14, type: '' },
+			{ startIndex: 15, type: 'comment.ts' },
 		]
 	}]
 

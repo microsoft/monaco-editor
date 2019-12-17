@@ -434,5 +434,33 @@ testTokenization('vb', [
 			{ startIndex: 13, type: '' },
 			{ startIndex: 14, type: 'keyword.tag-for.vb' }
 		]
-	}]
+	}],
+
+	[{
+		line: 'Dim x = "hello',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.dim.vb' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.vb' },
+			{ startIndex: 5, type: '' },
+			{ startIndex: 6, type: 'delimiter.vb' },
+			{ startIndex: 7, type: '' },
+			{ startIndex: 8, type: 'string.vb' }
+		]
+	}, {
+		line: 'world"',
+		tokens: [
+			{ startIndex: 0, type: 'string.vb' },
+		]
+	}],
+
+	[{
+		line: `End qweqweqweqweqwe'here always becomes highlighted Loop `,
+		tokens: [
+			{ startIndex: 0, type: 'keyword.end.vb' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.vb' },
+			{ startIndex: 19, type: 'comment.vb' },
+		]
+	}],
 ]);

@@ -91,7 +91,7 @@ export const language = {
 	operators: [
 		'<=', '>=', '==', '!=', '===', '!==', '=>', '+', '-', '**',
 		'*', '/', '%', '++', '--', '<<', '</', '>>', '>>>', '&',
-		'|', '^', '!', '~', '&&', '||', '?', ':', '=', '+=', '-=',
+		'|', '^', '!', '~', '&&', '||', '??', '?', ':', '=', '+=', '-=',
 		'*=', '**=', '/=', '%=', '<<=', '>>=', '>>>=', '&=', '|=',
 		'^=', '@',
 	],
@@ -130,7 +130,7 @@ export const language = {
 			{ include: '@whitespace' },
 
 			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
-			[/\/(?=([^\\\/]|\\.)+\/([gimsuy]*)(\s*)(\.|;|\/|,|\)|\]|\}|$))/, { token: 'regexp', bracket: '@open', next: '@regexp' }],
+			[/\/(?=([^\\\/]|\\.)+\/([gimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/, { token: 'regexp', bracket: '@open', next: '@regexp' }],
 
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],

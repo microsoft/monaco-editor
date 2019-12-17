@@ -29,6 +29,7 @@ define(['require'], function () {
 			'release/dev/apex/apex.test',
 			'release/dev/azcli/azcli.test',
 			'release/dev/bat/bat.test',
+			'release/dev/cameligo/cameligo.test',
 			'release/dev/clojure/clojure.test',
 			'release/dev/coffee/coffee.test',
 			'release/dev/cpp/cpp.test',
