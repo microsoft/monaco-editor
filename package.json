@@ -24,6 +24,6 @@
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
     "typescript": "3.7.3",
-    "uglify-js": "^3.7.2"
+    "terser": "^4.4.3"
   }
 }

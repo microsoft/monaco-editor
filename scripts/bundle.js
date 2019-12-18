@@ -1,7 +1,7 @@
 const requirejs = require('requirejs');
 const path = require('path');
 const fs = require('fs');
-const UglifyJS = require("uglify-js");
+const terser = require('terser');
 const helpers = require('monaco-plugin-helpers');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -95,11 +95,7 @@ function bundleOne(moduleId, exclude) {
 		const fileContents = fs.readFileSync(filePath).toString();
 		console.log();
 		console.log(`Minifying ${filePath}...`);
-		const result = UglifyJS.minify(fileContents, {
-			output: {
-				comments: 'some'
-			}
-		});
+		const result = terser.minify(fileContents);
 		console.log(`Done.`);
 		fs.writeFileSync(filePath, BUNDLED_FILE_HEADER + result.code);
 	})
