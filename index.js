@@ -117,7 +117,7 @@ function createLoaderRules(languages, features, workers, outputPath, publicPath)
       }
       return {
         getWorkerUrl: function (moduleId, label) {
-          var pathPrefix = (typeof window.__webpack_public_path__ === 'string' ? window.__webpack_public_path__ : ${JSON.stringify(publicPath)});
+          var pathPrefix = (typeof __webpack_public_path__ === 'string' ? __webpack_public_path__ : ${JSON.stringify(publicPath)});
           return (pathPrefix ? stripTrailingSlash(pathPrefix) + '/' : '') + paths[label];
         }
       };
