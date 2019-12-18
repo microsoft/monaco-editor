@@ -12,7 +12,6 @@ const EDITOR_MODULE = {
     output: 'editor.worker.js',
     fallback: undefined
   },
-  alias: undefined,
 };
 const LANGUAGES = require('./languages');
 const FEATURES = require('./features');
@@ -21,11 +20,7 @@ function resolveMonacoPath(filePath) {
   return require.resolve(path.join('monaco-editor/esm', filePath));
 }
 
-const languagesById = fromPairs(
-  flatMap(toPairs(LANGUAGES), ([id, language]) =>
-    [id].concat(language.alias || []).map((label) => [label, mixin({ label }, language)])
-  )
-);
+const languagesById = mapValues(LANGUAGES, (language, id) => mixin({ label: id }, language));
 const featuresById = mapValues(FEATURES, (feature, key) => mixin({ label: key }, feature))
 
 function getFeaturesIds(userFeatures, predefinedFeaturesById) {
@@ -66,7 +61,7 @@ class MonacoWebpackPlugin {
     const compilationPublicPath = getCompilationPublicPath(compiler);
     const modules = [EDITOR_MODULE].concat(languages).concat(features);
     const workers = modules.map(
-      ({ label, alias, worker }) => worker && (mixin({ label, alias }, worker))
+      ({ label, worker }) => worker && (mixin({ label }, worker))
     ).filter(Boolean);
     const rules = createLoaderRules(languages, features, workers, output, publicPath, compilationPublicPath);
     const plugins = createPlugins(workers, output);
@@ -166,10 +161,6 @@ function createPlugins(workers, outputPath) {
   );
 }
 
-function flatMap(items, iteratee) {
-  return items.map(iteratee).reduce((acc, item) => [].concat(acc).concat(item), []);
-}
-
 function flatArr(items) {
   return items.reduce((acc, item) => {
     if (Array.isArray(item)) {
@@ -177,10 +168,6 @@ function flatArr(items) {
     }
     return [].concat(acc).concat([item]);
   }, []);
-}
-
-function toPairs(object) {
-  return Object.keys(object).map((key) => [key, object[key]]);
 }
 
 function fromPairs(values) {
