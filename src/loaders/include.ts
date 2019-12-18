@@ -1,6 +1,6 @@
 const loaderUtils = require('loader-utils');
 
-module.exports.pitch = function pitch(remainingRequest) {
+export function pitch(this: any, remainingRequest: any) {
   const { globals = undefined, pre = [], post = [] } = loaderUtils.getOptions(this) || {};
 
   // HACK: NamedModulesPlugin overwrites existing modules when requesting the same module via
@@ -15,8 +15,8 @@ module.exports.pitch = function pitch(remainingRequest) {
       ? Object.keys(globals).map((key) => `self[${JSON.stringify(key)}] = ${globals[key]};`)
       : []
     ),
-    ...pre.map((include) => `require(${loaderUtils.stringifyRequest(this, include)});`),
+    ...pre.map((include: any) => `require(${loaderUtils.stringifyRequest(this, include)});`),
     `module.exports = require(${loaderUtils.stringifyRequest(this, `!!${remainingRequest}`)});`,
-    ...post.map((include) => `require(${loaderUtils.stringifyRequest(this, include)});`),
+    ...post.map((include: any) => `require(${loaderUtils.stringifyRequest(this, include)});`),
   ].join('\n');
 };

@@ -1,37 +1,48 @@
-module.exports = {
-  apex: {
+import { IFeatureDefinition } from "./types";
+
+const languagesArr: IFeatureDefinition[] = [
+  {
+    label: 'apex',
     entry: 'vs/basic-languages/apex/apex.contribution',
     worker: undefined,
   },
-  azcli: {
+  {
+    label: 'azcli',
     entry: 'vs/basic-languages/azcli/azcli.contribution',
     worker: undefined,
   },
-  bat: {
+  {
+    label: 'bat',
     entry: 'vs/basic-languages/bat/bat.contribution',
     worker: undefined,
   },
-  clojure: {
+  {
+    label: 'clojure',
     entry: 'vs/basic-languages/clojure/clojure.contribution',
     worker: undefined,
   },
-  coffee: {
+  {
+    label: 'coffee',
     entry: 'vs/basic-languages/coffee/coffee.contribution',
     worker: undefined,
   },
-  cpp: {
+  {
+    label: 'cpp',
     entry: 'vs/basic-languages/cpp/cpp.contribution',
     worker: undefined,
   },
-  csharp: {
+  {
+    label: 'csharp',
     entry: 'vs/basic-languages/csharp/csharp.contribution',
     worker: undefined,
   },
-  csp: {
+  {
+    label: 'csp',
     entry: 'vs/basic-languages/csp/csp.contribution',
     worker: undefined,
   },
-  css: {
+  {
+    label: 'css',
     entry: [
       'vs/basic-languages/css/css.contribution',
       'vs/language/css/monaco.contribution',
@@ -42,27 +53,33 @@ module.exports = {
       fallback: 'vs/language/css/cssWorker',
     },
   },
-  dockerfile: {
+  {
+    label: 'dockerfile',
     entry: 'vs/basic-languages/dockerfile/dockerfile.contribution',
     worker: undefined,
   },
-  fsharp: {
+  {
+    label: 'fsharp',
     entry: 'vs/basic-languages/fsharp/fsharp.contribution',
     worker: undefined,
   },
-  go: {
+  {
+    label: 'go',
     entry: 'vs/basic-languages/go/go.contribution',
     worker: undefined,
   },
-  graphql: {
+  {
+    label: 'graphql',
     entry: 'vs/basic-languages/graphql/graphql.contribution',
     worker: undefined,
   },
-  handlebars: {
+  {
+    label: 'handlebars',
     entry: 'vs/basic-languages/handlebars/handlebars.contribution',
     worker: undefined,
   },
-  html: {
+  {
+    label: 'html',
     entry: [
       'vs/basic-languages/html/html.contribution',
       'vs/language/html/monaco.contribution',
@@ -73,19 +90,23 @@ module.exports = {
       fallback: 'vs/language/html/htmlWorker',
     },
   },
-  ini: {
+  {
+    label: 'ini',
     entry: 'vs/basic-languages/ini/ini.contribution',
     worker: undefined,
   },
-  java: {
+  {
+    label: 'java',
     entry: 'vs/basic-languages/java/java.contribution',
     worker: undefined,
   },
-  javascript: {
+  {
+    label: 'javascript',
     entry: 'vs/basic-languages/javascript/javascript.contribution',
     worker: undefined,
   },
-  json: {
+  {
+    label: 'json',
     entry: 'vs/language/json/monaco.contribution',
     worker: {
       id: 'vs/language/json/jsonWorker',
@@ -93,119 +114,148 @@ module.exports = {
       fallback: 'vs/language/json/jsonWorker',
     },
   },
-  less: {
+  {
+    label: 'less',
     entry: 'vs/basic-languages/less/less.contribution',
     worker: undefined,
   },
-  lua: {
+  {
+    label: 'lua',
     entry: 'vs/basic-languages/lua/lua.contribution',
     worker: undefined,
   },
-  markdown: {
+  {
+    label: 'markdown',
     entry: 'vs/basic-languages/markdown/markdown.contribution',
     worker: undefined,
   },
-  msdax: {
+  {
+    label: 'msdax',
     entry: 'vs/basic-languages/msdax/msdax.contribution',
     worker: undefined,
   },
-  mysql: {
+  {
+    label: 'mysql',
     entry: 'vs/basic-languages/mysql/mysql.contribution',
     worker: undefined,
   },
-  objective: {
+  {
+    label: 'objective',
     entry: 'vs/basic-languages/objective-c/objective-c.contribution',
     worker: undefined,
   },
-  perl: {
+  {
+    label: 'perl',
     entry: 'vs/basic-languages/perl/perl.contribution',
     worker: undefined,
   },
-  pgsql: {
+  {
+    label: 'pgsql',
     entry: 'vs/basic-languages/pgsql/pgsql.contribution',
     worker: undefined,
   },
-  php: {
+  {
+    label: 'php',
     entry: 'vs/basic-languages/php/php.contribution',
     worker: undefined,
   },
-  postiats: {
+  {
+    label: 'postiats',
     entry: 'vs/basic-languages/postiats/postiats.contribution',
     worker: undefined,
   },
-  powerquery: {
+  {
+    label: 'powerquery',
     entry: 'vs/basic-languages/powerquery/powerquery.contribution',
     worker: undefined,
   },
-  powershell: {
+  {
+    label: 'powershell',
     entry: 'vs/basic-languages/powershell/powershell.contribution',
     worker: undefined,
   },
-  pug: {
+  {
+    label: 'pug',
     entry: 'vs/basic-languages/pug/pug.contribution',
     worker: undefined,
   },
-  python: {
+  {
+    label: 'python',
     entry: 'vs/basic-languages/python/python.contribution',
     worker: undefined,
   },
-  r: {
+  {
+    label: 'r',
     entry: 'vs/basic-languages/r/r.contribution',
     worker: undefined,
   },
-  razor: {
+  {
+    label: 'razor',
     entry: 'vs/basic-languages/razor/razor.contribution',
     worker: undefined,
   },
-  redis: {
+  {
+    label: 'redis',
     entry: 'vs/basic-languages/redis/redis.contribution',
     worker: undefined,
   },
-  redshift: {
+  {
+    label: 'redshift',
     entry: 'vs/basic-languages/redshift/redshift.contribution',
     worker: undefined,
   },
-  ruby: {
+  {
+    label: 'ruby',
     entry: 'vs/basic-languages/ruby/ruby.contribution',
     worker: undefined,
   },
-  rust: {
+  {
+    label: 'rust',
     entry: 'vs/basic-languages/rust/rust.contribution',
     worker: undefined,
   },
-  sb: {
+  {
+    label: 'sb',
     entry: 'vs/basic-languages/sb/sb.contribution',
     worker: undefined,
   },
-  scheme: {
+  {
+    label: 'scheme',
     entry: 'vs/basic-languages/scheme/scheme.contribution',
     worker: undefined,
   },
-  scss: {
+  {
+    label: 'scss',
     entry: 'vs/basic-languages/scss/scss.contribution',
     worker: undefined,
   },
-  shell: {
+  {
+    label: 'shell',
     entry: 'vs/basic-languages/shell/shell.contribution',
     worker: undefined,
   },
-  solidity: {
+  {
+    label: 'solidity',
     entry: 'vs/basic-languages/solidity/solidity.contribution',
     worker: undefined,
   },
-  sql: {
+  {
+    label: 'sql',
     entry: 'vs/basic-languages/sql/sql.contribution',
     worker: undefined,
   },
-  st: {
+  {
+    label: 'st',
     entry: 'vs/basic-languages/st/st.contribution',
     worker: undefined,
   },
-  swift: {
+  {
+    label: 'swift',
     entry: 'vs/basic-languages/swift/swift.contribution',
     worker: undefined,
   },
-  typescript: {
+  {
+    label: 'typescript',
     entry: [
       'vs/basic-languages/typescript/typescript.contribution',
       'vs/language/typescript/monaco.contribution',
@@ -216,16 +266,22 @@ module.exports = {
       fallback: 'vs/language/typescript/tsWorker',
     },
   },
-  vb: {
+  {
+    label: 'vb',
     entry: 'vs/basic-languages/vb/vb.contribution',
     worker: undefined,
   },
-  xml: {
+  {
+    label: 'xml',
     entry: 'vs/basic-languages/xml/xml.contribution',
     worker: undefined,
   },
-  yaml: {
+  {
+    label: 'yaml',
     entry: 'vs/basic-languages/yaml/yaml.contribution',
     worker: undefined,
   },
-};
+];
+
+export const languagesById: { [language: string]: IFeatureDefinition; } = {};
+languagesArr.forEach(language => languagesById[language.label] = language);

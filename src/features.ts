@@ -1,128 +1,174 @@
-module.exports = {
-  accessibilityHelp: {
+import { IFeatureDefinition } from "./types";
+
+const featuresArr: IFeatureDefinition[] = [
+  {
+    label: 'accessibilityHelp',
     entry: 'vs/editor/standalone/browser/accessibilityHelp/accessibilityHelp',
   },
-  bracketMatching: {
+  {
+    label: 'bracketMatching',
     entry: 'vs/editor/contrib/bracketMatching/bracketMatching',
   },
-  caretOperations: {
+  {
+    label: 'caretOperations',
     entry: 'vs/editor/contrib/caretOperations/caretOperations',
   },
-  clipboard: {
+  {
+    label: 'clipboard',
     entry: 'vs/editor/contrib/clipboard/clipboard',
   },
-  codeAction: {
+  {
+    label: 'codeAction',
     entry: 'vs/editor/contrib/codeAction/codeActionContributions',
   },
-  codelens: {
+  {
+    label: 'codelens',
     entry: 'vs/editor/contrib/codelens/codelensController',
   },
-  colorDetector: {
+  {
+    label: 'colorDetector',
     entry: 'vs/editor/contrib/colorPicker/colorDetector',
   },
-  comment: {
+  {
+    label: 'comment',
     entry: 'vs/editor/contrib/comment/comment',
   },
-  contextmenu: {
+  {
+    label: 'contextmenu',
     entry: 'vs/editor/contrib/contextmenu/contextmenu',
   },
-  coreCommands: {
+  {
+    label: 'coreCommands',
     entry: 'vs/editor/browser/controller/coreCommands',
   },
-  cursorUndo: {
+  {
+    label: 'cursorUndo',
     entry: 'vs/editor/contrib/cursorUndo/cursorUndo',
   },
-  dnd: {
+  {
+    label: 'dnd',
     entry: 'vs/editor/contrib/dnd/dnd',
   },
-  find: {
+  {
+    label: 'find',
     entry: 'vs/editor/contrib/find/findController',
   },
-  folding: {
+  {
+    label: 'folding',
     entry: 'vs/editor/contrib/folding/folding',
   },
-  fontZoom: {
+  {
+    label: 'fontZoom',
     entry: 'vs/editor/contrib/fontZoom/fontZoom',
   },
-  format: {
+  {
+    label: 'format',
     entry: 'vs/editor/contrib/format/formatActions',
   },
-  goToDefinitionCommands: {
+  {
+    label: 'goToDefinitionCommands',
     entry: 'vs/editor/contrib/goToDefinition/goToDefinitionCommands',
   },
-  goToDefinitionMouse: {
+  {
+    label: 'goToDefinitionMouse',
     entry: 'vs/editor/contrib/goToDefinition/goToDefinitionMouse',
   },
-  gotoError: {
+  {
+    label: 'gotoError',
     entry: 'vs/editor/contrib/gotoError/gotoError',
   },
-  gotoLine: {
+  {
+    label: 'gotoLine',
     entry: 'vs/editor/standalone/browser/quickOpen/gotoLine',
   },
-  hover: {
+  {
+    label: 'hover',
     entry: 'vs/editor/contrib/hover/hover',
   },
-  inPlaceReplace: {
+  {
+    label: 'inPlaceReplace',
     entry: 'vs/editor/contrib/inPlaceReplace/inPlaceReplace',
   },
-  inspectTokens: {
+  {
+    label: 'inspectTokens',
     entry: 'vs/editor/standalone/browser/inspectTokens/inspectTokens',
   },
-  iPadShowKeyboard: {
+  {
+    label: 'iPadShowKeyboard',
     entry: 'vs/editor/standalone/browser/iPadShowKeyboard/iPadShowKeyboard',
   },
-  linesOperations: {
+  {
+    label: 'linesOperations',
     entry: 'vs/editor/contrib/linesOperations/linesOperations',
   },
-  links: {
+  {
+    label: 'links',
     entry: 'vs/editor/contrib/links/links',
   },
-  multicursor: {
+  {
+    label: 'multicursor',
     entry: 'vs/editor/contrib/multicursor/multicursor',
   },
-  parameterHints: {
+  {
+    label: 'parameterHints',
     entry: 'vs/editor/contrib/parameterHints/parameterHints',
   },
-  quickCommand: {
+  {
+    label: 'quickCommand',
     entry: 'vs/editor/standalone/browser/quickOpen/quickCommand',
   },
-  quickOutline: {
+  {
+    label: 'quickOutline',
     entry: 'vs/editor/standalone/browser/quickOpen/quickOutline',
   },
-  referenceSearch: {
+  {
+    label: 'referenceSearch',
     entry: [
       'vs/editor/contrib/referenceSearch/referenceSearch',
       'vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch',
     ],
   },
-  rename: {
+  {
+    label: 'rename',
     entry: 'vs/editor/contrib/rename/rename',
   },
-  smartSelect: {
+  {
+    label: 'smartSelect',
     entry: 'vs/editor/contrib/smartSelect/smartSelect',
   },
-  snippets: {
+  {
+    label: 'snippets',
     entry: 'vs/editor/contrib/snippet/snippetController2',
   },
-  suggest: {
+  {
+    label: 'suggest',
     entry: 'vs/editor/contrib/suggest/suggestController',
   },
-  toggleHighContrast: {
+  {
+    label: 'toggleHighContrast',
     entry: 'vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast',
   },
-  toggleTabFocusMode: {
+  {
+    label: 'toggleTabFocusMode',
     entry: 'vs/editor/contrib/toggleTabFocusMode/toggleTabFocusMode',
   },
-  transpose: {
+  {
+    label: 'transpose',
     entry: 'vs/editor/contrib/caretOperations/transpose',
   },
-  wordHighlighter: {
+  {
+    label: 'wordHighlighter',
     entry: 'vs/editor/contrib/wordHighlighter/wordHighlighter',
   },
-  wordOperations: {
+  {
+    label: 'wordOperations',
     entry: 'vs/editor/contrib/wordOperations/wordOperations',
   },
-  wordPartOperations: {
+  {
+    label: 'wordPartOperations',
     entry: 'vs/editor/contrib/wordPartOperations/wordPartOperations',
   },
-};
+];
+
+export const featuresById: { [feature: string]: IFeatureDefinition; } = {};
+featuresArr.forEach(feature => featuresById[feature.label] = feature);

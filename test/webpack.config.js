@@ -1,4 +1,4 @@
-const MonacoWebpackPlugin = require('../index.js');
+const MonacoWebpackPlugin = require('../out/index.js');
 const path = require('path');
 
 module.exports = {
