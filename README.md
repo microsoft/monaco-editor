@@ -78,18 +78,9 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 * create `$/src/myLang/myLang.contribution.ts`
 * create `$/src/myLang/myLang.ts`
 * create `$/src/myLang/myLang.test.ts`
-* restart compilation with `$> npm run watch`
 * edit `$/src/monaco.contribution.ts` and register your new language
 ```js
   import './myLang/myLang.contribution';
-```
-* edit `$/test/setup.js` and load your new language while testing
-```js
-  'release/dev/myLang/myLang.test',
-```
-* edit `$/scripts/bundle.js` and ship your new language
-```js
-  bundleOne('myLang/myLang');
 ```
 
 ## Code of Conduct

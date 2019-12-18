@@ -2,6 +2,7 @@ const requirejs = require('requirejs');
 const path = require('path');
 const fs = require('fs');
 const terser = require('terser');
+const glob = require('glob');
 const helpers = require('monaco-plugin-helpers');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -21,64 +22,17 @@ const BUNDLED_FILE_HEADER = [
 ].join('\n');
 
 bundleOne('monaco.contribution');
-bundleOne('abap/abap');
-bundleOne('bat/bat');
-bundleOne('cameligo/cameligo'),
-bundleOne('css/css');
-bundleOne('coffee/coffee');
-bundleOne('cpp/cpp');
-bundleOne('csharp/csharp');
-bundleOne('dockerfile/dockerfile');
-bundleOne('fsharp/fsharp');
-bundleOne('go/go');
-bundleOne('handlebars/handlebars');
-bundleOne('html/html');
-bundleOne('ini/ini');
-bundleOne('pug/pug');
-bundleOne('java/java');
-bundleOne('javascript/javascript');
-bundleOne('kotlin/kotlin');
-bundleOne('less/less');
-bundleOne('lua/lua');
-bundleOne('markdown/markdown');
-bundleOne('msdax/msdax');
-bundleOne('objective-c/objective-c');
-bundleOne('pascal/pascal');
-bundleOne('pascaligo/pascaligo');
-bundleOne('php/php');
-bundleOne('powershell/powershell');
-bundleOne('postiats/postiats');
-bundleOne('python/python');
-bundleOne('r/r');
-bundleOne('razor/razor');
-bundleOne('ruby/ruby');
-bundleOne('rust/rust');
-bundleOne('scss/scss');
-bundleOne('sql/sql');
-bundleOne('st/st');
-bundleOne('swift/swift');
-bundleOne('typescript/typescript');
-bundleOne('vb/vb');
-bundleOne('xml/xml');
-bundleOne('yaml/yaml');
-bundleOne('sophia/sophia');
-bundleOne('solidity/solidity');
-bundleOne('sb/sb');
-bundleOne('mysql/mysql');
-bundleOne('redshift/redshift');
-bundleOne('pgsql/pgsql');
-bundleOne('redis/redis');
-bundleOne('csp/csp');
-bundleOne('scheme/scheme');
-bundleOne('clojure/clojure');
-bundleOne('shell/shell');
-bundleOne('perl/perl');
-bundleOne('powerquery/powerquery');
-bundleOne('azcli/azcli');
-bundleOne('apex/apex');
-bundleOne('tcl/tcl');
-bundleOne('graphql/graphql');
-bundleOne('twig/twig');
+glob('release/dev/*/*.contribution.js', { cwd: path.dirname(__dirname) }, function (err, files) {
+	if (err) {
+		console.log(err);
+		return;
+	}
+	files.forEach(function (file) {
+		file = file.replace(/\.contribution\.js$/, '');
+		file = file.replace(/release[/\\]dev[/\\]/, '');
+		bundleOne(file);
+	});
+});
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize({
