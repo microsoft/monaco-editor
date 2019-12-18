@@ -14,7 +14,6 @@ const EDITOR_MODULE = {
     entry: 'vs/editor/editor.worker',
     fallback: undefined
   },
-  alias: undefined,
 };
 const LANGUAGES = require('./languages');
 const FEATURES = require('./features');
@@ -35,11 +34,7 @@ function getWorkerFilename(filename, entry) {
   });
 }
 
-const languagesById = fromPairs(
-  flatMap(toPairs(LANGUAGES), ([id, language]) =>
-    [id].concat(language.alias || []).map((label) => [label, mixin({ label }, language)])
-  )
-);
+const languagesById = mapValues(LANGUAGES, (language, id) => mixin({ label: id }, language));
 const featuresById = mapValues(FEATURES, (feature, key) => mixin({ label: key }, feature))
 
 function getFeaturesIds(userFeatures, predefinedFeaturesById) {
@@ -70,18 +65,19 @@ class MonacoWebpackPlugin {
     this.options = {
       languages: languages.map((id) => languagesById[id]).filter(Boolean),
       features: features.map(id => featuresById[id]).filter(Boolean),
-      filename: options.filename || "[name].worker.js"
+      filename: options.filename || "[name].worker.js",
+      publicPath: options.publicPath || '',
     };
   }
 
   apply(compiler) {
-    const { languages, features, filename } = this.options;
-    const publicPath = getPublicPath(compiler);
+    const { languages, features, filename, publicPath } = this.options;
+    const compilationPublicPath = getCompilationPublicPath(compiler);
     const modules = [EDITOR_MODULE].concat(languages).concat(features);
     const workers = modules.map(
-      ({ label, alias, worker }) => worker && (mixin({ label, alias }, worker))
+      ({ label, worker }) => worker && (mixin({ label }, worker))
     ).filter(Boolean);
-    const rules = createLoaderRules(languages, features, workers, publicPath, filename);
+    const rules = createLoaderRules(languages, features, workers, filename, publicPath, compilationPublicPath);
     const plugins = createPlugins(workers, filename);
     addCompilerRules(compiler, rules);
     addCompilerPlugins(compiler, plugins);
@@ -98,11 +94,11 @@ function addCompilerPlugins(compiler, plugins) {
   plugins.forEach((plugin) => plugin.apply(compiler));
 }
 
-function getPublicPath(compiler) {
+function getCompilationPublicPath(compiler) {
   return compiler.options.output && compiler.options.output.publicPath || '';
 }
 
-function createLoaderRules(languages, features, workers, publicPath, filename) {
+function createLoaderRules(languages, features, workers, filename, pluginPublicPath, compilationPublicPath) {
   if (!languages.length && !features.length) { return []; }
   const languagePaths = flatArr(languages.map(({ entry }) => entry).filter(Boolean));
   const featurePaths = flatArr(features.map(({ entry }) => entry).filter(Boolean));
@@ -123,6 +119,16 @@ function createLoaderRules(languages, features, workers, publicPath, filename) {
     workerPaths['razor'] = workerPaths['html'];
   }
 
+  // Determine the public path from which to load worker JS files. In order of precedence:
+  // 1. Plugin-specific public path.
+  // 2. Dynamic runtime public path.
+  // 3. Compilation public path.
+  const pathPrefix = Boolean(pluginPublicPath)
+    ? JSON.stringify(pluginPublicPath)
+    : `typeof __webpack_public_path__ === 'string' ` +
+      `? __webpack_public_path__ ` +
+      `: ${JSON.stringify(compilationPublicPath)}`
+
   const globals = {
     'MonacoEnvironment': `(function (paths) {
       function stripTrailingSlash(str) {
@@ -130,7 +136,7 @@ function createLoaderRules(languages, features, workers, publicPath, filename) {
       }
       return {
         getWorkerUrl: function (moduleId, label) {
-          var pathPrefix = (typeof window.__webpack_public_path__ === 'string' ? window.__webpack_public_path__ : ${JSON.stringify(publicPath)});
+          var pathPrefix = ${pathPrefix};
           return (pathPrefix ? stripTrailingSlash(pathPrefix) + '/' : '') + paths[label];
         }
       };
@@ -169,10 +175,6 @@ function createPlugins(workers, filename) {
   );
 }
 
-function flatMap(items, iteratee) {
-  return items.map(iteratee).reduce((acc, item) => [].concat(acc).concat(item), []);
-}
-
 function flatArr(items) {
   return items.reduce((acc, item) => {
     if (Array.isArray(item)) {
@@ -180,10 +182,6 @@ function flatArr(items) {
     }
     return [].concat(acc).concat([item]);
   }, []);
-}
-
-function toPairs(object) {
-  return Object.keys(object).map((key) => [key, object[key]]);
 }
 
 function fromPairs(values) {
