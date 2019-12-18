@@ -4,60 +4,6 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 
 ![monaco-languages](https://cloud.githubusercontent.com/assets/5047891/15938606/1fd4bac6-2e74-11e6-8839-d455da8bc8a7.gif)
 
-* abap
-* apex
-* azcli
-* bat
-* cameligo
-* clojure
-* coffee script
-* cpp
-* csharp
-* csp
-* dockerfile
-* fsharp
-* go
-* graphql
-* handlebars
-* html
-* ini
-* java
-* javascript
-* lua
-* markdown
-* msdax
-* mysql
-* objective-c
-* pascal
-* pascaligo
-* pgsql
-* php
-* postiats
-* powershell
-* pug
-* python
-* r
-* razor
-* ruby
-* rust
-* scheme
-* small basic
-* solidity
-* sql
-* st
-* swift
-* twig
-* typescript
-* vb
-* xml
-* yaml
-
-Also `css` dialects:
-
-* css
-* less
-* scss
-
 ## Issues
 
 Please file issues concerning `monaco-languages` in the [`monaco-editor`-repository](https://github.com/Microsoft/monaco-editor/issues).
