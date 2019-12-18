@@ -1,5 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
+const loaderUtils = require('loader-utils');
+const fs = require('fs');
+
 const AddWorkerEntryPointPlugin = require('./plugins/AddWorkerEntryPointPlugin');
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
 
@@ -9,15 +12,26 @@ const EDITOR_MODULE = {
   worker: {
     id: 'vs/editor/editor',
     entry: 'vs/editor/editor.worker',
-    output: 'editor.worker.js',
     fallback: undefined
   },
 };
 const LANGUAGES = require('./languages');
 const FEATURES = require('./features');
 
+/**
+ * Return a resolved path for a given Monaco file.
+ */
 function resolveMonacoPath(filePath) {
   return require.resolve(path.join('monaco-editor/esm', filePath));
+}
+
+/**
+ * Return the interpolated final filename for a worker, respecting the file name template.
+ */
+function getWorkerFilename(filename, entry) {
+  return loaderUtils.interpolateName({resourcePath: entry}, filename, {
+    content: fs.readFileSync(resolveMonacoPath(entry))
+  });
 }
 
 const languagesById = mapValues(LANGUAGES, (language, id) => mixin({ label: id }, language));
@@ -51,20 +65,20 @@ class MonacoWebpackPlugin {
     this.options = {
       languages: languages.map((id) => languagesById[id]).filter(Boolean),
       features: features.map(id => featuresById[id]).filter(Boolean),
-      output: options.output || '',
-      publicPath: options.publicPath || ''
+      filename: options.filename || "[name].worker.js",
+      publicPath: options.publicPath || '',
     };
   }
 
   apply(compiler) {
-    const { languages, features, output, publicPath } = this.options;
+    const { languages, features, filename, publicPath } = this.options;
     const compilationPublicPath = getCompilationPublicPath(compiler);
     const modules = [EDITOR_MODULE].concat(languages).concat(features);
     const workers = modules.map(
       ({ label, worker }) => worker && (mixin({ label }, worker))
     ).filter(Boolean);
-    const rules = createLoaderRules(languages, features, workers, output, publicPath, compilationPublicPath);
-    const plugins = createPlugins(workers, output);
+    const rules = createLoaderRules(languages, features, workers, filename, publicPath, compilationPublicPath);
+    const plugins = createPlugins(workers, filename);
     addCompilerRules(compiler, rules);
     addCompilerPlugins(compiler, plugins);
   }
@@ -84,11 +98,11 @@ function getCompilationPublicPath(compiler) {
   return compiler.options.output && compiler.options.output.publicPath || '';
 }
 
-function createLoaderRules(languages, features, workers, outputPath, pluginPublicPath, compilationPublicPath) {
+function createLoaderRules(languages, features, workers, filename, pluginPublicPath, compilationPublicPath) {
   if (!languages.length && !features.length) { return []; }
   const languagePaths = flatArr(languages.map(({ entry }) => entry).filter(Boolean));
   const featurePaths = flatArr(features.map(({ entry }) => entry).filter(Boolean));
-  const workerPaths = fromPairs(workers.map(({ label, output }) => [label, path.join(outputPath, output)]));
+  const workerPaths = fromPairs(workers.map(({ label, entry }) => [label, getWorkerFilename(filename, entry)]));
   if (workerPaths['typescript']) {
     // javascript shares the same worker
     workerPaths['javascript'] = workerPaths['typescript'];
@@ -145,14 +159,14 @@ function createLoaderRules(languages, features, workers, outputPath, pluginPubli
   ];
 }
 
-function createPlugins(workers, outputPath) {
+function createPlugins(workers, filename) {
   return (
     []
-    .concat(uniqBy(workers, ({ id }) => id).map(({ id, entry, output }) =>
+    .concat(uniqBy(workers, ({ id }) => id).map(({ id, entry }) =>
       new AddWorkerEntryPointPlugin({
         id,
         entry: resolveMonacoPath(entry),
-        filename: path.join(outputPath, output),
+        filename: getWorkerFilename(filename, entry),
         plugins: [
           new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
         ],
