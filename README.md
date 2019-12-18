@@ -40,8 +40,8 @@ Colorization and configuration supports for multiple languages for the Monaco Ed
 * razor
 * ruby
 * rust
-* small basic
 * scheme
+* small basic
 * solidity
 * sql
 * st
