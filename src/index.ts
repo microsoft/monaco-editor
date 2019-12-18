@@ -14,8 +14,7 @@ const EDITOR_MODULE: IFeatureDefinition = {
   entry: undefined,
   worker: {
     id: 'vs/editor/editor',
-    entry: 'vs/editor/editor.worker',
-    fallback: undefined
+    entry: 'vs/editor/editor.worker'
   },
 };
 
@@ -115,8 +114,7 @@ class MonacoEditorWebpackPlugin implements webpack.Plugin {
         workers.push({
           label: module.label,
           id: module.worker.id,
-          entry: module.worker.entry,
-          fallback: module.worker.fallback
+          entry: module.worker.entry
         });
       }
     });
@@ -131,7 +129,6 @@ interface ILabeledWorkerDefinition {
   label: string;
   id: string;
   entry: string;
-  fallback: string | undefined;
 }
 
 function addCompilerRules(compiler: webpack.Compiler, rules: webpack.RuleSetRule[]): void {

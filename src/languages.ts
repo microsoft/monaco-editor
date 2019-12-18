@@ -50,7 +50,6 @@ const languagesArr: IFeatureDefinition[] = [
     worker: {
       id: 'vs/language/css/cssWorker',
       entry: 'vs/language/css/css.worker',
-      fallback: 'vs/language/css/cssWorker',
     },
   },
   {
@@ -87,7 +86,6 @@ const languagesArr: IFeatureDefinition[] = [
     worker: {
       id: 'vs/language/html/htmlWorker',
       entry: 'vs/language/html/html.worker',
-      fallback: 'vs/language/html/htmlWorker',
     },
   },
   {
@@ -111,7 +109,6 @@ const languagesArr: IFeatureDefinition[] = [
     worker: {
       id: 'vs/language/json/jsonWorker',
       entry: 'vs/language/json/json.worker',
-      fallback: 'vs/language/json/jsonWorker',
     },
   },
   {
@@ -263,7 +260,6 @@ const languagesArr: IFeatureDefinition[] = [
     worker: {
       id: 'vs/language/typescript/tsWorker',
       entry: 'vs/language/typescript/ts.worker',
-      fallback: 'vs/language/typescript/tsWorker',
     },
   },
   {

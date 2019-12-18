@@ -2,7 +2,6 @@
 export interface IWorkerDefinition {
   id: string;
   entry: string;
-  fallback: string | undefined;
 }
 
 export interface IFeatureDefinition {
