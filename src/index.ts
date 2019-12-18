@@ -109,9 +109,17 @@ class MonacoEditorWebpackPlugin implements webpack.Plugin {
     const { languages, features, filename, publicPath } = this.options;
     const compilationPublicPath = getCompilationPublicPath(compiler);
     const modules = [EDITOR_MODULE].concat(languages).concat(features);
-    const workers: ILabeledWorkerDefinition[] = coalesce(modules.map(
-      ({ label, worker }) => worker && (mixin({ label }, worker))
-    ));
+    const workers: ILabeledWorkerDefinition[] = [];
+    modules.forEach((module) => {
+      if (module.worker) {
+        workers.push({
+          label: module.label,
+          id: module.worker.id,
+          entry: module.worker.entry,
+          fallback: module.worker.fallback
+        });
+      }
+    });
     const rules = createLoaderRules(languages, features, workers, filename, publicPath, compilationPublicPath);
     const plugins = createPlugins(workers, filename);
     addCompilerRules(compiler, rules);
@@ -148,8 +156,8 @@ function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDe
   if (!languages.length && !features.length) {
     return [];
   }
-  const languagePaths = flatArr(coalesce(languages.map(({ entry }) => entry)));
-  const featurePaths = flatArr(coalesce(features.map(({ entry }) => entry)));
+  const languagePaths = flatArr(coalesce(languages.map(language => language.entry)));
+  const featurePaths = flatArr(coalesce(features.map(feature => feature.entry)));
   const workerPaths = fromPairs(workers.map(({ label, entry }) => [label, getWorkerFilename(filename, entry)]));
   if (workerPaths['typescript']) {
     // javascript shares the same worker
@@ -208,7 +216,7 @@ function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDe
 function createPlugins(workers: ILabeledWorkerDefinition[], filename: string): AddWorkerEntryPointPlugin[] {
   return (
     (<AddWorkerEntryPointPlugin[]>[])
-      .concat(uniqBy(workers, ({ id }) => id).map(({ id, entry }) =>
+      .concat(workers.map(({ id, entry }) =>
         new AddWorkerEntryPointPlugin({
           id,
           entry: resolveMonacoPath(entry),
@@ -232,26 +240,6 @@ function flatArr<T>(items: (T | T[])[]): T[] {
 
 function fromPairs<T>(values: [string, T][]): { [key: string]: T; } {
   return values.reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), <{ [key: string]: T; }>{});
-}
-
-function uniqBy<T>(items: T[], iteratee: (item: T) => string): T[] {
-  const keys: { [key: string]: boolean; } = {};
-  return items.reduce((acc, item) => {
-    const key = iteratee(item);
-    if (key in keys) { return acc; }
-    keys[key] = true;
-    acc.push(item);
-    return acc;
-  }, <T[]>[]);
-}
-
-function mixin<DEST, SRC>(dest: DEST, src: SRC): DEST & SRC {
-  for (let prop in src) {
-    if (Object.hasOwnProperty.call(src, prop)) {
-      (<any>dest)[prop] = src[prop];
-    }
-  }
-  return <any>dest;
 }
 
 function coalesce<T>(array: ReadonlyArray<T | undefined | null>): T[] {
