@@ -18,12 +18,13 @@
     "url": "https://github.com/Microsoft/monaco-languages/issues"
   },
   "devDependencies": {
+    "glob": "^7.1.6",
     "jsdom": "^15.2.1",
     "mocha": "^6.2.2",
     "monaco-editor-core": "0.18.1",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "typescript": "3.7.3",
-    "terser": "^4.4.3"
+    "terser": "^4.4.3",
+    "typescript": "3.7.3"
   }
 }
