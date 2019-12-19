@@ -34,6 +34,7 @@
     "@types/loader-utils": "^1.1.3",
     "@types/webpack": "^4.41.0",
     "css-loader": "^3.4.0",
+    "glob": "^7.1.6",
     "monaco-editor": "^0.18.1",
     "style-loader": "^1.0.2",
     "typescript": "^3.7.3",

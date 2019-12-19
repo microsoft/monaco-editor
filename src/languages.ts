@@ -1,235 +1,271 @@
+//
+// THIS IS A GENERATED FILE. PLEASE DO NOT EDIT DIRECTLY.
+// node scripts/import-editor.js
+//
 import { IFeatureDefinition } from "./types";
 
 const languagesArr: IFeatureDefinition[] = [
   {
+    label: 'abap',
+    entry: 'vs/basic-languages/abap/abap.contribution'
+  },
+  {
     label: 'apex',
-    entry: 'vs/basic-languages/apex/apex.contribution',
+    entry: 'vs/basic-languages/apex/apex.contribution'
   },
   {
     label: 'azcli',
-    entry: 'vs/basic-languages/azcli/azcli.contribution',
+    entry: 'vs/basic-languages/azcli/azcli.contribution'
   },
   {
     label: 'bat',
-    entry: 'vs/basic-languages/bat/bat.contribution',
+    entry: 'vs/basic-languages/bat/bat.contribution'
   },
   {
     label: 'clojure',
-    entry: 'vs/basic-languages/clojure/clojure.contribution',
+    entry: 'vs/basic-languages/clojure/clojure.contribution'
   },
   {
     label: 'coffee',
-    entry: 'vs/basic-languages/coffee/coffee.contribution',
+    entry: 'vs/basic-languages/coffee/coffee.contribution'
   },
   {
     label: 'cpp',
-    entry: 'vs/basic-languages/cpp/cpp.contribution',
+    entry: 'vs/basic-languages/cpp/cpp.contribution'
   },
   {
     label: 'csharp',
-    entry: 'vs/basic-languages/csharp/csharp.contribution',
+    entry: 'vs/basic-languages/csharp/csharp.contribution'
   },
   {
     label: 'csp',
-    entry: 'vs/basic-languages/csp/csp.contribution',
+    entry: 'vs/basic-languages/csp/csp.contribution'
   },
   {
     label: 'css',
     entry: [
       'vs/basic-languages/css/css.contribution',
-      'vs/language/css/monaco.contribution',
+      'vs/language/css/monaco.contribution'
     ],
     worker: {
       id: 'vs/language/css/cssWorker',
-      entry: 'vs/language/css/css.worker',
-    },
+      entry: 'vs/language/css/css.worker'
+    }
   },
   {
     label: 'dockerfile',
-    entry: 'vs/basic-languages/dockerfile/dockerfile.contribution',
+    entry: 'vs/basic-languages/dockerfile/dockerfile.contribution'
   },
   {
     label: 'fsharp',
-    entry: 'vs/basic-languages/fsharp/fsharp.contribution',
+    entry: 'vs/basic-languages/fsharp/fsharp.contribution'
   },
   {
     label: 'go',
-    entry: 'vs/basic-languages/go/go.contribution',
+    entry: 'vs/basic-languages/go/go.contribution'
   },
   {
     label: 'graphql',
-    entry: 'vs/basic-languages/graphql/graphql.contribution',
+    entry: 'vs/basic-languages/graphql/graphql.contribution'
   },
   {
     label: 'handlebars',
-    entry: 'vs/basic-languages/handlebars/handlebars.contribution',
+    entry: 'vs/basic-languages/handlebars/handlebars.contribution'
   },
   {
     label: 'html',
     entry: [
       'vs/basic-languages/html/html.contribution',
-      'vs/language/html/monaco.contribution',
+      'vs/language/html/monaco.contribution'
     ],
     worker: {
       id: 'vs/language/html/htmlWorker',
-      entry: 'vs/language/html/html.worker',
-    },
+      entry: 'vs/language/html/html.worker'
+    }
   },
   {
     label: 'ini',
-    entry: 'vs/basic-languages/ini/ini.contribution',
+    entry: 'vs/basic-languages/ini/ini.contribution'
   },
   {
     label: 'java',
-    entry: 'vs/basic-languages/java/java.contribution',
+    entry: 'vs/basic-languages/java/java.contribution'
   },
   {
     label: 'javascript',
-    entry: 'vs/basic-languages/javascript/javascript.contribution',
+    entry: 'vs/basic-languages/javascript/javascript.contribution'
   },
   {
     label: 'json',
     entry: 'vs/language/json/monaco.contribution',
     worker: {
       id: 'vs/language/json/jsonWorker',
-      entry: 'vs/language/json/json.worker',
-    },
+      entry: 'vs/language/json/json.worker'
+    }
+  },
+  {
+    label: 'kotlin',
+    entry: 'vs/basic-languages/kotlin/kotlin.contribution'
   },
   {
     label: 'less',
-    entry: 'vs/basic-languages/less/less.contribution',
+    entry: 'vs/basic-languages/less/less.contribution'
   },
   {
     label: 'lua',
-    entry: 'vs/basic-languages/lua/lua.contribution',
+    entry: 'vs/basic-languages/lua/lua.contribution'
   },
   {
     label: 'markdown',
-    entry: 'vs/basic-languages/markdown/markdown.contribution',
+    entry: 'vs/basic-languages/markdown/markdown.contribution'
+  },
+  {
+    label: 'mips',
+    entry: 'vs/basic-languages/mips/mips.contribution'
   },
   {
     label: 'msdax',
-    entry: 'vs/basic-languages/msdax/msdax.contribution',
+    entry: 'vs/basic-languages/msdax/msdax.contribution'
   },
   {
     label: 'mysql',
-    entry: 'vs/basic-languages/mysql/mysql.contribution',
+    entry: 'vs/basic-languages/mysql/mysql.contribution'
   },
   {
-    label: 'objective',
-    entry: 'vs/basic-languages/objective-c/objective-c.contribution',
+    label: 'objective-c',
+    entry: 'vs/basic-languages/objective-c/objective-c.contribution'
+  },
+  {
+    label: 'pascal',
+    entry: 'vs/basic-languages/pascal/pascal.contribution'
+  },
+  {
+    label: 'pascaligo',
+    entry: 'vs/basic-languages/pascaligo/pascaligo.contribution'
   },
   {
     label: 'perl',
-    entry: 'vs/basic-languages/perl/perl.contribution',
+    entry: 'vs/basic-languages/perl/perl.contribution'
   },
   {
     label: 'pgsql',
-    entry: 'vs/basic-languages/pgsql/pgsql.contribution',
+    entry: 'vs/basic-languages/pgsql/pgsql.contribution'
   },
   {
     label: 'php',
-    entry: 'vs/basic-languages/php/php.contribution',
+    entry: 'vs/basic-languages/php/php.contribution'
   },
   {
     label: 'postiats',
-    entry: 'vs/basic-languages/postiats/postiats.contribution',
+    entry: 'vs/basic-languages/postiats/postiats.contribution'
   },
   {
     label: 'powerquery',
-    entry: 'vs/basic-languages/powerquery/powerquery.contribution',
+    entry: 'vs/basic-languages/powerquery/powerquery.contribution'
   },
   {
     label: 'powershell',
-    entry: 'vs/basic-languages/powershell/powershell.contribution',
+    entry: 'vs/basic-languages/powershell/powershell.contribution'
   },
   {
     label: 'pug',
-    entry: 'vs/basic-languages/pug/pug.contribution',
+    entry: 'vs/basic-languages/pug/pug.contribution'
   },
   {
     label: 'python',
-    entry: 'vs/basic-languages/python/python.contribution',
+    entry: 'vs/basic-languages/python/python.contribution'
   },
   {
     label: 'r',
-    entry: 'vs/basic-languages/r/r.contribution',
+    entry: 'vs/basic-languages/r/r.contribution'
   },
   {
     label: 'razor',
-    entry: 'vs/basic-languages/razor/razor.contribution',
+    entry: 'vs/basic-languages/razor/razor.contribution'
   },
   {
     label: 'redis',
-    entry: 'vs/basic-languages/redis/redis.contribution',
+    entry: 'vs/basic-languages/redis/redis.contribution'
   },
   {
     label: 'redshift',
-    entry: 'vs/basic-languages/redshift/redshift.contribution',
+    entry: 'vs/basic-languages/redshift/redshift.contribution'
   },
   {
     label: 'ruby',
-    entry: 'vs/basic-languages/ruby/ruby.contribution',
+    entry: 'vs/basic-languages/ruby/ruby.contribution'
   },
   {
     label: 'rust',
-    entry: 'vs/basic-languages/rust/rust.contribution',
+    entry: 'vs/basic-languages/rust/rust.contribution'
   },
   {
     label: 'sb',
-    entry: 'vs/basic-languages/sb/sb.contribution',
+    entry: 'vs/basic-languages/sb/sb.contribution'
   },
   {
     label: 'scheme',
-    entry: 'vs/basic-languages/scheme/scheme.contribution',
+    entry: 'vs/basic-languages/scheme/scheme.contribution'
   },
   {
     label: 'scss',
-    entry: 'vs/basic-languages/scss/scss.contribution',
+    entry: 'vs/basic-languages/scss/scss.contribution'
   },
   {
     label: 'shell',
-    entry: 'vs/basic-languages/shell/shell.contribution',
+    entry: 'vs/basic-languages/shell/shell.contribution'
   },
   {
     label: 'solidity',
-    entry: 'vs/basic-languages/solidity/solidity.contribution',
+    entry: 'vs/basic-languages/solidity/solidity.contribution'
+  },
+  {
+    label: 'sophia',
+    entry: 'vs/basic-languages/sophia/sophia.contribution'
   },
   {
     label: 'sql',
-    entry: 'vs/basic-languages/sql/sql.contribution',
+    entry: 'vs/basic-languages/sql/sql.contribution'
   },
   {
     label: 'st',
-    entry: 'vs/basic-languages/st/st.contribution',
+    entry: 'vs/basic-languages/st/st.contribution'
   },
   {
     label: 'swift',
-    entry: 'vs/basic-languages/swift/swift.contribution',
+    entry: 'vs/basic-languages/swift/swift.contribution'
+  },
+  {
+    label: 'tcl',
+    entry: 'vs/basic-languages/tcl/tcl.contribution'
+  },
+  {
+    label: 'twig',
+    entry: 'vs/basic-languages/twig/twig.contribution'
   },
   {
     label: 'typescript',
     entry: [
       'vs/basic-languages/typescript/typescript.contribution',
-      'vs/language/typescript/monaco.contribution',
+      'vs/language/typescript/monaco.contribution'
     ],
     worker: {
       id: 'vs/language/typescript/tsWorker',
-      entry: 'vs/language/typescript/ts.worker',
-    },
+      entry: 'vs/language/typescript/ts.worker'
+    }
   },
   {
     label: 'vb',
-    entry: 'vs/basic-languages/vb/vb.contribution',
+    entry: 'vs/basic-languages/vb/vb.contribution'
   },
   {
     label: 'xml',
-    entry: 'vs/basic-languages/xml/xml.contribution',
+    entry: 'vs/basic-languages/xml/xml.contribution'
   },
   {
     label: 'yaml',
-    entry: 'vs/basic-languages/yaml/yaml.contribution',
-  },
+    entry: 'vs/basic-languages/yaml/yaml.contribution'
+  }
 ];
 
 export const languagesById: { [language: string]: IFeatureDefinition; } = {};
