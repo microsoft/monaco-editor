@@ -190,7 +190,16 @@ function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDe
       return {
         getWorkerUrl: function (moduleId, label) {
           var pathPrefix = ${pathPrefix};
-          return (pathPrefix ? stripTrailingSlash(pathPrefix) + '/' : '') + paths[label];
+          var result = (pathPrefix ? stripTrailingSlash(pathPrefix) + '/' : '') + paths[label];
+          if (/^(http:)|(https:)|(file:)/.test(result)) {
+            var currentUrl = String(window.location);
+            var currentOrigin = currentUrl.substr(0, currentUrl.length - window.location.hash.length - window.location.search.length - window.location.pathname.length);
+            if (result.substring(0, currentOrigin.length) !== currentOrigin) {
+              var js = '/*' + label + '*/importScripts("' + result + '");';
+              return 'data:text/javascript;charset=utf-8,' + encodeURIComponent(js);
+            }
+          }
+          return result;
         }
       };
     })(${JSON.stringify(workerPaths, null, 2)})`,

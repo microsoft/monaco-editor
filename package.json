@@ -6,6 +6,7 @@
   "typings": "./out/index.d.ts",
   "scripts": {
     "test": "node ./node_modules/webpack/bin/webpack.js --config test/webpack.config.js",
+    "test-cross-origin": "node ./node_modules/webpack/bin/webpack.js --config test/webpack-cross-origin.config.js",
     "watch": "tsc -w -p tsconfig.json",
     "prepublishOnly": "tsc -p tsconfig.json"
   },
