@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Microsoft/monaco-editor-webpack-plugin#readme",
   "peerDependencies": {
-    "webpack": "^4.41.4",
+    "webpack": "^4.5.0",
     "monaco-editor": "^0.18.1"
   },
   "devDependencies": {
