@@ -1,10 +1,10 @@
 //
 // THIS IS A GENERATED FILE. PLEASE DO NOT EDIT DIRECTLY.
-// node scripts/import-editor.js
+// GENERATED USING node scripts/import-editor.js
 //
 import { IFeatureDefinition } from "./types";
 
-const languagesArr: IFeatureDefinition[] = [
+export const languagesArr: IFeatureDefinition[] = [
   {
     label: 'abap',
     entry: 'vs/basic-languages/abap/abap.contribution'
@@ -267,6 +267,3 @@ const languagesArr: IFeatureDefinition[] = [
     entry: 'vs/basic-languages/yaml/yaml.contribution'
   }
 ];
-
-export const languagesById: { [language: string]: IFeatureDefinition; } = {};
-languagesArr.forEach(language => languagesById[language.label] = language);

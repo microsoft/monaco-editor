@@ -7,6 +7,22 @@ const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
 
+const customFeatureLabels = {
+  'vs/editor/browser/controller/coreCommands': 'coreCommands',
+  'vs/editor/contrib/caretOperations/caretOperations': 'caretOperations',
+  'vs/editor/contrib/caretOperations/transpose': 'transpose',
+  'vs/editor/contrib/colorPicker/colorDetector': 'colorDetector',
+  'vs/editor/contrib/goToDefinition/goToDefinitionCommands': 'goToDefinitionCommands',
+  'vs/editor/contrib/goToDefinition/goToDefinitionMouse': 'goToDefinitionMouse',
+  'vs/editor/contrib/snippet/snippetController2': 'snippets',
+  'vs/editor/standalone/browser/quickOpen/gotoLine': 'gotoLine',
+  'vs/editor/standalone/browser/quickOpen/quickCommand': 'quickCommand',
+  'vs/editor/standalone/browser/quickOpen/quickOutline': 'quickOutline',
+};
+
+generateLanguages();
+generateFeatures();
+
 /**
  * @returns { Promise<{ label: string; entry: string; }[]> }
  */
@@ -43,8 +59,8 @@ function readAdvancedLanguages() {
 
       resolve(
         files
-        .map(file => file.substring('./node_modules/monaco-editor/esm/vs/language/'.length))
-        .map(file => file.substring(0, file.length - '/monaco.contribution.js'.length))
+          .map(file => file.substring('./node_modules/monaco-editor/esm/vs/language/'.length))
+          .map(file => file.substring(0, file.length - '/monaco.contribution.js'.length))
       );
     });
   });
@@ -85,62 +101,61 @@ function getAdvancedLanguages() {
   }
 }
 
-Promise.all([getBasicLanguages(), getAdvancedLanguages()]).then(([basicLanguages, advancedLanguages]) => {
-  basicLanguages.sort(strcmp);
-  advancedLanguages.sort(strcmp);
+function generateLanguages() {
+  return Promise.all([getBasicLanguages(), getAdvancedLanguages()]).then(([basicLanguages, advancedLanguages]) => {
+    basicLanguages.sort(strcmp);
+    advancedLanguages.sort(strcmp);
 
-  let i = 0, len = basicLanguages.length;
-  let j = 0, lenJ = advancedLanguages.length;
-  let result = [];
-  while (i < len || j < lenJ) {
-    if (i < len && j < lenJ) {
-      if (basicLanguages[i].label === advancedLanguages[j].label) {
-        let entry = [];
-        entry.push(basicLanguages[i].entry);
-        entry.push(advancedLanguages[j].entry);
-        result.push({
-          label: basicLanguages[i].label,
-          entry: entry,
-          worker: advancedLanguages[j].worker
-        });
-        i++;
-        j++;
-      } else if (basicLanguages[i].label < advancedLanguages[j].label) {
+    let i = 0, len = basicLanguages.length;
+    let j = 0, lenJ = advancedLanguages.length;
+    let result = [];
+    while (i < len || j < lenJ) {
+      if (i < len && j < lenJ) {
+        if (basicLanguages[i].label === advancedLanguages[j].label) {
+          let entry = [];
+          entry.push(basicLanguages[i].entry);
+          entry.push(advancedLanguages[j].entry);
+          result.push({
+            label: basicLanguages[i].label,
+            entry: entry,
+            worker: advancedLanguages[j].worker
+          });
+          i++;
+          j++;
+        } else if (basicLanguages[i].label < advancedLanguages[j].label) {
+          result.push(basicLanguages[i]);
+          i++;
+        } else {
+          result.push(advancedLanguages[j]);
+          j++;
+        }
+      } else if (i < len) {
         result.push(basicLanguages[i]);
         i++;
       } else {
         result.push(advancedLanguages[j]);
         j++;
       }
-    } else if (i < len) {
-      result.push(basicLanguages[i]);
-      i++;
-    } else {
-      result.push(advancedLanguages[j]);
-      j++;
     }
-  }
 
-  const code = `//
+    const code = `//
 // THIS IS A GENERATED FILE. PLEASE DO NOT EDIT DIRECTLY.
-// node scripts/import-editor.js
+// GENERATED USING node scripts/import-editor.js
 //
 import { IFeatureDefinition } from "./types";
 
-const languagesArr: IFeatureDefinition[] = ${
-  JSON.stringify(result, null, '  ')
-  .replace(/"label":/g, 'label:')
-  .replace(/"entry":/g, 'entry:')
-  .replace(/"worker":/g, 'worker:')
-  .replace(/"id":/g, 'id:')
-  .replace(/"/g, '\'')
-};
-
-export const languagesById: { [language: string]: IFeatureDefinition; } = {};
-languagesArr.forEach(language => languagesById[language.label] = language);
+export const languagesArr: IFeatureDefinition[] = ${
+      JSON.stringify(result, null, '  ')
+        .replace(/"label":/g, 'label:')
+        .replace(/"entry":/g, 'entry:')
+        .replace(/"worker":/g, 'worker:')
+        .replace(/"id":/g, 'id:')
+        .replace(/"/g, '\'')
+      };
 `
-  fs.writeFileSync(path.join(__dirname, '../src/languages.ts'), code);
-});
+    fs.writeFileSync(path.join(__dirname, '../src/languages.ts'), code.replace(/\r\n/g, '\n'));
+  });
+}
 
 function strcmp(a, b) {
   if (a < b) {
@@ -152,7 +167,71 @@ function strcmp(a, b) {
   return 0;
 }
 
-// getBasicLanguages().then((basicLanguages) => {
-//   console.log(basicLanguages);
-// });
-// getAdvancedLanguages().then(r => console.log(r));
+/**
+ * @returns { string[] }
+ */
+function generateFeatures() {
+  const skipImports = [
+    'vs/editor/browser/widget/codeEditorWidget',
+    'vs/editor/browser/widget/diffEditorWidget',
+    'vs/editor/browser/widget/diffNavigator',
+    'vs/editor/common/standaloneStrings',
+    'vs/editor/contrib/tokenization/tokenization',
+    'vs/editor/editor.all',
+  ];
+
+  let features = [];
+  const files = (
+    fs.readFileSync(path.join(__dirname, '../node_modules/monaco-editor/esm/vs/editor/edcore.main.js')).toString()
+    + fs.readFileSync(path.join(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.all.js')).toString()
+  );
+  files.split(/\r\n|\n/).forEach(line => {
+    const m = line.match(/import '([^']+)'/);
+    if (m) {
+      const tmp = path.posix.join('vs/editor', m[1]).replace(/\.js$/, '');
+      if (skipImports.indexOf(tmp) === -1) {
+        features.push(tmp);
+      }
+    }
+  });
+
+  let result = features.map((feature) => {
+    return {
+      label: customFeatureLabels[feature] || path.basename(path.dirname(feature)),
+      entry: feature
+    };
+  });
+
+  result.sort((a, b) => {
+    const labelCmp = strcmp(a.label, b.label);
+    if (labelCmp === 0) {
+      return strcmp(a.entry, b.entry);
+    }
+    return labelCmp;
+  });
+
+  for (let i = 0; i < result.length; i++) {
+    if (i + 1 < result.length && result[i].label === result[i + 1].label) {
+      if (typeof result[i].entry === 'string') {
+        result[i].entry = [result[i].entry];
+      }
+      result[i].entry.push(result[i + 1].entry);
+      result.splice(i + 1, 1);
+    }
+  }
+
+  const code = `//
+// THIS IS A GENERATED FILE. PLEASE DO NOT EDIT DIRECTLY.
+// GENERATED USING node scripts/import-editor.js
+//
+import { IFeatureDefinition } from "./types";
+
+export const featuresArr: IFeatureDefinition[] = ${
+    JSON.stringify(result, null, '  ')
+      .replace(/"label":/g, 'label:')
+      .replace(/"entry":/g, 'entry:')
+      .replace(/"/g, '\'')
+    };
+`
+  fs.writeFileSync(path.join(__dirname, '../src/features.ts'), code.replace(/\r\n/g, '\n'));
+}

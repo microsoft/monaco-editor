@@ -3,8 +3,8 @@ import * as webpack from 'webpack';
 import * as loaderUtils from 'loader-utils';
 import * as fs from 'fs';
 import { AddWorkerEntryPointPlugin } from './plugins/AddWorkerEntryPointPlugin';
-import { languagesById } from './languages';
-import { featuresById } from './features';
+import { languagesArr } from './languages';
+import { featuresArr } from './features';
 import { IFeatureDefinition } from './types';
 
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
@@ -17,6 +17,12 @@ const EDITOR_MODULE: IFeatureDefinition = {
     entry: 'vs/editor/editor.worker'
   },
 };
+
+const languagesById: { [language: string]: IFeatureDefinition; } = {};
+languagesArr.forEach(language => languagesById[language.label] = language);
+
+const featuresById: { [feature: string]: IFeatureDefinition; } = {};
+featuresArr.forEach(feature => featuresById[feature.label] = feature);
 
 /**
  * Return a resolved path for a given Monaco file.
