@@ -28,7 +28,6 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	private _onDidExtraLibsChange = new Emitter<void>();
 
 	private _extraLibs: IExtraLibs;
-	private _workerMaxIdleTime: number;
 	private _eagerModelSync: boolean;
 	private _compilerOptions!: monaco.languages.typescript.CompilerOptions;
 	private _diagnosticsOptions!: monaco.languages.typescript.DiagnosticsOptions;
@@ -36,7 +35,6 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
 		this._extraLibs = Object.create(null);
-		this._workerMaxIdleTime = 2 * 60 * 1000;
 		this._eagerModelSync = false;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
@@ -145,13 +143,6 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	}
 
 	setMaximumWorkerIdleTime(value: number): void {
-		// doesn't fire an event since no
-		// worker restart is required here
-		this._workerMaxIdleTime = value;
-	}
-
-	getWorkerMaxIdleTime() {
-		return this._workerMaxIdleTime;
 	}
 
 	setEagerModelSync(value: boolean) {

@@ -14,8 +14,6 @@ export class WorkerManager {
 
 	private _modeId: string;
 	private _defaults: LanguageServiceDefaultsImpl;
-	private _idleCheckInterval: number;
-	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
 	private _updateExtraLibsToken: number;
 	private _extraLibsChangeListener: IDisposable;
@@ -28,8 +26,6 @@ export class WorkerManager {
 		this._defaults = defaults;
 		this._worker = null;
 		this._client = null;
-		this._idleCheckInterval = setInterval(() => this._checkIfIdle(), 30 * 1000);
-		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
 		this._updateExtraLibsToken = 0;
 		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(() => this._updateExtraLibs());
@@ -44,7 +40,6 @@ export class WorkerManager {
 	}
 
 	dispose(): void {
-		clearInterval(this._idleCheckInterval);
 		this._configChangeListener.dispose();
 		this._extraLibsChangeListener.dispose();
 		this._stopWorker();
@@ -63,20 +58,7 @@ export class WorkerManager {
 		proxy.updateExtraLibs(this._defaults.getExtraLibs());
 	}
 
-	private _checkIfIdle(): void {
-		if (!this._worker) {
-			return;
-		}
-		const maxIdleTime = this._defaults.getWorkerMaxIdleTime();
-		const timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
-		if (maxIdleTime > 0 && timePassedSinceLastUsed > maxIdleTime) {
-			this._stopWorker();
-		}
-	}
-
 	private _getClient(): Promise<TypeScriptWorker> {
-		this._lastUsedTime = Date.now();
-
 		if (!this._client) {
 			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
 
@@ -84,6 +66,8 @@ export class WorkerManager {
 				moduleId: 'vs/language/typescript/tsWorker',
 
 				label: this._modeId,
+
+				keepIdleModels: true,
 
 				// passed in to the create() method
 				createData: {
