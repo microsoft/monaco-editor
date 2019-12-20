@@ -70,20 +70,19 @@ export const featuresArr: IFeatureDefinition[] = [
     entry: 'vs/editor/contrib/format/formatActions'
   },
   {
-    label: 'goToDefinitionCommands',
-    entry: 'vs/editor/contrib/goToDefinition/goToDefinitionCommands'
-  },
-  {
-    label: 'goToDefinitionMouse',
-    entry: 'vs/editor/contrib/goToDefinition/goToDefinitionMouse'
-  },
-  {
     label: 'gotoError',
     entry: 'vs/editor/contrib/gotoError/gotoError'
   },
   {
     label: 'gotoLine',
     entry: 'vs/editor/standalone/browser/quickOpen/gotoLine'
+  },
+  {
+    label: 'gotoSymbol',
+    entry: [
+      'vs/editor/contrib/gotoSymbol/goToCommands',
+      'vs/editor/contrib/gotoSymbol/link/goToDefinitionAtPosition'
+    ]
   },
   {
     label: 'hover',
@@ -127,10 +126,7 @@ export const featuresArr: IFeatureDefinition[] = [
   },
   {
     label: 'referenceSearch',
-    entry: [
-      'vs/editor/contrib/referenceSearch/referenceSearch',
-      'vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch'
-    ]
+    entry: 'vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch'
   },
   {
     label: 'rename',
@@ -174,6 +170,6 @@ export const featuresArr: IFeatureDefinition[] = [
   }
 ];
 
-export type EditorFeature = 'accessibilityHelp' | 'bracketMatching' | 'caretOperations' | 'clipboard' | 'codeAction' | 'codelens' | 'colorDetector' | 'comment' | 'contextmenu' | 'coreCommands' | 'cursorUndo' | 'dnd' | 'find' | 'folding' | 'fontZoom' | 'format' | 'goToDefinitionCommands' | 'goToDefinitionMouse' | 'gotoError' | 'gotoLine' | 'hover' | 'iPadShowKeyboard' | 'inPlaceReplace' | 'inspectTokens' | 'linesOperations' | 'links' | 'multicursor' | 'parameterHints' | 'quickCommand' | 'quickOutline' | 'referenceSearch' | 'rename' | 'smartSelect' | 'snippets' | 'suggest' | 'toggleHighContrast' | 'toggleTabFocusMode' | 'transpose' | 'wordHighlighter' | 'wordOperations' | 'wordPartOperations';
+export type EditorFeature = 'accessibilityHelp' | 'bracketMatching' | 'caretOperations' | 'clipboard' | 'codeAction' | 'codelens' | 'colorDetector' | 'comment' | 'contextmenu' | 'coreCommands' | 'cursorUndo' | 'dnd' | 'find' | 'folding' | 'fontZoom' | 'format' | 'gotoError' | 'gotoLine' | 'gotoSymbol' | 'hover' | 'iPadShowKeyboard' | 'inPlaceReplace' | 'inspectTokens' | 'linesOperations' | 'links' | 'multicursor' | 'parameterHints' | 'quickCommand' | 'quickOutline' | 'referenceSearch' | 'rename' | 'smartSelect' | 'snippets' | 'suggest' | 'toggleHighContrast' | 'toggleTabFocusMode' | 'transpose' | 'wordHighlighter' | 'wordOperations' | 'wordPartOperations';
 
-export type NegatedEditorFeature = '!accessibilityHelp' | '!bracketMatching' | '!caretOperations' | '!clipboard' | '!codeAction' | '!codelens' | '!colorDetector' | '!comment' | '!contextmenu' | '!coreCommands' | '!cursorUndo' | '!dnd' | '!find' | '!folding' | '!fontZoom' | '!format' | '!goToDefinitionCommands' | '!goToDefinitionMouse' | '!gotoError' | '!gotoLine' | '!hover' | '!iPadShowKeyboard' | '!inPlaceReplace' | '!inspectTokens' | '!linesOperations' | '!links' | '!multicursor' | '!parameterHints' | '!quickCommand' | '!quickOutline' | '!referenceSearch' | '!rename' | '!smartSelect' | '!snippets' | '!suggest' | '!toggleHighContrast' | '!toggleTabFocusMode' | '!transpose' | '!wordHighlighter' | '!wordOperations' | '!wordPartOperations';
+export type NegatedEditorFeature = '!accessibilityHelp' | '!bracketMatching' | '!caretOperations' | '!clipboard' | '!codeAction' | '!codelens' | '!colorDetector' | '!comment' | '!contextmenu' | '!coreCommands' | '!cursorUndo' | '!dnd' | '!find' | '!folding' | '!fontZoom' | '!format' | '!gotoError' | '!gotoLine' | '!gotoSymbol' | '!hover' | '!iPadShowKeyboard' | '!inPlaceReplace' | '!inspectTokens' | '!linesOperations' | '!links' | '!multicursor' | '!parameterHints' | '!quickCommand' | '!quickOutline' | '!referenceSearch' | '!rename' | '!smartSelect' | '!snippets' | '!suggest' | '!toggleHighContrast' | '!toggleTabFocusMode' | '!transpose' | '!wordHighlighter' | '!wordOperations' | '!wordPartOperations';
