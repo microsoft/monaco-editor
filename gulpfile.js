@@ -453,7 +453,7 @@ function addPluginDTS() {
 		contents = [
 			'/*!-----------------------------------------------------------',
 			' * Copyright (c) Microsoft Corporation. All rights reserved.',
-			' * Type definitions for monaco-editor v'+MONACO_EDITOR_VERSION,
+			' * Type definitions for monaco-editor',
 			' * Released under the MIT license',
 			'*-----------------------------------------------------------*/',
 		].join('\n') + '\n' + contents + '\n' + extraContent.join('\n');

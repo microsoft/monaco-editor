@@ -1,5 +1,59 @@
 # Monaco Editor Changelog
 
+## [0.19.0] (20.12.2019)
+
+### New & Noteworthy
+
+* It is now possible to pass in a `dimension` in the editor construction options in order to avoid a synchronous layout.
+* There is new API to provide semantic tokens.
+* New options:
+  * `multiCursorPaste`: define how to distribute paste in case of multi-cursor
+  * `matchBrackets`: control if enclosing brackets should be highlighted
+* Fixes for tokenization in: TypeScript, JavaScript, Handlebars, Kotlin and VB.
+
+### Breaking changes
+
+* `getConfiguration()` is replaced by `getRawOptions()`, which returns the passed in editor options.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [Lars Hvam (@larshp)](https://github.com/larshp)
+  * contributing: add details for running website locally [PR #1617](https://github.com/microsoft/monaco-editor/pull/1617)
+  * playground: update symbols-provider-example [PR #1616](https://github.com/microsoft/monaco-editor/pull/1616)
+* [Remy Suen (@rcjsuen)](https://github.com/rcjsuen): Add CompletionItem with snippet support to the example [PR #1703](https://github.com/microsoft/monaco-editor/pull/1703)
+
+Contributions to `monaco-editor-webpack-plugin`:
+* [Dominik Moritz (@domoritz)](https://github.com/domoritz): Bump to 0.16 [PR #62](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/62)
+* [Mike Greiling (@mikegreiling)](https://github.com/mikegreiling): Fix __webpack_public_path__ within getWorkerUrl method [PR #63](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/63)
+* [Roman Krasiuk (@rkrasiuk)](https://github.com/rkrasiuk): Bump to 0.17.0 and Add graphql support [PR #67](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/67)
+* [Niklas Mollenhauer (@nikeee)](https://github.com/nikeee): Add loader-utils and make @types/webpack a dev dependency [PR #74](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/74)
+* [James Diefenderfer (@jimmydief)](https://github.com/jimmydief)
+  * Add support for plugin-specific public path [PR #81](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/81)
+  * Add support for dynamic filenames [PR #83](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/83)
+
+Contributions to `monaco-languages`:
+
+* [Maksym Bykovskyy (@mbykovskyy)](https://github.com/mbykovskyy): Adds cameligo language support [PR #75](https://github.com/microsoft/monaco-languages/pull/75)
+* [Steven Degutis (@sdegutis)](https://github.com/sdegutis): Adds Markdown Table syntax highlighting [PR #73](https://github.com/microsoft/monaco-languages/pull/73)
+* [Sergey Romanov (@Serhioromano)](https://github.com/Serhioromano): Improvements to ST language [PR #76](https://github.com/microsoft/monaco-languages/pull/76)
+* [Sebastian Pahnke (@spahnke)](https://github.com/spahnke): [JS/TS] Add support for the nullish-coalesce operator [PR #74](https://github.com/microsoft/monaco-languages/pull/74)
+
+Contributions to `monaco-typescript`:
+
+* [Denys Vuika (@DenysVuika)](https://github.com/DenysVuika): register multiple extra libs at once [PR #24](https://github.com/microsoft/monaco-typescript/pull/24)
+* [Elizabeth Craig (@ecraig12345)](https://github.com/ecraig12345)
+  * Generate and publish typings for package [PR #50](https://github.com/microsoft/monaco-typescript/pull/50)
+  * Remove another require call [PR #49](https://github.com/microsoft/monaco-typescript/pull/49)
+* [@katis](https://github.com/katis): Update TypeScript to 3.7.2 [PR #51](https://github.com/microsoft/monaco-typescript/pull/51)
+* [Tamas Kiss (@kisstkondoros)](https://github.com/kisstkondoros): Add documentation to signature help [PR #52](https://github.com/microsoft/monaco-typescript/pull/52)
+* [Lars Hvam (@larshp)](https://github.com/larshp): fix typo [PR #45](https://github.com/microsoft/monaco-typescript/pull/45)
+* [Sebastian Pahnke (@spahnke)](https://github.com/spahnke)
+  * Provide related information to diagnostics [PR #48](https://github.com/microsoft/monaco-typescript/pull/48)
+  * Adopt monaco.MarkerTag API [PR #47](https://github.com/microsoft/monaco-typescript/pull/47)
+  * Add support to ignore certain diagnostics [PR #46](https://github.com/microsoft/monaco-typescript/pull/46)
+
 ## [0.18.1] (19.09.2019)
 
 * fixes 2 issues with the ESM distribution - [#1572](https://github.com/microsoft/monaco-editor/issues/1572) and [#1574](https://github.com/microsoft/monaco-editor/issues/1574)
