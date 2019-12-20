@@ -30,13 +30,14 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	private _extraLibs: IExtraLibs;
 	private _workerMaxIdleTime: number;
 	private _eagerModelSync: boolean;
-	private _compilerOptions: monaco.languages.typescript.CompilerOptions;
-	private _diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions;
+	private _compilerOptions!: monaco.languages.typescript.CompilerOptions;
+	private _diagnosticsOptions!: monaco.languages.typescript.DiagnosticsOptions;
 	private _onDidExtraLibsChangeTimeout: number;
 
 	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
 		this._extraLibs = Object.create(null);
 		this._workerMaxIdleTime = 2 * 60 * 1000;
+		this._eagerModelSync = false;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
 		this._onDidExtraLibsChangeTimeout = -1;
@@ -54,9 +55,12 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		return this._extraLibs;
 	}
 
-	addExtraLib(content: string, filePath?: string): IDisposable {
-		if (typeof filePath === 'undefined') {
+	addExtraLib(content: string, _filePath?: string): IDisposable {
+		let filePath: string;
+		if (typeof _filePath === 'undefined') {
 			filePath = `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
+		} else {
+			filePath = _filePath;
 		}
 
 		if (this._extraLibs[filePath] && this._extraLibs[filePath].content === content) {

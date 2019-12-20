@@ -46,7 +46,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
-	private _getModel(fileName: string): monaco.worker.IMirrorModel {
+	private _getModel(fileName: string): monaco.worker.IMirrorModel | null {
 		let models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			if (models[i].uri.toString() === fileName) {
@@ -66,9 +66,10 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		} else if (fileName in this._extraLibs) {
 			return String(this._extraLibs[fileName].version);
 		}
+		return '';
 	}
 
-	getScriptSnapshot(fileName: string): ts.IScriptSnapshot {
+	getScriptSnapshot(fileName: string): ts.IScriptSnapshot | undefined {
 		let text: string;
 		let model = this._getModel(fileName);
 		if (model) {
@@ -113,7 +114,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	getDefaultLibFileName(options: ts.CompilerOptions): string {
 		// TODO@joh support lib.es7.d.ts
-		return options.target <= ts.ScriptTarget.ES5 ? DEFAULT_LIB.NAME : ES6_LIB.NAME;
+		return (options.target || ts.ScriptTarget.ES5) <= ts.ScriptTarget.ES5 ? DEFAULT_LIB.NAME : ES6_LIB.NAME;
 	}
 
 	isDefaultLibFileName(fileName: string): boolean {
@@ -158,31 +159,31 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.resolve(diagnostics);
 	}
 
-	getCompletionsAtPosition(fileName: string, position: number): Promise<ts.CompletionInfo> {
+	getCompletionsAtPosition(fileName: string, position: number): Promise<ts.CompletionInfo | undefined> {
 		return Promise.resolve(this._languageService.getCompletionsAtPosition(fileName, position, undefined));
 	}
 
-	getCompletionEntryDetails(fileName: string, position: number, entry: string): Promise<ts.CompletionEntryDetails> {
+	getCompletionEntryDetails(fileName: string, position: number, entry: string): Promise<ts.CompletionEntryDetails | undefined> {
 		return Promise.resolve(this._languageService.getCompletionEntryDetails(fileName, position, entry, undefined, undefined, undefined));
 	}
 
-	getSignatureHelpItems(fileName: string, position: number): Promise<ts.SignatureHelpItems> {
+	getSignatureHelpItems(fileName: string, position: number): Promise<ts.SignatureHelpItems | undefined> {
 		return Promise.resolve(this._languageService.getSignatureHelpItems(fileName, position, undefined));
 	}
 
-	getQuickInfoAtPosition(fileName: string, position: number): Promise<ts.QuickInfo> {
+	getQuickInfoAtPosition(fileName: string, position: number): Promise<ts.QuickInfo | undefined> {
 		return Promise.resolve(this._languageService.getQuickInfoAtPosition(fileName, position));
 	}
 
-	getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.ReferenceEntry>> {
+	getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.ReferenceEntry> | undefined> {
 		return Promise.resolve(this._languageService.getOccurrencesAtPosition(fileName, position));
 	}
 
-	getDefinitionAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.DefinitionInfo>> {
+	getDefinitionAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.DefinitionInfo> | undefined> {
 		return Promise.resolve(this._languageService.getDefinitionAtPosition(fileName, position));
 	}
 
-	getReferencesAtPosition(fileName: string, position: number): Promise<ts.ReferenceEntry[]> {
+	getReferencesAtPosition(fileName: string, position: number): Promise<ts.ReferenceEntry[] | undefined> {
 		return Promise.resolve(this._languageService.getReferencesAtPosition(fileName, position));
 	}
 
@@ -202,7 +203,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 		return Promise.resolve(this._languageService.getFormattingEditsAfterKeystroke(fileName, postion, ch, options));
 	}
 
-	findRenameLocations(fileName: string, positon: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename: boolean): Promise<readonly ts.RenameLocation[]> {
+	findRenameLocations(fileName: string, positon: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename: boolean): Promise<readonly ts.RenameLocation[] | undefined> {
 		return Promise.resolve(this._languageService.findRenameLocations(fileName, positon, findInStrings, findInComments, providePrefixAndSuffixTextForRename));
 	}
 

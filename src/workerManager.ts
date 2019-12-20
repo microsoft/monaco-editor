@@ -20,13 +20,14 @@ export class WorkerManager {
 	private _updateExtraLibsToken: number;
 	private _extraLibsChangeListener: IDisposable;
 
-	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker>;
-	private _client: Promise<TypeScriptWorker>;
+	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker> | null;
+	private _client: Promise<TypeScriptWorker> | null;
 
 	constructor(modeId: string, defaults: LanguageServiceDefaultsImpl) {
 		this._modeId = modeId;
 		this._defaults = defaults;
 		this._worker = null;
+		this._client = null;
 		this._idleCheckInterval = setInterval(() => this._checkIfIdle(), 30 * 1000);
 		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
@@ -95,11 +96,14 @@ export class WorkerManager {
 
 			if (this._defaults.getEagerModelSync()) {
 				p = p.then(worker => {
-					return this._worker.withSyncedResources(monaco.editor.getModels()
-						.filter(model => model.getModeId() === this._modeId)
-						.map(model => model.uri)
-					);
-				})
+					if (this._worker) {
+						return this._worker.withSyncedResources(monaco.editor.getModels()
+							.filter(model => model.getModeId() === this._modeId)
+							.map(model => model.uri)
+						);
+					}
+					return worker;
+				});
 			}
 
 			this._client = p;
@@ -113,7 +117,9 @@ export class WorkerManager {
 		return this._getClient().then((client) => {
 			_client = client
 		}).then(_ => {
-			return this._worker.withSyncedResources(resources)
+			if (this._worker) {
+				return this._worker.withSyncedResources(resources)
+			}
 		}).then(_ => _client);
 	}
 }
