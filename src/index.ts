@@ -3,8 +3,8 @@ import * as webpack from 'webpack';
 import * as loaderUtils from 'loader-utils';
 import * as fs from 'fs';
 import { AddWorkerEntryPointPlugin } from './plugins/AddWorkerEntryPointPlugin';
-import { languagesArr } from './languages';
-import { featuresArr } from './features';
+import { languagesArr, EditorLanguage } from './languages';
+import { featuresArr, EditorFeature, NegatedEditorFeature } from './features';
 import { IFeatureDefinition } from './types';
 
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
@@ -65,13 +65,13 @@ interface IMonacoEditorWebpackPluginOpts {
   /**
    * Include only a subset of the languages supported.
    */
-  languages?: string[];
+  languages?: EditorLanguage[];
 
   /**
    * Include only a subset of the editor features.
    * Use e.g. '!contextmenu' to exclude a certain feature.
    */
-  features?: string[];
+  features?: (EditorFeature | NegatedEditorFeature)[];
 
   /**
    * Specify a filename template to use for generated files.

@@ -152,6 +152,11 @@ export const languagesArr: IFeatureDefinition[] = ${
         .replace(/"id":/g, 'id:')
         .replace(/"/g, '\'')
       };
+
+export type EditorLanguage = ${
+      result.map(el => `'${el.label}'`).join(' | ')
+};
+
 `
     fs.writeFileSync(path.join(__dirname, '../src/languages.ts'), code.replace(/\r\n/g, '\n'));
   });
@@ -232,6 +237,14 @@ export const featuresArr: IFeatureDefinition[] = ${
       .replace(/"entry":/g, 'entry:')
       .replace(/"/g, '\'')
     };
+
+export type EditorFeature = ${
+      result.map(el => `'${el.label}'`).join(' | ')
+};
+
+export type NegatedEditorFeature = ${
+      result.map(el => `'!${el.label}'`).join(' | ')
+};
 `
   fs.writeFileSync(path.join(__dirname, '../src/features.ts'), code.replace(/\r\n/g, '\n'));
 }
