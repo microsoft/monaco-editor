@@ -1,11 +1,15 @@
 {
   "name": "helloworld",
   "dependencies": {},
+  "scripts": {
+    "build": "webpack --progress"
+  },
   "devDependencies": {
-    "css-loader": "^3.3.0",
-    "monaco-editor": "^0.18.1",
-    "style-loader": "^1.0.1",
-    "webpack": "^4.41.2",
+    "css-loader": "^3.4.0",
+    "file-loader": "^5.0.2",
+    "monaco-editor": "^0.19.0",
+    "style-loader": "^1.1.1",
+    "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   }
 }

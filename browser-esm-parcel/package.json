@@ -12,7 +12,7 @@
     "build-worker": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps"
   },
   "devDependencies": {
-    "monaco-editor": "0.18.1",
+    "monaco-editor": "0.19.0",
     "yaserver": "^0.2.0",
     "parcel": "^1.12.4"
   }
