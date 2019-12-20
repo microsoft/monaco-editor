@@ -4,12 +4,12 @@
   "description": "Samples for using the Monaco Editor",
   "main": "index.js",
   "scripts": {
-    "simpleserver": "node_modules/.bin/http-server -c-1 ./ -p 8888"
+    "simpleserver": "yaserver --root ./ --port 8888"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "http-server": "^0.11.1",
-    "monaco-editor": "0.17.1"
+    "yaserver": "^0.2.0",
+    "monaco-editor": "0.18.1"
   }
 }
