@@ -119,6 +119,7 @@ export const language = <ILanguage>{
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"""/, 'string', '@multistring'],
 			[/"/, 'string', '@string'],
 
 			// characters
@@ -154,6 +155,14 @@ export const language = <ILanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"/, 'string', '@pop']
+		],
+
+		multistring: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"""/, 'string', '@pop'],
+			[/./, 'string']
 		],
 	},
 };

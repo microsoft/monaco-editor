@@ -670,6 +670,36 @@ testTokenization('kotlin', [
 			{ startIndex: 22, type: '' },
 			{ startIndex: 23, type: 'delimiter.curly.kt' },
 		]
-	}]
-]);
+	}],
 
+	[{
+		line: 'val text = """',
+		tokens: [
+			{ startIndex: 0, type: 'keyword.val.kt' },
+			{ startIndex: 3, type: '' },
+			{ startIndex: 4, type: 'identifier.kt' },
+			{ startIndex: 8, type: '' },
+			{ startIndex: 9, type: 'delimiter.kt' },
+			{ startIndex: 10, type: '' },
+			{ startIndex: 11, type: 'string.kt' },
+		]
+	},
+	{
+		line: '    for (c in "foo")',
+		tokens: [
+			{ startIndex: 0, type: 'string.kt' },
+		]
+	},
+	{
+		line: '        print(c)',
+		tokens: [
+			{ startIndex: 0, type: 'string.kt' },
+		]
+	},
+	{
+		line: '"""',
+		tokens: [
+			{ startIndex: 0, type: 'string.kt' },
+		]
+	}],
+]);
