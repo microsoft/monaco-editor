@@ -14,6 +14,10 @@ npm run simpleserver
 
 Go to <a href="http://localhost:8888">localhost:8888</a> and explore the samples!
 
+## Issues
+
+Please file issues concering `monaco-editor-samples` in the [`monaco-editor` repository](https://github.com/Microsoft/monaco-editor/issues).
+
 ## Loading variations
 * `browser-amd-editor`: running in a browser using `AMD` lazy loading.
 * `browser-script-editor`: running in a browser using `AMD` synchronous loading via `<script>` tags.
