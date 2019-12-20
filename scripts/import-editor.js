@@ -155,10 +155,19 @@ export const languagesArr: IFeatureDefinition[] = ${
 
 export type EditorLanguage = ${
       result.map(el => `'${el.label}'`).join(' | ')
-};
+      };
 
 `
     fs.writeFileSync(path.join(__dirname, '../src/languages.ts'), code.replace(/\r\n/g, '\n'));
+
+    const readmeLanguages = (
+      JSON.stringify(result.map(r => r.label))
+        .replace(/"/g, '\'')
+        .replace(/','/g, '\', \'')
+    );
+    let readme = fs.readFileSync(path.join(__dirname, '../README.md')).toString();
+    readme = readme.replace(/<!-- LANGUAGES_BEGIN -->([^<]+)<!-- LANGUAGES_END -->/, `<!-- LANGUAGES_BEGIN -->\`${readmeLanguages}\`<!-- LANGUAGES_END -->`);
+    fs.writeFileSync(path.join(__dirname, '../README.md'), readme);
   });
 }
 
@@ -239,12 +248,21 @@ export const featuresArr: IFeatureDefinition[] = ${
     };
 
 export type EditorFeature = ${
-      result.map(el => `'${el.label}'`).join(' | ')
-};
+    result.map(el => `'${el.label}'`).join(' | ')
+    };
 
 export type NegatedEditorFeature = ${
-      result.map(el => `'!${el.label}'`).join(' | ')
-};
+    result.map(el => `'!${el.label}'`).join(' | ')
+    };
 `
   fs.writeFileSync(path.join(__dirname, '../src/features.ts'), code.replace(/\r\n/g, '\n'));
+
+  const readmeFeatures = (
+    JSON.stringify(result.map(r => r.label))
+      .replace(/"/g, '\'')
+      .replace(/','/g, '\', \'')
+  );
+  let readme = fs.readFileSync(path.join(__dirname, '../README.md')).toString();
+  readme = readme.replace(/<!-- FEATURES_BEGIN -->([^<]+)<!-- FEATURES_END -->/, `<!-- FEATURES_BEGIN -->\`${readmeFeatures}\`<!-- FEATURES_END -->`);
+  fs.writeFileSync(path.join(__dirname, '../README.md'), readme);
 }
