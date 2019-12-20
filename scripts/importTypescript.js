@@ -170,7 +170,7 @@ function importLibs() {
 		for (let i = result.length - 1; i >= 0; i--) {
 			if (result[i].deps.length === 0) {
 				// emit this node
-				strResult += `\nexport const ${result[i].name} = ${result[i].output};\n`;
+				strResult += `\nexport const ${result[i].name}: string = ${result[i].output};\n`;
 
 				// mark dep as resolved
 				for (let j = 0; j < result.length; j++) {
