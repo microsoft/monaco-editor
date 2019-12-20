@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "jsonc-parser": "^2.2.0",
-    "monaco-editor-core": "0.18.1",
-    "monaco-languages": "1.8.0",
+    "monaco-editor-core": "0.19.0",
+    "monaco-languages": "1.9.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
     "typescript": "3.7.3",
