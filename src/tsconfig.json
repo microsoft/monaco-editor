@@ -12,7 +12,7 @@
       "es2015.iterable",
       "es2015.promise"
     ],
-    "strict": true,
+    "strict": true
   },
   "include": [
     "**/*.ts"
