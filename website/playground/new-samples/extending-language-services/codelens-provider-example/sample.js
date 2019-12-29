@@ -11,7 +11,7 @@ var commandId = editor.addCommand(0, function() {
 
 monaco.languages.registerCodeLensProvider('json', {
     provideCodeLenses: function(model, token) {
-        return [
+        return {lenses: [
             {
                 range: {
                     startLineNumber: 1,
@@ -25,7 +25,7 @@ monaco.languages.registerCodeLensProvider('json', {
                     title: "First Line"
                 }
             }
-        ];
+        ]};
     },
     resolveCodeLens: function(model, codeLens, token) {
         return codeLens;
