@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.19.2] (06.01.2020)
+
+* fixes issue with default value of `autoIndent` - [#1726](https://github.com/microsoft/monaco-editor/issues/1726)
+
 ## [0.19.1] (06.01.2020)
 
 * fixes issue with .d.ts file in the ESM distribution - [#1729](https://github.com/microsoft/monaco-editor/issues/1729)

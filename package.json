@@ -34,7 +34,7 @@
     "gulp-typedoc": "^2.2.2",
     "mocha": "^6.2.2",
     "monaco-css": "2.6.0",
-    "monaco-editor-core": "0.19.1",
+    "monaco-editor-core": "0.19.2",
     "monaco-html": "2.6.0",
     "monaco-json": "2.8.0",
     "monaco-languages": "1.9.1",
