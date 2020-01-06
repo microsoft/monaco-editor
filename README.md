@@ -22,6 +22,9 @@ module.exports = {
     rules: [{
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
+    }, {
+      test: /\.ttf$/,
+      use: ['file-loader']
     }]
   },
   plugins: [
