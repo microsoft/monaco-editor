@@ -196,6 +196,10 @@ export const languagesArr: IFeatureDefinition[] = [
     entry: 'vs/basic-languages/redshift/redshift.contribution'
   },
   {
+    label: 'restructuredtext',
+    entry: 'vs/basic-languages/restructuredtext/restructuredtext.contribution'
+  },
+  {
     label: 'ruby',
     entry: 'vs/basic-languages/ruby/ruby.contribution'
   },
@@ -272,5 +276,5 @@ export const languagesArr: IFeatureDefinition[] = [
   }
 ];
 
-export type EditorLanguage = 'abap' | 'apex' | 'azcli' | 'bat' | 'cameligo' | 'clojure' | 'coffee' | 'cpp' | 'csharp' | 'csp' | 'css' | 'dockerfile' | 'fsharp' | 'go' | 'graphql' | 'handlebars' | 'html' | 'ini' | 'java' | 'javascript' | 'json' | 'kotlin' | 'less' | 'lua' | 'markdown' | 'mips' | 'msdax' | 'mysql' | 'objective-c' | 'pascal' | 'pascaligo' | 'perl' | 'pgsql' | 'php' | 'postiats' | 'powerquery' | 'powershell' | 'pug' | 'python' | 'r' | 'razor' | 'redis' | 'redshift' | 'ruby' | 'rust' | 'sb' | 'scheme' | 'scss' | 'shell' | 'solidity' | 'sophia' | 'sql' | 'st' | 'swift' | 'tcl' | 'twig' | 'typescript' | 'vb' | 'xml' | 'yaml';
+export type EditorLanguage = 'abap' | 'apex' | 'azcli' | 'bat' | 'cameligo' | 'clojure' | 'coffee' | 'cpp' | 'csharp' | 'csp' | 'css' | 'dockerfile' | 'fsharp' | 'go' | 'graphql' | 'handlebars' | 'html' | 'ini' | 'java' | 'javascript' | 'json' | 'kotlin' | 'less' | 'lua' | 'markdown' | 'mips' | 'msdax' | 'mysql' | 'objective-c' | 'pascal' | 'pascaligo' | 'perl' | 'pgsql' | 'php' | 'postiats' | 'powerquery' | 'powershell' | 'pug' | 'python' | 'r' | 'razor' | 'redis' | 'redshift' | 'restructuredtext' | 'ruby' | 'rust' | 'sb' | 'scheme' | 'scss' | 'shell' | 'solidity' | 'sophia' | 'sql' | 'st' | 'swift' | 'tcl' | 'twig' | 'typescript' | 'vb' | 'xml' | 'yaml';
 
