@@ -1,5 +1,22 @@
 # Monaco Editor Changelog
 
+## [0.19.1] (06.01.2020)
+
+* fixes issue with .d.ts file in the ESM distribution - [#1729](https://github.com/microsoft/monaco-editor/issues/1729)
+* adds types for global editor options (such as `wordBasedSuggestions`) - [#1746](https://github.com/microsoft/monaco-editor/issues/1746)
+* adds support for reStructuredText.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+* [Lars Hvam (@larshp)](https://github.com/larshp)
+  * Playground: add ABAP sample [PR #1737](https://github.com/microsoft/monaco-editor/pull/1737)
+  * Playground: fix codelens provider example [PR #1738](https://github.com/microsoft/monaco-editor/pull/1738)
+
+Contributions to `monaco-languages`:
+* [Changwon Choe (@qwefgh90)](https://github.com/qwefgh90): add support for reStructuredText [PR #77](https://github.com/microsoft/monaco-languages/pull/77)
+
+
 ## [0.19.0] (20.12.2019)
 
 ### New & Noteworthy
@@ -51,6 +68,7 @@ Contributions to `monaco-typescript`:
 * [Lars Hvam (@larshp)](https://github.com/larshp): fix typo [PR #45](https://github.com/microsoft/monaco-typescript/pull/45)
 * [Sebastian Pahnke (@spahnke)](https://github.com/spahnke)
   * Provide related information to diagnostics [PR #48](https://github.com/microsoft/monaco-typescript/pull/48)
+* [Alessandro Fragnani (@alefragnani)](https://github.com/alefragnani): Add Pascal samples [PR #1358](https://github.com/microsoft/monaco-editor/pull/1358)
   * Adopt monaco.MarkerTag API [PR #47](https://github.com/microsoft/monaco-typescript/pull/47)
   * Add support to ignore certain diagnostics [PR #46](https://github.com/microsoft/monaco-typescript/pull/46)
 
