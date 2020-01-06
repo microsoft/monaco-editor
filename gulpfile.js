@@ -476,7 +476,7 @@ function addPluginDTS() {
 }
 
 function toExternalDTS(contents) {
-	let lines = contents.split('\n');
+	let lines = contents.split(/\r\n|\r|\n/);
 	let killNextCloseCurlyBrace = false;
 	for (let i = 0; i < lines.length; i++) {
 		let line = lines[i];
