@@ -46,6 +46,7 @@ import './r/r.contribution';
 import './razor/razor.contribution';
 import './redis/redis.contribution';
 import './redshift/redshift.contribution';
+import './restructuredtext/restructuredtext.contribution';
 import './ruby/ruby.contribution';
 import './rust/rust.contribution';
 import './sb/sb.contribution';
