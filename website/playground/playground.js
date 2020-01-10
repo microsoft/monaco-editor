@@ -4,6 +4,7 @@
 
 	'use strict';
 
+	var isMac = /Mac/i.test(navigator.userAgent);
 	window.onload = function () {
 		require(['vs/editor/editor.main'], function () {
 			xhr('playground/monaco.d.ts.txt').then(function (response) {
@@ -157,8 +158,11 @@
 			htmlTab.onclick = function () { changeTab(htmlTab, 'html'); };
 			tabArea.appendChild(htmlTab);
 
-			var runBtn = document.createElement('span');
+			var runLabel = 'Press ' + (isMac ? 'CMD + return' : 'CTRL + Enter') + ' to run the code.';
+			var runBtn = document.createElement('button');
 			runBtn.className = 'action run';
+			runBtn.setAttribute('role', 'button');
+			runBtn.setAttribute('aria-label', runLabel);
 			runBtn.appendChild(document.createTextNode('Run'));
 			runBtn.onclick = function () { run(); };
 			tabArea.appendChild(runBtn);
@@ -307,6 +311,20 @@
 		function run() {
 			doRun(runContainer);
 		}
+
+		editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, run);
+		window.addEventListener('keydown', function keyDown(ev) {
+			if ((isMac && !ev.metaKey) || !ev.ctrlKey) {
+				return;
+			}
+
+			if (ev.shiftKey || ev.altKey || ev.keyCode !== 13) {
+				return;
+			}
+
+			ev.preventDefault();
+			run();
+		});
 	}
 
 	var runIframe = null, runIframeHeight = 0;
