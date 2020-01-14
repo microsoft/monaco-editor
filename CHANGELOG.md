@@ -1,5 +1,18 @@
 # Monaco Editor Changelog
 
+## [0.19.3] (14.01.2020)
+
+* brings back a way to get resolved editor options - [#1734](https://github.com/microsoft/monaco-editor/issues/1734)
+
+### Thank you
+
+Contributions to `monaco-editor`:
+* [Brijesh Bittu (@brijeshb42)](https://github.com/brijeshb42): Playground: Add keyboard shortcut to run playground code [PR #1756](https://github.com/microsoft/monaco-editor/pull/1756)
+
+Contributions to `monaco-languages`:
+* [Rikki Schulte (@acao)](https://github.com/acao): add tokenizer for graphql language variables [PR #78](https://github.com/microsoft/monaco-languages/pull/78)
+
+
 ## [0.19.2] (06.01.2020)
 
 * fixes issue with default value of `autoIndent` - [#1726](https://github.com/microsoft/monaco-editor/issues/1726)
