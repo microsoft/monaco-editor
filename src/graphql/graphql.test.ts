@@ -51,35 +51,35 @@ testTokenization('graphql', [
 		tokens: [
 			{ startIndex: 0, type: "keyword.gql" },                 // 'query'
 			{ startIndex: 5, type: "" },                            // ' '
-			{ startIndex: 6, type: "identifier.gql" },              // 'testQuery'
+			{ startIndex: 6, type: "key.identifier.gql" },              // 'testQuery'
 			{ startIndex: 15, type: "delimiter.parenthesis.gql" },  // '('
-			{ startIndex: 16, type: "identifier.gql" },             // '$intValue'
+			{ startIndex: 16, type: "argument.identifier.gql" },             // '$intValue'
 			{ startIndex: 25, type: "operator.gql" },               // ':'
 			{ startIndex: 26, type: "keyword.gql" },                // 'Int'
 			{ startIndex: 29, type: "operator.gql" },               // '='
 			{ startIndex: 30, type: "number.gql" },                 // '3'
 			{ startIndex: 31, type: "delimiter.parenthesis.gql" },  // ')'
 			{ startIndex: 32, type: "delimiter.curly.gql" },        // '{'
-			{ startIndex: 33, type: "identifier.gql" },             // 'value'
+			{ startIndex: 33, type: "key.identifier.gql" },             // 'value'
 			{ startIndex: 38, type: "delimiter.parenthesis.gql" },  // '('
-			{ startIndex: 39, type: "identifier.gql" },             // 'arg'
+			{ startIndex: 39, type: "key.identifier.gql" },             // 'arg'
 			{ startIndex: 42, type: "operator.gql" },               // ':'
 			{ startIndex: 43, type: "delimiter.curly.gql" },        // '{'
-			{ startIndex: 44, type: "identifier.gql" },             // 'string'
+			{ startIndex: 44, type: "key.identifier.gql" },             // 'string'
 			{ startIndex: 50, type: "operator.gql" },               // ':'
 			{ startIndex: 51, type: "string.quote.gql" },           // '"'
 			{ startIndex: 52, type: "string.gql" },                 // 'string'
 			{ startIndex: 58, type: "string.quote.gql" },           // '"'
 			{ startIndex: 59, type: "" },                           // ' '
-			{ startIndex: 60, type: "identifier.gql" },             // 'int'
+			{ startIndex: 60, type: "key.identifier.gql" },             // 'int'
 			{ startIndex: 63, type: "operator.gql" },               // ':'
-			{ startIndex: 64, type: "identifier.gql" },             // '$intValue'
+			{ startIndex: 64, type: "argument.identifier.gql" },             // '$intValue'
 			{ startIndex: 73, type: "delimiter.curly.gql" },        // '}'
 			{ startIndex: 74, type: "delimiter.parenthesis.gql" },  // ')'
 			{ startIndex: 75, type: "delimiter.curly.gql" },        // '{'
-			{ startIndex: 76, type: "identifier.gql" },             // 'field1'
+			{ startIndex: 76, type: "key.identifier.gql" },             // 'field1'
 			{ startIndex: 82, type: "" },                           // ' '
-			{ startIndex: 83, type: "identifier.gql" },             // 'field2'
+			{ startIndex: 83, type: "key.identifier.gql" },             // 'field2'
 			{ startIndex: 89, type: "delimiter.curly.gql" },        // '}}'
 		],
 	}],
@@ -125,7 +125,7 @@ testTokenization('graphql', [
 			line: '  id: ID!',
 			tokens: [
 				{ startIndex: 0, type: "" },
-				{ startIndex: 2, type: "identifier.gql" },
+				{ startIndex: 2, type: "key.identifier.gql" },
 				{ startIndex: 4, type: "operator.gql" },
 				{ startIndex: 5, type: "" },
 				{ startIndex: 6, type: "keyword.gql" },
