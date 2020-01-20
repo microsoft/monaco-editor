@@ -149,6 +149,12 @@
 		}
 	})();
 
+	self.getCodiconPath = function(PATH_PREFIX) {
+		PATH_PREFIX = PATH_PREFIX || '';
+		const result = RESOLVED_CORE.getResolvedPath(PATH_PREFIX);
+		return `${result}/base/browser/ui/codiconLabel/codicon/codicon.ttf`;
+	};
+
 
 	self.loadEditor = function(callback, PATH_PREFIX) {
 		PATH_PREFIX = PATH_PREFIX || '';
