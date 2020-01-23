@@ -3,7 +3,6 @@
     "module": "amd",
     "moduleResolution": "node",
     "outDir": "../release/dev",
-    "declaration": true,
     "target": "es5",
     "lib": [
       "dom",

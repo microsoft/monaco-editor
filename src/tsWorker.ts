@@ -20,7 +20,7 @@ const ES6_LIB = {
 	CONTENTS: lib_es6_dts
 };
 
-export class TypeScriptWorker implements ts.LanguageServiceHost {
+export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.languages.typescript.TypeScriptWorker {
 
 	// --- model sync -----------------------
 
@@ -123,7 +123,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 
 	// --- language features
 
-	private static clearFiles(diagnostics: ts.Diagnostic[]) {
+	private static clearFiles(diagnostics: ts.Diagnostic[]): monaco.languages.typescript.Diagnostic[] {
 		// Clear the `file` field, which cannot be JSON'yfied because it
 		// contains cyclic data structures.
 		diagnostics.forEach(diag => {
@@ -133,30 +133,27 @@ export class TypeScriptWorker implements ts.LanguageServiceHost {
 				related.forEach(diag2 => diag2.file = undefined);
 			}
 		});
+		return <monaco.languages.typescript.Diagnostic[]>diagnostics;
 	}
 
-	getSyntacticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
+	getSyntacticDiagnostics(fileName: string): Promise<monaco.languages.typescript.Diagnostic[]> {
 		const diagnostics = this._languageService.getSyntacticDiagnostics(fileName);
-		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.resolve(diagnostics);
+		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
 
-	getSemanticDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
+	getSemanticDiagnostics(fileName: string): Promise<monaco.languages.typescript.Diagnostic[]> {
 		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
-		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.resolve(diagnostics);
+		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
 
-	getSuggestionDiagnostics(fileName: string): Promise<ts.DiagnosticWithLocation[]> {
+	getSuggestionDiagnostics(fileName: string): Promise<monaco.languages.typescript.Diagnostic[]> {
 		const diagnostics = this._languageService.getSuggestionDiagnostics(fileName);
-		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.resolve(diagnostics);
+		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
 
-	getCompilerOptionsDiagnostics(fileName: string): Promise<ts.Diagnostic[]> {
+	getCompilerOptionsDiagnostics(fileName: string): Promise<monaco.languages.typescript.Diagnostic[]> {
 		const diagnostics = this._languageService.getCompilerOptionsDiagnostics();
-		TypeScriptWorker.clearFiles(diagnostics);
-		return Promise.resolve(diagnostics);
+		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
 
 	getCompletionsAtPosition(fileName: string, position: number): Promise<ts.CompletionInfo | undefined> {

@@ -208,11 +208,11 @@ const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false });
 
-function getTypeScriptWorker(): Promise<any> {
+function getTypeScriptWorker(): Promise<(...uris: monaco.Uri[]) => Promise<monaco.languages.typescript.TypeScriptWorker>> {
 	return getMode().then(mode => mode.getTypeScriptWorker());
 }
 
-function getJavaScriptWorker(): Promise<any> {
+function getJavaScriptWorker(): Promise<(...uris: monaco.Uri[]) => Promise<monaco.languages.typescript.TypeScriptWorker>> {
 	return getMode().then(mode => mode.getJavaScriptWorker());
 }
 
