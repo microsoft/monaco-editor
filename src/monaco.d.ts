@@ -377,11 +377,11 @@ declare module monaco.languages.typescript {
         getCodeFixesAtPosition(fileName: string, start: number, end: number, errorCodes: number[], formatOptions: any): Promise<ReadonlyArray<any>>;
     }
 
-    export var typescriptVersion: string;
+    export const typescriptVersion: string;
 
-    export var typescriptDefaults: LanguageServiceDefaults;
-    export var javascriptDefaults: LanguageServiceDefaults;
+    export const typescriptDefaults: LanguageServiceDefaults;
+    export const javascriptDefaults: LanguageServiceDefaults;
 
-    export var getTypeScriptWorker: () => Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>>;
-    export var getJavaScriptWorker: () => Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>>;
+    export const getTypeScriptWorker: () => Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>>;
+    export const getJavaScriptWorker: () => Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>>;
 }

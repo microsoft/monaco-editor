@@ -11,8 +11,8 @@ import * as languageFeatures from './languageFeatures';
 
 import Uri = monaco.Uri;
 
-let javaScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
-let typeScriptWorker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>;
+let javaScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
+let typeScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
 
 export function setupTypeScript(defaults: LanguageServiceDefaultsImpl): void {
 	typeScriptWorker = setupMode(
@@ -28,7 +28,7 @@ export function setupJavaScript(defaults: LanguageServiceDefaultsImpl): void {
 	);
 }
 
-export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
+export function getJavaScriptWorker(): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> {
 	return new Promise((resolve, reject) => {
 		if (!javaScriptWorker) {
 			return reject("JavaScript not registered!");
@@ -38,7 +38,7 @@ export function getJavaScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => P
 	});
 }
 
-export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>> {
+export function getTypeScriptWorker(): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> {
 	return new Promise((resolve, reject) => {
 		if (!typeScriptWorker) {
 			return reject("TypeScript not registered!");
@@ -48,11 +48,11 @@ export function getTypeScriptWorker(): Promise<(first: Uri, ...more: Uri[]) => P
 	});
 }
 
-function setupMode(defaults: LanguageServiceDefaultsImpl, modeId: string): (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker> {
+function setupMode(defaults: LanguageServiceDefaultsImpl, modeId: string): (...uris: Uri[]) => Promise<TypeScriptWorker> {
 
 	const client = new WorkerManager(modeId, defaults);
-	const worker = (first: Uri, ...more: Uri[]): Promise<TypeScriptWorker> => {
-		return client.getLanguageServiceWorker(...[first].concat(more));
+	const worker = (...uris: Uri[]): Promise<TypeScriptWorker> => {
+		return client.getLanguageServiceWorker(...uris);
 	};
 
 	monaco.languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker));
