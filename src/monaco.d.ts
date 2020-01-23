@@ -261,39 +261,6 @@ declare module monaco.languages.typescript {
 
     export interface TypeScriptWorker {
         /**
-         * Get the worker's current compiler settings.
-         */
-        getCompilationSettings(): CompilerOptions;
-
-        /**
-         * Get the names of files and libraries currently registered with the worker.
-         */
-        getScriptFileNames(): string[];
-
-        getScriptVersion(fileName: string): string;
-
-        /**
-         * Get what kind of script the given filename is.
-         * @returns `typescript.ScriptKind`: any = 0, JS = 1, JSX = 2, TS = 3, TSX = 4, external = 5, JSON = 6, deferred = 7
-         */
-        getScriptKind(fileName: string): 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-
-        /**
-         * Always returns an empty string.
-         */
-        getCurrentDirectory(): '';
-
-        /**
-         * Get the name of the default lib file based on `options.target`.
-         */
-        getDefaultLibFileName(options: CompilerOptions): string;
-
-        /**
-         * Returns true if `fileName` matches the default file name for the current compiler options.
-         */
-        isDefaultLibFileName(fileName: string): boolean;
-
-        /**
          * Get diagnostic messages for any syntax issues in the given file.
          */
         getSyntacticDiagnostics(fileName: string): Promise<Diagnostic[]>;
