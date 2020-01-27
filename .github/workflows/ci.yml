@@ -23,6 +23,17 @@ jobs:
         run: |
           yarn
           yarn gulp editor-distro
+      - name: Typings validation prep
+        run: |
+          mkdir typings-test
+      - name: Typings validation
+        working-directory: ./typings-test
+        run: |
+          yarn init -yp
+          yarn add typescript
+          yarn tsc --init
+          echo "import '../vscode/out-monaco-editor-core';" > a.ts
+          yarn tsc --noEmit
       - name: NPM Install
         run: npm install
       - name: Webpack Bundle
