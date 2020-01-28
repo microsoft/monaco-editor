@@ -11,7 +11,7 @@ about: Create a report to help us improve
  -- https://github.com/microsoft/vscode/issues
 
 2. Otherwise, provide steps that reproduce the problem in VS Code web at:
- -- http://vscode-web-test-playground.azurewebsites.net/
+ -- https://vscode-web-test-playground.azurewebsites.net/
 
 3. Otherwise, provide steps that reproduce the problem at the Monaco Editor homepage
  -- https://microsoft.github.io/monaco-editor/
