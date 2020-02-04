@@ -69,12 +69,18 @@ export const language = <ILanguage>{
 
 	tokenizer: {
 		root: [
+			{ include: '@whitespace' },
 			{ include: '@comment' },
 			{ include: '@attribute' },
 			{ include: '@literal' },
 			{ include: '@keyword' },
 			{ include: '@invokedmethod' },
 			{ include: '@symbol' },
+		],
+
+		whitespace: [
+			[/\s+/, 'white'],
+			[/"""/, 'string.quote', '@endDblDocString']
 		],
 
 		symbol: [
