@@ -163,6 +163,20 @@ testTokenization('swift', [
 			{ startIndex: 60, type: 'string.quote.swift' } /* '"' */
 		]
 	}],
+	// Multiline string
+	[{
+		line: '"""test"test', // Separate new lines into separate objects within this same array.
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.swift' }, /* '"""' */
+			{ startIndex: 3, type: 'string.swift' } /* test"test */
+		]
+	}, {
+		line: ' keepsgoing"""',
+		tokens: [
+			{ startIndex: 0, type: 'string.swift' }, /* ' keepsgoing' */
+			{ startIndex: 11, type: 'string.quote.swift' } /* '"""' */
+		]
+	}],
 	// Method invocation/property accessor.
 	[{
 		line: '        let view = self.window!.contr as! UIView',

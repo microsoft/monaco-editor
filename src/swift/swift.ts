@@ -83,6 +83,13 @@ export const language = <ILanguage>{
 			[/"""/, 'string.quote', '@endDblDocString']
 		],
 
+		endDblDocString: [
+			[/[^"]+/, 'string'],
+			[/\\"/, 'string'],
+			[/"""/, 'string.quote', '@popall'],
+			[/"/, 'string']
+		],
+
 		symbol: [
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
