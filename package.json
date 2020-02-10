@@ -20,12 +20,12 @@
   },
   "devDependencies": {
     "jsonc-parser": "^2.2.0",
-    "monaco-editor-core": "0.19.0",
-    "monaco-languages": "1.9.0",
+    "monaco-editor-core": "0.20.0",
+    "monaco-languages": "1.10.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "typescript": "3.7.3",
-    "terser": "^4.4.3",
+    "typescript": "3.7.5",
+    "terser": "^4.6.3",
     "vscode-json-languageservice": "3.4.11"
   }
 }
