@@ -1,6 +1,6 @@
 {
   "name": "monaco-json",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
     "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
