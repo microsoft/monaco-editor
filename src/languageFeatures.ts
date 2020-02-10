@@ -498,16 +498,18 @@ function toWorkspaceEdit(edit: htmlService.WorkspaceEdit): monaco.languages.Work
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
-	let resourceEdits: monaco.languages.ResourceTextEdit[] = [];
+	let resourceEdits: monaco.languages.WorkspaceTextEdit[] = [];
 	for (let uri in edit.changes) {
-		let edits: monaco.languages.TextEdit[] = [];
+		const _uri = Uri.parse(uri);
 		for (let e of edit.changes[uri]) {
-			edits.push({
-				range: toRange(e.range),
-				text: e.newText
+			resourceEdits.push({
+				resource: _uri,
+				edit: {
+					range: toRange(e.range),
+					text: e.newText
+				}
 			});
 		}
-		resourceEdits.push({ resource: Uri.parse(uri), edits: edits });
 	}
 	return {
 		edits: resourceEdits
