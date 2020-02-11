@@ -3,6 +3,7 @@
 ## [0.20.0] (11.02.2020)
 
 ### New & Noteworthy
+* The editor can now be hosted inside a Shadow Root.
 * There is new API to read the editor's content width and height.
 * New editor options:
   * `renderValidationDecorations` - render validation decorations even in read only editors
