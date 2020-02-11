@@ -70,6 +70,13 @@ Options can be passed in to `MonacoWebpackPlugin`. They can be used to generate 
   * default value: <!-- FEATURES_BEGIN -->`['accessibilityHelp', 'bracketMatching', 'caretOperations', 'clipboard', 'codeAction', 'codelens', 'colorDetector', 'comment', 'contextmenu', 'coreCommands', 'cursorUndo', 'dnd', 'find', 'folding', 'fontZoom', 'format', 'gotoError', 'gotoLine', 'gotoSymbol', 'hover', 'iPadShowKeyboard', 'inPlaceReplace', 'inspectTokens', 'linesOperations', 'links', 'multicursor', 'parameterHints', 'quickCommand', 'quickOutline', 'referenceSearch', 'rename', 'smartSelect', 'snippets', 'suggest', 'toggleHighContrast', 'toggleTabFocusMode', 'transpose', 'wordHighlighter', 'wordOperations', 'wordPartOperations']`<!-- FEATURES_END -->.
   * excluded features: It is also possible to exclude certain default features prefixing them with an exclamation mark '!'.
 
+## Version Matrix
+
+| `monaco-editor-webpack-plugin` | `monaco-editor` |
+|---|---|
+| `1.8.x` | `0.19.x`, `0.20.x` |
+| `1.7.x` | `0.18.x`
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
