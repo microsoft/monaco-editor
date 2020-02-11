@@ -42,7 +42,7 @@
     "puppeteer": "^1.15.0",
     "rimraf": "^3.0.2",
     "style-loader": "^1.0.1",
-    "typedoc": "^0.16.9",
+    "typedoc": "^0.15.8",
     "typescript": "^3.7.5",
     "uncss": "^0.17.2",
     "vinyl": "^2.2.0",
