@@ -202,8 +202,8 @@ export const language = <ILanguage>{
 			[/[,:;]/, 'delimiter'],
 			[/[{}\[\]()]/, '@brackets'],
 
-			[/@[a-zA-Z]\w*/, 'tag'],
-			[/[a-zA-Z]\w*/, {
+			[/@[a-zA-Z_]\w*/, 'tag'],
+			[/[a-zA-Z_]\w*/, {
 				cases: {
 					'@keywords': 'keyword',
 					'@default': 'identifier'
