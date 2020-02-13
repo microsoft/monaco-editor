@@ -30,7 +30,7 @@ testTokenization('julia', [
       {startIndex: 5, type: "source.julia"},
       {startIndex: 6, type: ""},
       {startIndex: 7, type: "number.julia"},
-      {startIndex: 8, type: "identifer.julia"}
+      {startIndex: 8, type: "identifier.julia"}
     ]
   }]
 ]);
