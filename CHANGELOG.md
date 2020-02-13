@@ -16,6 +16,7 @@
 * Renamed `onCompositionStart`, `onCompositionEnd` to `onDidCompositionStart`, `onDidCompositionEnd`
 * Changed the argument passed in to `onDidPaste`
 * `WorkspaceEdit.edits` has now changed its shape such that edits must no longer be grouped by resource.
+* The Monaco Editor no longer supports IE 11. The last version that was tested in IE 11 is 0.18.1.
 
 ### Thank you
 
@@ -80,6 +81,7 @@ Contributions to `monaco-languages`:
 ### Breaking changes
 
 * `getConfiguration()` is replaced by `getRawOptions()`, which returns the passed in editor options.
+* Starting with this version, the Monaco Editor no longer supports IE 11. The last version that was tested in IE 11 is 0.18.1.
 
 ### Thank you
 

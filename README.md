@@ -86,7 +86,7 @@ No.
 
 ❓ **What about IE 11 support?**
 
-* The Monaco Editor no longer supports IE 11. The last version that was tested on IE 11 is `0.14.0`. 
+* The Monaco Editor no longer supports IE 11. The last version that was tested on IE 11 is `0.18.1`.
 
 ## Development setup
 
