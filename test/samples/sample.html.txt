@@ -5,7 +5,6 @@
 	<!--This is the head section-->
 	<title>HTML Sample</title>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 	<!--This is the style tag to set style on elements-->
 	<style type="text/css">
@@ -89,10 +88,10 @@
 	<div class="Center Blue">
 			<h2>I'm h2 Header! Edit me in &lt;h2&gt;</h2>
 			<p>
-				I'm a paragraph! Edit me in &lt;p&gt; 
-				to add your own content and make changes to the style and font. 
-				It's easy! Just change the text between &lt;p&gt; ... &lt;/p&gt; and change the style in &lt;style&gt;. 
-				You can make it as long as you wish. The browser will automatically wrap the lines to accommodate the 
+				I'm a paragraph! Edit me in &lt;p&gt;
+				to add your own content and make changes to the style and font.
+				It's easy! Just change the text between &lt;p&gt; ... &lt;/p&gt; and change the style in &lt;style&gt;.
+				You can make it as long as you wish. The browser will automatically wrap the lines to accommodate the
 				size of the browser window.
 			</p>
 			<button class="Gray" onclick="ButtonClick()">Click Me!</button>

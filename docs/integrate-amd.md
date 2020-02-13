@@ -8,7 +8,6 @@ More self-contained samples are available at [monaco-editor-samples](https://git
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 </head>
 <body>
