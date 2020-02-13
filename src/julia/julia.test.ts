@@ -20,7 +20,7 @@ testTokenization('julia', [
   }],
   
   [{
-    line: "b(c) = 2c"
+    line: "b(c) = 2c",
     tokens: [
       {startIndex: 0, type: "keyword.flow.julia"},
       {startIndex: 1, type: "delimiter.parenthesis.julia"},
