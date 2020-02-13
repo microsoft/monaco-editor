@@ -43,9 +43,6 @@ It is recommended to develop against the `dev` version, and in production to use
 
 Create [issues](https://github.com/Microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
 
-## Known issues
-In IE 11, the editor must be surrounded in the body element, otherwise the hit testing performed for mouse operations does not work. You can inspect this using F12 and click on the body element and confirm that visually it surrounds the editor.
-
 ## FAQ
 
 ❓ **What is the relationship between VS Code and the Monaco Editor?**
@@ -86,6 +83,10 @@ No.
 * In Monaco, we are constrained to a browser environment where we cannot do anything similar.
 * We have experimented with Emscripten to compile the C library to asm.js, but performance was very poor even in Firefox (10x slower) and extremely poor in Chrome (100x slower).
 * We can revisit this once WebAssembly gets traction in the major browsers, but we will still need to consider the browser matrix we support, i.e. if we support IE11 and only Edge will add WebAssembly support, what will the experience be in IE11, etc.
+
+❓ **What about IE 11 support?**
+
+* The Monaco Editor no longer supports IE 11. The last version that was tested on IE 11 is `0.14.0`. 
 
 ## Development setup
 

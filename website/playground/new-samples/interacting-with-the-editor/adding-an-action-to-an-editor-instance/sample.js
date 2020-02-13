@@ -13,7 +13,7 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 });
 
 // Explanation:
-// Press F1 (Alt-F1 in IE) => the action will appear and run if it is enabled
+// Press F1 (Alt-F1 in Edge) => the action will appear and run if it is enabled
 // Press Ctrl-F10 => the action will run if it is enabled
 // Press Chord Ctrl-K, Ctrl-M => the action will run if it is enabled
 
