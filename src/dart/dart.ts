@@ -178,14 +178,14 @@ export const language = <IMonarchLanguage>{
 				/[a-z_$][\w$]*/,
 				{
 					cases: {
-						"@typeKeywords": "keyword",
+						"@typeKeywords": "type.identifier",
 						"@keywords": "keyword",
 						"@default": "identifier"
 					}
 				}
 			],
 			[
-				/(?<![a-zA-Z0-9_$])([_$]*[A-Z][a-zA-Z0-9_$]*|bool\\b|num\\b|int\\b|double\\b|dynamic\\b)/,
+				/(?<![a-zA-Z0-9_$])([_$]*[A-Z][a-zA-Z0-9_$]*)/,
 				"type.identifier"
 			], // to show class names nicely
 			// [/[A-Z][\w\$]*/, 'identifier'],
@@ -232,8 +232,7 @@ export const language = <IMonarchLanguage>{
 			[/"([^"\\]|\\.)*$/, "string.invalid"], // non-teminated string
 			[/'([^'\\]|\\.)*$/, "string.invalid"], // non-teminated string
 			[/"/, "string", "@string_double"],
-			[/'/, "string", "@string_single"],
-			[/`/, "string", "@string_backtick"]
+			[/'/, "string", "@string_single"]
 
 			//   [/[a-zA-Z]+/, "variable"]
 		],
@@ -242,6 +241,7 @@ export const language = <IMonarchLanguage>{
 			[/[ \t\r\n]+/, ""],
 			[/\/\*\*(?!\/)/, "comment.doc", "@jsdoc"],
 			[/\/\*/, "comment", "@comment"],
+			[/\/\/\/.*$/, "comment.doc"],
 			[/\/\/.*$/, "comment"]
 		],
 
@@ -308,32 +308,19 @@ export const language = <IMonarchLanguage>{
 		],
 
 		string_double: [
-			[/\$\{/, { token: "delimiter.bracket", next: "@bracketCounting" }],
-			[/[^\\"]+/, "string"],
+			[/[^\\"\$]+/, "string"], [/[^\\"]+/, "string"],
 			[/@escapes/, "string.escape"],
 			[/\\./, "string.escape.invalid"],
-			[/"/, "string", "@pop"]
+			[/"/, "string", "@pop"],
+			[/\$\w+/, 'identifier']
 		],
 
 		string_single: [
-			[/[^\\']+/, "string"],
+			[/[^\\'\$]+/, "string"],
 			[/@escapes/, "string.escape"],
 			[/\\./, "string.escape.invalid"],
-			[/'/, "string", "@pop"]
+			[/'/, "string", "@pop"],
+			[/\$\w+/, 'identifier']
 		],
-
-		string_backtick: [
-			[/\$\{/, { token: "delimiter.bracket", next: "@bracketCounting" }],
-			[/[^\\`$]+/, "string"],
-			[/@escapes/, "string.escape"],
-			[/\\./, "string.escape.invalid"],
-			[/`/, "string", "@pop"]
-		],
-
-		bracketCounting: [
-			[/\{/, "delimiter.bracket", "@bracketCounting"],
-			[/\}/, "delimiter.bracket", "@pop"],
-			{ include: "common" }
-		]
 	}
 };
