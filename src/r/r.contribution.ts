@@ -8,7 +8,7 @@ import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
 	id: 'r',
-	extensions: ['.r', '.rhistory', '.rprofile', '.rt', '.rmd'],
+	extensions: ['.r', '.rhistory', '.rmd', '.rprofile', '.rt'],
 	aliases: ['R', 'r'],
 	loader: () => import('./r')
 });
