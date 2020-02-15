@@ -69,7 +69,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		return '';
 	}
 
-	getScriptSnapshot(fileName: string): ts.IScriptSnapshot | undefined {
+	getScriptText(fileName: string): string | undefined {
 		let text: string;
 		let model = this._getModel(fileName);
 		if (model) {
@@ -85,6 +85,15 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		} else if (fileName === ES6_LIB.NAME) {
 			text = ES6_LIB.CONTENTS;
 		} else {
+			return;
+		}
+
+		return text;
+	}
+
+	getScriptSnapshot(fileName: string): ts.IScriptSnapshot | undefined {
+		const text = this.getScriptText(fileName);
+		if (!text) {
 			return;
 		}
 
@@ -200,12 +209,12 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		return Promise.resolve(this._languageService.getFormattingEditsAfterKeystroke(fileName, postion, ch, options));
 	}
 
-	findRenameLocations(fileName: string, positon: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename: boolean): Promise<readonly ts.RenameLocation[] | undefined> {
-		return Promise.resolve(this._languageService.findRenameLocations(fileName, positon, findInStrings, findInComments, providePrefixAndSuffixTextForRename));
+	findRenameLocations(fileName: string, position: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename: boolean): Promise<readonly ts.RenameLocation[] | undefined> {
+		return Promise.resolve(this._languageService.findRenameLocations(fileName, position, findInStrings, findInComments, providePrefixAndSuffixTextForRename));
 	}
 
-	getRenameInfo(fileName: string, positon: number, options: ts.RenameInfoOptions): Promise<ts.RenameInfo> {
-		return Promise.resolve(this._languageService.getRenameInfo(fileName, positon, options));
+	getRenameInfo(fileName: string, position: number, options: ts.RenameInfoOptions): Promise<ts.RenameInfo> {
+		return Promise.resolve(this._languageService.getRenameInfo(fileName, position, options));
 	}
 
 	getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
