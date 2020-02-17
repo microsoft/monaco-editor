@@ -24,6 +24,7 @@ import './html/html.contribution';
 import './ini/ini.contribution';
 import './java/java.contribution';
 import './javascript/javascript.contribution';
+import './julia/julia.contribution';
 import './kotlin/kotlin.contribution';
 import './less/less.contribution';
 import './lua/lua.contribution';
