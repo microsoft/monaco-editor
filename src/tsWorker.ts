@@ -69,7 +69,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		return '';
 	}
 
-	getScriptText(fileName: string): string | undefined {
+	getScriptText(fileName: string): Promise<string | undefined> {
+		return Promise.resolve(this._getScriptText(fileName));
+	}
+
+	_getScriptText(fileName: string): string | undefined {
 		let text: string;
 		let model = this._getModel(fileName);
 		if (model) {
@@ -92,7 +96,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 	}
 
 	getScriptSnapshot(fileName: string): ts.IScriptSnapshot | undefined {
-		const text = this.getScriptText(fileName);
+		const text = this._getScriptText(fileName);
 		if (!text) {
 			return;
 		}
