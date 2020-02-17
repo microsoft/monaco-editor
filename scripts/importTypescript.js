@@ -118,7 +118,7 @@ function importLibs() {
 	};
 
 	enqueue('');
-	enqueue('es6');
+	enqueue('es2015');
 
 	var result = [];
 	while (queue.length > 0) {
