@@ -276,6 +276,11 @@ declare module monaco.languages.typescript {
         getSuggestionDiagnostics(fileName: string): Promise<Diagnostic[]>;
 
         /**
+         * Get the content of a given file.
+         */
+        getScriptText(fileName: string): Promise<string | undefined>;
+
+        /**
          * Get diagnostic messages related to the current compiler options.
          * @param fileName Not used
          */
