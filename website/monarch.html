@@ -91,6 +91,7 @@
           Theme: <select id="themeselect">
             <option>vs</option>
             <option>vs-dark</option>
+            <option>hc-black</option>
           </select>
         </span>
       </div>
@@ -218,7 +219,7 @@ meta      .[content]</pre>
         <dt id="bracket">bracket: <em>kind</em></dt><dd><span class="adv">(Advanced)</span> The <code><em>kind</em></code> can be either <code>'@open'</code> or <code>'@close'</code>. This signifies that a token is either an open or close brace. This attribute is set automatically if the token class is <a href="#@brackets"><code class="dt">@brackets</code></a>.
         The editor uses the bracket information to show matching braces (where an open bracket matches with a close bracket if their token classes are the same). Moreover, when a user opens a new line the editor will do auto indentation on open braces. Normally, this attribute does not need to be set if you are using the <a href="#brackets"><code class="dt">brackets</code></a> attribute and it is only used for complex brace matching. This is discussed further in the next section on <a href="#complexmatch">advanced brace matching</a>.</dd>
 
-        <dt id="nextEmbedded">nextEmbedded: <em>langId</em> <span>or</span> '@pop'</dt><dd><span class="adv">(Advanced)</span> Signifies to the editor that this token is followed by code in another language specified by the <code><em>langId</em></code>, i.e. for example <code>javascript</code>. Internally, our syntax highlighter keeps tokenizing the source until it finds an an ending sequence. At that point, you can use <code class="dt">nextEmbedded</code> with a <code class="dt">'@pop'</code> value to pop out of the embedded mode again. Usually, we need to use a <code class="dt">next</code> attribute too to switch to a state where we can tokenize the foreign code. As an example, here is how we could support CSS fragments in our language:
+        <dt id="nextEmbedded">nextEmbedded: <em>langId</em> <span>or</span> '@pop'</dt><dd><span class="adv">(Advanced)</span> Signifies to the editor that this token is followed by code in another language specified by the <code><em>langId</em></code>, i.e. for example <code>javascript</code>. Internally, our syntax highlighter keeps tokenizing the source until it finds an an ending sequence. At that point, you can use <code class="dt">nextEmbedded</code> with a <code class="dt">'@pop'</code> value to pop out of the embedded mode again. <code class="dt">nextEmbedded</code> usually needs a <code class="dt">next</code> attribute to switch to a state where we can tokenize the foreign code. As an example, here is how we could support CSS fragments in our language:
         <pre class="highlight">root: [
   [/&lt;style\s*>/,   { token: 'keyword', bracket: '@open'
                    , next: '@css_block', nextEmbedded: 'text/css' }],
@@ -393,6 +394,12 @@ tokenizer: {
     </ol>
 
     <p>This will show a display over the currently selected token for its language, token type, basic font style and colors, and selector you can target in your editor themes.</p>
+
+    <p>&nbsp;</p>
+    <h2>Additional Examples</h2>
+
+    <p>Additional examples can be found in the <code class="dt">src</code> folder of the <a href='https://github.com/microsoft/monaco-languages'>monaco-languages</a> repo.</p>
+
     </div> <!-- documentation -->
   </div> <!-- main -->
 
