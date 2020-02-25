@@ -27,6 +27,7 @@ import './javascript/javascript.contribution';
 import './julia/julia.contribution';
 import './kotlin/kotlin.contribution';
 import './less/less.contribution';
+import './lexon/lexon.contribution';
 import './lua/lua.contribution';
 import './markdown/markdown.contribution';
 import './mips/mips.contribution';
