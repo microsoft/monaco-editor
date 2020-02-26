@@ -40,7 +40,7 @@ export const conf: IRichLanguageConfiguration = {
 	}
 };
 
-export const language = <ILanguage> {
+export const language = <ILanguage>{
 	// Set defaultToken to invalid to see what you do not tokenize yet
 	// defaultToken: 'invalid',
 	tokenPostfix: '.lexon',
@@ -62,7 +62,7 @@ export const language = <ILanguage> {
 	],
 
 	// we include these common regular expressions
-	symbols:  /[=><!~?:&|+\-*\/\^%]+/,
+	symbols: /[=><!~?:&|+\-*\/\^%]+/,
 
 
 	// The main tokenizer for our languages
@@ -72,17 +72,20 @@ export const language = <ILanguage> {
 			[/^(\s*)(comment:?(?:\s.*|))$/, ['', 'comment']],
 
 			// special identifier cases
-			[/"/,  { token: 'identifier.quote', bracket: '@open', next: '@quoted_identifier' } ],
-      		['LEX$', { token: 'keyword', bracket: '@open', next: '@identifier_until_period' }],
+			[/"/, { token: 'identifier.quote', bracket: '@open', next: '@quoted_identifier' }],
+			['LEX$', { token: 'keyword', bracket: '@open', next: '@identifier_until_period' }],
 			['LEXON', { token: 'keyword', bracket: '@open', next: '@semver' }],
 			[':', { token: 'delimiter', bracket: '@open', next: '@identifier_until_period' }],
 
 			// identifiers and keywords
-			[/[a-z_$][\w$]*/, { cases: {
-				'@operators': 'operator',
-				'@typeKeywords': 'keyword.type',
-				'@keywords': 'keyword',
-				'@default': 'identifier' } }],
+			[/[a-z_$][\w$]*/, {
+				cases: {
+					'@operators': 'operator',
+					'@typeKeywords': 'keyword.type',
+					'@keywords': 'keyword',
+					'@default': 'identifier'
+				}
+			}],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -103,8 +106,8 @@ export const language = <ILanguage> {
 		],
 
 		quoted_identifier: [
-			[/[^\\"]+/,  'identifier'],
-			[/"/, { token: 'identifier.quote', bracket: '@close', next: '@pop' } ]
+			[/[^\\"]+/, 'identifier'],
+			[/"/, { token: 'identifier.quote', bracket: '@close', next: '@pop' }]
 		],
 
 		space_identifier_until_period: [
@@ -115,19 +118,19 @@ export const language = <ILanguage> {
 		identifier_until_period: [
 			{ include: '@whitespace' },
 			[':', { token: 'delimiter', next: '@identifier_rest' }],
-			[/[^\\.]+/,  'identifier'],
-			[/\./, { token: 'delimiter', bracket: '@close', next: '@pop' } ]
+			[/[^\\.]+/, 'identifier'],
+			[/\./, { token: 'delimiter', bracket: '@close', next: '@pop' }]
 		],
 
 		identifier_rest: [
-			[/[^\\.]+/,  'identifier'],
-			[/\./, { token: 'delimiter', bracket: '@close', next: '@pop' } ]
+			[/[^\\.]+/, 'identifier'],
+			[/\./, { token: 'delimiter', bracket: '@close', next: '@pop' }]
 		],
 
 		semver: [
 			{ include: '@whitespace' },
 			[':', 'delimiter'],
-			[/\d*\.\d*\.\d*/, { token: 'number.semver', bracket: '@close', next: '@pop' } ]
+			[/\d*\.\d*\.\d*/, { token: 'number.semver', bracket: '@close', next: '@pop' }]
 		],
 
 		whitespace: [

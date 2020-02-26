@@ -34,7 +34,7 @@ testTokenization('lexon', [
 	[{
 		line: 'COMMENT: 3.f - an escrow that is controlled by a third party for a fee.',
 		tokens: [
-			{ 	startIndex: 0, type: 'comment.lexon' },
+			{ startIndex: 0, type: 'comment.lexon' },
 		]
 	}],
 
