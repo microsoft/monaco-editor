@@ -25,6 +25,6 @@
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
     "terser": "^4.6.3",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.2"
   }
 }

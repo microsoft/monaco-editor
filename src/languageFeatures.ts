@@ -691,7 +691,7 @@ export class FormatOnTypeAdapter extends FormatHelper implements monaco.language
 
 export class CodeActionAdaptor extends FormatHelper implements monaco.languages.CodeActionProvider {
 
-	public async provideCodeActions(model: monaco.editor.ITextModel, range: Range, context: monaco.languages.CodeActionContext, token: CancellationToken): Promise<monaco.languages.CodeActionList | undefined> {
+	public async provideCodeActions(model: monaco.editor.ITextModel, range: Range, context: monaco.languages.CodeActionContext, token: CancellationToken): Promise<monaco.languages.CodeActionList> {
 		const resource = model.uri;
 		const start = model.getOffsetAt({ lineNumber: range.startLineNumber, column: range.startColumn });
 		const end = model.getOffsetAt({ lineNumber: range.endLineNumber, column: range.endColumn });
@@ -701,7 +701,7 @@ export class CodeActionAdaptor extends FormatHelper implements monaco.languages.
 		const codeFixes = await worker.getCodeFixesAtPosition(resource.toString(), start, end, errorCodes, formatOptions);
 
 		if (!codeFixes || model.isDisposed()) {
-			return;
+			return { actions: [], dispose:() => {} };
 		}
 
 		const actions = codeFixes.filter(fix => {

@@ -12,3 +12,4 @@ jobs:
           node-version: '10.x'
       - run: npm install
       - run: npm run compile
+      - run: npm run prepublishOnly
