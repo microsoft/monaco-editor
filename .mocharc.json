@@ -1,0 +1,5 @@
+{
+  "delay": true,
+  "ui": "tdd",
+  "spec": "test/all.js"
+}
