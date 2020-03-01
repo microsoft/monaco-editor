@@ -29,26 +29,27 @@ const abapKeywords = [
 	'editor-call','end','endexec','endfunction','ending','endmodule','end-of-definition','end-of-page','end-of-selection','end-test-injection','end-test-seam','exit-command','endclass','endmethod','endform','endinterface',
 	'endprovide','endselect','endtry','endwhile','enum','event','events','exec','exit','export',
 	'exporting','extract','exception','exceptions',
-	'field-symbols','field-groups','field','first','fetch','fields','format','frame','free','from','function','find','for','found','function-pool',
+	'form','field-symbols','field-groups','field','first','fetch','fields','format','frame','free','from','function','find','for','found','function-pool',
 	'generate','get',
 	'handle','hide','hashed',
 	'include','import','importing','index','infotypes','initial','initialization',
-	'id','is','in','interface','interfaces','init','input','insert','instance','into',
+	'id','is','in','interface','interfaces','init','input','insert','instance','into','implemented',
 	'key',
 	'left-justified','leave','like','line','line-count','line-size','load','local','log-point','length','left','leading','lower',
-	'matchcode','method','mesh','message','message-id','methods','modify','module','move','move-corresponding','multiply','multiply-corresponding','match',
-	'new','new-line','new-page','new-section','next','no','no-gap','no-gaps','no-sign','no-zero','non-unique','number',
+	'matchcode','method','mesh','message','message-id','methods','modify','module','move','move-corresponding','multiply','multiply-corresponding','match','mode',
+	'not','new','new-line','new-page','new-section','next','no','no-gap','no-gaps','no-sign','no-zero','non-unique','number',
 	'occurrence','object','obligatory','of','output','overlay','optional','others','occurrences','occurs','offset','options',
-	'pack','parameters','perform','places','position','print-control','private','program','protected','provide','public','put',
+	'pack','parameters','perform','places','position','print-control','private','program','protected','provide','public','put','partially',
 	'radiobutton','raising','ranges','receive','receiving','redefinition','reduce','reference','refresh','regex','reject','results','requested',
 	'ref','replace','report','reserve','restore','result','return','returning','right-justified','rollback','read','read-only','rp-provide-from-last','run',
-	'scan','screen','scroll','search','select','select-options','selection-screen','stamp','source','subkey',
+	'scan','screen','scroll','search','select','select-options','selection-screen','stamp','source','subkey','subscreen',
 	'separated','set','shift','single','skip','sort','sorted','split','standard','stamp','starting','start-of-selection','sum','subtract-corresponding','statics','step','stop','structure','submatches','submit','subtract','summary','supplied','suppress','section','syntax-check','syntax-trace','system-call','switch',
-	'tables','table','task','testing','test-seam','test-injection','then','time','times','title','titlebar','to','top-of-page','trailing','transfer','transformation','translate','transporting','types','type','type-pool','type-pools',
-	'unassign','unique','uline','unpack','update','upper','using',
+	'tables','table','task','testing','test-seam','test-injection','then','time','times','title','titlebar','to','top-of-page','trailing','transfer','transformation','translate','transporting','types','type','type-pool','type-pools','tabbed',
+	'unassign','unique','uline','unpack','update','upper','using','user-command',
 	'value',
 	'when','while','window','write','where','with','work',
 	'at','case','catch','continue','do','elseif','else','endat','endcase','enddo','endif','endloop','endon','if','loop','on','raise','try',
+	// built-in:
 	'abs','sign','ceil','floor','trunc','frac','acos','asin','atan','cos','sin','tan','cosh','sinh','tanh','exp','log','log10','sqrt','strlen','xstrlen','charlen','lines','numofchar','dbmaxlen','round','rescale','nmax','nmin','cmax','cmin','boolc','boolx','xsdbool','contains','contains_any_of','contains_any_not_of','matches','line_exists','ipow','char_off','count','count_any_of','count_any_not_of','distance','condense','concat_lines_of','escape','find','find_end','find_any_of','find_any_not_of','insert','match','repeat','replace','reverse','segment','shift_left','shift_right','substring','substring_after','substring_from','substring_before','substring_to','to_upper','to_lower','to_mixed','from_mixed','translate','bit-set','line_index',
 	'definition','implementation','public','inheriting','final'
   ];
@@ -65,19 +66,22 @@ export const language = <ILanguage> {
 	],
 
 	operators: [
-	  '+', '-', '/', '*',
-	  '=', '<', '>', '<=', '>=', '<>', '><', '=<', '=>',
+	  ' +', ' -', '/', '*',
+	  '=', ' < ', ' > ', '<=', '>=', '<>', '><', '=<', '=>',
+	  '#', '@',
 	  'EQ', 'NE', 'GE', 'LE',
 	  'CS', 'CN', 'CA', 'CO', 'CP', 'NS', 'NA', 'NP',
 	],
 
-	symbols:  /[=><!~?&+\-*\/\^%]+/,
+	symbols:  /[=><!~?&+\-*\/\^%#@]+/,
 
 	tokenizer: {
 	  root: [
-		[/[a-z_$][\w$]*/, { cases: { '@typeKeywords': 'keyword',
-									 '@keywords': 'keyword',
-									 '@default': 'identifier' } }],
+		[/[a-z_$][\w-$]*/, { cases: { '@typeKeywords': 'keyword',
+								 	  '@keywords': 'keyword',
+							 		  '@default': 'identifier' } }],
+
+		[/<[\w]+>/, 'identifier'], // field symbols
 
 		{ include: '@whitespace' },
 
@@ -88,6 +92,7 @@ export const language = <ILanguage> {
 								'@default'  : '' } } ],
 
 		[/'/,  { token: 'string', bracket: '@open', next: '@stringquote' } ],
+		[/`/,  { token: 'string', bracket: '@open', next: '@stringping' } ],
 		[/\|/,  { token: 'string', bracket: '@open', next: '@stringtemplate' } ],
 
 		[/\d+/, 'number'],
@@ -97,6 +102,11 @@ export const language = <ILanguage> {
 		[/[^\\\|]+/, 'string'],
     	[/\\\|/,   'string'],
 		[/\|/,     { token: 'string', bracket: '@close', next: '@pop' } ]
+	  ],
+
+	  stringping: [
+		[/[^\\`]+/, 'string'],
+		[/`/,       { token: 'string', bracket: '@close', next: '@pop' } ]
 	  ],
 
 	  stringquote: [
