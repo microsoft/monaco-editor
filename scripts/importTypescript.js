@@ -189,6 +189,14 @@ function importLibs() {
 		}
 	}
 
+	strResult += `
+/** This is the DTS which is used when the target is ES6 or below */
+export const lib_es5_bundled_dts = lib_dts;
+
+/** This is the DTS which is used by default in monaco-typescript by default, and when the target is 2015 or above */
+export const lib_es2015_bundled_dts = lib_es2015_dts + "" + lib_dom_dts + "" + lib_webworker_importscripts_dts + "" + lib_scripthost_dts + "";
+`
+
 	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts');
 	fs.writeFileSync(dstPath, strResult);
 }
