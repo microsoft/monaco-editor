@@ -2,6 +2,9 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+//
+// **NOTE**: Do not edit directly! This file is generated using `npm run import-typescript`
+//
 
 export const lib_es2015_symbol_dts: string = "/*! *****************************************************************************\nCopyright (c) Microsoft Corporation. All rights reserved. \nLicensed under the Apache License, Version 2.0 (the \"License\"); you may not use\nthis file except in compliance with the License. You may obtain a copy of the\nLicense at http://www.apache.org/licenses/LICENSE-2.0  \n \nTHIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\nKIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED\nWARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE, \nMERCHANTABLITY OR NON-INFRINGEMENT. \n \nSee the Apache Version 2.0 License for specific language governing permissions\nand limitations under the License.\n***************************************************************************** */\n\n\n\n/// <reference no-default-lib=\"true\"/>\n\n\ninterface SymbolConstructor {\n    /**\n     * A reference to the prototype.\n     */\n    readonly prototype: Symbol;\n\n    /**\n     * Returns a new unique Symbol value.\n     * @param  description Description of the new Symbol object.\n     */\n    (description?: string | number): symbol;\n\n    /**\n     * Returns a Symbol object from the global symbol registry matching the given key if found.\n     * Otherwise, returns a new symbol with this key.\n     * @param key key to search for.\n     */\n    for(key: string): symbol;\n\n    /**\n     * Returns a key from the global symbol registry matching the given Symbol if found.\n     * Otherwise, returns a undefined.\n     * @param sym Symbol to find the key for.\n     */\n    keyFor(sym: symbol): string | undefined;\n}\n\ndeclare var Symbol: SymbolConstructor;";
 
@@ -36,5 +39,5 @@ export const lib_dts: string = "/*! ********************************************
 /** This is the DTS which is used when the target is ES6 or below */
 export const lib_es5_bundled_dts = lib_dts;
 
-/** This is the DTS which is used by default in monaco-typescript by default, and when the target is 2015 or above */
+/** This is the DTS which is used by default in monaco-typescript, and when the target is 2015 or above */
 export const lib_es2015_bundled_dts = lib_es2015_dts + "" + lib_dom_dts + "" + lib_webworker_importscripts_dts + "" + lib_scripthost_dts + "";
