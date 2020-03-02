@@ -5,19 +5,19 @@
 'use strict';
 
 import * as ts from './lib/typescriptServices';
-import { lib_dts, lib_es2015_dts } from './lib/lib';
+import { lib_es5_dts, lib_es2015_bundled_dts } from './lib/lib';
 import { IExtraLibs } from './monaco.contribution';
 
 import IWorkerContext = monaco.worker.IWorkerContext;
 
-const DEFAULT_LIB = {
+const DEFAULT_ES5_LIB = {
 	NAME: 'defaultLib:lib.d.ts',
-	CONTENTS: lib_dts
+	CONTENTS: lib_es5_dts
 };
 
 const ES2015_LIB = {
 	NAME: 'defaultLib:lib.es2015.d.ts',
-	CONTENTS: lib_es2015_dts
+	CONTENTS: lib_es2015_bundled_dts
 };
 
 export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.languages.typescript.TypeScriptWorker {
@@ -84,8 +84,8 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 			// extra lib
 			text = this._extraLibs[fileName].content;
 
-		} else if (fileName === DEFAULT_LIB.NAME) {
-			text = DEFAULT_LIB.CONTENTS;
+		} else if (fileName === DEFAULT_ES5_LIB.NAME) {
+			text = DEFAULT_ES5_LIB.CONTENTS;
 		} else if (fileName === ES2015_LIB.NAME) {
 			text = ES2015_LIB.CONTENTS;
 		} else {
@@ -127,7 +127,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 
 	getDefaultLibFileName(options: ts.CompilerOptions): string {
 		// TODO@joh support lib.es7.d.ts
-		return (options.target || ts.ScriptTarget.ES2015) <= ts.ScriptTarget.ES2015 ? DEFAULT_LIB.NAME : ES2015_LIB.NAME;
+		return (options.target || ts.ScriptTarget.ES2015) < ts.ScriptTarget.ES2015 ? DEFAULT_ES5_LIB.NAME : ES2015_LIB.NAME;
 	}
 
 	isDefaultLibFileName(fileName: string): boolean {

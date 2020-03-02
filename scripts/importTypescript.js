@@ -7,6 +7,11 @@ const path = require('path');
 const fs = require('fs');
 const child_process = require('child_process');
 
+const generatedNote = `//
+// **NOTE**: Do not edit directly! This file is generated using \`npm run import-typescript\`
+//
+`;
+
 const TYPESCRIPT_LIB_SOURCE = path.join(__dirname, '../node_modules/typescript/lib');
 const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 
@@ -23,7 +28,8 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
-		`export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
+		`${generatedNote}
+export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 	);
 
 	var tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js')).toString();
@@ -57,7 +63,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	const afterProcess = `// MONACOCHANGE\n    ts.perfLogger.logInfoEvent("Starting TypeScript v" + ts.versionMajorMinor + " with command line: " + JSON.stringify([]));\n// END MONACOCHANGE`
 	tsServices = tsServices.replace(beforeProcess, afterProcess);
 
-	var tsServices_amd = tsServices +
+	var tsServices_amd = generatedNote + tsServices +
 		`
 // MONACOCHANGE
 // Defining the entire module name because r.js has an issue and cannot bundle this file
@@ -67,7 +73,7 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 `;
 	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices-amd.js'), tsServices_amd);
 
-	var tsServices_esm = tsServices +
+	var tsServices_esm = generatedNote + tsServices +
 		`
 // MONACOCHANGE
 export var createClassifier = ts.createClassifier;
@@ -90,7 +96,7 @@ export var TokenClass = ts.TokenClass;
 export = ts;
 // END MONACOCHANGE
 `;
-	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.d.ts'), dtsServices);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.d.ts'), generatedNote + dtsServices);
 
 })();
 
@@ -164,7 +170,7 @@ function importLibs() {
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-`;
+${generatedNote}`;
 	// Do a topological sort
 	while (result.length > 0) {
 		for (let i = result.length - 1; i >= 0; i--) {
@@ -188,6 +194,14 @@ function importLibs() {
 			}
 		}
 	}
+
+	strResult += `
+/** This is the DTS which is used when the target is ES6 or below */
+export const lib_es5_bundled_dts = lib_dts;
+
+/** This is the DTS which is used by default in monaco-typescript, and when the target is 2015 or above */
+export const lib_es2015_bundled_dts = lib_es2015_dts + "" + lib_dom_dts + "" + lib_webworker_importscripts_dts + "" + lib_scripthost_dts + "";
+`
 
 	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts');
 	fs.writeFileSync(dstPath, strResult);
