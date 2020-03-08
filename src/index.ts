@@ -28,7 +28,7 @@ featuresArr.forEach(feature => featuresById[feature.label] = feature);
  * Return a resolved path for a given Monaco file.
  */
 function resolveMonacoPath(filePath: string): string {
-  return require.resolve(path.join('monaco-editor/esm', filePath));
+  return require.resolve(path.join(process.cwd(), 'node_modules', 'monaco-editor/esm', filePath));
 }
 
 /**
