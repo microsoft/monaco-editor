@@ -9,7 +9,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "yaserver": "^0.2.0",
-    "monaco-editor": "0.19.0"
+    "monaco-editor": "^0.19.3",
+    "yaserver": "^0.2.0"
   }
 }
