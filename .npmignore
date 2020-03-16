@@ -8,6 +8,5 @@
 /tsconfig.json
 /.npmignore
 /.travis.yml
-/.mocharc.json
 /.editorconfig
 /azure-pipelines.yml

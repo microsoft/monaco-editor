@@ -27,7 +27,7 @@ requirejs(['./test/setup'], function () {
 			return;
 		}
 		requirejs(files.map(f => f.replace(/\.js$/, '')), function () {
-			run(); // We can launch the tests!
+			// We can launch the tests!
 		}, function (err) {
 			console.log(err);
 		})
