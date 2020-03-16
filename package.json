@@ -19,12 +19,12 @@
   },
   "devDependencies": {
     "glob": "^7.1.6",
-    "jsdom": "^16.1.0",
-    "mocha": "^7.0.1",
+    "jsdom": "^16.2.1",
+    "mocha": "^7.1.0",
     "monaco-editor-core": "0.20.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "terser": "^4.6.3",
+    "terser": "^4.6.6",
     "typescript": "3.7.5"
   }
 }
