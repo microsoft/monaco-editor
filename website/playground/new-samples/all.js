@@ -168,6 +168,12 @@ var PLAY_SAMPLES = [
 		name: "Configure JSON defaults",
 		id: "extending-language-services-configure-json-defaults",
 		path: "extending-language-services/configure-json-defaults"
+	},
+	{
+		chapter: "Extending Language Services",
+		name: "Configure external library and expose it globally",
+		id: "extending-language-services-configure-external-libs-with-exposed-globals",
+		path: "extending-language-services/configure-external-libs-with-exposed-globals"
 	}
 ];
 
