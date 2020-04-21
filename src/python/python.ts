@@ -55,9 +55,18 @@ export const language = <ILanguage>{
 	tokenPostfix: '.python',
 
 	keywords: [
+		// This section is the result of running
+		// `for k in keyword.kwlist: print('  "' + k + '",')` in a Python REPL,
+		// though note that the output from Python 3 is not a strict superset of the
+		// output from Python 2.
+		'False', // promoted to keyword.kwlist in Python 3
+		'None', // promoted to keyword.kwlist in Python 3
+		'True', // promoted to keyword.kwlist in Python 3
 		'and',
 		'as',
 		'assert',
+		'async', // new in Python 3
+		'await', // new in Python 3
 		'break',
 		'class',
 		'continue',
@@ -66,7 +75,7 @@ export const language = <ILanguage>{
 		'elif',
 		'else',
 		'except',
-		'exec',
+		'exec', // Python 2, but not 3.
 		'finally',
 		'for',
 		'from',
@@ -76,14 +85,13 @@ export const language = <ILanguage>{
 		'in',
 		'is',
 		'lambda',
-		'None',
+		'nonlocal', // new in Python 3
 		'not',
 		'or',
 		'pass',
-		'print',
+		'print', // Python 2, but not 3.
 		'raise',
 		'return',
-		'self',
 		'try',
 		'while',
 		'with',
@@ -156,6 +164,7 @@ export const language = <ILanguage>{
 		'repr',
 		'reversed',
 		'round',
+		'self',
 		'set',
 		'setattr',
 		'slice',
@@ -171,9 +180,6 @@ export const language = <ILanguage>{
 		'vars',
 		'xrange',
 		'zip',
-
-		'True',
-		'False',
 
 		'__dict__',
 		'__methods__',
