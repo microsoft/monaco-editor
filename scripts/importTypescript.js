@@ -71,7 +71,7 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 define("vs/language/typescript/lib/typescriptServices", [], function() { return ts; });
 // END MONACOCHANGE
 `;
-	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices-amd.js'), tsServices_amd);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices-amd.js'), stripSourceMaps(tsServices_amd));
 
 	var tsServices_esm = generatedNote + tsServices +
 		`
@@ -87,7 +87,7 @@ export var ScriptTarget = ts.ScriptTarget;
 export var TokenClass = ts.TokenClass;
 // END MONACOCHANGE
 `;
-	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'), tsServices_esm);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'), stripSourceMaps(tsServices_esm));
 
 	var dtsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.d.ts')).toString();
 	dtsServices +=
@@ -264,4 +264,8 @@ function escapeText(text) {
 	}
 	resultPieces.push(text.substring(startPos, len));
 	return resultPieces.join('');
+}
+
+function stripSourceMaps(str) {
+	return str.replace(/\/\/# sourceMappingURL[^\n]+/gm, '');
 }
