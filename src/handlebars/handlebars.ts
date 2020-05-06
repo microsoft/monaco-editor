@@ -63,9 +63,11 @@ export const language = <ILanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
+			[/\{\{!--/, 'comment.block.start.handlebars', '@commentBlock'],
+			[/\{\{!/, 'comment.start.handlebars', '@comment'],
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.root' }],
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
-			[/<!--/, 'comment.html', '@comment'],
+			[/<!--/, 'comment.html', '@commentHtml'],
 			[/(<)(\w+)(\/>)/, ['delimiter.html', 'tag.html', 'delimiter.html']],
 			[/(<)(script)/, ['delimiter.html', { token: 'tag.html', next: '@script' }]],
 			[/(<)(style)/, ['delimiter.html', { token: 'tag.html', next: '@style' }]],
@@ -83,6 +85,16 @@ export const language = <ILanguage>{
 		],
 
 		comment: [
+            [/\}\}/, 'comment.end.handlebars', '@pop'],
+            [/./, 'comment.content.handlebars']
+        ],
+
+        commentBlock: [
+            [/--\}\}/, 'comment.block.end.handlebars', '@pop'],
+            [/./, 'comment.content.handlebars']
+        ],
+
+		commentHtml: [
 			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.comment' }],
 			[/-->/, 'comment.html', '@pop'],
 			[/[^-]+/, 'comment.content.html'],

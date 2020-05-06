@@ -281,5 +281,35 @@ testTokenization(['handlebars', 'css'], [
 			{ startIndex: 30, type: 'delimiter.handlebars' },
 			{ startIndex: 32, type: '' }
 		]
-	}]
+	}],
+
+    // Block comment
+	[{
+		line: '{{!-- block comment --}}',
+		tokens: [
+			{ startIndex: 0, type: 'comment.block.start.handlebars' },
+			{ startIndex: 5, type: 'comment.content.handlebars' },
+			{ startIndex: 20, type: 'comment.block.end.handlebars' }
+		]
+	}],
+    
+    // Block comment with mustache
+	[{
+		line: '{{!-- block comment }} with mustache --}}',
+		tokens: [
+			{ startIndex: 0, type: 'comment.block.start.handlebars' },
+			{ startIndex: 5, type: 'comment.content.handlebars' },
+			{ startIndex: 37, type: 'comment.block.end.handlebars' }
+		]
+	}],
+
+    // Handlebars comment
+	[{
+		line: '{{! comment }}',
+		tokens: [
+			{ startIndex: 0, type: 'comment.start.handlebars' },
+			{ startIndex: 3, type: 'comment.content.handlebars' },
+			{ startIndex: 12, type: 'comment.end.handlebars' }
+		]
+	}],
 ]);
