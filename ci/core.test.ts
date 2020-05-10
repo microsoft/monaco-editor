@@ -1,35 +1,46 @@
-import * as puppeteer from 'puppeteer';
+import * as playwright from 'playwright';
 import { assert } from 'chai';
 
 const APP = 'http://127.0.0.1:8080/dist/core.html';
 
-let browser: puppeteer.Browser;
-let page: puppeteer.Page;
-const width = 800;
-const height = 600;
+let browser: playwright.Browser;
+let page: playwright.Page;
+
+type BrowserType = "chromium" | "firefox" | "webkit"
+
+const browserType: BrowserType = process.env.BROWSER as BrowserType || "chromium"
+
+before(async () => {
+    browser = await playwright[browserType].launch({
+        headless: process.argv.includes('--headless'),
+    });
+});
+after(async () => {
+    await browser.close();
+});
+beforeEach(async () => {
+    page = await browser.newPage({
+        viewport: {
+            width: 800,
+            height: 600
+        }
+    });
+});
+afterEach(async () => {
+    await page.close();
+});
 
 describe('Basic loading', function (): void {
     this.timeout(20000);
 
-    after(() => {
-        browser.close();
-    });
-
     it('should fail because page has an error', async () => {
-        browser = await puppeteer.launch({
-            headless: process.argv.indexOf('--headless') !== -1,
-            args: [`--window-size=${width},${height}`, `--no-sandbox`]
-        });
-
-        page = (await browser.pages())[0];
-
         const pageErrors: any[] = [];
         page.on('pageerror', (e) => {
             console.log(e);
             pageErrors.push(e);
         });
 
-        page.on('error', (e) => {
+        page.on('pageerror', (e) => {
             console.log(e);
             pageErrors.push(e);
         });
@@ -45,19 +56,6 @@ describe('Basic loading', function (): void {
 
 describe('API Integration Tests', function (): void {
     this.timeout(20000);
-
-    before(async function (): Promise<any> {
-        browser = await puppeteer.launch({
-            headless: process.argv.indexOf('--headless') !== -1,
-            args: [`--window-size=${width},${height}`, `--no-sandbox`]
-        });
-        page = (await browser.pages())[0];
-        await page.setViewport({ width, height });
-    });
-
-    after(() => {
-        browser.close();
-    });
 
     beforeEach(async () => {
         await page.goto(APP);
@@ -88,7 +86,7 @@ describe('API Integration Tests', function (): void {
             instance.trigger('keyboard', 'type', {
                 text: 'a'
             });
-            instance.trigger('keyboard', 'undo');
+            instance.getModel().undo();
         })()
         `);
         assert.equal(await page.evaluate(`instance.getModel().getLineContent(1)`), 'from banana import *');
@@ -110,7 +108,7 @@ describe('API Integration Tests', function (): void {
         })()
         `);
 
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
 
         assert.deepEqual(await page.evaluate(`
             [
@@ -123,13 +121,13 @@ describe('API Integration Tests', function (): void {
                 instance.getModel().getLineContent(7),
             ]
         `), [
-                '# from banana import *',
-                '# ',
-                '# class Monkey:',
-                '# 	# Bananas the monkey can eat.',
-                '# 	capacity = 10',
-                '# 	def eat(self, N):',
-                '\t\t\'\'\'Make the monkey eat N bananas!\'\'\''
+            '# from banana import *',
+            '# ',
+            '# class Monkey:',
+            '# 	# Bananas the monkey can eat.',
+            '# 	capacity = 10',
+            '# 	def eat(self, N):',
+            '\t\t\'\'\'Make the monkey eat N bananas!\'\'\''
         ]);
     });
 });

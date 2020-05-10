@@ -7,7 +7,8 @@
         "rootDir": ".",
         "outDir": "../out-ci/",
         "types": [
-            "../node_modules/@types/mocha"
+            "../node_modules/@types/mocha",
+            "../node_modules/@types/node"
         ],
         "sourceMap": true,
         "removeComments": true,

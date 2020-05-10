@@ -46,4 +46,6 @@ jobs:
         run: |
           npm run ciserver &
           sleep 10
-          npm run test
+          BROWSER=chromium npm run test
+          BROWSER=firefox npm run test
+          BROWSER=webkit npm run test
