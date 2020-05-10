@@ -2,6 +2,9 @@ name: Build
 
 on:
   push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
   schedule:
     - cron:  '0 8 * * *'
 
@@ -41,8 +44,7 @@ jobs:
         run: |
           npm run bundle
       - name: Build Tests
-        run: |
-          npm run build-test
+        run: npm run build-test
       - name: Run Smoke Test
         run: |
           npm run ciserver &

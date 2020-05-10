@@ -11,6 +11,7 @@ type BrowserType = "chromium" | "firefox" | "webkit"
 const browserType: BrowserType = process.env.BROWSER as BrowserType || "chromium"
 
 before(async () => {
+    console.log(`Starting browser: ${browserType}`)
     browser = await playwright[browserType].launch({
         headless: process.argv.includes('--headless'),
     });
@@ -25,6 +26,7 @@ beforeEach(async () => {
             height: 600
         }
     });
+    await page.goto(APP);
 });
 afterEach(async () => {
     await page.close();
@@ -56,10 +58,6 @@ describe('Basic loading', function (): void {
 
 describe('API Integration Tests', function (): void {
     this.timeout(20000);
-
-    beforeEach(async () => {
-        await page.goto(APP);
-    });
 
     it('Default initialization should be error-less', async function (): Promise<any> {
         assert.equal(await page.evaluate(`monaco.editor.DefaultEndOfLine[1]`), 'LF');
