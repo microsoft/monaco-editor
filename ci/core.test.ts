@@ -19,14 +19,14 @@ before(async () => {
 after(async () => {
     await browser.close();
 });
-beforeEach(async () => {
+beforeEach(async function () {
+    this.timeout(5 * 1000)
     page = await browser.newPage({
         viewport: {
             width: 800,
             height: 600
         }
     });
-    await page.goto(APP);
 });
 afterEach(async () => {
     await page.close();
@@ -58,6 +58,10 @@ describe('Basic loading', function (): void {
 
 describe('API Integration Tests', function (): void {
     this.timeout(20000);
+
+    beforeEach(async () => {
+        await page.goto(APP);
+    });
 
     it('Default initialization should be error-less', async function (): Promise<any> {
         assert.equal(await page.evaluate(`monaco.editor.DefaultEndOfLine[1]`), 'LF');
