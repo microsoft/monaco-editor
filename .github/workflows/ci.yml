@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: microsoft/playwright-github-action@v1
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
