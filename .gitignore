@@ -7,3 +7,4 @@ dist/fonts/*
 out-ci/
 .DS_Store
 vscode
+/typings-test
