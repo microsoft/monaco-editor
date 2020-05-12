@@ -10,13 +10,15 @@ type BrowserType = "chromium" | "firefox" | "webkit"
 
 const browserType: BrowserType = process.env.BROWSER as BrowserType || "chromium"
 
-before(async () => {
+before(async function () {
+    this.timeout(5 * 1000);
     console.log(`Starting browser: ${browserType}`)
     browser = await playwright[browserType].launch({
         headless: process.argv.includes('--headless'),
     });
 });
-after(async () => {
+after(async function () {
+    this.timeout(5 * 1000);
     await browser.close();
 });
 beforeEach(async function () {
