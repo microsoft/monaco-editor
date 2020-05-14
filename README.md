@@ -11,6 +11,7 @@ npm install monaco-editor-webpack-plugin
 * `webpack.config.js`:
 ```js
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   entry: './index.js',
