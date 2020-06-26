@@ -124,6 +124,7 @@ function importLibs() {
 	};
 
 	enqueue('');
+	enqueue('es6');
 	enqueue('es2015');
 
 	var result = [];
@@ -149,10 +150,9 @@ function importLibs() {
 		for (let i = 0; i < lines.length; i++) {
 			let m = lines[i].match(/\/\/\/\s*<reference\s*lib="([^"]+)"/);
 			if (m) {
-				flushOutputLines();
-				writeOutput(getVariableName(m[1]));
 				deps.push(getVariableName(m[1]));
 				enqueue(m[1]);
+				outputLines.push(lines[i]);
 				continue;
 			}
 			outputLines.push(lines[i]);
@@ -161,6 +161,7 @@ function importLibs() {
 
 		result.push({
 			name: getVariableName(name),
+			filepath: getFileName(name),
 			deps: deps,
 			output: output
 		});
@@ -170,14 +171,19 @@ function importLibs() {
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-${generatedNote}`;
+${generatedNote}
+
+/** Contains all the lib files */
+export const libFileMap: Record<string, string> = {}
+`
+;
 	// Do a topological sort
 	while (result.length > 0) {
 		for (let i = result.length - 1; i >= 0; i--) {
 			if (result[i].deps.length === 0) {
 				// emit this node
 				strResult += `\nexport const ${result[i].name}: string = ${result[i].output};\n`;
-
+				strResult += `\libFileMap['${result[i].filepath}'] = ${result[i].name};\n`;
 				// mark dep as resolved
 				for (let j = 0; j < result.length; j++) {
 					for (let k = 0; k < result[j].deps.length; k++) {
@@ -194,14 +200,6 @@ ${generatedNote}`;
 			}
 		}
 	}
-
-	strResult += `
-/** This is the DTS which is used when the target is ES6 or below */
-export const lib_es5_bundled_dts = lib_dts;
-
-/** This is the DTS which is used by default in monaco-typescript, and when the target is 2015 or above */
-export const lib_es2015_bundled_dts = lib_es2015_dts + "" + lib_dom_dts + "" + lib_webworker_importscripts_dts + "" + lib_scripthost_dts + "";
-`
 
 	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts');
 	fs.writeFileSync(dstPath, strResult);

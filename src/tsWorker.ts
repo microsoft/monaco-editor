@@ -5,20 +5,10 @@
 'use strict';
 
 import * as ts from './lib/typescriptServices';
-import { lib_es5_dts, lib_es2015_bundled_dts } from './lib/lib';
+import { libFileMap } from './lib/lib';
 import { IExtraLibs } from './monaco.contribution';
 
 import IWorkerContext = monaco.worker.IWorkerContext;
-
-const DEFAULT_ES5_LIB = {
-	NAME: 'defaultLib:lib.d.ts',
-	CONTENTS: lib_es5_dts
-};
-
-const ES2015_LIB = {
-	NAME: 'defaultLib:lib.es2015.d.ts',
-	CONTENTS: lib_es2015_bundled_dts
-};
 
 export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.languages.typescript.TypeScriptWorker {
 
@@ -84,10 +74,8 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 			// extra lib
 			text = this._extraLibs[fileName].content;
 
-		} else if (fileName === DEFAULT_ES5_LIB.NAME) {
-			text = DEFAULT_ES5_LIB.CONTENTS;
-		} else if (fileName === ES2015_LIB.NAME) {
-			text = ES2015_LIB.CONTENTS;
+		} else if (fileName in libFileMap) {
+			text = libFileMap[fileName];
 		} else {
 			return;
 		}
@@ -126,8 +114,30 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 	}
 
 	getDefaultLibFileName(options: ts.CompilerOptions): string {
-		// TODO@joh support lib.es7.d.ts
-		return (options.target || ts.ScriptTarget.ES2015) < ts.ScriptTarget.ES2015 ? DEFAULT_ES5_LIB.NAME : ES2015_LIB.NAME;
+		switch (options.target) {
+			case 99 /* ESNext */:
+				const esnext = "lib.esnext.full.d.ts";
+				if (esnext in libFileMap || esnext in this._extraLibs) return esnext
+			case 7 /* ES2020 */:
+			case 6 /* ES2019 */:
+			case 5 /* ES2018 */:
+			case 4 /* ES2017 */:
+			case 3 /* ES2016 */:
+			case 2 /* ES2015 */:
+			default:
+				// Support a dynamic lookup for the ES20XX version based on the target
+				// which is safe unless TC39 changes their numbering system
+				const eslib = `lib.es${2013 + (options.target || 99)}.full.d.ts`;
+				// Note: This also looks in _extraLibs, If you want
+				// to add support for additional target options, you will need to
+				// add the extra dts files to _extraLibs via the API.
+				if (eslib in libFileMap || eslib in this._extraLibs) return eslib
+
+				return "lib.es6.d.ts"; // We don't use lib.es2015.full.d.ts due to breaking change.
+			case 1:
+			case 0:
+				return "lib.d.ts";
+		}
 	}
 
 	isDefaultLibFileName(fileName: string): boolean {
