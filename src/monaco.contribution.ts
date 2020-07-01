@@ -51,6 +51,7 @@ import './restructuredtext/restructuredtext.contribution';
 import './ruby/ruby.contribution';
 import './rust/rust.contribution';
 import './sb/sb.contribution';
+import './scala/scala.contribution';
 import './scheme/scheme.contribution';
 import './scss/scss.contribution';
 import './shell/shell.contribution';
