@@ -9,8 +9,48 @@ import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
+	/*
+	 * `...` is allowed as an identifier.
+	 * $ is allowed in identifiers.
+	 * unary_<op> is allowed as an identifier.
+	 * <name>_= is allowed as an identifier.
+	 */
+	wordPattern: /(unary_[@~!#%^&*()\-=+\\|:<>\/?]+)|([a-zA-Z_$][\w$]*?_=)|(`[^`]+`)|([a-zA-Z_$][\w$]*)/g,
+	comments: {
+		lineComment: '//',
+		blockComment: ['/*', '*/'],
+	},
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')'],
+	],
+	autoClosingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
+	],
+	surroundingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+		{ open: '\'', close: '\'' },
+	],
+	folding: {
+		markers: {
+			start: new RegExp("^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"),
+			end: new RegExp("^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))")
+		}
+	}
+};
+
+export const language = <ILanguage>{
 	tokenPostfix: '.scala',
 
+	// We can't easily add everything from Dotty, but we can at least add some of its keywords
 	keywords: [
 		'asInstanceOf',
 		'catch', 'class', 'classOf',
@@ -18,7 +58,7 @@ export const conf: IRichLanguageConfiguration = {
 		'else', 'extends',
 		'finally', 'for', 'foreach', 'forSome',
 		'if', 'import', 'isInstanceOf',
-		'match',
+		'macro', 'match',
 		'new',
 		'object',
 		'package',
@@ -27,7 +67,16 @@ export const conf: IRichLanguageConfiguration = {
 		'until',
 		'val', 'var',
 		'while', 'with',
-		'yield'
+		'yield',
+
+		// Dotty-specific:
+		'given', 'enum', 'then'
+	],
+
+	// Dotty-specific:
+	softKeywords: [
+		'as', 'export', 'extension', 'end',
+		'derives', 'on'
 	],
 
 	constants: [
@@ -40,10 +89,16 @@ export const conf: IRichLanguageConfiguration = {
 		'private', 'protected', 'sealed'
 	],
 
-	name: /[a-z_$][\w$]*/,
+	// Dotty-specific:
+	softModifiers: [
+		'inline', 'opaque', 'open', 'transparent', 'using'
+	],
+
+	name: /(?:[a-z_$][\w$]*|`[^`]+`)/,
+	type: /(?:[A-Z][\w$]*)/,
 
 	// we include these common regular expressions
-	symbols: /[=><!~?:&|+\-*\/\^%@#]+/,
+	symbols: /[=><!~?:&|+\-*\/^\\%@#]+/,
 
 	// C# style strings
 	escapes: /\\(?:[btnfr\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
@@ -67,67 +122,100 @@ export const conf: IRichLanguageConfiguration = {
 			[/"/, {token: 'string.quote', bracket: '@open', next: '@string'}],
 
 			// numbers
-			[/[+\-]?(?:\d[_\d])*\.\d+[dDfFlL]?([eE][\-+]?\d+)?/, 'number.float'],
-			[/0[xX][0-9a-fA-F]+/, 'number.hex'],
-			[/[+\-]?\d[_\d]*[dDfFlL]?/, 'number'],
+			[/[+\-]?(?:\d[_\d])*\.\d+[dDfFlL]?([eE][\-+]?\d+)?/, 'number.float', '@allowMethod'],
+			[/0[xX][0-9a-fA-F]+/, 'number.hex', '@allowMethod'],
+			[/[+\-]?\d[_\d]*[dDfFlL]?/, 'number', '@allowMethod'],
 
 			[/\b_\*/, 'key'],
-			[/\b(_)(\b)/, 'keyword'],
-			
+			[/\b(_)\b/, 'keyword', '@allowMethod'],
+
 			// identifiers and keywords
+			[/\bimport\b/, 'keyword', '@import'],
 			[/\b(case)([ \t]+)(class)\b/, ['tag.id.pug', 'white', 'keyword']],
 			[/\bcase\b/, 'keyword', '@case'],
 			[/\bva[lr]\b/, 'keyword', '@vardef'],
-			[/\b(def[ \t]+)(@name)/, ['keyword', 'keyword.flow']],
-			[/@name(?=:(?!:))/, 'variable'],
-			[/(\.)(@name)(?=[ \t]*[({])/, ['operator', 'keyword.flow']],
-			[/@name(?=[ \t]*[({])/, {cases: {
-				'@keywords': 'keyword',
-				'@default': 'keyword.flow'
-			}}],
-			[/(\{)(\s*)(@name(?=\s*=>))/, ['@brackets', 'white', 'variable']],
+			[/\b(def[ \t]+)((?:unary_)?@symbols|@name(?:_=)|@name)/, ['keyword', 'keyword.flow']],
+			[/@name(?=[ \t]*:(?!:))/, 'variable'],
+			[/(\.)(@name|@symbols)/, ['operator', {token: 'keyword.flow', next: '@allowMethod'}]],
+			[/([{(])(\s*)(@name(?=\s*=>))/, ['@brackets', 'white', 'variable']],
 			[/@name/, {cases: {
 				'@keywords': 'keyword',
+				'@softKeywords': 'keyword',
 				'@modifiers': 'tag.id.pug',
-				'@constants': 'constant',
-				'@default': 'identifier'
+				'@softModifiers': 'tag.id.pug',
+				'@constants': {token: 'constant', next: '@allowMethod'},
+				'@default': {token: 'identifier', next: '@allowMethod'}
 			}}],
-			[/[A-Z]\w*/, 'type.identifier'],
+			[/@type/, 'type', '@allowMethod'],
 
 			// whitespace
 			{include: '@whitespace'},
-			
+
 			// @ annotations.
 			[/@[a-zA-Z_$][\w$]*(?:\.[a-zA-Z_$][\w$]*)*/, 'annotation'],
 
 			// delimiters and operators
-			[/[{}()]/, '@brackets'],
-			[/[\[\]]/, 'operator.scss'],
-			[/[=-]>|<-|>:|<:|<%/, 'keyword'],
+			[/[{(]/, '@brackets'],
+			[/[})]/, '@brackets', '@allowMethod'],
+			[/\[/, 'operator.scss'],
+			[/](?!\s*(?:va[rl]|def|type)\b)/, 'operator.scss', '@allowMethod'],
+			[/]/, 'operator.scss'],
+			[/([=-]>|<-|>:|<:|:>|<%)(?=[\s\w()[\]{},\."'`])/, 'keyword'],
 			[/@symbols/, 'operator'],
 
 			// delimiter: after number because of .\d floats
-			[/[;,.]/, 'delimiter'],
+			[/[;,\.]/, 'delimiter'],
+
+			// symbols
+			[/'[a-zA-Z$][\w$]*(?!')/, 'attribute.name'],
 
 			// characters
-			[/'[^\\']'/, 'string'],
-			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
+			[/'[^\\']'/, 'string', '@allowMethod'],
+			[/(')(@escapes)(')/, ['string', 'string.escape', {token: 'string', next: '@allowMethod'}]],
 			[/'/, 'string.invalid']
+		],
+
+		import: [
+			[/;/, 'delimiter', '@pop'],
+			[/^|$/, '', '@pop'],
+			[/[ \t]+/, 'white'],
+			[/[\n\r]+/, 'white', '@pop'],
+			[/\/\*/, 'comment', '@comment'],
+			[/@name|@type/, 'type'],
+			[/[(){}]/, '@brackets'],
+			[/[[\]]/, 'operator.scss'],
+			[/[\.,]/, 'delimiter'],
+		],
+
+		allowMethod: [
+			[/^|$/, '', '@pop'],
+			[/[ \t]+/, 'white'],
+			[/[\n\r]+/, 'white', '@pop'],
+			[/\/\*/, 'comment', '@comment'],
+			[/(?==>[\s\w([{])/, 'keyword', '@pop'],
+			[/(@name|@symbols)(?=[ \t]*[[({"'`]|[ \t]+(?:[+-]?\.?\d|\w))/, {
+				cases: {
+				'@keywords': {token: 'keyword', next: '@pop'},
+				'->|<-|>:|<:|<%': {token: 'keyword', next: '@pop'},
+				'@default': {token: 'keyword.flow', next: '@pop'}
+				}
+			}],
+			["", "", "@pop"]
 		],
 
 		comment: [
 			[/[^\/*]+/, 'comment'],
 			[/\/\*/, 'comment', '@push'], // nested comment
-			["\\*/", 'comment', '@pop'],
+			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
 		],
 
 		case: [
 			[/\b_\*/, 'key'],
-			[/\b(_|true|false|null|this|super)\b/, 'keyword'],
+			[/\b(_|true|false|null|this|super)\b/, 'keyword', '@allowMethod'],
 			[/\bif\b|=>/, 'keyword', '@pop'],
-			[/`@name`/, 'identifier'],
-			[/@name/, 'variable'],
+			[/`[^`]+`/, 'identifier', '@allowMethod'],
+			[/@name/, 'variable', '@allowMethod'],
 			[/:::?|\||@(?![a-z_$])/, 'keyword'],
 			{include: '@root'}
 		],
@@ -137,7 +225,7 @@ export const conf: IRichLanguageConfiguration = {
 			[/\b(_|true|false|null|this|super)\b/, 'keyword'],
 			[/@name/, 'variable'],
 			[/:::?|\||@(?![a-z_$])/, 'keyword'],
-			[/[=:]/, 'operator', '@pop'],
+			[/=|:(?!:)/, 'operator', '@pop'],
 			[/$/, 'white', '@pop'],
 			{include: '@root'}
 		],
@@ -146,20 +234,21 @@ export const conf: IRichLanguageConfiguration = {
 			[/[^\\"\n\r]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
-			[/"/, {token: 'string.quote', bracket: '@close', next: '@pop'}],
+			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
 		],
 
 		stringt: [
 			[/[^\\"\n\r]+/,	'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
-			[/"""/, {token: 'string.quote', bracket: '@close', next: '@pop'}],
+			[/"(?=""")/, 'string'],
+			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
 			[/"/, 'string']
 		],
 
 		fstring: [
 			[/@escapes/, 'string.escape'],
-			[/"/, {token: 'string.quote', bracket: '@close', next: '@pop'}],
+			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
@@ -173,7 +262,8 @@ export const conf: IRichLanguageConfiguration = {
 
 		fstringt: [
 			[/@escapes/, 'string.escape'],
-			[/"""/, {token: 'string.quote', bracket: '@close', next: '@pop'}],
+			[/"(?=""")/, 'string'],
+			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
@@ -187,7 +277,7 @@ export const conf: IRichLanguageConfiguration = {
 
 		sstring: [
 			[/@escapes/, 'string.escape'],
-			[/"/, {token: 'string.quote', bracket: '@close', next: '@pop'}],
+			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
@@ -196,7 +286,8 @@ export const conf: IRichLanguageConfiguration = {
 
 		sstringt: [
 			[/@escapes/, 'string.escape'],
-			[/"""/, {token: 'string.quote', bracket: '@close', next: '@pop'}],
+			[/"(?=""")/, 'string'],
+			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
@@ -204,19 +295,20 @@ export const conf: IRichLanguageConfiguration = {
 		],
 
 		interp: [
-			[/\{/, 'operator', '@push'],
-			[/\}/, 'operator', '@pop'],
+			[/{/, 'operator', '@push'],
+			[/}/, 'operator', '@pop'],
 			{include: '@root'}
 		],
 
 		rawstring: [
 			[/[^"]/, 'string'],
-			[/"/, {token: 'string.quote', bracket: '@close', next: '@pop'}]
+			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}]
 		],
 
 		rawstringt: [
 			[/[^"]/, 'string'],
-			[/"""/, {token: 'string.quote', bracket: '@close', next: '@pop'}],
+			[/"(?=""")/, 'string'],
+			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
 			[/"/, 'string']
 		],
 
