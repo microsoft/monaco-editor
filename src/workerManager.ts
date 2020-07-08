@@ -64,7 +64,7 @@ export class WorkerManager {
 			// Adds all of the .d.ts lib files into Monaco as editor models,
 			// this allows themm to show up in peek (and allow editing if desired).
 			for (const key in libFileMap) {
-				monaco.editor.createModel(libFileMap[key], "ts", monaco.Uri.file(key))
+				monaco.editor.createModel(libFileMap[key], "javascript", monaco.Uri.file(key))
 			}
 
 			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
