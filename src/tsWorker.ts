@@ -73,9 +73,6 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		} else if (fileName in this._extraLibs) {
 			// extra lib
 			text = this._extraLibs[fileName].content;
-
-		} else if (fileName in libFileMap) {
-			text = libFileMap[fileName];
 		} else {
 			return;
 		}
