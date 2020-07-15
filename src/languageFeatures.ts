@@ -7,6 +7,7 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as ts from './lib/typescriptServices';
 import { TypeScriptWorker } from './tsWorker';
+import {libFileMap} from "./lib/lib"
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;
@@ -21,6 +22,17 @@ enum IndentStyle {
 	Block = 1,
 	Smart = 2
 }
+
+function getOrCreateLibFile(uri: Uri) {
+	let model = monaco.editor.getModel(uri)
+	if (!model) {
+		if (uri.path.indexOf("/lib.") === 0) {
+			return monaco.editor.createModel(libFileMap[uri.path.slice(1)], "javascript", uri)
+		}
+	}
+	return model
+}
+
 
 export function flattenDiagnosticMessageText(diag: string | ts.DiagnosticMessageChain | undefined, newLine: string, indent = 0): string {
 	if (typeof diag === "string") {
@@ -224,7 +236,7 @@ export class DiagnosticsAdapter extends Adapter {
 			let relatedResource: monaco.editor.ITextModel | null = model;
 			if (info.file) {
 				const relatedResourceUri = monaco.Uri.parse(info.file.fileName);
-				relatedResource = monaco.editor.getModel(relatedResourceUri);
+				relatedResource = getOrCreateLibFile(relatedResourceUri);
 			}
 
 			if (!relatedResource) {
@@ -492,7 +504,7 @@ export class DefinitionAdapter extends Adapter {
 		const result: monaco.languages.Location[] = [];
 		for (let entry of entries) {
 			const uri = Uri.parse(entry.fileName);
-			const refModel = monaco.editor.getModel(uri);
+			const refModel = getOrCreateLibFile(uri);
 			if (refModel) {
 				result.push({
 					uri: uri,
@@ -521,7 +533,7 @@ export class ReferenceAdapter extends Adapter implements monaco.languages.Refere
 		const result: monaco.languages.Location[] = [];
 		for (let entry of entries) {
 			const uri = Uri.parse(entry.fileName);
-			const refModel = monaco.editor.getModel(uri);
+			const refModel = getOrCreateLibFile(uri);
 			if (refModel) {
 				result.push({
 					uri: uri,
