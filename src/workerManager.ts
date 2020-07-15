@@ -61,19 +61,11 @@ export class WorkerManager {
 
 	private _getClient(): Promise<TypeScriptWorker> {
 		if (!this._client) {
-			// Adds all of the .d.ts lib files into Monaco as editor models,
-			// this allows themm to show up in peek (and allow editing if desired).
-			for (const key in libFileMap) {
-				monaco.editor.createModel(libFileMap[key], "javascript", monaco.Uri.file(key))
-			}
-
 			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
 
 				// module that exports the create() method and returns a `TypeScriptWorker` instance
 				moduleId: 'vs/language/typescript/tsWorker',
-
 				label: this._modeId,
-
 				keepIdleModels: true,
 
 				// passed in to the create() method
