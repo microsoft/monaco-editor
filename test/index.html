@@ -10,6 +10,9 @@
 <h2>Monaco Editor TypeScript test page</h2>
 <button id="resetBtn">Reset Sample</button>
 <div id="container" style="width:800px;height:600px;border:1px solid grey"></div>
+<h3>Compiler settings</h3>
+<textarea style="font-family: monospace;" id="compilerOpts" cols="60" rows="30"></textarea><br/>
+<button id="updateCompilerSettingsBtn">Update compiler settings</button>
 
 <script>
 	var paths = {
@@ -162,6 +165,10 @@
 			'var game = new Conway.GameOfLife();',
 		].join('\n');
 	}
+
+	function getDefaultComplierOpts() {
+		return { target: 99, jsx: 1, allowNonTsExtensions: true }
+	}
 	require([
 		'vs/basic-languages/monaco.contribution',
 		'vs/language/typescript/monaco.contribution'
@@ -181,8 +188,18 @@
 		document.getElementById('resetBtn').onclick = () => {
 			editor.setValue(getDefaultCode());
 		};
+
+		const optsString = localStorage.getItem("compiler-opts") || JSON.stringify(getDefaultComplierOpts(), null, 4)
+		document.getElementById("compilerOpts").textContent = optsString
+		monaco.languages.typescript.typescriptDefaults.setCompilerOptions(JSON.parse(optsString))
+
+		document.getElementById('updateCompilerSettingsBtn').onclick = () => {
+			const newOpts = document.getElementById('compilerOpts').value
+			monaco.languages.typescript.typescriptDefaults.setCompilerOptions(JSON.parse(newOpts))
+			localStorage.setItem("compiler-opts", newOpts)
+		};
+
 	});
 </script>
-
 </body>
 </html>
