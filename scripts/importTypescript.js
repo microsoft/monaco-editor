@@ -102,68 +102,27 @@ export = ts;
 
 function importLibs() {
 	function getFileName(name) {
-		return (name === '' ? 'lib.d.ts' : `lib.${name}.d.ts`);
+		return name
 	}
 	function getVariableName(name) {
-		return (name === '' ? 'lib_dts' : `lib_${name.replace(/\./g, '_')}_dts`);
+		return name.replace(/\./g, '_') + "_dts"
 	}
 	function readLibFile(name) {
-		var srcPath = path.join(TYPESCRIPT_LIB_SOURCE, getFileName(name));
+		var srcPath = path.join(TYPESCRIPT_LIB_SOURCE, name);
 		return fs.readFileSync(srcPath).toString();
 	}
 
-	var queue = [];
-	var in_queue = {};
-
-	var enqueue = function (name) {
-		if (in_queue[name]) {
-			return;
-		}
-		in_queue[name] = true;
-		queue.push(name);
-	};
-
-	enqueue('');
-	enqueue('es6');
-	enqueue('es2015');
+	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."))
 
 	var result = [];
-	while (queue.length > 0) {
-		var name = queue.shift();
-		var contents = readLibFile(name);
-		var lines = contents.split(/\r\n|\r|\n/);
-
-		var output = '';
-		var writeOutput = function (text) {
-			if (output.length === 0) {
-				output = text;
-			} else {
-				output += ` + ${text}`;
-			}
-		};
-		var outputLines = [];
-		var flushOutputLines = function () {
-			writeOutput(`"${escapeText(outputLines.join('\n'))}"`);
-			outputLines = [];
-		};
-		var deps = [];
-		for (let i = 0; i < lines.length; i++) {
-			let m = lines[i].match(/\/\/\/\s*<reference\s*lib="([^"]+)"/);
-			if (m) {
-				deps.push(getVariableName(m[1]));
-				enqueue(m[1]);
-				outputLines.push(lines[i]);
-				continue;
-			}
-			outputLines.push(lines[i]);
-		}
-		flushOutputLines();
-
+	while (dtsFiles.length > 0) {
+		var name = dtsFiles.shift();
+		var output = readLibFile(name);
 		result.push({
 			name: getVariableName(name),
-			filepath: getFileName(name),
-			deps: deps,
-			output: output
+			filepath: name,
+			deps: [],
+			output: '"' + escapeText(output) + '"'
 		});
 	}
 
