@@ -6,7 +6,7 @@
   },
   "main": "./main",
   "devDependencies": {
-    "electron": "^7.1.7",
-    "monaco-editor": "0.19.0"
+    "electron": "^9.1.2",
+    "monaco-editor": "0.20.0"
   }
 }
