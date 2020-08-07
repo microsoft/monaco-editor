@@ -97,7 +97,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 
 	getScriptSnapshot(fileName: string): ts.IScriptSnapshot | undefined {
 		const text = this._getScriptText(fileName);
-		if (!text) {
+		if (text === undefined) {
 			return;
 		}
 
