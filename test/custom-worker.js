@@ -1,4 +1,4 @@
-self.extendTSWorkerFactory = (TypeScriptWorker) => {
+self.customTSWorkerFactory = (TypeScriptWorker) => {
   return class MonacoTSWorker extends TypeScriptWorker {
 
     // Adds a custom function to the webworker

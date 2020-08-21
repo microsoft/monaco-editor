@@ -252,11 +252,11 @@ export function create(ctx: IWorkerContext, createData: ICreateData): TypeScript
 			// @ts-ignore - This is available in a webworker
 			importScripts(createData.customWorkerPath)
 			// @ts-ignore - This should come from the above eval
-			if (!self.extendTSWorkerFactory) {
-				throw new Error(`The script at ${createData.customWorkerPath} does not add extendTSWorkerFactory to self`)
+			if (!self.customTSWorkerFactory) {
+				throw new Error(`The script at ${createData.customWorkerPath} does not add customTSWorkerFactory to self`)
 			}
 			// @ts-ignore - The throw validates this
-			TSWorkerClass = self.extendTSWorkerFactory(TypeScriptWorker)
+			TSWorkerClass = self.customTSWorkerFactory(TypeScriptWorker)
 		}
 	}
 
