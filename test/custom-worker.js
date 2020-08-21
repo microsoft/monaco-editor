@@ -1,5 +1,3 @@
-/// <reference lib="webworker">
-
 self.extendTSWorkerFactory = (TypeScriptWorker) => {
   return class MonacoTSWorker extends TypeScriptWorker {
 

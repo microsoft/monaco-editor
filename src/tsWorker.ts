@@ -247,12 +247,12 @@ export function create(ctx: IWorkerContext, createData: ICreateData): TypeScript
 
 		// @ts-ignore - This is available in a webworker
 		if (typeof importScripts === "undefined") {
-			console.warn("Monaco is not using webworker workers, and that is needed to support the customWorkerPath flag")
+			console.warn("Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag")
 		} else {
 			// @ts-ignore - This is available in a webworker
 			importScripts(createData.customWorkerPath)
-			// @ts-ignore - This should come from
-			if(!self.extendTSWorkerFactory) {
+			// @ts-ignore - This should come from the above eval
+			if (!self.extendTSWorkerFactory) {
 				throw new Error(`The script at ${createData.customWorkerPath} does not add extendTSWorkerFactory to self`)
 			}
 			// @ts-ignore - The throw validates this
