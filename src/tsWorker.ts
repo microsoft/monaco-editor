@@ -238,8 +238,27 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
 	extraLibs: IExtraLibs;
+	customWorkerPath?: string
 }
 
 export function create(ctx: IWorkerContext, createData: ICreateData): TypeScriptWorker {
-	return new TypeScriptWorker(ctx, createData);
+	let TSWorkerClass = TypeScriptWorker
+	if (createData.customWorkerPath) {
+
+		// @ts-ignore - This is available in a webworker
+		if (typeof importScripts === "undefined") {
+			console.warn("Monaco is not using webworker workers, and that is needed to support the customWorkerPath flag")
+		} else {
+			// @ts-ignore - This is available in a webworker
+			importScripts(createData.customWorkerPath)
+			// @ts-ignore - This should come from
+			if(!self.extendTSWorkerFactory) {
+				throw new Error(`The script at ${createData.customWorkerPath} does not add extendTSWorkerFactory to self`)
+			}
+			// @ts-ignore - The throw validates this
+			TSWorkerClass = self.extendTSWorkerFactory(TypeScriptWorker)
+		}
+	}
+
+	return new TSWorkerClass(ctx, createData);
 }

@@ -31,13 +31,15 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	private _eagerModelSync: boolean;
 	private _compilerOptions!: monaco.languages.typescript.CompilerOptions;
 	private _diagnosticsOptions!: monaco.languages.typescript.DiagnosticsOptions;
+	private _workerOptions!: monaco.languages.typescript.WorkerOptions;
 	private _onDidExtraLibsChangeTimeout: number;
 
-	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions) {
+	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions, workerOptions: monaco.languages.typescript.WorkerOptions) {
 		this._extraLibs = Object.create(null);
 		this._eagerModelSync = false;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
+		this.setWorkerOptions(workerOptions)
 		this._onDidExtraLibsChangeTimeout = -1;
 	}
 
@@ -47,6 +49,10 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 	get onDidExtraLibsChange(): IEvent<void> {
 		return this._onDidExtraLibsChange.event;
+	}
+
+	get workerOptions(): monaco.languages.typescript.WorkerOptions {
+		return this._workerOptions
 	}
 
 	getExtraLibs(): IExtraLibs {
@@ -142,6 +148,11 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		this._onDidChange.fire(undefined);
 	}
 
+	setWorkerOptions(options: monaco.languages.typescript.WorkerOptions): void {
+		this._workerOptions = options || Object.create(null);
+		this._onDidChange.fire(undefined);
+	}
+
 	setMaximumWorkerIdleTime(value: number): void {
 	}
 
@@ -202,11 +213,13 @@ enum ModuleResolutionKind {
 
 const typescriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: false, noSyntaxValidation: false });
+	{ noSemanticValidation: false, noSyntaxValidation: false },
+	{});
 
 const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: true, noSyntaxValidation: false });
+	{ noSemanticValidation: true, noSyntaxValidation: false },
+	{});
 
 function getTypeScriptWorker(): Promise<(...uris: monaco.Uri[]) => Promise<monaco.languages.typescript.TypeScriptWorker>> {
 	return getMode().then(mode => mode.getTypeScriptWorker());

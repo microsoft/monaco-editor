@@ -137,6 +137,10 @@ declare module monaco.languages.typescript {
         diagnosticCodesToIgnore?: number[];
     }
 
+    export interface WorkerOptions {
+        customWorkerPath?: string;
+    }
+
     interface IExtraLib {
         content: string;
         version: number;
