@@ -21,6 +21,7 @@ import './fsharp/fsharp.contribution';
 import './go/go.contribution';
 import './graphql/graphql.contribution';
 import './handlebars/handlebars.contribution';
+import './hcl/hcl.contribution';
 import './html/html.contribution';
 import './ini/ini.contribution';
 import './java/java.contribution';
