@@ -289,15 +289,92 @@ testTokenization('vb', [
 			{ startIndex: 8, type: '' },
 			{ startIndex: 9, type: 'delimiter.vb' },
 			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'string.vb' }
+			{ startIndex: 11, type: 'string.quote.vb' },
+			{ startIndex: 12, type: 'string.vb' },
+			{ startIndex: 18, type: 'string.quote.vb' }
 		]
 	}],
 
 	[{
 		line: '"use strict";',
 		tokens: [
-			{ startIndex: 0, type: 'string.vb' },
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 11, type: 'string.quote.vb' },
 			{ startIndex: 12, type: 'delimiter.vb' }
+		]
+	}],
+
+	[{
+		line: '"a""b"',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 2, type: 'string.escape.vb' },
+			{ startIndex: 4, type: 'string.vb' },
+			{ startIndex: 5, type: 'string.quote.vb' }
+		]
+	}, {
+		line: '"a““b"',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 2, type: 'string.escape.vb' },
+			{ startIndex: 4, type: 'string.vb' },
+			{ startIndex: 5, type: 'string.quote.vb' }
+		]
+	}, {
+		line: '"a””b"',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 2, type: 'string.escape.vb' },
+			{ startIndex: 4, type: 'string.vb' },
+			{ startIndex: 5, type: 'string.quote.vb' }
+		]
+	}],
+
+	[{
+		line: '"mixed quotes 1“',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 15, type: 'string.quote.vb' }
+		]
+	}, {
+		line: '"mixed quotes 2”',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 15, type: 'string.quote.vb' }
+		]
+	}, {
+		line: '“mixed quotes 3"',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 15, type: 'string.quote.vb' }
+		]
+	}, {
+		line: '“mixed quotes 4”',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 15, type: 'string.quote.vb' }
+		]
+	}, {
+		line: '”mixed quotes 5"',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 15, type: 'string.quote.vb' }
+		]
+	}, {
+		line: '”mixed quotes 6“',
+		tokens: [
+			{ startIndex: 0, type: 'string.quote.vb' },
+			{ startIndex: 1, type: 'string.vb' },
+			{ startIndex: 15, type: 'string.quote.vb' }
 		]
 	}],
 
@@ -445,12 +522,14 @@ testTokenization('vb', [
 			{ startIndex: 5, type: '' },
 			{ startIndex: 6, type: 'delimiter.vb' },
 			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'string.vb' }
+			{ startIndex: 8, type: 'string.quote.vb' },
+			{ startIndex: 9, type: 'string.vb' }
 		]
 	}, {
 		line: 'world"',
 		tokens: [
 			{ startIndex: 0, type: 'string.vb' },
+			{ startIndex: 5, type: 'string.quote.vb' }
 		]
 	}],
 
