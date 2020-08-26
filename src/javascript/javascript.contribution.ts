@@ -8,7 +8,7 @@ import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
 	id: 'javascript',
-	extensions: ['.js', '.es6', '.jsx'],
+	extensions: ['.js', '.es6', '.jsx', '.mjs'],
 	firstLine: '^#!.*\\bnode',
 	filenames: ['jakefile'],
 	aliases: ['JavaScript', 'javascript', 'js'],
