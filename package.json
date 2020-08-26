@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/tape": "^4.2.34",
     "glob": "^7.1.6",
-    "jsdom": "^16.2.1",
+    "jsdom": "^16.4.0",
     "monaco-editor-core": "0.20.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
