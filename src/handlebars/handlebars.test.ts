@@ -283,7 +283,7 @@ testTokenization(['handlebars', 'css'], [
 		]
 	}],
 
-    // Block comment
+	// Block comment
 	[{
 		line: '{{!-- block comment --}}',
 		tokens: [
@@ -292,8 +292,8 @@ testTokenization(['handlebars', 'css'], [
 			{ startIndex: 20, type: 'comment.block.end.handlebars' }
 		]
 	}],
-    
-    // Block comment with mustache
+
+	// Block comment with mustache
 	[{
 		line: '{{!-- block comment }} with mustache --}}',
 		tokens: [
@@ -303,7 +303,7 @@ testTokenization(['handlebars', 'css'], [
 		]
 	}],
 
-    // Handlebars comment
+	// Handlebars comment
 	[{
 		line: '{{! comment }}',
 		tokens: [
