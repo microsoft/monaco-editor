@@ -99,6 +99,8 @@ export const language = <ILanguage>{
 
 	// we include these common regular expressions
 	symbols: /[=><!~?:&|+\-*\/^\\%@#]+/,
+	digits: /\d+(_+\d+)*/,
+	hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
 
 	// C# style strings
 	escapes: /\\(?:[btnfr\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
@@ -122,27 +124,29 @@ export const language = <ILanguage>{
 			[/"/, {token: 'string.quote', bracket: '@open', next: '@string'}],
 
 			// numbers
-			[/[+\-]?(?:\d[_\d])*\.\d+[dDfFlL]?([eE][\-+]?\d+)?/, 'number.float', '@allowMethod'],
-			[/0[xX][0-9a-fA-F]+/, 'number.hex', '@allowMethod'],
-			[/[+\-]?\d[_\d]*[dDfFlL]?/, 'number', '@allowMethod'],
+			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float', '@allowMethod'],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float', '@allowMethod'],
+			[/0[xX](@hexdigits)[Ll]?/, 'number.hex', '@allowMethod'],
+			[/(@digits)[fFdD]/, 'number.float', '@allowMethod'],
+			[/(@digits)[lL]?/, 'number', '@allowMethod'],
 
 			[/\b_\*/, 'key'],
 			[/\b(_)\b/, 'keyword', '@allowMethod'],
 
 			// identifiers and keywords
 			[/\bimport\b/, 'keyword', '@import'],
-			[/\b(case)([ \t]+)(class)\b/, ['tag.id.pug', 'white', 'keyword']],
+			[/\b(case)([ \t]+)(class)\b/, ['keyword.modifier', 'white', 'keyword']],
 			[/\bcase\b/, 'keyword', '@case'],
 			[/\bva[lr]\b/, 'keyword', '@vardef'],
-			[/\b(def[ \t]+)((?:unary_)?@symbols|@name(?:_=)|@name)/, ['keyword', 'keyword.flow']],
+			[/\b(def)([ \t]+)((?:unary_)?@symbols|@name(?:_=)|@name)/, ['keyword', 'white', 'identifier']],
 			[/@name(?=[ \t]*:(?!:))/, 'variable'],
 			[/(\.)(@name|@symbols)/, ['operator', {token: 'keyword.flow', next: '@allowMethod'}]],
 			[/([{(])(\s*)(@name(?=\s*=>))/, ['@brackets', 'white', 'variable']],
 			[/@name/, {cases: {
 				'@keywords': 'keyword',
 				'@softKeywords': 'keyword',
-				'@modifiers': 'tag.id.pug',
-				'@softModifiers': 'tag.id.pug',
+				'@modifiers': 'keyword.modifier',
+				'@softModifiers': 'keyword.modifier',
 				'@constants': {token: 'constant', next: '@allowMethod'},
 				'@default': {token: 'identifier', next: '@allowMethod'}
 			}}],
@@ -157,9 +161,9 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{(]/, '@brackets'],
 			[/[})]/, '@brackets', '@allowMethod'],
-			[/\[/, 'operator.scss'],
-			[/](?!\s*(?:va[rl]|def|type)\b)/, 'operator.scss', '@allowMethod'],
-			[/]/, 'operator.scss'],
+			[/\[/, 'operator.square'],
+			[/](?!\s*(?:va[rl]|def|type)\b)/, 'operator.square', '@allowMethod'],
+			[/]/, 'operator.square'],
 			[/([=-]>|<-|>:|<:|:>|<%)(?=[\s\w()[\]{},\."'`])/, 'keyword'],
 			[/@symbols/, 'operator'],
 
@@ -183,7 +187,7 @@ export const language = <ILanguage>{
 			[/\/\*/, 'comment', '@comment'],
 			[/@name|@type/, 'type'],
 			[/[(){}]/, '@brackets'],
-			[/[[\]]/, 'operator.scss'],
+			[/[[\]]/, 'operator.square'],
 			[/[\.,]/, 'delimiter'],
 		],
 
@@ -253,9 +257,9 @@ export const language = <ILanguage>{
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
 			[/%%/, 'string'],
-			[/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'tag.id.pug', 'number', 'metatag']],
+			[/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'keyword.modifier', 'number', 'metatag']],
 			[/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'number', 'metatag']],
-			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'tag.id.pug', 'metatag']],
+			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'keyword.modifier', 'metatag']],
 			[/(%)(@fstring_conv)/, ['metatag', 'metatag']],
 			[/./, 'string']
 		],
@@ -268,9 +272,9 @@ export const language = <ILanguage>{
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
 			[/%%/, 'string'],
-			[/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'tag.id.pug', 'number', 'metatag']],
+			[/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'keyword.modifier', 'number', 'metatag']],
 			[/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'number', 'metatag']],
-			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'tag.id.pug', 'metatag']],
+			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'keyword.modifier', 'metatag']],
 			[/(%)(@fstring_conv)/, ['metatag', 'metatag']],
 			[/./, 'string']
 		],

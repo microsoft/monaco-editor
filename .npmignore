@@ -8,3 +8,5 @@
 /tsconfig.json
 /.npmignore
 /.travis.yml
+/.editorconfig
+/azure-pipelines.yml

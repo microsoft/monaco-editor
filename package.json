@@ -5,7 +5,8 @@
   "scripts": {
     "compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
     "watch": "tsc -p ./src --watch",
-    "test": "mocha",
+    "watch-esm": "tsc -p ./src/tsconfig.esm.json --watch",
+    "test": "tape -r ./test/all.js",
     "prepublishOnly": "npm run compile && node ./scripts/bundle"
   },
   "author": "Microsoft Corporation",
@@ -18,13 +19,14 @@
     "url": "https://github.com/Microsoft/monaco-languages/issues"
   },
   "devDependencies": {
+    "@types/tape": "^4.2.34",
     "glob": "^7.1.6",
-    "jsdom": "^16.1.0",
-    "mocha": "^7.0.1",
+    "jsdom": "^16.4.0",
     "monaco-editor-core": "0.20.0",
     "monaco-plugin-helpers": "^1.0.2",
     "requirejs": "^2.3.6",
-    "terser": "^4.6.3",
+    "tape": "^4.13.2",
+    "terser": "^4.6.6",
     "typescript": "3.7.5"
   }
 }

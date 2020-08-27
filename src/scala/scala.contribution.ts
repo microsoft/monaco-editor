@@ -8,8 +8,8 @@ import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
 	id: 'scala',
-	extensions: ['.scala', '.sbt', '.sc'],
+	extensions: ['.scala', '.sc', '.sbt'],
 	aliases: ['Scala', 'scala', 'SBT', 'Sbt', 'sbt', 'Dotty', 'dotty'],
-	mimetypes: ['text/x-scala', 'text/x-sbt', 'text/x-dotty'],
+	mimetypes: ['text/x-scala-source', 'text/x-scala', 'text/x-sbt', 'text/x-dotty'],
 	loader: () => import('./scala')
 });

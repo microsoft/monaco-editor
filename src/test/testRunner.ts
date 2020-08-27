@@ -5,7 +5,7 @@
 
 import '../monaco.contribution';
 import {loadLanguage} from '../_.contribution';
-import * as assert from 'assert';
+import * as test from 'tape';
 
 // Allow for running under nodejs/requirejs in tests
 const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
@@ -28,24 +28,23 @@ export function testTokenization(_language:string|string[], tests:ITestItem[][])
 		languages = _language;
 	}
 	let mainLanguage = languages[0];
-	suite(mainLanguage + ' tokenization', () => {
-		test('', (done) => {
-			Promise.all(languages.map(l => loadLanguage(l))).then(() => {
-				// clean stack
-				setTimeout(() => {
-					runTests(mainLanguage, tests);
-					done();
-				});
-			}).then(null, done);
-		});
+
+	test(mainLanguage + ' tokenization', (t: test.Test) => {
+		Promise.all(languages.map(l => loadLanguage(l))).then(() => {
+			// clean stack
+			setTimeout(() => {
+				runTests(t, mainLanguage, tests);
+				t.end();
+			});
+		}).then(null, () => t.end());
 	});
 }
 
-function runTests(languageId:string, tests:ITestItem[][]): void {
-	tests.forEach((test) => runTest(languageId, test));
+function runTests(t: test.Test, languageId:string, tests:ITestItem[][]): void {
+	tests.forEach((test) => runTest(t, languageId, test));
 }
 
-function runTest(languageId:string, test:ITestItem[]): void {
+function runTest(t: test.Test, languageId:string, test:ITestItem[]): void {
 
 	let text = test.map(t => t.line).join('\n');
 	let actualTokens = _monaco.editor.tokenize(text, languageId);
@@ -61,5 +60,5 @@ function runTest(languageId:string, test:ITestItem[]): void {
 		};
 	});
 
-	assert.deepEqual(actual, test);
+	t.deepEqual(actual, test);
 }
