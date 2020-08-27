@@ -8,6 +8,20 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('scala', [
+
+	[{
+		line: 'var a = 1',
+		tokens: [
+			{startIndex: 0, type: 'keyword.scala'},
+			{startIndex: 3, type: 'white.scala'},
+			{startIndex: 4, type: 'variable.scala'},
+			{startIndex: 5, type: 'white.scala'},
+			{startIndex: 6, type: 'operator.scala'},
+			{startIndex: 7, type: 'white.scala'},
+			{startIndex: 8, type: 'number.scala'}
+		]
+	}],
+
 	// Comments - single line
 	[{
 		line: '//',
@@ -19,7 +33,7 @@ testTokenization('scala', [
 	[{
 		line: '    // a comment',
 		tokens: [
-			{ startIndex: 0, type: '' },
+			{ startIndex: 0, type: 'white.scala' },
 			{ startIndex: 4, type: 'comment.scala' }
 		]
 	}],
@@ -28,9 +42,7 @@ testTokenization('scala', [
 	[{
 		line: '/* //*/ a',
 		tokens: [
-			{ startIndex: 0, type: 'comment.scala' },
-			{ startIndex: 7, type: '' },
-			{ startIndex: 8, type: 'identifier.scala' }
+			{ startIndex: 0, type: 'comment.scala' }
 		]
 	}],
 
@@ -51,11 +63,11 @@ testTokenization('scala', [
 	[{
 		line: '/almost a comment',
 		tokens: [
-			{ startIndex: 0, type: 'delimiter.scala' },
+			{ startIndex: 0, type: 'operator.scala' },
 			{ startIndex: 1, type: 'identifier.scala' },
-			{ startIndex: 7, type: '' },
+			{ startIndex: 7, type: 'white.scala' },
 			{ startIndex: 8, type: 'identifier.scala' },
-			{ startIndex: 9, type: '' },
+			{ startIndex: 9, type: 'white.scala' },
 			{ startIndex: 10, type: 'identifier.scala' }
 		]
 	}],
@@ -64,12 +76,12 @@ testTokenization('scala', [
 		line: '1 / 2; /* comment',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 1, type: '' },
-			{ startIndex: 2, type: 'delimiter.scala' },
-			{ startIndex: 3, type: '' },
+			{ startIndex: 1, type: 'white.scala' },
+			{ startIndex: 2, type: 'operator.scala' },
+			{ startIndex: 3, type: 'white.scala' },
 			{ startIndex: 4, type: 'number.scala' },
 			{ startIndex: 5, type: 'delimiter.scala' },
-			{ startIndex: 6, type: '' },
+			{ startIndex: 6, type: 'white.scala' },
 			{ startIndex: 7, type: 'comment.scala' }
 		]
 	}],
@@ -77,18 +89,18 @@ testTokenization('scala', [
 	[{
 		line: 'val x: Int = 1; // my comment // is a nice one',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.val.scala' },
-			{ startIndex: 3, type: '' },
-			{ startIndex: 4, type: 'identifier.scala' },
-			{ startIndex: 5, type: 'delimiter.scala' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'keyword.Int.scala' },
-			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'delimiter.scala' },
-			{ startIndex: 12, type: '' },
+			{ startIndex: 0, type: 'keyword.scala' },
+			{ startIndex: 3, type: 'white.scala' },
+			{ startIndex: 4, type: 'variable.scala' },
+			{ startIndex: 5, type: 'operator.scala' },
+			{ startIndex: 6, type: 'white.scala' },
+			{ startIndex: 7, type: 'type.scala' },
+			{ startIndex: 10, type: 'white.scala' },
+			{ startIndex: 11, type: 'operator.scala' },
+			{ startIndex: 12, type: 'white.scala' },
 			{ startIndex: 13, type: 'number.scala' },
 			{ startIndex: 14, type: 'delimiter.scala' },
-			{ startIndex: 15, type: '' },
+			{ startIndex: 15, type: 'white.scala' },
 			{ startIndex: 16, type: 'comment.scala' }
 		]
 	}],
@@ -104,17 +116,17 @@ testTokenization('scala', [
 	[{
 		line: 'val x: Int = /* a simple comment */ 1;',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.val.scala' },
-			{ startIndex: 3, type: '' },
-			{ startIndex: 4, type: 'identifier.scala' },
-			{ startIndex: 5, type: 'delimiter.scala' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'keyword.Int.scala' },
-			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'delimiter.scala' },
-			{ startIndex: 12, type: '' },
+			{ startIndex: 0, type: 'keyword.scala' },
+			{ startIndex: 3, type: 'white.scala' },
+			{ startIndex: 4, type: 'variable.scala' },
+			{ startIndex: 5, type: 'operator.scala' },
+			{ startIndex: 6, type: 'white.scala' },
+			{ startIndex: 7, type: 'type.scala' },
+			{ startIndex: 10, type: 'white.scala' },
+			{ startIndex: 11, type: 'operator.scala' },
+			{ startIndex: 12, type: 'white.scala' },
 			{ startIndex: 13, type: 'comment.scala' },
-			{ startIndex: 35, type: '' },
+			{ startIndex: 35, type: 'white.scala' },
 			{ startIndex: 36, type: 'number.scala' },
 			{ startIndex: 37, type: 'delimiter.scala' }
 		]
@@ -123,20 +135,21 @@ testTokenization('scala', [
 	[{
 		line: 'val x: Int = /* a simple comment */ 1; */',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.val.scala' },
-			{ startIndex: 3, type: '' },
-			{ startIndex: 4, type: 'identifier.scala' },
-			{ startIndex: 5, type: 'delimiter.scala' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'keyword.Int.scala' },
-			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'delimiter.scala' },
-			{ startIndex: 12, type: '' },
+			{ startIndex: 0, type: 'keyword.scala' },
+			{ startIndex: 3, type: 'white.scala' },
+			{ startIndex: 4, type: 'variable.scala' },
+			{ startIndex: 5, type: 'operator.scala' },
+			{ startIndex: 6, type: 'white.scala' },
+			{ startIndex: 7, type: 'type.scala' },
+			{ startIndex: 10, type: 'white.scala' },
+			{ startIndex: 11, type: 'operator.scala' },
+			{ startIndex: 12, type: 'white.scala' },
 			{ startIndex: 13, type: 'comment.scala' },
-			{ startIndex: 35, type: '' },
+			{ startIndex: 35, type: 'white.scala' },
 			{ startIndex: 36, type: 'number.scala' },
 			{ startIndex: 37, type: 'delimiter.scala' },
-			{ startIndex: 38, type: '' }
+			{ startIndex: 38, type: 'white.scala' },
+			{ startIndex: 39, type: 'operator.scala' },
 		]
 	}],
 
@@ -144,9 +157,9 @@ testTokenization('scala', [
 		line: 'x = /**/;',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.scala' },
-			{ startIndex: 1, type: '' },
-			{ startIndex: 2, type: 'delimiter.scala' },
-			{ startIndex: 3, type: '' },
+			{ startIndex: 1, type: 'white.scala' },
+			{ startIndex: 2, type: 'operator.scala' },
+			{ startIndex: 3, type: 'white.scala' },
 			{ startIndex: 4, type: 'comment.scala' },
 			{ startIndex: 8, type: 'delimiter.scala' }
 		]
@@ -156,9 +169,9 @@ testTokenization('scala', [
 		line: 'x = /*/;',
 		tokens: [
 			{ startIndex: 0, type: 'identifier.scala' },
-			{ startIndex: 1, type: '' },
-			{ startIndex: 2, type: 'delimiter.scala' },
-			{ startIndex: 3, type: '' },
+			{ startIndex: 1, type: 'white.scala' },
+			{ startIndex: 2, type: 'operator.scala' },
+			{ startIndex: 3, type: 'white.scala' },
 			{ startIndex: 4, type: 'comment.scala' }
 		]
 	}],
@@ -184,15 +197,15 @@ testTokenization('scala', [
 	[{
 		line: 'val x: Int = /* start a comment',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.val.scala' },
-			{ startIndex: 3, type: '' },
-			{ startIndex: 4, type: 'identifier.scala' },
-			{ startIndex: 5, type: 'delimiter.scala' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'keyword.Int.scala' },
-			{ startIndex: 10, type: '' },
-			{ startIndex: 11, type: 'delimiter.scala' },
-			{ startIndex: 12, type: '' },
+			{ startIndex: 0, type: 'keyword.scala' },
+			{ startIndex: 3, type: 'white.scala' },
+			{ startIndex: 4, type: 'variable.scala' },
+			{ startIndex: 5, type: 'operator.scala' },
+			{ startIndex: 6, type: 'white.scala' },
+			{ startIndex: 7, type: 'type.scala' },
+			{ startIndex: 10, type: 'white.scala' },
+			{ startIndex: 11, type: 'operator.scala' },
+			{ startIndex: 12, type: 'white.scala' },
 			{ startIndex: 13, type: 'comment.scala' },
 		]
 	}, {
@@ -204,7 +217,7 @@ testTokenization('scala', [
 		line: 'and end it */ 2;',
 		tokens: [
 			{ startIndex: 0, type: 'comment.scala' },
-			{ startIndex: 13, type: '' },
+			{ startIndex: 13, type: 'white.scala' },
 			{ startIndex: 14, type: 'number.scala' },
 			{ startIndex: 15, type: 'delimiter.scala' }
 		]
@@ -214,17 +227,17 @@ testTokenization('scala', [
 	[{
 		line: '/** start of Scala Doc',
 		tokens: [
-			{ startIndex: 0, type: 'comment.doc.scala' }
+			{ startIndex: 0, type: 'comment.scala' }
 		]
 	}, {
 		line: 'a comment between without a star',
 		tokens: [
-			{ startIndex: 0, type: 'comment.doc.scala' }
+			{ startIndex: 0, type: 'comment.scala' }
 		]
 	}, {
 		line: 'end of multiline comment*/',
 		tokens: [
-			{ startIndex: 0, type: 'comment.doc.scala' }
+			{ startIndex: 0, type: 'comment.scala' }
 		]
 	}],
 
@@ -232,37 +245,37 @@ testTokenization('scala', [
 	[{
 		line: 'package test; object Program { def main(args: Array[String]): Unit = {} }',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.package.scala' },
-			{ startIndex: 7, type: '' },
+			{ startIndex: 0, type: 'keyword.scala' },
+			{ startIndex: 7, type: 'white.scala' },
 			{ startIndex: 8, type: 'identifier.scala' },
 			{ startIndex: 12, type: 'delimiter.scala' },
-			{ startIndex: 13, type: '' },
-			{ startIndex: 14, type: 'keyword.object.scala' },
-			{ startIndex: 20, type: '' },
-			{ startIndex: 21, type: 'identifier.scala' },
-			{ startIndex: 28, type: '' },
+			{ startIndex: 13, type: 'white.scala' },
+			{ startIndex: 14, type: 'keyword.scala' },
+			{ startIndex: 20, type: 'white.scala' },
+			{ startIndex: 21, type: 'type.scala' },
+			{ startIndex: 28, type: 'white.scala' },
 			{ startIndex: 29, type: 'delimiter.curly.scala' },
-			{ startIndex: 30, type: '' },
-			{ startIndex: 31, type: 'keyword.def.scala' },
-			{ startIndex: 34, type: '' },
+			{ startIndex: 30, type: 'white.scala' },
+			{ startIndex: 31, type: 'keyword.scala' },
+			{ startIndex: 34, type: 'white.scala' },
 			{ startIndex: 35, type: 'identifier.scala' },
 			{ startIndex: 39, type: 'delimiter.parenthesis.scala' },
-			{ startIndex: 40, type: 'identifier.scala' },
-			{ startIndex: 44, type: 'delimiter.scala' },
-			{ startIndex: 45, type: '' },
-			{ startIndex: 46, type: 'identifier.scala' },
-			{ startIndex: 51, type: 'delimiter.square.scala' },
-			{ startIndex: 52, type: 'identifier.scala' },
-			{ startIndex: 58, type: 'delimiter.square.scala' },
+			{ startIndex: 40, type: 'variable.scala' },
+			{ startIndex: 44, type: 'operator.scala' },
+			{ startIndex: 45, type: 'white.scala' },
+			{ startIndex: 46, type: 'type.scala' },
+			{ startIndex: 51, type: 'operator.square.scala' },
+			{ startIndex: 52, type: 'type.scala' },
+			{ startIndex: 58, type: 'operator.square.scala' },
 			{ startIndex: 59, type: 'delimiter.parenthesis.scala' },
-			{ startIndex: 60, type: 'delimiter.scala' },
-			{ startIndex: 61, type: '' },
-			{ startIndex: 62, type: 'keyword.Unit.scala' },
-			{ startIndex: 66, type: '' },
-			{ startIndex: 67, type: 'delimiter.scala' },
-			{ startIndex: 68, type: '' },
+			{ startIndex: 60, type: 'operator.scala' },
+			{ startIndex: 61, type: 'white.scala' },
+			{ startIndex: 62, type: 'type.scala' },
+			{ startIndex: 66, type: 'white.scala' },
+			{ startIndex: 67, type: 'operator.scala' },
+			{ startIndex: 68, type: 'white.scala' },
 			{ startIndex: 69, type: 'delimiter.curly.scala' },
-			{ startIndex: 71, type: '' },
+			{ startIndex: 71, type: 'white.scala' },
 			{ startIndex: 72, type: 'delimiter.curly.scala' }
 		]
 	}],
@@ -455,7 +468,7 @@ testTokenization('scala', [
 		line: '3_.1415F',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 1, type: 'identifier.scala' },
+			{ startIndex: 1, type: 'keyword.scala' },
 			{ startIndex: 2, type: 'delimiter.scala' },
 			{ startIndex: 3, type: 'number.float.scala' }
 		]
@@ -465,7 +478,7 @@ testTokenization('scala', [
 		line: '3._1415F',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 1, type: 'delimiter.scala' },
+			{ startIndex: 1, type: 'operator.scala' },
 			{ startIndex: 2, type: 'identifier.scala' }
 		]
 	}],
@@ -482,7 +495,7 @@ testTokenization('scala', [
 		line: '52_',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 2, type: 'identifier.scala' }
+			{ startIndex: 2, type: 'keyword.scala' }
 		]
 	}],
 
@@ -506,7 +519,7 @@ testTokenization('scala', [
 		line: '0x52_',
 		tokens: [
 			{ startIndex: 0, type: 'number.hex.scala' },
-			{ startIndex: 4, type: 'identifier.scala' }
+			{ startIndex: 4, type: 'keyword.scala' } // TODO
 		]
 	}],
 
@@ -514,7 +527,7 @@ testTokenization('scala', [
 		line: '23.5L',
 		tokens: [
 			{ startIndex: 0, type: 'number.float.scala' },
-			{ startIndex: 4, type: 'identifier.scala' }
+			{ startIndex: 4, type: 'type.scala' }
 		]
 	}],
 
@@ -522,7 +535,7 @@ testTokenization('scala', [
 		line: '0+0',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 1, type: 'delimiter.scala' },
+			{ startIndex: 1, type: 'operator.scala' },
 			{ startIndex: 2, type: 'number.scala' }
 		]
 	}],
@@ -531,7 +544,7 @@ testTokenization('scala', [
 		line: '100+10',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 3, type: 'delimiter.scala' },
+			{ startIndex: 3, type: 'operator.scala' },
 			{ startIndex: 4, type: 'number.scala' }
 		]
 	}],
@@ -540,9 +553,9 @@ testTokenization('scala', [
 		line: '0 + 0',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 1, type: '' },
-			{ startIndex: 2, type: 'delimiter.scala' },
-			{ startIndex: 3, type: '' },
+			{ startIndex: 1, type: 'white.scala' },
+			{ startIndex: 2, type: 'operator.scala' },
+			{ startIndex: 3, type: 'white.scala' },
 			{ startIndex: 4, type: 'number.scala' }
 		]
 	}],
@@ -551,16 +564,18 @@ testTokenization('scala', [
 	[{
 		line: 'val s: String = "I\'m a Scala String";',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.val.scala' },
-			{ startIndex: 3, type: '' },
-			{ startIndex: 4, type: 'identifier.scala' },
-			{ startIndex: 5, type: 'delimiter.scala' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'identifier.scala' },
-			{ startIndex: 13, type: '' },
-			{ startIndex: 14, type: 'delimiter.scala' },
-			{ startIndex: 15, type: '' },
-			{ startIndex: 16, type: 'string.scala' },
+			{ startIndex: 0, type: 'keyword.scala' },
+			{ startIndex: 3, type: 'white.scala' },
+			{ startIndex: 4, type: 'variable.scala' },
+			{ startIndex: 5, type: 'operator.scala' },
+			{ startIndex: 6, type: 'white.scala' },
+			{ startIndex: 7, type: 'type.scala' },
+			{ startIndex: 13, type: 'white.scala' },
+			{ startIndex: 14, type: 'operator.scala' },
+			{ startIndex: 15, type: 'white.scala' },
+			{ startIndex: 16, type: 'string.quote.scala' },
+			{ startIndex: 17, type: 'string.scala' },
+			{ startIndex: 35, type: 'string.quote.scala' },
 			{ startIndex: 36, type: 'delimiter.scala' }
 		]
 	}],
@@ -568,21 +583,25 @@ testTokenization('scala', [
 	[{
 		line: 'val s: String = "concatenated" + " String" ;',
 		tokens: [
-			{ startIndex: 0, type: 'keyword.val.scala' },
-			{ startIndex: 3, type: '' },
-			{ startIndex: 4, type: 'identifier.scala' },
-			{ startIndex: 5, type: 'delimiter.scala' },
-			{ startIndex: 6, type: '' },
-			{ startIndex: 7, type: 'identifier.scala' },
-			{ startIndex: 13, type: '' },
-			{ startIndex: 14, type: 'delimiter.scala' },
-			{ startIndex: 15, type: '' },
-			{ startIndex: 16, type: 'string.scala' },
-			{ startIndex: 30, type: '' },
-			{ startIndex: 31, type: 'delimiter.scala' },
-			{ startIndex: 32, type: '' },
-			{ startIndex: 33, type: 'string.scala' },
-			{ startIndex: 42, type: '' },
+			{ startIndex: 0, type: 'keyword.scala' },
+			{ startIndex: 3, type: 'white.scala' },
+			{ startIndex: 4, type: 'variable.scala' },
+			{ startIndex: 5, type: 'operator.scala' },
+			{ startIndex: 6, type: 'white.scala' },
+			{ startIndex: 7, type: 'type.scala' },
+			{ startIndex: 13, type: 'white.scala' },
+			{ startIndex: 14, type: 'operator.scala' },
+			{ startIndex: 15, type: 'white.scala' },
+			{ startIndex: 16, type: 'string.quote.scala' },
+			{ startIndex: 17, type: 'string.scala' },
+			{ startIndex: 29, type: 'string.quote.scala' },
+			{ startIndex: 30, type: 'white.scala' },
+			{ startIndex: 31, type: 'operator.scala' },
+			{ startIndex: 32, type: 'white.scala' },
+			{ startIndex: 33, type: 'string.quote.scala' },
+			{ startIndex: 34, type: 'string.scala' },
+			{ startIndex: 41, type: 'string.quote.scala' },
+			{ startIndex: 42, type: 'white.scala' },
 			{ startIndex: 43, type: 'delimiter.scala' }
 		]
 	}],
@@ -590,25 +609,30 @@ testTokenization('scala', [
 	[{
 		line: '"quote in a string"',
 		tokens: [
-			{ startIndex: 0, type: 'string.scala' }
+			{ startIndex: 0, type: 'string.quote.scala' },
+			{ startIndex: 1, type: 'string.scala' },
+			{ startIndex: 18, type: 'string.quote.scala' }
 		]
 	}],
 
 	[{
 		line: '"escaping \\"quotes\\" is cool"',
 		tokens: [
-			{ startIndex: 0, type: 'string.scala' },
+			{ startIndex: 0, type: 'string.quote.scala' },
+			{ startIndex: 1, type: 'string.scala' },
 			{ startIndex: 10, type: 'string.escape.scala' },
 			{ startIndex: 12, type: 'string.scala' },
 			{ startIndex: 18, type: 'string.escape.scala' },
-			{ startIndex: 20, type: 'string.scala' }
+			{ startIndex: 20, type: 'string.scala' },
+			{ startIndex: 28, type: 'string.quote.scala' },
 		]
 	}],
 
 	[{
 		line: '"\\"',
 		tokens: [
-			{ startIndex: 0, type: 'string.invalid.scala' }
+			{ startIndex: 0, type: 'string.quote.scala' },
+			{ startIndex: 1, type: 'string.escape.scala' }
 		]
 	}],
 
@@ -616,7 +640,7 @@ testTokenization('scala', [
 	[{
 		line: '@',
 		tokens: [
-			{ startIndex: 0, type: '' }
+			{ startIndex: 0, type: 'operator.scala' }
 		]
 	}],
 
@@ -632,18 +656,19 @@ testTokenization('scala', [
 		tokens: [
 			{ startIndex: 0, type: 'annotation.scala' },
 			{ startIndex: 7, type: 'delimiter.parenthesis.scala' },
-			{ startIndex: 8, type: 'string.scala' },
+			{ startIndex: 8, type: 'string.quote.scala' },
+			{ startIndex: 9, type: 'string.scala' },
+			{ startIndex: 19, type: 'string.quote.scala' },
 			{ startIndex: 20, type: 'delimiter.parenthesis.scala' }
 		]
 	}],
 
 	[{
-		line: '@ AnnotationWithKeywordAfter private',
+		line: '@AnnotationWithKeywordAfter private',
 		tokens: [
 			{ startIndex: 0, type: 'annotation.scala' },
-			{ startIndex: 28, type: '' },
-			{ startIndex: 29, type: 'keyword.private.scala' }
+			{ startIndex: 27, type: 'white.scala' },
+			{ startIndex: 28, type: 'keyword.modifier.scala' }
 		]
 	}]
 ]);
-
