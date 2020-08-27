@@ -201,7 +201,7 @@ export const language = <ILanguage>{
 				cases: {
 				'@keywords': {token: 'keyword', next: '@pop'},
 				'->|<-|>:|<:|<%': {token: 'keyword', next: '@pop'},
-				'@default': {token: 'keyword.flow', next: '@pop'}
+				'@default': {token: '@rematch', next: '@pop'}
 				}
 			}],
 			["", "", "@pop"]

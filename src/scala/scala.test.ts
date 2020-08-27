@@ -8,20 +8,6 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('scala', [
-	[{
-		line: '//',
-		tokens: [
-			{startIndex: 0, type: 'comment.scala'}
-		]
-	}],
-
-	[{
-		line: '    // a comment',
-		tokens: [
-			{startIndex: 0, type: 'white.scala'},
-			{startIndex: 4, type: 'comment.scala'}
-		]
-	}],
 
 	[{
 		line: 'var a = 1',
@@ -80,7 +66,7 @@ testTokenization('scala', [
 			{ startIndex: 0, type: 'operator.scala' },
 			{ startIndex: 1, type: 'identifier.scala' },
 			{ startIndex: 7, type: 'white.scala' },
-			{ startIndex: 8, type: 'keyword.flow.scala' },
+			{ startIndex: 8, type: 'identifier.scala' },
 			{ startIndex: 9, type: 'white.scala' },
 			{ startIndex: 10, type: 'identifier.scala' }
 		]
@@ -91,7 +77,7 @@ testTokenization('scala', [
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
 			{ startIndex: 1, type: 'white.scala' },
-			{ startIndex: 2, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 2, type: 'operator.scala' },
 			{ startIndex: 3, type: 'white.scala' },
 			{ startIndex: 4, type: 'number.scala' },
 			{ startIndex: 5, type: 'delimiter.scala' },
@@ -110,7 +96,7 @@ testTokenization('scala', [
 			{ startIndex: 6, type: 'white.scala' },
 			{ startIndex: 7, type: 'type.scala' },
 			{ startIndex: 10, type: 'white.scala' },
-			{ startIndex: 11, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 11, type: 'operator.scala' },
 			{ startIndex: 12, type: 'white.scala' },
 			{ startIndex: 13, type: 'number.scala' },
 			{ startIndex: 14, type: 'delimiter.scala' },
@@ -282,11 +268,11 @@ testTokenization('scala', [
 			{ startIndex: 52, type: 'type.scala' },
 			{ startIndex: 58, type: 'operator.square.scala' },
 			{ startIndex: 59, type: 'delimiter.parenthesis.scala' },
-			{ startIndex: 60, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 60, type: 'operator.scala' },
 			{ startIndex: 61, type: 'white.scala' },
 			{ startIndex: 62, type: 'type.scala' },
 			{ startIndex: 66, type: 'white.scala' },
-			{ startIndex: 67, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 67, type: 'operator.scala' },
 			{ startIndex: 68, type: 'white.scala' },
 			{ startIndex: 69, type: 'delimiter.curly.scala' },
 			{ startIndex: 71, type: 'white.scala' },
@@ -568,7 +554,7 @@ testTokenization('scala', [
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
 			{ startIndex: 1, type: 'white.scala' },
-			{ startIndex: 2, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 2, type: 'operator.scala' },
 			{ startIndex: 3, type: 'white.scala' },
 			{ startIndex: 4, type: 'number.scala' }
 		]
@@ -585,7 +571,7 @@ testTokenization('scala', [
 			{ startIndex: 6, type: 'white.scala' },
 			{ startIndex: 7, type: 'type.scala' },
 			{ startIndex: 13, type: 'white.scala' },
-			{ startIndex: 14, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 14, type: 'operator.scala' },
 			{ startIndex: 15, type: 'white.scala' },
 			{ startIndex: 16, type: 'string.quote.scala' },
 			{ startIndex: 17, type: 'string.scala' },
@@ -604,13 +590,13 @@ testTokenization('scala', [
 			{ startIndex: 6, type: 'white.scala' },
 			{ startIndex: 7, type: 'type.scala' },
 			{ startIndex: 13, type: 'white.scala' },
-			{ startIndex: 14, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 14, type: 'operator.scala' },
 			{ startIndex: 15, type: 'white.scala' },
 			{ startIndex: 16, type: 'string.quote.scala' },
 			{ startIndex: 17, type: 'string.scala' },
 			{ startIndex: 29, type: 'string.quote.scala' },
 			{ startIndex: 30, type: 'white.scala' },
-			{ startIndex: 31, type: 'keyword.flow.scala' }, // TODO
+			{ startIndex: 31, type: 'operator.scala' },
 			{ startIndex: 32, type: 'white.scala' },
 			{ startIndex: 33, type: 'string.quote.scala' },
 			{ startIndex: 34, type: 'string.scala' },
