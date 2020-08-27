@@ -61,6 +61,7 @@ import './sophia/sophia.contribution';
 import './sql/sql.contribution';
 import './st/st.contribution';
 import './swift/swift.contribution';
+import './systemverilog/systemverilog.contribution';
 import './tcl/tcl.contribution';
 import './twig/twig.contribution';
 import './typescript/typescript.contribution';
