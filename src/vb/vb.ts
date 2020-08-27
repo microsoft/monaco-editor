@@ -124,7 +124,6 @@ export const language = <ILanguage>{
 
 	// we include these common regular expressions
 	symbols: /[=><!~?;\.,:&|+\-*\/\^%]+/,
-	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integersuffix: /U?[DI%L&S@]?/,
 	floatsuffix: /[R#F!]?/,
 
@@ -169,7 +168,7 @@ export const language = <ILanguage>{
 			[/@symbols/, 'delimiter'],
 
 			// strings
-			[/"/, 'string', '@string'],
+			[/["\u201c\u201d]/, { token: 'string.quote', next: '@string' }],
 
 		],
 
@@ -179,10 +178,9 @@ export const language = <ILanguage>{
 		],
 
 		string: [
-			[/[^\\"]+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/"C?/, 'string', '@pop']
+			[/[^"\u201c\u201d]+/, 'string'],
+			[/["\u201c\u201d]{2}/, 'string.escape'],
+			[/["\u201c\u201d]C?/, { token: 'string.quote', next: '@pop' }]
 		],
 	},
 };
