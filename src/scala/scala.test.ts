@@ -468,7 +468,7 @@ testTokenization('scala', [
 		line: '3_.1415F',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 1, type: 'keyword.scala' }, // TODO
+			{ startIndex: 1, type: 'keyword.scala' },
 			{ startIndex: 2, type: 'delimiter.scala' },
 			{ startIndex: 3, type: 'number.float.scala' }
 		]
@@ -479,7 +479,7 @@ testTokenization('scala', [
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
 			{ startIndex: 1, type: 'operator.scala' },
-			{ startIndex: 2, type: 'keyword.flow.scala' } // TODO
+			{ startIndex: 2, type: 'identifier.scala' }
 		]
 	}],
 
@@ -495,7 +495,7 @@ testTokenization('scala', [
 		line: '52_',
 		tokens: [
 			{ startIndex: 0, type: 'number.scala' },
-			{ startIndex: 2, type: 'keyword.scala' } // TODO
+			{ startIndex: 2, type: 'keyword.scala' }
 		]
 	}],
 

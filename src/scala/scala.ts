@@ -140,7 +140,7 @@ export const language = <ILanguage>{
 			[/\bva[lr]\b/, 'keyword', '@vardef'],
 			[/\b(def)([ \t]+)((?:unary_)?@symbols|@name(?:_=)|@name)/, ['keyword', 'white', 'identifier']],
 			[/@name(?=[ \t]*:(?!:))/, 'variable'],
-			[/(\.)(@name|@symbols)/, ['operator', {token: 'keyword.flow', next: '@allowMethod'}]],
+			[/(\.)(@name|@symbols)/, ['operator', {token: '@rematch', next: '@allowMethod'}]],
 			[/([{(])(\s*)(@name(?=\s*=>))/, ['@brackets', 'white', 'variable']],
 			[/@name/, {cases: {
 				'@keywords': 'keyword',
