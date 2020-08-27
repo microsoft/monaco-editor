@@ -73,19 +73,17 @@ export const language = {
 	tokenPostfix: '.ts',
 
 	keywords: [
-		'abstract', 'as', 'break', 'case', 'catch', 'class', 'continue', 'const',
-		'constructor', 'debugger', 'declare', 'default', 'delete', 'do', 'else',
-		'enum', 'export', 'extends', 'false', 'finally', 'for', 'from', 'function',
-		'get', 'if', 'implements', 'import', 'in', 'infer', 'instanceof', 'interface',
-		'is', 'keyof', 'let', 'module', 'namespace', 'never', 'new', 'null', 'package',
-		'private', 'protected', 'public', 'readonly', 'require', 'global', 'return',
-		'set', 'static', 'super', 'switch', 'symbol', 'this', 'throw', 'true', 'try',
-		'type', 'typeof', 'unique', 'var', 'void', 'while', 'with', 'yield', 'async',
-		'await', 'of'
-	],
-
-	typeKeywords: [
-		'any', 'boolean', 'number', 'object', 'string', 'undefined'
+		// Should match the keys of textToKeywordObj in
+		// https://github.com/microsoft/TypeScript/blob/master/src/compiler/scanner.ts
+		'abstract', 'any', 'as', 'asserts', 'bigint', 'boolean', 'break', 'case', 'catch',
+		'class', 'continue', 'const', 'constructor', 'debugger', 'declare', 'default',
+		'delete', 'do', 'else', 'enum', 'export', 'extends', 'false', 'finally', 'for',
+		'from', 'function', 'get', 'if', 'implements', 'import', 'in', 'infer',
+		'instanceof', 'interface', 'is', 'keyof', 'let', 'module', 'namespace', 'never',
+		'new', 'null', 'number', 'object', 'package', 'private', 'protected', 'public',
+		'readonly', 'require', 'global', 'return', 'set', 'static', 'string', 'super',
+		'switch', 'symbol', 'this', 'throw', 'true', 'try', 'type', 'typeof', 'undefined',
+		'unique', 'unknown', 'var', 'void', 'while', 'with', 'yield', 'async', 'await', 'of'
 	],
 
 	operators: [
@@ -118,7 +116,6 @@ export const language = {
 			// identifiers and keywords
 			[/[a-z_$][\w$]*/, {
 				cases: {
-					'@typeKeywords': 'keyword',
 					'@keywords': 'keyword',
 					'@default': 'identifier'
 				}
