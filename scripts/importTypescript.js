@@ -106,20 +106,6 @@ function importLibs() {
 		return fs.readFileSync(srcPath).toString();
 	}
 
-	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."));
-
-	var result = [];
-	while (dtsFiles.length > 0) {
-		var name = dtsFiles.shift();
-		var output = readLibFile(name);
-		result.push({
-			name: name.replace(/\./g, '_') + "_dts",
-			filepath: name,
-			deps: [],
-			output: '"' + escapeText(output) + '"'
-		});
-	}
-
 	var strResult = `/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -130,28 +116,12 @@ ${generatedNote}
 export const libFileMap: Record<string, string> = {}
 `
 ;
-	// Do a topological sort
-	while (result.length > 0) {
-		for (let i = result.length - 1; i >= 0; i--) {
-			if (result[i].deps.length === 0) {
-				// emit this node
-				strResult += `\nexport const ${result[i].name}: string = ${result[i].output};\n`;
-				strResult += `\libFileMap['${result[i].filepath}'] = ${result[i].name};\n`;
-				// mark dep as resolved
-				for (let j = 0; j < result.length; j++) {
-					for (let k = 0; k < result[j].deps.length; k++) {
-						if (result[j].deps[k] === result[i].name) {
-							result[j].deps.splice(k, 1);
-							break;
-						}
-					}
-				}
 
-				// remove from result
-				result.splice(i, 1);
-				break;
-			}
-		}
+	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."));
+	while (dtsFiles.length > 0) {
+		var name = dtsFiles.shift();
+		var output = readLibFile(name);
+		strResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
 	}
 
 	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts');
