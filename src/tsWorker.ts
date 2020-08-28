@@ -145,6 +145,10 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		return fileName === this.getDefaultLibFileName(this._compilerOptions);
 	}
 
+	getLibFiles(): Promise<Record<string, string>> {
+		return Promise.resolve(libFileMap);
+	}
+
 	// --- language features
 
 	private static clearFiles(diagnostics: ts.Diagnostic[]): monaco.languages.typescript.Diagnostic[] {

@@ -106,7 +106,7 @@ function importLibs() {
 		return fs.readFileSync(srcPath).toString();
 	}
 
-	var strResult = `/*---------------------------------------------------------------------------------------------
+	var strLibResult = `/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -117,15 +117,27 @@ export const libFileMap: Record<string, string> = {}
 `
 ;
 
+	var strIndexResult = `/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+${generatedNote}
+
+/** Contains all the lib files */
+export const libFileSet: Record<string, boolean> = {}
+`
+;
+
 	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."));
 	while (dtsFiles.length > 0) {
 		var name = dtsFiles.shift();
 		var output = readLibFile(name);
-		strResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
+		strLibResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
+		strIndexResult += `libFileSet['${name}'] = true;\n`;
 	}
 
-	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts');
-	fs.writeFileSync(dstPath, strResult);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts'), strLibResult);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.index.ts'), strIndexResult);
 }
 
 /**

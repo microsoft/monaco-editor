@@ -8,6 +8,7 @@ import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as ts from './lib/typescriptServices';
 import { TypeScriptWorker } from './tsWorker';
 import { libFileMap } from "./lib/lib"
+import { libFileSet } from "./lib/lib.index"
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;
@@ -69,7 +70,7 @@ function displayPartsToString(displayParts: ts.SymbolDisplayPart[] | undefined):
 
 export abstract class Adapter {
 
-	constructor(protected _worker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>) {
+	constructor(protected _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>) {
 	}
 
 	// protected _positionToOffset(model: monaco.editor.ITextModel, position: monaco.IPosition): number {
@@ -89,6 +90,72 @@ export abstract class Adapter {
 	}
 }
 
+// --- lib files
+
+export class LibFiles {
+
+	private _libFiles: Record<string, string>;
+	private _hasFetchedLibFiles: boolean;
+	private _fetchLibFilesPromise: Promise<void> | null;
+
+	constructor(
+		private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
+	) {
+		this._libFiles = {};
+		this._hasFetchedLibFiles = false;
+		this._fetchLibFilesPromise = null;
+	}
+
+	public isLibFile(uri: Uri): boolean {
+		if (uri.path.indexOf("/lib.") === 0) {
+			return !!libFileSet[uri.path.slice(1)];
+		}
+		return false;
+	}
+
+	public getOrCreateModel(uri: Uri): monaco.editor.ITextModel | null {
+		const model = monaco.editor.getModel(uri);
+		if (model) {
+			return model;
+		}
+		if (this.isLibFile(uri) && this._hasFetchedLibFiles) {
+			return monaco.editor.createModel(this._libFiles[uri.path.slice(1)], "javascript", uri);
+		}
+		return null;
+	}
+
+	private _containsLibFile(uris: Uri[]): boolean {
+		for (let uri of uris) {
+			if (this.isLibFile(uri)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public async fetchLibFilesIfNecessary(uris: Uri[]): Promise<void> {
+		if (!this._containsLibFile(uris)) {
+			// no lib files necessary
+			return;
+		}
+		await this._fetchLibFiles();
+	}
+
+	private _fetchLibFiles(): Promise<void> {
+		if (!this._fetchLibFilesPromise) {
+			this._fetchLibFilesPromise = (
+				this._worker()
+					.then(w => w.getLibFiles())
+					.then((libFiles) => {
+						this._hasFetchedLibFiles = true;
+						this._libFiles = libFiles;
+					})
+			);
+		}
+		return this._fetchLibFilesPromise;
+	}
+}
+
 // --- diagnostics --- ---
 
 enum DiagnosticCategory {
@@ -104,7 +171,7 @@ export class DiagnosticsAdapter extends Adapter {
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
 
 	constructor(private _defaults: LanguageServiceDefaultsImpl, private _selector: string,
-		worker: (first: Uri, ...more: Uri[]) => Promise<TypeScriptWorker>
+		worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
 	) {
 		super(worker);
 
@@ -490,6 +557,13 @@ export class OccurrencesAdapter extends Adapter implements monaco.languages.Docu
 
 export class DefinitionAdapter extends Adapter {
 
+	constructor(
+		private readonly _libFiles: LibFiles,
+		worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
+	) {
+		super(worker);
+	}
+
 	public async provideDefinition(model: monaco.editor.ITextModel, position: Position, token: CancellationToken): Promise<monaco.languages.Definition | undefined> {
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
@@ -500,10 +574,17 @@ export class DefinitionAdapter extends Adapter {
 			return;
 		}
 
+		// Fetch lib files if necessary
+		await this._libFiles.fetchLibFilesIfNecessary(entries.map(entry => Uri.parse(entry.fileName)));
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const result: monaco.languages.Location[] = [];
 		for (let entry of entries) {
 			const uri = Uri.parse(entry.fileName);
-			const refModel = getOrCreateLibFile(uri);
+			const refModel = this._libFiles.getOrCreateModel(uri);
 			if (refModel) {
 				result.push({
 					uri: uri,
@@ -712,7 +793,7 @@ export class CodeActionAdaptor extends FormatHelper implements monaco.languages.
 		const codeFixes = await worker.getCodeFixesAtPosition(resource.toString(), start, end, errorCodes, formatOptions);
 
 		if (!codeFixes || model.isDisposed()) {
-			return { actions: [], dispose:() => {} };
+			return { actions: [], dispose: () => { } };
 		}
 
 		const actions = codeFixes.filter(fix => {
