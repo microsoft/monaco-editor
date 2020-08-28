@@ -7,7 +7,6 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as ts from './lib/typescriptServices';
 import { TypeScriptWorker } from './tsWorker';
-import { libFileMap } from "./lib/lib"
 import { libFileSet } from "./lib/lib.index"
 
 import Uri = monaco.Uri;
@@ -22,16 +21,6 @@ enum IndentStyle {
 	None = 0,
 	Block = 1,
 	Smart = 2
-}
-
-function getOrCreateLibFile(uri: Uri): monaco.editor.ITextModel | null {
-	let model = monaco.editor.getModel(uri)
-	if (!model) {
-		if (uri.path.indexOf("/lib.") === 0) {
-			return monaco.editor.createModel(libFileMap[uri.path.slice(1)], "javascript", uri)
-		}
-	}
-	return model
 }
 
 export function flattenDiagnosticMessageText(diag: string | ts.DiagnosticMessageChain | undefined, newLine: string, indent = 0): string {
@@ -106,7 +95,10 @@ export class LibFiles {
 		this._fetchLibFilesPromise = null;
 	}
 
-	public isLibFile(uri: Uri): boolean {
+	public isLibFile(uri: Uri | null): boolean {
+		if (!uri) {
+			return false;
+		}
 		if (uri.path.indexOf("/lib.") === 0) {
 			return !!libFileSet[uri.path.slice(1)];
 		}
@@ -124,7 +116,7 @@ export class LibFiles {
 		return null;
 	}
 
-	private _containsLibFile(uris: Uri[]): boolean {
+	private _containsLibFile(uris: (Uri | null)[]): boolean {
 		for (let uri of uris) {
 			if (this.isLibFile(uri)) {
 				return true;
@@ -133,7 +125,7 @@ export class LibFiles {
 		return false;
 	}
 
-	public async fetchLibFilesIfNecessary(uris: Uri[]): Promise<void> {
+	public async fetchLibFilesIfNecessary(uris: (Uri | null)[]): Promise<void> {
 		if (!this._containsLibFile(uris)) {
 			// no lib files necessary
 			return;
@@ -170,7 +162,10 @@ export class DiagnosticsAdapter extends Adapter {
 	private _disposables: IDisposable[] = [];
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
 
-	constructor(private _defaults: LanguageServiceDefaultsImpl, private _selector: string,
+	constructor(
+		private readonly _libFiles: LibFiles,
+		private _defaults: LanguageServiceDefaultsImpl,
+		private _selector: string,
 		worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
 	) {
 		super(worker);
@@ -258,19 +253,31 @@ export class DiagnosticsAdapter extends Adapter {
 			promises.push(worker.getSuggestionDiagnostics(model.uri.toString()));
 		}
 
-		const diagnostics = await Promise.all(promises);
+		const allDiagnostics = await Promise.all(promises);
 
-		if (!diagnostics || model.isDisposed()) {
+		if (!allDiagnostics || model.isDisposed()) {
 			// model was disposed in the meantime
 			return;
 		}
 
-		const markers = diagnostics
+		const diagnostics = allDiagnostics
 			.reduce((p, c) => c.concat(p), [])
-			.filter(d => (this._defaults.getDiagnosticsOptions().diagnosticCodesToIgnore || []).indexOf(d.code) === -1)
-			.map(d => this._convertDiagnostics(model, d));
+			.filter(d => (this._defaults.getDiagnosticsOptions().diagnosticCodesToIgnore || []).indexOf(d.code) === -1);
 
-		monaco.editor.setModelMarkers(model, this._selector, markers);
+		// Fetch lib files if necessary
+		const relatedUris = diagnostics
+			.map(d => d.relatedInformation || [])
+			.reduce((p, c) => c.concat(p), [])
+			.map(relatedInformation => relatedInformation.file ? monaco.Uri.parse(relatedInformation.file.fileName) : null);
+
+		await this._libFiles.fetchLibFilesIfNecessary(relatedUris);
+
+		if (model.isDisposed()) {
+			// model was disposed in the meantime
+			return;
+		}
+
+		monaco.editor.setModelMarkers(model, this._selector, diagnostics.map(d => this._convertDiagnostics(model, d)));
 	}
 
 	private _convertDiagnostics(model: monaco.editor.ITextModel, diag: ts.Diagnostic): monaco.editor.IMarkerData {
@@ -302,7 +309,7 @@ export class DiagnosticsAdapter extends Adapter {
 			let relatedResource: monaco.editor.ITextModel | null = model;
 			if (info.file) {
 				const relatedResourceUri = monaco.Uri.parse(info.file.fileName);
-				relatedResource = getOrCreateLibFile(relatedResourceUri);
+				relatedResource = this._libFiles.getOrCreateModel(relatedResourceUri);
 			}
 
 			if (!relatedResource) {
