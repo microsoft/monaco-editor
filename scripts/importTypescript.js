@@ -105,110 +105,43 @@ export = ts;
 })();
 
 function importLibs() {
-	function getFileName(name) {
-		return (name === '' ? 'lib.d.ts' : `lib.${name}.d.ts`);
-	}
-	function getVariableName(name) {
-		return (name === '' ? 'lib_dts' : `lib_${name.replace(/\./g, '_')}_dts`);
-	}
 	function readLibFile(name) {
-		var srcPath = path.join(TYPESCRIPT_LIB_SOURCE, getFileName(name));
+		var srcPath = path.join(TYPESCRIPT_LIB_SOURCE, name);
 		return fs.readFileSync(srcPath).toString();
 	}
 
-	var queue = [];
-	var in_queue = {};
-
-	var enqueue = function (name) {
-		if (in_queue[name]) {
-			return;
-		}
-		in_queue[name] = true;
-		queue.push(name);
-	};
-
-	enqueue('');
-	enqueue('es2015');
-
-	var result = [];
-	while (queue.length > 0) {
-		var name = queue.shift();
-		var contents = readLibFile(name);
-		var lines = contents.split(/\r\n|\r|\n/);
-
-		var output = '';
-		var writeOutput = function (text) {
-			if (output.length === 0) {
-				output = text;
-			} else {
-				output += ` + ${text}`;
-			}
-		};
-		var outputLines = [];
-		var flushOutputLines = function () {
-			writeOutput(`"${escapeText(outputLines.join('\n'))}"`);
-			outputLines = [];
-		};
-		var deps = [];
-		for (let i = 0; i < lines.length; i++) {
-			let m = lines[i].match(/\/\/\/\s*<reference\s*lib="([^"]+)"/);
-			if (m) {
-				flushOutputLines();
-				writeOutput(getVariableName(m[1]));
-				deps.push(getVariableName(m[1]));
-				enqueue(m[1]);
-				continue;
-			}
-			outputLines.push(lines[i]);
-		}
-		flushOutputLines();
-
-		result.push({
-			name: getVariableName(name),
-			deps: deps,
-			output: output
-		});
-	}
-
-	var strResult = `/*---------------------------------------------------------------------------------------------
+	var strLibResult = `/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-${generatedNote}`;
-	// Do a topological sort
-	while (result.length > 0) {
-		for (let i = result.length - 1; i >= 0; i--) {
-			if (result[i].deps.length === 0) {
-				// emit this node
-				strResult += `\nexport const ${result[i].name}: string = ${result[i].output};\n`;
+${generatedNote}
 
-				// mark dep as resolved
-				for (let j = 0; j < result.length; j++) {
-					for (let k = 0; k < result[j].deps.length; k++) {
-						if (result[j].deps[k] === result[i].name) {
-							result[j].deps.splice(k, 1);
-							break;
-						}
-					}
-				}
+/** Contains all the lib files */
+export const libFileMap: Record<string, string> = {}
+`
+;
 
-				// remove from result
-				result.splice(i, 1);
-				break;
-			}
-		}
+	var strIndexResult = `/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+${generatedNote}
+
+/** Contains all the lib files */
+export const libFileSet: Record<string, boolean> = {}
+`
+;
+
+	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."));
+	while (dtsFiles.length > 0) {
+		var name = dtsFiles.shift();
+		var output = readLibFile(name).replace(/\r\n/g, '\n');
+		strLibResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
+		strIndexResult += `libFileSet['${name}'] = true;\n`;
 	}
 
-	strResult += `
-/** This is the DTS which is used when the target is ES6 or below */
-export const lib_es5_bundled_dts = lib_dts;
-
-/** This is the DTS which is used by default in monaco-typescript, and when the target is 2015 or above */
-export const lib_es2015_bundled_dts = lib_es2015_dts + "" + lib_dom_dts + "" + lib_webworker_importscripts_dts + "" + lib_scripthost_dts + "";
-`
-
-	var dstPath = path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts');
-	fs.writeFileSync(dstPath, strResult);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts'), strLibResult);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.index.ts'), strIndexResult);
 }
 
 /**
