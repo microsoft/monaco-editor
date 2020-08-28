@@ -600,6 +600,13 @@ export class DefinitionAdapter extends Adapter {
 
 export class ReferenceAdapter extends Adapter implements monaco.languages.ReferenceProvider {
 
+	constructor(
+		private readonly _libFiles: LibFiles,
+		worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
+	) {
+		super(worker);
+	}
+
 	public async provideReferences(model: monaco.editor.ITextModel, position: Position, context: monaco.languages.ReferenceContext, token: CancellationToken): Promise<monaco.languages.Location[] | undefined> {
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
@@ -610,10 +617,17 @@ export class ReferenceAdapter extends Adapter implements monaco.languages.Refere
 			return;
 		}
 
+		// Fetch lib files if necessary
+		await this._libFiles.fetchLibFilesIfNecessary(entries.map(entry => Uri.parse(entry.fileName)));
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const result: monaco.languages.Location[] = [];
 		for (let entry of entries) {
 			const uri = Uri.parse(entry.fileName);
-			const refModel = getOrCreateLibFile(uri);
+			const refModel = this._libFiles.getOrCreateModel(uri);
 			if (refModel) {
 				result.push({
 					uri: uri,

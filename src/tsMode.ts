@@ -62,7 +62,7 @@ function setupMode(defaults: LanguageServiceDefaultsImpl, modeId: string): (...u
 	monaco.languages.registerHoverProvider(modeId, new languageFeatures.QuickInfoAdapter(worker));
 	monaco.languages.registerDocumentHighlightProvider(modeId, new languageFeatures.OccurrencesAdapter(worker));
 	monaco.languages.registerDefinitionProvider(modeId, new languageFeatures.DefinitionAdapter(libFiles, worker));
-	monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(worker));
+	monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(libFiles, worker));
 	monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker));
 	monaco.languages.registerDocumentRangeFormattingEditProvider(modeId, new languageFeatures.FormatAdapter(worker));
 	monaco.languages.registerOnTypeFormattingEditProvider(modeId, new languageFeatures.FormatOnTypeAdapter(worker));
