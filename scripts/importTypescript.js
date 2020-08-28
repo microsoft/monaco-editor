@@ -131,7 +131,7 @@ export const libFileSet: Record<string, boolean> = {}
 	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."));
 	while (dtsFiles.length > 0) {
 		var name = dtsFiles.shift();
-		var output = readLibFile(name);
+		var output = readLibFile(name).replace(/\r\n/g, '\n');
 		strLibResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
 		strIndexResult += `libFileSet['${name}'] = true;\n`;
 	}
