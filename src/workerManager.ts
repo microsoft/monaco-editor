@@ -6,7 +6,6 @@
 
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import { TypeScriptWorker } from './tsWorker';
-import { libFileMap } from './lib/lib'
 
 import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
@@ -65,13 +64,15 @@ export class WorkerManager {
 
 				// module that exports the create() method and returns a `TypeScriptWorker` instance
 				moduleId: 'vs/language/typescript/tsWorker',
+
 				label: this._modeId,
+
 				keepIdleModels: true,
 
 				// passed in to the create() method
 				createData: {
 					compilerOptions: this._defaults.getCompilerOptions(),
-					extraLibs: this._defaults.getExtraLibs(),
+					extraLibs: this._defaults.getExtraLibs()
 				}
 			});
 

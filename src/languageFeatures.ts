@@ -7,7 +7,7 @@
 import { LanguageServiceDefaultsImpl } from './monaco.contribution';
 import * as ts from './lib/typescriptServices';
 import { TypeScriptWorker } from './tsWorker';
-import {libFileMap} from "./lib/lib"
+import { libFileMap } from "./lib/lib"
 
 import Uri = monaco.Uri;
 import Position = monaco.Position;
@@ -23,7 +23,7 @@ enum IndentStyle {
 	Smart = 2
 }
 
-function getOrCreateLibFile(uri: Uri) {
+function getOrCreateLibFile(uri: Uri): monaco.editor.ITextModel | null {
 	let model = monaco.editor.getModel(uri)
 	if (!model) {
 		if (uri.path.indexOf("/lib.") === 0) {
@@ -32,7 +32,6 @@ function getOrCreateLibFile(uri: Uri) {
 	}
 	return model
 }
-
 
 export function flattenDiagnosticMessageText(diag: string | ts.DiagnosticMessageChain | undefined, newLine: string, indent = 0): string {
 	if (typeof diag === "string") {

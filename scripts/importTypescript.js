@@ -101,25 +101,19 @@ export = ts;
 })();
 
 function importLibs() {
-	function getFileName(name) {
-		return name
-	}
-	function getVariableName(name) {
-		return name.replace(/\./g, '_') + "_dts"
-	}
 	function readLibFile(name) {
 		var srcPath = path.join(TYPESCRIPT_LIB_SOURCE, name);
 		return fs.readFileSync(srcPath).toString();
 	}
 
-	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."))
+	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter(f => f.includes("lib."));
 
 	var result = [];
 	while (dtsFiles.length > 0) {
 		var name = dtsFiles.shift();
 		var output = readLibFile(name);
 		result.push({
-			name: getVariableName(name),
+			name: name.replace(/\./g, '_') + "_dts",
 			filepath: name,
 			deps: [],
 			output: '"' + escapeText(output) + '"'

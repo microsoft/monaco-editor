@@ -130,7 +130,9 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 				// Note: This also looks in _extraLibs, If you want
 				// to add support for additional target options, you will need to
 				// add the extra dts files to _extraLibs via the API.
-				if (eslib in libFileMap || eslib in this._extraLibs) return eslib
+				if (eslib in libFileMap || eslib in this._extraLibs) {
+					return eslib;
+				}
 
 				return "lib.es6.d.ts"; // We don't use lib.es2015.full.d.ts due to breaking change.
 			case 1:
