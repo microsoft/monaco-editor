@@ -55,18 +55,20 @@ function setupMode(defaults: LanguageServiceDefaultsImpl, modeId: string): (...u
 		return client.getLanguageServiceWorker(...uris);
 	};
 
+	const libFiles = new languageFeatures.LibFiles(worker);
+
 	monaco.languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker));
 	monaco.languages.registerSignatureHelpProvider(modeId, new languageFeatures.SignatureHelpAdapter(worker));
 	monaco.languages.registerHoverProvider(modeId, new languageFeatures.QuickInfoAdapter(worker));
 	monaco.languages.registerDocumentHighlightProvider(modeId, new languageFeatures.OccurrencesAdapter(worker));
-	monaco.languages.registerDefinitionProvider(modeId, new languageFeatures.DefinitionAdapter(worker));
-	monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(worker));
+	monaco.languages.registerDefinitionProvider(modeId, new languageFeatures.DefinitionAdapter(libFiles, worker));
+	monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(libFiles, worker));
 	monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker));
 	monaco.languages.registerDocumentRangeFormattingEditProvider(modeId, new languageFeatures.FormatAdapter(worker));
 	monaco.languages.registerOnTypeFormattingEditProvider(modeId, new languageFeatures.FormatOnTypeAdapter(worker));
 	monaco.languages.registerCodeActionProvider(modeId, new languageFeatures.CodeActionAdaptor(worker));
 	monaco.languages.registerRenameProvider(modeId, new languageFeatures.RenameAdapter(worker));
-	new languageFeatures.DiagnosticsAdapter(defaults, modeId, worker);
+	new languageFeatures.DiagnosticsAdapter(libFiles, defaults, modeId, worker);
 
 	return worker;
 }
