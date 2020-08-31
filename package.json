@@ -20,6 +20,7 @@
     "url": "https://github.com/Microsoft/monaco-typescript/issues"
   },
   "devDependencies": {
+    "@typescript/vfs": "^1.2.0",
     "monaco-editor-core": "^0.20.0",
     "monaco-languages": "^1.10.0",
     "monaco-plugin-helpers": "^1.0.2",

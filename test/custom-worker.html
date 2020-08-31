@@ -20,6 +20,7 @@
 <div id="container" style="width:800px;height:600px;border:1px solid grey"></div>
 <h3>Custom webworker</h3>
 <button id="logDTS">Log DTS</button>
+<button id="getAST">Print AST to console</button>
 
 <script>
 	var paths = {
@@ -181,35 +182,41 @@
 		'vs/language/typescript/monaco.contribution'
 	], () => {
 
-    monaco.languages.typescript.typescriptDefaults.setWorkerOptions({ customWorkerPath: "http://localhost:5000/test/custom-worker.js" })
-    monaco.languages.typescript.typescriptDefaults.setCompilerOptions({ target: 99, jsx: 1, allowNonTsExtensions: true, declaration: true })
+	monaco.languages.typescript.typescriptDefaults.setWorkerOptions({ customWorkerPath: "http://localhost:5000/test/custom-worker.js" })
+	monaco.languages.typescript.typescriptDefaults.setCompilerOptions({ target: 99, jsx: 1, allowNonTsExtensions: true, declaration: true, noLibCheck: true })
 
-		var editor = monaco.editor.create(document.getElementById('container'), {
-			value: localStorage.getItem("code") || getDefaultCode(),
-			language: 'typescript',
-      lightbulb: { enabled: true }
-    });
-
-
-
-		editor.onDidChangeModelContent(() => {
-			const code = editor.getModel().getValue()
-			localStorage.setItem("code", code)
-		});
-
-		document.getElementById('resetBtn').onclick = () => {
-      editor.setValue(getDefaultCode());
-    };
-
-    document.getElementById('logDTS').onclick = async () => {
-      const model = editor.getModel()
-      const worker = await monaco.languages.typescript.getTypeScriptWorker()
-      const thisWorker = await worker(model.uri)
-      const dts = await thisWorker.getDTSEmitForFile(model.uri.toString())
-      console.log(dts)
-		};
-
+	var editor = monaco.editor.create(document.getElementById('container'), {
+		value: localStorage.getItem("code") || getDefaultCode(),
+		language: 'typescript',
+		lightbulb: { enabled: true }
 	});
+
+	editor.onDidChangeModelContent(() => {
+		const code = editor.getModel().getValue()
+		localStorage.setItem("code", code)
+	});
+
+	document.getElementById('resetBtn').onclick = () => {
+		editor.setValue(getDefaultCode());
+	};
+
+	document.getElementById('logDTS').onclick = async () => {
+		const model = editor.getModel()
+		const worker = await monaco.languages.typescript.getTypeScriptWorker()
+		const thisWorker = await worker(model.uri)
+		const dts = await thisWorker.getDTSEmitForFile(model.uri.toString())
+		console.log(dts)
+	};
+
+	document.getElementById('getAST').onclick = async () => {
+		const model = editor.getModel()
+		const worker = await monaco.languages.typescript.getTypeScriptWorker()
+		const thisWorker = await worker(model.uri)
+		const ast = await thisWorker.printAST(model.uri.toString())
+		console.log(ast)
+	};
+
+});
 </script>
 </body>
 </html>

@@ -10,6 +10,7 @@ import { IExtraLibs } from './monaco.contribution';
 
 import IWorkerContext = monaco.worker.IWorkerContext;
 
+
 export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.languages.typescript.TypeScriptWorker {
 
 	// --- model sync -----------------------
@@ -36,7 +37,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
-	private _getModel(fileName: string): monaco.worker.IMirrorModel | null {
+	_getModel(fileName: string): monaco.worker.IMirrorModel | null {
 		let models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			if (models[i].uri.toString() === fileName) {
@@ -271,7 +272,7 @@ export function create(ctx: IWorkerContext, createData: ICreateData): TypeScript
 				throw new Error(`The script at ${createData.customWorkerPath} does not add customTSWorkerFactory to self`)
 			}
 			// @ts-ignore - The throw validates this
-			TSWorkerClass = self.customTSWorkerFactory(TypeScriptWorker)
+			TSWorkerClass = self.customTSWorkerFactory(TypeScriptWorker, ts, libFileMap)
 		}
 	}
 
