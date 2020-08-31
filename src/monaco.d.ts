@@ -138,6 +138,7 @@ declare module monaco.languages.typescript {
     }
 
     export interface WorkerOptions {
+        /** A full HTTP path to a JavaScript file which adds a function `customTSWorkerFactory` to the self inside a web-worker */
         customWorkerPath?: string;
     }
 

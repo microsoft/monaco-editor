@@ -37,7 +37,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, monaco.language
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
-	_getModel(fileName: string): monaco.worker.IMirrorModel | null {
+	private _getModel(fileName: string): monaco.worker.IMirrorModel | null {
 		let models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			if (models[i].uri.toString() === fileName) {
@@ -257,22 +257,28 @@ export interface ICreateData {
 	customWorkerPath?: string
 }
 
+/** The shape of the factory */
+export interface CustomTSWebWorkerFactory {
+	(TSWorkerClass: typeof TypeScriptWorker, ts: typeof import("typescript"), libs: Record<string, string>): typeof TypeScriptWorker
+}
+
 export function create(ctx: IWorkerContext, createData: ICreateData): TypeScriptWorker {
 	let TSWorkerClass = TypeScriptWorker
 	if (createData.customWorkerPath) {
-
 		// @ts-ignore - This is available in a webworker
 		if (typeof importScripts === "undefined") {
 			console.warn("Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag")
 		} else {
 			// @ts-ignore - This is available in a webworker
 			importScripts(createData.customWorkerPath)
+
 			// @ts-ignore - This should come from the above eval
-			if (!self.customTSWorkerFactory) {
+			const workerFactoryFunc: CustomTSWebWorkerFactory | undefined = self.customTSWorkerFactory
+			if (!workerFactoryFunc) {
 				throw new Error(`The script at ${createData.customWorkerPath} does not add customTSWorkerFactory to self`)
 			}
-			// @ts-ignore - The throw validates this
-			TSWorkerClass = self.customTSWorkerFactory(TypeScriptWorker, ts, libFileMap)
+
+			TSWorkerClass = workerFactoryFunc(TypeScriptWorker, ts, libFileMap)
 		}
 	}
 
