@@ -5,12 +5,16 @@
 
 'use strict';
 
-import { conf as tsConf, language as tsLanguage } from '../typescript/typescript';
+import {
+	conf as tsConf,
+	language as tsLanguage
+} from '../typescript/typescript';
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 // Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+const _monaco: typeof monaco =
+	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
 
 export const conf: IRichLanguageConfiguration = tsConf;
 
@@ -20,13 +24,52 @@ export const language = <ILanguage>{
 	tokenPostfix: '.js',
 
 	keywords: [
-		'break', 'case', 'catch', 'class', 'continue', 'const',
-		'constructor', 'debugger', 'default', 'delete', 'do', 'else',
-		'export', 'extends', 'false', 'finally', 'for', 'from', 'function',
-		'get', 'if', 'import', 'in', 'instanceof', 'let', 'new', 'null',
-		'return', 'set', 'super', 'switch', 'symbol', 'this', 'throw', 'true',
-		'try', 'typeof', 'undefined', 'var', 'void', 'while', 'with', 'yield',
-		'async', 'await', 'of'
+		'break',
+		'case',
+		'catch',
+		'class',
+		'continue',
+		'const',
+		'constructor',
+		'debugger',
+		'default',
+		'delete',
+		'do',
+		'else',
+		'export',
+		'extends',
+		'false',
+		'finally',
+		'for',
+		'from',
+		'function',
+		'get',
+		'if',
+		'import',
+		'in',
+		'instanceof',
+		'let',
+		'new',
+		'null',
+		'return',
+		'set',
+		'super',
+		'switch',
+		'symbol',
+		'this',
+		'throw',
+		'true',
+		'try',
+		'typeof',
+		'undefined',
+		'var',
+		'void',
+		'while',
+		'with',
+		'yield',
+		'async',
+		'await',
+		'of'
 	],
 	typeKeywords: [],
 
@@ -39,5 +82,5 @@ export const language = <ILanguage>{
 	hexdigits: tsLanguage.hexdigits,
 	regexpctl: tsLanguage.regexpctl,
 	regexpesc: tsLanguage.regexpesc,
-	tokenizer: tsLanguage.tokenizer,
+	tokenizer: tsLanguage.tokenizer
 };

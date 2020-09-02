@@ -3,40 +3,40 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-"use strict";
+'use strict';
 
 import LanguageConfiguration = monaco.languages.LanguageConfiguration;
 import IMonarchLanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: LanguageConfiguration = {
 	comments: {
-		lineComment: "//",
-		blockComment: ["/*", "*/"]
+		lineComment: '//',
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
-		["{", "}"],
-		["[", "]"],
-		["(", ")"]
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
-		{ open: "'", close: "'", notIn: ["string", "comment"] },
-		{ open: '"', close: '"', notIn: ["string"] },
-		{ open: "`", close: "`", notIn: ["string", "comment"] },
-		{ open: "/**", close: " */", notIn: ["string"] }
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: "'", close: "'", notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string'] },
+		{ open: '`', close: '`', notIn: ['string', 'comment'] },
+		{ open: '/**', close: ' */', notIn: ['string'] }
 	],
 	surroundingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
 
-		{ open: "<", close: ">" },
+		{ open: '<', close: '>' },
 		{ open: "'", close: "'" },
-		{ open: "(", close: ")" },
+		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: "`", close: "`" }
+		{ open: '`', close: '`' }
 	],
 	folding: {
 		markers: {
@@ -47,114 +47,114 @@ export const conf: LanguageConfiguration = {
 };
 
 export const language = <IMonarchLanguage>{
-	defaultToken: "invalid",
-	tokenPostfix: ".dart",
+	defaultToken: 'invalid',
+	tokenPostfix: '.dart',
 
 	keywords: [
-		"abstract",
-		"dynamic",
-		"implements",
-		"show",
-		"as",
-		"else",
-		"import",
-		"static",
-		"assert",
-		"enum",
-		"in",
-		"super",
-		"async",
-		"export",
-		"interface",
-		"switch",
-		"await",
-		"extends",
-		"is",
-		"sync",
-		"break",
-		"external",
-		"library",
-		"this",
-		"case",
-		"factory",
-		"mixin",
-		"throw",
-		"catch",
-		"false",
-		"new",
-		"true",
-		"class",
-		"final",
-		"null",
-		"try",
-		"const",
-		"finally",
-		"on",
-		"typedef",
-		"continue",
-		"for",
-		"operator",
-		"var",
-		"covariant",
-		"Function",
-		"part",
-		"void",
-		"default",
-		"get",
-		"rethrow",
-		"while",
-		"deferred",
-		"hide",
-		"return",
-		"with",
-		"do",
-		"if",
-		"set",
-		"yield"
+		'abstract',
+		'dynamic',
+		'implements',
+		'show',
+		'as',
+		'else',
+		'import',
+		'static',
+		'assert',
+		'enum',
+		'in',
+		'super',
+		'async',
+		'export',
+		'interface',
+		'switch',
+		'await',
+		'extends',
+		'is',
+		'sync',
+		'break',
+		'external',
+		'library',
+		'this',
+		'case',
+		'factory',
+		'mixin',
+		'throw',
+		'catch',
+		'false',
+		'new',
+		'true',
+		'class',
+		'final',
+		'null',
+		'try',
+		'const',
+		'finally',
+		'on',
+		'typedef',
+		'continue',
+		'for',
+		'operator',
+		'var',
+		'covariant',
+		'Function',
+		'part',
+		'void',
+		'default',
+		'get',
+		'rethrow',
+		'while',
+		'deferred',
+		'hide',
+		'return',
+		'with',
+		'do',
+		'if',
+		'set',
+		'yield'
 	],
-	typeKeywords: ["int", "double", "String", "bool"],
+	typeKeywords: ['int', 'double', 'String', 'bool'],
 
 	operators: [
-		"+",
-		"-",
-		"*",
-		"/",
-		"~/",
-		"%",
-		"++",
-		"--",
-		"==",
-		"!=",
-		">",
-		"<",
-		">=",
-		"<=",
-		"=",
-		"-=",
-		"/=",
-		"%=",
-		">>=",
-		"^=",
-		"+=",
-		"*=",
-		"~/=",
-		"<<=",
-		"&=",
-		"!=",
-		"||",
-		"&&",
-		"&",
-		"|",
-		"^",
-		"~",
-		"<<",
-		">>",
-		"!",
-		">>>",
-		"??",
-		"?",
-		":",
-		"|="
+		'+',
+		'-',
+		'*',
+		'/',
+		'~/',
+		'%',
+		'++',
+		'--',
+		'==',
+		'!=',
+		'>',
+		'<',
+		'>=',
+		'<=',
+		'=',
+		'-=',
+		'/=',
+		'%=',
+		'>>=',
+		'^=',
+		'+=',
+		'*=',
+		'~/=',
+		'<<=',
+		'&=',
+		'!=',
+		'||',
+		'&&',
+		'&',
+		'|',
+		'^',
+		'~',
+		'<<',
+		'>>',
+		'!',
+		'>>>',
+		'??',
+		'?',
+		':',
+		'|='
 	],
 
 	// we include these common regular expressions
@@ -170,7 +170,7 @@ export const language = <IMonarchLanguage>{
 
 	// The main tokenizer for our languages
 	tokenizer: {
-		root: [[/[{}]/, "delimiter.bracket"], { include: "common" }],
+		root: [[/[{}]/, 'delimiter.bracket'], { include: 'common' }],
 
 		common: [
 			// identifiers and keywords
@@ -178,83 +178,80 @@ export const language = <IMonarchLanguage>{
 				/[a-z_$][\w$]*/,
 				{
 					cases: {
-						"@typeKeywords": "type.identifier",
-						"@keywords": "keyword",
-						"@default": "identifier"
+						'@typeKeywords': 'type.identifier',
+						'@keywords': 'keyword',
+						'@default': 'identifier'
 					}
 				}
 			],
-			[
-				/(?<![a-zA-Z0-9_$])([_$]*[A-Z][a-zA-Z0-9_$]*)/,
-				"type.identifier"
-			], // to show class names nicely
+			[/(?<![a-zA-Z0-9_$])([_$]*[A-Z][a-zA-Z0-9_$]*)/, 'type.identifier'], // to show class names nicely
 			// [/[A-Z][\w\$]*/, 'identifier'],
 
 			// whitespace
-			{ include: "@whitespace" },
+			{ include: '@whitespace' },
 
 			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
 			[
 				/\/(?=([^\\\/]|\\.)+\/([gimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
-				{ token: "regexp", bracket: "@open", next: "@regexp" }
+				{ token: 'regexp', bracket: '@open', next: '@regexp' }
 			],
 
 			// @ annotations.
-			[/@[a-zA-Z]+/, "annotation"],
+			[/@[a-zA-Z]+/, 'annotation'],
 			// variable
 
 			// delimiters and operators
-			[/[()\[\]]/, "@brackets"],
-			[/[<>](?!@symbols)/, "@brackets"],
-			[/!(?=([^=]|$))/, "delimiter"],
+			[/[()\[\]]/, '@brackets'],
+			[/[<>](?!@symbols)/, '@brackets'],
+			[/!(?=([^=]|$))/, 'delimiter'],
 			[
 				/@symbols/,
 				{
 					cases: {
-						"@operators": "delimiter",
-						"@default": ""
+						'@operators': 'delimiter',
+						'@default': ''
 					}
 				}
 			],
 
 			// numbers
-			[/(@digits)[eE]([\-+]?(@digits))?/, "number.float"],
-			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, "number.float"],
-			[/0[xX](@hexdigits)n?/, "number.hex"],
-			[/0[oO]?(@octaldigits)n?/, "number.octal"],
-			[/0[bB](@binarydigits)n?/, "number.binary"],
-			[/(@digits)n?/, "number"],
+			[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
+			[/0[xX](@hexdigits)n?/, 'number.hex'],
+			[/0[oO]?(@octaldigits)n?/, 'number.octal'],
+			[/0[bB](@binarydigits)n?/, 'number.binary'],
+			[/(@digits)n?/, 'number'],
 
 			// delimiter: after number because of .\d floats
-			[/[;,.]/, "delimiter"],
+			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, "string.invalid"], // non-teminated string
-			[/'([^'\\]|\\.)*$/, "string.invalid"], // non-teminated string
-			[/"/, "string", "@string_double"],
-			[/'/, "string", "@string_single"]
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/'([^'\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/"/, 'string', '@string_double'],
+			[/'/, 'string', '@string_single']
 
 			//   [/[a-zA-Z]+/, "variable"]
 		],
 
 		whitespace: [
-			[/[ \t\r\n]+/, ""],
-			[/\/\*\*(?!\/)/, "comment.doc", "@jsdoc"],
-			[/\/\*/, "comment", "@comment"],
-			[/\/\/\/.*$/, "comment.doc"],
-			[/\/\/.*$/, "comment"]
+			[/[ \t\r\n]+/, ''],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@jsdoc'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/\/.*$/, 'comment.doc'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
-			[/[^\/*]+/, "comment"],
-			[/\*\//, "comment", "@pop"],
-			[/[\/*]/, "comment"]
+			[/[^\/*]+/, 'comment'],
+			[/\*\//, 'comment', '@pop'],
+			[/[\/*]/, 'comment']
 		],
 
 		jsdoc: [
-			[/[^\/*]+/, "comment.doc"],
-			[/\*\//, "comment.doc", "@pop"],
-			[/[\/*]/, "comment.doc"]
+			[/[^\/*]+/, 'comment.doc'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
 		],
 
 		// We match regular expression quite precisely
@@ -262,65 +259,66 @@ export const language = <IMonarchLanguage>{
 			[
 				/(\{)(\d+(?:,\d*)?)(\})/,
 				[
-					"regexp.escape.control",
-					"regexp.escape.control",
-					"regexp.escape.control"
+					'regexp.escape.control',
+					'regexp.escape.control',
+					'regexp.escape.control'
 				]
 			],
 			[
 				/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
 				[
-					"regexp.escape.control",
-					{ token: "regexp.escape.control", next: "@regexrange" }
+					'regexp.escape.control',
+					{ token: 'regexp.escape.control', next: '@regexrange' }
 				]
 			],
 			[
 				/(\()(\?:|\?=|\?!)/,
-				["regexp.escape.control", "regexp.escape.control"]
+				['regexp.escape.control', 'regexp.escape.control']
 			],
-			[/[()]/, "regexp.escape.control"],
-			[/@regexpctl/, "regexp.escape.control"],
-			[/[^\\\/]/, "regexp"],
-			[/@regexpesc/, "regexp.escape"],
-			[/\\\./, "regexp.invalid"],
+			[/[()]/, 'regexp.escape.control'],
+			[/@regexpctl/, 'regexp.escape.control'],
+			[/[^\\\/]/, 'regexp'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/\\\./, 'regexp.invalid'],
 			[
 				/(\/)([gimsuy]*)/,
 				[
-					{ token: "regexp", bracket: "@close", next: "@pop" },
-					"keyword.other"
+					{ token: 'regexp', bracket: '@close', next: '@pop' },
+					'keyword.other'
 				]
 			]
 		],
 
 		regexrange: [
-			[/-/, "regexp.escape.control"],
-			[/\^/, "regexp.invalid"],
-			[/@regexpesc/, "regexp.escape"],
-			[/[^\]]/, "regexp"],
+			[/-/, 'regexp.escape.control'],
+			[/\^/, 'regexp.invalid'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/[^\]]/, 'regexp'],
 			[
 				/\]/,
 				{
-					token: "regexp.escape.control",
-					next: "@pop",
-					bracket: "@close"
+					token: 'regexp.escape.control',
+					next: '@pop',
+					bracket: '@close'
 				}
 			]
 		],
 
 		string_double: [
-			[/[^\\"\$]+/, "string"], [/[^\\"]+/, "string"],
-			[/@escapes/, "string.escape"],
-			[/\\./, "string.escape.invalid"],
-			[/"/, "string", "@pop"],
+			[/[^\\"\$]+/, 'string'],
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, 'string', '@pop'],
 			[/\$\w+/, 'identifier']
 		],
 
 		string_single: [
-			[/[^\\'\$]+/, "string"],
-			[/@escapes/, "string.escape"],
-			[/\\./, "string.escape.invalid"],
-			[/'/, "string", "@pop"],
+			[/[^\\'\$]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/'/, 'string', '@pop'],
 			[/\$\w+/, 'identifier']
-		],
+		]
 	}
 };

@@ -11,7 +11,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['(*', '*)'],
+		blockComment: ['(*', '*)']
 	},
 	brackets: [
 		['{', '}'],
@@ -49,7 +49,7 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '{', close: '}' },
 		{ open: '(', close: ')' },
 		{ open: '/*', close: '*/' },
-		{ open: '\'', close: '\'', notIn: ['string_sq'] },
+		{ open: "'", close: "'", notIn: ['string_sq'] },
 		{ open: '"', close: '"', notIn: ['string_dq'] },
 		{ open: 'var_input', close: 'end_var' },
 		{ open: 'var_output', close: 'end_var' },
@@ -82,7 +82,7 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" },
 		{ open: 'var', close: 'end_var' },
 		{ open: 'var_input', close: 'end_var' },
 		{ open: 'var_output', close: 'end_var' },
@@ -112,8 +112,8 @@ export const conf: IRichLanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*#pragma\\s+region\\b"),
-			end: new RegExp("^\\s*#pragma\\s+endregion\\b")
+			start: new RegExp('^\\s*#pragma\\s+region\\b'),
+			end: new RegExp('^\\s*#pragma\\s+endregion\\b')
 		}
 	}
 };
@@ -129,50 +129,222 @@ export const language = <ILanguage>{
 		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
-	keywords: ['if', 'end_if', 'elsif', 'else', 'case', 'of', 'to', '__try', '__catch', '__finally',
-		'do', 'with', 'by', 'while', 'repeat', 'end_while', 'end_repeat', 'end_case',
-		'for', 'end_for', 'task', 'retain', 'non_retain', 'constant', 'with', 'at',
-		'exit', 'return', 'interval', 'priority', 'address', 'port', 'on_channel',
-		'then', 'iec', 'file', 'uses', 'version', 'packagetype', 'displayname',
-		'copyright', 'summary', 'vendor', 'common_source', 'from','extends'],
+	keywords: [
+		'if',
+		'end_if',
+		'elsif',
+		'else',
+		'case',
+		'of',
+		'to',
+		'__try',
+		'__catch',
+		'__finally',
+		'do',
+		'with',
+		'by',
+		'while',
+		'repeat',
+		'end_while',
+		'end_repeat',
+		'end_case',
+		'for',
+		'end_for',
+		'task',
+		'retain',
+		'non_retain',
+		'constant',
+		'with',
+		'at',
+		'exit',
+		'return',
+		'interval',
+		'priority',
+		'address',
+		'port',
+		'on_channel',
+		'then',
+		'iec',
+		'file',
+		'uses',
+		'version',
+		'packagetype',
+		'displayname',
+		'copyright',
+		'summary',
+		'vendor',
+		'common_source',
+		'from',
+		'extends'
+	],
 
 	constant: ['false', 'true', 'null'],
 
 	defineKeywords: [
-		'var', 'var_input', 'var_output', 'var_in_out', 'var_temp', 'var_global',
-		'var_access', 'var_external', 'end_var',
+		'var',
+		'var_input',
+		'var_output',
+		'var_in_out',
+		'var_temp',
+		'var_global',
+		'var_access',
+		'var_external',
+		'end_var',
 
-		'type', 'end_type', 'struct', 'end_struct', 'program', 'end_program',
-		'function', 'end_function', 'function_block', 'end_function_block',
-		'interface', 'end_interface', 'method', 'end_method',
-		'property', 'end_property', 'namespace', 'end_namespace',
+		'type',
+		'end_type',
+		'struct',
+		'end_struct',
+		'program',
+		'end_program',
+		'function',
+		'end_function',
+		'function_block',
+		'end_function_block',
+		'interface',
+		'end_interface',
+		'method',
+		'end_method',
+		'property',
+		'end_property',
+		'namespace',
+		'end_namespace',
 
-		'configuration', 'end_configuration', 'tcp', 'end_tcp', 'resource',
-		'end_resource', 'channel', 'end_channel', 'library', 'end_library',
-		'folder', 'end_folder', 'binaries', 'end_binaries', 'includes',
-		'end_includes', 'sources', 'end_sources',
+		'configuration',
+		'end_configuration',
+		'tcp',
+		'end_tcp',
+		'resource',
+		'end_resource',
+		'channel',
+		'end_channel',
+		'library',
+		'end_library',
+		'folder',
+		'end_folder',
+		'binaries',
+		'end_binaries',
+		'includes',
+		'end_includes',
+		'sources',
+		'end_sources',
 
-		'action', 'end_action', 'step', 'initial_step', 'end_step', 'transaction', 'end_transaction'
+		'action',
+		'end_action',
+		'step',
+		'initial_step',
+		'end_step',
+		'transaction',
+		'end_transaction'
 	],
 
-	typeKeywords: ['int', 'sint', 'dint', 'lint', 'usint', 'uint', 'udint', 'ulint',
-		'real', 'lreal', 'time', 'date', 'time_of_day', 'date_and_time', 'string',
-		'bool', 'byte', 'word', 'dword', 'array', 'pointer', 'lword'],
-
-	operators: ['=', '>', '<', ':', ':=', '<=', '>=', '<>', '&', '+', '-', '*', '**',
-		'MOD', '^', 'or', 'and', 'not', 'xor', 'abs', 'acos', 'asin', 'atan', 'cos',
-		'exp', 'expt', 'ln', 'log', 'sin', 'sqrt', 'tan', 'sel', 'max', 'min', 'limit',
-		'mux', 'shl', 'shr', 'rol', 'ror', 'indexof', 'sizeof', 'adr', 'adrinst',
-		'bitadr', 'is_valid', 'ref', 'ref_to'],
-
-	builtinVariables: [
-
+	typeKeywords: [
+		'int',
+		'sint',
+		'dint',
+		'lint',
+		'usint',
+		'uint',
+		'udint',
+		'ulint',
+		'real',
+		'lreal',
+		'time',
+		'date',
+		'time_of_day',
+		'date_and_time',
+		'string',
+		'bool',
+		'byte',
+		'word',
+		'dword',
+		'array',
+		'pointer',
+		'lword'
 	],
 
-	builtinFunctions: ['sr', 'rs', 'tp', 'ton', 'tof', 'eq', 'ge', 'le', 'lt',
-		'ne', 'round', 'trunc', 'ctd', 'сtu', 'ctud', 'r_trig', 'f_trig',
-		'move', 'concat', 'delete', 'find', 'insert', 'left', 'len', 'replace',
-		'right', 'rtc'],
+	operators: [
+		'=',
+		'>',
+		'<',
+		':',
+		':=',
+		'<=',
+		'>=',
+		'<>',
+		'&',
+		'+',
+		'-',
+		'*',
+		'**',
+		'MOD',
+		'^',
+		'or',
+		'and',
+		'not',
+		'xor',
+		'abs',
+		'acos',
+		'asin',
+		'atan',
+		'cos',
+		'exp',
+		'expt',
+		'ln',
+		'log',
+		'sin',
+		'sqrt',
+		'tan',
+		'sel',
+		'max',
+		'min',
+		'limit',
+		'mux',
+		'shl',
+		'shr',
+		'rol',
+		'ror',
+		'indexof',
+		'sizeof',
+		'adr',
+		'adrinst',
+		'bitadr',
+		'is_valid',
+		'ref',
+		'ref_to'
+	],
+
+	builtinVariables: [],
+
+	builtinFunctions: [
+		'sr',
+		'rs',
+		'tp',
+		'ton',
+		'tof',
+		'eq',
+		'ge',
+		'le',
+		'lt',
+		'ne',
+		'round',
+		'trunc',
+		'ctd',
+		'сtu',
+		'ctud',
+		'r_trig',
+		'f_trig',
+		'move',
+		'concat',
+		'delete',
+		'find',
+		'insert',
+		'left',
+		'len',
+		'replace',
+		'right',
+		'rtc'
+	],
 
 	// we include these common regular expressions
 	symbols: /[=><!~?:&|+\-*\/\^%]+/,
@@ -205,26 +377,35 @@ export const language = <ILanguage>{
 			[/[.]/, { token: 'delimiter', next: '@params' }],
 
 			// identifiers and keywords
-			[/[a-zA-Z_]\w*/, {
-				cases: {
-					'@operators': 'operators',
-					'@keywords': 'keyword',
-					'@typeKeywords': 'type',
-					'@defineKeywords': 'variable',
-					'@constant': 'constant',
-					'@builtinVariables': 'predefined',
-					'@builtinFunctions': 'predefined',
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@operators': 'operators',
+						'@keywords': 'keyword',
+						'@typeKeywords': 'type',
+						'@defineKeywords': 'variable',
+						'@constant': 'constant',
+						'@builtinVariables': 'predefined',
+						'@builtinFunctions': 'predefined',
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			{ include: '@whitespace' },
 
 			[/[{}()\[\]]/, '@brackets'],
 
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-			[/"/, { token: 'string.quote', bracket: '@open', next: '@string_dq' }],
-			[/'/, { token: 'string.quote', bracket: '@open', next: '@string_sq' }],
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[
+				/"/,
+				{ token: 'string.quote', bracket: '@open', next: '@string_dq' }
+			],
+			[
+				/'/,
+				{ token: 'string.quote', bracket: '@open', next: '@string_sq' }
+			],
 
 			[/'[^\\']'/, 'string'],
 			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
@@ -236,21 +417,21 @@ export const language = <ILanguage>{
 		],
 		comment: [
 			[/[^\/*]+/, 'comment'],
-			[/\/\*/, 'comment', '@push'],    // nested comment
-			["\\*/", 'comment', '@pop'],
+			[/\/\*/, 'comment', '@push'], // nested comment
+			['\\*/', 'comment', '@pop'],
 			[/[\/*]/, 'comment']
 		],
 		comment2: [
 			[/[^\(*]+/, 'comment'],
-			[/\(\*/, 'comment', '@push'],    // nested comment
-			["\\*\\)", 'comment', '@pop'],
+			[/\(\*/, 'comment', '@push'], // nested comment
+			['\\*\\)', 'comment', '@pop'],
 			[/[\(*]/, 'comment']
 		],
 		whitespace: [
 			[/[ \t\r\n]+/, 'white'],
 			[/\/\/.*$/, 'comment'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\(\*/, 'comment', '@comment2'],
+			[/\(\*/, 'comment', '@comment2']
 		],
 		string_dq: [
 			[/[^\\"]+/, 'string'],

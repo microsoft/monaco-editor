@@ -11,7 +11,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
@@ -24,7 +24,7 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '`', close: '`', notIn: ['string'] },
 		{ open: '"', close: '"', notIn: ['string'] },
-		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
+		{ open: "'", close: "'", notIn: ['string', 'comment'] }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
@@ -32,12 +32,11 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '`', close: '`' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	]
 };
 
 export const language = <ILanguage>{
-
 	defaultToken: '',
 	tokenPostfix: '.go',
 
@@ -88,31 +87,76 @@ export const language = <ILanguage>{
 		'int',
 		'uintptr',
 		'string',
-		'nil',
+		'nil'
 	],
 
 	operators: [
-		'+', '-', '*', '/', '%', '&', '|', '^', '<<', '>>', '&^',
-		'+=', '-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>=', '&^=',
-		'&&', '||', '<-', '++', '--', '==', '<', '>', '=', '!', '!=', '<=', '>=', ':=', '...',
-		'(', ')', '', ']', '{', '}', ',', ';', '.', ':'
+		'+',
+		'-',
+		'*',
+		'/',
+		'%',
+		'&',
+		'|',
+		'^',
+		'<<',
+		'>>',
+		'&^',
+		'+=',
+		'-=',
+		'*=',
+		'/=',
+		'%=',
+		'&=',
+		'|=',
+		'^=',
+		'<<=',
+		'>>=',
+		'&^=',
+		'&&',
+		'||',
+		'<-',
+		'++',
+		'--',
+		'==',
+		'<',
+		'>',
+		'=',
+		'!',
+		'!=',
+		'<=',
+		'>=',
+		':=',
+		'...',
+		'(',
+		')',
+		'',
+		']',
+		'{',
+		'}',
+		',',
+		';',
+		'.',
+		':'
 	],
 
 	// we include these common regular expressions
 	symbols: /[=><!~?:&|+\-*\/\^%]+/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 
-
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_]\w*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -126,12 +170,15 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// numbers
 			[/\d*\d+[eE]([\-+]?\d+)?/, 'number.float'],
@@ -146,9 +193,9 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, 'string', '@string'],
-			[/`/, "string", "@rawstring"],
+			[/`/, 'string', '@rawstring'],
 
 			// characters
 			[/'[^\\']'/, 'string'],
@@ -160,7 +207,7 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@doccomment'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
@@ -187,8 +234,8 @@ export const language = <ILanguage>{
 		],
 
 		rawstring: [
-			[/[^\`]/, "string"],
-			[/`/, "string", "@pop"]
-		],
-	},
+			[/[^\`]/, 'string'],
+			[/`/, 'string', '@pop']
+		]
+	}
 };

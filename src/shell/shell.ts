@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 'use strict';
 
@@ -10,16 +10,20 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
-		lineComment: '#',
+		lineComment: '#'
 	},
-	brackets: [['{', '}'], ['[', ']'], ['(', ')']],
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
+	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
 		{ open: "'", close: "'" },
-		{ open: '`', close: '`' },
+		{ open: '`', close: '`' }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
@@ -27,8 +31,8 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
 		{ open: "'", close: "'" },
-		{ open: '`', close: '`' },
-	],
+		{ open: '`', close: '`' }
+	]
 };
 
 export const language = <ILanguage>{
@@ -39,7 +43,7 @@ export const language = <ILanguage>{
 	brackets: [
 		{ token: 'delimiter.bracket', open: '{', close: '}' },
 		{ token: 'delimiter.parenthesis', open: '(', close: ')' },
-		{ token: 'delimiter.square', open: '[', close: ']' },
+		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
 	keywords: [
@@ -61,7 +65,7 @@ export const language = <ILanguage>{
 		'set',
 		'unset',
 		'export',
-		'function',
+		'function'
 	],
 
 	builtins: [
@@ -130,7 +134,7 @@ export const language = <ILanguage>{
 		'who',
 		'write',
 		'yes',
-		'zsh',
+		'zsh'
 	],
 
 	// we include these common regular expressions
@@ -148,8 +152,8 @@ export const language = <ILanguage>{
 						'@keywords': 'keyword',
 						'@builtins': 'type.identifier',
 						'@default': ''
-					},
-				},
+					}
+				}
 			],
 
 			{ include: '@strings' },
@@ -164,19 +168,19 @@ export const language = <ILanguage>{
 
 			{ include: '@numbers' },
 
-			[/[,;]/, 'delimiter'],
+			[/[,;]/, 'delimiter']
 		],
 
 		whitespace: [
 			[/\s+/, 'white'],
 			[/(^#!.*$)/, 'metatag'],
-			[/(^#.*$)/, 'comment'],
+			[/(^#.*$)/, 'comment']
 		],
 
 		numbers: [
 			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
 			[/0[xX][0-9a-fA-F_]*[0-9a-fA-F]/, 'number.hex'],
-			[/\d+/, 'number'],
+			[/\d+/, 'number']
 		],
 
 		// Recognize strings, including those broken across lines
@@ -186,15 +190,24 @@ export const language = <ILanguage>{
 		],
 		stringBody: [
 			[/'/, 'string', '@popall'],
-			[/./, 'string'],
+			[/./, 'string']
 		],
 		dblStringBody: [
 			[/"/, 'string', '@popall'],
-			[/./, 'string'],
+			[/./, 'string']
 		],
 
 		heredoc: [
-			[/(<<[-<]?)(\s*)(['"`]?)([\w\-]+)(['"`]?)/, ['constants', 'white', 'string.heredoc.delimiter', 'string.heredoc', 'string.heredoc.delimiter']]
+			[
+				/(<<[-<]?)(\s*)(['"`]?)([\w\-]+)(['"`]?)/,
+				[
+					'constants',
+					'white',
+					'string.heredoc.delimiter',
+					'string.heredoc',
+					'string.heredoc.delimiter'
+				]
+			]
 		],
 
 		parameters: [
@@ -204,27 +217,27 @@ export const language = <ILanguage>{
 			[/\$'/, 'variable', '@parameterBodyQuote'],
 			[/\$"/, 'variable', '@parameterBodyDoubleQuote'],
 			[/\$\(/, 'variable', '@parameterBodyParen'],
-			[/\$\{/, 'variable', '@parameterBodyCurlyBrace'],
+			[/\$\{/, 'variable', '@parameterBodyCurlyBrace']
 		],
 		parameterBodyQuote: [
 			[/[^#:%*@\-!_']+/, 'variable'],
 			[/[#:%*@\-!_]/, 'delimiter'],
-			[/[']/, 'variable', '@pop'],
+			[/[']/, 'variable', '@pop']
 		],
 		parameterBodyDoubleQuote: [
 			[/[^#:%*@\-!_"]+/, 'variable'],
 			[/[#:%*@\-!_]/, 'delimiter'],
-			[/["]/, 'variable', '@pop'],
+			[/["]/, 'variable', '@pop']
 		],
 		parameterBodyParen: [
 			[/[^#:%*@\-!_)]+/, 'variable'],
 			[/[#:%*@\-!_]/, 'delimiter'],
-			[/[)]/, 'variable', '@pop'],
+			[/[)]/, 'variable', '@pop']
 		],
 		parameterBodyCurlyBrace: [
 			[/[^#:%*@\-!_}]+/, 'variable'],
 			[/[#:%*@\-!_]/, 'delimiter'],
-			[/[}]/, 'variable', '@pop'],
-		],
+			[/[}]/, 'variable', '@pop']
+		]
 	}
 };

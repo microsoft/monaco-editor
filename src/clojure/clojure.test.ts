@@ -5,7 +5,7 @@
 
 'use strict';
 
-import {ITestItem, testTokenization} from '../test/testRunner';
+import { ITestItem, testTokenization } from '../test/testRunner';
 
 const specialForms = [
 	'.',
@@ -21,12 +21,12 @@ const specialForms = [
 	'set!',
 	'throw',
 	'try',
-	'var',
+	'var'
 ];
 
 const coreSymbols = [
 	'*',
-	'*\'',
+	"*'",
 	'*1',
 	'*2',
 	'*3',
@@ -64,9 +64,9 @@ const coreSymbols = [
 	'*verbose-defrecords*',
 	'*warn-on-reflection*',
 	'+',
-	'+\'',
+	"+'",
 	'-',
-	'-\'',
+	"-'",
 	'->',
 	'->>',
 	'->ArrayChunk',
@@ -206,7 +206,7 @@ const coreSymbols = [
 	'create-struct',
 	'cycle',
 	'dec',
-	'dec\'',
+	"dec'",
 	'decimal?',
 	'declare',
 	'dedupe',
@@ -328,7 +328,7 @@ const coreSymbols = [
 	'import',
 	'in-ns',
 	'inc',
-	'inc\'',
+	"inc'",
 	'indexed?',
 	'init-proxy',
 	'inst-ms',
@@ -675,7 +675,7 @@ const coreSymbols = [
 	'with-redefs-fn',
 	'xml-seq',
 	'zero?',
-	'zipmap',
+	'zipmap'
 ];
 
 function createTestCases(specialForms: string[], type: string): ITestItem[] {
@@ -684,9 +684,7 @@ function createTestCases(specialForms: string[], type: string): ITestItem[] {
 	for (const specialForm of specialForms) {
 		testCases.push({
 			line: `${specialForm}`,
-			tokens: [
-				{startIndex: 0, type: `${type}.clj`},
-			],
+			tokens: [{ startIndex: 0, type: `${type}.clj` }]
 		});
 	}
 
@@ -707,68 +705,116 @@ testTokenization('clojure', [
 	createTestCases([':foo', '::bar', ':foo/bar', ':foo.bar/baz'], 'constant'),
 
 	// numbers
-	createTestCases([
-		'42', '+42', '-421',
-		'42N', '+42N', '-42N',
-		'0.42', '+0.42', '-0.42',
-		'42M', '+42M', '-42M',
-		'42.42M', '+42.42M', '-42.42M',
-		'1/42', '+1/42', '-1/42',
-		'0x42af', '+0x42af', '-0x42af',
-		'0x42AF', '+0x42AF', '-0x42AF',
-		'1e2', '1e+2', '1e-2',
-		'+1e2', '+1e+2', '+1e-2',
-		'-1e2', '-1e+2', '-1e-2',
-		'-1.0e2', '-0.1e+2', '-1.01e-2',
-		'1E2', '1E+2', '1E-2',
-		'+1E2', '+1E+2', '+1E-2',
-		'-1E2', '-1E+2', '-1E-2',
-		'-1.0E2', '-0.1E+2', '-1.01E-2',
-		'2r101010', '+2r101010', '-2r101010',
-		'2r101010', '+2r101010', '-2r101010',
-		'8r52', '+8r52', '-8r52',
-		'36rhello', '+36rhello', '-36rhello',
-		'36rz', '+36rz', '-36rz',
-		'36rZ', '+36rZ', '-36rZ',
-	], 'number'),
+	createTestCases(
+		[
+			'42',
+			'+42',
+			'-421',
+			'42N',
+			'+42N',
+			'-42N',
+			'0.42',
+			'+0.42',
+			'-0.42',
+			'42M',
+			'+42M',
+			'-42M',
+			'42.42M',
+			'+42.42M',
+			'-42.42M',
+			'1/42',
+			'+1/42',
+			'-1/42',
+			'0x42af',
+			'+0x42af',
+			'-0x42af',
+			'0x42AF',
+			'+0x42AF',
+			'-0x42AF',
+			'1e2',
+			'1e+2',
+			'1e-2',
+			'+1e2',
+			'+1e+2',
+			'+1e-2',
+			'-1e2',
+			'-1e+2',
+			'-1e-2',
+			'-1.0e2',
+			'-0.1e+2',
+			'-1.01e-2',
+			'1E2',
+			'1E+2',
+			'1E-2',
+			'+1E2',
+			'+1E+2',
+			'+1E-2',
+			'-1E2',
+			'-1E+2',
+			'-1E-2',
+			'-1.0E2',
+			'-0.1E+2',
+			'-1.01E-2',
+			'2r101010',
+			'+2r101010',
+			'-2r101010',
+			'2r101010',
+			'+2r101010',
+			'-2r101010',
+			'8r52',
+			'+8r52',
+			'-8r52',
+			'36rhello',
+			'+36rhello',
+			'-36rhello',
+			'36rz',
+			'+36rz',
+			'-36rz',
+			'36rZ',
+			'+36rZ',
+			'-36rZ'
+		],
+		'number'
+	),
 
 	// characters
-	createTestCases([
-		'\\1',
-		'\\a',
-		'\\#',
-		'\\\\',
-		'\\\"',
-		'\\(',
-		'\\A',
-		'\\backspace',
-		'\\formfeed',
-		'\\newline',
-		'\\space',
-		'\\return',
-		'\\tab',
-		'\\o123',
-		'\\u1000',
-		'\\uAaAa',
-		'\\u9F9F'
-	], 'string'),
+	createTestCases(
+		[
+			'\\1',
+			'\\a',
+			'\\#',
+			'\\\\',
+			'\\"',
+			'\\(',
+			'\\A',
+			'\\backspace',
+			'\\formfeed',
+			'\\newline',
+			'\\space',
+			'\\return',
+			'\\tab',
+			'\\o123',
+			'\\u1000',
+			'\\uAaAa',
+			'\\u9F9F'
+		],
+		'string'
+	),
 
 	// strings
 	[
 		{
 			line: '"I\'m a little teapot."',
-			tokens: [
-				{startIndex: 0, type: 'string.clj'},
-			]
+			tokens: [{ startIndex: 0, type: 'string.clj' }]
 		},
 		{
 			line: '"I\'m a \\"little\\" teapot."',
 			tokens: [
-				{startIndex: 0, type: 'string.clj'},
-				{startIndex: 7, type: 'string.escape.clj'},
-				{startIndex: 9, type: 'string.clj'},
-				{startIndex: 15, type: 'string.escape.clj'},
-				{startIndex: 17, type: 'string.clj'},
+				{ startIndex: 0, type: 'string.clj' },
+				{ startIndex: 7, type: 'string.escape.clj' },
+				{ startIndex: 9, type: 'string.clj' },
+				{ startIndex: 15, type: 'string.escape.clj' },
+				{ startIndex: 17, type: 'string.clj' }
 			]
 		}
 	],
@@ -777,142 +823,125 @@ testTokenization('clojure', [
 	[
 		{
 			line: '"I\'m',
-			tokens: [
-				{startIndex: 0, type: 'string.clj'},
-			]
+			tokens: [{ startIndex: 0, type: 'string.clj' }]
 		},
 		{
 			line: '\\"a little\\"',
 			tokens: [
-				{startIndex: 0, type: 'string.escape.clj'},
-				{startIndex: 2, type: 'string.clj'},
-				{startIndex: 10, type: 'string.escape.clj'},
+				{ startIndex: 0, type: 'string.escape.clj' },
+				{ startIndex: 2, type: 'string.clj' },
+				{ startIndex: 10, type: 'string.escape.clj' }
 			]
 		},
 		{
 			line: 'teapot."',
-			tokens: [
-				{startIndex: 0, type: 'string.clj'},
-			]
+			tokens: [{ startIndex: 0, type: 'string.clj' }]
 		}
 	],
 
 	// strings with other escapes in them (\" \' \\ \b \f \n \r \t)
-	[{
-		line: '"the escape \\" \\\' \\\\ \\b \\f \\n \\r \\t characters"',
-		tokens: [
-			{startIndex: 0, type: 'string.clj'},
-			{startIndex: 12, type: 'string.escape.clj'},
-			{startIndex: 14, type: 'string.clj'},
-			{startIndex: 15, type: 'string.escape.clj'},
-			{startIndex: 17, type: 'string.clj'},
-			{startIndex: 18, type: 'string.escape.clj'},
-			{startIndex: 20, type: 'string.clj'},
-			{startIndex: 21, type: 'string.escape.clj'},
-			{startIndex: 23, type: 'string.clj'},
-			{startIndex: 24, type: 'string.escape.clj'},
-			{startIndex: 26, type: 'string.clj'},
-			{startIndex: 27, type: 'string.escape.clj'},
-			{startIndex: 29, type: 'string.clj'},
-			{startIndex: 30, type: 'string.escape.clj'},
-			{startIndex: 32, type: 'string.clj'},
-			{startIndex: 33, type: 'string.escape.clj'},
-			{startIndex: 35, type: 'string.clj'},
-		]
-	}],
+	[
+		{
+			line: '"the escape \\" \\\' \\\\ \\b \\f \\n \\r \\t characters"',
+			tokens: [
+				{ startIndex: 0, type: 'string.clj' },
+				{ startIndex: 12, type: 'string.escape.clj' },
+				{ startIndex: 14, type: 'string.clj' },
+				{ startIndex: 15, type: 'string.escape.clj' },
+				{ startIndex: 17, type: 'string.clj' },
+				{ startIndex: 18, type: 'string.escape.clj' },
+				{ startIndex: 20, type: 'string.clj' },
+				{ startIndex: 21, type: 'string.escape.clj' },
+				{ startIndex: 23, type: 'string.clj' },
+				{ startIndex: 24, type: 'string.escape.clj' },
+				{ startIndex: 26, type: 'string.clj' },
+				{ startIndex: 27, type: 'string.escape.clj' },
+				{ startIndex: 29, type: 'string.clj' },
+				{ startIndex: 30, type: 'string.escape.clj' },
+				{ startIndex: 32, type: 'string.clj' },
+				{ startIndex: 33, type: 'string.escape.clj' },
+				{ startIndex: 35, type: 'string.clj' }
+			]
+		}
+	],
 
 	// comments
-	createTestCases([
-		'; this is an in-line comment.',
-		';; this is a line comment.',
-	], 'comment'),
+	createTestCases(
+		['; this is an in-line comment.', ';; this is a line comment.'],
+		'comment'
+	),
 
 	// `comment`
 	[
 		{
 			line: '(comment)',
-			tokens: [
-				{startIndex: 0, type: 'comment.clj'},
-			],
+			tokens: [{ startIndex: 0, type: 'comment.clj' }]
 		},
 		{
 			line: 'foo :bar 42',
 			tokens: [
-				{startIndex: 0, type: 'identifier.clj'},
-				{startIndex: 3, type: 'white.clj'},
-				{startIndex: 4, type: 'constant.clj'},
-				{startIndex: 8, type: 'white.clj'},
-				{startIndex: 9, type: 'number.clj'},
-			],
+				{ startIndex: 0, type: 'identifier.clj' },
+				{ startIndex: 3, type: 'white.clj' },
+				{ startIndex: 4, type: 'constant.clj' },
+				{ startIndex: 8, type: 'white.clj' },
+				{ startIndex: 9, type: 'number.clj' }
+			]
 		},
 		{
 			line: '(comment (foo [bar :baz 1 "qux"]))',
-			tokens: [
-				{startIndex: 0, type: 'comment.clj'},
-			],
+			tokens: [{ startIndex: 0, type: 'comment.clj' }]
 		},
 		{
 			line: '(comments foo bar)',
 			tokens: [
-				{startIndex: 0, type: 'delimiter.parenthesis.clj'},
-				{startIndex: 1, type: 'identifier.clj'},
-				{startIndex: 9, type: 'white.clj'},
-				{startIndex: 10, type: 'identifier.clj'},
-				{startIndex: 13, type: 'white.clj'},
-				{startIndex: 14, type: 'identifier.clj'},
-				{startIndex: 17, type: 'delimiter.parenthesis.clj'},
+				{ startIndex: 0, type: 'delimiter.parenthesis.clj' },
+				{ startIndex: 1, type: 'identifier.clj' },
+				{ startIndex: 9, type: 'white.clj' },
+				{ startIndex: 10, type: 'identifier.clj' },
+				{ startIndex: 13, type: 'white.clj' },
+				{ startIndex: 14, type: 'identifier.clj' },
+				{ startIndex: 17, type: 'delimiter.parenthesis.clj' }
 			]
 		},
 		{
 			line: '(comment6 foo bar)',
 			tokens: [
-				{startIndex: 0, type: 'delimiter.parenthesis.clj'},
-				{startIndex: 1, type: 'identifier.clj'},
-				{startIndex: 9, type: 'white.clj'},
-				{startIndex: 10, type: 'identifier.clj'},
-				{startIndex: 13, type: 'white.clj'},
-				{startIndex: 14, type: 'identifier.clj'},
-				{startIndex: 17, type: 'delimiter.parenthesis.clj'},
+				{ startIndex: 0, type: 'delimiter.parenthesis.clj' },
+				{ startIndex: 1, type: 'identifier.clj' },
+				{ startIndex: 9, type: 'white.clj' },
+				{ startIndex: 10, type: 'identifier.clj' },
+				{ startIndex: 13, type: 'white.clj' },
+				{ startIndex: 14, type: 'identifier.clj' },
+				{ startIndex: 17, type: 'delimiter.parenthesis.clj' }
 			]
 		},
 		{
 			line: '(comment foo',
-			tokens: [
-				{startIndex: 0, type: 'comment.clj'},
-			],
+			tokens: [{ startIndex: 0, type: 'comment.clj' }]
 		},
 		{
 			line: 'foo',
-			tokens: [
-				{startIndex: 0, type: 'comment.clj'},
-			],
-		},
+			tokens: [{ startIndex: 0, type: 'comment.clj' }]
+		}
 	],
 
 	// reader macro characters
-	createTestCases([
-		'#',
-		'@',
-		'^',
-		'`',
-		'~',
-		"'",
-	], 'meta'),
+	createTestCases(['#', '@', '^', '`', '~', "'"], 'meta'),
 
 	// treat comma as whitespace
 	[
 		{
 			line: ', foo, :bar, "one", 2, ',
 			tokens: [
-				{startIndex: 0, type: 'white.clj'},
-				{startIndex: 2, type: 'identifier.clj'},
-				{startIndex: 5, type: 'white.clj'},
-				{startIndex: 7, type: 'constant.clj'},
-				{startIndex: 11, type: 'white.clj'},
-				{startIndex: 13, type: 'string.clj'},
-				{startIndex: 18, type: 'white.clj'},
-				{startIndex: 20, type: 'number.clj'},
-				{startIndex: 21, type: 'white.clj'}
+				{ startIndex: 0, type: 'white.clj' },
+				{ startIndex: 2, type: 'identifier.clj' },
+				{ startIndex: 5, type: 'white.clj' },
+				{ startIndex: 7, type: 'constant.clj' },
+				{ startIndex: 11, type: 'white.clj' },
+				{ startIndex: 13, type: 'string.clj' },
+				{ startIndex: 18, type: 'white.clj' },
+				{ startIndex: 20, type: 'number.clj' },
+				{ startIndex: 21, type: 'white.clj' }
 			]
 		}
 	]

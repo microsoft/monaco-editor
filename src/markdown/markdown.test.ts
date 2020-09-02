@@ -8,37 +8,42 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('markdown', [
+	[
+		{
+			line: '# Some header',
+			tokens: [{ startIndex: 0, type: 'keyword.md' }]
+		}
+	],
 
-	[{
-		line: '# Some header',
-		tokens: [
-			{ startIndex: 0, type: 'keyword.md' }
-		]
-	}],
+	[
+		{
+			line: '* Some list item',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.md' },
+				{ startIndex: 2, type: '' }
+			]
+		}
+	],
 
-	[{
-		line: '* Some list item',
-		tokens: [
-			{ startIndex: 0, type: 'keyword.md' },
-			{ startIndex: 2, type: '' }
-		]
-	}],
+	[
+		{
+			line: 'some `code`',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 5, type: 'variable.md' }
+			]
+		}
+	],
 
-	[{
-		line: 'some `code`',
-		tokens: [
-			{ startIndex: 0, type: '' },
-			{ startIndex: 5, type: 'variable.md' }
-		]
-	}],
-
-	[{
-		line: 'some ![link](http://link.com)',
-		tokens: [
-			{ startIndex: 0, type: '' },
-			{ startIndex: 5, type: 'string.link.md' },
-			{ startIndex: 7, type: '' },
-			{ startIndex: 11, type: 'string.link.md' }
-		]
-	}]
+	[
+		{
+			line: 'some ![link](http://link.com)',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 5, type: 'string.link.md' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 11, type: 'string.link.md' }
+			]
+		}
+	]
 ]);

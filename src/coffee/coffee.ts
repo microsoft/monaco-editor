@@ -24,19 +24,19 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*#region\\b"),
-			end: new RegExp("^\\s*#endregion\\b")
+			start: new RegExp('^\\s*#region\\b'),
+			end: new RegExp('^\\s*#endregion\\b')
 		}
 	}
 };
@@ -55,13 +55,50 @@ export const language = <ILanguage>{
 	regEx: /\/(?!\/\/)(?:[^\/\\]|\\.)*\/[igm]*/,
 
 	keywords: [
-		'and', 'or', 'is', 'isnt', 'not', 'on', 'yes', '@', 'no', 'off',
-		'true', 'false', 'null', 'this',
-		'new', 'delete', 'typeof', 'in', 'instanceof',
-		'return', 'throw', 'break', 'continue', 'debugger',
-		'if', 'else', 'switch', 'for', 'while', 'do', 'try', 'catch', 'finally',
-		'class', 'extends', 'super',
-		'undefined', 'then', 'unless', 'until', 'loop', 'of', 'by', 'when'
+		'and',
+		'or',
+		'is',
+		'isnt',
+		'not',
+		'on',
+		'yes',
+		'@',
+		'no',
+		'off',
+		'true',
+		'false',
+		'null',
+		'this',
+		'new',
+		'delete',
+		'typeof',
+		'in',
+		'instanceof',
+		'return',
+		'throw',
+		'break',
+		'continue',
+		'debugger',
+		'if',
+		'else',
+		'switch',
+		'for',
+		'while',
+		'do',
+		'try',
+		'catch',
+		'finally',
+		'class',
+		'extends',
+		'super',
+		'undefined',
+		'then',
+		'unless',
+		'until',
+		'loop',
+		'of',
+		'by',
+		'when'
 	],
 
 	// we include these common regular expressions
@@ -71,16 +108,18 @@ export const language = <ILanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-
 			// identifiers and keywords
 			[/\@[a-zA-Z_]\w*/, 'variable.predefined'],
-			[/[a-zA-Z_]\w*/, {
-				cases: {
-					'this': 'variable.predefined',
-					'@keywords': { token: 'keyword.$0' },
-					'@default': ''
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						this: 'variable.predefined',
+						'@keywords': { token: 'keyword.$0' },
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			[/[ \t\r\n]+/, ''],
@@ -105,14 +144,19 @@ export const language = <ILanguage>{
 			[/(\{)(\s*)(@regEx)/, ['@brackets', '', 'regexp']],
 			[/(\;)(\s*)(@regEx)/, ['', '', 'regexp']],
 
-
 			// delimiters
-			[/}/, {
-				cases: {
-					'$S2==interpolatedstring': { token: 'string', next: '@pop' },
-					'@default': '@brackets'
+			[
+				/}/,
+				{
+					cases: {
+						'$S2==interpolatedstring': {
+							token: 'string',
+							next: '@pop'
+						},
+						'@default': '@brackets'
+					}
 				}
-			}],
+			],
 			[/[{}()\[\]]/, '@brackets'],
 			[/@symbols/, 'delimiter'],
 
@@ -128,19 +172,25 @@ export const language = <ILanguage>{
 
 			// strings:
 			[/"""/, 'string', '@herestring."""'],
-			[/'''/, 'string', '@herestring.\'\'\''],
-			[/"/, {
-				cases: {
-					'@eos': 'string',
-					'@default': { token: 'string', next: '@string."' }
+			[/'''/, 'string', "@herestring.'''"],
+			[
+				/"/,
+				{
+					cases: {
+						'@eos': 'string',
+						'@default': { token: 'string', next: '@string."' }
+					}
 				}
-			}],
-			[/'/, {
-				cases: {
-					'@eos': 'string',
-					'@default': { token: 'string', next: '@string.\'' }
+			],
+			[
+				/'/,
+				{
+					cases: {
+						'@eos': 'string',
+						'@default': { token: 'string', next: "@string.'" }
+					}
 				}
-			}],
+			]
 		],
 
 		string: [
@@ -149,29 +199,41 @@ export const language = <ILanguage>{
 			[/\./, 'string.escape.invalid'],
 			[/\./, 'string.escape.invalid'],
 
-			[/#{/, {
-				cases: {
-					'$S2=="': { token: 'string', next: 'root.interpolatedstring' },
-					'@default': 'string'
+			[
+				/#{/,
+				{
+					cases: {
+						'$S2=="': {
+							token: 'string',
+							next: 'root.interpolatedstring'
+						},
+						'@default': 'string'
+					}
 				}
-			}],
+			],
 
-			[/["']/, {
-				cases: {
-					'$#==$S2': { token: 'string', next: '@pop' },
-					'@default': 'string'
+			[
+				/["']/,
+				{
+					cases: {
+						'$#==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
 				}
-			}],
+			],
 			[/#/, 'string']
 		],
 
 		herestring: [
-			[/("""|''')/, {
-				cases: {
-					'$1==$S2': { token: 'string', next: '@pop' },
-					'@default': 'string'
+			[
+				/("""|''')/,
+				{
+					cases: {
+						'$1==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
 				}
-			}],
+			],
 			[/[^#\\'"]+/, 'string'],
 			[/['"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
@@ -182,9 +244,9 @@ export const language = <ILanguage>{
 		],
 
 		comment: [
-			[/[^#]+/, 'comment',],
+			[/[^#]+/, 'comment'],
 			[/###/, 'comment', '@pop'],
-			[/#/, 'comment'],
+			[/#/, 'comment']
 		],
 
 		hereregexp: [
@@ -192,7 +254,7 @@ export const language = <ILanguage>{
 			[/\\./, 'regexp'],
 			[/#.*$/, 'comment'],
 			['///[igm]*', { token: 'regexp', next: '@pop' }],
-			[/\//, 'regexp'],
-		],
-	},
+			[/\//, 'regexp']
+		]
+	}
 };

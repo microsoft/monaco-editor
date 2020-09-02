@@ -10,20 +10,18 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
-		blockComment: ['<!--', '-->'],
+		blockComment: ['<!--', '-->']
 	},
-	brackets: [
-		['<', '>']
-	],
+	brackets: [['<', '>']],
 	autoClosingPairs: [
 		{ open: '<', close: '>' },
-		{ open: '\'', close: '\'' },
-		{ open: '"', close: '"' },
+		{ open: "'", close: "'" },
+		{ open: '"', close: '"' }
 	],
 	surroundingPairs: [
 		{ open: '<', close: '>' },
-		{ open: '\'', close: '\'' },
-		{ open: '"', close: '"' },
+		{ open: "'", close: "'" },
+		{ open: '"', close: '"' }
 	]
 };
 
@@ -43,31 +41,38 @@ export const language = <ILanguage>{
 			{ include: '@whitespace' },
 
 			// Standard opening tag
-			[/(<)(@qualifiedName)/, [
-				{ token: 'delimiter' },
-				{ token: 'tag', next: '@tag' }]],
+			[
+				/(<)(@qualifiedName)/,
+				[{ token: 'delimiter' }, { token: 'tag', next: '@tag' }]
+			],
 
 			// Standard closing tag
-			[/(<\/)(@qualifiedName)(\s*)(>)/, [
-				{ token: 'delimiter' },
-				{ token: 'tag' },
-				'',
-				{ token: 'delimiter' }]],
+			[
+				/(<\/)(@qualifiedName)(\s*)(>)/,
+				[
+					{ token: 'delimiter' },
+					{ token: 'tag' },
+					'',
+					{ token: 'delimiter' }
+				]
+			],
 
 			// Meta tags - instruction
-			[/(<\?)(@qualifiedName)/, [
-				{ token: 'delimiter' },
-				{ token: 'metatag', next: '@tag' }]],
+			[
+				/(<\?)(@qualifiedName)/,
+				[{ token: 'delimiter' }, { token: 'metatag', next: '@tag' }]
+			],
 
 			// Meta tags - declaration
-			[/(<\!)(@qualifiedName)/, [
-				{ token: 'delimiter' },
-				{ token: 'metatag', next: '@tag' }]],
+			[
+				/(<\!)(@qualifiedName)/,
+				[{ token: 'delimiter' }, { token: 'metatag', next: '@tag' }]
+			],
 
 			// CDATA
 			[/<\!\[CDATA\[/, { token: 'delimiter.cdata', next: '@cdata' }],
 
-			[/&\w+;/, 'string.escape'],
+			[/&\w+;/, 'string.escape']
 		],
 
 		cdata: [
@@ -78,15 +83,25 @@ export const language = <ILanguage>{
 
 		tag: [
 			[/[ \t\r\n]+/, ''],
-			[/(@qualifiedName)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name', '', 'attribute.value']],
-			[/(@qualifiedName)(\s*=\s*)("[^">?\/]*|'[^'>?\/]*)(?=[\?\/]\>)/, ['attribute.name', '', 'attribute.value']],
-			[/(@qualifiedName)(\s*=\s*)("[^">]*|'[^'>]*)/, ['attribute.name', '', 'attribute.value']],
+			[
+				/(@qualifiedName)(\s*=\s*)("[^"]*"|'[^']*')/,
+				['attribute.name', '', 'attribute.value']
+			],
+			[
+				/(@qualifiedName)(\s*=\s*)("[^">?\/]*|'[^'>?\/]*)(?=[\?\/]\>)/,
+				['attribute.name', '', 'attribute.value']
+			],
+			[
+				/(@qualifiedName)(\s*=\s*)("[^">]*|'[^'>]*)/,
+				['attribute.name', '', 'attribute.value']
+			],
 			[/@qualifiedName/, 'attribute.name'],
 			[/\?>/, { token: 'delimiter', next: '@pop' }],
-			[/(\/)(>)/, [
-				{ token: 'tag' },
-				{ token: 'delimiter', next: '@pop' }]],
-			[/>/, { token: 'delimiter', next: '@pop' }],
+			[
+				/(\/)(>)/,
+				[{ token: 'tag' }, { token: 'delimiter', next: '@pop' }]
+			],
+			[/>/, { token: 'delimiter', next: '@pop' }]
 		],
 
 		whitespace: [
@@ -99,6 +114,6 @@ export const language = <ILanguage>{
 			[/-->/, { token: 'comment', next: '@pop' }],
 			[/<!--/, 'comment.content.invalid'],
 			[/[<\-]/, 'comment.content']
-		],
-	},
+		]
+	}
 };

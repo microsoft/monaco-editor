@@ -11,7 +11,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['(*', '*)'],
+		blockComment: ['(*', '*)']
 	},
 	brackets: [
 		['{', '}'],
@@ -29,12 +29,16 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' }
+		{ open: "'", close: "'" }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*//\\s*#region\\b|^\\s*\\(\\*\\s*#region(.*)\\*\\)"),
-			end: new RegExp("^\\s*//\\s*#endregion\\b|^\\s*\\(\\*\\s*#endregion\\s*\\*\\)")
+			start: new RegExp(
+				'^\\s*//\\s*#region\\b|^\\s*\\(\\*\\s*#region(.*)\\*\\)'
+			),
+			end: new RegExp(
+				'^\\s*//\\s*#endregion\\b|^\\s*\\(\\*\\s*#endregion\\s*\\*\\)'
+			)
 		}
 	}
 };
@@ -44,29 +48,103 @@ export const language = <ILanguage>{
 	tokenPostfix: '.fs',
 
 	keywords: [
-		'abstract', 'and', 'atomic', 'as',
-		'assert', 'asr', 'base', 'begin',
-		'break', 'checked', 'component',
-		'const', 'constraint', 'constructor',
-		'continue', 'class', 'default',
-		'delegate', 'do', 'done', 'downcast',
-		'downto', 'elif', 'else', 'end',
-		'exception', 'eager', 'event', 'external',
-		'extern', 'false', 'finally', 'for',
-		'fun', 'function', 'fixed', 'functor',
-		'global', 'if', 'in', 'include', 'inherit',
-		'inline', 'interface', 'internal', 'land',
-		'lor', 'lsl', 'lsr', 'lxor', 'lazy', 'let',
-		'match', 'member', 'mod', 'module', 'mutable',
-		'namespace', 'method', 'mixin', 'new', 'not',
-		'null', 'of', 'open', 'or', 'object',
-		'override', 'private', 'parallel', 'process',
-		'protected', 'pure', 'public', 'rec', 'return',
-		'static', 'sealed', 'struct', 'sig', 'then',
-		'to', 'true', 'tailcall', 'trait',
-		'try', 'type', 'upcast', 'use',
-		'val', 'void', 'virtual', 'volatile',
-		'when', 'while', 'with', 'yield'
+		'abstract',
+		'and',
+		'atomic',
+		'as',
+		'assert',
+		'asr',
+		'base',
+		'begin',
+		'break',
+		'checked',
+		'component',
+		'const',
+		'constraint',
+		'constructor',
+		'continue',
+		'class',
+		'default',
+		'delegate',
+		'do',
+		'done',
+		'downcast',
+		'downto',
+		'elif',
+		'else',
+		'end',
+		'exception',
+		'eager',
+		'event',
+		'external',
+		'extern',
+		'false',
+		'finally',
+		'for',
+		'fun',
+		'function',
+		'fixed',
+		'functor',
+		'global',
+		'if',
+		'in',
+		'include',
+		'inherit',
+		'inline',
+		'interface',
+		'internal',
+		'land',
+		'lor',
+		'lsl',
+		'lsr',
+		'lxor',
+		'lazy',
+		'let',
+		'match',
+		'member',
+		'mod',
+		'module',
+		'mutable',
+		'namespace',
+		'method',
+		'mixin',
+		'new',
+		'not',
+		'null',
+		'of',
+		'open',
+		'or',
+		'object',
+		'override',
+		'private',
+		'parallel',
+		'process',
+		'protected',
+		'pure',
+		'public',
+		'rec',
+		'return',
+		'static',
+		'sealed',
+		'struct',
+		'sig',
+		'then',
+		'to',
+		'true',
+		'tailcall',
+		'trait',
+		'try',
+		'type',
+		'upcast',
+		'use',
+		'val',
+		'void',
+		'virtual',
+		'volatile',
+		'when',
+		'while',
+		'with',
+		'yield'
 	],
 
 	// we include these common regular expressions
@@ -79,12 +157,15 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_]\w*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -112,7 +193,7 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"""/, 'string', '@string."""'],
 			[/"/, 'string', '@string."'],
 
@@ -128,7 +209,7 @@ export const language = <ILanguage>{
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
 			[/\(\*(?!\))/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
@@ -143,18 +224,21 @@ export const language = <ILanguage>{
 			[/[^\\"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
-			[/("""|"B?)/, {
-				cases: {
-					'$#==$S2': { token: 'string', next: '@pop' },
-					'@default': 'string'
+			[
+				/("""|"B?)/,
+				{
+					cases: {
+						'$#==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
 				}
-			}]
+			]
 		],
 
 		litstring: [
 			[/[^"]+/, 'string'],
 			[/""/, 'string.escape'],
 			[/"/, { token: 'string.quote', next: '@pop' }]
-		],
-	},
+		]
+	}
 };

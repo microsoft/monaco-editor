@@ -1,32 +1,41 @@
 {
-  "name": "monaco-languages",
-  "version": "1.10.0",
-  "description": "Bundle of many languages for the Monaco Editor.",
-  "scripts": {
-    "compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
-    "watch": "tsc -p ./src --watch",
-    "watch-esm": "tsc -p ./src/tsconfig.esm.json --watch",
-    "test": "tape -r ./test/all.js",
-    "prepublishOnly": "npm run compile && node ./scripts/bundle"
-  },
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Microsoft/monaco-languages"
-  },
-  "bugs": {
-    "url": "https://github.com/Microsoft/monaco-languages/issues"
-  },
-  "devDependencies": {
-    "@types/tape": "^4.2.34",
-    "glob": "^7.1.6",
-    "jsdom": "^16.4.0",
-    "monaco-editor-core": "0.20.0",
-    "monaco-plugin-helpers": "^1.0.2",
-    "requirejs": "^2.3.6",
-    "tape": "^4.13.2",
-    "terser": "^4.6.6",
-    "typescript": "3.7.5"
-  }
+	"name": "monaco-languages",
+	"version": "1.10.0",
+	"description": "Bundle of many languages for the Monaco Editor.",
+	"scripts": {
+		"compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+		"watch": "tsc -p ./src --watch",
+		"watch-esm": "tsc -p ./src/tsconfig.esm.json --watch",
+		"test": "tape -r ./test/all.js",
+		"prepublishOnly": "npm run compile && node ./scripts/bundle",
+		"prettier": "prettier --write ."
+	},
+	"author": "Microsoft Corporation",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/monaco-languages"
+	},
+	"bugs": {
+		"url": "https://github.com/Microsoft/monaco-languages/issues"
+	},
+	"devDependencies": {
+		"@types/tape": "^4.2.34",
+		"glob": "^7.1.6",
+		"husky": "^4.2.5",
+		"jsdom": "^16.4.0",
+		"monaco-editor-core": "0.20.0",
+		"monaco-plugin-helpers": "^1.0.2",
+		"prettier": "^2.1.1",
+		"pretty-quick": "^3.0.0",
+		"requirejs": "^2.3.6",
+		"tape": "^4.13.2",
+		"terser": "^4.6.6",
+		"typescript": "3.7.5"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pretty-quick --staged"
+		}
+	}
 }

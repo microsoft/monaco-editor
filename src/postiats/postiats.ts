@@ -13,14 +13,19 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['(*', '*)'],
+		blockComment: ['(*', '*)']
 	},
-	brackets: [['{', '}'], ['[', ']'], ['(', ')'], ['<', '>']],
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')'],
+		['<', '>']
+	],
 	autoClosingPairs: [
 		{ open: '"', close: '"', notIn: ['string', 'comment'] },
 		{ open: '{', close: '}', notIn: ['string', 'comment'] },
 		{ open: '[', close: ']', notIn: ['string', 'comment'] },
-		{ open: '(', close: ')', notIn: ['string', 'comment'] },
+		{ open: '(', close: ')', notIn: ['string', 'comment'] }
 	]
 };
 
@@ -38,78 +43,78 @@ export const language = <ILanguage>{
 
 	keywords: [
 		//
-		"abstype", // ABSTYPE
-		"abst0ype", // ABST0YPE
-		"absprop", // ABSPROP
-		"absview", // ABSVIEW
-		"absvtype", // ABSVIEWTYPE
-		"absviewtype", // ABSVIEWTYPE
-		"absvt0ype", // ABSVIEWT0YPE
-		"absviewt0ype", // ABSVIEWT0YPE
+		'abstype', // ABSTYPE
+		'abst0ype', // ABST0YPE
+		'absprop', // ABSPROP
+		'absview', // ABSVIEW
+		'absvtype', // ABSVIEWTYPE
+		'absviewtype', // ABSVIEWTYPE
+		'absvt0ype', // ABSVIEWT0YPE
+		'absviewt0ype', // ABSVIEWT0YPE
 		//
-		"as", // T_AS
+		'as', // T_AS
 		//
-		"and", // T_AND
+		'and', // T_AND
 		//
-		"assume", // T_ASSUME
+		'assume', // T_ASSUME
 		//
-		"begin", // T_BEGIN
+		'begin', // T_BEGIN
 		//
 		/*
 				"case", // CASE
 		*/
 		//
-		"classdec", // T_CLASSDEC
+		'classdec', // T_CLASSDEC
 		//
-		"datasort", // T_DATASORT
+		'datasort', // T_DATASORT
 		//
-		"datatype", // DATATYPE
-		"dataprop", // DATAPROP
-		"dataview", // DATAVIEW
-		"datavtype", // DATAVIEWTYPE
-		"dataviewtype", // DATAVIEWTYPE
+		'datatype', // DATATYPE
+		'dataprop', // DATAPROP
+		'dataview', // DATAVIEW
+		'datavtype', // DATAVIEWTYPE
+		'dataviewtype', // DATAVIEWTYPE
 		//
-		"do", // T_DO
+		'do', // T_DO
 		//
-		"end", // T_END
+		'end', // T_END
 		//
-		"extern", // T_EXTERN
-		"extype", // T_EXTYPE
-		"extvar", // T_EXTVAR
+		'extern', // T_EXTERN
+		'extype', // T_EXTYPE
+		'extvar', // T_EXTVAR
 		//
-		"exception", // T_EXCEPTION
+		'exception', // T_EXCEPTION
 		//
-		"fn", // FN // non-recursive
-		"fnx", // FNX // mutual tail-rec.
-		"fun", // FUN // general-recursive
+		'fn', // FN // non-recursive
+		'fnx', // FNX // mutual tail-rec.
+		'fun', // FUN // general-recursive
 		//
-		"prfn", // PRFN
-		"prfun", // PRFUN
+		'prfn', // PRFN
+		'prfun', // PRFUN
 		//
-		"praxi", // PRAXI
-		"castfn", // CASTFN
+		'praxi', // PRAXI
+		'castfn', // CASTFN
 		//
-		"if", // T_IF
-		"then", // T_THEN
-		"else", // T_ELSE
+		'if', // T_IF
+		'then', // T_THEN
+		'else', // T_ELSE
 		//
-		"ifcase", // T_IFCASE
+		'ifcase', // T_IFCASE
 		//
-		"in", // T_IN
+		'in', // T_IN
 		//
-		"infix", // INFIX
-		"infixl", // INFIXL
-		"infixr", // INFIXR
-		"prefix", // PREFIX
-		"postfix", // POSTFIX
+		'infix', // INFIX
+		'infixl', // INFIXL
+		'infixr', // INFIXR
+		'prefix', // PREFIX
+		'postfix', // POSTFIX
 		//
-		"implmnt", // IMPLMNT // 0
-		"implement", // IMPLEMENT // 1
+		'implmnt', // IMPLMNT // 0
+		'implement', // IMPLEMENT // 1
 		//
-		"primplmnt", // PRIMPLMNT // ~1
-		"primplement", // PRIMPLMNT // ~1
+		'primplmnt', // PRIMPLMNT // ~1
+		'primplement', // PRIMPLMNT // ~1
 		//
-		"import", // T_IMPORT // for importing packages
+		'import', // T_IMPORT // for importing packages
 		//
 		/*
 				"lam", // LAM
@@ -117,242 +122,242 @@ export const language = <ILanguage>{
 				"fix", // FIX
 		*/
 		//
-		"let", // T_LET
+		'let', // T_LET
 		//
-		"local", // T_LOCAL
+		'local', // T_LOCAL
 		//
-		"macdef", // MACDEF
-		"macrodef", // MACRODEF
+		'macdef', // MACDEF
+		'macrodef', // MACRODEF
 		//
-		"nonfix", // T_NONFIX
+		'nonfix', // T_NONFIX
 		//
-		"symelim", // T_SYMELIM
-		"symintr", // T_SYMINTR
-		"overload", // T_OVERLOAD
+		'symelim', // T_SYMELIM
+		'symintr', // T_SYMINTR
+		'overload', // T_OVERLOAD
 		//
-		"of", // T_OF
-		"op", // T_OP
+		'of', // T_OF
+		'op', // T_OP
 		//
-		"rec", // T_REC
+		'rec', // T_REC
 		//
-		"sif", // T_SIF
-		"scase", // T_SCASE
+		'sif', // T_SIF
+		'scase', // T_SCASE
 		//
-		"sortdef", // T_SORTDEF
+		'sortdef', // T_SORTDEF
 		/*
 		// HX: [sta] is now deprecated
 		*/
-		"sta", // T_STACST
-		"stacst", // T_STACST
-		"stadef", // T_STADEF
-		"static", // T_STATIC
+		'sta', // T_STACST
+		'stacst', // T_STACST
+		'stadef', // T_STADEF
+		'static', // T_STATIC
 		/*
 				"stavar", // T_STAVAR
 		*/
 		//
-		"staload", // T_STALOAD
-		"dynload", // T_DYNLOAD
+		'staload', // T_STALOAD
+		'dynload', // T_DYNLOAD
 		//
-		"try", // T_TRY
+		'try', // T_TRY
 		//
-		"tkindef", // T_TKINDEF // HX-2012-05-23
+		'tkindef', // T_TKINDEF // HX-2012-05-23
 		//
 		/*
 				"type", // TYPE
 		*/
-		"typedef", // TYPEDEF
-		"propdef", // PROPDEF
-		"viewdef", // VIEWDEF
-		"vtypedef", // VIEWTYPEDEF
-		"viewtypedef", // VIEWTYPEDEF
+		'typedef', // TYPEDEF
+		'propdef', // PROPDEF
+		'viewdef', // VIEWDEF
+		'vtypedef', // VIEWTYPEDEF
+		'viewtypedef', // VIEWTYPEDEF
 		//
 		/*
 				"val", // VAL
 		*/
-		"prval", // PRVAL
+		'prval', // PRVAL
 		//
-		"var", // VAR
-		"prvar", // PRVAR
+		'var', // VAR
+		'prvar', // PRVAR
 		//
-		"when", // T_WHEN
-		"where", // T_WHERE
+		'when', // T_WHEN
+		'where', // T_WHERE
 		//
 		/*
 				"for", // T_FOR
 				"while", // T_WHILE
 		*/
 		//
-		"with", // T_WITH
+		'with', // T_WITH
 		//
-		"withtype", // WITHTYPE
-		"withprop", // WITHPROP
-		"withview", // WITHVIEW
-		"withvtype", // WITHVIEWTYPE
-		"withviewtype", // WITHVIEWTYPE
+		'withtype', // WITHTYPE
+		'withprop', // WITHPROP
+		'withview', // WITHVIEW
+		'withvtype', // WITHVIEWTYPE
+		'withviewtype' // WITHVIEWTYPE
 		//
 	],
 	keywords_dlr: [
-		"$delay", // DLRDELAY
-		"$ldelay", // DLRLDELAY
+		'$delay', // DLRDELAY
+		'$ldelay', // DLRLDELAY
 		//
-		"$arrpsz", // T_DLRARRPSZ
-		"$arrptrsize", // T_DLRARRPSZ
+		'$arrpsz', // T_DLRARRPSZ
+		'$arrptrsize', // T_DLRARRPSZ
 		//
-		"$d2ctype", // T_DLRD2CTYPE
+		'$d2ctype', // T_DLRD2CTYPE
 		//
-		"$effmask", // DLREFFMASK
-		"$effmask_ntm", // DLREFFMASK_NTM
-		"$effmask_exn", // DLREFFMASK_EXN
-		"$effmask_ref", // DLREFFMASK_REF
-		"$effmask_wrt", // DLREFFMASK_WRT
-		"$effmask_all", // DLREFFMASK_ALL
+		'$effmask', // DLREFFMASK
+		'$effmask_ntm', // DLREFFMASK_NTM
+		'$effmask_exn', // DLREFFMASK_EXN
+		'$effmask_ref', // DLREFFMASK_REF
+		'$effmask_wrt', // DLREFFMASK_WRT
+		'$effmask_all', // DLREFFMASK_ALL
 		//
-		"$extern", // T_DLREXTERN
-		"$extkind", // T_DLREXTKIND
-		"$extype", // T_DLREXTYPE
-		"$extype_struct", // T_DLREXTYPE_STRUCT
+		'$extern', // T_DLREXTERN
+		'$extkind', // T_DLREXTKIND
+		'$extype', // T_DLREXTYPE
+		'$extype_struct', // T_DLREXTYPE_STRUCT
 		//
-		"$extval", // T_DLREXTVAL
-		"$extfcall", // T_DLREXTFCALL
-		"$extmcall", // T_DLREXTMCALL
+		'$extval', // T_DLREXTVAL
+		'$extfcall', // T_DLREXTFCALL
+		'$extmcall', // T_DLREXTMCALL
 		//
-		"$literal", // T_DLRLITERAL
+		'$literal', // T_DLRLITERAL
 		//
-		"$myfilename", // T_DLRMYFILENAME
-		"$mylocation", // T_DLRMYLOCATION
-		"$myfunction", // T_DLRMYFUNCTION
+		'$myfilename', // T_DLRMYFILENAME
+		'$mylocation', // T_DLRMYLOCATION
+		'$myfunction', // T_DLRMYFUNCTION
 		//
-		"$lst", // DLRLST
-		"$lst_t", // DLRLST_T
-		"$lst_vt", // DLRLST_VT
-		"$list", // DLRLST
-		"$list_t", // DLRLST_T
-		"$list_vt", // DLRLST_VT
+		'$lst', // DLRLST
+		'$lst_t', // DLRLST_T
+		'$lst_vt', // DLRLST_VT
+		'$list', // DLRLST
+		'$list_t', // DLRLST_T
+		'$list_vt', // DLRLST_VT
 		//
-		"$rec", // DLRREC
-		"$rec_t", // DLRREC_T
-		"$rec_vt", // DLRREC_VT
-		"$record", // DLRREC
-		"$record_t", // DLRREC_T
-		"$record_vt", // DLRREC_VT
+		'$rec', // DLRREC
+		'$rec_t', // DLRREC_T
+		'$rec_vt', // DLRREC_VT
+		'$record', // DLRREC
+		'$record_t', // DLRREC_T
+		'$record_vt', // DLRREC_VT
 		//
-		"$tup", // DLRTUP
-		"$tup_t", // DLRTUP_T
-		"$tup_vt", // DLRTUP_VT
-		"$tuple", // DLRTUP
-		"$tuple_t", // DLRTUP_T
-		"$tuple_vt", // DLRTUP_VT
+		'$tup', // DLRTUP
+		'$tup_t', // DLRTUP_T
+		'$tup_vt', // DLRTUP_VT
+		'$tuple', // DLRTUP
+		'$tuple_t', // DLRTUP_T
+		'$tuple_vt', // DLRTUP_VT
 		//
-		"$break", // T_DLRBREAK
-		"$continue", // T_DLRCONTINUE
+		'$break', // T_DLRBREAK
+		'$continue', // T_DLRCONTINUE
 		//
-		"$raise", // T_DLRRAISE
+		'$raise', // T_DLRRAISE
 		//
-		"$showtype", // T_DLRSHOWTYPE
+		'$showtype', // T_DLRSHOWTYPE
 		//
-		"$vcopyenv_v", // DLRVCOPYENV_V
-		"$vcopyenv_vt", // DLRVCOPYENV_VT
+		'$vcopyenv_v', // DLRVCOPYENV_V
+		'$vcopyenv_vt', // DLRVCOPYENV_VT
 		//
-		"$tempenver", // T_DLRTEMPENVER
+		'$tempenver', // T_DLRTEMPENVER
 		//
-		"$solver_assert", // T_DLRSOLASSERT
-		"$solver_verify", // T_DLRSOLVERIFY
+		'$solver_assert', // T_DLRSOLASSERT
+		'$solver_verify' // T_DLRSOLVERIFY
 	],
 	keywords_srp: [
 		//
-		"#if", // T_SRPIF
-		"#ifdef", // T_SRPIFDEF
-		"#ifndef", // T_SRPIFNDEF
+		'#if', // T_SRPIF
+		'#ifdef', // T_SRPIFDEF
+		'#ifndef', // T_SRPIFNDEF
 		//
-		"#then", // T_SRPTHEN
+		'#then', // T_SRPTHEN
 		//
-		"#elif", // T_SRPELIF
-		"#elifdef", // T_SRPELIFDEF
-		"#elifndef", // T_SRPELIFNDEF
+		'#elif', // T_SRPELIF
+		'#elifdef', // T_SRPELIFDEF
+		'#elifndef', // T_SRPELIFNDEF
 		//
-		"#else", // T_SRPELSE
-		"#endif", // T_SRPENDIF
+		'#else', // T_SRPELSE
+		'#endif', // T_SRPENDIF
 		//
-		"#error", // T_SRPERROR
+		'#error', // T_SRPERROR
 		//
-		"#prerr", // T_SRPPRERR // outpui to stderr
-		"#print", // T_SRPPRINT // output to stdout
+		'#prerr', // T_SRPPRERR // outpui to stderr
+		'#print', // T_SRPPRINT // output to stdout
 		//
-		"#assert", // T_SRPASSERT
+		'#assert', // T_SRPASSERT
 		//
-		"#undef", // T_SRPUNDEF
-		"#define", // T_SRPDEFINE
+		'#undef', // T_SRPUNDEF
+		'#define', // T_SRPDEFINE
 		//
-		"#include", // T_SRPINCLUDE
-		"#require", // T_SRPREQUIRE
+		'#include', // T_SRPINCLUDE
+		'#require', // T_SRPREQUIRE
 		//
-		"#pragma", // T_SRPPRAGMA // HX: general pragma
-		"#codegen2", // T_SRPCODEGEN2 // for level-2 codegen
-		"#codegen3", // T_SRPCODEGEN3 // for level-3 codegen
+		'#pragma', // T_SRPPRAGMA // HX: general pragma
+		'#codegen2', // T_SRPCODEGEN2 // for level-2 codegen
+		'#codegen3' // T_SRPCODEGEN3 // for level-3 codegen
 		//
 		// HX: end of special tokens
 		//
 	],
 
 	irregular_keyword_list: [
-		"val+",
-		"val-",
-		"val",
-		"case+",
-		"case-",
-		"case",
-		"addr@",
-		"addr",
-		"fold@",
-		"free@",
-		"fix@",
-		"fix",
-		"lam@",
-		"lam",
-		"llam@",
-		"llam",
-		"viewt@ype+",
-		"viewt@ype-",
-		"viewt@ype",
-		"viewtype+",
-		"viewtype-",
-		"viewtype",
-		"view+",
-		"view-",
-		"view@",
-		"view",
-		"type+",
-		"type-",
-		"type",
-		"vtype+",
-		"vtype-",
-		"vtype",
-		"vt@ype+",
-		"vt@ype-",
-		"vt@ype",
-		"viewt@ype+",
-		"viewt@ype-",
-		"viewt@ype",
-		"viewtype+",
-		"viewtype-",
-		"viewtype",
-		"prop+",
-		"prop-",
-		"prop",
-		"type+",
-		"type-",
-		"type",
-		"t@ype",
-		"t@ype+",
-		"t@ype-",
-		"abst@ype",
-		"abstype",
-		"absviewt@ype",
-		"absvt@ype",
-		"for*",
-		"for",
-		"while*",
-		"while"
+		'val+',
+		'val-',
+		'val',
+		'case+',
+		'case-',
+		'case',
+		'addr@',
+		'addr',
+		'fold@',
+		'free@',
+		'fix@',
+		'fix',
+		'lam@',
+		'lam',
+		'llam@',
+		'llam',
+		'viewt@ype+',
+		'viewt@ype-',
+		'viewt@ype',
+		'viewtype+',
+		'viewtype-',
+		'viewtype',
+		'view+',
+		'view-',
+		'view@',
+		'view',
+		'type+',
+		'type-',
+		'type',
+		'vtype+',
+		'vtype-',
+		'vtype',
+		'vt@ype+',
+		'vt@ype-',
+		'vt@ype',
+		'viewt@ype+',
+		'viewt@ype-',
+		'viewt@ype',
+		'viewtype+',
+		'viewtype-',
+		'viewtype',
+		'prop+',
+		'prop-',
+		'prop',
+		'type+',
+		'type-',
+		'type',
+		't@ype',
+		't@ype+',
+		't@ype-',
+		'abst@ype',
+		'abstype',
+		'absviewt@ype',
+		'absvt@ype',
+		'for*',
+		'for',
+		'while*',
+		'while'
 	],
 
 	keywords_types: [
@@ -372,53 +377,53 @@ export const language = <ILanguage>{
 
 	// TODO: reference for this?
 	keywords_effects: [
-		"0",  // no effects
-		"fun",
-		"clo",
-		"prf",
-		"funclo",
-		"cloptr",
-		"cloref",
-		"ref",
-		"ntm",
-		"1" // all effects
+		'0', // no effects
+		'fun',
+		'clo',
+		'prf',
+		'funclo',
+		'cloptr',
+		'cloref',
+		'ref',
+		'ntm',
+		'1' // all effects
 	],
 
 	operators: [
-		"@", // T_AT
-		"!", // T_BANG
-		"|", // T_BAR
-		"`", // T_BQUOTE
-		":", // T_COLON
-		"$", // T_DOLLAR
-		".", // T_DOT
-		"=", // T_EQ
-		"#", // T_HASH
-		"~", // T_TILDE
+		'@', // T_AT
+		'!', // T_BANG
+		'|', // T_BAR
+		'`', // T_BQUOTE
+		':', // T_COLON
+		'$', // T_DOLLAR
+		'.', // T_DOT
+		'=', // T_EQ
+		'#', // T_HASH
+		'~', // T_TILDE
 		//
-		"..", // T_DOTDOT
-		"...", // T_DOTDOTDOT
+		'..', // T_DOTDOT
+		'...', // T_DOTDOTDOT
 		//
-		"=>", // T_EQGT
+		'=>', // T_EQGT
 		// "=<", // T_EQLT
-		"=<>", // T_EQLTGT
-		"=/=>", // T_EQSLASHEQGT
-		"=>>", // T_EQGTGT
-		"=/=>>", // T_EQSLASHEQGTGT
+		'=<>', // T_EQLTGT
+		'=/=>', // T_EQSLASHEQGT
+		'=>>', // T_EQGTGT
+		'=/=>>', // T_EQSLASHEQGTGT
 		//
-		"<", // T_LT // opening a tmparg
-		">", // T_GT // closing a tmparg
+		'<', // T_LT // opening a tmparg
+		'>', // T_GT // closing a tmparg
 		//
-		"><", // T_GTLT
+		'><', // T_GTLT
 		//
-		".<", // T_DOTLT
-		">.", // T_GTDOT
+		'.<', // T_DOTLT
+		'>.', // T_GTDOT
 		//
-		".<>.", // T_DOTLTGTDOT
+		'.<>.', // T_DOTLTGTDOT
 		//
-		"->", // T_MINUSGT
+		'->', // T_MINUSGT
 		//"-<", // T_MINUSLT
-		"-<>", // T_MINUSLTGT
+		'-<>' // T_MINUSLTGT
 		//
 		/*
 				":<", // T_COLONLT
@@ -429,8 +434,8 @@ export const language = <ILanguage>{
 		{ open: ',(', close: ')', token: 'delimiter.parenthesis' }, // meta-programming syntax
 		{ open: '`(', close: ')', token: 'delimiter.parenthesis' },
 		{ open: '%(', close: ')', token: 'delimiter.parenthesis' },
-		{ open: '\'(', close: ')', token: 'delimiter.parenthesis' },
-		{ open: '\'{', close: '}', token: 'delimiter.parenthesis' },
+		{ open: "'(", close: ')', token: 'delimiter.parenthesis' },
+		{ open: "'{", close: '}', token: 'delimiter.parenthesis' },
 		{ open: '@(', close: ')', token: 'delimiter.parenthesis' },
 		{ open: '@{', close: '}', token: 'delimiter.brace' },
 		{ open: '@[', close: ']', token: 'delimiter.square' },
@@ -471,27 +476,63 @@ export const language = <ILanguage>{
 
 			// NOTE: (*) is an invalid ML-like comment!
 			{ regex: /\(\*\)/, action: { token: 'invalid' } },
-			{ regex: /\(\*/, action: { token: 'comment', next: 'lexing_COMMENT_block_ml' } },
-			{ regex: /\(/, action: '@brackets'/*{ token: 'delimiter.parenthesis' }*/ },
-			{ regex: /\)/, action: '@brackets'/*{ token: 'delimiter.parenthesis' }*/ },
-			{ regex: /\[/, action: '@brackets'/*{ token: 'delimiter.bracket' }*/ },
-			{ regex: /\]/, action: '@brackets'/*{ token: 'delimiter.bracket' }*/ },
-			{ regex: /\{/, action: '@brackets'/*{ token: 'delimiter.brace' }*/ },
-			{ regex: /\}/, action: '@brackets'/*{ token: 'delimiter.brace' }*/ },
+			{
+				regex: /\(\*/,
+				action: { token: 'comment', next: 'lexing_COMMENT_block_ml' }
+			},
+			{
+				regex: /\(/,
+				action: '@brackets' /*{ token: 'delimiter.parenthesis' }*/
+			},
+			{
+				regex: /\)/,
+				action: '@brackets' /*{ token: 'delimiter.parenthesis' }*/
+			},
+			{
+				regex: /\[/,
+				action: '@brackets' /*{ token: 'delimiter.bracket' }*/
+			},
+			{
+				regex: /\]/,
+				action: '@brackets' /*{ token: 'delimiter.bracket' }*/
+			},
+			{
+				regex: /\{/,
+				action: '@brackets' /*{ token: 'delimiter.brace' }*/
+			},
+			{
+				regex: /\}/,
+				action: '@brackets' /*{ token: 'delimiter.brace' }*/
+			},
 
 			// lexing_COMMA
-			{ regex: /,\(/, action: '@brackets'/*{ token: 'delimiter.parenthesis' }*/ }, // meta-programming syntax
+			{
+				regex: /,\(/,
+				action: '@brackets' /*{ token: 'delimiter.parenthesis' }*/
+			}, // meta-programming syntax
 			{ regex: /,/, action: { token: 'delimiter.comma' } },
 
 			{ regex: /;/, action: { token: 'delimiter.semicolon' } },
 
 			// lexing_AT
-			{ regex: /@\(/, action: '@brackets'/* { token: 'delimiter.parenthesis' }*/ },
-			{ regex: /@\[/, action: '@brackets'/* { token: 'delimiter.bracket' }*/ },
-			{ regex: /@\{/, action: '@brackets'/*{ token: 'delimiter.brace' }*/ },
+			{
+				regex: /@\(/,
+				action: '@brackets' /* { token: 'delimiter.parenthesis' }*/
+			},
+			{
+				regex: /@\[/,
+				action: '@brackets' /* { token: 'delimiter.bracket' }*/
+			},
+			{
+				regex: /@\{/,
+				action: '@brackets' /*{ token: 'delimiter.brace' }*/
+			},
 
 			// lexing_COLON
-			{ regex: /:</, action: { token: 'keyword', next: '@lexing_EFFECT_commaseq0' } }, // T_COLONLT
+			{
+				regex: /:</,
+				action: { token: 'keyword', next: '@lexing_EFFECT_commaseq0' }
+			}, // T_COLONLT
 
 			/*
 			lexing_DOT:
@@ -502,7 +543,10 @@ export const language = <ILanguage>{
 			*/
 			{ regex: /\.@symbolic+/, action: { token: 'identifier.sym' } },
 			// FLOATDOT case
-			{ regex: /\.@digit*@fexponent@FLOATSP*/, action: { token: 'number.float' } },
+			{
+				regex: /\.@digit*@fexponent@FLOATSP*/,
+				action: { token: 'number.float' }
+			},
 			{ regex: /\.@digit+/, action: { token: 'number.float' } }, // T_DOTINT
 
 			// lexing_DOLLAR:
@@ -512,7 +556,7 @@ export const language = <ILanguage>{
 				action: {
 					cases: {
 						'@keywords_dlr': { token: 'keyword.dlr' },
-						'@default': { token: 'namespace' }, // most likely a module qualifier
+						'@default': { token: 'namespace' } // most likely a module qualifier
 					}
 				}
 			},
@@ -523,28 +567,41 @@ export const language = <ILanguage>{
 				action: {
 					cases: {
 						'@keywords_srp': { token: 'keyword.srp' },
-						'@default': { token: 'identifier' },
+						'@default': { token: 'identifier' }
 					}
 				}
 			},
 
 			// lexing_PERCENT:
 			{ regex: /%\(/, action: { token: 'delimiter.parenthesis' } },
-			{ regex: /^%{(#|\^|\$)?/, action: { token: 'keyword', next: '@lexing_EXTCODE', nextEmbedded: 'text/javascript' } },
+			{
+				regex: /^%{(#|\^|\$)?/,
+				action: {
+					token: 'keyword',
+					next: '@lexing_EXTCODE',
+					nextEmbedded: 'text/javascript'
+				}
+			},
 			{ regex: /^%}/, action: { token: 'keyword' } },
 
 			// lexing_QUOTE
 			{ regex: /'\(/, action: { token: 'delimiter.parenthesis' } },
 			{ regex: /'\[/, action: { token: 'delimiter.bracket' } },
 			{ regex: /'\{/, action: { token: 'delimiter.brace' } },
-			[/(')(\\@ESCHAR|\\[xX]@xdigit+|\\@digit+)(')/, ['string', 'string.escape', 'string']],
+			[
+				/(')(\\@ESCHAR|\\[xX]@xdigit+|\\@digit+)(')/,
+				['string', 'string.escape', 'string']
+			],
 			[/'[^\\']'/, 'string'],
 
 			// lexing_DQUOTE
 			[/"/, 'string.quote', '@lexing_DQUOTE'],
 
 			// lexing_BQUOTE
-			{ regex: /`\(/, action: '@brackets'/* { token: 'delimiter.parenthesis' }*/ },
+			{
+				regex: /`\(/,
+				action: '@brackets' /* { token: 'delimiter.parenthesis' }*/
+			},
 			// TODO: otherwise, try lexing_IDENT_sym
 
 			{ regex: /\\/, action: { token: 'punctuation' } }, // just T_BACKSLASH
@@ -552,7 +609,10 @@ export const language = <ILanguage>{
 			// lexing_IDENT_alp:
 			// NOTE: (?!regex) is syntax for "not-followed-by" regex
 			// to resolve ambiguity such as foreach$fwork being incorrectly lexed as [for] [each$fwork]!
-			{ regex: /@irregular_keywords(?!@IDENTRST)/, action: { token: 'keyword' } },
+			{
+				regex: /@irregular_keywords(?!@IDENTRST)/,
+				action: { token: 'keyword' }
+			},
 			{
 				regex: /@IDENTFST@IDENTRST*[<!\[]?/,
 				action: {
@@ -570,11 +630,20 @@ export const language = <ILanguage>{
 				}
 			},
 			// lexing_IDENT_sym:
-			{ regex: /\/\/\/\//, action: { token: 'comment', next: '@lexing_COMMENT_rest' } },
+			{
+				regex: /\/\/\/\//,
+				action: { token: 'comment', next: '@lexing_COMMENT_rest' }
+			},
 			{ regex: /\/\/.*$/, action: { token: 'comment' } },
-			{ regex: /\/\*/, action: { token: 'comment', next: '@lexing_COMMENT_block_c' } },
+			{
+				regex: /\/\*/,
+				action: { token: 'comment', next: '@lexing_COMMENT_block_c' }
+			},
 			// AS-20160627: specifically for effect annotations
-			{ regex: /-<|=</, action: { token: 'keyword', next: '@lexing_EFFECT_commaseq0' } },
+			{
+				regex: /-<|=</,
+				action: { token: 'keyword', next: '@lexing_EFFECT_commaseq0' }
+			},
 			{
 				regex: /@symbolic+/,
 				action: {
@@ -593,20 +662,31 @@ export const language = <ILanguage>{
 			// - testing_intspseq0 => T_INT_hex
 
 			// lexing_INT_hex:
-			{ regex: /0[xX]@xdigit+(@hexiexp|@fexponent_bin)@FLOATSP*/, action: { token: 'number.float' } },
+			{
+				regex: /0[xX]@xdigit+(@hexiexp|@fexponent_bin)@FLOATSP*/,
+				action: { token: 'number.float' }
+			},
 			{ regex: /0[xX]@xdigit+@INTSP*/, action: { token: 'number.hex' } },
-			{ regex: /0[0-7]+(?![0-9])@INTSP*/, action: { token: 'number.octal' } }, // lexing_INT_oct
+			{
+				regex: /0[0-7]+(?![0-9])@INTSP*/,
+				action: { token: 'number.octal' }
+			}, // lexing_INT_oct
 			//{regex: /0/, action: { token: 'number' } }, // INTZERO
 
 			// lexing_INT_dec:
 			// - testing_deciexp => lexing_FLOAT_deciexp
 			// - testing_fexponent => lexing_FLOAT_deciexp
 			// - otherwise => intspseq0 ([0-9]*[lLuU]?)
-			{ regex: /@digit+(@fexponent|@deciexp)@FLOATSP*/, action: { token: 'number.float' } },
-			{ regex: /@digit@digitseq0@INTSP*/, action: { token: 'number.decimal' } },
+			{
+				regex: /@digit+(@fexponent|@deciexp)@FLOATSP*/,
+				action: { token: 'number.float' }
+			},
+			{
+				regex: /@digit@digitseq0@INTSP*/,
+				action: { token: 'number.decimal' }
+			},
 			// DIGIT, if followed by digitseq0, is lexing_INT_dec
-			{ regex: /@digit+@INTSP*/, action: { token: 'number' } },
-
+			{ regex: /@digit+@INTSP*/, action: { token: 'number' } }
 		],
 
 		lexing_COMMENT_block_ml: [
@@ -640,22 +720,38 @@ export const language = <ILanguage>{
 				}
 			},
 			{ regex: /,/, action: { token: 'punctuation' } },
-			{ regex: />/, action: { token: '@rematch', next: '@pop' } },
+			{ regex: />/, action: { token: '@rematch', next: '@pop' } }
 		],
 
 		lexing_EXTCODE: [
-			{ regex: /^%}/, action: { token: '@rematch', next: '@pop', nextEmbedded: '@pop' } },
-			{ regex: /[^%]+/, action: '' },
+			{
+				regex: /^%}/,
+				action: {
+					token: '@rematch',
+					next: '@pop',
+					nextEmbedded: '@pop'
+				}
+			},
+			{ regex: /[^%]+/, action: '' }
 		],
 
 		lexing_DQUOTE: [
 			{ regex: /"/, action: { token: 'string.quote', next: '@pop' } },
 			// AS-20160628: additional hi-lighting for variables in staload/dynload strings
-			{ regex: /(\{\$)(@IDENTFST@IDENTRST*)(\})/, action: [{ token: 'string.escape' }, { token: 'identifier' }, { token: 'string.escape' }] },
+			{
+				regex: /(\{\$)(@IDENTFST@IDENTRST*)(\})/,
+				action: [
+					{ token: 'string.escape' },
+					{ token: 'identifier' },
+					{ token: 'string.escape' }
+				]
+			},
 			{ regex: /\\$/, action: { token: 'string.escape' } },
-			{ regex: /\\(@ESCHAR|[xX]@xdigit+|@digit+)/, action: { token: 'string.escape' } },
+			{
+				regex: /\\(@ESCHAR|[xX]@xdigit+|@digit+)/,
+				action: { token: 'string.escape' }
+			},
 			{ regex: /[^\\"]+/, action: { token: 'string' } }
-		],
-	},
+		]
+	}
 };
-

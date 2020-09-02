@@ -10,18 +10,16 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
-		lineComment: 'COMMENT',
+		lineComment: 'COMMENT'
 		// blockComment: ['COMMENT', '.'],
 	},
-	brackets: [
-		['(', ')']
-	],
+	brackets: [['(', ')']],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"', },
-		{ open: ':', close: '.', },
+		{ open: '"', close: '"' },
+		{ open: ':', close: '.' }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
@@ -29,13 +27,13 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '`', close: '`' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
-		{ open: ':', close: '.', },
+		{ open: "'", close: "'" },
+		{ open: ':', close: '.' }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*(::\\s*|COMMENT\\s+)#region"),
-			end: new RegExp("^\\s*(::\\s*|COMMENT\\s+)#endregion")
+			start: new RegExp('^\\s*(::\\s*|COMMENT\\s+)#region'),
+			end: new RegExp('^\\s*(::\\s*|COMMENT\\s+)#endregion')
 		}
 	}
 };
@@ -47,23 +45,45 @@ export const language = <ILanguage>{
 	ignoreCase: true,
 
 	keywords: [
-		'lexon', 'lex', 'clause', 'terms', 'contracts', 'may', 'pay',
-		'pays', 'appoints', 'into', 'to'
+		'lexon',
+		'lex',
+		'clause',
+		'terms',
+		'contracts',
+		'may',
+		'pay',
+		'pays',
+		'appoints',
+		'into',
+		'to'
 	],
 
-	typeKeywords: [
-		'amount', 'person', 'key', 'time', 'date', 'asset', 'text'
-	],
+	typeKeywords: ['amount', 'person', 'key', 'time', 'date', 'asset', 'text'],
 
 	operators: [
-		'less', 'greater', 'equal', 'le', 'gt', 'or', 'and',
-		'add', 'added', 'subtract', 'subtracted', 'multiply', 'multiplied', 'times', 'divide', 'divided',
-		'is', 'be', 'certified'
+		'less',
+		'greater',
+		'equal',
+		'le',
+		'gt',
+		'or',
+		'and',
+		'add',
+		'added',
+		'subtract',
+		'subtracted',
+		'multiply',
+		'multiplied',
+		'times',
+		'divide',
+		'divided',
+		'is',
+		'be',
+		'certified'
 	],
 
 	// we include these common regular expressions
 	symbols: /[=><!~?:&|+\-*\/\^%]+/,
-
 
 	// The main tokenizer for our languages
 	tokenizer: {
@@ -72,20 +92,44 @@ export const language = <ILanguage>{
 			[/^(\s*)(comment:?(?:\s.*|))$/, ['', 'comment']],
 
 			// special identifier cases
-			[/"/, { token: 'identifier.quote', bracket: '@open', next: '@quoted_identifier' }],
-			['LEX$', { token: 'keyword', bracket: '@open', next: '@identifier_until_period' }],
+			[
+				/"/,
+				{
+					token: 'identifier.quote',
+					bracket: '@open',
+					next: '@quoted_identifier'
+				}
+			],
+			[
+				'LEX$',
+				{
+					token: 'keyword',
+					bracket: '@open',
+					next: '@identifier_until_period'
+				}
+			],
 			['LEXON', { token: 'keyword', bracket: '@open', next: '@semver' }],
-			[':', { token: 'delimiter', bracket: '@open', next: '@identifier_until_period' }],
+			[
+				':',
+				{
+					token: 'delimiter',
+					bracket: '@open',
+					next: '@identifier_until_period'
+				}
+			],
 
 			// identifiers and keywords
-			[/[a-z_$][\w$]*/, {
-				cases: {
-					'@operators': 'operator',
-					'@typeKeywords': 'keyword.type',
-					'@keywords': 'keyword',
-					'@default': 'identifier'
+			[
+				/[a-z_$][\w$]*/,
+				{
+					cases: {
+						'@operators': 'operator',
+						'@typeKeywords': 'keyword.type',
+						'@keywords': 'keyword',
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -102,17 +146,20 @@ export const language = <ILanguage>{
 			[/\d+/, 'number'],
 
 			// delimiter: after number because of .\d floats
-			[/[;,.]/, 'delimiter'],
+			[/[;,.]/, 'delimiter']
 		],
 
 		quoted_identifier: [
 			[/[^\\"]+/, 'identifier'],
-			[/"/, { token: 'identifier.quote', bracket: '@close', next: '@pop' }]
+			[
+				/"/,
+				{ token: 'identifier.quote', bracket: '@close', next: '@pop' }
+			]
 		],
 
 		space_identifier_until_period: [
 			[':', 'delimiter'],
-			[' ', { token: 'white', next: '@identifier_rest' }],
+			[' ', { token: 'white', next: '@identifier_rest' }]
 		],
 
 		identifier_until_period: [
@@ -130,11 +177,12 @@ export const language = <ILanguage>{
 		semver: [
 			{ include: '@whitespace' },
 			[':', 'delimiter'],
-			[/\d*\.\d*\.\d*/, { token: 'number.semver', bracket: '@close', next: '@pop' }]
+			[
+				/\d*\.\d*\.\d*/,
+				{ token: 'number.semver', bracket: '@close', next: '@pop' }
+			]
 		],
 
-		whitespace: [
-			[/[ \t\r\n]+/, 'white'],
-		],
-	},
+		whitespace: [[/[ \t\r\n]+/, 'white']]
+	}
 };

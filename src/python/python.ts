@@ -9,12 +9,13 @@ import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
 // Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+const _monaco: typeof monaco =
+	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '#',
-		blockComment: ['\'\'\'', '\'\'\''],
+		blockComment: ["'''", "'''"]
 	},
 	brackets: [
 		['{', '}'],
@@ -26,26 +27,28 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"', notIn: ['string'] },
-		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
+		{ open: "'", close: "'", notIn: ['string', 'comment'] }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	onEnterRules: [
 		{
-			beforeText: new RegExp("^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async).*?:\\s*$"),
+			beforeText: new RegExp(
+				'^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async).*?:\\s*$'
+			),
 			action: { indentAction: _monaco.languages.IndentAction.Indent }
 		}
 	],
 	folding: {
 		offSide: true,
 		markers: {
-			start: new RegExp("^\\s*#region\\b"),
-			end: new RegExp("^\\s*#endregion\\b")
+			start: new RegExp('^\\s*#region\\b'),
+			end: new RegExp('^\\s*#endregion\\b')
 		}
 	}
 };
@@ -209,12 +212,15 @@ export const language = <ILanguage>{
 			[/[{}\[\]()]/, '@brackets'],
 
 			[/@[a-zA-Z_]\w*/, 'tag'],
-			[/[a-zA-Z_]\w*/, {
-				cases: {
-					'@keywords': 'keyword',
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@default': 'identifier'
+					}
 				}
-			}]
+			]
 		],
 
 		// Deal with white space, including single and multi-line comments

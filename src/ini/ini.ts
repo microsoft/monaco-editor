@@ -15,21 +15,21 @@ export const conf: IRichLanguageConfiguration = {
 	brackets: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	]
 };
 
@@ -43,7 +43,6 @@ export const language = <ILanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-
 			// sections
 			[/^\[[^\]]*\]/, 'metatag'],
 
@@ -57,27 +56,30 @@ export const language = <ILanguage>{
 			[/\d+/, 'number'],
 
 			// strings: recover on non-terminated strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-			[/'([^'\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/'([^'\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, 'string', '@string."'],
-			[/'/, 'string', '@string.\''],
+			[/'/, 'string', "@string.'"]
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/^\s*[#;].*$/, 'comment'],
+			[/^\s*[#;].*$/, 'comment']
 		],
 
 		string: [
 			[/[^\\"']+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
-			[/["']/, {
-				cases: {
-					'$#==$S2': { token: 'string', next: '@pop' },
-					'@default': 'string'
+			[
+				/["']/,
+				{
+					cases: {
+						'$#==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
 				}
-			}]
-		],
-	},
+			]
+		]
+	}
 };

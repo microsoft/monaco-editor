@@ -23,12 +23,12 @@ export const conf: IRichLanguageConfiguration = {
 	surroundingPairs: [
 		{ open: '(', close: ')' },
 		{ open: '[', close: ']' },
-		{ open: '`', close: '`' },
+		{ open: '`', close: '`' }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*<!--\\s*#?region\\b.*-->"),
-			end: new RegExp("^\\s*<!--\\s*#?endregion\\b.*-->")
+			start: new RegExp('^\\s*<!--\\s*#?region\\b.*-->'),
+			end: new RegExp('^\\s*<!--\\s*#?endregion\\b.*-->')
 		}
 	}
 };
@@ -41,8 +41,19 @@ export const language = <ILanguage>{
 	escapes: /\\(?:@control)/,
 
 	empty: [
-		'area', 'base', 'basefont', 'br', 'col', 'frame',
-		'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param'
+		'area',
+		'base',
+		'basefont',
+		'br',
+		'col',
+		'frame',
+		'hr',
+		'img',
+		'input',
+		'isindex',
+		'link',
+		'meta',
+		'param'
 	],
 
 	alphanumerics: /[A-Za-z0-9]/,
@@ -64,7 +75,10 @@ export const language = <ILanguage>{
 			//No rules on it
 
 			//bullet-lists
-			[/^\s*([\*\-+‣•]|[a-zA-Z0-9]+\.|\([a-zA-Z0-9]+\)|[a-zA-Z0-9]+\))\s/, 'keyword'],
+			[
+				/^\s*([\*\-+‣•]|[a-zA-Z0-9]+\.|\([a-zA-Z0-9]+\)|[a-zA-Z0-9]+\))\s/,
+				'keyword'
+			],
 
 			//literal-blocks
 			[/([ ]::)\s*$/, 'keyword', '@blankLineOfLiteralBlocks'],
@@ -74,7 +88,7 @@ export const language = <ILanguage>{
 
 			{ include: '@explicitMarkupBlocks' },
 
-			{ include: '@inlineMarkup' },
+			{ include: '@inlineMarkup' }
 		],
 		explicitMarkupBlocks: [
 			//citations
@@ -82,21 +96,55 @@ export const language = <ILanguage>{
 			//footnotes
 			{ include: '@footnotes' },
 			//directives
-			[/^(\.\.\s)(@simpleRefName)(::\s)(.*)$/, [{ token: '', next: 'subsequentLines' }, 'keyword', '', '']],
+			[
+				/^(\.\.\s)(@simpleRefName)(::\s)(.*)$/,
+				[{ token: '', next: 'subsequentLines' }, 'keyword', '', '']
+			],
 
 			//hyperlink-targets
-			[/^(\.\.)(\s+)(_)(@simpleRefName)(:)(\s+)(.*)/, [{ token: '', next: 'hyperlinks' }, '', '', 'string.link', '', '', 'string.link']],
+			[
+				/^(\.\.)(\s+)(_)(@simpleRefName)(:)(\s+)(.*)/,
+				[
+					{ token: '', next: 'hyperlinks' },
+					'',
+					'',
+					'string.link',
+					'',
+					'',
+					'string.link'
+				]
+			],
 
 			//anonymous-hyperlinks
-			[/^((?:(?:\.\.)(?:\s+))?)(__)(:)(\s+)(.*)/, [{ token: '', next: 'subsequentLines' }, '', '', '', 'string.link']],
+			[
+				/^((?:(?:\.\.)(?:\s+))?)(__)(:)(\s+)(.*)/,
+				[
+					{ token: '', next: 'subsequentLines' },
+					'',
+					'',
+					'',
+					'string.link'
+				]
+			],
 			[/^(__\s+)(.+)/, ['', 'string.link']],
 
 			//substitution-definitions
-			[/^(\.\.)( \|)([^| ]+[^|]*[^| ]*)(\| )(@simpleRefName)(:: .*)/, [{ token: '', next: 'subsequentLines' }, '', 'string.link', '', 'keyword', ''], '@rawBlocks'],
+			[
+				/^(\.\.)( \|)([^| ]+[^|]*[^| ]*)(\| )(@simpleRefName)(:: .*)/,
+				[
+					{ token: '', next: 'subsequentLines' },
+					'',
+					'string.link',
+					'',
+					'keyword',
+					''
+				],
+				'@rawBlocks'
+			],
 			[/(\|)([^| ]+[^|]*[^| ]*)(\|_{0,2})/, ['', 'string.link', '']],
 
 			//comments
-			[/^(\.\.)([ ].*)$/, [{ token: '', next: '@comments' }, 'comment']],
+			[/^(\.\.)([ ].*)$/, [{ token: '', next: '@comments' }, 'comment']]
 		],
 		inlineMarkup: [
 			{ include: '@citationsReference' },
@@ -106,7 +154,10 @@ export const language = <ILanguage>{
 			[/(@simpleRefName)(_{1,2})/, ['string.link', '']],
 
 			//embedded-uris-and-aliases
-			[/(`)([^<`]+\s+)(<)(.*)(>)(`)(_)/, ['', 'string.link', '', 'string.link', '', '', '']],
+			[
+				/(`)([^<`]+\s+)(<)(.*)(>)(`)(_)/,
+				['', 'string.link', '', 'string.link', '', '', '']
+			],
 
 			//emphasis
 			[/\*\*([^\\*]|\*(?!\*))+\*\*/, 'strong'],
@@ -117,23 +168,41 @@ export const language = <ILanguage>{
 			[/(__\s+)(.+)/, ['', 'keyword']],
 
 			//interpreted-text
-			[/(:)((?:@simpleRefNameWithoutBq)?)(:`)([^`]+)(`)/, ['', 'keyword', '', '', '']],
-			[/(`)([^`]+)(`:)((?:@simpleRefNameWithoutBq)?)(:)/, ['', '', '', 'keyword', '']],
+			[
+				/(:)((?:@simpleRefNameWithoutBq)?)(:`)([^`]+)(`)/,
+				['', 'keyword', '', '', '']
+			],
+			[
+				/(`)([^`]+)(`:)((?:@simpleRefNameWithoutBq)?)(:)/,
+				['', '', '', 'keyword', '']
+			],
 			[/(`)([^`]+)(`)/, ''],
 
 			//inline-internal-targets
-			[/(_`)(@phrase)(`)/, ['', 'string.link', '']],
+			[/(_`)(@phrase)(`)/, ['', 'string.link', '']]
 		],
 		citations: [
-			[/^(\.\.\s+\[)((?:@citationName))(\]\s+)(.*)/, [{ token: '', next: '@subsequentLines' }, 'string.link', '', '']],
+			[
+				/^(\.\.\s+\[)((?:@citationName))(\]\s+)(.*)/,
+				[{ token: '', next: '@subsequentLines' }, 'string.link', '', '']
+			]
 		],
 		citationsReference: [
-			[/(\[)(@citationName)(\]_)/, ['', 'string.link', '']],
+			[/(\[)(@citationName)(\]_)/, ['', 'string.link', '']]
 		],
 		footnotes: [
-			[/^(\.\.\s+\[)((?:[0-9]+))(\]\s+.*)/, [{ token: '', next: '@subsequentLines' }, 'string.link', '']],
-			[/^(\.\.\s+\[)((?:#@simpleRefName?))(\]\s+)(.*)/, [{ token: '', next: '@subsequentLines' }, 'string.link', '', '']],
-			[/^(\.\.\s+\[)((?:\*))(\]\s+)(.*)/, [{ token: '', next: '@subsequentLines' }, 'string.link', '', '']],
+			[
+				/^(\.\.\s+\[)((?:[0-9]+))(\]\s+.*)/,
+				[{ token: '', next: '@subsequentLines' }, 'string.link', '']
+			],
+			[
+				/^(\.\.\s+\[)((?:#@simpleRefName?))(\]\s+)(.*)/,
+				[{ token: '', next: '@subsequentLines' }, 'string.link', '', '']
+			],
+			[
+				/^(\.\.\s+\[)((?:\*))(\]\s+)(.*)/,
+				[{ token: '', next: '@subsequentLines' }, 'string.link', '', '']
+			]
 		],
 		footnotesReference: [
 			[/(\[)([0-9]+)(\])(_)/, ['', 'string.link', '', '']],
@@ -142,7 +211,7 @@ export const language = <ILanguage>{
 		],
 		blankLineOfLiteralBlocks: [
 			[/^$/, '', '@subsequentLinesOfLiteralBlocks'],
-			[/^.*$/, '', '@pop'],
+			[/^.*$/, '', '@pop']
 		],
 		subsequentLinesOfLiteralBlocks: [
 			[/(@blockLiteralStart+)(.*)/, ['keyword', '']],
@@ -150,20 +219,19 @@ export const language = <ILanguage>{
 		],
 		subsequentLines: [
 			[/^[\s]+.*/, ''],
-			[/^(?!\s)/, '', '@pop'],
+			[/^(?!\s)/, '', '@pop']
 		],
 		hyperlinks: [
 			[/^[\s]+.*/, 'string.link'],
-			[/^(?!\s)/, '', '@pop'],
+			[/^(?!\s)/, '', '@pop']
 		],
 		comments: [
 			[/^[\s]+.*/, 'comment'],
-			[/^(?!\s)/, '', '@pop'],
+			[/^(?!\s)/, '', '@pop']
 		],
 		tables: [
 			[/\+-[+-]+/, 'keyword'],
-			[/\+=[+=]+/, 'keyword'],
-		],
+			[/\+=[+=]+/, 'keyword']
+		]
 	}
 };
-

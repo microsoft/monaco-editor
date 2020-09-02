@@ -10,7 +10,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
-		lineComment: ';;',
+		lineComment: ';;'
 	},
 
 	brackets: [
@@ -20,18 +20,18 @@ export const conf: IRichLanguageConfiguration = {
 	],
 
 	autoClosingPairs: [
-		{open: '[', close: ']'},
-		{open: '"', close: '"'},
-		{open: '(', close: ')'},
-		{open: '{', close: '}'},
+		{ open: '[', close: ']' },
+		{ open: '"', close: '"' },
+		{ open: '(', close: ')' },
+		{ open: '{', close: '}' }
 	],
 
 	surroundingPairs: [
-		{open: '[', close: ']'},
-		{open: '"', close: '"'},
-		{open: '(', close: ')'},
-		{open: '{', close: '}'},
-	],
+		{ open: '[', close: ']' },
+		{ open: '"', close: '"' },
+		{ open: '(', close: ')' },
+		{ open: '{', close: '}' }
+	]
 };
 
 export const language = <ILanguage>{
@@ -40,9 +40,9 @@ export const language = <ILanguage>{
 	tokenPostfix: '.clj',
 
 	brackets: [
-		{open: '[', close: ']', token: 'delimiter.square'},
-		{open: '(', close: ')', token: 'delimiter.parenthesis'},
-		{open: '{', close: '}', token: 'delimiter.curly'},
+		{ open: '[', close: ']', token: 'delimiter.square' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '{', close: '}', token: 'delimiter.curly' }
 	],
 
 	constants: ['true', 'false', 'nil'],
@@ -74,12 +74,12 @@ export const language = <ILanguage>{
 		'set!',
 		'throw',
 		'try',
-		'var',
+		'var'
 	],
 
 	coreSymbols: [
 		'*',
-		'*\'',
+		"*'",
 		'*1',
 		'*2',
 		'*3',
@@ -117,9 +117,9 @@ export const language = <ILanguage>{
 		'*verbose-defrecords*',
 		'*warn-on-reflection*',
 		'+',
-		'+\'',
+		"+'",
 		'-',
-		'-\'',
+		"-'",
 		'->',
 		'->>',
 		'->ArrayChunk',
@@ -259,7 +259,7 @@ export const language = <ILanguage>{
 		'create-struct',
 		'cycle',
 		'dec',
-		'dec\'',
+		"dec'",
 		'decimal?',
 		'declare',
 		'dedupe',
@@ -381,7 +381,7 @@ export const language = <ILanguage>{
 		'import',
 		'in-ns',
 		'inc',
-		'inc\'',
+		"inc'",
 		'indexed?',
 		'init-proxy',
 		'inst-ms',
@@ -728,13 +728,13 @@ export const language = <ILanguage>{
 		'with-redefs-fn',
 		'xml-seq',
 		'zero?',
-		'zipmap',
+		'zipmap'
 	],
 
 	tokenizer: {
 		root: [
 			// whitespaces and comments
-			{include: '@whitespace'},
+			{ include: '@whitespace' },
 
 			// numbers
 			[/@numbers/, 'number'],
@@ -743,7 +743,7 @@ export const language = <ILanguage>{
 			[/@characters/, 'string'],
 
 			// strings
-			{include: '@string'},
+			{ include: '@string' },
 
 			// brackets
 			[/[()\[\]{}]/, '@brackets'],
@@ -755,38 +755,38 @@ export const language = <ILanguage>{
 			[/[#'@^`~]/, 'meta'],
 
 			// symbols
-			[/@qualifiedSymbols/, {
+			[
+				/@qualifiedSymbols/,
+				{
 					cases: {
-						'^:.+$': 'constant',  // Clojure keywords (e.g., `:foo/bar`)
+						'^:.+$': 'constant', // Clojure keywords (e.g., `:foo/bar`)
 						'@specialForms': 'keyword',
 						'@coreSymbols': 'keyword',
 						'@constants': 'constant',
-						'@default': 'identifier',
-					},
-				},
-			],
+						'@default': 'identifier'
+					}
+				}
+			]
 		],
 
 		whitespace: [
 			[/[\s,]+/, 'white'],
 			[/;.*$/, 'comment'],
-			[/\(comment\b/, 'comment', '@comment'],
+			[/\(comment\b/, 'comment', '@comment']
 		],
 
 		comment: [
 			[/\(/, 'comment', '@push'],
 			[/\)/, 'comment', '@pop'],
-			[/[^()]/, 'comment'],
+			[/[^()]/, 'comment']
 		],
 
-		string: [
-			[/"/, 'string', '@multiLineString'],
-		],
+		string: [[/"/, 'string', '@multiLineString']],
 
 		multiLineString: [
 			[/"/, 'string', '@popall'],
 			[/@escapes/, 'string.escape'],
 			[/./, 'string']
-		],
-	},
+		]
+	}
 };

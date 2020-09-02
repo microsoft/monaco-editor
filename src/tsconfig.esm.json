@@ -1,20 +1,16 @@
 {
-  "compilerOptions": {
-    "module": "esnext",
-    "outDir": "../release/esm",
-    "target": "es5",
-    "lib": [
-      "dom",
-      "es5",
-      "es2015.collection",
-      "es2015.iterable",
-      "es2015.promise"
-    ]
-  },
-  "include": [
-    "**/*.ts"
-  ],
-  "files": [
-    "../node_modules/monaco-editor-core/monaco.d.ts"
-  ]
+	"compilerOptions": {
+		"module": "esnext",
+		"outDir": "../release/esm",
+		"target": "es5",
+		"lib": [
+			"dom",
+			"es5",
+			"es2015.collection",
+			"es2015.iterable",
+			"es2015.promise"
+		]
+	},
+	"include": ["**/*.ts"],
+	"files": ["../node_modules/monaco-editor-core/monaco.d.ts"]
 }

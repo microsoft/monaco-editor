@@ -13,32 +13,36 @@ export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
-		{ open: '<', close: '>' },
+		{ open: "'", close: "'" },
+		{ open: '<', close: '>' }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"),
-			end: new RegExp("^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))")
+			start: new RegExp(
+				'^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'
+			),
+			end: new RegExp(
+				'^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))'
+			)
 		}
 	}
 };
@@ -48,22 +52,125 @@ export const language = <ILanguage>{
 	tokenPostfix: '.kt',
 
 	keywords: [
-		'as', 'as?', 'break', 'class', 'continue', 'do', 'else', 'false', 'for', 'fun', 'if',
-		'in', '!in', 'interface', 'is', '!is', 'null', 'object', 'package', 'return', 'super',
-		'this', 'throw', 'true', 'try', 'typealias', 'val', 'var', 'when', 'while', 'by',
-		'catch', 'constructor', 'delegate', 'dynamic', 'field', 'file', 'finally', 'get',
-		'import', 'init', 'param', 'property', 'receiver', 'set', 'setparam', 'where', 'actual',
-		'abstract','annotation', 'companion', 'const', 'crossinline', 'data', 'enum', 'expect',
-		'external', 'final', 'infix', 'inline', 'inner', 'internal', 'lateinit', 'noinline',
-		'open', 'operator', 'out', 'override', 'private', 'protected', 'public', 'reified',
-		'sealed', 'suspend', 'tailrec', 'vararg', 'field', 'it'
+		'as',
+		'as?',
+		'break',
+		'class',
+		'continue',
+		'do',
+		'else',
+		'false',
+		'for',
+		'fun',
+		'if',
+		'in',
+		'!in',
+		'interface',
+		'is',
+		'!is',
+		'null',
+		'object',
+		'package',
+		'return',
+		'super',
+		'this',
+		'throw',
+		'true',
+		'try',
+		'typealias',
+		'val',
+		'var',
+		'when',
+		'while',
+		'by',
+		'catch',
+		'constructor',
+		'delegate',
+		'dynamic',
+		'field',
+		'file',
+		'finally',
+		'get',
+		'import',
+		'init',
+		'param',
+		'property',
+		'receiver',
+		'set',
+		'setparam',
+		'where',
+		'actual',
+		'abstract',
+		'annotation',
+		'companion',
+		'const',
+		'crossinline',
+		'data',
+		'enum',
+		'expect',
+		'external',
+		'final',
+		'infix',
+		'inline',
+		'inner',
+		'internal',
+		'lateinit',
+		'noinline',
+		'open',
+		'operator',
+		'out',
+		'override',
+		'private',
+		'protected',
+		'public',
+		'reified',
+		'sealed',
+		'suspend',
+		'tailrec',
+		'vararg',
+		'field',
+		'it'
 	],
 
 	operators: [
-		'+', '-', '*', '/', '%', '=', '+=', '-=', '*=', '/=',
-		'%=', '++', '--', '&&', '||', '!', '==', '!=', '===',
-		'!==', '>', '<', '<=', '>=', '[', ']', '!!', '?.', '?:',
-		'::', '..', ':', '?', '->', '@', ';', '$', '_'
+		'+',
+		'-',
+		'*',
+		'/',
+		'%',
+		'=',
+		'+=',
+		'-=',
+		'*=',
+		'/=',
+		'%=',
+		'++',
+		'--',
+		'&&',
+		'||',
+		'!',
+		'==',
+		'!=',
+		'===',
+		'!==',
+		'>',
+		'<',
+		'<=',
+		'>=',
+		'[',
+		']',
+		'!!',
+		'?.',
+		'?:',
+		'::',
+		'..',
+		':',
+		'?',
+		'->',
+		'@',
+		';',
+		'$',
+		'_'
 	],
 
 	// we include these common regular expressions
@@ -76,18 +183,20 @@ export const language = <ILanguage>{
 
 	// The main tokenizer for our languages
 	tokenizer: {
-
 		root: [
 			// class name highlighting
-			[/[A-Z][\w\$]*/, 'type.identifier' ],
+			[/[A-Z][\w\$]*/, 'type.identifier'],
 
 			// identifiers and keywords
-			[/[a-zA-Z_$][\w$]*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_$][\w$]*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -95,19 +204,25 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// @ annotations.
 			[/@\s*[a-zA-Z_\$][\w\$]*/, 'annotation'],
 
 			// numbers
 			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
-			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
+			[
+				/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/,
+				'number.float'
+			],
 			[/0[xX](@hexdigits)[Ll]?/, 'number.hex'],
 			[/0(@octaldigits)[Ll]?/, 'number.octal'],
 			[/0[bB](@binarydigits)[Ll]?/, 'number.binary'],
@@ -118,7 +233,7 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"""/, 'string', '@multistring'],
 			[/"/, 'string', '@string'],
 
@@ -132,7 +247,7 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
@@ -144,7 +259,7 @@ export const language = <ILanguage>{
 		//Identical copy of comment above, except for the addition of .doc
 		javadoc: [
 			[/[^\/*]+/, 'comment.doc'],
-			[/\/\*/, 'comment.doc', '@push' ],
+			[/\/\*/, 'comment.doc', '@push'],
 			[/\/\*/, 'comment.doc.invalid'],
 			[/\*\//, 'comment.doc', '@pop'],
 			[/[\/*]/, 'comment.doc']
@@ -163,6 +278,6 @@ export const language = <ILanguage>{
 			[/\\./, 'string.escape.invalid'],
 			[/"""/, 'string', '@pop'],
 			[/./, 'string']
-		],
-	},
+		]
+	}
 };

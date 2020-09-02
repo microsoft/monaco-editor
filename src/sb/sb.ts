@@ -10,10 +10,11 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
-		lineComment: '\'',
+		lineComment: "'"
 	},
 	brackets: [
-		['(', ')'], ['[', ']'],
+		['(', ')'],
+		['[', ']'],
 		['If', 'EndIf'],
 		['While', 'EndWhile'],
 		['For', 'EndFor'],
@@ -22,7 +23,7 @@ export const conf: IRichLanguageConfiguration = {
 	autoClosingPairs: [
 		{ open: '"', close: '"', notIn: ['string', 'comment'] },
 		{ open: '(', close: ')', notIn: ['string', 'comment'] },
-		{ open: '[', close: ']', notIn: ['string', 'comment'] },
+		{ open: '[', close: ']', notIn: ['string', 'comment'] }
 	]
 };
 
@@ -39,19 +40,42 @@ export const language = <ILanguage>{
 		{ token: 'keyword.tag-if', open: 'If', close: 'EndIf' },
 		{ token: 'keyword.tag-while', open: 'While', close: 'EndWhile' },
 		{ token: 'keyword.tag-for', open: 'For', close: 'EndFor' },
-		{ token: 'keyword.tag-sub', open: 'Sub', close: 'EndSub' },
+		{ token: 'keyword.tag-sub', open: 'Sub', close: 'EndSub' }
 	],
 
 	keywords: [
-		'Else', 'ElseIf', 'EndFor', 'EndIf', 'EndSub', 'EndWhile',
-		'For', 'Goto', 'If', 'Step', 'Sub', 'Then', 'To', 'While'
+		'Else',
+		'ElseIf',
+		'EndFor',
+		'EndIf',
+		'EndSub',
+		'EndWhile',
+		'For',
+		'Goto',
+		'If',
+		'Step',
+		'Sub',
+		'Then',
+		'To',
+		'While'
 	],
 
-	tagwords: [
-		'If', 'Sub', 'While', 'For'
-	],
+	tagwords: ['If', 'Sub', 'While', 'For'],
 
-	operators: [ '>', '<', '<>', '<=', '>=', 'And', 'Or', '+', '-', '*', '/', '=' ],
+	operators: [
+		'>',
+		'<',
+		'<>',
+		'<=',
+		'>=',
+		'And',
+		'Or',
+		'+',
+		'-',
+		'*',
+		'/',
+		'='
+	],
 
 	// we include these common regular expressions
 	identifier: /[a-zA-Z_][\w]*/,
@@ -64,25 +88,31 @@ export const language = <ILanguage>{
 			// whitespace
 			{ include: '@whitespace' },
 
-            // classes
-            [/(@identifier)(?=[.])/, 'type'],
+			// classes
+			[/(@identifier)(?=[.])/, 'type'],
 
 			// identifiers, tagwords, and keywords
-			[/@identifier/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@operators': 'operator',
-					'@default': 'variable.name'
+			[
+				/@identifier/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@operators': 'operator',
+						'@default': 'variable.name'
+					}
 				}
-			}],
+			],
 
-            // methods, properties, and events
-			[/([.])(@identifier)/, {
-				cases: {
-					'$2': ['delimiter', 'type.member'],
-					'@default': ''
+			// methods, properties, and events
+			[
+				/([.])(@identifier)/,
+				{
+					cases: {
+						$2: ['delimiter', 'type.member'],
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// numbers
 			[/\d*\.\d+/, 'number.float'],
@@ -90,17 +120,19 @@ export const language = <ILanguage>{
 
 			// delimiters and operators
 			[/[()\[\]]/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'operator',
-					'@default': 'delimiter'
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'operator',
+						'@default': 'delimiter'
+					}
 				}
-			}],
+			],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-			[/"/, 'string', '@string'],
-
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/"/, 'string', '@string']
 		],
 
 		whitespace: [
@@ -113,6 +145,6 @@ export const language = <ILanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"C?/, 'string', '@pop']
-		],
-	},
+		]
+	}
 };

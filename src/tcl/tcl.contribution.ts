@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import {registerLanguage} from '../_.contribution';
+import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
 	id: 'tcl',

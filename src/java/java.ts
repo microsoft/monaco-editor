@@ -13,32 +13,36 @@ export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
-		{ open: '<', close: '>' },
+		{ open: "'", close: "'" },
+		{ open: '<', close: '>' }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"),
-			end: new RegExp("^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))")
+			start: new RegExp(
+				'^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'
+			),
+			end: new RegExp(
+				'^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))'
+			)
 		}
 	}
 };
@@ -48,21 +52,98 @@ export const language = <ILanguage>{
 	tokenPostfix: '.java',
 
 	keywords: [
-		'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
-		'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',
-		'this', 'break', 'double', 'implements', 'protected', 'throw', 'byte',
-		'else', 'import', 'public', 'throws', 'case', 'enum', 'instanceof', 'return',
-		'transient', 'catch', 'extends', 'int', 'short', 'try', 'char', 'final',
-		'interface', 'static', 'void', 'class', 'finally', 'long', 'strictfp',
-		'volatile', 'const', 'float', 'native', 'super', 'while', 'true', 'false'
+		'abstract',
+		'continue',
+		'for',
+		'new',
+		'switch',
+		'assert',
+		'default',
+		'goto',
+		'package',
+		'synchronized',
+		'boolean',
+		'do',
+		'if',
+		'private',
+		'this',
+		'break',
+		'double',
+		'implements',
+		'protected',
+		'throw',
+		'byte',
+		'else',
+		'import',
+		'public',
+		'throws',
+		'case',
+		'enum',
+		'instanceof',
+		'return',
+		'transient',
+		'catch',
+		'extends',
+		'int',
+		'short',
+		'try',
+		'char',
+		'final',
+		'interface',
+		'static',
+		'void',
+		'class',
+		'finally',
+		'long',
+		'strictfp',
+		'volatile',
+		'const',
+		'float',
+		'native',
+		'super',
+		'while',
+		'true',
+		'false'
 	],
 
 	operators: [
-		'=', '>', '<', '!', '~', '?', ':',
-		'==', '<=', '>=', '!=', '&&', '||', '++', '--',
-		'+', '-', '*', '/', '&', '|', '^', '%', '<<',
-		'>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=',
-		'^=', '%=', '<<=', '>>=', '>>>='
+		'=',
+		'>',
+		'<',
+		'!',
+		'~',
+		'?',
+		':',
+		'==',
+		'<=',
+		'>=',
+		'!=',
+		'&&',
+		'||',
+		'++',
+		'--',
+		'+',
+		'-',
+		'*',
+		'/',
+		'&',
+		'|',
+		'^',
+		'%',
+		'<<',
+		'>>',
+		'>>>',
+		'+=',
+		'-=',
+		'*=',
+		'/=',
+		'&=',
+		'|=',
+		'^=',
+		'%=',
+		'<<=',
+		'>>=',
+		'>>>='
 	],
 
 	// we include these common regular expressions
@@ -77,12 +158,15 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_$][\w$]*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_$][\w$]*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -90,19 +174,25 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// @ annotations.
 			[/@\s*[a-zA-Z_\$][\w\$]*/, 'annotation'],
 
 			// numbers
 			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
-			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
+			[
+				/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/,
+				'number.float'
+			],
 			[/0[xX](@hexdigits)[Ll]?/, 'number.hex'],
 			[/0(@octaldigits)[Ll]?/, 'number.octal'],
 			[/0[bB](@binarydigits)[Ll]?/, 'number.binary'],
@@ -113,7 +203,7 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, 'string', '@string'],
 
 			// characters
@@ -126,7 +216,7 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
@@ -150,6 +240,6 @@ export const language = <ILanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"/, 'string', '@pop']
-		],
-	},
+		]
+	}
 };

@@ -1,30 +1,28 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Unit Tests",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceRoot}/node_modules/.bin/tape",
-            "stopOnEntry": false,
-            "args": [
-                "-r",
-                "./test/all.js",
-                // "--grep",
-                // "typescript"
-            ],
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": null,
-            "runtimeExecutable": null,
-            "runtimeArgs": [
-                "--nolazy"
-            ],
-            "env": {
-                "NODE_ENV": "development"
-            },
-            "console": "internalConsole",
-            "sourceMaps": false,
-            "outDir": null
-        }
-    ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Unit Tests",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/node_modules/.bin/tape",
+			"stopOnEntry": false,
+			"args": [
+				"-r",
+				"./test/all.js"
+				// "--grep",
+				// "typescript"
+			],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": null,
+			"runtimeExecutable": null,
+			"runtimeArgs": ["--nolazy"],
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"console": "internalConsole",
+			"sourceMaps": false,
+			"outDir": null
+		}
+	]
 }

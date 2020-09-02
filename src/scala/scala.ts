@@ -18,31 +18,35 @@ export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(unary_[@~!#%^&*()\-=+\\|:<>\/?]+)|([a-zA-Z_$][\w$]*?_=)|(`[^`]+`)|([a-zA-Z_$][\w$]*)/g,
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"),
-			end: new RegExp("^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))")
+			start: new RegExp(
+				'^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'
+			),
+			end: new RegExp(
+				'^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))'
+			)
 		}
 	}
 };
@@ -53,46 +57,61 @@ export const language = <ILanguage>{
 	// We can't easily add everything from Dotty, but we can at least add some of its keywords
 	keywords: [
 		'asInstanceOf',
-		'catch', 'class', 'classOf',
-		'def', 'do',
-		'else', 'extends',
-		'finally', 'for', 'foreach', 'forSome',
-		'if', 'import', 'isInstanceOf',
-		'macro', 'match',
+		'catch',
+		'class',
+		'classOf',
+		'def',
+		'do',
+		'else',
+		'extends',
+		'finally',
+		'for',
+		'foreach',
+		'forSome',
+		'if',
+		'import',
+		'isInstanceOf',
+		'macro',
+		'match',
 		'new',
 		'object',
 		'package',
 		'return',
-		'throw', 'trait', 'try', 'type',
+		'throw',
+		'trait',
+		'try',
+		'type',
 		'until',
-		'val', 'var',
-		'while', 'with',
+		'val',
+		'var',
+		'while',
+		'with',
 		'yield',
 
 		// Dotty-specific:
-		'given', 'enum', 'then'
+		'given',
+		'enum',
+		'then'
 	],
 
 	// Dotty-specific:
-	softKeywords: [
-		'as', 'export', 'extension', 'end',
-		'derives', 'on'
-	],
+	softKeywords: ['as', 'export', 'extension', 'end', 'derives', 'on'],
 
-	constants: [
-		'true', 'false', 'null',
-		'this', 'super'
-	],
+	constants: ['true', 'false', 'null', 'this', 'super'],
 
 	modifiers: [
-		'abstract', 'final', 'implicit', 'lazy', 'override',
-		'private', 'protected', 'sealed'
+		'abstract',
+		'final',
+		'implicit',
+		'lazy',
+		'override',
+		'private',
+		'protected',
+		'sealed'
 	],
 
 	// Dotty-specific:
-	softModifiers: [
-		'inline', 'opaque', 'open', 'transparent', 'using'
-	],
+	softModifiers: ['inline', 'opaque', 'open', 'transparent', 'using'],
 
 	name: /(?:[a-z_$][\w$]*|`[^`]+`)/,
 	type: /(?:[A-Z][\w$]*)/,
@@ -111,21 +130,50 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// strings
-			[/\braw"""/, {token: 'string.quote', bracket: '@open', next: '@rawstringt'}],
-			[/\braw"/, {token: 'string.quote', bracket: '@open', next: '@rawstring'}],
+			[
+				/\braw"""/,
+				{ token: 'string.quote', bracket: '@open', next: '@rawstringt' }
+			],
+			[
+				/\braw"/,
+				{ token: 'string.quote', bracket: '@open', next: '@rawstring' }
+			],
 
-			[/\bs"""/, {token: 'string.quote', bracket: '@open', next: '@sstringt'}],
-			[/\bs"/, {token: 'string.quote', bracket: '@open', next: '@sstring'}],
+			[
+				/\bs"""/,
+				{ token: 'string.quote', bracket: '@open', next: '@sstringt' }
+			],
+			[
+				/\bs"/,
+				{ token: 'string.quote', bracket: '@open', next: '@sstring' }
+			],
 
-			[/\bf""""/, {token: 'string.quote', bracket: '@open', next: '@fstringt'}],
-			[/\bf"/, {token: 'string.quote', bracket: '@open', next: '@fstring'}],
+			[
+				/\bf""""/,
+				{ token: 'string.quote', bracket: '@open', next: '@fstringt' }
+			],
+			[
+				/\bf"/,
+				{ token: 'string.quote', bracket: '@open', next: '@fstring' }
+			],
 
-			[/"""/, {token: 'string.quote', bracket: '@open', next: '@stringt'}],
-			[/"/, {token: 'string.quote', bracket: '@open', next: '@string'}],
+			[
+				/"""/,
+				{ token: 'string.quote', bracket: '@open', next: '@stringt' }
+			],
+			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
 
 			// numbers
-			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float', '@allowMethod'],
-			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float', '@allowMethod'],
+			[
+				/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/,
+				'number.float',
+				'@allowMethod'
+			],
+			[
+				/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/,
+				'number.float',
+				'@allowMethod'
+			],
 			[/0[xX](@hexdigits)[Ll]?/, 'number.hex', '@allowMethod'],
 			[/(@digits)[fFdD]/, 'number.float', '@allowMethod'],
 			[/(@digits)[lL]?/, 'number', '@allowMethod'],
@@ -135,25 +183,45 @@ export const language = <ILanguage>{
 
 			// identifiers and keywords
 			[/\bimport\b/, 'keyword', '@import'],
-			[/\b(case)([ \t]+)(class)\b/, ['keyword.modifier', 'white', 'keyword']],
+			[
+				/\b(case)([ \t]+)(class)\b/,
+				['keyword.modifier', 'white', 'keyword']
+			],
 			[/\bcase\b/, 'keyword', '@case'],
 			[/\bva[lr]\b/, 'keyword', '@vardef'],
-			[/\b(def)([ \t]+)((?:unary_)?@symbols|@name(?:_=)|@name)/, ['keyword', 'white', 'identifier']],
+			[
+				/\b(def)([ \t]+)((?:unary_)?@symbols|@name(?:_=)|@name)/,
+				['keyword', 'white', 'identifier']
+			],
 			[/@name(?=[ \t]*:(?!:))/, 'variable'],
-			[/(\.)(@name|@symbols)/, ['operator', {token: '@rematch', next: '@allowMethod'}]],
+			[
+				/(\.)(@name|@symbols)/,
+				['operator', { token: '@rematch', next: '@allowMethod' }]
+			],
 			[/([{(])(\s*)(@name(?=\s*=>))/, ['@brackets', 'white', 'variable']],
-			[/@name/, {cases: {
-				'@keywords': 'keyword',
-				'@softKeywords': 'keyword',
-				'@modifiers': 'keyword.modifier',
-				'@softModifiers': 'keyword.modifier',
-				'@constants': {token: 'constant', next: '@allowMethod'},
-				'@default': {token: 'identifier', next: '@allowMethod'}
-			}}],
+			[
+				/@name/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@softKeywords': 'keyword',
+						'@modifiers': 'keyword.modifier',
+						'@softModifiers': 'keyword.modifier',
+						'@constants': {
+							token: 'constant',
+							next: '@allowMethod'
+						},
+						'@default': {
+							token: 'identifier',
+							next: '@allowMethod'
+						}
+					}
+				}
+			],
 			[/@type/, 'type', '@allowMethod'],
 
 			// whitespace
-			{include: '@whitespace'},
+			{ include: '@whitespace' },
 
 			// @ annotations.
 			[/@[a-zA-Z_$][\w$]*(?:\.[a-zA-Z_$][\w$]*)*/, 'annotation'],
@@ -162,7 +230,11 @@ export const language = <ILanguage>{
 			[/[{(]/, '@brackets'],
 			[/[})]/, '@brackets', '@allowMethod'],
 			[/\[/, 'operator.square'],
-			[/](?!\s*(?:va[rl]|def|type)\b)/, 'operator.square', '@allowMethod'],
+			[
+				/](?!\s*(?:va[rl]|def|type)\b)/,
+				'operator.square',
+				'@allowMethod'
+			],
 			[/]/, 'operator.square'],
 			[/([=-]>|<-|>:|<:|:>|<%)(?=[\s\w()[\]{},\."'`])/, 'keyword'],
 			[/@symbols/, 'operator'],
@@ -175,7 +247,14 @@ export const language = <ILanguage>{
 
 			// characters
 			[/'[^\\']'/, 'string', '@allowMethod'],
-			[/(')(@escapes)(')/, ['string', 'string.escape', {token: 'string', next: '@allowMethod'}]],
+			[
+				/(')(@escapes)(')/,
+				[
+					'string',
+					'string.escape',
+					{ token: 'string', next: '@allowMethod' }
+				]
+			],
 			[/'/, 'string.invalid']
 		],
 
@@ -188,7 +267,7 @@ export const language = <ILanguage>{
 			[/@name|@type/, 'type'],
 			[/[(){}]/, '@brackets'],
 			[/[[\]]/, 'operator.square'],
-			[/[\.,]/, 'delimiter'],
+			[/[\.,]/, 'delimiter']
 		],
 
 		allowMethod: [
@@ -197,14 +276,17 @@ export const language = <ILanguage>{
 			[/[\n\r]+/, 'white', '@pop'],
 			[/\/\*/, 'comment', '@comment'],
 			[/(?==>[\s\w([{])/, 'keyword', '@pop'],
-			[/(@name|@symbols)(?=[ \t]*[[({"'`]|[ \t]+(?:[+-]?\.?\d|\w))/, {
-				cases: {
-				'@keywords': {token: 'keyword', next: '@pop'},
-				'->|<-|>:|<:|<%': {token: 'keyword', next: '@pop'},
-				'@default': {token: '@rematch', next: '@pop'}
+			[
+				/(@name|@symbols)(?=[ \t]*[[({"'`]|[ \t]+(?:[+-]?\.?\d|\w))/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword', next: '@pop' },
+						'->|<-|>:|<:|<%': { token: 'keyword', next: '@pop' },
+						'@default': { token: '@rematch', next: '@pop' }
+					}
 				}
-			}],
-			["", "", "@pop"]
+			],
+			['', '', '@pop']
 		],
 
 		comment: [
@@ -221,7 +303,7 @@ export const language = <ILanguage>{
 			[/`[^`]+`/, 'identifier', '@allowMethod'],
 			[/@name/, 'variable', '@allowMethod'],
 			[/:::?|\||@(?![a-z_$])/, 'keyword'],
-			{include: '@root'}
+			{ include: '@root' }
 		],
 
 		vardef: [
@@ -231,35 +313,65 @@ export const language = <ILanguage>{
 			[/:::?|\||@(?![a-z_$])/, 'keyword'],
 			[/=|:(?!:)/, 'operator', '@pop'],
 			[/$/, 'white', '@pop'],
-			{include: '@root'}
+			{ include: '@root' }
 		],
 
 		string: [
 			[/[^\\"\n\r]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
-			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
+			[
+				/"/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			]
 		],
 
 		stringt: [
-			[/[^\\"\n\r]+/,	'string'],
+			[/[^\\"\n\r]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"(?=""")/, 'string'],
-			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
+			[
+				/"""/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			],
 			[/"/, 'string']
 		],
 
 		fstring: [
 			[/@escapes/, 'string.escape'],
-			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
+			[
+				/"/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
 			[/%%/, 'string'],
-			[/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'keyword.modifier', 'number', 'metatag']],
-			[/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'number', 'metatag']],
-			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'keyword.modifier', 'metatag']],
+			[
+				/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
+				['metatag', 'keyword.modifier', 'number', 'metatag']
+			],
+			[
+				/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
+				['metatag', 'number', 'metatag']
+			],
+			[
+				/(%)([\-#+ 0,(])(@fstring_conv)/,
+				['metatag', 'keyword.modifier', 'metatag']
+			],
 			[/(%)(@fstring_conv)/, ['metatag', 'metatag']],
 			[/./, 'string']
 		],
@@ -267,21 +379,44 @@ export const language = <ILanguage>{
 		fstringt: [
 			[/@escapes/, 'string.escape'],
 			[/"(?=""")/, 'string'],
-			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
+			[
+				/"""/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
 			[/%%/, 'string'],
-			[/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'keyword.modifier', 'number', 'metatag']],
-			[/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'number', 'metatag']],
-			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'keyword.modifier', 'metatag']],
+			[
+				/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
+				['metatag', 'keyword.modifier', 'number', 'metatag']
+			],
+			[
+				/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
+				['metatag', 'number', 'metatag']
+			],
+			[
+				/(%)([\-#+ 0,(])(@fstring_conv)/,
+				['metatag', 'keyword.modifier', 'metatag']
+			],
 			[/(%)(@fstring_conv)/, ['metatag', 'metatag']],
 			[/./, 'string']
 		],
 
 		sstring: [
 			[/@escapes/, 'string.escape'],
-			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
+			[
+				/"/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
@@ -291,7 +426,14 @@ export const language = <ILanguage>{
 		sstringt: [
 			[/@escapes/, 'string.escape'],
 			[/"(?=""")/, 'string'],
-			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
+			[
+				/"""/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			],
 			[/\$\$/, 'string'],
 			[/(\$)([a-z_]\w*)/, ['operator', 'identifier']],
 			[/\$\{/, 'operator', '@interp'],
@@ -301,25 +443,39 @@ export const language = <ILanguage>{
 		interp: [
 			[/{/, 'operator', '@push'],
 			[/}/, 'operator', '@pop'],
-			{include: '@root'}
+			{ include: '@root' }
 		],
 
 		rawstring: [
 			[/[^"]/, 'string'],
-			[/"/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}]
+			[
+				/"/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			]
 		],
 
 		rawstringt: [
 			[/[^"]/, 'string'],
 			[/"(?=""")/, 'string'],
-			[/"""/, {token: 'string.quote', bracket: '@close', switchTo: '@allowMethod'}],
+			[
+				/"""/,
+				{
+					token: 'string.quote',
+					bracket: '@close',
+					switchTo: '@allowMethod'
+				}
+			],
 			[/"/, 'string']
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, 'white'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
-		],
-	},
+			[/\/\/.*$/, 'comment']
+		]
+	}
 };

@@ -26,7 +26,7 @@ export const conf: LanguageConfiguration = {
 		{ open: '[', close: ']', notIn: ['string', 'comment'] },
 		{ open: '(', close: ')', notIn: ['string', 'comment'] },
 		{ open: '"', close: '"', notIn: ['string', 'comment'] },
-		{ open: '\'', close: '\'', notIn: ['string', 'comment'] }
+		{ open: "'", close: "'", notIn: ['string', 'comment'] }
 	],
 
 	surroundingPairs: [
@@ -34,13 +34,13 @@ export const conf: LanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' }
+		{ open: "'", close: "'" }
 	],
 
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*\\/\\*\\s*#region\\b\\s*(.*?)\\s*\\*\\/"),
-			end: new RegExp("^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/")
+			start: new RegExp('^\\s*\\/\\*\\s*#region\\b\\s*(.*?)\\s*\\*\\/'),
+			end: new RegExp('^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/')
 		}
 	}
 };
@@ -50,7 +50,8 @@ export const language = <IMonarchLanguage>{
 	tokenPostfix: '.css',
 
 	ws: '[ \t\n\r\f]*', // whitespaces (referenced in several rules)
-	identifier: '-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
+	identifier:
+		'-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
 
 	brackets: [
 		{ open: '{', close: '}', token: 'delimiter.bracket' },
@@ -60,19 +61,35 @@ export const language = <IMonarchLanguage>{
 	],
 
 	tokenizer: {
-		root: [
-			{ include: '@selector' },
-		],
+		root: [{ include: '@selector' }],
 
 		selector: [
 			{ include: '@comments' },
 			{ include: '@import' },
 			{ include: '@strings' },
-			['[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)', { token: 'keyword', next: '@keyframedeclaration' }],
+			[
+				'[@](keyframes|-webkit-keyframes|-moz-keyframes|-o-keyframes)',
+				{ token: 'keyword', next: '@keyframedeclaration' }
+			],
 			['[@](page|content|font-face|-moz-document)', { token: 'keyword' }],
-			['[@](charset|namespace)', { token: 'keyword', next: '@declarationbody' }],
-			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
-			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
+			[
+				'[@](charset|namespace)',
+				{ token: 'keyword', next: '@declarationbody' }
+			],
+			[
+				'(url-prefix)(\\()',
+				[
+					'attribute.value',
+					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
+				]
+			],
+			[
+				'(url)(\\()',
+				[
+					'attribute.value',
+					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
+				]
+			],
 			{ include: '@selectorname' },
 			['[\\*]', 'tag'], // selector symbols
 			['[>\\+,]', 'delimiter'], // selector operators
@@ -82,23 +99,39 @@ export const language = <IMonarchLanguage>{
 
 		selectorbody: [
 			{ include: '@comments' },
-			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', 'attribute.name', '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
+			[
+				'[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))',
+				'attribute.name',
+				'@rulevalue'
+			], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
 			['}', { token: 'delimiter.bracket', next: '@pop' }]
 		],
 
 		selectorname: [
-			['(\\.|#(?=[^{])|%|(@identifier)|:)+', 'tag'], // selector (.foo, div, ...)
+			['(\\.|#(?=[^{])|%|(@identifier)|:)+', 'tag'] // selector (.foo, div, ...)
 		],
 
 		selectorattribute: [
 			{ include: '@term' },
-			[']', { token: 'delimiter.bracket', next: '@pop' }],
+			[']', { token: 'delimiter.bracket', next: '@pop' }]
 		],
 
 		term: [
 			{ include: '@comments' },
-			['(url-prefix)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
-			['(url)(\\()', ['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]],
+			[
+				'(url-prefix)(\\()',
+				[
+					'attribute.value',
+					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
+				]
+			],
+			[
+				'(url)(\\()',
+				[
+					'attribute.value',
+					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
+				]
+			],
 			{ include: '@functioninvocation' },
 			{ include: '@numbers' },
 			{ include: '@name' },
@@ -148,47 +181,55 @@ export const language = <IMonarchLanguage>{
 		comment: [
 			['\\*\\/', 'comment', '@pop'],
 			[/[^*/]+/, 'comment'],
-			[/./, 'comment'],
+			[/./, 'comment']
 		],
 
-		name: [
-			['@identifier', 'attribute.value']
-		],
+		name: [['@identifier', 'attribute.value']],
 
 		numbers: [
-			['-?(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'attribute.value.number', next: '@units' }],
+			[
+				'-?(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?',
+				{ token: 'attribute.value.number', next: '@units' }
+			],
 			['#[0-9a-fA-F_]+(?!\\w)', 'attribute.value.hex']
 		],
 
 		units: [
-			['(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?', 'attribute.value.unit', '@pop']
+			[
+				'(em|ex|ch|rem|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?',
+				'attribute.value.unit',
+				'@pop'
+			]
 		],
 
 		keyframedeclaration: [
 			['@identifier', 'attribute.value'],
-			['{', { token: 'delimiter.bracket', switchTo: '@keyframebody' }],
+			['{', { token: 'delimiter.bracket', switchTo: '@keyframebody' }]
 		],
 
 		keyframebody: [
 			{ include: '@term' },
 			['{', { token: 'delimiter.bracket', next: '@selectorbody' }],
-			['}', { token: 'delimiter.bracket', next: '@pop' }],
+			['}', { token: 'delimiter.bracket', next: '@pop' }]
 		],
 
 		functioninvocation: [
-			['@identifier\\(', { token: 'attribute.value', next: '@functionarguments' }],
+			[
+				'@identifier\\(',
+				{ token: 'attribute.value', next: '@functionarguments' }
+			]
 		],
 
 		functionarguments: [
 			['\\$@identifier@ws:', 'attribute.name'],
 			['[,]', 'delimiter'],
 			{ include: '@term' },
-			['\\)', { token: 'attribute.value', next: '@pop' }],
+			['\\)', { token: 'attribute.value', next: '@pop' }]
 		],
 
 		strings: [
 			['~?"', { token: 'string', next: '@stringenddoublequote' }],
-			['~?\'', { token: 'string', next: '@stringendquote' }]
+			["~?'", { token: 'string', next: '@stringendquote' }]
 		],
 
 		stringenddoublequote: [
@@ -200,7 +241,7 @@ export const language = <IMonarchLanguage>{
 
 		stringendquote: [
 			['\\\\.', 'string'],
-			['\'', { token: 'string', next: '@pop' }],
+			["'", { token: 'string', next: '@pop' }],
 			[/[^\\']+/, 'string'],
 			['.', 'string']
 		]

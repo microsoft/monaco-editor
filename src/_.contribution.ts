@@ -5,7 +5,8 @@
 'use strict';
 
 // Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+const _monaco: typeof monaco =
+	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
 
 interface ILang extends monaco.languages.ILanguageExtensionPoint {
 	loader: () => Promise<ILangImpl>;
@@ -16,14 +17,15 @@ interface ILangImpl {
 	language: monaco.languages.IMonarchLanguage;
 }
 
-const languageDefinitions: { [languageId: string]: ILang; } = {};
-const lazyLanguageLoaders: { [languageId: string]: LazyLanguageLoader; } = {};
+const languageDefinitions: { [languageId: string]: ILang } = {};
+const lazyLanguageLoaders: { [languageId: string]: LazyLanguageLoader } = {};
 
 class LazyLanguageLoader {
-
 	public static getOrCreate(languageId: string): LazyLanguageLoader {
 		if (!lazyLanguageLoaders[languageId]) {
-			lazyLanguageLoaders[languageId] = new LazyLanguageLoader(languageId);
+			lazyLanguageLoaders[languageId] = new LazyLanguageLoader(
+				languageId
+			);
 		}
 		return lazyLanguageLoaders[languageId];
 	}
@@ -50,7 +52,10 @@ class LazyLanguageLoader {
 	public load(): Promise<ILangImpl> {
 		if (!this._loadingTriggered) {
 			this._loadingTriggered = true;
-			languageDefinitions[this._languageId].loader().then(mod => this._lazyLoadPromiseResolve(mod), err => this._lazyLoadPromiseReject(err));
+			languageDefinitions[this._languageId].loader().then(
+				(mod) => this._lazyLoadPromiseResolve(mod),
+				(err) => this._lazyLoadPromiseReject(err)
+			);
 		}
 		return this._lazyLoadPromise;
 	}
@@ -67,9 +72,12 @@ export function registerLanguage(def: ILang): void {
 	_monaco.languages.register(def);
 
 	const lazyLanguageLoader = LazyLanguageLoader.getOrCreate(languageId);
-	_monaco.languages.setMonarchTokensProvider(languageId, lazyLanguageLoader.whenLoaded().then(mod => mod.language));
+	_monaco.languages.setMonarchTokensProvider(
+		languageId,
+		lazyLanguageLoader.whenLoaded().then((mod) => mod.language)
+	);
 	_monaco.languages.onLanguage(languageId, () => {
-		lazyLanguageLoader.load().then(mod => {
+		lazyLanguageLoader.load().then((mod) => {
 			_monaco.languages.setLanguageConfiguration(languageId, mod.conf);
 		});
 	});

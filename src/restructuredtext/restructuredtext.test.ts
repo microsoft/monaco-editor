@@ -11,9 +11,7 @@ testTokenization('restructuredtext', [
 	[
 		{
 			line: '#####',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.rst' }
-			]
+			tokens: [{ startIndex: 0, type: 'keyword.rst' }]
 		}
 	],
 	[
@@ -21,14 +19,14 @@ testTokenization('restructuredtext', [
 			line: 'strong **strong**',
 			tokens: [
 				{ startIndex: 0, type: '' },
-				{ startIndex: 7, type: 'strong.rst' },
+				{ startIndex: 7, type: 'strong.rst' }
 			]
 		},
 		{
 			line: 'emphasis *emphasis*',
 			tokens: [
 				{ startIndex: 0, type: '' },
-				{ startIndex: 9, type: 'emphasis.rst' },
+				{ startIndex: 9, type: 'emphasis.rst' }
 			]
 		}
 	],
@@ -38,7 +36,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'string.link.rst' },
-				{ startIndex: 6, type: '' },
+				{ startIndex: 6, type: '' }
 			]
 		},
 		{
@@ -46,7 +44,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'string.link.rst' },
-				{ startIndex: 7, type: '' },
+				{ startIndex: 7, type: '' }
 			]
 		},
 		{
@@ -54,7 +52,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'string.link.rst' },
-				{ startIndex: 5, type: '' },
+				{ startIndex: 5, type: '' }
 			]
 		},
 		{
@@ -62,7 +60,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'string.link.rst' },
-				{ startIndex: 5, type: '' },
+				{ startIndex: 5, type: '' }
 			]
 		},
 		{
@@ -71,9 +69,7 @@ testTokenization('restructuredtext', [
 		},
 		{
 			line: ' .. [23] This is not the footnote',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			]
+			tokens: [{ startIndex: 0, type: '' }]
 		}
 	],
 	[
@@ -83,7 +79,6 @@ testTokenization('restructuredtext', [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 1, type: 'string.link.rst' },
 				{ startIndex: 3, type: '' }
-
 			]
 		},
 		{
@@ -109,7 +104,7 @@ testTokenization('restructuredtext', [
 				{ startIndex: 1, type: 'string.link.rst' },
 				{ startIndex: 5, type: '' },
 				{ startIndex: 9, type: 'string.link.rst' },
-				{ startIndex: 10, type: '' },
+				{ startIndex: 10, type: '' }
 			]
 		}
 	],
@@ -126,9 +121,7 @@ testTokenization('restructuredtext', [
 	[
 		{
 			line: ' .. [A3] This is not the citation',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			]
+			tokens: [{ startIndex: 0, type: '' }]
 		}
 	],
 	[
@@ -137,26 +130,20 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'string.link.rst' },
-				{ startIndex: 6, type: '' },
+				{ startIndex: 6, type: '' }
 			]
 		},
 		{
 			line: ' first line',
-			tokens: [
-				{ startIndex: 0, type: '' }
-			]
+			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
 			line: ' second line',
-			tokens: [
-				{ startIndex: 0, type: '' }
-			]
+			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
 			line: 'new line starts',
-			tokens: [
-				{ startIndex: 0, type: '' }
-			]
+			tokens: [{ startIndex: 0, type: '' }]
 		}
 	],
 	[
@@ -165,23 +152,21 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 1, type: 'string.link.rst' },
-				{ startIndex: 3, type: '' },
+				{ startIndex: 3, type: '' }
 			]
 		}
 	],
 	[
 		{
 			line: 'Interpreted Text `text`',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			]
+			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
 			line: ' .. _`text`: paragraph',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 6, type: 'string.link.rst' },
-				{ startIndex: 10, type: '' },
+				{ startIndex: 10, type: '' }
 			]
 		},
 		{
@@ -189,7 +174,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 18, type: 'keyword.rst' },
-				{ startIndex: 22, type: '' },
+				{ startIndex: 22, type: '' }
 			]
 		},
 		{
@@ -197,7 +182,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 24, type: 'keyword.rst' },
-				{ startIndex: 28, type: '' },
+				{ startIndex: 28, type: '' }
 			]
 		}
 	],
@@ -207,16 +192,14 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 3, type: 'keyword.rst' },
-				{ startIndex: 7, type: '' },
+				{ startIndex: 7, type: '' }
 			]
 		}
 	],
 	[
 		{
 			line: 'link .. _link: this is not a hyperlink',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			]
+			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
 			line: '.. _link: this is a hyperlink',
@@ -224,7 +207,7 @@ testTokenization('restructuredtext', [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'string.link.rst' },
 				{ startIndex: 8, type: '' },
-				{ startIndex: 10, type: 'string.link.rst' },
+				{ startIndex: 10, type: 'string.link.rst' }
 			]
 		},
 		{
@@ -233,21 +216,21 @@ testTokenization('restructuredtext', [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'string.link.rst' },
 				{ startIndex: 10, type: '' },
-				{ startIndex: 12, type: 'string.link.rst' },
+				{ startIndex: 12, type: 'string.link.rst' }
 			]
 		},
 		{
 			line: '.. __: this is a anonymous hyperlink',
 			tokens: [
 				{ startIndex: 0, type: '' },
-				{ startIndex: 7, type: 'string.link.rst' },
+				{ startIndex: 7, type: 'string.link.rst' }
 			]
 		},
 		{
 			line: '__: this is a anonymous hyperlink',
 			tokens: [
 				{ startIndex: 0, type: '' },
-				{ startIndex: 4, type: 'string.link.rst' },
+				{ startIndex: 4, type: 'string.link.rst' }
 			]
 		}
 	],
@@ -257,7 +240,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 9, type: 'string.link.rst' },
-				{ startIndex: 41, type: '' },
+				{ startIndex: 41, type: '' }
 			]
 		}
 	],
@@ -269,7 +252,7 @@ testTokenization('restructuredtext', [
 				{ startIndex: 4, type: 'string.link.rst' },
 				{ startIndex: 13, type: '' },
 				{ startIndex: 15, type: 'keyword.rst' },
-				{ startIndex: 20, type: '' },
+				{ startIndex: 20, type: '' }
 			]
 		},
 		{
@@ -277,7 +260,7 @@ testTokenization('restructuredtext', [
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 5, type: 'string.link.rst' },
-				{ startIndex: 14, type: '' },
+				{ startIndex: 14, type: '' }
 			]
 		}
 	],
@@ -292,7 +275,7 @@ testTokenization('restructuredtext', [
 				{ startIndex: 12, type: 'string.link.rst' },
 				{ startIndex: 15, type: '' },
 				{ startIndex: 18, type: 'string.link.rst' },
-				{ startIndex: 23, type: '' },
+				{ startIndex: 23, type: '' }
 			]
 		}
 	],
@@ -304,189 +287,166 @@ testTokenization('restructuredtext', [
 				{ startIndex: 6, type: 'string.link.rst' },
 				{ startIndex: 12, type: '' },
 				{ startIndex: 13, type: 'string.link.rst' },
-				{ startIndex: 30, type: '' },
+				{ startIndex: 30, type: '' }
 			]
 		}
 	],
 	[
 		{
 			line: '::',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.rst' },
-			]
+			tokens: [{ startIndex: 0, type: 'keyword.rst' }]
 		},
 		{
 			line: '',
-			tokens: [
-			]
+			tokens: []
 		},
 		{
 			line: ' first line',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 1, type: '' },
+				{ startIndex: 1, type: '' }
 			]
 		},
 		{
 			line: ' second line',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 1, type: '' },
+				{ startIndex: 1, type: '' }
 			]
 		},
 		{
 			line: '',
-			tokens: [
-			]
+			tokens: []
 		},
 		{
 			line: ' paragraph',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			]
-		},
+			tokens: [{ startIndex: 0, type: '' }]
+		}
 	],
 	[
 		{
 			line: 'desc ::',
 			tokens: [
 				{ startIndex: 0, type: '' },
-				{ startIndex: 4, type: 'keyword.rst' },
+				{ startIndex: 4, type: 'keyword.rst' }
 			]
 		},
 		{
 			line: '',
-			tokens: [
-			]
+			tokens: []
 		},
 		{
 			line: '>>first line',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 2, type: '' },
+				{ startIndex: 2, type: '' }
 			]
 		},
 		{
 			line: '>',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.rst' },
-			]
+			tokens: [{ startIndex: 0, type: 'keyword.rst' }]
 		},
 		{
 			line: '>second line',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 1, type: '' },
+				{ startIndex: 1, type: '' }
 			]
 		},
 		{
 			line: '',
-			tokens: [
-			]
+			tokens: []
 		},
 		{
 			line: ' paragraph',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			]
-		},
+			tokens: [{ startIndex: 0, type: '' }]
+		}
 	],
 	[
 		{
 			line: '.. comment',
 			tokens: [
 				{ startIndex: 0, type: '' },
-				{ startIndex: 2, type: 'comment.rst' },
+				{ startIndex: 2, type: 'comment.rst' }
 			]
 		},
 		{
 			line: ' firstline',
-			tokens: [
-				{ startIndex: 0, type: 'comment.rst' },
-			]
+			tokens: [{ startIndex: 0, type: 'comment.rst' }]
 		},
 		{
 			line: '',
-			tokens: [
-			]
+			tokens: []
 		},
 		{
 			line: ' paragraph',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			]
-		},
+			tokens: [{ startIndex: 0, type: '' }]
+		}
 	],
 	[
 		{
 			line: '==',
-			tokens: [
-				{ startIndex: 0, type: '' },
-			],
+			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
 			line: '===',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.rst' },
-			],
-		},
+			tokens: [{ startIndex: 0, type: 'keyword.rst' }]
+		}
 	],
 	[
 		{
 			line: '1. item',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 3, type: '' },
-			],
+				{ startIndex: 3, type: '' }
+			]
 		},
 		{
 			line: 'a. item',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 3, type: '' },
-			],
+				{ startIndex: 3, type: '' }
+			]
 		},
 		{
 			line: '* item',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 2, type: '' },
-			],
+				{ startIndex: 2, type: '' }
+			]
 		},
 		{
 			line: '- item',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 2, type: '' },
-			],
+				{ startIndex: 2, type: '' }
+			]
 		},
 		{
 			line: '1) item',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 3, type: '' },
-			],
+				{ startIndex: 3, type: '' }
+			]
 		},
 		{
 			line: '(a) item',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.rst' },
-				{ startIndex: 4, type: '' },
-			],
-		},
+				{ startIndex: 4, type: '' }
+			]
+		}
 	],
 	[
 		{
-			line: '+------------------------+------------+----------+----------+',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.rst' },
-			],
+			line:
+				'+------------------------+------------+----------+----------+',
+			tokens: [{ startIndex: 0, type: 'keyword.rst' }]
 		},
 		{
-			line: '+========================+============+==========+==========+',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.rst' },
-			],
-		},
-	],
+			line:
+				'+========================+============+==========+==========+',
+			tokens: [{ startIndex: 0, type: 'keyword.rst' }]
+		}
+	]
 ]);

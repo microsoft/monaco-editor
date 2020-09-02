@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 'use strict';
 
@@ -10,16 +10,20 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
-		lineComment: '#',
+		lineComment: '#'
 	},
-	brackets: [['{', '}'], ['[', ']'], ['(', ')']],
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
+	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
 		{ open: "'", close: "'" },
-		{ open: '`', close: '`' },
+		{ open: '`', close: '`' }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
@@ -27,8 +31,8 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
 		{ open: "'", close: "'" },
-		{ open: '`', close: '`' },
-	],
+		{ open: '`', close: '`' }
+	]
 };
 
 export const language = <ILanguage>{
@@ -38,7 +42,7 @@ export const language = <ILanguage>{
 	brackets: [
 		{ token: 'delimiter.bracket', open: '{', close: '}' },
 		{ token: 'delimiter.parenthesis', open: '(', close: ')' },
-		{ token: 'delimiter.square', open: '[', close: ']' },
+		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
 	// https://learn.perl.org/docs/keywords.html
@@ -78,7 +82,7 @@ export const language = <ILanguage>{
 		'le',
 
 		'__DIE__',
-		'__WARN__',
+		'__WARN__'
 	],
 
 	// Perl functions
@@ -317,11 +321,18 @@ export const language = <ILanguage>{
 		'write',
 		'each',
 		'lcfirst',
-		'setnetent',
+		'setnetent'
 	],
 
 	// File handlers
-	builtinFileHandlers: ['ARGV', 'STDERR', 'STDOUT', 'ARGVOUT', 'STDIN', 'ENV'],
+	builtinFileHandlers: [
+		'ARGV',
+		'STDERR',
+		'STDOUT',
+		'ARGVOUT',
+		'STDIN',
+		'ENV'
+	],
 
 	// Perl variables
 	builtinVariables: [
@@ -454,7 +465,7 @@ export const language = <ILanguage>{
 		'$^R',
 		'$LAST_MATCH_END',
 		'$^RE_DEBUG_FLAGS',
-		'$LAST_PAREN_MATCH',
+		'$LAST_PAREN_MATCH'
 	],
 
 	// operators
@@ -475,10 +486,13 @@ export const language = <ILanguage>{
 						'@keywords': 'keyword',
 						'@builtinFunctions': 'type.identifier',
 						'@builtinFileHandlers': 'variable.predefined',
-						'@quoteLikeOps': { token: '@rematch', next: 'quotedConstructs' },
-						'@default': '',
-					},
-				},
+						'@quoteLikeOps': {
+							token: '@rematch',
+							next: 'quotedConstructs'
+						},
+						'@default': ''
+					}
+				}
 			],
 
 			// Perl variables
@@ -487,9 +501,9 @@ export const language = <ILanguage>{
 				{
 					cases: {
 						'@builtinVariables': 'variable.predefined',
-						'@default': 'variable',
-					},
-				},
+						'@default': 'variable'
+					}
+				}
 			],
 
 			{ include: '@strings' },
@@ -506,26 +520,26 @@ export const language = <ILanguage>{
 			// RegExp
 			[
 				/[\/](?:(?:\[(?:\\]|[^\]])+\])|(?:\\\/|[^\]\/]))*[\/]\w*\s*(?=[).,;]|$)/,
-				'regexp',
+				'regexp'
 			],
 
 			[/@symbols/, 'operators'],
 
 			{ include: '@numbers' },
 
-			[/[,;]/, 'delimiter'],
+			[/[,;]/, 'delimiter']
 		],
 
 		whitespace: [
 			[/\s+/, 'white'],
 			[/(^#!.*$)/, 'metatag'],
-			[/(^#.*$)/, 'comment'],
+			[/(^#.*$)/, 'comment']
 		],
 
 		numbers: [
 			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
 			[/0[xX][0-9a-fA-F_]*[0-9a-fA-F]/, 'number.hex'],
-			[/\d+/, 'number'],
+			[/\d+/, 'number']
 		],
 
 		// Single quote string
@@ -534,7 +548,7 @@ export const language = <ILanguage>{
 		stringBody: [
 			[/'/, 'string', '@popall'],
 			[/\\'/, 'string.escape'],
-			[/./, 'string'],
+			[/./, 'string']
 		],
 
 		// Double quote string
@@ -545,36 +559,93 @@ export const language = <ILanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			{ include: '@variables' },
-			[/./, 'string'],
+			[/./, 'string']
 		],
 
 		// Quoted constructs
 		// Percent strings in Ruby are similar to quote-like operators in Perl.
 		// This is adapted from pstrings in ../ruby/ruby.ts.
 		quotedConstructs: [
-			[/(q|qw|tr|y)\s*\(/, { token: 'string.delim', switchTo: '@qstring.(.)' }],
-			[/(q|qw|tr|y)\s*\[/, { token: 'string.delim', switchTo: '@qstring.[.]' }],
-			[/(q|qw|tr|y)\s*\{/, { token: 'string.delim', switchTo: '@qstring.{.}' }],
-			[/(q|qw|tr|y)\s*</, { token: 'string.delim', switchTo: '@qstring.<.>' }],
-			[/(q|qw|tr|y)#/, { token: 'string.delim', switchTo: '@qstring.#.#' }],
-			[/(q|qw|tr|y)\s*([^A-Za-z0-9#\s])/, { token: 'string.delim', switchTo: '@qstring.$2.$2' }],
-			[/(q|qw|tr|y)\s+(\w)/, { token: 'string.delim', switchTo: '@qstring.$2.$2' }],
+			[
+				/(q|qw|tr|y)\s*\(/,
+				{ token: 'string.delim', switchTo: '@qstring.(.)' }
+			],
+			[
+				/(q|qw|tr|y)\s*\[/,
+				{ token: 'string.delim', switchTo: '@qstring.[.]' }
+			],
+			[
+				/(q|qw|tr|y)\s*\{/,
+				{ token: 'string.delim', switchTo: '@qstring.{.}' }
+			],
+			[
+				/(q|qw|tr|y)\s*</,
+				{ token: 'string.delim', switchTo: '@qstring.<.>' }
+			],
+			[
+				/(q|qw|tr|y)#/,
+				{ token: 'string.delim', switchTo: '@qstring.#.#' }
+			],
+			[
+				/(q|qw|tr|y)\s*([^A-Za-z0-9#\s])/,
+				{ token: 'string.delim', switchTo: '@qstring.$2.$2' }
+			],
+			[
+				/(q|qw|tr|y)\s+(\w)/,
+				{ token: 'string.delim', switchTo: '@qstring.$2.$2' }
+			],
 
-			[/(qr|m|s)\s*\(/, { token: 'regexp.delim', switchTo: '@qregexp.(.)' }],
-			[/(qr|m|s)\s*\[/, { token: 'regexp.delim', switchTo: '@qregexp.[.]' }],
-			[/(qr|m|s)\s*\{/, { token: 'regexp.delim', switchTo: '@qregexp.{.}' }],
-			[/(qr|m|s)\s*</, { token: 'regexp.delim', switchTo: '@qregexp.<.>' }],
+			[
+				/(qr|m|s)\s*\(/,
+				{ token: 'regexp.delim', switchTo: '@qregexp.(.)' }
+			],
+			[
+				/(qr|m|s)\s*\[/,
+				{ token: 'regexp.delim', switchTo: '@qregexp.[.]' }
+			],
+			[
+				/(qr|m|s)\s*\{/,
+				{ token: 'regexp.delim', switchTo: '@qregexp.{.}' }
+			],
+			[
+				/(qr|m|s)\s*</,
+				{ token: 'regexp.delim', switchTo: '@qregexp.<.>' }
+			],
 			[/(qr|m|s)#/, { token: 'regexp.delim', switchTo: '@qregexp.#.#' }],
-			[/(qr|m|s)\s*([^A-Za-z0-9_#\s])/, { token: 'regexp.delim', switchTo: '@qregexp.$2.$2' }],
-			[/(qr|m|s)\s+(\w)/, { token: 'regexp.delim', switchTo: '@qregexp.$2.$2' }],
+			[
+				/(qr|m|s)\s*([^A-Za-z0-9_#\s])/,
+				{ token: 'regexp.delim', switchTo: '@qregexp.$2.$2' }
+			],
+			[
+				/(qr|m|s)\s+(\w)/,
+				{ token: 'regexp.delim', switchTo: '@qregexp.$2.$2' }
+			],
 
-			[/(qq|qx)\s*\(/, { token: 'string.delim', switchTo: '@qqstring.(.)' }],
-			[/(qq|qx)\s*\[/, { token: 'string.delim', switchTo: '@qqstring.[.]' }],
-			[/(qq|qx)\s*\{/, { token: 'string.delim', switchTo: '@qqstring.{.}' }],
-			[/(qq|qx)\s*</, { token: 'string.delim', switchTo: '@qqstring.<.>' }],
+			[
+				/(qq|qx)\s*\(/,
+				{ token: 'string.delim', switchTo: '@qqstring.(.)' }
+			],
+			[
+				/(qq|qx)\s*\[/,
+				{ token: 'string.delim', switchTo: '@qqstring.[.]' }
+			],
+			[
+				/(qq|qx)\s*\{/,
+				{ token: 'string.delim', switchTo: '@qqstring.{.}' }
+			],
+			[
+				/(qq|qx)\s*</,
+				{ token: 'string.delim', switchTo: '@qqstring.<.>' }
+			],
 			[/(qq|qx)#/, { token: 'string.delim', switchTo: '@qqstring.#.#' }],
-			[/(qq|qx)\s*([^A-Za-z0-9#\s])/, { token: 'string.delim', switchTo: '@qqstring.$2.$2' }],
-			[/(qq|qx)\s+(\w)/, { token: 'string.delim', switchTo: '@qqstring.$2.$2' }],
+			[
+				/(qq|qx)\s*([^A-Za-z0-9#\s])/,
+				{ token: 'string.delim', switchTo: '@qqstring.$2.$2' }
+			],
+			[
+				/(qq|qx)\s+(\w)/,
+				{ token: 'string.delim', switchTo: '@qqstring.$2.$2' }
+			]
 		],
 
 		// Non-expanded quoted string
@@ -583,49 +654,58 @@ export const language = <ILanguage>{
 		//  close = close delimiter
 		qstring: [
 			[/\\./, 'string.escape'],
-			[/./, {
-				cases: {
-					'$#==$S3': { token: 'string.delim', next: '@pop' },
-					'$#==$S2': { token: 'string.delim', next: '@push' }, // nested delimiters
-					'@default': 'string'
+			[
+				/./,
+				{
+					cases: {
+						'$#==$S3': { token: 'string.delim', next: '@pop' },
+						'$#==$S2': { token: 'string.delim', next: '@push' }, // nested delimiters
+						'@default': 'string'
+					}
 				}
-			}],
+			]
 		],
 
-    // Quoted regexp
+		// Quoted regexp
 		// qregexp.<open>.<close>
 		//  open = open delimiter
 		//  close = close delimiter
 		qregexp: [
 			{ include: '@variables' },
 			[/\\./, 'regexp.escape'],
-			[/./, {
-				cases: {
-					'$#==$S3': { token: 'regexp.delim', next: '@regexpModifiers' },
-					'$#==$S2': { token: 'regexp.delim', next: '@push' }, // nested delimiters
-					'@default': 'regexp'
+			[
+				/./,
+				{
+					cases: {
+						'$#==$S3': {
+							token: 'regexp.delim',
+							next: '@regexpModifiers'
+						},
+						'$#==$S2': { token: 'regexp.delim', next: '@push' }, // nested delimiters
+						'@default': 'regexp'
+					}
 				}
-			}],
+			]
 		],
 
-    regexpModifiers: [
-			[/[msixpodualngcer]+/, { token: 'regexp.modifier', next: '@popall' }],
+		regexpModifiers: [
+			[
+				/[msixpodualngcer]+/,
+				{ token: 'regexp.modifier', next: '@popall' }
+			]
 		],
 
 		// Expanded quoted string
 		// qqstring.<open>.<close>
 		//  open = open delimiter
 		//  close = close delimiter
-		qqstring: [
-			{ include: '@variables' },
-			{ include: '@qstring' },
-		],
+		qqstring: [{ include: '@variables' }, { include: '@qstring' }],
 
 		heredoc: [
 			[
 				/<<\s*['"`]?([\w\-]+)['"`]?/,
-				{ token: 'string.heredoc.delimiter', next: '@heredocBody.$1' },
-			],
+				{ token: 'string.heredoc.delimiter', next: '@heredocBody.$1' }
+			]
 		],
 
 		heredocBody: [
@@ -633,25 +713,30 @@ export const language = <ILanguage>{
 				/^([\w\-]+)$/,
 				{
 					cases: {
-						'$1==$S2': [{ token: 'string.heredoc.delimiter', next: '@popall' }],
-						'@default': 'string.heredoc',
-					},
-				},
+						'$1==$S2': [
+							{
+								token: 'string.heredoc.delimiter',
+								next: '@popall'
+							}
+						],
+						'@default': 'string.heredoc'
+					}
+				}
 			],
-			[/./, 'string.heredoc'],
+			[/./, 'string.heredoc']
 		],
 
 		perldoc: [[/^=\w/, 'comment.doc', '@perldocBody']],
 
 		perldocBody: [
 			[/^=cut\b/, 'type.identifier', '@popall'],
-			[/./, 'comment.doc'],
+			[/./, 'comment.doc']
 		],
 
 		variables: [
 			[/\$\w+/, 'variable'], // scalar
 			[/@\w+/, 'variable'], // array
-			[/%\w+/, 'variable'], // key/value
-		],
-	},
+			[/%\w+/, 'variable'] // key/value
+		]
+	}
 };

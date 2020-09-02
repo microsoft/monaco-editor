@@ -21,13 +21,13 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' },
+		{ open: '"', close: '"' }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' },
+		{ open: '"', close: '"' }
 	]
 };
 
@@ -136,7 +136,7 @@ export const language = <ILanguage>{
 		'\\a',
 		'\\f',
 		'\\v',
-		'\\\'',
+		"\\'",
 		'\\"',
 		'\\\\'
 	],
@@ -164,30 +164,39 @@ export const language = <ILanguage>{
 			[/[,:;]/, 'delimiter'],
 
 			[/@[a-zA-Z]\w*/, 'tag'],
-			[/[a-zA-Z]\w*/, {
-				cases: {
-					'@keywords': 'keyword',
-					'@constants': 'constant',
-					'@default': 'identifier'
+			[
+				/[a-zA-Z]\w*/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@constants': 'constant',
+						'@default': 'identifier'
+					}
 				}
-			}]
+			]
 		],
 
 		// Recognize Roxygen comments
 		roxygen: [
-			[/@\w+/, {
-				cases: {
-					'@roxygen': 'tag',
-					'@eos': { token: 'comment.doc', next: '@pop' },
-					'@default': 'comment.doc'
+			[
+				/@\w+/,
+				{
+					cases: {
+						'@roxygen': 'tag',
+						'@eos': { token: 'comment.doc', next: '@pop' },
+						'@default': 'comment.doc'
+					}
 				}
-			}],
-			[/\s+/, {
-				cases: {
-					'@eos': { token: 'comment.doc', next: '@pop' },
-					'@default': 'comment.doc'
+			],
+			[
+				/\s+/,
+				{
+					cases: {
+						'@eos': { token: 'comment.doc', next: '@pop' },
+						'@default': 'comment.doc'
+					}
 				}
-			}],
+			],
 			[/.*/, { token: 'comment.doc', next: '@pop' }]
 		],
 
@@ -217,24 +226,30 @@ export const language = <ILanguage>{
 			[/"/, 'string.escape', '@dblStringBody']
 		],
 		stringBody: [
-			[/\\./, {
-				cases: {
-					'@special': 'string',
-					'@default': 'error-token'
+			[
+				/\\./,
+				{
+					cases: {
+						'@special': 'string',
+						'@default': 'error-token'
+					}
 				}
-			}],
+			],
 			[/'/, 'string.escape', '@popall'],
-			[/./, 'string'],
+			[/./, 'string']
 		],
 		dblStringBody: [
-			[/\\./, {
-				cases: {
-					'@special': 'string',
-					'@default': 'error-token'
+			[
+				/\\./,
+				{
+					cases: {
+						'@special': 'string',
+						'@default': 'error-token'
+					}
 				}
-			}],
+			],
 			[/"/, 'string.escape', '@popall'],
-			[/./, 'string'],
+			[/./, 'string']
 		]
 	}
 };

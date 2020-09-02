@@ -10,7 +10,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
@@ -22,16 +22,16 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
-		{ open: '`', close: '`' },
+		{ open: "'", close: "'" },
+		{ open: '`', close: '`' }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
-		{ open: '`', close: '`' },
+		{ open: "'", close: "'" },
+		{ open: '`', close: '`' }
 	]
 };
 
@@ -43,18 +43,103 @@ export const language = <ILanguage>{
 	identifier: /[a-zA-Z_][\w$]*/,
 	// TODO(owensd): Support the @availability macro properly.
 	attributes: [
-		'@autoclosure', '@noescape', '@noreturn', '@NSApplicationMain', '@NSCopying', '@NSManaged',
-		'@objc', '@UIApplicationMain', '@noreturn', '@availability', '@IBAction', '@IBDesignable', '@IBInspectable', '@IBOutlet'
+		'@autoclosure',
+		'@noescape',
+		'@noreturn',
+		'@NSApplicationMain',
+		'@NSCopying',
+		'@NSManaged',
+		'@objc',
+		'@UIApplicationMain',
+		'@noreturn',
+		'@availability',
+		'@IBAction',
+		'@IBDesignable',
+		'@IBInspectable',
+		'@IBOutlet'
 	],
 	accessmodifiers: ['public', 'private', 'internal'],
 	keywords: [
-		'__COLUMN__', '__FILE__', '__FUNCTION__', '__LINE__', 'as', 'as!', 'as?', 'associativity', 'break', 'case', 'catch',
-		'class', 'continue', 'convenience', 'default', 'deinit', 'didSet', 'do', 'dynamic', 'dynamicType',
-		'else', 'enum', 'extension', 'fallthrough', 'final', 'for', 'func', 'get', 'guard', 'if', 'import', 'in', 'infix',
-		'init', 'inout', 'internal', 'is', 'lazy', 'left', 'let', 'mutating', 'nil', 'none', 'nonmutating', 'operator',
-		'optional', 'override', 'postfix', 'precedence', 'prefix', 'private', 'protocol', 'Protocol', 'public',
-		'repeat', 'required', 'return', 'right', 'self', 'Self', 'set', 'static', 'struct', 'subscript', 'super', 'switch',
-		'throw', 'throws', 'try', 'try!', 'Type', 'typealias', 'unowned', 'var', 'weak', 'where', 'while', 'willSet', 'FALSE', 'TRUE'
+		'__COLUMN__',
+		'__FILE__',
+		'__FUNCTION__',
+		'__LINE__',
+		'as',
+		'as!',
+		'as?',
+		'associativity',
+		'break',
+		'case',
+		'catch',
+		'class',
+		'continue',
+		'convenience',
+		'default',
+		'deinit',
+		'didSet',
+		'do',
+		'dynamic',
+		'dynamicType',
+		'else',
+		'enum',
+		'extension',
+		'fallthrough',
+		'final',
+		'for',
+		'func',
+		'get',
+		'guard',
+		'if',
+		'import',
+		'in',
+		'infix',
+		'init',
+		'inout',
+		'internal',
+		'is',
+		'lazy',
+		'left',
+		'let',
+		'mutating',
+		'nil',
+		'none',
+		'nonmutating',
+		'operator',
+		'optional',
+		'override',
+		'postfix',
+		'precedence',
+		'prefix',
+		'private',
+		'protocol',
+		'Protocol',
+		'public',
+		'repeat',
+		'required',
+		'return',
+		'right',
+		'self',
+		'Self',
+		'set',
+		'static',
+		'struct',
+		'subscript',
+		'super',
+		'switch',
+		'throw',
+		'throws',
+		'try',
+		'try!',
+		'Type',
+		'typealias',
+		'unowned',
+		'var',
+		'weak',
+		'where',
+		'while',
+		'willSet',
+		'FALSE',
+		'TRUE'
 	],
 
 	symbols: /[=(){}\[\].,:;@#\_&\-<>`?!+*\\\/]/,
@@ -75,7 +160,7 @@ export const language = <ILanguage>{
 			{ include: '@literal' },
 			{ include: '@keyword' },
 			{ include: '@invokedmethod' },
-			{ include: '@symbol' },
+			{ include: '@symbol' }
 		],
 
 		whitespace: [
@@ -98,7 +183,6 @@ export const language = <ILanguage>{
 			[/@symbols/, 'operator']
 		],
 
-
 		comment: [
 			[/\/\/\/.*$/, 'comment.doc'],
 			[/\/\*\*/, 'comment.doc', '@commentdocbody'],
@@ -118,12 +202,15 @@ export const language = <ILanguage>{
 		],
 
 		attribute: [
-			[/\@@identifier/, {
-				cases: {
-					'@attributes': 'keyword.control',
-					'@default': ''
+			[
+				/\@@identifier/,
+				{
+					cases: {
+						'@attributes': 'keyword.control',
+						'@default': ''
+					}
 				}
-			}]
+			]
 		],
 
 		literal: [
@@ -153,12 +240,16 @@ export const language = <ILanguage>{
 
 		keyword: [
 			[/`/, { token: 'operator', next: '@escapedkeyword' }],
-			[/@identifier/, {
-				cases: {
-					'@keywords': 'keyword', '[A-Z][\a-zA-Z0-9$]*': 'type.identifier',
-					'@default': 'identifier'
+			[
+				/@identifier/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'[A-Z][a-zA-Z0-9$]*': 'type.identifier',
+						'@default': 'identifier'
+					}
 				}
-			}]
+			]
 		],
 
 		escapedkeyword: [
@@ -172,12 +263,15 @@ export const language = <ILanguage>{
 		//		],
 
 		invokedmethod: [
-			[/([.])(@identifier)/, {
-				cases: {
-					'$2': ['delimeter', 'type.identifier'],
-					'@default': ''
+			[
+				/([.])(@identifier)/,
+				{
+					cases: {
+						$2: ['delimeter', 'type.identifier'],
+						'@default': ''
+					}
 				}
-			}],
+			]
 		]
 	}
 };

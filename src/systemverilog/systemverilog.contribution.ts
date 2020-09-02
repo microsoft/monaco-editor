@@ -13,11 +13,9 @@ registerLanguage({
 	loader: () => import('./systemverilog')
 });
 
-
 registerLanguage({
 	id: 'verilog',
 	extensions: ['.v', '.vh'],
 	aliases: ['V', 'v', 'Verilog', 'verilog'],
 	loader: () => import('./systemverilog')
 });
-

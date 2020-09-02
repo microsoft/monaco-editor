@@ -13,32 +13,36 @@ export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
-		{ open: '<', close: '>' },
+		{ open: "'", close: "'" },
+		{ open: '<', close: '>' }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"),
-			end: new RegExp("^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))")
+			start: new RegExp(
+				'^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'
+			),
+			end: new RegExp(
+				'^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))'
+			)
 		}
 	}
 };
@@ -189,14 +193,15 @@ const keywords = [
 
 // create case variations of the keywords - apex is case insensitive, but we can't make the highlighter case insensitive
 // because we use a heuristic to assume that identifiers starting with an upper case letter are types.
-const uppercaseFirstLetter = (lowercase: string) => lowercase.charAt(0).toUpperCase() + lowercase.substr(1);
+const uppercaseFirstLetter = (lowercase: string) =>
+	lowercase.charAt(0).toUpperCase() + lowercase.substr(1);
 
 let keywordsWithCaseVariations: string[] = [];
-keywords.forEach(lowercase => {
+keywords.forEach((lowercase) => {
 	keywordsWithCaseVariations.push(lowercase);
 	keywordsWithCaseVariations.push(lowercase.toUpperCase());
 	keywordsWithCaseVariations.push(uppercaseFirstLetter(lowercase));
-})
+});
 
 export const language = <ILanguage>{
 	defaultToken: '',
@@ -205,11 +210,43 @@ export const language = <ILanguage>{
 	keywords: keywordsWithCaseVariations,
 
 	operators: [
-		'=', '>', '<', '!', '~', '?', ':',
-		'==', '<=', '>=', '!=', '&&', '||', '++', '--',
-		'+', '-', '*', '/', '&', '|', '^', '%', '<<',
-		'>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=',
-		'^=', '%=', '<<=', '>>=', '>>>='
+		'=',
+		'>',
+		'<',
+		'!',
+		'~',
+		'?',
+		':',
+		'==',
+		'<=',
+		'>=',
+		'!=',
+		'&&',
+		'||',
+		'++',
+		'--',
+		'+',
+		'-',
+		'*',
+		'/',
+		'&',
+		'|',
+		'^',
+		'%',
+		'<<',
+		'>>',
+		'>>>',
+		'+=',
+		'-=',
+		'*=',
+		'/=',
+		'&=',
+		'|=',
+		'^=',
+		'%=',
+		'<<=',
+		'>>=',
+		'>>>='
 	],
 
 	// we include these common regular expressions
@@ -224,20 +261,26 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-z_$][\w$]*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-z_$][\w$]*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// assume that identifiers starting with an uppercase letter are types
-			[/[A-Z][\w\$]*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'type.identifier'
+			[
+				/[A-Z][\w\$]*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'type.identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -245,19 +288,25 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// @ annotations.
 			[/@\s*[a-zA-Z_\$][\w\$]*/, 'annotation'],
 
 			// numbers
 			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
-			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
+			[
+				/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/,
+				'number.float'
+			],
 			[/(@digits)[fFdD]/, 'number.float'],
 			[/(@digits)[lL]?/, 'number'],
 
@@ -265,11 +314,10 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-			[/'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-			[/"/,  'string', '@string."' ],
-			[/'/,  'string', '@string.\'' ],
-
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/'([^'\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/"/, 'string', '@string."'],
+			[/'/, 'string', "@string.'"],
 
 			// characters
 			[/'[^\\']'/, 'string'],
@@ -281,7 +329,7 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@apexdoc'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
@@ -302,9 +350,16 @@ export const language = <ILanguage>{
 		string: [
 			[/[^\\"']+/, 'string'],
 			[/@escapes/, 'string.escape'],
-			[/\\./,      'string.escape.invalid'],
-			[/["']/,     { cases: { '$#==$S2' : { token: 'string', next: '@pop' },
-									'@default': 'string' }} ]
-		],
-	},
+			[/\\./, 'string.escape.invalid'],
+			[
+				/["']/,
+				{
+					cases: {
+						'$#==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
+				}
+			]
+		]
+	}
 };

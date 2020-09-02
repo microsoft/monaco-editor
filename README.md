@@ -14,25 +14,26 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 
 ## Dev: cheat sheet
 
-* initial setup with `npm install .`
-* compile with `npm run watch`
-* test with `npm run test`
-* bundle with `npm run prepublishOnly`
+-   initial setup with `npm install .`
+-   compile with `npm run watch`
+-   test with `npm run test`
+-   bundle with `npm run prepublishOnly`
 
 ## Dev: Adding a new language
 
-* create `$/src/myLang/myLang.contribution.ts`
-* create `$/src/myLang/myLang.ts`
-* create `$/src/myLang/myLang.test.ts`
-* edit `$/src/monaco.contribution.ts` and register your new language
+-   create `$/src/myLang/myLang.contribution.ts`
+-   create `$/src/myLang/myLang.ts`
+-   create `$/src/myLang/myLang.test.ts`
+-   edit `$/src/monaco.contribution.ts` and register your new language
+
 ```js
-  import './myLang/myLang.contribution';
+import './myLang/myLang.contribution';
 ```
 
 ## Code of Conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-
 ## License
+
 [MIT](https://github.com/Microsoft/monaco-languages/blob/master/LICENSE.md)

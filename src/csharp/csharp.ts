@@ -12,32 +12,32 @@ export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\$\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')'],
+		['(', ')']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-		{ open: '"', close: '"', notIn: ['string', 'comment'] },
+		{ open: "'", close: "'", notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string', 'comment'] }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '<', close: '>' },
-		{ open: '\'', close: '\'' },
-		{ open: '"', close: '"' },
+		{ open: "'", close: "'" },
+		{ open: '"', close: '"' }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*#region\\b"),
-			end: new RegExp("^\\s*#endregion\\b")
+			start: new RegExp('^\\s*#region\\b'),
+			end: new RegExp('^\\s*#endregion\\b')
 		}
 	}
 };
@@ -54,35 +54,163 @@ export const language = <ILanguage>{
 	],
 
 	keywords: [
-		'extern', 'alias', 'using', 'bool', 'decimal', 'sbyte', 'byte', 'short',
-		'ushort', 'int', 'uint', 'long', 'ulong', 'char', 'float', 'double',
-		'object', 'dynamic', 'string', 'assembly', 'is', 'as', 'ref',
-		'out', 'this', 'base', 'new', 'typeof', 'void', 'checked', 'unchecked',
-		'default', 'delegate', 'var', 'const', 'if', 'else', 'switch', 'case',
-		'while', 'do', 'for', 'foreach', 'in', 'break', 'continue', 'goto',
-		'return', 'throw', 'try', 'catch', 'finally', 'lock', 'yield', 'from',
-		'let', 'where', 'join', 'on', 'equals', 'into', 'orderby', 'ascending',
-		'descending', 'select', 'group', 'by', 'namespace', 'partial', 'class',
-		'field', 'event', 'method', 'param', 'property', 'public', 'protected',
-		'internal', 'private', 'abstract', 'sealed', 'static', 'struct', 'readonly',
-		'volatile', 'virtual', 'override', 'params', 'get', 'set', 'add', 'remove',
-		'operator', 'true', 'false', 'implicit', 'explicit', 'interface', 'enum',
-		'null', 'async', 'await', 'fixed', 'sizeof', 'stackalloc', 'unsafe', 'nameof',
+		'extern',
+		'alias',
+		'using',
+		'bool',
+		'decimal',
+		'sbyte',
+		'byte',
+		'short',
+		'ushort',
+		'int',
+		'uint',
+		'long',
+		'ulong',
+		'char',
+		'float',
+		'double',
+		'object',
+		'dynamic',
+		'string',
+		'assembly',
+		'is',
+		'as',
+		'ref',
+		'out',
+		'this',
+		'base',
+		'new',
+		'typeof',
+		'void',
+		'checked',
+		'unchecked',
+		'default',
+		'delegate',
+		'var',
+		'const',
+		'if',
+		'else',
+		'switch',
+		'case',
+		'while',
+		'do',
+		'for',
+		'foreach',
+		'in',
+		'break',
+		'continue',
+		'goto',
+		'return',
+		'throw',
+		'try',
+		'catch',
+		'finally',
+		'lock',
+		'yield',
+		'from',
+		'let',
+		'where',
+		'join',
+		'on',
+		'equals',
+		'into',
+		'orderby',
+		'ascending',
+		'descending',
+		'select',
+		'group',
+		'by',
+		'namespace',
+		'partial',
+		'class',
+		'field',
+		'event',
+		'method',
+		'param',
+		'property',
+		'public',
+		'protected',
+		'internal',
+		'private',
+		'abstract',
+		'sealed',
+		'static',
+		'struct',
+		'readonly',
+		'volatile',
+		'virtual',
+		'override',
+		'params',
+		'get',
+		'set',
+		'add',
+		'remove',
+		'operator',
+		'true',
+		'false',
+		'implicit',
+		'explicit',
+		'interface',
+		'enum',
+		'null',
+		'async',
+		'await',
+		'fixed',
+		'sizeof',
+		'stackalloc',
+		'unsafe',
+		'nameof',
 		'when'
 	],
 
-	namespaceFollows: [
-		'namespace', 'using',
-	],
+	namespaceFollows: ['namespace', 'using'],
 
 	parenFollows: [
-		'if', 'for', 'while', 'switch', 'foreach', 'using', 'catch', 'when'
+		'if',
+		'for',
+		'while',
+		'switch',
+		'foreach',
+		'using',
+		'catch',
+		'when'
 	],
 
 	operators: [
-		'=', '??', '||', '&&', '|', '^', '&', '==', '!=', '<=', '>=', '<<',
-		'+', '-', '*', '/', '%', '!', '~', '++', '--', '+=',
-		'-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>=', '>>', '=>'
+		'=',
+		'??',
+		'||',
+		'&&',
+		'|',
+		'^',
+		'&',
+		'==',
+		'!=',
+		'<=',
+		'>=',
+		'<<',
+		'+',
+		'-',
+		'*',
+		'/',
+		'%',
+		'!',
+		'~',
+		'++',
+		'--',
+		'+=',
+		'-=',
+		'*=',
+		'/=',
+		'%=',
+		'&=',
+		'|=',
+		'^=',
+		'<<=',
+		'>>=',
+		'>>',
+		'=>'
 	],
 
 	symbols: /[=><!~?:&|+\-*\/\^%]+/,
@@ -93,36 +221,55 @@ export const language = <ILanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-
 			// identifiers and keywords
-			[/\@?[a-zA-Z_]\w*/, {
-				cases: {
-					'@namespaceFollows': { token: 'keyword.$0', next: '@namespace' },
-					'@keywords': { token: 'keyword.$0', next: '@qualified' },
-					'@default': { token: 'identifier', next: '@qualified' }
+			[
+				/\@?[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@namespaceFollows': {
+							token: 'keyword.$0',
+							next: '@namespace'
+						},
+						'@keywords': {
+							token: 'keyword.$0',
+							next: '@qualified'
+						},
+						'@default': { token: 'identifier', next: '@qualified' }
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
 
 			// delimiters and operators
-			[/}/, {
-				cases: {
-					'$S2==interpolatedstring': { token: 'string.quote', next: '@pop' },
-					'$S2==litinterpstring': { token: 'string.quote', next: '@pop' },
-					'@default': '@brackets'
+			[
+				/}/,
+				{
+					cases: {
+						'$S2==interpolatedstring': {
+							token: 'string.quote',
+							next: '@pop'
+						},
+						'$S2==litinterpstring': {
+							token: 'string.quote',
+							next: '@pop'
+						},
+						'@default': '@brackets'
+					}
 				}
-			}],
+			],
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
-
+			],
 
 			// numbers
 			[/[0-9_]*\.[0-9_]+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
@@ -134,7 +281,7 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, { token: 'string.quote', next: '@string' }],
 			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' }],
 			[/\@"/, { token: 'string.quote', next: '@litstring' }],
@@ -147,21 +294,24 @@ export const language = <ILanguage>{
 		],
 
 		qualified: [
-			[/[a-zA-Z_][\w]*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_][\w]*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 			[/\./, 'delimiter'],
-			['', '', '@pop'],
+			['', '', '@pop']
 		],
 
 		namespace: [
 			{ include: '@whitespace' },
 			[/[A-Z]\w*/, 'namespace'],
 			[/[\.=]/, 'delimiter'],
-			['', '', '@pop'],
+			['', '', '@pop']
 		],
 
 		comment: [
@@ -208,7 +358,7 @@ export const language = <ILanguage>{
 			[/^[ \t\v\f]*#\w.*$/, 'namespace.cpp'],
 			[/[ \t\v\f\r\n]+/, ''],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
-		],
-	},
+			[/\/\/.*$/, 'comment']
+		]
+	}
 };

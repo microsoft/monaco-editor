@@ -12,7 +12,7 @@ export const conf: IRichLanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
 	comments: {
-		blockComment: ['{#', '#}'],
+		blockComment: ['{#', '#}']
 	},
 
 	brackets: [
@@ -24,7 +24,7 @@ export const conf: IRichLanguageConfiguration = {
 
 		// HTML
 		['<!--', '-->'],
-		['<', '>'],
+		['<', '>']
 	],
 
 	autoClosingPairs: [
@@ -34,17 +34,17 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 
 	surroundingPairs: [
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" },
 
 		// HTML
-		{ open: '<', close: '>' },
-	],
-}
+		{ open: '<', close: '>' }
+	]
+};
 
 export const language = <ILanguage>{
 	defaultToken: '',
@@ -53,14 +53,39 @@ export const language = <ILanguage>{
 
 	keywords: [
 		// (opening) tags
-		'apply', 'autoescape', 'block', 'deprecated', 'do', 'embed', 'extends',
-		'flush', 'for', 'from', 'if', 'import', 'include', 'macro', 'sandbox',
-		'set', 'use', 'verbatim', 'with',
+		'apply',
+		'autoescape',
+		'block',
+		'deprecated',
+		'do',
+		'embed',
+		'extends',
+		'flush',
+		'for',
+		'from',
+		'if',
+		'import',
+		'include',
+		'macro',
+		'sandbox',
+		'set',
+		'use',
+		'verbatim',
+		'with',
 		// closing tags
-		'endapply', 'endautoescape', 'endblock', 'endembed', 'endfor', 'endif',
-		'endmacro', 'endsandbox', 'endset', 'endwith',
+		'endapply',
+		'endautoescape',
+		'endblock',
+		'endembed',
+		'endfor',
+		'endif',
+		'endmacro',
+		'endsandbox',
+		'endset',
+		'endwith',
 		// literals
-		'true', 'false',
+		'true',
+		'false'
 	],
 
 	tokenizer: {
@@ -76,13 +101,28 @@ export const language = <ILanguage>{
 			// HTML
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
 			[/<!--/, 'comment.html', '@comment'],
-			[/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/, ['delimiter.html', 'tag.html', '', 'delimiter.html']],
-			[/(<)(script)/, ['delimiter.html', { token: 'tag.html', next: '@script' }]],
-			[/(<)(style)/, ['delimiter.html', { token: 'tag.html', next: '@style' }]],
-			[/(<)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
-			[/(<\/)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
+			[
+				/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/,
+				['delimiter.html', 'tag.html', '', 'delimiter.html']
+			],
+			[
+				/(<)(script)/,
+				['delimiter.html', { token: 'tag.html', next: '@script' }]
+			],
+			[
+				/(<)(style)/,
+				['delimiter.html', { token: 'tag.html', next: '@style' }]
+			],
+			[
+				/(<)((?:[\w\-]+:)?[\w\-]+)/,
+				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
+			],
+			[
+				/(<\/)((?:[\w\-]+:)?[\w\-]+)/,
+				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
+			],
 			[/</, 'delimiter.html'],
-			[/[^<]+/], // text
+			[/[^<]+/] // text
 		],
 
 		/**
@@ -90,7 +130,7 @@ export const language = <ILanguage>{
 		 */
 		commentState: [
 			[/#}/, 'comment.twig', '@pop'],
-			[/./, 'comment.twig'],
+			[/./, 'comment.twig']
 		],
 
 		/**
@@ -103,24 +143,30 @@ export const language = <ILanguage>{
 			// verbatim
 			// Unlike other blocks, verbatim ehas its own state
 			// transition to ensure we mark its contents as strings.
-			[/(verbatim)(\s*)([-~]?%})/, [
-				'keyword.twig',
-				'',
-				{ token: 'delimiter.twig', next: '@rawDataState' },
-			]],
+			[
+				/(verbatim)(\s*)([-~]?%})/,
+				[
+					'keyword.twig',
+					'',
+					{ token: 'delimiter.twig', next: '@rawDataState' }
+				]
+			],
 			{ include: 'expression' }
 		],
 
 		rawDataState: [
 			// endverbatim
-			[/({%[-~]?)(\s*)(endverbatim)(\s*)([-~]?%})/, [
-				'delimiter.twig',
-				'',
-				'keyword.twig',
-				'',
-				{ token: 'delimiter.twig', next: '@popall' },
-			]],
-			[/./, 'string.twig'],
+			[
+				/({%[-~]?)(\s*)(endverbatim)(\s*)([-~]?%})/,
+				[
+					'delimiter.twig',
+					'',
+					'keyword.twig',
+					'',
+					{ token: 'delimiter.twig', next: '@popall' }
+				]
+			],
+			[/./, 'string.twig']
 		],
 
 		/**
@@ -128,7 +174,7 @@ export const language = <ILanguage>{
 		 */
 		variableState: [
 			[/[-~]?}}/, 'delimiter.twig', '@pop'],
-			{ include: 'expression' },
+			{ include: 'expression' }
 		],
 
 		stringState: [
@@ -137,13 +183,13 @@ export const language = <ILanguage>{
 			// interpolation start
 			[/#{\s*/, 'string.twig', '@interpolationState'],
 			// string part
-			[/[^#"\\]*(?:(?:\\.|#(?!\{))[^#"\\]*)*/, 'string.twig'],
+			[/[^#"\\]*(?:(?:\\.|#(?!\{))[^#"\\]*)*/, 'string.twig']
 		],
 
 		interpolationState: [
 			// interpolation end
 			[/}/, 'string.twig', '@pop'],
-			{ include: 'expression' },
+			{ include: 'expression' }
 		],
 
 		/**
@@ -167,18 +213,24 @@ export const language = <ILanguage>{
 			// operators - misc
 			[/\||~|:|\.{1,2}|\?{1,2}/, 'operators.twig'],
 			// names
-			[/[^\W\d][\w]*/, {
-				cases: {
-					'@keywords': 'keyword.twig',
-					'@default': 'variable.twig'
+			[
+				/[^\W\d][\w]*/,
+				{
+					cases: {
+						'@keywords': 'keyword.twig',
+						'@default': 'variable.twig'
+					}
 				}
-			}],
+			],
 			// numbers
 			[/\d+(\.\d+)?/, 'number.twig'],
 			// punctuation
 			[/\(|\)|\[|\]|{|}|,/, 'delimiter.twig'],
 			// strings
-			[/"([^#"\\]*(?:\\.[^#"\\]*)*)"|\'([^\'\\]*(?:\\.[^\'\\]*)*)\'/, 'string.twig'],
+			[
+				/"([^#"\\]*(?:\\.[^#"\\]*)*)"|\'([^\'\\]*(?:\\.[^\'\\]*)*)\'/,
+				'string.twig'
+			],
 			// opening double quoted string
 			[/"/, 'string.twig', '@stringState'],
 
@@ -188,7 +240,7 @@ export const language = <ILanguage>{
 			// arrow functions
 			[/=>/, 'operators.twig'],
 			// assignment
-			[/=/, 'operators.twig'],
+			[/=/, 'operators.twig']
 		],
 
 		/**
@@ -196,7 +248,7 @@ export const language = <ILanguage>{
 		 */
 		doctype: [
 			[/[^>]+/, 'metatag.content.html'],
-			[/>/, 'metatag.html', '@pop'],
+			[/>/, 'metatag.html', '@pop']
 		],
 
 		comment: [
@@ -211,7 +263,7 @@ export const language = <ILanguage>{
 			[/'([^']*)'/, 'attribute.value.html'],
 			[/[\w\-]+/, 'attribute.name.html'],
 			[/=/, 'delimiter.html'],
-			[/[ \t\r\n]+/], // whitespace
+			[/[ \t\r\n]+/] // whitespace
 		],
 
 		// -- BEGIN <script> tags handling
@@ -223,31 +275,78 @@ export const language = <ILanguage>{
 			[/'([^']*)'/, 'attribute.value.html'],
 			[/[\w\-]+/, 'attribute.name.html'],
 			[/=/, 'delimiter.html'],
-			[/>/, { token: 'delimiter.html', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }],
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@scriptEmbedded',
+					nextEmbedded: 'text/javascript'
+				}
+			],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(script\s*)(>)/, ['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]]
+			[
+				/(<\/)(script\s*)(>)/,
+				[
+					'delimiter.html',
+					'tag.html',
+					{ token: 'delimiter.html', next: '@pop' }
+				]
+			]
 		],
 
 		// After <script ... type
 		scriptAfterType: [
 			[/=/, 'delimiter.html', '@scriptAfterTypeEquals'],
-			[/>/, { token: 'delimiter.html', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }], // cover invalid e.g. <script type>
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@scriptEmbedded',
+					nextEmbedded: 'text/javascript'
+				}
+			], // cover invalid e.g. <script type>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
 		// After <script ... type =
 		scriptAfterTypeEquals: [
-			[/"([^"]*)"/, { token: 'attribute.value.html', switchTo: '@scriptWithCustomType.$1' }],
-			[/'([^']*)'/, { token: 'attribute.value.html', switchTo: '@scriptWithCustomType.$1' }],
-			[/>/, { token: 'delimiter.html', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }], // cover invalid e.g. <script type=>
+			[
+				/"([^"]*)"/,
+				{
+					token: 'attribute.value.html',
+					switchTo: '@scriptWithCustomType.$1'
+				}
+			],
+			[
+				/'([^']*)'/,
+				{
+					token: 'attribute.value.html',
+					switchTo: '@scriptWithCustomType.$1'
+				}
+			],
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@scriptEmbedded',
+					nextEmbedded: 'text/javascript'
+				}
+			], // cover invalid e.g. <script type=>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/script\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
 		// After <script ... type = $S2
 		scriptWithCustomType: [
-			[/>/, { token: 'delimiter.html', next: '@scriptEmbedded.$S2', nextEmbedded: '$S2' }],
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@scriptEmbedded.$S2',
+					nextEmbedded: '$S2'
+				}
+			],
 			[/"([^"]*)"/, 'attribute.value.html'],
 			[/'([^']*)'/, 'attribute.value.html'],
 			[/[\w\-]+/, 'attribute.name.html'],
@@ -257,12 +356,14 @@ export const language = <ILanguage>{
 		],
 
 		scriptEmbedded: [
-			[/<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[
+				/<\/script/,
+				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
+			],
 			[/[^<]+/, '']
 		],
 
 		// -- END <script> tags handling
-
 
 		// -- BEGIN <style> tags handling
 
@@ -273,31 +374,78 @@ export const language = <ILanguage>{
 			[/'([^']*)'/, 'attribute.value.html'],
 			[/[\w\-]+/, 'attribute.name.html'],
 			[/=/, 'delimiter.html'],
-			[/>/, { token: 'delimiter.html', next: '@styleEmbedded', nextEmbedded: 'text/css' }],
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@styleEmbedded',
+					nextEmbedded: 'text/css'
+				}
+			],
 			[/[ \t\r\n]+/], // whitespace
-			[/(<\/)(style\s*)(>)/, ['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]]
+			[
+				/(<\/)(style\s*)(>)/,
+				[
+					'delimiter.html',
+					'tag.html',
+					{ token: 'delimiter.html', next: '@pop' }
+				]
+			]
 		],
 
 		// After <style ... type
 		styleAfterType: [
 			[/=/, 'delimiter.html', '@styleAfterTypeEquals'],
-			[/>/, { token: 'delimiter.html', next: '@styleEmbedded', nextEmbedded: 'text/css' }], // cover invalid e.g. <style type>
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@styleEmbedded',
+					nextEmbedded: 'text/css'
+				}
+			], // cover invalid e.g. <style type>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
 		// After <style ... type =
 		styleAfterTypeEquals: [
-			[/"([^"]*)"/, { token: 'attribute.value.html', switchTo: '@styleWithCustomType.$1' }],
-			[/'([^']*)'/, { token: 'attribute.value.html', switchTo: '@styleWithCustomType.$1' }],
-			[/>/, { token: 'delimiter.html', next: '@styleEmbedded', nextEmbedded: 'text/css' }], // cover invalid e.g. <style type=>
+			[
+				/"([^"]*)"/,
+				{
+					token: 'attribute.value.html',
+					switchTo: '@styleWithCustomType.$1'
+				}
+			],
+			[
+				/'([^']*)'/,
+				{
+					token: 'attribute.value.html',
+					switchTo: '@styleWithCustomType.$1'
+				}
+			],
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@styleEmbedded',
+					nextEmbedded: 'text/css'
+				}
+			], // cover invalid e.g. <style type=>
 			[/[ \t\r\n]+/], // whitespace
 			[/<\/style\s*>/, { token: '@rematch', next: '@pop' }]
 		],
 
 		// After <style ... type = $S2
 		styleWithCustomType: [
-			[/>/, { token: 'delimiter.html', next: '@styleEmbedded.$S2', nextEmbedded: '$S2' }],
+			[
+				/>/,
+				{
+					token: 'delimiter.html',
+					next: '@styleEmbedded.$S2',
+					nextEmbedded: '$S2'
+				}
+			],
 			[/"([^"]*)"/, 'attribute.value.html'],
 			[/'([^']*)'/, 'attribute.value.html'],
 			[/[\w\-]+/, 'attribute.name.html'],
@@ -307,8 +455,11 @@ export const language = <ILanguage>{
 		],
 
 		styleEmbedded: [
-			[/<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[
+				/<\/style/,
+				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
+			],
 			[/[^<]+/, '']
-		],
+		]
 	}
 };

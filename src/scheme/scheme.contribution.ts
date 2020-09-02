@@ -7,8 +7,8 @@
 import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
-    id: 'scheme',
-    extensions: ['.scm', '.ss', '.sch', '.rkt'],
-    aliases: ['scheme', 'Scheme'],
-    loader: () => import('./scheme'),
+	id: 'scheme',
+	extensions: ['.scm', '.ss', '.sch', '.rkt'],
+	aliases: ['scheme', 'Scheme'],
+	loader: () => import('./scheme')
 });

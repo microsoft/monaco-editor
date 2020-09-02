@@ -21,17 +21,17 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' },
+		{ open: '"', close: '"' }
 	],
 	surroundingPairs: [
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' },
+		{ open: '"', close: '"' }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*(::\\s*|REM\\s+)#region"),
-			end: new RegExp("^\\s*(::\\s*|REM\\s+)#endregion")
+			start: new RegExp('^\\s*(::\\s*|REM\\s+)#region'),
+			end: new RegExp('^\\s*(::\\s*|REM\\s+)#endregion')
 		}
 	}
 };
@@ -56,10 +56,12 @@ export const language = <ILanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-
 			[/^(\s*)(rem(?:\s.*|))$/, ['', 'comment']],
 
-			[/(\@?)(@keywords)(?!\w)/, [{ token: 'keyword' }, { token: 'keyword.$2' }]],
+			[
+				/(\@?)(@keywords)(?!\w)/,
+				[{ token: 'keyword' }, { token: 'keyword.$2' }]
+			],
 
 			// whitespace
 			[/[ \t\r\n]+/, ''],
@@ -92,28 +94,33 @@ export const language = <ILanguage>{
 
 			// strings:
 			[/"/, 'string', '@string."'],
-			[/'/, 'string', '@string.\''],
+			[/'/, 'string', "@string.'"]
 		],
 
 		string: [
-			[/[^\\"'%]+/, {
-				cases: {
-					'@eos': { token: 'string', next: '@popall' },
-					'@default': 'string'
+			[
+				/[^\\"'%]+/,
+				{
+					cases: {
+						'@eos': { token: 'string', next: '@popall' },
+						'@default': 'string'
+					}
 				}
-			}],
+			],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/%[\w ]+%/, 'variable'],
 			[/%%[\w]+(?!\w)/, 'variable'],
-			[/["']/, {
-				cases: {
-					'$#==$S2': { token: 'string', next: '@pop' },
-					'@default': 'string'
+			[
+				/["']/,
+				{
+					cases: {
+						'$#==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
 				}
-			}],
+			],
 			[/$/, 'string', '@popall']
-		],
-
+		]
 	}
 };

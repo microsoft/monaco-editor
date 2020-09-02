@@ -4,11 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 
 import '../monaco.contribution';
-import {loadLanguage} from '../_.contribution';
+import { loadLanguage } from '../_.contribution';
 import * as test from 'tape';
 
 // Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco = (typeof monaco === 'undefined' ? (<any>self).monaco : monaco);
+const _monaco: typeof monaco =
+	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
 
 export interface IRelaxedToken {
 	startIndex: number;
@@ -20,8 +21,11 @@ export interface ITestItem {
 	tokens: IRelaxedToken[];
 }
 
-export function testTokenization(_language:string|string[], tests:ITestItem[][]): void {
-	let languages:string[];
+export function testTokenization(
+	_language: string | string[],
+	tests: ITestItem[][]
+): void {
+	let languages: string[];
 	if (typeof _language === 'string') {
 		languages = [_language];
 	} else {
@@ -30,23 +34,28 @@ export function testTokenization(_language:string|string[], tests:ITestItem[][])
 	let mainLanguage = languages[0];
 
 	test(mainLanguage + ' tokenization', (t: test.Test) => {
-		Promise.all(languages.map(l => loadLanguage(l))).then(() => {
-			// clean stack
-			setTimeout(() => {
-				runTests(t, mainLanguage, tests);
-				t.end();
-			});
-		}).then(null, () => t.end());
+		Promise.all(languages.map((l) => loadLanguage(l)))
+			.then(() => {
+				// clean stack
+				setTimeout(() => {
+					runTests(t, mainLanguage, tests);
+					t.end();
+				});
+			})
+			.then(null, () => t.end());
 	});
 }
 
-function runTests(t: test.Test, languageId:string, tests:ITestItem[][]): void {
+function runTests(
+	t: test.Test,
+	languageId: string,
+	tests: ITestItem[][]
+): void {
 	tests.forEach((test) => runTest(t, languageId, test));
 }
 
-function runTest(t: test.Test, languageId:string, test:ITestItem[]): void {
-
-	let text = test.map(t => t.line).join('\n');
+function runTest(t: test.Test, languageId: string, test: ITestItem[]): void {
+	let text = test.map((t) => t.line).join('\n');
 	let actualTokens = _monaco.editor.tokenize(text, languageId);
 	let actual = actualTokens.map((lineTokens, index) => {
 		return {

@@ -11,7 +11,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
@@ -23,14 +23,14 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	]
 };
 
@@ -143,7 +143,7 @@ export const language = <ILanguage>{
 		'volatile',
 		'void',
 
-		'while',
+		'while'
 	],
 
 	decpart: /\d(_?\d)*/,
@@ -159,38 +159,42 @@ export const language = <ILanguage>{
 			[/[,:;]/, 'delimiter'],
 			[/[{}\[\]()<>]/, '@brackets'],
 
-			[/[a-zA-Z@#]\w*/, {
-				cases: {
-					'@keywords': 'keyword',
-					'@default': 'identifier'
+			[
+				/[a-zA-Z@#]\w*/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
-			[/[<>=\\+\\-\\*\\/\\^\\|\\~,]|and\\b|or\\b|not\\b]/, 'operator'],
+			[/[<>=\\+\\-\\*\\/\\^\\|\\~,]|and\\b|or\\b|not\\b]/, 'operator']
 		],
 
-		whitespace: [
-			[/\s+/, 'white'],
-		],
+		whitespace: [[/\s+/, 'white']],
 
 		comments: [
 			['\\/\\*', 'comment', '@comment'],
-			['\\/\\/+.*', 'comment'],
+			['\\/\\/+.*', 'comment']
 		],
 
 		comment: [
 			['\\*\\/', 'comment', '@pop'],
-			['.', 'comment',],
+			['.', 'comment']
 		],
 
 		numbers: [
 			[/0[xX][0-9a-fA-F]*(_?[0-9a-fA-F])*/, 'number.hex'],
-			[/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)[fF]*/, {
-				cases: {
-					'(\\d)*': 'number',
-					'$0': 'number.float'
+			[
+				/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)[fF]*/,
+				{
+					cases: {
+						'(\\d)*': 'number',
+						$0: 'number.float'
+					}
 				}
-			}]
+			]
 		],
 
 		// Recognize strings, including those broken across lines with \ (but not without)

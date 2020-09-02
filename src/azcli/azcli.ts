@@ -10,7 +10,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 
 export const conf: IRichLanguageConfiguration = {
 	comments: {
-		lineComment: '#',
+		lineComment: '#'
 	}
 };
 
@@ -23,43 +23,58 @@ export const language = <ILanguage>{
 
 	tokenizer: {
 		root: [
-			{include: '@comment'},
-			[/\s-+@str*\s*/, {
-				cases: {
-				  '@eos': { token: 'key.identifier', next: '@popall' },
-				  '@default': { token: 'key.identifier', next: '@type' }
+			{ include: '@comment' },
+			[
+				/\s-+@str*\s*/,
+				{
+					cases: {
+						'@eos': { token: 'key.identifier', next: '@popall' },
+						'@default': { token: 'key.identifier', next: '@type' }
+					}
 				}
-			}],
-			[/^-+@str*\s*/, {
-				cases: {
-				  '@eos': { token: 'key.identifier', next: '@popall' },
-				  '@default': { token: 'key.identifier', next: '@type' }
+			],
+			[
+				/^-+@str*\s*/,
+				{
+					cases: {
+						'@eos': { token: 'key.identifier', next: '@popall' },
+						'@default': { token: 'key.identifier', next: '@type' }
+					}
 				}
-			}]
+			]
 		],
 
 		type: [
-			{include: '@comment'},
-			[/-+@str*\s*/, {
-				cases: {
-					'@eos': { token: 'key.identifier', next: '@popall' },
-					'@default': 'key.identifier'
+			{ include: '@comment' },
+			[
+				/-+@str*\s*/,
+				{
+					cases: {
+						'@eos': { token: 'key.identifier', next: '@popall' },
+						'@default': 'key.identifier'
+					}
 				}
-			}],
-			[/@str+\s*/, {
-				cases: {
-					'@eos': { token: 'string', next: '@popall' },
-					'@default': 'string'
-			  	}
-			}]
+			],
+			[
+				/@str+\s*/,
+				{
+					cases: {
+						'@eos': { token: 'string', next: '@popall' },
+						'@default': 'string'
+					}
+				}
+			]
 		],
 
 		comment: [
-			[/#.*$/, {
-				cases: {
-					'@eos': { token: 'comment', next: '@popall' }
+			[
+				/#.*$/,
+				{
+					cases: {
+						'@eos': { token: 'comment', next: '@popall' }
+					}
 				}
-			}]
+			]
 		]
 	}
 };

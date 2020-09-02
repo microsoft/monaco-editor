@@ -22,14 +22,14 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"""', close: '"""', notIn: ['string', 'comment'] },
-		{ open: '"', close: '"', notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string', 'comment'] }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"""', close: '"""' },
-		{ open: '"', close: '"' },
+		{ open: '"', close: '"' }
 	],
 	folding: {
 		offSide: true
@@ -42,20 +42,48 @@ export const language = <ILanguage>{
 	tokenPostfix: '.gql',
 
 	keywords: [
-		'null', 'true', 'false',
-		'query', 'mutation', 'subscription',
-		'extend', 'schema', 'directive',
-		'scalar', 'type', 'interface', 'union', 'enum', 'input', 'implements',
-		'fragment', 'on',
+		'null',
+		'true',
+		'false',
+		'query',
+		'mutation',
+		'subscription',
+		'extend',
+		'schema',
+		'directive',
+		'scalar',
+		'type',
+		'interface',
+		'union',
+		'enum',
+		'input',
+		'implements',
+		'fragment',
+		'on'
 	],
 
 	typeKeywords: ['Int', 'Float', 'String', 'Boolean', 'ID'],
 
 	directiveLocations: [
-		'SCHEMA', 'SCALAR', 'OBJECT', 'FIELD_DEFINITION', 'ARGUMENT_DEFINITION',
-		'INTERFACE', 'UNION', 'ENUM', 'ENUM_VALUE', 'INPUT_OBJECT', 'INPUT_FIELD_DEFINITION',
-		'QUERY', 'MUTATION', 'SUBSCRIPTION', 'FIELD', 'FRAGMENT_DEFINITION',
-		'FRAGMENT_SPREAD', 'INLINE_FRAGMENT', 'VARIABLE_DEFINITION',
+		'SCHEMA',
+		'SCALAR',
+		'OBJECT',
+		'FIELD_DEFINITION',
+		'ARGUMENT_DEFINITION',
+		'INTERFACE',
+		'UNION',
+		'ENUM',
+		'ENUM_VALUE',
+		'INPUT_OBJECT',
+		'INPUT_FIELD_DEFINITION',
+		'QUERY',
+		'MUTATION',
+		'SUBSCRIPTION',
+		'FIELD',
+		'FRAGMENT_DEFINITION',
+		'FRAGMENT_SPREAD',
+		'INLINE_FRAGMENT',
+		'VARIABLE_DEFINITION'
 	],
 
 	operators: ['=', '!', '?', ':', '&', '|'],
@@ -69,16 +97,15 @@ export const language = <ILanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-
 			// fields and argument names
 			[
 				/[a-z_][\w$]*/,
 				{
 					cases: {
 						'@keywords': 'keyword',
-						'@default': 'key.identifier',
-					},
-				},
+						'@default': 'key.identifier'
+					}
+				}
 			],
 
 			// identify typed input variables
@@ -87,9 +114,9 @@ export const language = <ILanguage>{
 				{
 					cases: {
 						'@keywords': 'keyword',
-						'@default': 'argument.identifier',
-					},
-				},
+						'@default': 'argument.identifier'
+					}
+				}
 			],
 
 			// to show class names nicely
@@ -98,9 +125,9 @@ export const language = <ILanguage>{
 				{
 					cases: {
 						'@typeKeywords': 'keyword',
-						'@default': 'type.identifier',
-					},
-				},
+						'@default': 'type.identifier'
+					}
+				}
 			],
 
 			// whitespace
@@ -110,7 +137,7 @@ export const language = <ILanguage>{
 			[/[{}()\[\]]/, '@brackets'],
 			[
 				/@symbols/,
-				{ cases: { '@operators': 'operator', '@default': '' } },
+				{ cases: { '@operators': 'operator', '@default': '' } }
 			],
 
 			// @ annotations.
@@ -118,7 +145,7 @@ export const language = <ILanguage>{
 			// Note: message are supressed during the first load -- change some lines to see them.
 			[
 				/@\s*[a-zA-Z_\$][\w\$]*/,
-				{ token: 'annotation', log: 'annotation token: $0' },
+				{ token: 'annotation', log: 'annotation token: $0' }
 			],
 
 			// numbers
@@ -129,13 +156,14 @@ export const language = <ILanguage>{
 			// delimiter: after number because of .\d floats
 			[/[;,.]/, 'delimiter'],
 
-			[/"""/,
+			[
+				/"""/,
 				{ token: 'string', next: '@mlstring', nextEmbedded: 'markdown' }
 			],
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
-			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
+			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }]
 		],
 
 		mlstring: [
@@ -147,9 +175,12 @@ export const language = <ILanguage>{
 			[/[^\\"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
-			[/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }],
+			[/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
 		],
 
-		whitespace: [[/[ \t\r\n]+/, ''], [/#.*$/, 'comment']],
-	},
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/#.*$/, 'comment']
+		]
+	}
 };

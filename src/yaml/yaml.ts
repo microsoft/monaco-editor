@@ -15,14 +15,14 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	folding: {
 		offSide: true
@@ -37,7 +37,18 @@ export const language = <ILanguage>{
 		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
-	keywords: ['true', 'True', 'TRUE', 'false', 'False', 'FALSE', 'null', 'Null', 'Null', '~'],
+	keywords: [
+		'true',
+		'True',
+		'TRUE',
+		'false',
+		'False',
+		'FALSE',
+		'null',
+		'Null',
+		'Null',
+		'~'
+	],
 
 	numberInteger: /(?:0|[+-]?[0-9]+)/,
 	numberFloat: /(?:0|[+-]?[0-9]+)(?:\.[0-9]+)?(?:e[-+][1-9][0-9]*)?/,
@@ -79,17 +90,23 @@ export const language = <ILanguage>{
 			[/@numberDate(?![ \t]*\S+)/, 'number.date'],
 
 			// Key:Value pair
-			[/(".*?"|'.*?'|.*?)([ \t]*)(:)( |$)/, ['type', 'white', 'operators', 'white']],
+			[
+				/(".*?"|'.*?'|.*?)([ \t]*)(:)( |$)/,
+				['type', 'white', 'operators', 'white']
+			],
 
 			{ include: '@flowScalars' },
 
 			// String nodes
-			[/.+$/, {
-				cases: {
-					'@keywords': 'keyword',
-					'@default': 'string'
+			[
+				/.+$/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@default': 'string'
+					}
 				}
-			}]
+			]
 		],
 
 		// Flow Collection: Flow Mapping
@@ -119,12 +136,15 @@ export const language = <ILanguage>{
 			{ include: '@flowNumber' },
 
 			// Other value (keyword or string)
-			[/[^\},]+/, {
-				cases: {
-					'@keywords': 'keyword',
-					'@default': 'string'
+			[
+				/[^\},]+/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@default': 'string'
+					}
 				}
-			}]
+			]
 		],
 
 		// Flow Collection: Flow Sequence
@@ -148,38 +168,38 @@ export const language = <ILanguage>{
 			{ include: '@flowNumber' },
 
 			// Other value (keyword or string)
-			[/[^\],]+/, {
-				cases: {
-					'@keywords': 'keyword',
-					'@default': 'string'
+			[
+				/[^\],]+/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@default': 'string'
+					}
 				}
-			}]
+			]
 		],
 
 		// First line of a Block Style
-		multiString: [
-			[/^( +).+$/, 'string', '@multiStringContinued.$1']
-		],
+		multiString: [[/^( +).+$/, 'string', '@multiStringContinued.$1']],
 
 		// Further lines of a Block Style
 		//   Workaround for indentation detection
 		multiStringContinued: [
-			[/^( *).+$/, {
-				cases: {
-					'$1==$S2': 'string',
-					'@default': { token: '@rematch', next: '@popall' }
+			[
+				/^( *).+$/,
+				{
+					cases: {
+						'$1==$S2': 'string',
+						'@default': { token: '@rematch', next: '@popall' }
+					}
 				}
-			}]
+			]
 		],
 
-		whitespace: [
-			[/[ \t\r\n]+/, 'white']
-		],
+		whitespace: [[/[ \t\r\n]+/, 'white']],
 
 		// Only line comments
-		comment: [
-			[/#.*$/, 'comment']
-		],
+		comment: [[/#.*$/, 'comment']],
 
 		// Start Flow Collections
 		flowCollections: [
@@ -203,9 +223,7 @@ export const language = <ILanguage>{
 		],
 
 		// Start Block Scalar
-		blockStyle: [
-			[/[>|][0-9]*[+-]?$/, 'operators', '@multiString']
-		],
+		blockStyle: [[/[>|][0-9]*[+-]?$/, 'operators', '@multiString']],
 
 		// Numbers in Flow Collections (terminate with ,]})
 		flowNumber: [
@@ -218,12 +236,8 @@ export const language = <ILanguage>{
 			[/@numberDate(?=[ \t]*[,\]\}])/, 'number.date']
 		],
 
-		tagHandle: [
-			[/\![^ ]*/, 'tag']
-		],
+		tagHandle: [[/\![^ ]*/, 'tag']],
 
-		anchor: [
-			[/[&*][^ ]+/, 'namespace']
-		]
+		anchor: [[/[&*][^ ]+/, 'namespace']]
 	}
 };

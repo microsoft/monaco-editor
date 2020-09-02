@@ -11,24 +11,28 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: ';',
-		blockComment: ['#|', '|#'],
+		blockComment: ['#|', '|#']
 	},
 
-	brackets: [['(', ')'], ['{', '}'], ['[', ']']],
+	brackets: [
+		['(', ')'],
+		['{', '}'],
+		['[', ']']
+	],
 
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' },
+		{ open: '"', close: '"' }
 	],
 
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' },
-	],
+		{ open: '"', close: '"' }
+	]
 };
 
 export const language = <ILanguage>{
@@ -39,7 +43,7 @@ export const language = <ILanguage>{
 	brackets: [
 		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
 		{ open: '{', close: '}', token: 'delimiter.curly' },
-		{ open: '[', close: ']', token: 'delimiter.square' },
+		{ open: '[', close: ']', token: 'delimiter.square' }
 	],
 
 	keywords: [
@@ -65,7 +69,7 @@ export const language = <ILanguage>{
 		'list',
 		'list?',
 		'member?',
-		'load',
+		'load'
 	],
 
 	constants: ['#t', '#f'],
@@ -79,7 +83,7 @@ export const language = <ILanguage>{
 
 			[
 				/(?:\b(?:(define|define-syntax|define-macro))\b)(\s+)((?:\w|\-|\!|\?)*)/,
-				['keyword', 'white', 'variable'],
+				['keyword', 'white', 'variable']
 			],
 
 			{ include: '@whitespace' },
@@ -92,28 +96,28 @@ export const language = <ILanguage>{
 						'@keywords': 'keyword',
 						'@constants': 'constant',
 						'@operators': 'operators',
-						'@default': 'identifier',
-					},
-				},
-			],
+						'@default': 'identifier'
+					}
+				}
+			]
 		],
 
 		comment: [
 			[/[^\|#]+/, 'comment'],
 			[/#\|/, 'comment', '@push'],
 			[/\|#/, 'comment', '@pop'],
-			[/[\|#]/, 'comment'],
+			[/[\|#]/, 'comment']
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, 'white'],
 			[/#\|/, 'comment', '@comment'],
-			[/;.*$/, 'comment'],
+			[/;.*$/, 'comment']
 		],
 
 		strings: [
 			[/"$/, 'string', '@popall'],
-			[/"(?=.)/, 'string', '@multiLineString'],
+			[/"(?=.)/, 'string', '@multiLineString']
 		],
 
 		multiLineString: [
@@ -122,6 +126,6 @@ export const language = <ILanguage>{
 			[/\\./, 'string.escape'],
 			[/"/, 'string', '@popall'],
 			[/\\$/, 'string']
-		],
-	},
+		]
+	}
 };

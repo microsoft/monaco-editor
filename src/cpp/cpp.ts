@@ -11,7 +11,7 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
 		['{', '}'],
@@ -22,20 +22,20 @@ export const conf: IRichLanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '{', close: '}' },
 		{ open: '(', close: ')' },
-		{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-		{ open: '"', close: '"', notIn: ['string'] },
+		{ open: "'", close: "'", notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string'] }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*#pragma\\s+region\\b"),
-			end: new RegExp("^\\s*#pragma\\s+endregion\\b")
+			start: new RegExp('^\\s*#pragma\\s+region\\b'),
+			end: new RegExp('^\\s*#pragma\\s+endregion\\b')
 		}
 	}
 };
@@ -165,7 +165,7 @@ export const language = <ILanguage>{
 		'_virtual_inheritance',
 		'_w64',
 
-		'__abstract',  // reserved word with two underscores
+		'__abstract', // reserved word with two underscores
 		'__alignof',
 		'__asm',
 		'__assume',
@@ -234,11 +234,43 @@ export const language = <ILanguage>{
 	],
 
 	operators: [
-		'=', '>', '<', '!', '~', '?', ':',
-		'==', '<=', '>=', '!=', '&&', '||', '++', '--',
-		'+', '-', '*', '/', '&', '|', '^', '%', '<<',
-		'>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=',
-		'^=', '%=', '<<=', '>>=', '>>>='
+		'=',
+		'>',
+		'<',
+		'!',
+		'~',
+		'?',
+		':',
+		'==',
+		'<=',
+		'>=',
+		'!=',
+		'&&',
+		'||',
+		'++',
+		'--',
+		'+',
+		'-',
+		'*',
+		'/',
+		'&',
+		'|',
+		'^',
+		'%',
+		'<<',
+		'>>',
+		'>>>',
+		'+=',
+		'-=',
+		'*=',
+		'/=',
+		'&=',
+		'|=',
+		'^=',
+		'%=',
+		'<<=',
+		'>>=',
+		'>>>='
 	],
 
 	// we include these common regular expressions
@@ -252,15 +284,21 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// C++ 11 Raw String
-			[/@encoding?R\"(?:([^ ()\\\t]*))\(/, { token: 'string.raw.begin', next: '@raw.$1' }],
+			[
+				/@encoding?R\"(?:([^ ()\\\t]*))\(/,
+				{ token: 'string.raw.begin', next: '@raw.$1' }
+			],
 
 			// identifiers and keywords
-			[/[a-zA-Z_]\w*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -268,7 +306,10 @@ export const language = <ILanguage>{
 			// [[ attributes ]].
 			[/\[\[.*\]\]/, 'annotation'],
 
-			[/^\s*#include/, { token: 'keyword.directive.include', next: '@include' }],
+			[
+				/^\s*#include/,
+				{ token: 'keyword.directive.include', next: '@include' }
+			],
 
 			// Preprocessor directive
 			[/^\s*#\s*\w+/, 'keyword'],
@@ -276,12 +317,15 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// numbers
 			[/\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float'],
@@ -296,7 +340,7 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, 'string', '@string'],
 
 			// characters
@@ -309,7 +353,7 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@doccomment'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
@@ -332,10 +376,22 @@ export const language = <ILanguage>{
 		],
 
 		raw: [
-			[/(.*)(\))(?:([^ ()\\\t]*))(\")/, {
+			[
+				/(.*)(\))(?:([^ ()\\\t]*))(\")/,
+				{
 					cases: {
-						'$3==$S2': ['string.raw', 'string.raw.end', 'string.raw.end', { token: 'string.raw.end', next: '@pop' }],
-						'@default': ['string.raw', 'string.raw', 'string.raw', 'string.raw']
+						'$3==$S2': [
+							'string.raw',
+							'string.raw.end',
+							'string.raw.end',
+							{ token: 'string.raw.end', next: '@pop' }
+						],
+						'@default': [
+							'string.raw',
+							'string.raw',
+							'string.raw',
+							'string.raw'
+						]
 					}
 				}
 			],
@@ -343,8 +399,24 @@ export const language = <ILanguage>{
 		],
 
 		include: [
-			[/(\s*)(<)([^<>]*)(>)/, ['', 'keyword.directive.include.begin', 'string.include.identifier', { token: 'keyword.directive.include.end', next: '@pop'}]],
-			[/(\s*)(")([^"]*)(")/, ['', 'keyword.directive.include.begin', 'string.include.identifier', { token: 'keyword.directive.include.end', next: '@pop'}]]
+			[
+				/(\s*)(<)([^<>]*)(>)/,
+				[
+					'',
+					'keyword.directive.include.begin',
+					'string.include.identifier',
+					{ token: 'keyword.directive.include.end', next: '@pop' }
+				]
+			],
+			[
+				/(\s*)(")([^"]*)(")/,
+				[
+					'',
+					'keyword.directive.include.begin',
+					'string.include.identifier',
+					{ token: 'keyword.directive.include.end', next: '@pop' }
+				]
+			]
 		]
-	},
+	}
 };

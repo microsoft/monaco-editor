@@ -11,27 +11,27 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['(*', '*)'],
+		blockComment: ['(*', '*)']
 	},
 	brackets: [
 		['{', '}'],
 		['[', ']'],
 		['(', ')'],
-		['<', '>'],
+		['<', '>']
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '<', close: '>' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '<', close: '>' },
-		{ open: '\'', close: '\'' },
+		{ open: "'", close: "'" }
 	]
 };
 
@@ -48,19 +48,67 @@ export const language = <ILanguage>{
 	],
 
 	keywords: [
-		'abs', 'begin', 'Bytes', 'Crypto',  'Current', 'else', 'end', 'failwith', 
-		'false', 'fun', 'if', 'in', 'let', 'let%entry', 'let%init', 'List', 'list',
-		'Map', 'map', 'match', 'match%nat', 'mod', 'not',  'operation', 'Operation',  'of',
-		'Set', 'set', 'sender', 'source', 'String', 'then',  'true', 'type', 'with',  
+		'abs',
+		'begin',
+		'Bytes',
+		'Crypto',
+		'Current',
+		'else',
+		'end',
+		'failwith',
+		'false',
+		'fun',
+		'if',
+		'in',
+		'let',
+		'let%entry',
+		'let%init',
+		'List',
+		'list',
+		'Map',
+		'map',
+		'match',
+		'match%nat',
+		'mod',
+		'not',
+		'operation',
+		'Operation',
+		'of',
+		'Set',
+		'set',
+		'sender',
+		'source',
+		'String',
+		'then',
+		'true',
+		'type',
+		'with'
 	],
 
-	typeKeywords: [
-		'int', 'unit', 'string', 'tz',
-	],
+	typeKeywords: ['int', 'unit', 'string', 'tz'],
 
 	operators: [
-		'=', '>', '<', '<=', '>=', '<>', ':', ':=', 'and', 'mod', 'or',
-		'+', '-', '*', '/', '@', '&', '^', '%', '->', '<-'
+		'=',
+		'>',
+		'<',
+		'<=',
+		'>=',
+		'<>',
+		':',
+		':=',
+		'and',
+		'mod',
+		'or',
+		'+',
+		'-',
+		'*',
+		'/',
+		'@',
+		'&',
+		'^',
+		'%',
+		'->',
+		'<-'
 	],
 
 	// we include these common regular expressions
@@ -70,12 +118,15 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_][\w]*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_][\w]*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -83,12 +134,15 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// numbers
 			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
@@ -99,33 +153,33 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/'([^'\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/'([^'\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/'/, 'string', '@string'],
 
 			// characters
 			[/'[^\\']'/, 'string'],
 			[/'/, 'string.invalid'],
-			[/\#\d+/,'string']
+			[/\#\d+/, 'string']
 		],
 		/* */
 
 		comment: [
-			[/[^\(\*]+/, 'comment' ],
+			[/[^\(\*]+/, 'comment'],
 			//[/\(\*/,    'comment', '@push' ],    // nested comment  not allowed :-(
-			[/\*\)/,    'comment', '@pop'  ],
-			[/\(\*/,   'comment' ]
+			[/\*\)/, 'comment', '@pop'],
+			[/\(\*/, 'comment']
 		],
 
 		string: [
-		  [/[^\\']+/,  'string'],
-		  [/\\./,      'string.escape.invalid'],
-		  [/'/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+			[/[^\\']+/, 'string'],
+			[/\\./, 'string.escape.invalid'],
+			[/'/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
 		],
 
 		whitespace: [
 			[/[ \t\r\n]+/, 'white'],
-			[/\(\*/,       'comment', '@comment' ],
-			[/\/\/.*$/,    'comment'],
-		  ],
-	},
+			[/\(\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment']
+		]
+	}
 };

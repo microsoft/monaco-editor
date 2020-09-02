@@ -11,14 +11,19 @@ import ILanguage = monaco.languages.IMonarchLanguage;
 export const conf: IRichLanguageConfiguration = {
 	comments: {
 		lineComment: '//',
-		blockComment: ['/*', '*/'],
+		blockComment: ['/*', '*/']
 	},
-	brackets: [['{', '}'], ['[', ']'], ['(', ')'], ['<', '>']],
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')'],
+		['<', '>']
+	],
 	autoClosingPairs: [
 		{ open: '"', close: '"', notIn: ['string', 'comment'] },
 		{ open: '{', close: '}', notIn: ['string', 'comment'] },
 		{ open: '[', close: ']', notIn: ['string', 'comment'] },
-		{ open: '(', close: ')', notIn: ['string', 'comment'] },
+		{ open: '(', close: ')', notIn: ['string', 'comment'] }
 	]
 };
 
@@ -82,11 +87,44 @@ export const language = <ILanguage>{
 	],
 
 	operators: [
-		'=', '>', '<', '!', '~', '?', '::', ':',
-		'==', '<=', '>=', '!=', '&&', '||', '++', '--',
-		'+', '-', '*', '/', '&', '|', '^', '%', '<<',
-		'>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=',
-		'^=', '%=', '<<=', '>>=', '>>>='
+		'=',
+		'>',
+		'<',
+		'!',
+		'~',
+		'?',
+		'::',
+		':',
+		'==',
+		'<=',
+		'>=',
+		'!=',
+		'&&',
+		'||',
+		'++',
+		'--',
+		'+',
+		'-',
+		'*',
+		'/',
+		'&',
+		'|',
+		'^',
+		'%',
+		'<<',
+		'>>',
+		'>>>',
+		'+=',
+		'-=',
+		'*=',
+		'/=',
+		'&=',
+		'|=',
+		'^=',
+		'%=',
+		'<<=',
+		'>>=',
+		'>>>='
 	],
 
 	// we include these common regular expressions
@@ -99,12 +137,15 @@ export const language = <ILanguage>{
 	tokenizer: {
 		root: [
 			// identifiers and keywords
-			[/[a-zA-Z_]\w*/, {
-				cases: {
-					'@keywords': { token: 'keyword.$0' },
-					'@default': 'identifier'
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
 				}
-			}],
+			],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -121,12 +162,15 @@ export const language = <ILanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
-			[/@symbols/, {
-				cases: {
-					'@operators': 'delimiter',
-					'@default': ''
+			[
+				/@symbols/,
+				{
+					cases: {
+						'@operators': 'delimiter',
+						'@default': ''
+					}
 				}
-			}],
+			],
 
 			// numbers
 			[/\d*\d+[eE]([\-+]?\d+)?(@floatsuffix)/, 'number.float'],
@@ -141,7 +185,7 @@ export const language = <ILanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, 'string', '@string'],
 
 			// characters
@@ -154,7 +198,7 @@ export const language = <ILanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@doccomment'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
@@ -174,6 +218,6 @@ export const language = <ILanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"/, 'string', '@pop']
-		],
-	},
+		]
+	}
 };
