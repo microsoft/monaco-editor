@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Monaco Editor!</title>
+	</head>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Monaco Editor!</title>
-</head>
+	<body>
+		<h1>Monaco Editor in Electron (without nodeIntegration)!</h1>
+		Note: Since Electron without nodeIntegration is very similar to a browser,
+		you can have a look at all the other `browser-` samples, as they should work
+		just fine. <br /><br />
+		<div
+			id="container"
+			style="width: 500px; height: 300px; border: 1px solid #ccc"
+		></div>
+	</body>
 
-<body>
-	<h1>Monaco Editor in Electron (without nodeIntegration)!</h1>
-	Note: Since Electron without nodeIntegration is very similar to a browser,
-	you can have a look at all the other `browser-` samples, as they should work
-	just fine. <br /></br />
-	<div id="container" style="width:500px;height:300px;border:1px solid #ccc"></div>
-</body>
+	<script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+	<script>
+		require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
 
-<script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
-<script>
-	require.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' } });
-
-	require(['vs/editor/editor.main'], function () {
-		var editor = monaco.editor.create(document.getElementById('container'), {
-			value: [
-				'function x() {',
-				'\tconsole.log("Hello world!");',
-				'}'
-			].join('\n'),
-			language: 'javascript'
+		require(['vs/editor/editor.main'], function () {
+			var editor = monaco.editor.create(document.getElementById('container'), {
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
+					'\n'
+				),
+				language: 'javascript'
+			});
 		});
-	});
-</script>
-
+	</script>
 </html>

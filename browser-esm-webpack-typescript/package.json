@@ -1,20 +1,20 @@
 {
-  "name": "monaco-esm-webpack-typescript",
-  "scripts": {
-    "start": "webpack-dev-server",
+	"name": "monaco-esm-webpack-typescript",
+	"scripts": {
+		"start": "webpack-dev-server",
 		"build": "webpack --progress"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "css-loader": "^4.2.0",
-    "file-loader": "^6.0.0",
-    "html-webpack-plugin": "^4.3.0",
-    "monaco-editor": "^0.20.0",
-    "style-loader": "^1.2.1",
-    "ts-loader": "^8.0.2",
-    "typescript": "^3.9.7",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
-  }
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"css-loader": "^4.2.0",
+		"file-loader": "^6.0.0",
+		"html-webpack-plugin": "^4.3.0",
+		"monaco-editor": "^0.20.0",
+		"style-loader": "^1.2.1",
+		"ts-loader": "^8.0.2",
+		"typescript": "^3.9.7",
+		"webpack": "^4.44.1",
+		"webpack-cli": "^3.3.12",
+		"webpack-dev-server": "^3.11.0"
+	}
 }

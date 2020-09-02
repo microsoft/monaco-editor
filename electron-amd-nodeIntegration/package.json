@@ -1,12 +1,12 @@
 {
-  "name": "helloworld",
-  "dependencies": {},
-  "scripts": {
-    "execute": "electron ."
-  },
-  "main": "./main",
-  "devDependencies": {
-    "electron": "^9.1.2",
-    "monaco-editor": "0.20.0"
-  }
+	"name": "helloworld",
+	"dependencies": {},
+	"scripts": {
+		"execute": "electron ."
+	},
+	"main": "./main",
+	"devDependencies": {
+		"electron": "^9.1.2",
+		"monaco-editor": "0.20.0"
+	}
 }

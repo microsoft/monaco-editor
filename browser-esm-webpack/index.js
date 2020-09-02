@@ -16,13 +16,9 @@ self.MonacoEnvironment = {
 		}
 		return './editor.worker.bundle.js';
 	}
-}
+};
 
 monaco.editor.create(document.getElementById('container'), {
-	value: [
-		'function x() {',
-		'\tconsole.log("Hello world!");',
-		'}'
-	].join('\n'),
+	value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 	language: 'javascript'
 });

@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 (function () {
 	// create div to avoid needing a HtmlWebpackPlugin template
@@ -9,12 +9,8 @@ import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 	document.body.appendChild(div);
 })();
 
-monaco.editor.create(
-	document.getElementById('root'),
-	{
-		value: `const foo = () => 0;`,
-		language: 'javascript',
-		theme: 'vs-dark'
-	}
-);
-
+monaco.editor.create(document.getElementById('root'), {
+	value: `const foo = () => 0;`,
+	language: 'javascript',
+	theme: 'vs-dark'
+});
