@@ -1,19 +1,19 @@
 {
-  "name": "helloworld",
-  "dependencies": {},
-  "scripts": {
-    "simpleserver": "yaserver --root ./dist --port 9999",
-    "build": "npm run build-index && npm run build-json && npm run build-css && npm run build-html && npm run build-ts && npm run build-worker",
-    "build-index": "parcel build src/index.html",
-    "build-json": "parcel build node_modules/monaco-editor/esm/vs/language/json/json.worker.js --no-source-maps",
-    "build-css": "parcel build node_modules/monaco-editor/esm/vs/language/css/css.worker.js --no-source-maps",
-    "build-html": "parcel build node_modules/monaco-editor/esm/vs/language/html/html.worker.js --no-source-maps",
-    "build-ts": "parcel build node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js --no-source-maps",
-    "build-worker": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps"
-  },
-  "devDependencies": {
-    "monaco-editor": "0.20.0",
-    "yaserver": "^0.3.0",
-    "parcel": "^1.12.4"
-  }
+	"name": "helloworld",
+	"dependencies": {},
+	"scripts": {
+		"simpleserver": "yaserver --root ./dist --port 9999",
+		"build": "npm run build-index && npm run build-json && npm run build-css && npm run build-html && npm run build-ts && npm run build-worker",
+		"build-index": "parcel build src/index.html",
+		"build-json": "parcel build node_modules/monaco-editor/esm/vs/language/json/json.worker.js --no-source-maps",
+		"build-css": "parcel build node_modules/monaco-editor/esm/vs/language/css/css.worker.js --no-source-maps",
+		"build-html": "parcel build node_modules/monaco-editor/esm/vs/language/html/html.worker.js --no-source-maps",
+		"build-ts": "parcel build node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js --no-source-maps",
+		"build-worker": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps"
+	},
+	"devDependencies": {
+		"monaco-editor": "0.20.0",
+		"yaserver": "^0.3.0",
+		"parcel": "^1.12.4"
+	}
 }

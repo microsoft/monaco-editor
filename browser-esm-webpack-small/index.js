@@ -1,4 +1,3 @@
-
 // (1) Desired editor features:
 import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js';
 // import 'monaco-editor/esm/vs/editor/browser/widget/codeEditorWidget.js';
@@ -90,8 +89,6 @@ import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
 // import 'monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution';
 
-
-
 self.MonacoEnvironment = {
 	getWorkerUrl: function (moduleId, label) {
 		// if (label === 'json') {
@@ -108,7 +105,7 @@ self.MonacoEnvironment = {
 		// }
 		return './editor.worker.bundle.js';
 	}
-}
+};
 
 monaco.editor.create(document.getElementById('container'), {
 	value: [
@@ -118,12 +115,12 @@ monaco.editor.create(document.getElementById('container'), {
 		'	# Bananas the monkey can eat.',
 		'	capacity = 10',
 		'	def eat(self, N):',
-		'		\'\'\'Make the monkey eat N bananas!\'\'\'',
+		"		'''Make the monkey eat N bananas!'''",
 		'		capacity = capacity - N*banana.size',
 		'',
 		'	def feeding_frenzy(self):',
 		'		eat(9.25)',
-		'		return "Yum yum"',
+		'		return "Yum yum"'
 	].join('\n'),
 	language: 'python'
 });

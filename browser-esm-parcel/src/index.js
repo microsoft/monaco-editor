@@ -1,4 +1,3 @@
-
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js';
 
 self.MonacoEnvironment = {
@@ -16,14 +15,10 @@ self.MonacoEnvironment = {
 			return './ts.worker.js';
 		}
 		return './editor.worker.js';
-	},
+	}
 };
 
 monaco.editor.create(document.getElementById('container'), {
-	value: [
-		'function x() {',
-		'\tconsole.log("Hello world!");',
-		'}'
-	].join('\n'),
+	value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 	language: 'javascript'
 });

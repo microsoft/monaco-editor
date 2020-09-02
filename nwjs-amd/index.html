@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="UTF-8" />
 		<title>Hello World!</title>
-		<link rel="stylesheet" data-name="vs/editor/editor.main" href="node_modules/monaco-editor/min/vs/editor/editor.main.css">
+		<link
+			rel="stylesheet"
+			data-name="vs/editor/editor.main"
+			href="node_modules/monaco-editor/min/vs/editor/editor.main.css"
+		/>
 	</head>
 	<body>
 		<h1>Hello World!</h1>
-		<div id="container" style="width:500px;height:300px;border:1px solid #ccc"></div>
+		<div
+			id="container"
+			style="width: 500px; height: 300px; border: 1px solid #ccc"
+		></div>
 	</body>
 
 	<script>
@@ -34,13 +41,11 @@
 		// workaround monaco-typescript not understanding the environment
 		self.process.browser = true;
 
-		amdRequire(['vs/editor/editor.main'], function() {
+		amdRequire(['vs/editor/editor.main'], function () {
 			var editor = monaco.editor.create(document.getElementById('container'), {
-				value: [
-					'function x() {',
-					'\tconsole.log("Hello world!");',
-					'}'
-				].join('\n'),
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
+					'\n'
+				),
 				language: 'javascript'
 			});
 		});

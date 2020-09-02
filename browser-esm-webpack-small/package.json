@@ -1,16 +1,16 @@
 {
-  "name": "helloworld",
-  "dependencies": {},
-  "scripts": {
-    "build": "webpack --progress"
-  },
-  "devDependencies": {
-    "css-loader": "^4.2.0",
-    "file-loader": "^6.0.0",
-    "monaco-editor": "^0.20.0",
-    "style-loader": "^1.2.1",
-    "terser-webpack-plugin": "^4.0.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
-  }
+	"name": "helloworld",
+	"dependencies": {},
+	"scripts": {
+		"build": "webpack --progress"
+	},
+	"devDependencies": {
+		"css-loader": "^4.2.0",
+		"file-loader": "^6.0.0",
+		"monaco-editor": "^0.20.0",
+		"style-loader": "^1.2.1",
+		"terser-webpack-plugin": "^4.0.0",
+		"webpack": "^4.44.1",
+		"webpack-cli": "^3.3.12"
+	}
 }
