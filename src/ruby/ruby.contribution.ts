@@ -9,7 +9,7 @@ import { registerLanguage } from '../_.contribution';
 registerLanguage({
 	id: 'ruby',
 	extensions: ['.rb', '.rbx', '.rjs', '.gemspec', '.pp'],
-	filenames: ['rakefile'],
+	filenames: ['rakefile', 'Gemfile'],
 	aliases: ['Ruby', 'rb'],
 	loader: () => import('./ruby')
 });
