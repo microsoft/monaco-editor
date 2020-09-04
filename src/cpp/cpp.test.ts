@@ -828,5 +828,35 @@ testTokenization('cpp', [
 				{ startIndex: 19, type: 'identifier.cpp' }
 			]
 		}
+	],
+
+	// https://github.com/microsoft/monaco-editor/issues/1951
+	[
+		{
+			line: 'auto sv = R"({ "message": "Hello World" })""\\n"sv;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.auto.cpp' },
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'identifier.cpp' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'delimiter.cpp' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'string.raw.begin.cpp' },
+				{ startIndex: 13, type: 'string.raw.cpp' },
+				{ startIndex: 41, type: 'string.raw.end.cpp' },
+				{ startIndex: 43, type: 'string.cpp' },
+				{ startIndex: 44, type: 'string.escape.cpp' },
+				{ startIndex: 46, type: 'string.cpp' },
+				{ startIndex: 47, type: 'identifier.cpp' },
+				{ startIndex: 49, type: 'delimiter.cpp' }
+			]
+		},
+		{
+			line: '    // This is a comment, not a string',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 4, type: 'comment.cpp' }
+			]
+		}
 	]
 ]);
