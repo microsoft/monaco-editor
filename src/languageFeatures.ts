@@ -13,7 +13,6 @@ import Uri = monaco.Uri;
 import Position = monaco.Position;
 import IRange = monaco.IRange;
 import Range = monaco.Range;
-import Thenable = monaco.Thenable;
 import CancellationToken = monaco.CancellationToken;
 import IDisposable = monaco.IDisposable;
 
@@ -198,7 +197,7 @@ export class CompletionAdapter implements monaco.languages.CompletionItemProvide
 		return [' ', ':'];
 	}
 
-	provideCompletionItems(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.CompletionContext, token: CancellationToken): Thenable<monaco.languages.CompletionList> {
+	provideCompletionItems(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.CompletionContext, token: CancellationToken): Promise<monaco.languages.CompletionList> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => {
@@ -285,7 +284,7 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	provideHover(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Hover> {
+	provideHover(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Promise<monaco.languages.Hover> {
 		let resource = model.uri;
 
 		return this._worker(resource).then(worker => {
@@ -319,7 +318,7 @@ export class DocumentHighlightAdapter implements monaco.languages.DocumentHighli
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideDocumentHighlights(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.DocumentHighlight[]> {
+	public provideDocumentHighlights(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Promise<monaco.languages.DocumentHighlight[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => {
@@ -352,7 +351,7 @@ export class DefinitionAdapter {
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideDefinition(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Thenable<monaco.languages.Definition> {
+	public provideDefinition(model: monaco.editor.IReadOnlyModel, position: Position, token: CancellationToken): Promise<monaco.languages.Definition> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => {
@@ -373,7 +372,7 @@ export class ReferenceAdapter implements monaco.languages.ReferenceProvider {
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	provideReferences(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.ReferenceContext, token: CancellationToken): Thenable<monaco.languages.Location[]> {
+	provideReferences(model: monaco.editor.IReadOnlyModel, position: Position, context: monaco.languages.ReferenceContext, token: CancellationToken): Promise<monaco.languages.Location[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => {
@@ -418,7 +417,7 @@ export class RenameAdapter implements monaco.languages.RenameProvider {
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	provideRenameEdits(model: monaco.editor.IReadOnlyModel, position: Position, newName: string, token: CancellationToken): Thenable<monaco.languages.WorkspaceEdit> {
+	provideRenameEdits(model: monaco.editor.IReadOnlyModel, position: Position, newName: string, token: CancellationToken): Promise<monaco.languages.WorkspaceEdit> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => {
@@ -463,7 +462,7 @@ export class DocumentSymbolAdapter implements monaco.languages.DocumentSymbolPro
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.DocumentSymbol[]> {
+	public provideDocumentSymbols(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Promise<monaco.languages.DocumentSymbol[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => worker.findDocumentSymbols(resource.toString())).then(items => {
@@ -488,7 +487,7 @@ export class DocumentColorAdapter implements monaco.languages.DocumentColorProvi
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideDocumentColors(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Thenable<monaco.languages.IColorInformation[]> {
+	public provideDocumentColors(model: monaco.editor.IReadOnlyModel, token: CancellationToken): Promise<monaco.languages.IColorInformation[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => worker.findDocumentColors(resource.toString())).then(infos => {
@@ -502,7 +501,7 @@ export class DocumentColorAdapter implements monaco.languages.DocumentColorProvi
 		});
 	}
 
-	public provideColorPresentations(model: monaco.editor.IReadOnlyModel, info: monaco.languages.IColorInformation, token: CancellationToken): Thenable<monaco.languages.IColorPresentation[]> {
+	public provideColorPresentations(model: monaco.editor.IReadOnlyModel, info: monaco.languages.IColorInformation, token: CancellationToken): Promise<monaco.languages.IColorPresentation[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range))).then(presentations => {
@@ -530,7 +529,7 @@ export class FoldingRangeAdapter implements monaco.languages.FoldingRangeProvide
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideFoldingRanges(model: monaco.editor.IReadOnlyModel, context: monaco.languages.FoldingContext, token: CancellationToken): Thenable<monaco.languages.FoldingRange[]> {
+	public provideFoldingRanges(model: monaco.editor.IReadOnlyModel, context: monaco.languages.FoldingContext, token: CancellationToken): Promise<monaco.languages.FoldingRange[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => worker.getFoldingRanges(resource.toString(), context)).then(ranges => {
@@ -565,7 +564,7 @@ export class SelectionRangeAdapter implements monaco.languages.SelectionRangePro
 	constructor(private _worker: WorkerAccessor) {
 	}
 
-	public provideSelectionRanges(model: monaco.editor.IReadOnlyModel, positions: Position[], token: CancellationToken): Thenable<monaco.languages.SelectionRange[][]> {
+	public provideSelectionRanges(model: monaco.editor.IReadOnlyModel, positions: Position[], token: CancellationToken): Promise<monaco.languages.SelectionRange[][]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then(worker => worker.getSelectionRanges(resource.toString(), positions.map(fromPosition))).then(selectionRanges => {
