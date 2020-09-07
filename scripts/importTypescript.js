@@ -61,12 +61,6 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		process.exit(1);
 	}
 
-	// Make sure process.args don't get called in the browser, this
-	// should only happen in TS 2.6.2
-	const beforeProcess = `ts.perfLogger.logInfoEvent("Starting TypeScript v" + ts.versionMajorMinor + " with command line: " + JSON.stringify(process.argv));`
-	const afterProcess = `// MONACOCHANGE\n    ts.perfLogger.logInfoEvent("Starting TypeScript v" + ts.versionMajorMinor + " with command line: " + JSON.stringify([]));\n// END MONACOCHANGE`
-	tsServices = tsServices.replace(beforeProcess, afterProcess);
-
 	var tsServices_amd = generatedNote + tsServices +
 		`
 // MONACOCHANGE
