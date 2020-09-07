@@ -2,35 +2,133 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 
 import * as mode from './htmlMode';
+import { languages, Emitter, IEvent } from './fillers/monaco-editor-core';
 
-import Emitter = monaco.Emitter;
-import IEvent = monaco.IEvent;
+export interface HTMLFormatConfiguration {
+	readonly tabSize: number;
+	readonly insertSpaces: boolean;
+	readonly wrapLineLength: number;
+	readonly unformatted: string;
+	readonly contentUnformatted: string;
+	readonly indentInnerHtml: boolean;
+	readonly preserveNewLines: boolean;
+	readonly maxPreserveNewLines: number;
+	readonly indentHandlebars: boolean;
+	readonly endWithNewline: boolean;
+	readonly extraLiners: string;
+	readonly wrapAttributes:
+		| 'auto'
+		| 'force'
+		| 'force-aligned'
+		| 'force-expand-multiline';
+}
+
+export interface CompletionConfiguration {
+	[provider: string]: boolean;
+}
+
+export interface Options {
+	/**
+	 * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
+	 */
+	readonly format?: HTMLFormatConfiguration;
+	/**
+	 * A list of known schemas and/or associations of schemas to file names.
+	 */
+	readonly suggest?: CompletionConfiguration;
+}
+
+export interface ModeConfiguration {
+	/**
+	 * Defines whether the built-in completionItemProvider is enabled.
+	 */
+	readonly completionItems?: boolean;
+
+	/**
+	 * Defines whether the built-in hoverProvider is enabled.
+	 */
+	readonly hovers?: boolean;
+
+	/**
+	 * Defines whether the built-in documentSymbolProvider is enabled.
+	 */
+	readonly documentSymbols?: boolean;
+
+	/**
+	 * Defines whether the built-in definitions provider is enabled.
+	 */
+	readonly links?: boolean;
+
+	/**
+	 * Defines whether the built-in references provider is enabled.
+	 */
+	readonly documentHighlights?: boolean;
+
+	/**
+	 * Defines whether the built-in rename provider is enabled.
+	 */
+	readonly rename?: boolean;
+
+	/**
+	 * Defines whether the built-in color provider is enabled.
+	 */
+	readonly colors?: boolean;
+
+	/**
+	 * Defines whether the built-in foldingRange provider is enabled.
+	 */
+	readonly foldingRanges?: boolean;
+
+	/**
+	 * Defines whether the built-in diagnostic provider is enabled.
+	 */
+	readonly diagnostics?: boolean;
+
+	/**
+	 * Defines whether the built-in selection range provider is enabled.
+	 */
+	readonly selectionRanges?: boolean;
+
+	/**
+	 * Defines whether the built-in documentFormattingEdit provider is enabled.
+	 */
+	readonly documentFormattingEdits?: boolean;
+
+	/**
+	 * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
+	 */
+	readonly documentRangeFormattingEdits?: boolean;
+}
+
+export interface LanguageServiceDefaults {
+	readonly languageId: string;
+	readonly modeConfiguration: ModeConfiguration;
+	readonly onDidChange: IEvent<LanguageServiceDefaults>;
+	readonly options: Options;
+	setOptions(options: Options): void;
+}
 
 // --- HTML configuration and defaults ---------
 
-export class LanguageServiceDefaultsImpl
-	implements monaco.languages.html.LanguageServiceDefaults {
-	private _onDidChange = new Emitter<
-		monaco.languages.html.LanguageServiceDefaults
-	>();
-	private _options: monaco.languages.html.Options;
-	private _modeConfiguration: monaco.languages.html.ModeConfiguration;
+class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
+	private _onDidChange = new Emitter<LanguageServiceDefaults>();
+	private _options: Options;
+	private _modeConfiguration: ModeConfiguration;
 	private _languageId: string;
 
 	constructor(
 		languageId: string,
-		options: monaco.languages.html.Options,
-		modeConfiguration: monaco.languages.html.ModeConfiguration
+		options: Options,
+		modeConfiguration: ModeConfiguration
 	) {
 		this._languageId = languageId;
 		this.setOptions(options);
 		this.setModeConfiguration(modeConfiguration);
 	}
 
-	get onDidChange(): IEvent<monaco.languages.html.LanguageServiceDefaults> {
+	get onDidChange(): IEvent<LanguageServiceDefaults> {
 		return this._onDidChange.event;
 	}
 
@@ -38,28 +136,26 @@ export class LanguageServiceDefaultsImpl
 		return this._languageId;
 	}
 
-	get options(): monaco.languages.html.Options {
+	get options(): Options {
 		return this._options;
 	}
 
-	get modeConfiguration(): monaco.languages.html.ModeConfiguration {
+	get modeConfiguration(): ModeConfiguration {
 		return this._modeConfiguration;
 	}
 
-	setOptions(options: monaco.languages.html.Options): void {
+	setOptions(options: Options): void {
 		this._options = options || Object.create(null);
 		this._onDidChange.fire(this);
 	}
 
-	setModeConfiguration(
-		modeConfiguration: monaco.languages.html.ModeConfiguration
-	): void {
+	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
 		this._onDidChange.fire(this);
 	}
 }
 
-const formatDefaults: Required<monaco.languages.html.HTMLFormatConfiguration> = {
+const formatDefaults: Required<HTMLFormatConfiguration> = {
 	tabSize: 4,
 	insertSpaces: false,
 	wrapLineLength: 120,
@@ -75,24 +171,24 @@ const formatDefaults: Required<monaco.languages.html.HTMLFormatConfiguration> = 
 	wrapAttributes: 'auto'
 };
 
-const htmlOptionsDefault: Required<monaco.languages.html.Options> = {
+const htmlOptionsDefault: Required<Options> = {
 	format: formatDefaults,
 	suggest: { html5: true, angular1: true, ionic: true }
 };
 
-const handlebarOptionsDefault: Required<monaco.languages.html.Options> = {
+const handlebarOptionsDefault: Required<Options> = {
 	format: formatDefaults,
 	suggest: { html5: true }
 };
 
-const razorOptionsDefault: Required<monaco.languages.html.Options> = {
+const razorOptionsDefault: Required<Options> = {
 	format: formatDefaults,
 	suggest: { html5: true, razor: true }
 };
 
 function getConfigurationDefault(
 	languageId: string
-): Required<monaco.languages.html.ModeConfiguration> {
+): Required<ModeConfiguration> {
 	return {
 		completionItems: true,
 		hovers: true,
@@ -113,31 +209,24 @@ const htmlLanguageId = 'html';
 const handlebarsLanguageId = 'handlebars';
 const razorLanguageId = 'razor';
 
-const htmlDefaults = new LanguageServiceDefaultsImpl(
+export const htmlDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	htmlLanguageId,
 	htmlOptionsDefault,
 	getConfigurationDefault(htmlLanguageId)
 );
-const handlebarDefaults = new LanguageServiceDefaultsImpl(
+export const handlebarDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	handlebarsLanguageId,
 	handlebarOptionsDefault,
 	getConfigurationDefault(handlebarsLanguageId)
 );
-const razorDefaults = new LanguageServiceDefaultsImpl(
+export const razorDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	razorLanguageId,
 	razorOptionsDefault,
 	getConfigurationDefault(razorLanguageId)
 );
 
-// Export API
-function createAPI(): typeof monaco.languages.html {
-	return {
-		htmlDefaults: htmlDefaults,
-		razorDefaults: razorDefaults,
-		handlebarDefaults: handlebarDefaults
-	};
-}
-monaco.languages.html = createAPI();
+// export to the global based API
+(<any>languages).html = { htmlDefaults, razorDefaults, handlebarDefaults };
 
 // --- Registration to monaco editor ---
 
@@ -145,12 +234,12 @@ function getMode(): Promise<typeof mode> {
 	return import('./htmlMode');
 }
 
-monaco.languages.onLanguage(htmlLanguageId, () => {
+languages.onLanguage(htmlLanguageId, () => {
 	getMode().then((mode) => mode.setupMode(htmlDefaults));
 });
-monaco.languages.onLanguage(handlebarsLanguageId, () => {
+languages.onLanguage(handlebarsLanguageId, () => {
 	getMode().then((mode) => mode.setupMode(handlebarDefaults));
 });
-monaco.languages.onLanguage(razorLanguageId, () => {
+languages.onLanguage(razorLanguageId, () => {
 	getMode().then((mode) => mode.setupMode(razorDefaults));
 });

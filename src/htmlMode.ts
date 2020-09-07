@@ -2,17 +2,14 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 
 import { WorkerManager } from './workerManager';
-import { HTMLWorker } from './htmlWorker';
-import { LanguageServiceDefaultsImpl } from './monaco.contribution';
+import type { HTMLWorker } from './htmlWorker';
+import { LanguageServiceDefaults } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
+import { Uri, IDisposable, languages } from './fillers/monaco-editor-core';
 
-import Uri = monaco.Uri;
-import IDisposable = monaco.IDisposable;
-
-export function setupMode1(defaults: LanguageServiceDefaultsImpl): void {
+export function setupMode1(defaults: LanguageServiceDefaults): void {
 	const client = new WorkerManager(defaults);
 
 	const worker: languageFeatures.WorkerAccessor = (
@@ -24,47 +21,47 @@ export function setupMode1(defaults: LanguageServiceDefaultsImpl): void {
 	let languageId = defaults.languageId;
 
 	// all modes
-	monaco.languages.registerCompletionItemProvider(
+	languages.registerCompletionItemProvider(
 		languageId,
 		new languageFeatures.CompletionAdapter(worker)
 	);
-	monaco.languages.registerHoverProvider(
+	languages.registerHoverProvider(
 		languageId,
 		new languageFeatures.HoverAdapter(worker)
 	);
 
-	monaco.languages.registerDocumentHighlightProvider(
+	languages.registerDocumentHighlightProvider(
 		languageId,
 		new languageFeatures.DocumentHighlightAdapter(worker)
 	);
-	monaco.languages.registerLinkProvider(
+	languages.registerLinkProvider(
 		languageId,
 		new languageFeatures.DocumentLinkAdapter(worker)
 	);
-	monaco.languages.registerFoldingRangeProvider(
+	languages.registerFoldingRangeProvider(
 		languageId,
 		new languageFeatures.FoldingRangeAdapter(worker)
 	);
-	monaco.languages.registerDocumentSymbolProvider(
+	languages.registerDocumentSymbolProvider(
 		languageId,
 		new languageFeatures.DocumentSymbolAdapter(worker)
 	);
-	monaco.languages.registerSelectionRangeProvider(
+	languages.registerSelectionRangeProvider(
 		languageId,
 		new languageFeatures.SelectionRangeAdapter(worker)
 	);
-	monaco.languages.registerRenameProvider(
+	languages.registerRenameProvider(
 		languageId,
 		new languageFeatures.RenameAdapter(worker)
 	);
 
 	// only html
 	if (languageId === 'html') {
-		monaco.languages.registerDocumentFormattingEditProvider(
+		languages.registerDocumentFormattingEditProvider(
 			languageId,
 			new languageFeatures.DocumentFormattingEditProvider(worker)
 		);
-		monaco.languages.registerDocumentRangeFormattingEditProvider(
+		languages.registerDocumentRangeFormattingEditProvider(
 			languageId,
 			new languageFeatures.DocumentRangeFormattingEditProvider(worker)
 		);
@@ -72,7 +69,7 @@ export function setupMode1(defaults: LanguageServiceDefaultsImpl): void {
 	}
 }
 
-export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
+export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const disposables: IDisposable[] = [];
 	const providers: IDisposable[] = [];
 
@@ -92,7 +89,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 
 		if (modeConfiguration.completionItems) {
 			providers.push(
-				monaco.languages.registerCompletionItemProvider(
+				languages.registerCompletionItemProvider(
 					languageId,
 					new languageFeatures.CompletionAdapter(worker)
 				)
@@ -100,7 +97,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				monaco.languages.registerHoverProvider(
+				languages.registerHoverProvider(
 					languageId,
 					new languageFeatures.HoverAdapter(worker)
 				)
@@ -108,7 +105,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
-				monaco.languages.registerDocumentHighlightProvider(
+				languages.registerDocumentHighlightProvider(
 					languageId,
 					new languageFeatures.DocumentHighlightAdapter(worker)
 				)
@@ -116,7 +113,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.links) {
 			providers.push(
-				monaco.languages.registerLinkProvider(
+				languages.registerLinkProvider(
 					languageId,
 					new languageFeatures.DocumentLinkAdapter(worker)
 				)
@@ -124,7 +121,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
-				monaco.languages.registerDocumentSymbolProvider(
+				languages.registerDocumentSymbolProvider(
 					languageId,
 					new languageFeatures.DocumentSymbolAdapter(worker)
 				)
@@ -132,7 +129,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				monaco.languages.registerRenameProvider(
+				languages.registerRenameProvider(
 					languageId,
 					new languageFeatures.RenameAdapter(worker)
 				)
@@ -140,7 +137,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
-				monaco.languages.registerFoldingRangeProvider(
+				languages.registerFoldingRangeProvider(
 					languageId,
 					new languageFeatures.FoldingRangeAdapter(worker)
 				)
@@ -148,7 +145,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
-				monaco.languages.registerSelectionRangeProvider(
+				languages.registerSelectionRangeProvider(
 					languageId,
 					new languageFeatures.SelectionRangeAdapter(worker)
 				)
@@ -156,7 +153,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.documentFormattingEdits) {
 			providers.push(
-				monaco.languages.registerDocumentFormattingEditProvider(
+				languages.registerDocumentFormattingEditProvider(
 					languageId,
 					new languageFeatures.DocumentFormattingEditProvider(worker)
 				)
@@ -164,7 +161,7 @@ export function setupMode(defaults: LanguageServiceDefaultsImpl): IDisposable {
 		}
 		if (modeConfiguration.documentRangeFormattingEdits) {
 			providers.push(
-				monaco.languages.registerDocumentRangeFormattingEditProvider(
+				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
 					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
 				)

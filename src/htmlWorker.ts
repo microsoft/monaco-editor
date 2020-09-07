@@ -2,19 +2,18 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 
-import IWorkerContext = monaco.worker.IWorkerContext;
-
+import { worker } from './fillers/monaco-editor-core';
 import * as htmlService from 'vscode-html-languageservice';
+import type { Options } from './monaco.contribution';
 
 export class HTMLWorker {
-	private _ctx: IWorkerContext;
+	private _ctx: worker.IWorkerContext;
 	private _languageService: htmlService.LanguageService;
-	private _languageSettings: monaco.languages.html.Options;
+	private _languageSettings: Options;
 	private _languageId: string;
 
-	constructor(ctx: IWorkerContext, createData: ICreateData) {
+	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
@@ -140,11 +139,11 @@ export class HTMLWorker {
 
 export interface ICreateData {
 	languageId: string;
-	languageSettings: monaco.languages.html.Options;
+	languageSettings: Options;
 }
 
 export function create(
-	ctx: IWorkerContext,
+	ctx: worker.IWorkerContext,
 	createData: ICreateData
 ): HTMLWorker {
 	return new HTMLWorker(ctx, createData);

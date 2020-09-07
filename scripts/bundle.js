@@ -21,7 +21,7 @@ const BUNDLED_FILE_HEADER = [
 ].join('\n');
 
 bundleOne('monaco.contribution');
-bundleOne('htmlMode');
+bundleOne('htmlMode', ['vs/language/html/monaco.contribution']);
 bundleOne('htmlWorker');
 
 function bundleOne(moduleId, exclude) {
@@ -32,7 +32,9 @@ function bundleOne(moduleId, exclude) {
 			out: 'release/dev/' + moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/language/html': REPO_ROOT + '/out/amd'
+				'vs/language/html': REPO_ROOT + '/out/amd',
+				'vs/language/html/fillers/monaco-editor-core':
+					REPO_ROOT + '/out/amd/fillers/monaco-editor-core-amd'
 			},
 			optimize: 'none',
 			packages: [
@@ -72,7 +74,7 @@ function bundleOne(moduleId, exclude) {
 				}
 			]
 		},
-		function (buildResponse) {
+		async function (buildResponse) {
 			const devFilePath = path.join(
 				REPO_ROOT,
 				'release/dev/' + moduleId + '.js'
@@ -84,12 +86,12 @@ function bundleOne(moduleId, exclude) {
 			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
 			console.log(`Minifying ${devFilePath}...`);
-			const result = terser.minify(fileContents, {
+			const result = await terser.minify(fileContents, {
 				output: {
 					comments: 'some'
 				}
 			});
-			console.log(`Done.`);
+			console.log(`Done minifying ${devFilePath}.`);
 			try {
 				fs.mkdirSync(path.join(REPO_ROOT, 'release/min'));
 			} catch (err) {}

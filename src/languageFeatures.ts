@@ -2,18 +2,21 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 
-import { LanguageServiceDefaultsImpl } from './monaco.contribution';
-import { HTMLWorker } from './htmlWorker';
-
+import { LanguageServiceDefaults } from './monaco.contribution';
+import type { HTMLWorker } from './htmlWorker';
 import * as htmlService from 'vscode-html-languageservice';
-
-import Uri = monaco.Uri;
-import Position = monaco.Position;
-import Range = monaco.Range;
-import CancellationToken = monaco.CancellationToken;
-import IDisposable = monaco.IDisposable;
+import {
+	languages,
+	editor,
+	Uri,
+	Position,
+	Range,
+	CancellationToken,
+	IDisposable,
+	MarkerSeverity,
+	IMarkdownString
+} from './fillers/monaco-editor-core';
 
 export interface WorkerAccessor {
 	(...more: Uri[]): Promise<HTMLWorker>;
@@ -28,9 +31,9 @@ export class DiagnosticsAdapter {
 	constructor(
 		private _languageId: string,
 		private _worker: WorkerAccessor,
-		defaults: LanguageServiceDefaultsImpl
+		defaults: LanguageServiceDefaults
 	) {
-		const onModelAdd = (model: monaco.editor.IModel): void => {
+		const onModelAdd = (model: editor.IModel): void => {
 			const modeId = model.getModeId();
 			if (modeId !== this._languageId) {
 				return;
@@ -45,8 +48,8 @@ export class DiagnosticsAdapter {
 			this._doValidate(model.uri, modeId);
 		};
 
-		const onModelRemoved = (model: monaco.editor.IModel): void => {
-			monaco.editor.setModelMarkers(model, this._languageId, []);
+		const onModelRemoved = (model: editor.IModel): void => {
+			editor.setModelMarkers(model, this._languageId, []);
 			const uriStr = model.uri.toString();
 			const listener = this._listener[uriStr];
 			if (listener) {
@@ -55,14 +58,14 @@ export class DiagnosticsAdapter {
 			}
 		};
 
-		this._disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
+		this._disposables.push(editor.onDidCreateModel(onModelAdd));
 		this._disposables.push(
-			monaco.editor.onWillDisposeModel((model) => {
+			editor.onWillDisposeModel((model) => {
 				onModelRemoved(model);
 			})
 		);
 		this._disposables.push(
-			monaco.editor.onDidChangeModelLanguage((event) => {
+			editor.onDidChangeModelLanguage((event) => {
 				onModelRemoved(event.model);
 				onModelAdd(event.model);
 			})
@@ -70,7 +73,7 @@ export class DiagnosticsAdapter {
 
 		this._disposables.push(
 			defaults.onDidChange((_) => {
-				monaco.editor.getModels().forEach((model) => {
+				editor.getModels().forEach((model) => {
 					if (model.getModeId() === this._languageId) {
 						onModelRemoved(model);
 						onModelAdd(model);
@@ -87,7 +90,7 @@ export class DiagnosticsAdapter {
 			}
 		});
 
-		monaco.editor.getModels().forEach(onModelAdd);
+		editor.getModels().forEach(onModelAdd);
 	}
 
 	public dispose(): void {
@@ -100,8 +103,8 @@ export class DiagnosticsAdapter {
 			.then((worker) => {
 				return worker.doValidation(resource.toString()).then((diagnostics) => {
 					const markers = diagnostics.map((d) => toDiagnostics(resource, d));
-					monaco.editor.setModelMarkers(
-						monaco.editor.getModel(resource),
+					editor.setModelMarkers(
+						editor.getModel(resource),
 						languageId,
 						markers
 					);
@@ -113,25 +116,25 @@ export class DiagnosticsAdapter {
 	}
 }
 
-function toSeverity(lsSeverity: number): monaco.MarkerSeverity {
+function toSeverity(lsSeverity: number): MarkerSeverity {
 	switch (lsSeverity) {
 		case htmlService.DiagnosticSeverity.Error:
-			return monaco.MarkerSeverity.Error;
+			return MarkerSeverity.Error;
 		case htmlService.DiagnosticSeverity.Warning:
-			return monaco.MarkerSeverity.Warning;
+			return MarkerSeverity.Warning;
 		case htmlService.DiagnosticSeverity.Information:
-			return monaco.MarkerSeverity.Info;
+			return MarkerSeverity.Info;
 		case htmlService.DiagnosticSeverity.Hint:
-			return monaco.MarkerSeverity.Hint;
+			return MarkerSeverity.Hint;
 		default:
-			return monaco.MarkerSeverity.Info;
+			return MarkerSeverity.Info;
 	}
 }
 
 function toDiagnostics(
 	resource: Uri,
 	diag: htmlService.Diagnostic
-): monaco.editor.IMarkerData {
+): editor.IMarkerData {
 	const code =
 		typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
 
@@ -178,10 +181,8 @@ function toRange(range: htmlService.Range): Range {
 	);
 }
 
-function toCompletionItemKind(
-	kind: number
-): monaco.languages.CompletionItemKind {
-	const mItemKind = monaco.languages.CompletionItemKind;
+function toCompletionItemKind(kind: number): languages.CompletionItemKind {
+	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
 		case htmlService.CompletionItemKind.Text:
@@ -225,9 +226,9 @@ function toCompletionItemKind(
 }
 
 function fromCompletionItemKind(
-	kind: monaco.languages.CompletionItemKind
+	kind: languages.CompletionItemKind
 ): htmlService.CompletionItemKind {
-	const mItemKind = monaco.languages.CompletionItemKind;
+	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
 		case mItemKind.Text:
@@ -272,7 +273,7 @@ function fromCompletionItemKind(
 
 function toTextEdit(
 	textEdit: htmlService.TextEdit
-): monaco.editor.ISingleEditOperation {
+): editor.ISingleEditOperation {
 	if (!textEdit) {
 		return void 0;
 	}
@@ -282,8 +283,7 @@ function toTextEdit(
 	};
 }
 
-export class CompletionAdapter
-	implements monaco.languages.CompletionItemProvider {
+export class CompletionAdapter implements languages.CompletionItemProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public get triggerCharacters(): string[] {
@@ -291,11 +291,11 @@ export class CompletionAdapter
 	}
 
 	provideCompletionItems(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		position: Position,
-		context: monaco.languages.CompletionContext,
+		context: languages.CompletionContext,
 		token: CancellationToken
-	): Promise<monaco.languages.CompletionList> {
+	): Promise<languages.CompletionList> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -314,36 +314,32 @@ export class CompletionAdapter
 					wordInfo.endColumn
 				);
 
-				const items: monaco.languages.CompletionItem[] = info.items.map(
-					(entry) => {
-						const item: monaco.languages.CompletionItem = {
-							label: entry.label,
-							insertText: entry.insertText || entry.label,
-							sortText: entry.sortText,
-							filterText: entry.filterText,
-							documentation: entry.documentation,
-							detail: entry.detail,
-							range: wordRange,
-							kind: toCompletionItemKind(entry.kind)
-						};
-						if (entry.textEdit) {
-							item.range = toRange(entry.textEdit.range);
-							item.insertText = entry.textEdit.newText;
-						}
-						if (entry.additionalTextEdits) {
-							item.additionalTextEdits = entry.additionalTextEdits.map(
-								toTextEdit
-							);
-						}
-						if (
-							entry.insertTextFormat === htmlService.InsertTextFormat.Snippet
-						) {
-							item.insertTextRules =
-								monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
-						}
-						return item;
+				const items: languages.CompletionItem[] = info.items.map((entry) => {
+					const item: languages.CompletionItem = {
+						label: entry.label,
+						insertText: entry.insertText || entry.label,
+						sortText: entry.sortText,
+						filterText: entry.filterText,
+						documentation: entry.documentation,
+						detail: entry.detail,
+						range: wordRange,
+						kind: toCompletionItemKind(entry.kind)
+					};
+					if (entry.textEdit) {
+						item.range = toRange(entry.textEdit.range);
+						item.insertText = entry.textEdit.newText;
 					}
-				);
+					if (entry.additionalTextEdits) {
+						item.additionalTextEdits = entry.additionalTextEdits.map(
+							toTextEdit
+						);
+					}
+					if (entry.insertTextFormat === htmlService.InsertTextFormat.Snippet) {
+						item.insertTextRules =
+							languages.CompletionItemInsertTextRule.InsertAsSnippet;
+					}
+					return item;
+				});
 
 				return {
 					isIncomplete: info.isIncomplete,
@@ -365,7 +361,7 @@ function isMarkupContent(thing: any): thing is htmlService.MarkupContent {
 
 function toMarkdownString(
 	entry: htmlService.MarkupContent | htmlService.MarkedString
-): monaco.IMarkdownString {
+): IMarkdownString {
 	if (typeof entry === 'string') {
 		return {
 			value: entry
@@ -390,7 +386,7 @@ function toMarkedStringArray(
 		| htmlService.MarkupContent
 		| htmlService.MarkedString
 		| htmlService.MarkedString[]
-): monaco.IMarkdownString[] {
+): IMarkdownString[] {
 	if (!contents) {
 		return void 0;
 	}
@@ -400,14 +396,14 @@ function toMarkedStringArray(
 	return [toMarkdownString(contents)];
 }
 
-export class HoverAdapter implements monaco.languages.HoverProvider {
+export class HoverAdapter implements languages.HoverProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	provideHover(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		position: Position,
 		token: CancellationToken
-	): Promise<monaco.languages.Hover> {
+	): Promise<languages.Hover> {
 		let resource = model.uri;
 
 		return this._worker(resource)
@@ -418,7 +414,7 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 				if (!info) {
 					return;
 				}
-				return <monaco.languages.Hover>{
+				return <languages.Hover>{
 					range: toRange(info.range),
 					contents: toMarkedStringArray(info.contents)
 				};
@@ -430,8 +426,8 @@ export class HoverAdapter implements monaco.languages.HoverProvider {
 
 function toHighlighKind(
 	kind: htmlService.DocumentHighlightKind
-): monaco.languages.DocumentHighlightKind {
-	const mKind = monaco.languages.DocumentHighlightKind;
+): languages.DocumentHighlightKind {
+	const mKind = languages.DocumentHighlightKind;
 
 	switch (kind) {
 		case htmlService.DocumentHighlightKind.Read:
@@ -445,14 +441,14 @@ function toHighlighKind(
 }
 
 export class DocumentHighlightAdapter
-	implements monaco.languages.DocumentHighlightProvider {
+	implements languages.DocumentHighlightProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentHighlights(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		position: Position,
 		token: CancellationToken
-	): Promise<monaco.languages.DocumentHighlight[]> {
+	): Promise<languages.DocumentHighlight[]> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -476,10 +472,8 @@ export class DocumentHighlightAdapter
 
 // --- document symbols ------
 
-function toSymbolKind(
-	kind: htmlService.SymbolKind
-): monaco.languages.SymbolKind {
-	let mKind = monaco.languages.SymbolKind;
+function toSymbolKind(kind: htmlService.SymbolKind): languages.SymbolKind {
+	let mKind = languages.SymbolKind;
 
 	switch (kind) {
 		case htmlService.SymbolKind.File:
@@ -522,14 +516,13 @@ function toSymbolKind(
 	return mKind.Function;
 }
 
-export class DocumentSymbolAdapter
-	implements monaco.languages.DocumentSymbolProvider {
+export class DocumentSymbolAdapter implements languages.DocumentSymbolProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentSymbols(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		token: CancellationToken
-	): Promise<monaco.languages.DocumentSymbol[]> {
+	): Promise<languages.DocumentSymbol[]> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -551,13 +544,13 @@ export class DocumentSymbolAdapter
 	}
 }
 
-export class DocumentLinkAdapter implements monaco.languages.LinkProvider {
+export class DocumentLinkAdapter implements languages.LinkProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideLinks(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		token: CancellationToken
-	): Promise<monaco.languages.ILinksList> {
+	): Promise<languages.ILinksList> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -577,7 +570,7 @@ export class DocumentLinkAdapter implements monaco.languages.LinkProvider {
 }
 
 function fromFormattingOptions(
-	options: monaco.languages.FormattingOptions
+	options: languages.FormattingOptions
 ): htmlService.FormattingOptions {
 	return {
 		tabSize: options.tabSize,
@@ -586,14 +579,14 @@ function fromFormattingOptions(
 }
 
 export class DocumentFormattingEditProvider
-	implements monaco.languages.DocumentFormattingEditProvider {
+	implements languages.DocumentFormattingEditProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentFormattingEdits(
-		model: monaco.editor.IReadOnlyModel,
-		options: monaco.languages.FormattingOptions,
+		model: editor.IReadOnlyModel,
+		options: languages.FormattingOptions,
 		token: CancellationToken
-	): Promise<monaco.editor.ISingleEditOperation[]> {
+	): Promise<editor.ISingleEditOperation[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then((worker) => {
@@ -610,15 +603,15 @@ export class DocumentFormattingEditProvider
 }
 
 export class DocumentRangeFormattingEditProvider
-	implements monaco.languages.DocumentRangeFormattingEditProvider {
+	implements languages.DocumentRangeFormattingEditProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentRangeFormattingEdits(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		range: Range,
-		options: monaco.languages.FormattingOptions,
+		options: languages.FormattingOptions,
 		token: CancellationToken
-	): Promise<monaco.editor.ISingleEditOperation[]> {
+	): Promise<editor.ISingleEditOperation[]> {
 		const resource = model.uri;
 
 		return this._worker(resource).then((worker) => {
@@ -638,15 +631,15 @@ export class DocumentRangeFormattingEditProvider
 	}
 }
 
-export class RenameAdapter implements monaco.languages.RenameProvider {
+export class RenameAdapter implements languages.RenameProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	provideRenameEdits(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		position: Position,
 		newName: string,
 		token: CancellationToken
-	): Promise<monaco.languages.WorkspaceEdit> {
+	): Promise<languages.WorkspaceEdit> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -665,11 +658,11 @@ export class RenameAdapter implements monaco.languages.RenameProvider {
 
 function toWorkspaceEdit(
 	edit: htmlService.WorkspaceEdit
-): monaco.languages.WorkspaceEdit {
+): languages.WorkspaceEdit {
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
-	let resourceEdits: monaco.languages.WorkspaceTextEdit[] = [];
+	let resourceEdits: languages.WorkspaceTextEdit[] = [];
 	for (let uri in edit.changes) {
 		const _uri = Uri.parse(uri);
 		for (let e of edit.changes[uri]) {
@@ -687,15 +680,14 @@ function toWorkspaceEdit(
 	};
 }
 
-export class FoldingRangeAdapter
-	implements monaco.languages.FoldingRangeProvider {
+export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideFoldingRanges(
-		model: monaco.editor.IReadOnlyModel,
-		context: monaco.languages.FoldingContext,
+		model: editor.IReadOnlyModel,
+		context: languages.FoldingContext,
 		token: CancellationToken
-	): Promise<monaco.languages.FoldingRange[]> {
+	): Promise<languages.FoldingRange[]> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -705,7 +697,7 @@ export class FoldingRangeAdapter
 					return;
 				}
 				return ranges.map((range) => {
-					const result: monaco.languages.FoldingRange = {
+					const result: languages.FoldingRange = {
 						start: range.startLine + 1,
 						end: range.endLine + 1
 					};
@@ -722,26 +714,25 @@ export class FoldingRangeAdapter
 
 function toFoldingRangeKind(
 	kind: htmlService.FoldingRangeKind
-): monaco.languages.FoldingRangeKind {
+): languages.FoldingRangeKind {
 	switch (kind) {
 		case htmlService.FoldingRangeKind.Comment:
-			return monaco.languages.FoldingRangeKind.Comment;
+			return languages.FoldingRangeKind.Comment;
 		case htmlService.FoldingRangeKind.Imports:
-			return monaco.languages.FoldingRangeKind.Imports;
+			return languages.FoldingRangeKind.Imports;
 		case htmlService.FoldingRangeKind.Region:
-			return monaco.languages.FoldingRangeKind.Region;
+			return languages.FoldingRangeKind.Region;
 	}
 }
 
-export class SelectionRangeAdapter
-	implements monaco.languages.SelectionRangeProvider {
+export class SelectionRangeAdapter implements languages.SelectionRangeProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideSelectionRanges(
-		model: monaco.editor.IReadOnlyModel,
+		model: editor.IReadOnlyModel,
 		positions: Position[],
 		token: CancellationToken
-	): Promise<monaco.languages.SelectionRange[][]> {
+	): Promise<languages.SelectionRange[][]> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -756,7 +747,7 @@ export class SelectionRangeAdapter
 					return;
 				}
 				return selectionRanges.map((selectionRange) => {
-					const result: monaco.languages.SelectionRange[] = [];
+					const result: languages.SelectionRange[] = [];
 					while (selectionRange) {
 						result.push({ range: toRange(selectionRange.range) });
 						selectionRange = selectionRange.parent;
