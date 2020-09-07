@@ -10,7 +10,6 @@ import { editor, IDisposable, Uri } from './fillers/monaco-editor-core';
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
 export class WorkerManager {
-
 	private _defaults: LanguageServiceDefaults;
 	private _idleCheckInterval: number;
 	private _lastUsedTime: number;
@@ -22,9 +21,14 @@ export class WorkerManager {
 	constructor(defaults: LanguageServiceDefaults) {
 		this._defaults = defaults;
 		this._worker = null;
-		this._idleCheckInterval = window.setInterval(() => this._checkIfIdle(), 30 * 1000);
+		this._idleCheckInterval = window.setInterval(
+			() => this._checkIfIdle(),
+			30 * 1000
+		);
 		this._lastUsedTime = 0;
-		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
+		this._configChangeListener = this._defaults.onDidChange(() =>
+			this._stopWorker()
+		);
 	}
 
 	private _stopWorker(): void {
@@ -56,7 +60,6 @@ export class WorkerManager {
 
 		if (!this._client) {
 			this._worker = editor.createWebWorker<CSSWorker>({
-
 				// module that exports the create() method and returns a `CSSWorker` instance
 				moduleId: 'vs/language/css/cssWorker',
 
@@ -69,7 +72,7 @@ export class WorkerManager {
 				}
 			});
 
-			this._client = <Promise<CSSWorker>><any>this._worker.getProxy();
+			this._client = <Promise<CSSWorker>>(<any>this._worker.getProxy());
 		}
 
 		return this._client;
@@ -77,10 +80,13 @@ export class WorkerManager {
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<CSSWorker> {
 		let _client: CSSWorker;
-		return this._getClient().then((client) => {
-			_client = client
-		}).then(_ => {
-			return this._worker.withSyncedResources(resources)
-		}).then(_ => _client);
+		return this._getClient()
+			.then((client) => {
+				_client = client;
+			})
+			.then((_) => {
+				return this._worker.withSyncedResources(resources);
+			})
+			.then((_) => _client);
 	}
 }

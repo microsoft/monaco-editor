@@ -7,6 +7,6 @@
 
 declare var define;
 
-define([], function() {
+define([], function () {
 	return (<any>self).monaco;
 });

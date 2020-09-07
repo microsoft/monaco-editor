@@ -1,12 +1,13 @@
 # Monaco CSS
 
 CSS language plugin for the Monaco Editor. It provides the following features when editing CSS, LESS and SCSS files:
-* Code completion
-* Hovers
-* Validation: Syntax errors and linting
-* Find definition, references & highlights for symbols in the same file
-* Document Symbols
-* Color Decorators
+
+- Code completion
+- Hovers
+- Validation: Syntax errors and linting
+- Find definition, references & highlights for symbols in the same file
+- Document Symbols
+- Color Decorators
 
 Linting an be configured through the API. See [here](https://github.com/Microsoft/monaco-css/blob/master/src/monaco.d.ts) for the API that the
 CSS plugin offers to configure the CSS/LESS/SCSS language support.
@@ -25,11 +26,12 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 
 ## Development
 
-* `npm install .`
-* compile with `npm run compile`
-* watch with `npm run watch`
-* `npm run prepublishOnly`
-* open `$/monaco-css/test/index.html` in your favorite browser.
+- `npm install .`
+- compile with `npm run compile`
+- watch with `npm run watch`
+- `npm run prepublishOnly`
+- open `$/monaco-css/test/index.html` in your favorite browser.
 
 ## License
+
 [MIT](https://github.com/Microsoft/monaco-css/blob/master/LICENSE.md)

@@ -10,7 +10,10 @@ const REPO_ROOT = path.join(__dirname, '../');
 const SRC_PATH = path.join(REPO_ROOT, 'out/amd/monaco.contribution.d.ts');
 const DST_PATH = path.join(REPO_ROOT, 'monaco.d.ts');
 
-const lines = fs.readFileSync(SRC_PATH).toString().split(/\r\n|\r|\n/);
+const lines = fs
+	.readFileSync(SRC_PATH)
+	.toString()
+	.split(/\r\n|\r|\n/);
 let result = [
 	`/*---------------------------------------------------------------------------------------------`,
 	` *  Copyright (c) Microsoft Corporation. All rights reserved.`,

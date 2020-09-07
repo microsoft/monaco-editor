@@ -9,6 +9,6 @@ import { CSSWorker } from './cssWorker';
 self.onmessage = () => {
 	// ignore the first message
 	worker.initialize((ctx, createData) => {
-		return new CSSWorker(ctx, createData)
+		return new CSSWorker(ctx, createData);
 	});
 };

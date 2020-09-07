@@ -10,17 +10,17 @@ import * as languageFeatures from './languageFeatures';
 import { Uri, IDisposable, languages } from './fillers/monaco-editor-core';
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
-
 	const disposables: IDisposable[] = [];
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<CSSWorker> => {
+	const worker: languageFeatures.WorkerAccessor = (
+		...uris: Uri[]
+	): Promise<CSSWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
-
 
 	function registerProviders(): void {
 		const { languageId, modeConfiguration } = defaults;
@@ -28,42 +28,93 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		disposeAll(providers);
 
 		if (modeConfiguration.completionItems) {
-			providers.push(languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker)));
+			providers.push(
+				languages.registerCompletionItemProvider(
+					languageId,
+					new languageFeatures.CompletionAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.hovers) {
-			providers.push(languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker)));
+			providers.push(
+				languages.registerHoverProvider(
+					languageId,
+					new languageFeatures.HoverAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.documentHighlights) {
-			providers.push(languages.registerDocumentHighlightProvider(languageId, new languageFeatures.DocumentHighlightAdapter(worker)));
+			providers.push(
+				languages.registerDocumentHighlightProvider(
+					languageId,
+					new languageFeatures.DocumentHighlightAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.definitions) {
-			providers.push(languages.registerDefinitionProvider(languageId, new languageFeatures.DefinitionAdapter(worker)));
+			providers.push(
+				languages.registerDefinitionProvider(
+					languageId,
+					new languageFeatures.DefinitionAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.references) {
-			providers.push(languages.registerReferenceProvider(languageId, new languageFeatures.ReferenceAdapter(worker)));
+			providers.push(
+				languages.registerReferenceProvider(
+					languageId,
+					new languageFeatures.ReferenceAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.documentSymbols) {
-			providers.push(languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker)));
+			providers.push(
+				languages.registerDocumentSymbolProvider(
+					languageId,
+					new languageFeatures.DocumentSymbolAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.rename) {
-			providers.push(languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker)));
+			providers.push(
+				languages.registerRenameProvider(
+					languageId,
+					new languageFeatures.RenameAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.colors) {
-			providers.push(languages.registerColorProvider(languageId, new languageFeatures.DocumentColorAdapter(worker)));
+			providers.push(
+				languages.registerColorProvider(
+					languageId,
+					new languageFeatures.DocumentColorAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.foldingRanges) {
-			providers.push(languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker)));
+			providers.push(
+				languages.registerFoldingRangeProvider(
+					languageId,
+					new languageFeatures.FoldingRangeAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
+			providers.push(
+				new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults)
+			);
 		}
 		if (modeConfiguration.selectionRanges) {
-			providers.push(languages.registerSelectionRangeProvider(languageId, new languageFeatures.SelectionRangeAdapter(worker)));
+			providers.push(
+				languages.registerSelectionRangeProvider(
+					languageId,
+					new languageFeatures.SelectionRangeAdapter(worker)
+				)
+			);
 		}
 	}
 
 	registerProviders();
-
 
 	disposables.push(asDisposable(providers));
 

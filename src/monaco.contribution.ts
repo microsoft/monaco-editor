@@ -9,25 +9,25 @@ import { languages, Emitter, IEvent } from './fillers/monaco-editor-core';
 export interface DiagnosticsOptions {
 	readonly validate?: boolean;
 	readonly lint?: {
-		readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error',
-		readonly vendorPrefix?: 'ignore' | 'warning' | 'error',
-		readonly duplicateProperties?: 'ignore' | 'warning' | 'error',
-		readonly emptyRules?: 'ignore' | 'warning' | 'error',
-		readonly importStatement?: 'ignore' | 'warning' | 'error',
-		readonly boxModel?: 'ignore' | 'warning' | 'error',
-		readonly universalSelector?: 'ignore' | 'warning' | 'error',
-		readonly zeroUnits?: 'ignore' | 'warning' | 'error',
-		readonly fontFaceProperties?: 'ignore' | 'warning' | 'error',
-		readonly hexColorLength?: 'ignore' | 'warning' | 'error',
-		readonly argumentsInColorFunction?: 'ignore' | 'warning' | 'error',
-		readonly unknownProperties?: 'ignore' | 'warning' | 'error',
-		readonly ieHack?: 'ignore' | 'warning' | 'error',
-		readonly unknownVendorSpecificProperties?: 'ignore' | 'warning' | 'error',
-		readonly propertyIgnoredDueToDisplay?: 'ignore' | 'warning' | 'error',
-		readonly important?: 'ignore' | 'warning' | 'error',
-		readonly float?: 'ignore' | 'warning' | 'error',
-		readonly idSelector?: 'ignore' | 'warning' | 'error'
-	}
+		readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error';
+		readonly vendorPrefix?: 'ignore' | 'warning' | 'error';
+		readonly duplicateProperties?: 'ignore' | 'warning' | 'error';
+		readonly emptyRules?: 'ignore' | 'warning' | 'error';
+		readonly importStatement?: 'ignore' | 'warning' | 'error';
+		readonly boxModel?: 'ignore' | 'warning' | 'error';
+		readonly universalSelector?: 'ignore' | 'warning' | 'error';
+		readonly zeroUnits?: 'ignore' | 'warning' | 'error';
+		readonly fontFaceProperties?: 'ignore' | 'warning' | 'error';
+		readonly hexColorLength?: 'ignore' | 'warning' | 'error';
+		readonly argumentsInColorFunction?: 'ignore' | 'warning' | 'error';
+		readonly unknownProperties?: 'ignore' | 'warning' | 'error';
+		readonly ieHack?: 'ignore' | 'warning' | 'error';
+		readonly unknownVendorSpecificProperties?: 'ignore' | 'warning' | 'error';
+		readonly propertyIgnoredDueToDisplay?: 'ignore' | 'warning' | 'error';
+		readonly important?: 'ignore' | 'warning' | 'error';
+		readonly float?: 'ignore' | 'warning' | 'error';
+		readonly idSelector?: 'ignore' | 'warning' | 'error';
+	};
 }
 
 export interface ModeConfiguration {
@@ -85,7 +85,6 @@ export interface ModeConfiguration {
 	 * Defines whether the built-in selection range provider is enabled.
 	 */
 	readonly selectionRanges?: boolean;
-
 }
 
 export interface LanguageServiceDefaults {
@@ -100,13 +99,16 @@ export interface LanguageServiceDefaults {
 // --- CSS configuration and defaults ---------
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
-
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
 	private _diagnosticsOptions: DiagnosticsOptions;
 	private _modeConfiguration: ModeConfiguration;
 	private _languageId: string;
 
-	constructor(languageId: string, diagnosticsOptions: DiagnosticsOptions, modeConfiguration: ModeConfiguration) {
+	constructor(
+		languageId: string,
+		diagnosticsOptions: DiagnosticsOptions,
+		modeConfiguration: ModeConfiguration
+	) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
 		this.setModeConfiguration(modeConfiguration);
@@ -136,7 +138,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
 		this._onDidChange.fire(this);
-	};
+	}
 }
 
 const diagnosticDefault: Required<DiagnosticsOptions> = {
@@ -161,7 +163,7 @@ const diagnosticDefault: Required<DiagnosticsOptions> = {
 		float: 'ignore',
 		idSelector: 'ignore'
 	}
-}
+};
 
 const modeConfigurationDefault: Required<ModeConfiguration> = {
 	completionItems: true,
@@ -175,11 +177,23 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 	foldingRanges: true,
 	diagnostics: true,
 	selectionRanges: true
-}
+};
 
-export const cssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl('css', diagnosticDefault, modeConfigurationDefault);
-export const scssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl('scss', diagnosticDefault, modeConfigurationDefault);
-export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl('less', diagnosticDefault, modeConfigurationDefault);
+export const cssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+	'css',
+	diagnosticDefault,
+	modeConfigurationDefault
+);
+export const scssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+	'scss',
+	diagnosticDefault,
+	modeConfigurationDefault
+);
+export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+	'less',
+	diagnosticDefault,
+	modeConfigurationDefault
+);
 
 // export to the global based API
 (<any>languages).json = { cssDefaults, lessDefaults, scssDefaults };
@@ -191,13 +205,13 @@ function getMode(): Promise<typeof mode> {
 }
 
 languages.onLanguage('less', () => {
-	getMode().then(mode => mode.setupMode(lessDefaults));
+	getMode().then((mode) => mode.setupMode(lessDefaults));
 });
 
 languages.onLanguage('scss', () => {
-	getMode().then(mode => mode.setupMode(scssDefaults));
+	getMode().then((mode) => mode.setupMode(scssDefaults));
 });
 
 languages.onLanguage('css', () => {
-	getMode().then(mode => mode.setupMode(cssDefaults));
+	getMode().then((mode) => mode.setupMode(cssDefaults));
 });
