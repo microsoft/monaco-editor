@@ -39,13 +39,13 @@ function bundleOne(moduleId, exclude) {
 			'vs/language/typescript': REPO_ROOT + '/release/dev'
 		},
 		optimize: 'none'
-	}, function(buildResponse) {
+	}, async function(buildResponse) {
 		const filePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
 		const fileContents = fs.readFileSync(filePath).toString();
 		console.log();
 		console.log(`Minifying ${filePath}...`);
-		const result = terser.minify(fileContents);
-		console.log(`Done.`);
+		const result = await terser.minify(fileContents);
+		console.log(`Done minifying ${filePath}.`);
 		fs.writeFileSync(filePath, BUNDLED_FILE_HEADER + result.code);
 	})
 }

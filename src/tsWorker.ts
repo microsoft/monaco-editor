@@ -259,7 +259,7 @@ export interface ICreateData {
 
 /** The shape of the factory */
 export interface CustomTSWebWorkerFactory {
-	(TSWorkerClass: typeof TypeScriptWorker, ts: typeof import("typescript"), libs: Record<string, string>): typeof TypeScriptWorker
+	(TSWorkerClass: typeof TypeScriptWorker, tsc: typeof ts, libs: Record<string, string>): typeof TypeScriptWorker
 }
 
 export function create(ctx: IWorkerContext, createData: ICreateData): TypeScriptWorker {
