@@ -72,7 +72,8 @@ export class WorkerManager {
 				// passed in to the create() method
 				createData: {
 					compilerOptions: this._defaults.getCompilerOptions(),
-					extraLibs: this._defaults.getExtraLibs()
+					extraLibs: this._defaults.getExtraLibs(),
+					customWorkerPath: this._defaults.workerOptions.customWorkerPath
 				}
 			});
 
