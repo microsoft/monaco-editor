@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './jsonMode';
-import { Emitter, IEvent, languages } from './fillers/monaco-editor-core'
+import { Emitter, IEvent, languages } from './fillers/monaco-editor-core';
 
 // --- JSON configuration and defaults ---------
 
@@ -90,7 +90,6 @@ export interface ModeConfiguration {
 	 * Defines whether the built-in selection range provider is enabled.
 	 */
 	readonly selectionRanges?: boolean;
-
 }
 
 export interface LanguageServiceDefaults {
@@ -103,13 +102,16 @@ export interface LanguageServiceDefaults {
 }
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
-
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
 	private _diagnosticsOptions: DiagnosticsOptions;
 	private _modeConfiguration: ModeConfiguration;
 	private _languageId: string;
 
-	constructor(languageId: string, diagnosticsOptions: DiagnosticsOptions, modeConfiguration: ModeConfiguration) {
+	constructor(
+		languageId: string,
+		diagnosticsOptions: DiagnosticsOptions,
+		modeConfiguration: ModeConfiguration
+	) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
 		this.setModeConfiguration(modeConfiguration);
@@ -139,7 +141,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
 		this._onDidChange.fire(this);
-	};
+	}
 }
 
 const diagnosticDefault: Required<DiagnosticsOptions> = {
@@ -160,9 +162,13 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 	foldingRanges: true,
 	diagnostics: true,
 	selectionRanges: true
-}
+};
 
-export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl('json', diagnosticDefault, modeConfigurationDefault);
+export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+	'json',
+	diagnosticDefault,
+	modeConfigurationDefault
+);
 
 // export to the global based API
 (<any>languages).json = { jsonDefaults };
@@ -175,11 +181,19 @@ function getMode(): Promise<typeof mode> {
 
 languages.register({
 	id: 'json',
-	extensions: ['.json', '.bowerrc', '.jshintrc', '.jscsrc', '.eslintrc', '.babelrc', '.har'],
+	extensions: [
+		'.json',
+		'.bowerrc',
+		'.jshintrc',
+		'.jscsrc',
+		'.eslintrc',
+		'.babelrc',
+		'.har'
+	],
 	aliases: ['JSON', 'json'],
-	mimetypes: ['application/json'],
+	mimetypes: ['application/json']
 });
 
 languages.onLanguage('json', () => {
-	getMode().then(mode => mode.setupMode(jsonDefaults));
+	getMode().then((mode) => mode.setupMode(jsonDefaults));
 });

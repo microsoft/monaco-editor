@@ -8,20 +8,20 @@ import type { JSONWorker } from './jsonWorker';
 import { LanguageServiceDefaults } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 import { createTokenizationSupport } from './tokenization';
-import { Uri, IDisposable, languages } from './fillers/monaco-editor-core'
+import { Uri, IDisposable, languages } from './fillers/monaco-editor-core';
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
-
 	const disposables: IDisposable[] = [];
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<JSONWorker> => {
+	const worker: languageFeatures.WorkerAccessor = (
+		...uris: Uri[]
+	): Promise<JSONWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
-
 
 	function registerProviders(): void {
 		const { languageId, modeConfiguration } = defaults;
@@ -29,40 +29,89 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		disposeAll(providers);
 
 		if (modeConfiguration.documentFormattingEdits) {
-			providers.push(languages.registerDocumentFormattingEditProvider(languageId, new languageFeatures.DocumentFormattingEditProvider(worker)));
+			providers.push(
+				languages.registerDocumentFormattingEditProvider(
+					languageId,
+					new languageFeatures.DocumentFormattingEditProvider(worker)
+				)
+			);
 		}
 		if (modeConfiguration.documentRangeFormattingEdits) {
-			providers.push(languages.registerDocumentRangeFormattingEditProvider(languageId, new languageFeatures.DocumentRangeFormattingEditProvider(worker)));
+			providers.push(
+				languages.registerDocumentRangeFormattingEditProvider(
+					languageId,
+					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
+				)
+			);
 		}
 		if (modeConfiguration.completionItems) {
-			providers.push(languages.registerCompletionItemProvider(languageId, new languageFeatures.CompletionAdapter(worker)));
+			providers.push(
+				languages.registerCompletionItemProvider(
+					languageId,
+					new languageFeatures.CompletionAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.hovers) {
-			providers.push(languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker)));
+			providers.push(
+				languages.registerHoverProvider(
+					languageId,
+					new languageFeatures.HoverAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.documentSymbols) {
-			providers.push(languages.registerDocumentSymbolProvider(languageId, new languageFeatures.DocumentSymbolAdapter(worker)));
+			providers.push(
+				languages.registerDocumentSymbolProvider(
+					languageId,
+					new languageFeatures.DocumentSymbolAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.tokens) {
-			providers.push(languages.setTokensProvider(languageId, createTokenizationSupport(true)));
+			providers.push(
+				languages.setTokensProvider(languageId, createTokenizationSupport(true))
+			);
 		}
 		if (modeConfiguration.colors) {
-			providers.push(languages.registerColorProvider(languageId, new languageFeatures.DocumentColorAdapter(worker)));
+			providers.push(
+				languages.registerColorProvider(
+					languageId,
+					new languageFeatures.DocumentColorAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.foldingRanges) {
-			providers.push(languages.registerFoldingRangeProvider(languageId, new languageFeatures.FoldingRangeAdapter(worker)));
+			providers.push(
+				languages.registerFoldingRangeProvider(
+					languageId,
+					new languageFeatures.FoldingRangeAdapter(worker)
+				)
+			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
+			providers.push(
+				new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults)
+			);
 		}
 		if (modeConfiguration.selectionRanges) {
-			providers.push(languages.registerSelectionRangeProvider(languageId, new languageFeatures.SelectionRangeAdapter(worker)));
+			providers.push(
+				languages.registerSelectionRangeProvider(
+					languageId,
+					new languageFeatures.SelectionRangeAdapter(worker)
+				)
+			);
 		}
 	}
 
 	registerProviders();
 
-	disposables.push(languages.setLanguageConfiguration(defaults.languageId, richEditConfiguration));
+	disposables.push(
+		languages.setLanguageConfiguration(
+			defaults.languageId,
+			richEditConfiguration
+		)
+	);
 
 	let modeConfiguration = defaults.modeConfiguration;
 	defaults.onDidChange((newDefaults) => {
@@ -106,4 +155,3 @@ const richEditConfiguration: languages.LanguageConfiguration = {
 		{ open: '"', close: '"', notIn: ['string'] }
 	]
 };
-

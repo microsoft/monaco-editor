@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 declare namespace monaco.languages.json {
-
 	export interface DiagnosticsOptions {
 		/**
 		 * If set, the validator will be enabled and perform syntax validation as well as schema based validation.
@@ -87,5 +86,4 @@ declare namespace monaco.languages.json {
 		setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 	}
 	export const jsonDefaults: LanguageServiceDefaults;
-
 }

@@ -4,13 +4,22 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as json from 'jsonc-parser';
-import { languages } from './fillers/monaco-editor-core'
+import { languages } from './fillers/monaco-editor-core';
 
-export function createTokenizationSupport(supportComments: boolean): languages.TokensProvider {
-    return {
-        getInitialState: () => new JSONState(null, null, false),
-        tokenize: (line, state, offsetDelta?, stopAtOffset?) => tokenize(supportComments, line, <JSONState>state, offsetDelta, stopAtOffset)
-    };
+export function createTokenizationSupport(
+	supportComments: boolean
+): languages.TokensProvider {
+	return {
+		getInitialState: () => new JSONState(null, null, false),
+		tokenize: (line, state, offsetDelta?, stopAtOffset?) =>
+			tokenize(
+				supportComments,
+				line,
+				<JSONState>state,
+				offsetDelta,
+				stopAtOffset
+			)
+	};
 }
 
 export const TOKEN_DELIM_OBJECT = 'delimiter.bracket.json';
@@ -26,155 +35,170 @@ export const TOKEN_COMMENT_BLOCK = 'comment.block.json';
 export const TOKEN_COMMENT_LINE = 'comment.line.json';
 
 class JSONState implements languages.IState {
+	private _state: languages.IState;
 
-    private _state: languages.IState;
+	public scanError: json.ScanError;
+	public lastWasColon: boolean;
 
-    public scanError: json.ScanError;
-    public lastWasColon: boolean;
+	constructor(
+		state: languages.IState,
+		scanError: json.ScanError,
+		lastWasColon: boolean
+	) {
+		this._state = state;
+		this.scanError = scanError;
+		this.lastWasColon = lastWasColon;
+	}
 
-    constructor(state: languages.IState, scanError: json.ScanError, lastWasColon: boolean) {
-        this._state = state;
-        this.scanError = scanError;
-        this.lastWasColon = lastWasColon;
-    }
+	public clone(): JSONState {
+		return new JSONState(this._state, this.scanError, this.lastWasColon);
+	}
 
-    public clone(): JSONState {
-        return new JSONState(this._state, this.scanError, this.lastWasColon);
-    }
+	public equals(other: languages.IState): boolean {
+		if (other === this) {
+			return true;
+		}
+		if (!other || !(other instanceof JSONState)) {
+			return false;
+		}
+		return (
+			this.scanError === (<JSONState>other).scanError &&
+			this.lastWasColon === (<JSONState>other).lastWasColon
+		);
+	}
 
-    public equals(other: languages.IState): boolean {
-        if (other === this) {
-            return true;
-        }
-        if (!other || !(other instanceof JSONState)) {
-            return false;
-        }
-        return this.scanError === (<JSONState>other).scanError &&
-            this.lastWasColon === (<JSONState>other).lastWasColon;
-    }
+	public getStateData(): languages.IState {
+		return this._state;
+	}
 
-    public getStateData(): languages.IState {
-        return this._state;
-    }
-
-    public setStateData(state: languages.IState): void {
-        this._state = state;
-    }
+	public setStateData(state: languages.IState): void {
+		this._state = state;
+	}
 }
 
-function tokenize(comments: boolean, line: string, state: JSONState, offsetDelta: number = 0, stopAtOffset?: number): languages.ILineTokens {
+function tokenize(
+	comments: boolean,
+	line: string,
+	state: JSONState,
+	offsetDelta: number = 0,
+	stopAtOffset?: number
+): languages.ILineTokens {
+	// handle multiline strings and block comments
+	var numberOfInsertedCharacters = 0,
+		adjustOffset = false;
 
-    // handle multiline strings and block comments
-    var numberOfInsertedCharacters = 0,
-        adjustOffset = false;
+	switch (state.scanError) {
+		case json.ScanError.UnexpectedEndOfString:
+			line = '"' + line;
+			numberOfInsertedCharacters = 1;
+			break;
+		case json.ScanError.UnexpectedEndOfComment:
+			line = '/*' + line;
+			numberOfInsertedCharacters = 2;
+			break;
+	}
 
-    switch (state.scanError) {
-        case json.ScanError.UnexpectedEndOfString:
-            line = '"' + line;
-            numberOfInsertedCharacters = 1;
-            break;
-        case json.ScanError.UnexpectedEndOfComment:
-            line = '/*' + line;
-            numberOfInsertedCharacters = 2;
-            break;
-    }
+	var scanner = json.createScanner(line),
+		kind: json.SyntaxKind,
+		ret: languages.ILineTokens,
+		lastWasColon = state.lastWasColon;
 
-    var scanner = json.createScanner(line),
-        kind: json.SyntaxKind,
-        ret: languages.ILineTokens,
-        lastWasColon = state.lastWasColon;
+	ret = {
+		tokens: <languages.IToken[]>[],
+		endState: state.clone()
+	};
 
-    ret = {
-        tokens: <languages.IToken[]>[],
-        endState: state.clone()
-    };
+	while (true) {
+		var offset = offsetDelta + scanner.getPosition(),
+			type = '';
 
-    while (true) {
+		kind = scanner.scan();
+		if (kind === json.SyntaxKind.EOF) {
+			break;
+		}
 
-        var offset = offsetDelta + scanner.getPosition(),
-            type = '';
+		// Check that the scanner has advanced
+		if (offset === offsetDelta + scanner.getPosition()) {
+			throw new Error(
+				'Scanner did not advance, next 3 characters are: ' +
+					line.substr(scanner.getPosition(), 3)
+			);
+		}
 
-        kind = scanner.scan();
-        if (kind === json.SyntaxKind.EOF) {
-            break;
-        }
+		// In case we inserted /* or " character, we need to
+		// adjust the offset of all tokens (except the first)
+		if (adjustOffset) {
+			offset -= numberOfInsertedCharacters;
+		}
+		adjustOffset = numberOfInsertedCharacters > 0;
 
-        // Check that the scanner has advanced
-        if (offset === offsetDelta + scanner.getPosition()) {
-            throw new Error('Scanner did not advance, next 3 characters are: ' + line.substr(scanner.getPosition(), 3));
-        }
+		// brackets and type
+		switch (kind) {
+			case json.SyntaxKind.OpenBraceToken:
+				type = TOKEN_DELIM_OBJECT;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.CloseBraceToken:
+				type = TOKEN_DELIM_OBJECT;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.OpenBracketToken:
+				type = TOKEN_DELIM_ARRAY;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.CloseBracketToken:
+				type = TOKEN_DELIM_ARRAY;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.ColonToken:
+				type = TOKEN_DELIM_COLON;
+				lastWasColon = true;
+				break;
+			case json.SyntaxKind.CommaToken:
+				type = TOKEN_DELIM_COMMA;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.TrueKeyword:
+			case json.SyntaxKind.FalseKeyword:
+				type = TOKEN_VALUE_BOOLEAN;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.NullKeyword:
+				type = TOKEN_VALUE_NULL;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.StringLiteral:
+				type = lastWasColon ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
+				lastWasColon = false;
+				break;
+			case json.SyntaxKind.NumericLiteral:
+				type = TOKEN_VALUE_NUMBER;
+				lastWasColon = false;
+				break;
+		}
 
-        // In case we inserted /* or " character, we need to
-        // adjust the offset of all tokens (except the first)
-        if (adjustOffset) {
-            offset -= numberOfInsertedCharacters;
-        }
-        adjustOffset = numberOfInsertedCharacters > 0;
+		// comments, iff enabled
+		if (comments) {
+			switch (kind) {
+				case json.SyntaxKind.LineCommentTrivia:
+					type = TOKEN_COMMENT_LINE;
+					break;
+				case json.SyntaxKind.BlockCommentTrivia:
+					type = TOKEN_COMMENT_BLOCK;
+					break;
+			}
+		}
 
+		ret.endState = new JSONState(
+			state.getStateData(),
+			scanner.getTokenError(),
+			lastWasColon
+		);
+		ret.tokens.push({
+			startIndex: offset,
+			scopes: type
+		});
+	}
 
-        // brackets and type
-        switch (kind) {
-            case json.SyntaxKind.OpenBraceToken:
-                type = TOKEN_DELIM_OBJECT;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.CloseBraceToken:
-                type = TOKEN_DELIM_OBJECT;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.OpenBracketToken:
-                type = TOKEN_DELIM_ARRAY;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.CloseBracketToken:
-                type = TOKEN_DELIM_ARRAY;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.ColonToken:
-                type = TOKEN_DELIM_COLON;
-                lastWasColon = true;
-                break;
-            case json.SyntaxKind.CommaToken:
-                type = TOKEN_DELIM_COMMA;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.TrueKeyword:
-            case json.SyntaxKind.FalseKeyword:
-                type = TOKEN_VALUE_BOOLEAN;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.NullKeyword:
-                type = TOKEN_VALUE_NULL;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.StringLiteral:
-                type = lastWasColon ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
-                lastWasColon = false;
-                break;
-            case json.SyntaxKind.NumericLiteral:
-                type = TOKEN_VALUE_NUMBER;
-                lastWasColon = false;
-                break;
-        }
-
-        // comments, iff enabled
-        if (comments) {
-            switch (kind) {
-                case json.SyntaxKind.LineCommentTrivia:
-                    type = TOKEN_COMMENT_LINE;
-                    break;
-                case json.SyntaxKind.BlockCommentTrivia:
-                    type = TOKEN_COMMENT_BLOCK;
-                    break;
-            }
-        }
-
-        ret.endState = new JSONState(state.getStateData(), scanner.getTokenError(), lastWasColon);
-        ret.tokens.push({
-            startIndex: offset,
-            scopes: type
-        });
-    }
-
-    return ret;
+	return ret;
 }

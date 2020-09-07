@@ -1,13 +1,14 @@
 # Monaco JSON
 
 JSON language plugin for the Monaco Editor. It provides the following features when editing JSON files:
-* Code completion, based on JSON schemas or by looking at similar objects in the same file
-* Hovers, based on JSON schemas
-* Validation: Syntax errors and schema validation
-* Formatting
-* Document Symbols
-* Syntax highlighting
-* Color decorators for all properties matching a schema containing `format: "color-hex"'` (non-standard schema extension)
+
+- Code completion, based on JSON schemas or by looking at similar objects in the same file
+- Hovers, based on JSON schemas
+- Validation: Syntax errors and schema validation
+- Formatting
+- Document Symbols
+- Syntax highlighting
+- Color decorators for all properties matching a schema containing `format: "color-hex"'` (non-standard schema extension)
 
 Schemas can be provided by configuration. See [here](https://github.com/Microsoft/monaco-json/blob/master/monaco.d.ts)
 for the API that the JSON plugin offers to configure the JSON language support.
@@ -26,12 +27,13 @@ This npm module is bundled and distributed in the [monaco-editor](https://www.np
 
 ## Development
 
-* `git clone https://github.com/Microsoft/monaco-json`
-* `npm install .`
-* compile with `npm run compile`
-* watch with `npm run watch`
-* `npm run prepublishOnly`
-* open `$/monaco-json/test/index.html` in your favorite browser.
+- `git clone https://github.com/Microsoft/monaco-json`
+- `npm install .`
+- compile with `npm run compile`
+- watch with `npm run watch`
+- `npm run prepublishOnly`
+- open `$/monaco-json/test/index.html` in your favorite browser.
 
 ## License
+
 [MIT](https://github.com/Microsoft/monaco-json/blob/master/LICENSE.md)

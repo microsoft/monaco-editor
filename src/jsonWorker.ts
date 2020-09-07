@@ -4,15 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as jsonService from 'vscode-json-languageservice';
-import type { worker } from './fillers/monaco-editor-core'
+import type { worker } from './fillers/monaco-editor-core';
 
 let defaultSchemaRequestService;
 if (typeof fetch !== 'undefined') {
-	defaultSchemaRequestService = function (url) { return fetch(url).then(response => response.text()) };
+	defaultSchemaRequestService = function (url) {
+		return fetch(url).then((response) => response.text());
+	};
 }
 
 export class JSONWorker {
-
 	private _ctx: worker.IWorkerContext;
 	private _languageService: jsonService.LanguageService;
 	private _languageSettings: jsonService.LanguageSettings;
@@ -23,7 +24,8 @@ export class JSONWorker {
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
 		this._languageService = jsonService.getLanguageService({
-			schemaRequestService: createData.enableSchemaRequest && defaultSchemaRequestService
+			schemaRequestService:
+				createData.enableSchemaRequest && defaultSchemaRequestService
 		});
 		this._languageService.configure(this._languageSettings);
 	}
@@ -36,20 +38,32 @@ export class JSONWorker {
 		}
 		return Promise.resolve([]);
 	}
-	async doComplete(uri: string, position: jsonService.Position): Promise<jsonService.CompletionList> {
+	async doComplete(
+		uri: string,
+		position: jsonService.Position
+	): Promise<jsonService.CompletionList> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doComplete(document, position, jsonDocument);
 	}
-	async doResolve(item: jsonService.CompletionItem): Promise<jsonService.CompletionItem> {
+	async doResolve(
+		item: jsonService.CompletionItem
+	): Promise<jsonService.CompletionItem> {
 		return this._languageService.doResolve(item);
 	}
-	async doHover(uri: string, position: jsonService.Position): Promise<jsonService.Hover> {
+	async doHover(
+		uri: string,
+		position: jsonService.Position
+	): Promise<jsonService.Hover> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doHover(document, position, jsonDocument);
 	}
-	async format(uri: string, range: jsonService.Range, options: jsonService.FormattingOptions): Promise<jsonService.TextEdit[]> {
+	async format(
+		uri: string,
+		range: jsonService.Range,
+		options: jsonService.FormattingOptions
+	): Promise<jsonService.TextEdit[]> {
 		let document = this._getTextDocument(uri);
 		let textEdits = this._languageService.format(document, range, options);
 		return Promise.resolve(textEdits);
@@ -57,40 +71,74 @@ export class JSONWorker {
 	async resetSchema(uri: string): Promise<boolean> {
 		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
-	async findDocumentSymbols(uri: string): Promise<jsonService.SymbolInformation[]> {
+	async findDocumentSymbols(
+		uri: string
+	): Promise<jsonService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
+		let symbols = this._languageService.findDocumentSymbols(
+			document,
+			jsonDocument
+		);
 		return Promise.resolve(symbols);
 	}
-	async findDocumentColors(uri: string): Promise<jsonService.ColorInformation[]> {
+	async findDocumentColors(
+		uri: string
+	): Promise<jsonService.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let colorSymbols = this._languageService.findDocumentColors(document, jsonDocument);
+		let colorSymbols = this._languageService.findDocumentColors(
+			document,
+			jsonDocument
+		);
 		return Promise.resolve(colorSymbols);
 	}
-	async getColorPresentations(uri: string, color: jsonService.Color, range: jsonService.Range): Promise<jsonService.ColorPresentation[]> {
+	async getColorPresentations(
+		uri: string,
+		color: jsonService.Color,
+		range: jsonService.Range
+	): Promise<jsonService.ColorPresentation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let colorPresentations = this._languageService.getColorPresentations(document, jsonDocument, color, range);
+		let colorPresentations = this._languageService.getColorPresentations(
+			document,
+			jsonDocument,
+			color,
+			range
+		);
 		return Promise.resolve(colorPresentations);
 	}
-	async getFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Promise<jsonService.FoldingRange[]> {
+	async getFoldingRanges(
+		uri: string,
+		context?: { rangeLimit?: number }
+	): Promise<jsonService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getFoldingRanges(document, context);
 		return Promise.resolve(ranges);
 	}
-	async getSelectionRanges(uri: string, positions: jsonService.Position[]): Promise<jsonService.SelectionRange[]> {
+	async getSelectionRanges(
+		uri: string,
+		positions: jsonService.Position[]
+	): Promise<jsonService.SelectionRange[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let ranges = this._languageService.getSelectionRanges(document, positions, jsonDocument);
+		let ranges = this._languageService.getSelectionRanges(
+			document,
+			positions,
+			jsonDocument
+		);
 		return Promise.resolve(ranges);
 	}
 	private _getTextDocument(uri: string): jsonService.TextDocument {
 		let models = this._ctx.getMirrorModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {
-				return jsonService.TextDocument.create(uri, this._languageId, model.version, model.getValue());
+				return jsonService.TextDocument.create(
+					uri,
+					this._languageId,
+					model.version,
+					model.getValue()
+				);
 			}
 		}
 		return null;
@@ -103,6 +151,9 @@ export interface ICreateData {
 	enableSchemaRequest: boolean;
 }
 
-export function create(ctx: worker.IWorkerContext, createData: ICreateData): JSONWorker {
+export function create(
+	ctx: worker.IWorkerContext,
+	createData: ICreateData
+): JSONWorker {
 	return new JSONWorker(ctx, createData);
 }

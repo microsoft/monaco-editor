@@ -9,6 +9,6 @@ import { JSONWorker } from './jsonWorker';
 self.onmessage = () => {
 	// ignore the first message
 	worker.initialize((ctx, createData) => {
-		return new JSONWorker(ctx, createData)
+		return new JSONWorker(ctx, createData);
 	});
 };
