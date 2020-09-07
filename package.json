@@ -1,36 +1,41 @@
 {
-  "name": "monaco-html",
-  "version": "2.7.0",
-  "description": "HTML plugin for the Monaco Editor",
-  "scripts": {
-    "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
-    "watch": "tsc -p ./src --watch",
-    "prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
-    "install-service-next": "npm install vscode-html-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
-    "install-service-local": "npm install ../vscode-html-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D",
-    "prettier": "prettier --write ."
-  },
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Microsoft/monaco-html"
-  },
-  "bugs": {
-    "url": "https://github.com/Microsoft/monaco-editor/issues"
-  },
-  "devDependencies": {
-    "husky": "^4.2.5",
-    "monaco-editor-core": "0.20.0",
-    "monaco-languages": "^1.10.0",
-    "monaco-plugin-helpers": "^1.0.2",
-    "prettier": "^2.1.1",
-    "pretty-quick": "^3.0.0",
-    "requirejs": "^2.3.6",
-    "typescript": "^3.7.5",
-    "terser": "^4.6.3",
-    "vscode-html-languageservice": "3.0.4-next.12",
-    "vscode-languageserver-types": "3.15.0-next.9",
-    "vscode-languageserver-textdocument": "^1.0.0-next.5"
-  }
+	"name": "monaco-html",
+	"version": "2.7.0",
+	"description": "HTML plugin for the Monaco Editor",
+	"scripts": {
+		"compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+		"watch": "tsc -p ./src --watch",
+		"prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+		"install-service-next": "npm install vscode-html-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
+		"install-service-local": "npm install ../vscode-html-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D",
+		"prettier": "prettier --write ."
+	},
+	"author": "Microsoft Corporation",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/monaco-html"
+	},
+	"bugs": {
+		"url": "https://github.com/Microsoft/monaco-editor/issues"
+	},
+	"devDependencies": {
+		"husky": "^4.2.5",
+		"monaco-editor-core": "0.20.0",
+		"monaco-languages": "^1.10.0",
+		"monaco-plugin-helpers": "^1.0.2",
+		"prettier": "^2.1.1",
+		"pretty-quick": "^3.0.0",
+		"requirejs": "^2.3.6",
+		"typescript": "^3.7.5",
+		"terser": "^4.6.3",
+		"vscode-html-languageservice": "3.0.4-next.12",
+		"vscode-languageserver-types": "3.15.0-next.9",
+		"vscode-languageserver-textdocument": "^1.0.0-next.5"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pretty-quick --staged"
+		}
+	}
 }

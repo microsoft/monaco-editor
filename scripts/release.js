@@ -12,19 +12,13 @@ helpers.packageESM({
 	repoRoot: REPO_ROOT,
 	esmSource: 'out/esm',
 	esmDestination: 'release/esm',
-	entryPoints: [
-		'monaco.contribution.js',
-		'htmlMode.js',
-		'html.worker.js'
-	],
+	entryPoints: ['monaco.contribution.js', 'htmlMode.js', 'html.worker.js'],
 	resolveAlias: {
-		'vscode-nls': path.join(REPO_ROOT, "out/esm/fillers/vscode-nls.js")
+		'vscode-nls': path.join(REPO_ROOT, 'out/esm/fillers/vscode-nls.js')
 	},
-	resolveSkip: [
-		'monaco-editor-core'
-	],
+	resolveSkip: ['monaco-editor-core'],
 	destinationFolderSimplification: {
-		'node_modules': '_deps',
+		node_modules: '_deps',
 		'vscode-languageserver-types/lib/esm': 'vscode-languageserver-types',
 		'vscode-uri/lib/esm': 'vscode-uri',
 		'vscode-html-languageservice/lib/esm': 'vscode-html-languageservice'

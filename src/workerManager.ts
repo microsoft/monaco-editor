@@ -13,7 +13,6 @@ import Uri = monaco.Uri;
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
 export class WorkerManager {
-
 	private _defaults: LanguageServiceDefaultsImpl;
 	private _idleCheckInterval: number;
 	private _lastUsedTime: number;
@@ -27,7 +26,9 @@ export class WorkerManager {
 		this._worker = null;
 		this._idleCheckInterval = setInterval(() => this._checkIfIdle(), 30 * 1000);
 		this._lastUsedTime = 0;
-		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
+		this._configChangeListener = this._defaults.onDidChange(() =>
+			this._stopWorker()
+		);
 	}
 
 	private _stopWorker(): void {
@@ -59,7 +60,6 @@ export class WorkerManager {
 
 		if (!this._client) {
 			this._worker = monaco.editor.createWebWorker<HTMLWorker>({
-
 				// module that exports the create() method and returns a `HTMLWorker` instance
 				moduleId: 'vs/language/html/htmlWorker',
 
@@ -80,10 +80,13 @@ export class WorkerManager {
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<HTMLWorker> {
 		let _client: HTMLWorker;
-		return this._getClient().then((client) => {
-			_client = client
-		}).then(_ => {
-			return this._worker.withSyncedResources(resources)
-		}).then(_ => _client);
+		return this._getClient()
+			.then((client) => {
+				_client = client;
+			})
+			.then((_) => {
+				return this._worker.withSyncedResources(resources);
+			})
+			.then((_) => _client);
 	}
 }

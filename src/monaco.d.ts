@@ -16,7 +16,11 @@ declare module monaco.languages.html {
 		readonly indentHandlebars: boolean;
 		readonly endWithNewline: boolean;
 		readonly extraLiners: string;
-		readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
+		readonly wrapAttributes:
+			| 'auto'
+			| 'force'
+			| 'force-aligned'
+			| 'force-expand-multiline';
 	}
 
 	export interface CompletionConfiguration {
@@ -94,7 +98,6 @@ declare module monaco.languages.html {
 		 * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
 		 */
 		readonly documentRangeFormattingEdits?: boolean;
-
 	}
 
 	export interface LanguageServiceDefaults {

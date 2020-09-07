@@ -20,7 +20,7 @@ export interface LoadFunc {
 }
 
 function format(message: string, args: any[]): string {
-	let result:string;
+	let result: string;
 
 	if (args.length === 0) {
 		result = message;
@@ -33,14 +33,18 @@ function format(message: string, args: any[]): string {
 	return result;
 }
 
-function localize(key: string | LocalizeInfo, message: string, ...args: any[]): string {
+function localize(
+	key: string | LocalizeInfo,
+	message: string,
+	...args: any[]
+): string {
 	return format(message, args);
 }
 
 export function loadMessageBundle(file?: string): LocalizeFunc {
-    return localize;
+	return localize;
 }
 
 export function config(opt?: Options | string): LoadFunc {
-    return loadMessageBundle;
+	return loadMessageBundle;
 }
