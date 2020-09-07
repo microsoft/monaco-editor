@@ -21,15 +21,16 @@ const BUNDLED_FILE_HEADER = [
 ].join('\n');
 
 bundleOne('monaco.contribution');
-bundleOne('jsonMode');
+bundleOne('jsonMode', ['vs/language/json/monaco.contribution']);
 bundleOne('jsonWorker');
 
-function bundleOne(moduleId) {
+function bundleOne(moduleId, exclude) {
 	requirejs.optimize(
 		{
 			baseUrl: 'out/amd/',
 			name: 'vs/language/json/' + moduleId,
 			out: 'release/dev/' + moduleId + '.js',
+			exclude: exclude,
 			paths: {
 				'vs/language/json': REPO_ROOT + '/out/amd',
 				'vs/language/json/fillers/monaco-editor-core':
