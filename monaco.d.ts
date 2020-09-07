@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-declare module monaco.languages.json {
+declare namespace monaco.languages.json {
+
 	export interface DiagnosticsOptions {
 		/**
 		 * If set, the validator will be enabled and perform syntax validation as well as schema based validation.
@@ -35,67 +36,56 @@ declare module monaco.languages.json {
 		 */
 		readonly enableSchemaRequest?: boolean;
 	}
-
 	export interface ModeConfiguration {
 		/**
 		 * Defines whether the built-in documentFormattingEdit provider is enabled.
 		 */
 		readonly documentFormattingEdits?: boolean;
-
 		/**
 		 * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
 		 */
 		readonly documentRangeFormattingEdits?: boolean;
-
 		/**
 		 * Defines whether the built-in completionItemProvider is enabled.
 		 */
 		readonly completionItems?: boolean;
-
 		/**
 		 * Defines whether the built-in hoverProvider is enabled.
 		 */
 		readonly hovers?: boolean;
-
 		/**
 		 * Defines whether the built-in documentSymbolProvider is enabled.
 		 */
 		readonly documentSymbols?: boolean;
-
 		/**
 		 * Defines whether the built-in tokens provider is enabled.
 		 */
 		readonly tokens?: boolean;
-
 		/**
 		 * Defines whether the built-in color provider is enabled.
 		 */
 		readonly colors?: boolean;
-
 		/**
 		 * Defines whether the built-in foldingRange provider is enabled.
 		 */
 		readonly foldingRanges?: boolean;
-
 		/**
 		 * Defines whether the built-in diagnostic provider is enabled.
 		 */
 		readonly diagnostics?: boolean;
-
 		/**
 		 * Defines whether the built-in selection range provider is enabled.
 		 */
 		readonly selectionRanges?: boolean;
-
 	}
-
 	export interface LanguageServiceDefaults {
+		readonly languageId: string;
 		readonly onDidChange: IEvent<LanguageServiceDefaults>;
 		readonly diagnosticsOptions: DiagnosticsOptions;
 		readonly modeConfiguration: ModeConfiguration;
 		setDiagnosticsOptions(options: DiagnosticsOptions): void;
 		setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 	}
+	export const jsonDefaults: LanguageServiceDefaults;
 
-	export var jsonDefaults: LanguageServiceDefaults;
 }

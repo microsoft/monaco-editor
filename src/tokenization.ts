@@ -2,11 +2,11 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 
 import * as json from 'jsonc-parser';
+import { languages } from './fillers/monaco-editor-core'
 
-export function createTokenizationSupport(supportComments: boolean): monaco.languages.TokensProvider {
+export function createTokenizationSupport(supportComments: boolean): languages.TokensProvider {
     return {
         getInitialState: () => new JSONState(null, null, false),
         tokenize: (line, state, offsetDelta?, stopAtOffset?) => tokenize(supportComments, line, <JSONState>state, offsetDelta, stopAtOffset)
@@ -25,14 +25,14 @@ export const TOKEN_PROPERTY_NAME = 'string.key.json';
 export const TOKEN_COMMENT_BLOCK = 'comment.block.json';
 export const TOKEN_COMMENT_LINE = 'comment.line.json';
 
-class JSONState implements monaco.languages.IState {
+class JSONState implements languages.IState {
 
-    private _state: monaco.languages.IState;
+    private _state: languages.IState;
 
     public scanError: json.ScanError;
     public lastWasColon: boolean;
 
-    constructor(state: monaco.languages.IState, scanError: json.ScanError, lastWasColon: boolean) {
+    constructor(state: languages.IState, scanError: json.ScanError, lastWasColon: boolean) {
         this._state = state;
         this.scanError = scanError;
         this.lastWasColon = lastWasColon;
@@ -42,7 +42,7 @@ class JSONState implements monaco.languages.IState {
         return new JSONState(this._state, this.scanError, this.lastWasColon);
     }
 
-    public equals(other: monaco.languages.IState): boolean {
+    public equals(other: languages.IState): boolean {
         if (other === this) {
             return true;
         }
@@ -53,16 +53,16 @@ class JSONState implements monaco.languages.IState {
             this.lastWasColon === (<JSONState>other).lastWasColon;
     }
 
-    public getStateData(): monaco.languages.IState {
+    public getStateData(): languages.IState {
         return this._state;
     }
 
-    public setStateData(state: monaco.languages.IState): void {
+    public setStateData(state: languages.IState): void {
         this._state = state;
     }
 }
 
-function tokenize(comments: boolean, line: string, state: JSONState, offsetDelta: number = 0, stopAtOffset?: number): monaco.languages.ILineTokens {
+function tokenize(comments: boolean, line: string, state: JSONState, offsetDelta: number = 0, stopAtOffset?: number): languages.ILineTokens {
 
     // handle multiline strings and block comments
     var numberOfInsertedCharacters = 0,
@@ -81,11 +81,11 @@ function tokenize(comments: boolean, line: string, state: JSONState, offsetDelta
 
     var scanner = json.createScanner(line),
         kind: json.SyntaxKind,
-        ret: monaco.languages.ILineTokens,
+        ret: languages.ILineTokens,
         lastWasColon = state.lastWasColon;
 
     ret = {
-        tokens: <monaco.languages.IToken[]>[],
+        tokens: <languages.IToken[]>[],
         endState: state.clone()
     };
 

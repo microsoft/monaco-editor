@@ -3,9 +3,9 @@
   "version": "2.9.0",
   "description": "JSON plugin for the Monaco Editor",
   "scripts": {
-    "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+    "compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json && node ./scripts/dts",
     "watch": "tsc -p ./src --watch",
-    "prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+    "prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./monaco.d.ts ./release/monaco.d.ts && mcopy ./out/esm/monaco.contribution.d.ts ./release/esm/monaco.contribution.d.ts && mcopy ./out/esm/fillers/monaco-editor-core.d.ts ./release/esm/fillers/monaco-editor-core.d.ts",
     "install-service-next": "npm install vscode-json-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
     "install-service-local": "npm install ../vscode-json-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
   },
@@ -18,14 +18,16 @@
   "bugs": {
     "url": "https://github.com/Microsoft/monaco-json/issues"
   },
+  "module": "./release/esm/monaco.contribution.js",
+  "typings": "./release/esm/monaco.contribution.d.ts",
   "devDependencies": {
     "jsonc-parser": "^2.2.0",
     "monaco-editor-core": "0.20.0",
     "monaco-languages": "1.10.0",
-    "monaco-plugin-helpers": "^1.0.2",
+    "monaco-plugin-helpers": "^1.0.3",
     "requirejs": "^2.3.6",
-    "typescript": "3.7.5",
-    "terser": "^4.6.3",
+    "typescript": "4.0.2",
+    "terser": "^5.3.0",
     "vscode-json-languageservice": "3.4.11"
   }
 }

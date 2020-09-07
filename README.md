@@ -9,7 +9,7 @@ JSON language plugin for the Monaco Editor. It provides the following features w
 * Syntax highlighting
 * Color decorators for all properties matching a schema containing `format: "color-hex"'` (non-standard schema extension)
 
-Schemas can be provided by configuration. See [here](https://github.com/Microsoft/monaco-json/blob/master/src/monaco.d.ts)
+Schemas can be provided by configuration. See [here](https://github.com/Microsoft/monaco-json/blob/master/monaco.d.ts)
 for the API that the JSON plugin offers to configure the JSON language support.
 
 Internally the JSON plugin uses the [vscode-json-languageservice](https://github.com/Microsoft/vscode-json-languageservice)
