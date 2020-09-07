@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/// <reference path="node_modules/monaco-editor-core/monaco.d.ts" />
+
 declare namespace monaco.languages.json {
 	export interface DiagnosticsOptions {
 		/**
