@@ -8,10 +8,6 @@ import IWorkerContext = monaco.worker.IWorkerContext;
 
 import * as htmlService from 'vscode-html-languageservice';
 
-import * as poli from './fillers/polyfills';
-
-poli.polyfill();
-
 export class HTMLWorker {
 
 	private _ctx: IWorkerContext;
