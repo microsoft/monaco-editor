@@ -1,22 +1,18 @@
 {
-  "compilerOptions": {
-    "module": "amd",
-    "moduleResolution": "node",
-    "outDir": "../release/dev",
-    "target": "es5",
-    "lib": [
-      "dom",
-      "es5",
-      "es2015.collection",
-      "es2015.iterable",
-      "es2015.promise"
-    ],
-    "strict": true
-  },
-  "include": [
-    "**/*.ts"
-  ],
-  "files": [
-    "../node_modules/monaco-editor-core/monaco.d.ts"
-  ]
+	"compilerOptions": {
+		"module": "amd",
+		"moduleResolution": "node",
+		"outDir": "../release/dev",
+		"target": "es5",
+		"lib": [
+			"dom",
+			"es5",
+			"es2015.collection",
+			"es2015.iterable",
+			"es2015.promise"
+		],
+		"strict": true
+	},
+	"include": ["**/*.ts"],
+	"files": ["../node_modules/monaco-editor-core/monaco.d.ts"]
 }

@@ -22,8 +22,8 @@ export interface IExtraLibs {
 	[path: string]: IExtraLib;
 }
 
-export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.LanguageServiceDefaults {
-
+export class LanguageServiceDefaultsImpl
+	implements monaco.languages.typescript.LanguageServiceDefaults {
 	private _onDidChange = new Emitter<void>();
 	private _onDidExtraLibsChange = new Emitter<void>();
 
@@ -34,12 +34,16 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	private _workerOptions!: monaco.languages.typescript.WorkerOptions;
 	private _onDidExtraLibsChangeTimeout: number;
 
-	constructor(compilerOptions: monaco.languages.typescript.CompilerOptions, diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions, workerOptions: monaco.languages.typescript.WorkerOptions) {
+	constructor(
+		compilerOptions: monaco.languages.typescript.CompilerOptions,
+		diagnosticsOptions: monaco.languages.typescript.DiagnosticsOptions,
+		workerOptions: monaco.languages.typescript.WorkerOptions
+	) {
 		this._extraLibs = Object.create(null);
 		this._eagerModelSync = false;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
-		this.setWorkerOptions(workerOptions)
+		this.setWorkerOptions(workerOptions);
 		this._onDidExtraLibsChangeTimeout = -1;
 	}
 
@@ -52,7 +56,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 	}
 
 	get workerOptions(): monaco.languages.typescript.WorkerOptions {
-		return this._workerOptions
+		return this._workerOptions;
 	}
 
 	getExtraLibs(): IExtraLibs {
@@ -67,10 +71,13 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 			filePath = _filePath;
 		}
 
-		if (this._extraLibs[filePath] && this._extraLibs[filePath].content === content) {
+		if (
+			this._extraLibs[filePath] &&
+			this._extraLibs[filePath].content === content
+		) {
 			// no-op, there already exists an extra lib with this content
 			return {
-				dispose: () => { }
+				dispose: () => {}
 			};
 		}
 
@@ -81,7 +88,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 		this._extraLibs[filePath] = {
 			content: content,
-			version: myVersion,
+			version: myVersion
 		};
 		this._fireOnDidExtraLibsChangeSoon();
 
@@ -107,7 +114,9 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 
 		if (libs && libs.length > 0) {
 			for (const lib of libs) {
-				const filePath = lib.filePath || `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
+				const filePath =
+					lib.filePath ||
+					`ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
 				const content = lib.content;
 				this._extraLibs[filePath] = {
 					content: content,
@@ -134,7 +143,9 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		return this._compilerOptions;
 	}
 
-	setCompilerOptions(options: monaco.languages.typescript.CompilerOptions): void {
+	setCompilerOptions(
+		options: monaco.languages.typescript.CompilerOptions
+	): void {
 		this._compilerOptions = options || Object.create(null);
 		this._onDidChange.fire(undefined);
 	}
@@ -143,7 +154,9 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		return this._diagnosticsOptions;
 	}
 
-	setDiagnosticsOptions(options: monaco.languages.typescript.DiagnosticsOptions): void {
+	setDiagnosticsOptions(
+		options: monaco.languages.typescript.DiagnosticsOptions
+	): void {
 		this._diagnosticsOptions = options || Object.create(null);
 		this._onDidChange.fire(undefined);
 	}
@@ -153,8 +166,7 @@ export class LanguageServiceDefaultsImpl implements monaco.languages.typescript.
 		this._onDidChange.fire(undefined);
 	}
 
-	setMaximumWorkerIdleTime(value: number): void {
-	}
+	setMaximumWorkerIdleTime(value: number): void {}
 
 	setEagerModelSync(value: boolean) {
 		// doesn't fire an event since no
@@ -202,7 +214,7 @@ enum ScriptTarget {
 	ES2020 = 7,
 	ESNext = 99,
 	JSON = 100,
-	Latest = ESNext,
+	Latest = ESNext
 }
 
 enum ModuleResolutionKind {
@@ -214,19 +226,29 @@ enum ModuleResolutionKind {
 const typescriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: false, noSyntaxValidation: false },
-	{});
+	{}
+);
 
 const javascriptDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false },
-	{});
+	{}
+);
 
-function getTypeScriptWorker(): Promise<(...uris: monaco.Uri[]) => Promise<monaco.languages.typescript.TypeScriptWorker>> {
-	return getMode().then(mode => mode.getTypeScriptWorker());
+function getTypeScriptWorker(): Promise<
+	(
+		...uris: monaco.Uri[]
+	) => Promise<monaco.languages.typescript.TypeScriptWorker>
+> {
+	return getMode().then((mode) => mode.getTypeScriptWorker());
 }
 
-function getJavaScriptWorker(): Promise<(...uris: monaco.Uri[]) => Promise<monaco.languages.typescript.TypeScriptWorker>> {
-	return getMode().then(mode => mode.getJavaScriptWorker());
+function getJavaScriptWorker(): Promise<
+	(
+		...uris: monaco.Uri[]
+	) => Promise<monaco.languages.typescript.TypeScriptWorker>
+> {
+	return getMode().then((mode) => mode.getJavaScriptWorker());
 }
 
 // Export API
@@ -242,7 +264,7 @@ function createAPI(): typeof monaco.languages.typescript {
 		javascriptDefaults: javascriptDefaults,
 		getTypeScriptWorker: getTypeScriptWorker,
 		getJavaScriptWorker: getJavaScriptWorker
-	}
+	};
 }
 monaco.languages.typescript = createAPI();
 
@@ -253,8 +275,8 @@ function getMode(): Promise<typeof mode> {
 }
 
 monaco.languages.onLanguage('typescript', () => {
-	return getMode().then(mode => mode.setupTypeScript(typescriptDefaults));
+	return getMode().then((mode) => mode.setupTypeScript(typescriptDefaults));
 });
 monaco.languages.onLanguage('javascript', () => {
-	return getMode().then(mode => mode.setupJavaScript(javascriptDefaults));
+	return getMode().then((mode) => mode.setupJavaScript(javascriptDefaults));
 });

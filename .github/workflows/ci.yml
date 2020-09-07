@@ -1,8 +1,8 @@
-name: "CI"
+name: 'CI'
 on: [pull_request]
 jobs:
   build:
-    name: "Builds and Compiles"
+    name: 'Builds and Compiles'
     runs-on: ubuntu-latest
 
     steps:

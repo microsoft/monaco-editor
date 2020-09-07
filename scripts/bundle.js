@@ -30,22 +30,25 @@ bundleOne('tsMode');
 bundleOne('tsWorker');
 
 function bundleOne(moduleId, exclude) {
-	requirejs.optimize({
-		baseUrl: 'release/dev/',
-		name: 'vs/language/typescript/' + moduleId,
-		out: 'release/min/' + moduleId + '.js',
-		exclude: exclude,
-		paths: {
-			'vs/language/typescript': REPO_ROOT + '/release/dev'
+	requirejs.optimize(
+		{
+			baseUrl: 'release/dev/',
+			name: 'vs/language/typescript/' + moduleId,
+			out: 'release/min/' + moduleId + '.js',
+			exclude: exclude,
+			paths: {
+				'vs/language/typescript': REPO_ROOT + '/release/dev'
+			},
+			optimize: 'none'
 		},
-		optimize: 'none'
-	}, async function(buildResponse) {
-		const filePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
-		const fileContents = fs.readFileSync(filePath).toString();
-		console.log();
-		console.log(`Minifying ${filePath}...`);
-		const result = await terser.minify(fileContents);
-		console.log(`Done minifying ${filePath}.`);
-		fs.writeFileSync(filePath, BUNDLED_FILE_HEADER + result.code);
-	})
+		async function (buildResponse) {
+			const filePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
+			const fileContents = fs.readFileSync(filePath).toString();
+			console.log();
+			console.log(`Minifying ${filePath}...`);
+			const result = await terser.minify(fileContents);
+			console.log(`Done minifying ${filePath}.`);
+			fs.writeFileSync(filePath, BUNDLED_FILE_HEADER + result.code);
+		}
+	);
 }

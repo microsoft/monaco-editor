@@ -11,7 +11,6 @@ import IDisposable = monaco.IDisposable;
 import Uri = monaco.Uri;
 
 export class WorkerManager {
-
 	private _modeId: string;
 	private _defaults: LanguageServiceDefaultsImpl;
 	private _configChangeListener: IDisposable;
@@ -26,9 +25,13 @@ export class WorkerManager {
 		this._defaults = defaults;
 		this._worker = null;
 		this._client = null;
-		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
+		this._configChangeListener = this._defaults.onDidChange(() =>
+			this._stopWorker()
+		);
 		this._updateExtraLibsToken = 0;
-		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(() => this._updateExtraLibs());
+		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(() =>
+			this._updateExtraLibs()
+		);
 	}
 
 	private _stopWorker(): void {
@@ -61,7 +64,6 @@ export class WorkerManager {
 	private _getClient(): Promise<TypeScriptWorker> {
 		if (!this._client) {
 			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
-
 				// module that exports the create() method and returns a `TypeScriptWorker` instance
 				moduleId: 'vs/language/typescript/tsWorker',
 
@@ -80,11 +82,13 @@ export class WorkerManager {
 			let p = <Promise<TypeScriptWorker>>this._worker.getProxy();
 
 			if (this._defaults.getEagerModelSync()) {
-				p = p.then(worker => {
+				p = p.then((worker) => {
 					if (this._worker) {
-						return this._worker.withSyncedResources(monaco.editor.getModels()
-							.filter(model => model.getModeId() === this._modeId)
-							.map(model => model.uri)
+						return this._worker.withSyncedResources(
+							monaco.editor
+								.getModels()
+								.filter((model) => model.getModeId() === this._modeId)
+								.map((model) => model.uri)
 						);
 					}
 					return worker;
@@ -99,12 +103,15 @@ export class WorkerManager {
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<TypeScriptWorker> {
 		let _client: TypeScriptWorker;
-		return this._getClient().then((client) => {
-			_client = client
-		}).then(_ => {
-			if (this._worker) {
-				return this._worker.withSyncedResources(resources)
-			}
-		}).then(_ => _client);
+		return this._getClient()
+			.then((client) => {
+				_client = client;
+			})
+			.then((_) => {
+				if (this._worker) {
+					return this._worker.withSyncedResources(resources);
+				}
+			})
+			.then((_) => _client);
 	}
 }

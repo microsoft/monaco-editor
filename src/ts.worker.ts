@@ -9,7 +9,9 @@ import { TypeScriptWorker, ICreateData } from './tsWorker';
 
 self.onmessage = () => {
 	// ignore the first message
-	worker.initialize((ctx: monaco.worker.IWorkerContext, createData: ICreateData) => {
-		return new TypeScriptWorker(ctx, createData)
-	});
+	worker.initialize(
+		(ctx: monaco.worker.IWorkerContext, createData: ICreateData) => {
+			return new TypeScriptWorker(ctx, createData);
+		}
+	);
 };
