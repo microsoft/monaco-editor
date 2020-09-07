@@ -7,7 +7,8 @@
     "watch": "tsc -p ./src --watch",
     "prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
     "install-service-next": "npm install vscode-html-languageservice@next -f -D && npm install vscode-languageserver-types@next -f -D",
-    "install-service-local": "npm install ../vscode-html-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D"
+    "install-service-local": "npm install ../vscode-html-languageservice -f -D && npm install ../vscode-languageserver-node/types -f -D",
+    "prettier": "prettier --write ."
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -19,9 +20,12 @@
     "url": "https://github.com/Microsoft/monaco-editor/issues"
   },
   "devDependencies": {
+    "husky": "^4.2.5",
     "monaco-editor-core": "0.20.0",
     "monaco-languages": "^1.10.0",
     "monaco-plugin-helpers": "^1.0.2",
+    "prettier": "^2.1.1",
+    "pretty-quick": "^3.0.0",
     "requirejs": "^2.3.6",
     "typescript": "^3.7.5",
     "terser": "^4.6.3",
