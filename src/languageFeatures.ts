@@ -330,6 +330,10 @@ export class DiagnosticsAdapter extends Adapter {
 			column: endColumn
 		} = model.getPositionAt(diagStart + diagLength);
 
+		const tags: MarkerTag[] = [];
+		if (diag.reportsUnnecessary) tags.push(MarkerTag.Unnecessary);
+		if (diag.reportsDeprecated) tags.push(MarkerTag.Deprecated);
+
 		return {
 			severity: this._tsDiagnosticCategoryToMarkerSeverity(diag.category),
 			startLineNumber,
@@ -338,7 +342,7 @@ export class DiagnosticsAdapter extends Adapter {
 			endColumn,
 			message: flattenDiagnosticMessageText(diag.messageText, '\n'),
 			code: diag.code.toString(),
-			tags: diag.reportsUnnecessary ? [MarkerTag.Unnecessary] : [],
+			tags,
 			relatedInformation: this._convertRelatedInformation(
 				model,
 				diag.relatedInformation
