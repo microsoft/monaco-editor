@@ -3,6 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-declare module 'monaco-editor-core/esm/vs/editor/editor.worker' {
-	export function initialize(callback: (ctx: any, createData: any) => any): void;
-}
+// Resolves with the global monaco API
+
+declare var define: any;
+
+define([], function () {
+	return (<any>self).monaco;
+});

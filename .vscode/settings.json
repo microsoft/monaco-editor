@@ -3,6 +3,7 @@
 	"files.trimTrailingWhitespace": true,
 	"search.exclude": {
 		"**/node_modules": true,
+		"**/out": true,
 		"**/release": true
 	}
 }

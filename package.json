@@ -3,11 +3,11 @@
 	"version": "3.7.0",
 	"description": "TypeScript and JavaScript language support for Monaco Editor",
 	"scripts": {
-		"compile-amd": "mcopy ./src/lib/typescriptServices-amd.js ./release/dev/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
-		"compile-esm": "mcopy ./src/lib/typescriptServices.js ./release/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
-		"compile": "mrmdir ./release && npm run compile-amd && npm run compile-esm",
+		"compile-amd": "mcopy ./src/lib/typescriptServices-amd.js ./out/amd/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
+		"compile-esm": "mcopy ./src/lib/typescriptServices.js ./out/esm/lib/typescriptServices.js && tsc -p ./src/tsconfig.esm.json",
+		"compile": "mrmdir ./out && npm run compile-amd && npm run compile-esm && node ./scripts/dts && prettier --write ./monaco.d.ts",
 		"watch": "tsc -p ./src --watch",
-		"prepublishOnly": "npm run compile && node ./scripts/bundle && mcopy ./src/monaco.d.ts ./release/monaco.d.ts",
+		"prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle && mcopy ./monaco.d.ts ./release/monaco.d.ts && mcopy ./out/esm/monaco.contribution.d.ts ./release/esm/monaco.contribution.d.ts && mcopy ./out/esm/fillers/monaco-editor-core.d.ts ./release/esm/fillers/monaco-editor-core.d.ts",
 		"import-typescript": "node ./scripts/importTypescript",
 		"prettier": "prettier --write ."
 	},
@@ -20,6 +20,8 @@
 	"bugs": {
 		"url": "https://github.com/Microsoft/monaco-typescript/issues"
 	},
+	"module": "./release/esm/monaco.contribution.js",
+	"typings": "./release/esm/monaco.contribution.d.ts",
 	"devDependencies": {
 		"@typescript/vfs": "^1.3.0",
 		"husky": "^4.3.0",

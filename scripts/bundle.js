@@ -26,29 +26,45 @@ const BUNDLED_FILE_HEADER = [
 ].join('\n');
 
 bundleOne('monaco.contribution');
-bundleOne('tsMode');
+bundleOne('tsMode', ['vs/language/typescript/monaco.contribution']);
 bundleOne('tsWorker');
 
 function bundleOne(moduleId, exclude) {
 	requirejs.optimize(
 		{
-			baseUrl: 'release/dev/',
+			baseUrl: 'out/amd/',
 			name: 'vs/language/typescript/' + moduleId,
-			out: 'release/min/' + moduleId + '.js',
+			out: 'release/dev/' + moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/language/typescript': REPO_ROOT + '/release/dev'
+				'vs/language/typescript': REPO_ROOT + '/out/amd',
+				'vs/language/typescript/fillers/monaco-editor-core':
+					REPO_ROOT + '/out/amd/fillers/monaco-editor-core-amd'
 			},
 			optimize: 'none'
 		},
 		async function (buildResponse) {
-			const filePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
-			const fileContents = fs.readFileSync(filePath).toString();
+			const devFilePath = path.join(
+				REPO_ROOT,
+				'release/dev/' + moduleId + '.js'
+			);
+			const minFilePath = path.join(
+				REPO_ROOT,
+				'release/min/' + moduleId + '.js'
+			);
+			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
-			console.log(`Minifying ${filePath}...`);
-			const result = await terser.minify(fileContents);
-			console.log(`Done minifying ${filePath}.`);
-			fs.writeFileSync(filePath, BUNDLED_FILE_HEADER + result.code);
+			console.log(`Minifying ${devFilePath}...`);
+			const result = await terser.minify(fileContents, {
+				output: {
+					comments: 'some'
+				}
+			});
+			console.log(`Done minifying ${devFilePath}.`);
+			try {
+				fs.mkdirSync(path.join(REPO_ROOT, 'release/min'));
+			} catch (err) {}
+			fs.writeFileSync(minFilePath, BUNDLED_FILE_HEADER + result.code);
 		}
 	);
 }

@@ -5,20 +5,19 @@
 'use strict';
 
 import { WorkerManager } from './workerManager';
-import { TypeScriptWorker } from './tsWorker';
-import { LanguageServiceDefaultsImpl } from './monaco.contribution';
+import type { TypeScriptWorker } from './tsWorker';
+import { LanguageServiceDefaults } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
-
-import Uri = monaco.Uri;
+import { languages, Uri } from './fillers/monaco-editor-core';
 
 let javaScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
 let typeScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
 
-export function setupTypeScript(defaults: LanguageServiceDefaultsImpl): void {
+export function setupTypeScript(defaults: LanguageServiceDefaults): void {
 	typeScriptWorker = setupMode(defaults, 'typescript');
 }
 
-export function setupJavaScript(defaults: LanguageServiceDefaultsImpl): void {
+export function setupJavaScript(defaults: LanguageServiceDefaults): void {
 	javaScriptWorker = setupMode(defaults, 'javascript');
 }
 
@@ -47,7 +46,7 @@ export function getTypeScriptWorker(): Promise<
 }
 
 function setupMode(
-	defaults: LanguageServiceDefaultsImpl,
+	defaults: LanguageServiceDefaults,
 	modeId: string
 ): (...uris: Uri[]) => Promise<TypeScriptWorker> {
 	const client = new WorkerManager(modeId, defaults);
@@ -57,47 +56,47 @@ function setupMode(
 
 	const libFiles = new languageFeatures.LibFiles(worker);
 
-	monaco.languages.registerCompletionItemProvider(
+	languages.registerCompletionItemProvider(
 		modeId,
 		new languageFeatures.SuggestAdapter(worker)
 	);
-	monaco.languages.registerSignatureHelpProvider(
+	languages.registerSignatureHelpProvider(
 		modeId,
 		new languageFeatures.SignatureHelpAdapter(worker)
 	);
-	monaco.languages.registerHoverProvider(
+	languages.registerHoverProvider(
 		modeId,
 		new languageFeatures.QuickInfoAdapter(worker)
 	);
-	monaco.languages.registerDocumentHighlightProvider(
+	languages.registerDocumentHighlightProvider(
 		modeId,
 		new languageFeatures.OccurrencesAdapter(worker)
 	);
-	monaco.languages.registerDefinitionProvider(
+	languages.registerDefinitionProvider(
 		modeId,
 		new languageFeatures.DefinitionAdapter(libFiles, worker)
 	);
-	monaco.languages.registerReferenceProvider(
+	languages.registerReferenceProvider(
 		modeId,
 		new languageFeatures.ReferenceAdapter(libFiles, worker)
 	);
-	monaco.languages.registerDocumentSymbolProvider(
+	languages.registerDocumentSymbolProvider(
 		modeId,
 		new languageFeatures.OutlineAdapter(worker)
 	);
-	monaco.languages.registerDocumentRangeFormattingEditProvider(
+	languages.registerDocumentRangeFormattingEditProvider(
 		modeId,
 		new languageFeatures.FormatAdapter(worker)
 	);
-	monaco.languages.registerOnTypeFormattingEditProvider(
+	languages.registerOnTypeFormattingEditProvider(
 		modeId,
 		new languageFeatures.FormatOnTypeAdapter(worker)
 	);
-	monaco.languages.registerCodeActionProvider(
+	languages.registerCodeActionProvider(
 		modeId,
 		new languageFeatures.CodeActionAdaptor(worker)
 	);
-	monaco.languages.registerRenameProvider(
+	languages.registerRenameProvider(
 		modeId,
 		new languageFeatures.RenameAdapter(worker)
 	);

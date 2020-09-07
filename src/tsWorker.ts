@@ -6,22 +6,23 @@
 
 import * as ts from './lib/typescriptServices';
 import { libFileMap } from './lib/lib';
-import { IExtraLibs } from './monaco.contribution';
-
-import IWorkerContext = monaco.worker.IWorkerContext;
+import {
+	Diagnostic,
+	IExtraLibs,
+	TypeScriptWorker as ITypeScriptWorker
+} from './monaco.contribution';
+import { worker } from './fillers/monaco-editor-core';
 
 export class TypeScriptWorker
-	implements
-		ts.LanguageServiceHost,
-		monaco.languages.typescript.TypeScriptWorker {
+	implements ts.LanguageServiceHost, ITypeScriptWorker {
 	// --- model sync -----------------------
 
-	private _ctx: IWorkerContext;
+	private _ctx: worker.IWorkerContext;
 	private _extraLibs: IExtraLibs = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 
-	constructor(ctx: IWorkerContext, createData: ICreateData) {
+	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
 		this._compilerOptions = createData.compilerOptions;
 		this._extraLibs = createData.extraLibs;
@@ -40,7 +41,7 @@ export class TypeScriptWorker
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
-	private _getModel(fileName: string): monaco.worker.IMirrorModel | null {
+	private _getModel(fileName: string): worker.IMirrorModel | null {
 		let models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			if (models[i].uri.toString() === fileName) {
@@ -159,9 +160,7 @@ export class TypeScriptWorker
 
 	// --- language features
 
-	private static clearFiles(
-		diagnostics: ts.Diagnostic[]
-	): monaco.languages.typescript.Diagnostic[] {
+	private static clearFiles(diagnostics: ts.Diagnostic[]): Diagnostic[] {
 		// Clear the `file` field, which cannot be JSON'yfied because it
 		// contains cyclic data structures.
 		diagnostics.forEach((diag) => {
@@ -171,35 +170,27 @@ export class TypeScriptWorker
 				related.forEach((diag2) => (diag2.file = undefined));
 			}
 		});
-		return <monaco.languages.typescript.Diagnostic[]>diagnostics;
+		return <Diagnostic[]>diagnostics;
 	}
 
-	getSyntacticDiagnostics(
-		fileName: string
-	): Promise<monaco.languages.typescript.Diagnostic[]> {
+	getSyntacticDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getSyntacticDiagnostics(fileName);
 		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
 
-	getSemanticDiagnostics(
-		fileName: string
-	): Promise<monaco.languages.typescript.Diagnostic[]> {
+	getSemanticDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
 		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
 
-	getSuggestionDiagnostics(
-		fileName: string
-	): Promise<monaco.languages.typescript.Diagnostic[]> {
+	getSuggestionDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getSuggestionDiagnostics(
 			fileName
 		);
 		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
 
-	getCompilerOptionsDiagnostics(
-		fileName: string
-	): Promise<monaco.languages.typescript.Diagnostic[]> {
+	getCompilerOptionsDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getCompilerOptionsDiagnostics();
 		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
 	}
@@ -404,7 +395,7 @@ declare global {
 }
 
 export function create(
-	ctx: IWorkerContext,
+	ctx: worker.IWorkerContext,
 	createData: ICreateData
 ): TypeScriptWorker {
 	let TSWorkerClass = TypeScriptWorker;

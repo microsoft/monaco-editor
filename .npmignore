@@ -1,3 +1,4 @@
+/.github/
 /.vscode/
 /scripts/
 /src/
@@ -5,4 +6,5 @@
 /gulpfile.js
 /tsconfig.json
 /.npmignore
+/out/
 /release/**/test/

@@ -3,6 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-declare module 'monaco-editor-core/esm/vs/editor/editor.worker' {
-	export function initialize(callback: (ctx: any, createData: any) => any): void;
-}
+const path = require('path');
+const helpers = require('monaco-plugin-helpers');
+
+const REPO_ROOT = path.join(__dirname, '../');
+
+helpers.packageESM({
+	repoRoot: REPO_ROOT,
+	esmSource: 'out/esm',
+	esmDestination: 'release/esm',
+	entryPoints: ['monaco.contribution.js', 'tsMode.js', 'ts.worker.js'],
+	resolveSkip: ['monaco-editor-core']
+});

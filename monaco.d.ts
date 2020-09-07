@@ -1,5 +1,12 @@
-declare module monaco.languages.typescript {
-	enum ModuleKind {
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+/// <reference path="node_modules/monaco-editor-core/monaco.d.ts" />
+
+declare namespace monaco.languages.typescript {
+	export enum ModuleKind {
 		None = 0,
 		CommonJS = 1,
 		AMD = 2,
@@ -8,19 +15,17 @@ declare module monaco.languages.typescript {
 		ES2015 = 5,
 		ESNext = 99
 	}
-
-	enum JsxEmit {
+	export enum JsxEmit {
 		None = 0,
 		Preserve = 1,
 		React = 2,
 		ReactNative = 3
 	}
-	enum NewLineKind {
+	export enum NewLineKind {
 		CarriageReturnLineFeed = 0,
 		LineFeed = 1
 	}
-
-	enum ScriptTarget {
+	export enum ScriptTarget {
 		ES3 = 0,
 		ES5 = 1,
 		ES2015 = 2,
@@ -31,19 +36,16 @@ declare module monaco.languages.typescript {
 		ES2020 = 7,
 		ESNext = 99,
 		JSON = 100,
-		Latest = ESNext
+		Latest = 99
 	}
-
 	export enum ModuleResolutionKind {
 		Classic = 1,
 		NodeJs = 2
 	}
-
 	interface MapLike<T> {
 		[index: string]: T;
 	}
-
-	type CompilerOptionsValue =
+	declare type CompilerOptionsValue =
 		| string
 		| number
 		| boolean
@@ -135,28 +137,23 @@ declare module monaco.languages.typescript {
 		useDefineForClassFields?: boolean;
 		[option: string]: CompilerOptionsValue | undefined;
 	}
-
 	export interface DiagnosticsOptions {
 		noSemanticValidation?: boolean;
 		noSyntaxValidation?: boolean;
 		noSuggestionDiagnostics?: boolean;
 		diagnosticCodesToIgnore?: number[];
 	}
-
 	export interface WorkerOptions {
 		/** A full HTTP path to a JavaScript file which adds a function `customTSWorkerFactory` to the self inside a web-worker */
 		customWorkerPath?: string;
 	}
-
 	interface IExtraLib {
 		content: string;
 		version: number;
 	}
-
-	interface IExtraLibs {
+	export interface IExtraLibs {
 		[path: string]: IExtraLib;
 	}
-
 	/**
 	 * A linked list of formatted diagnostic messages to be used as part of a multiline message.
 	 * It is built from the bottom up, leaving the head to be the "main" diagnostic.
@@ -168,7 +165,7 @@ declare module monaco.languages.typescript {
 		code: number;
 		next?: DiagnosticMessageChain[];
 	}
-	interface Diagnostic extends DiagnosticRelatedInformation {
+	export interface Diagnostic extends DiagnosticRelatedInformation {
 		/** May store more in future. For now, this will simply be `true` to indicate when a diagnostic is an unused-identifier diagnostic. */
 		reportsUnnecessary?: {};
 		source?: string;
@@ -184,7 +181,6 @@ declare module monaco.languages.typescript {
 		length: number | undefined;
 		messageText: string | DiagnosticMessageChain;
 	}
-
 	interface EmitOutput {
 		outputFiles: OutputFile[];
 		emitSkipped: boolean;
@@ -194,23 +190,20 @@ declare module monaco.languages.typescript {
 		writeByteOrderMark: boolean;
 		text: string;
 	}
-
 	export interface LanguageServiceDefaults {
 		/**
 		 * Event fired when compiler options or diagnostics options are changed.
 		 */
 		readonly onDidChange: IEvent<void>;
-
 		/**
 		 * Event fired when extra libraries registered with the language service change.
 		 */
 		readonly onDidExtraLibsChange: IEvent<void>;
-
+		readonly workerOptions: WorkerOptions;
 		/**
 		 * Get the current extra libs registered with the language service.
 		 */
 		getExtraLibs(): IExtraLibs;
-
 		/**
 		 * Add an additional source file to the language service. Use this
 		 * for typescript (definition) files that won't be loaded as editor
@@ -222,81 +215,72 @@ declare module monaco.languages.typescript {
 		 * language service upon disposal.
 		 */
 		addExtraLib(content: string, filePath?: string): IDisposable;
-
 		/**
 		 * Remove all existing extra libs and set the additional source
 		 * files to the language service. Use this for typescript definition
 		 * files that won't be loaded as editor documents, like `jquery.d.ts`.
 		 * @param libs An array of entries to register.
 		 */
-		setExtraLibs(libs: { content: string; filePath?: string }[]): void;
-
+		setExtraLibs(
+			libs: {
+				content: string;
+				filePath?: string;
+			}[]
+		): void;
 		/**
 		 * Get current TypeScript compiler options for the language service.
 		 */
 		getCompilerOptions(): CompilerOptions;
-
 		/**
 		 * Set TypeScript compiler options.
 		 */
 		setCompilerOptions(options: CompilerOptions): void;
-
 		/**
 		 * Get the current diagnostics options for the language service.
 		 */
 		getDiagnosticsOptions(): DiagnosticsOptions;
-
 		/**
 		 * Configure whether syntactic and/or semantic validation should
 		 * be performed
 		 */
 		setDiagnosticsOptions(options: DiagnosticsOptions): void;
-
 		/**
 		 * No-op.
 		 */
 		setMaximumWorkerIdleTime(value: number): void;
-
 		/**
 		 * Configure if all existing models should be eagerly sync'd
 		 * to the worker on start or restart.
 		 */
 		setEagerModelSync(value: boolean): void;
-
 		/**
 		 * Get the current setting for whether all existing models should be eagerly sync'd
 		 * to the worker on start or restart.
 		 */
 		getEagerModelSync(): boolean;
 	}
-
 	export interface TypeScriptWorker {
 		/**
 		 * Get diagnostic messages for any syntax issues in the given file.
 		 */
 		getSyntacticDiagnostics(fileName: string): Promise<Diagnostic[]>;
-
 		/**
 		 * Get diagnostic messages for any semantic issues in the given file.
 		 */
 		getSemanticDiagnostics(fileName: string): Promise<Diagnostic[]>;
-
 		/**
 		 * Get diagnostic messages for any suggestions related to the given file.
 		 */
 		getSuggestionDiagnostics(fileName: string): Promise<Diagnostic[]>;
-
 		/**
 		 * Get the content of a given file.
 		 */
 		getScriptText(fileName: string): Promise<string | undefined>;
-
 		/**
 		 * Get diagnostic messages related to the current compiler options.
 		 * @param fileName Not used
 		 */
 		getCompilerOptionsDiagnostics(fileName: string): Promise<Diagnostic[]>;
-
 		/**
 		 * Get code completions for the given file and position.
 		 * @returns `Promise<typescript.CompletionInfo | undefined>`
@@ -305,7 +289,6 @@ declare module monaco.languages.typescript {
 			fileName: string,
 			position: number
 		): Promise<any | undefined>;
-
 		/**
 		 * Get code completion details for the given file, position, and entry.
 		 * @returns `Promise<typescript.CompletionEntryDetails | undefined>`
@@ -315,7 +298,6 @@ declare module monaco.languages.typescript {
 			position: number,
 			entry: string
 		): Promise<any | undefined>;
-
 		/**
 		 * Get signature help items for the item at the given file and position.
 		 * @returns `Promise<typescript.SignatureHelpItems | undefined>`
@@ -324,7 +306,6 @@ declare module monaco.languages.typescript {
 			fileName: string,
 			position: number
 		): Promise<any | undefined>;
-
 		/**
 		 * Get quick info for the item at the given position in the file.
 		 * @returns `Promise<typescript.QuickInfo | undefined>`
@@ -333,7 +314,6 @@ declare module monaco.languages.typescript {
 			fileName: string,
 			position: number
 		): Promise<any | undefined>;
-
 		/**
 		 * Get other ranges which are related to the item at the given position in the file (often used for highlighting).
 		 * @returns `Promise<ReadonlyArray<typescript.ReferenceEntry> | undefined>`
@@ -342,7 +322,6 @@ declare module monaco.languages.typescript {
 			fileName: string,
 			position: number
 		): Promise<ReadonlyArray<any> | undefined>;
-
 		/**
 		 * Get the definition of the item at the given position in the file.
 		 * @returns `Promise<ReadonlyArray<typescript.DefinitionInfo> | undefined>`
@@ -351,7 +330,6 @@ declare module monaco.languages.typescript {
 			fileName: string,
 			position: number
 		): Promise<ReadonlyArray<any> | undefined>;
-
 		/**
 		 * Get references to the item at the given position in the file.
 		 * @returns `Promise<typescript.ReferenceEntry[] | undefined>`
@@ -360,13 +338,11 @@ declare module monaco.languages.typescript {
 			fileName: string,
 			position: number
 		): Promise<any[] | undefined>;
-
 		/**
 		 * Get outline entries for the item at the given position in the file.
 		 * @returns `Promise<typescript.NavigationBarItem[]>`
 		 */
 		getNavigationBarItems(fileName: string): Promise<any[]>;
-
 		/**
 		 * Get changes which should be applied to format the given file.
 		 * @param options `typescript.FormatCodeOptions`
@@ -376,7 +352,6 @@ declare module monaco.languages.typescript {
 			fileName: string,
 			options: any
 		): Promise<any[]>;
-
 		/**
 		 * Get changes which should be applied to format the given range in the file.
 		 * @param options `typescript.FormatCodeOptions`
@@ -388,7 +363,6 @@ declare module monaco.languages.typescript {
 			end: number,
 			options: any
 		): Promise<any[]>;
-
 		/**
 		 * Get formatting changes which should be applied after the given keystroke.
 		 * @param options `typescript.FormatCodeOptions`
@@ -400,7 +374,6 @@ declare module monaco.languages.typescript {
 			ch: string,
 			options: any
 		): Promise<any[]>;
-
 		/**
 		 * Get other occurrences which should be updated when renaming the item at the given file and position.
 		 * @returns `Promise<readonly typescript.RenameLocation[] | undefined>`
@@ -412,7 +385,6 @@ declare module monaco.languages.typescript {
 			findInComments: boolean,
 			providePrefixAndSuffixTextForRename: boolean
 		): Promise<readonly any[] | undefined>;
-
 		/**
 		 * Get edits which should be applied to rename the item at the given file and position (or a failure reason).
 		 * @param options `typescript.RenameInfoOptions`
@@ -423,13 +395,11 @@ declare module monaco.languages.typescript {
 			positon: number,
 			options: any
 		): Promise<any>;
-
 		/**
 		 * Get transpiled output for the given file.
 		 * @returns `typescript.EmitOutput`
 		 */
-		getEmitOutput(fileName: string): Promise<any>;
-
+		getEmitOutput(fileName: string): Promise<EmitOutput>;
 		/**
 		 * Get possible code fixes at the given position in the file.
 		 * @param formatOptions `typescript.FormatCodeOptions`
@@ -443,12 +413,9 @@ declare module monaco.languages.typescript {
 			formatOptions: any
 		): Promise<ReadonlyArray<any>>;
 	}
-
 	export const typescriptVersion: string;
-
 	export const typescriptDefaults: LanguageServiceDefaults;
 	export const javascriptDefaults: LanguageServiceDefaults;
-
 	export const getTypeScriptWorker: () => Promise<
 		(...uris: Uri[]) => Promise<TypeScriptWorker>
 	>;

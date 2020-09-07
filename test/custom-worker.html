@@ -31,7 +31,9 @@
 		<script>
 			var paths = {
 				'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
-				'vs/language/typescript': '../release/dev',
+				'vs/language/typescript/fillers/monaco-editor-core':
+					'../out/amd/fillers/monaco-editor-core-amd',
+				'vs/language/typescript': '../out/amd',
 				vs: '../node_modules/monaco-editor-core/dev/vs'
 			};
 			if (document.location.protocol === 'http:') {
@@ -39,7 +41,7 @@
 				let testIndex = document.location.pathname.indexOf('/test/');
 				if (testIndex !== -1) {
 					let prefix = document.location.pathname.substr(0, testIndex);
-					paths['vs/language/typescript'] = prefix + '/release/dev';
+					paths['vs/language/typescript'] = prefix + '/out/amd';
 				}
 			}
 			var require = {
@@ -187,8 +189,16 @@
 				'vs/basic-languages/monaco.contribution',
 				'vs/language/typescript/monaco.contribution'
 			], () => {
+				const dirname = (path) => {
+					const slashIndex = path.lastIndexOf('/');
+					if (slashIndex >= 0) {
+						return path.substring(0, slashIndex);
+					}
+					return path;
+				};
+				const customWorkerPath = `${dirname(location.href)}/custom-worker.js`;
 				monaco.languages.typescript.typescriptDefaults.setWorkerOptions({
-					customWorkerPath: 'http://localhost:5000/test/custom-worker.js'
+					customWorkerPath: customWorkerPath
 				});
 				monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
 					target: 99,

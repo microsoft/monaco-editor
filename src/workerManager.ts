@@ -4,23 +4,21 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import { LanguageServiceDefaultsImpl } from './monaco.contribution';
-import { TypeScriptWorker } from './tsWorker';
-
-import IDisposable = monaco.IDisposable;
-import Uri = monaco.Uri;
+import { LanguageServiceDefaults } from './monaco.contribution';
+import type { TypeScriptWorker } from './tsWorker';
+import { editor, Uri, IDisposable } from './fillers/monaco-editor-core';
 
 export class WorkerManager {
 	private _modeId: string;
-	private _defaults: LanguageServiceDefaultsImpl;
+	private _defaults: LanguageServiceDefaults;
 	private _configChangeListener: IDisposable;
 	private _updateExtraLibsToken: number;
 	private _extraLibsChangeListener: IDisposable;
 
-	private _worker: monaco.editor.MonacoWebWorker<TypeScriptWorker> | null;
+	private _worker: editor.MonacoWebWorker<TypeScriptWorker> | null;
 	private _client: Promise<TypeScriptWorker> | null;
 
-	constructor(modeId: string, defaults: LanguageServiceDefaultsImpl) {
+	constructor(modeId: string, defaults: LanguageServiceDefaults) {
 		this._modeId = modeId;
 		this._defaults = defaults;
 		this._worker = null;
@@ -63,7 +61,7 @@ export class WorkerManager {
 
 	private _getClient(): Promise<TypeScriptWorker> {
 		if (!this._client) {
-			this._worker = monaco.editor.createWebWorker<TypeScriptWorker>({
+			this._worker = editor.createWebWorker<TypeScriptWorker>({
 				// module that exports the create() method and returns a `TypeScriptWorker` instance
 				moduleId: 'vs/language/typescript/tsWorker',
 
@@ -85,7 +83,7 @@ export class WorkerManager {
 				p = p.then((worker) => {
 					if (this._worker) {
 						return this._worker.withSyncedResources(
-							monaco.editor
+							editor
 								.getModels()
 								.filter((model) => model.getModeId() === this._modeId)
 								.map((model) => model.uri)

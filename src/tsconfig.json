@@ -2,7 +2,8 @@
 	"compilerOptions": {
 		"module": "amd",
 		"moduleResolution": "node",
-		"outDir": "../release/dev",
+		"outDir": "../out/amd",
+		"declaration": true,
 		"target": "es5",
 		"lib": [
 			"dom",
@@ -12,7 +13,5 @@
 			"es2015.promise"
 		],
 		"strict": true
-	},
-	"include": ["**/*.ts"],
-	"files": ["../node_modules/monaco-editor-core/monaco.d.ts"]
+	}
 }

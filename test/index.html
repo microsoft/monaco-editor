@@ -29,7 +29,9 @@
 		<script>
 			var paths = {
 				'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
-				'vs/language/typescript': '../release/dev',
+				'vs/language/typescript/fillers/monaco-editor-core':
+					'../out/amd/fillers/monaco-editor-core-amd',
+				'vs/language/typescript': '../out/amd',
 				vs: '../node_modules/monaco-editor-core/dev/vs'
 			};
 			if (document.location.protocol === 'http:') {
@@ -37,7 +39,7 @@
 				let testIndex = document.location.pathname.indexOf('/test/');
 				if (testIndex !== -1) {
 					let prefix = document.location.pathname.substr(0, testIndex);
-					paths['vs/language/typescript'] = prefix + '/release/dev';
+					paths['vs/language/typescript'] = prefix + '/out/amd';
 				}
 			}
 			var require = {
