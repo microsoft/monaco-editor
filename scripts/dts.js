@@ -20,8 +20,7 @@ let result = [
 	` *  Licensed under the MIT License. See License.txt in the project root for license information.`,
 	` *--------------------------------------------------------------------------------------------*/`,
 	``,
-	`declare namespace monaco.languages.json {`,
-	``
+	`declare namespace monaco.languages.json {`
 ];
 for (let line of lines) {
 	if (/^import/.test(line)) {
@@ -31,8 +30,8 @@ for (let line of lines) {
 	line = line.replace(/export declare/g, 'export');
 	if (line.length > 0) {
 		line = `\t${line}`;
+		result.push(line);
 	}
-	result.push(line);
 }
 result.push(`}`);
 result.push(``);
