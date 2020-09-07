@@ -6,8 +6,6 @@
 
 import IWorkerContext = monaco.worker.IWorkerContext;
 
-import Thenable = monaco.Thenable;
-
 import * as htmlService from 'vscode-html-languageservice';
 
 import * as poli from './fillers/polyfills';
@@ -28,54 +26,54 @@ export class HTMLWorker {
 		this._languageService = htmlService.getLanguageService();
 	}
 
-	doValidation(uri: string): Thenable<htmlService.Diagnostic[]> {
+	async doValidation(uri: string): Promise<htmlService.Diagnostic[]> {
 		// not yet suported
 		return Promise.resolve([]);
 	}
-	doComplete(uri: string, position: htmlService.Position): Thenable<htmlService.CompletionList> {
+	async doComplete(uri: string, position: htmlService.Position): Promise<htmlService.CompletionList> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		return Promise.resolve(this._languageService.doComplete(document, position, htmlDocument, this._languageSettings && this._languageSettings.suggest));
 	}
-	format(uri: string, range: htmlService.Range, options: htmlService.FormattingOptions): Thenable<htmlService.TextEdit[]> {
+	async format(uri: string, range: htmlService.Range, options: htmlService.FormattingOptions): Promise<htmlService.TextEdit[]> {
 		let document = this._getTextDocument(uri);
 		let textEdits = this._languageService.format(document, range, this._languageSettings && this._languageSettings.format);
 		return Promise.resolve(textEdits);
 	}
-	doHover(uri: string, position: htmlService.Position): Thenable<htmlService.Hover> {
+	async doHover(uri: string, position: htmlService.Position): Promise<htmlService.Hover> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		let hover = this._languageService.doHover(document, position, htmlDocument);
 		return Promise.resolve(hover);
 	}
-	findDocumentHighlights(uri: string, position: htmlService.Position): Thenable<htmlService.DocumentHighlight[]> {
+	async findDocumentHighlights(uri: string, position: htmlService.Position): Promise<htmlService.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		let highlights = this._languageService.findDocumentHighlights(document, position, htmlDocument);
 		return Promise.resolve(highlights);
 	}
-	findDocumentLinks(uri: string): Thenable<htmlService.DocumentLink[]> {
+	async findDocumentLinks(uri: string): Promise<htmlService.DocumentLink[]> {
 		let document = this._getTextDocument(uri);
 		let links = this._languageService.findDocumentLinks(document, null);
 		return Promise.resolve(links);
 	}
-	findDocumentSymbols(uri: string): Thenable<htmlService.SymbolInformation[]> {
+	async findDocumentSymbols(uri: string): Promise<htmlService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		let symbols = this._languageService.findDocumentSymbols(document, htmlDocument);
 		return Promise.resolve(symbols);
 	}
-	getFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Thenable<htmlService.FoldingRange[]> {
+	async getFoldingRanges(uri: string, context?: { rangeLimit?: number; }): Promise<htmlService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getFoldingRanges(document, context);
 		return Promise.resolve(ranges);
 	}
-	getSelectionRanges(uri: string, positions: htmlService.Position[]): Thenable<htmlService.SelectionRange[]> {
+	async getSelectionRanges(uri: string, positions: htmlService.Position[]): Promise<htmlService.SelectionRange[]> {
 		let document = this._getTextDocument(uri);
 		let ranges = this._languageService.getSelectionRanges(document, positions);
 		return Promise.resolve(ranges);
 	}
-	doRename(uri: string, position: htmlService.Position, newName: string): Thenable<htmlService.WorkspaceEdit> {
+	async doRename(uri: string, position: htmlService.Position, newName: string): Promise<htmlService.WorkspaceEdit> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		let renames = this._languageService.doRename(document, position, newName, htmlDocument);
