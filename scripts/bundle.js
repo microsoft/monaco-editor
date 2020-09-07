@@ -59,18 +59,17 @@ function bundleOne(moduleId) {
 			location: path.join(REPO_ROOT, '/out/amd/fillers'),
 			main: 'vscode-nls'
 		}]
-	}, function (buildResponse) {
+	}, async function (buildResponse) {
 		const devFilePath = path.join(REPO_ROOT, 'release/dev/' + moduleId + '.js');
 		const minFilePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
 		const fileContents = fs.readFileSync(devFilePath).toString();
-		console.log();
 		console.log(`Minifying ${devFilePath}...`);
-		const result = Terser.minify(fileContents, {
+		const result = await Terser.minify(fileContents, {
 			output: {
 				comments: 'some'
 			}
 		});
-		console.log(`Done.`);
+		console.log(`Done minifying ${devFilePath}.`);
 		try { fs.mkdirSync(path.join(REPO_ROOT, 'release/min')) } catch (err) { }
 		fs.writeFileSync(minFilePath, BUNDLED_FILE_HEADER + result.code);
 	})
