@@ -552,18 +552,23 @@ export class SuggestAdapter
 		let documentationString = displayPartsToString(details.documentation);
 		if (details.tags) {
 			for (const tag of details.tags) {
-				documentationString += `\n\n*@${tag.name}*`;
-				if (tag.name === 'param' && tag.text) {
-					const [paramName, ...rest] = tag.text.split(' ');
-					documentationString += `\`${paramName}\``;
-					if (rest.length > 0) documentationString += ` — ${rest.join(' ')}`;
-				} else if (tag.text) {
-					documentationString += ` — ${tag.text}`;
-				}
+				documentationString += `\n\n${tagToString(tag)}`;
 			}
 		}
 		return documentationString;
 	}
+}
+
+function tagToString(tag: ts.JSDocTagInfo): string {
+	let tagLabel = `*@${tag.name}*`;
+	if (tag.name === 'param' && tag.text) {
+		const [paramName, ...rest] = tag.text.split(' ');
+		tagLabel += `\`${paramName}\``;
+		if (rest.length > 0) tagLabel += ` — ${rest.join(' ')}`;
+	} else if (tag.text) {
+		tagLabel += ` — ${tag.text}`;
+	}
+	return tagLabel;
 }
 
 export class SignatureHelpAdapter
@@ -653,18 +658,7 @@ export class QuickInfoAdapter
 
 		const documentation = displayPartsToString(info.documentation);
 		const tags = info.tags
-			? info.tags
-					.map((tag) => {
-						const label = `*@${tag.name}*`;
-						if (!tag.text) {
-							return label;
-						}
-						return (
-							label +
-							(tag.text.match(/\r\n|\n/g) ? ' \n' + tag.text : ` - ${tag.text}`)
-						);
-					})
-					.join('  \n\n')
+			? info.tags.map((tag) => tagToString(tag)).join('  \n\n')
 			: '';
 		const contents = displayPartsToString(info.displayParts);
 		return {
