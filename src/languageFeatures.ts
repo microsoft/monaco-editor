@@ -17,6 +17,7 @@ import {
 	MarkerSeverity,
 	IMarkdownString
 } from './fillers/monaco-editor-core';
+import { InsertReplaceEdit, TextEdit } from 'vscode-html-languageservice';
 
 export interface WorkerAccessor {
 	(...more: Uri[]): Promise<HTMLWorker>;
@@ -181,6 +182,15 @@ function toRange(range: htmlService.Range): Range {
 	);
 }
 
+function isInsertReplaceEdit(
+	edit: TextEdit | InsertReplaceEdit
+): edit is InsertReplaceEdit {
+	return (
+		typeof (<InsertReplaceEdit>edit).insert !== 'undefined' &&
+		typeof (<InsertReplaceEdit>edit).replace !== 'undefined'
+	);
+}
+
 function toCompletionItemKind(kind: number): languages.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
 
@@ -326,7 +336,14 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 						kind: toCompletionItemKind(entry.kind)
 					};
 					if (entry.textEdit) {
-						item.range = toRange(entry.textEdit.range);
+						if (isInsertReplaceEdit(entry.textEdit)) {
+							item.range = {
+								insert: toRange(entry.textEdit.insert),
+								replace: toRange(entry.textEdit.replace)
+							};
+						} else {
+							item.range = toRange(entry.textEdit.range);
+						}
 						item.insertText = entry.textEdit.newText;
 					}
 					if (entry.additionalTextEdits) {
