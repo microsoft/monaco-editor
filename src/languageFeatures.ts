@@ -508,7 +508,7 @@ export class SuggestAdapter
 			kind: SuggestAdapter.convertKind(details.kind),
 			detail: displayPartsToString(details.displayParts),
 			documentation: {
-				value: displayPartsToString(details.documentation)
+				value: SuggestAdapter.createDocumentationString(details)
 			}
 		};
 	}
@@ -544,6 +544,25 @@ export class SuggestAdapter
 		}
 
 		return languages.CompletionItemKind.Property;
+	}
+
+	private static createDocumentationString(
+		details: ts.CompletionEntryDetails
+	): string {
+		let documentationString = displayPartsToString(details.documentation);
+		if (details.tags) {
+			for (const tag of details.tags) {
+				documentationString += `\n\n*@${tag.name}*`;
+				if (tag.name === 'param' && tag.text) {
+					const [paramName, ...rest] = tag.text.split(' ');
+					documentationString += `\`${paramName}\``;
+					if (rest.length > 0) documentationString += ` — ${rest.join(' ')}`;
+				} else if (tag.text) {
+					documentationString += ` — ${tag.text}`;
+				}
+			}
+		}
+		return documentationString;
 	}
 }
 
