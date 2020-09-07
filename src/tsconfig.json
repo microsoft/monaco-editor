@@ -3,6 +3,7 @@
     "module": "amd",
     "moduleResolution": "node",
     "outDir": "../out/amd",
+    "declaration": true,
     "target": "es5",
     "lib": [
       "dom",
