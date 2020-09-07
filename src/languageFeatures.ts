@@ -460,6 +460,10 @@ export class SuggestAdapter
 				range = new Range(p1.lineNumber, p1.column, p2.lineNumber, p2.column);
 			}
 
+			const tags: languages.CompletionItemTag[] = [];
+			if (entry.kindModifiers?.indexOf('deprecated') !== -1)
+				tags.push(languages.CompletionItemTag.Deprecated);
+
 			return {
 				uri: resource,
 				position: position,
@@ -467,7 +471,8 @@ export class SuggestAdapter
 				label: entry.name,
 				insertText: entry.name,
 				sortText: entry.sortText,
-				kind: SuggestAdapter.convertKind(entry.kind)
+				kind: SuggestAdapter.convertKind(entry.kind),
+				tags
 			};
 		});
 
