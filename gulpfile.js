@@ -228,6 +228,11 @@ function addPluginContribs(type) {
 				'define("vs/basic-languages/_.contribution",["require","exports","vs/editor/editor.api"],',
 			);
 
+			contribContents = contribContents.replace(
+				`define('vs/language/json/fillers/monaco-editor-core',[],`,
+				`define('vs/language/json/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
+			);
+
 			extraContent.push(contribContents);
 		});
 
@@ -291,7 +296,7 @@ function ESM_pluginStream(plugin, destinationPath) {
 
 			const info = ts.preProcessFile(contents);
 			for (let i = info.importedFiles.length - 1; i >= 0; i--) {
-				const importText = info.importedFiles[i].fileName;
+				let importText = info.importedFiles[i].fileName;
 				const pos = info.importedFiles[i].pos;
 				const end = info.importedFiles[i].end;
 
@@ -300,6 +305,10 @@ function ESM_pluginStream(plugin, destinationPath) {
 					if (!/^monaco-editor-core/.test(importText)) {
 						console.error(`Non-relative import for unknown module: ${importText} in ${data.path}`);
 						process.exit(0);
+					}
+
+					if (importText === 'monaco-editor-core') {
+						importText = 'monaco-editor-core/esm/vs/editor/editor.api';
 					}
 
 					const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);

@@ -35,7 +35,7 @@
     "monaco-css": "2.7.0",
     "monaco-editor-core": "0.20.0",
     "monaco-html": "2.7.0",
-    "monaco-json": "2.9.0",
+    "monaco-json": "3.0.1",
     "monaco-languages": "1.10.0",
     "monaco-typescript": "3.7.0",
     "playwright": "1.2.0-next.1596653191842",
