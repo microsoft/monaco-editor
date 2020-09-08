@@ -5,8 +5,6 @@
  *  Based on the ATS/Postiats lexer by Hongwei Xi.
  *--------------------------------------------------------------------------------------------*/
 
-'use strict';
-
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 

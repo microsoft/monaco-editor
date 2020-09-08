@@ -3,8 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-'use strict';
-
 import { testTokenization } from '../test/testRunner';
 
 testTokenization(
@@ -1731,7 +1729,7 @@ testTokenization(
 
 		[
 			{
-				line: "<?php 'use strict'; ?>",
+				line: "<?php 'use_strict'; ?>",
 				tokens: [
 					{ startIndex: 0, type: 'metatag.php' },
 					{ startIndex: 5, type: '' },

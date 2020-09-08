@@ -2,8 +2,6 @@
  *  Copyright (C) David Owens II, owensd.io. All rights reserved.
  *--------------------------------------------------------------------------------------------*/
 
-'use strict';
-
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
