@@ -5,6 +5,8 @@
 /test/
 /.gitignore
 /.npmignore
+/.prettierrc
+/.prettierignore
 /package-lock.json
 /webpack.dev.config.js
 /webpack.min.config.js
