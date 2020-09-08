@@ -1,7 +1,6 @@
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
+import type { languages } from '../fillers/monaco-editor-core';
 
-export const conf: IRichLanguageConfiguration = {
+export const conf: languages.LanguageConfiguration = {
 	comments: {
 		lineComment: '#'
 	},
@@ -29,7 +28,7 @@ export const conf: IRichLanguageConfiguration = {
 	}
 };
 
-export const language = <ILanguage>{
+export const language = <languages.IMonarchLanguage>{
 	tokenPostfix: '.yaml',
 
 	brackets: [

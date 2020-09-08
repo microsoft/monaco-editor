@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
 		"module": "esnext",
-		"outDir": "../release/esm",
+		"moduleResolution": "node",
+		"outDir": "../out/esm",
 		"target": "es5",
 		"lib": [
 			"dom",
@@ -10,7 +11,5 @@
 			"es2015.iterable",
 			"es2015.promise"
 		]
-	},
-	"include": ["**/*.ts"],
-	"files": ["../node_modules/monaco-editor-core/monaco.d.ts"]
+	}
 }

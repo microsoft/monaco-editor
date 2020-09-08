@@ -3,10 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
+import type { languages } from '../fillers/monaco-editor-core';
 
-export const conf: IRichLanguageConfiguration = {
+export const conf: languages.LanguageConfiguration = {
 	// the default separators except `@$`
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
@@ -201,7 +200,7 @@ keywords.forEach((lowercase) => {
 	keywordsWithCaseVariations.push(uppercaseFirstLetter(lowercase));
 });
 
-export const language = <ILanguage>{
+export const language = <languages.IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.apex',
 

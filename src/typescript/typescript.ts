@@ -3,14 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
+import { languages } from '../fillers/monaco-editor-core';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
-
-export const conf: IRichLanguageConfiguration = {
+export const conf: languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 
 	comments: {
@@ -30,7 +25,7 @@ export const conf: IRichLanguageConfiguration = {
 			beforeText: /^\s*\/\*\*(?!\/)([^\*]|\*(?!\/))*$/,
 			afterText: /^\s*\*\/$/,
 			action: {
-				indentAction: _monaco.languages.IndentAction.IndentOutdent,
+				indentAction: languages.IndentAction.IndentOutdent,
 				appendText: ' * '
 			}
 		},
@@ -38,7 +33,7 @@ export const conf: IRichLanguageConfiguration = {
 			// e.g. /** ...|
 			beforeText: /^\s*\/\*\*(?!\/)([^\*]|\*(?!\/))*$/,
 			action: {
-				indentAction: _monaco.languages.IndentAction.None,
+				indentAction: languages.IndentAction.None,
 				appendText: ' * '
 			}
 		},
@@ -46,7 +41,7 @@ export const conf: IRichLanguageConfiguration = {
 			// e.g.  * ...|
 			beforeText: /^(\t|(\ \ ))*\ \*(\ ([^\*]|\*(?!\/))*)?$/,
 			action: {
-				indentAction: _monaco.languages.IndentAction.None,
+				indentAction: languages.IndentAction.None,
 				appendText: '* '
 			}
 		},
@@ -54,7 +49,7 @@ export const conf: IRichLanguageConfiguration = {
 			// e.g.  */|
 			beforeText: /^(\t|(\ \ ))*\ \*\/\s*$/,
 			action: {
-				indentAction: _monaco.languages.IndentAction.None,
+				indentAction: languages.IndentAction.None,
 				removeText: 1
 			}
 		}

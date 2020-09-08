@@ -3,11 +3,11 @@
 	"version": "1.10.0",
 	"description": "Bundle of many languages for the Monaco Editor.",
 	"scripts": {
-		"compile": "mrmdir ./release && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+		"compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
 		"watch": "tsc -p ./src --watch",
 		"watch-esm": "tsc -p ./src/tsconfig.esm.json --watch",
 		"test": "tape -r ./test/all.js",
-		"prepublishOnly": "npm run compile && node ./scripts/bundle",
+		"prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle",
 		"prettier": "prettier --write ."
 	},
 	"author": "Microsoft Corporation",
@@ -22,16 +22,16 @@
 	"devDependencies": {
 		"@types/tape": "^4.2.34",
 		"glob": "^7.1.6",
-		"husky": "^4.2.5",
+		"husky": "^4.3.0",
 		"jsdom": "^16.4.0",
 		"monaco-editor-core": "0.20.0",
-		"monaco-plugin-helpers": "^1.0.2",
+		"monaco-plugin-helpers": "^1.0.3",
 		"prettier": "^2.1.1",
 		"pretty-quick": "^3.0.0",
 		"requirejs": "^2.3.6",
 		"tape": "^4.13.2",
-		"terser": "^4.6.6",
-		"typescript": "3.7.5"
+		"terser": "^5.3.0",
+		"typescript": "4.0.2"
 	},
 	"husky": {
 		"hooks": {

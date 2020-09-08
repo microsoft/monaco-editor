@@ -7,16 +7,11 @@ import {
 	conf as tsConf,
 	language as tsLanguage
 } from '../typescript/typescript';
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
+import type { languages } from '../fillers/monaco-editor-core';
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
+export const conf: languages.LanguageConfiguration = tsConf;
 
-export const conf: IRichLanguageConfiguration = tsConf;
-
-export const language = <ILanguage>{
+export const language = <languages.IMonarchLanguage>{
 	// Set defaultToken to invalid to see what you do not tokenize yet
 	defaultToken: 'invalid',
 	tokenPostfix: '.js',

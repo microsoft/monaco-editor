@@ -3,12 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
-
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
+import { languages } from '../fillers/monaco-editor-core';
 
 const EMPTY_ELEMENTS: string[] = [
 	'area',
@@ -29,7 +24,7 @@ const EMPTY_ELEMENTS: string[] = [
 	'wbr'
 ];
 
-export const conf: IRichLanguageConfiguration = {
+export const conf: languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
 	comments: {
@@ -70,7 +65,7 @@ export const conf: IRichLanguageConfiguration = {
 			),
 			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
 			action: {
-				indentAction: _monaco.languages.IndentAction.IndentOutdent
+				indentAction: languages.IndentAction.IndentOutdent
 			}
 		},
 		{
@@ -80,7 +75,7 @@ export const conf: IRichLanguageConfiguration = {
 				)}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
 				'i'
 			),
-			action: { indentAction: _monaco.languages.IndentAction.Indent }
+			action: { indentAction: languages.IndentAction.Indent }
 		}
 	],
 
@@ -92,7 +87,7 @@ export const conf: IRichLanguageConfiguration = {
 	}
 };
 
-export const language = <ILanguage>{
+export const language = <languages.IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.html',
 	ignoreCase: true,

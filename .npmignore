@@ -1,4 +1,5 @@
 /.vscode/
+/out/
 /release/**/*.test.js
 /release/**/test/
 /scripts/
@@ -7,6 +8,8 @@
 /gulpfile.js
 /tsconfig.json
 /.npmignore
+/.prettierrc
+/.prettierignore
 /.travis.yml
 /.editorconfig
 /azure-pipelines.yml

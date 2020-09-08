@@ -3,17 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
+import { languages } from './fillers/monaco-editor-core';
 
-interface ILang extends monaco.languages.ILanguageExtensionPoint {
+interface ILang extends languages.ILanguageExtensionPoint {
 	loader: () => Promise<ILangImpl>;
 }
 
 interface ILangImpl {
-	conf: monaco.languages.LanguageConfiguration;
-	language: monaco.languages.IMonarchLanguage;
+	conf: languages.LanguageConfiguration;
+	language: languages.IMonarchLanguage;
 }
 
 const languageDefinitions: { [languageId: string]: ILang } = {};
@@ -68,16 +66,16 @@ export function registerLanguage(def: ILang): void {
 	const languageId = def.id;
 
 	languageDefinitions[languageId] = def;
-	_monaco.languages.register(def);
+	languages.register(def);
 
 	const lazyLanguageLoader = LazyLanguageLoader.getOrCreate(languageId);
-	_monaco.languages.setMonarchTokensProvider(
+	languages.setMonarchTokensProvider(
 		languageId,
 		lazyLanguageLoader.whenLoaded().then((mod) => mod.language)
 	);
-	_monaco.languages.onLanguage(languageId, () => {
+	languages.onLanguage(languageId, () => {
 		lazyLanguageLoader.load().then((mod) => {
-			_monaco.languages.setLanguageConfiguration(languageId, mod.conf);
+			languages.setLanguageConfiguration(languageId, mod.conf);
 		});
 	});
 }

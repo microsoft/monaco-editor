@@ -3,10 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
+import type { languages } from '../fillers/monaco-editor-core';
 
-export const conf: IRichLanguageConfiguration = {
+export const conf: languages.LanguageConfiguration = {
 	/*
 	 * `...` is allowed as an identifier.
 	 * $ is allowed in identifiers.
@@ -49,7 +48,7 @@ export const conf: IRichLanguageConfiguration = {
 	}
 };
 
-export const language = <ILanguage>{
+export const language = <languages.IMonarchLanguage>{
 	tokenPostfix: '.scala',
 
 	// We can't easily add everything from Dotty, but we can at least add some of its keywords

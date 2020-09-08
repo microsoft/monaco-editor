@@ -6,10 +6,7 @@
 import '../monaco.contribution';
 import { loadLanguage } from '../_.contribution';
 import * as test from 'tape';
-
-// Allow for running under nodejs/requirejs in tests
-const _monaco: typeof monaco =
-	typeof monaco === 'undefined' ? (<any>self).monaco : monaco;
+import { editor } from '../fillers/monaco-editor-core';
 
 export interface IRelaxedToken {
 	startIndex: number;
@@ -56,7 +53,7 @@ function runTests(
 
 function runTest(t: test.Test, languageId: string, test: ITestItem[]): void {
 	let text = test.map((t) => t.line).join('\n');
-	let actualTokens = _monaco.editor.tokenize(text, languageId);
+	let actualTokens = editor.tokenize(text, languageId);
 	let actual = actualTokens.map((lineTokens, index) => {
 		return {
 			line: test[index].line,
