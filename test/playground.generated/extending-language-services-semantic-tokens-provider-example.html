@@ -149,25 +149,27 @@ monaco.editor.defineTheme('myCustomTheme', {
 });
 
 const editor = monaco.editor.create(document.getElementById("container"), {
-    value: `Available token types:
-    [comment] [string] [keyword] [number] [regexp] [operator] [namespace]
-    [type] [struct] [class] [interface] [enum] [typeParameter] [function]
-    [member] [macro] [variable] [parameter] [property] [label]
-
-Available token modifiers:
-    [type.declaration] [type.documentation] [type.member] [type.static]
-    [type.abstract] [type.deprecated] [type.modification] [type.async]
-
-Some examples:
-    [class.static.token]     [type.static.abstract]
-    [class.static.token]     [type.static]
-
-    [struct]
-
-    [function.private]
-
-An error case:
-    [notInLegend]`,
+    value: [
+        'Available token types:',
+        '    [comment] [string] [keyword] [number] [regexp] [operator] [namespace]',
+        '    [type] [struct] [class] [interface] [enum] [typeParameter] [function]',
+        '    [member] [macro] [variable] [parameter] [property] [label]',
+        '',
+        'Available token modifiers:',
+        '    [type.declaration] [type.documentation] [type.member] [type.static]',
+        '    [type.abstract] [type.deprecated] [type.modification] [type.async]',
+        '',
+        'Some examples:',
+        '    [class.static.token]     [type.static.abstract]',
+        '    [class.static.token]     [type.static]',
+        '',
+        '    [struct]',
+        '',
+        '    [function.private]',
+        '',
+        'An error case:',
+        '    [notInLegend]'
+    ].join('\n'),
     language: "plaintext",
     theme: 'myCustomTheme',
     // semantic tokens provider is disabled by default
@@ -176,9 +178,9 @@ An error case:
 
 // currently there isn't builtin token handling
 editor._themeService._knownThemes.forEach(function (theme) {
-    theme.getTokenStyleMetadata = (type, modifiers) => {
+    theme.getTokenStyleMetadata = function (type, modifiers) {
         // use theme rules match
-        const style = theme._tokenTheme._root.match([type, ...modifiers].join('.'));
+        const style = theme._tokenTheme._root.match([type].concat(modifiers).join('.'));
         return {
             foreground: style._foreground,
             italic: style._fontStyle & 1,
