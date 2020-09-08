@@ -331,8 +331,12 @@ export class DiagnosticsAdapter extends Adapter {
 		} = model.getPositionAt(diagStart + diagLength);
 
 		const tags: MarkerTag[] = [];
-		if (diag.reportsUnnecessary) tags.push(MarkerTag.Unnecessary);
-		if (diag.reportsDeprecated) tags.push(MarkerTag.Deprecated);
+		if (diag.reportsUnnecessary) {
+			tags.push(MarkerTag.Unnecessary);
+		}
+		if (diag.reportsDeprecated) {
+			tags.push(MarkerTag.Deprecated);
+		}
 
 		return {
 			severity: this._tsDiagnosticCategoryToMarkerSeverity(diag.category),
@@ -461,8 +465,9 @@ export class SuggestAdapter
 			}
 
 			const tags: languages.CompletionItemTag[] = [];
-			if (entry.kindModifiers?.indexOf('deprecated') !== -1)
+			if (entry.kindModifiers?.indexOf('deprecated') !== -1) {
 				tags.push(languages.CompletionItemTag.Deprecated);
+			}
 
 			return {
 				uri: resource,
