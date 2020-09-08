@@ -330,6 +330,10 @@ export class DiagnosticsAdapter extends Adapter {
 			column: endColumn
 		} = model.getPositionAt(diagStart + diagLength);
 
+		const tags: MarkerTag[] = [];
+		if (diag.reportsUnnecessary) tags.push(MarkerTag.Unnecessary);
+		if (diag.reportsDeprecated) tags.push(MarkerTag.Deprecated);
+
 		return {
 			severity: this._tsDiagnosticCategoryToMarkerSeverity(diag.category),
 			startLineNumber,
@@ -338,7 +342,7 @@ export class DiagnosticsAdapter extends Adapter {
 			endColumn,
 			message: flattenDiagnosticMessageText(diag.messageText, '\n'),
 			code: diag.code.toString(),
-			tags: diag.reportsUnnecessary ? [MarkerTag.Unnecessary] : [],
+			tags,
 			relatedInformation: this._convertRelatedInformation(
 				model,
 				diag.relatedInformation
@@ -456,6 +460,10 @@ export class SuggestAdapter
 				range = new Range(p1.lineNumber, p1.column, p2.lineNumber, p2.column);
 			}
 
+			const tags: languages.CompletionItemTag[] = [];
+			if (entry.kindModifiers?.indexOf('deprecated') !== -1)
+				tags.push(languages.CompletionItemTag.Deprecated);
+
 			return {
 				uri: resource,
 				position: position,
@@ -463,7 +471,8 @@ export class SuggestAdapter
 				label: entry.name,
 				insertText: entry.name,
 				sortText: entry.sortText,
-				kind: SuggestAdapter.convertKind(entry.kind)
+				kind: SuggestAdapter.convertKind(entry.kind),
+				tags
 			};
 		});
 
@@ -499,7 +508,7 @@ export class SuggestAdapter
 			kind: SuggestAdapter.convertKind(details.kind),
 			detail: displayPartsToString(details.displayParts),
 			documentation: {
-				value: displayPartsToString(details.documentation)
+				value: SuggestAdapter.createDocumentationString(details)
 			}
 		};
 	}
@@ -536,6 +545,30 @@ export class SuggestAdapter
 
 		return languages.CompletionItemKind.Property;
 	}
+
+	private static createDocumentationString(
+		details: ts.CompletionEntryDetails
+	): string {
+		let documentationString = displayPartsToString(details.documentation);
+		if (details.tags) {
+			for (const tag of details.tags) {
+				documentationString += `\n\n${tagToString(tag)}`;
+			}
+		}
+		return documentationString;
+	}
+}
+
+function tagToString(tag: ts.JSDocTagInfo): string {
+	let tagLabel = `*@${tag.name}*`;
+	if (tag.name === 'param' && tag.text) {
+		const [paramName, ...rest] = tag.text.split(' ');
+		tagLabel += `\`${paramName}\``;
+		if (rest.length > 0) tagLabel += ` — ${rest.join(' ')}`;
+	} else if (tag.text) {
+		tagLabel += ` — ${tag.text}`;
+	}
+	return tagLabel;
 }
 
 export class SignatureHelpAdapter
@@ -625,18 +658,7 @@ export class QuickInfoAdapter
 
 		const documentation = displayPartsToString(info.documentation);
 		const tags = info.tags
-			? info.tags
-					.map((tag) => {
-						const label = `*@${tag.name}*`;
-						if (!tag.text) {
-							return label;
-						}
-						return (
-							label +
-							(tag.text.match(/\r\n|\n/g) ? ' \n' + tag.text : ` - ${tag.text}`)
-						);
-					})
-					.join('  \n\n')
+			? info.tags.map((tag) => tagToString(tag)).join('  \n\n')
 			: '';
 		const contents = displayPartsToString(info.displayParts);
 		return {
