@@ -184,53 +184,25 @@ function addPluginContribs(type) {
 			var contribPath = path.join(__dirname, pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 			var contribContents = fs.readFileSync(contribPath).toString();
 
-			// Check for the anonymous define call case 1
-			// transform define(function() {...}) to define("moduleId",["require"],function() {...})
-			var anonymousContribDefineCase1 = contribContents.indexOf('define(function');
-			if (anonymousContribDefineCase1 >= 0) {
-				contribContents = (
-					contribContents.substring(0, anonymousContribDefineCase1)
-					+ `define("${plugin.contrib}",["require"],function`
-					+ contribContents.substring(anonymousContribDefineCase1 + 'define(function'.length)
-				);
-			}
-
-			// Check for the anonymous define call case 2
-			// transform define([ to define("moduleId",[
-			var anonymousContribDefineCase2 = contribContents.indexOf('define([');
-			if (anonymousContribDefineCase2 >= 0) {
-				contribContents = (
-					contribContents.substring(0, anonymousContribDefineCase2)
-					+ `define("${plugin.contrib}",[`
-					+ contribContents.substring(anonymousContribDefineCase2 + 'define(['.length)
-				);
-			}
-
-			var contribDefineIndex = contribContents.indexOf('define("' + plugin.contrib);
-			if (contribDefineIndex === -1) {
-				contribDefineIndex = contribContents.indexOf('define(\'' + plugin.contrib);
-				if (contribDefineIndex === -1) {
-					console.error('(1) CANNOT DETERMINE AMD define location for contribution', pluginPath);
-					process.exit(-1);
-				}
-			}
-
-			var depsEndIndex = contribContents.indexOf(']', contribDefineIndex);
-			if (contribDefineIndex === -1) {
-				console.error('(2) CANNOT DETERMINE AMD define location for contribution', pluginPath);
-				process.exit(-1);
-			}
-
-			contribContents = contribContents.substring(0, depsEndIndex) + ',"vs/editor/editor.api"' + contribContents.substring(depsEndIndex);
-
 			contribContents = contribContents.replace(
-				'define("vs/basic-languages/_.contribution",["require","exports"],',
-				'define("vs/basic-languages/_.contribution",["require","exports","vs/editor/editor.api"],',
+				`define('vs/language/css/fillers/monaco-editor-core',[],`,
+				`define('vs/language/css/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
 			);
-
+			contribContents = contribContents.replace(
+				`define('vs/language/html/fillers/monaco-editor-core',[],`,
+				`define('vs/language/html/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
+			);
 			contribContents = contribContents.replace(
 				`define('vs/language/json/fillers/monaco-editor-core',[],`,
 				`define('vs/language/json/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
+			);
+			contribContents = contribContents.replace(
+				`define('vs/language/typescript/fillers/monaco-editor-core',[],`,
+				`define('vs/language/typescript/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
+			);
+			contribContents = contribContents.replace(
+				`define('vs/basic-languages/fillers/monaco-editor-core',[],`,
+				`define('vs/basic-languages/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
 			);
 
 			extraContent.push(contribContents);
@@ -452,7 +424,7 @@ function addPluginDTS() {
 			var dtsPath = path.join(pluginPath, '../monaco.d.ts');
 			try {
 				let plugindts = fs.readFileSync(dtsPath).toString();
-				plugindts = plugindts.replace('declare module', 'declare namespace');
+				plugindts = plugindts.replace(/\/\/\/ <reference.*\n/m, '');
 				extraContent.push(plugindts);
 			} catch (err) {
 				return;
