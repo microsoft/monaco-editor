@@ -185,24 +185,8 @@ function addPluginContribs(type) {
 			var contribContents = fs.readFileSync(contribPath).toString();
 
 			contribContents = contribContents.replace(
-				`define('vs/language/css/fillers/monaco-editor-core',[],`,
-				`define('vs/language/css/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
-			);
-			contribContents = contribContents.replace(
-				`define('vs/language/html/fillers/monaco-editor-core',[],`,
-				`define('vs/language/html/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
-			);
-			contribContents = contribContents.replace(
-				`define('vs/language/json/fillers/monaco-editor-core',[],`,
-				`define('vs/language/json/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
-			);
-			contribContents = contribContents.replace(
-				`define('vs/language/typescript/fillers/monaco-editor-core',[],`,
-				`define('vs/language/typescript/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
-			);
-			contribContents = contribContents.replace(
-				`define('vs/basic-languages/fillers/monaco-editor-core',[],`,
-				`define('vs/basic-languages/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
+				/define\((['"][a-z\/\-]+\/fillers\/monaco-editor-core['"]),\[\],/,
+				'define($1,[\'vs/editor/editor.api\'],'
 			);
 
 			extraContent.push(contribContents);
