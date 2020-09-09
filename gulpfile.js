@@ -196,6 +196,11 @@ function addPluginContribs(type) {
 				`define('vs/language/json/fillers/monaco-editor-core',[],`,
 				`define('vs/language/json/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
 			);
+			// You can find both types of quotes in the TypeScript files
+			contribContents = contribContents.replace(
+				`define("vs/language/typescript/fillers/monaco-editor-core",[],`,
+				`define("vs/language/typescript/fillers/monaco-editor-core",['vs/editor/editor.api'],`,
+			);
 			contribContents = contribContents.replace(
 				`define('vs/language/typescript/fillers/monaco-editor-core',[],`,
 				`define('vs/language/typescript/fillers/monaco-editor-core',['vs/editor/editor.api'],`,
