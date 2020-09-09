@@ -71,11 +71,14 @@ export class TypeScriptWorker
 	_getScriptText(fileName: string): string | undefined {
 		let text: string;
 		let model = this._getModel(fileName);
+		const libizedFileName = 'lib.' + fileName + '.d.ts';
 		if (model) {
 			// a true editor model
 			text = model.getValue();
 		} else if (fileName in libFileMap) {
 			text = libFileMap[fileName];
+		} else if (libizedFileName in libFileMap) {
+			text = libFileMap[libizedFileName];
 		} else if (fileName in this._extraLibs) {
 			// extra lib
 			text = this._extraLibs[fileName].content;
