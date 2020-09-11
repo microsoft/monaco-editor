@@ -6232,7 +6232,7 @@ declare namespace monaco.languages.typescript {
     interface MapLike<T> {
         [index: string]: T;
     }
-    declare type CompilerOptionsValue =
+    type CompilerOptionsValue =
         | string
         | number
         | boolean
