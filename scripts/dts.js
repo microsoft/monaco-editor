@@ -32,7 +32,7 @@ for (let line of lines) {
 		continue;
 	}
 	line = line.replace(/    /g, '\t');
-	line = line.replace(/export declare/g, 'export');
+	line = line.replace(/declare /g, '');
 	if (line.length > 0) {
 		line = `\t${line}`;
 		result.push(line);
