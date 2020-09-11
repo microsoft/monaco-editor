@@ -59,6 +59,11 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		'$1// MONACOCHANGE\n$1var result = undefined;\n$1// END MONACOCHANGE'
 	);
 
+	tsServices = tsServices.replace(
+		/^( +)fs = require\("fs"\);$/m,
+		'$1// MONACOCHANGE\n$1fs = undefined;\n$1// END MONACOCHANGE'
+	);
+
 	// Flag any new require calls (outside comments) so they can be corrected preemptively.
 	// To avoid missing cases (or using an even more complex regex), temporarily remove comments
 	// about require() and then check for lines actually calling require().
@@ -74,13 +79,13 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 
 	// Allow error messages to include references to require() in their strings
 	const runtimeRequires =
-		linesWithRequire && linesWithRequire.filter((l) => !l.includes(': diag('));
+		linesWithRequire && linesWithRequire.filter((l) => !l.includes(': diag(') && !l.includes("ts.DiagnosticCategory"));
 
 	if (runtimeRequires && runtimeRequires.length && linesWithRequire) {
 		console.error(
 			'Found new require() calls on the following lines. These should be removed to avoid breaking webpack builds.\n'
 		);
-		console.error(linesWithRequire.join('\n'));
+		console.error(runtimeRequires.map(r => `${r} (${tsServicesNoCommentedRequire.indexOf(r)})`).join('\n'));
 		process.exit(1);
 	}
 
