@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="module">
+class MonacoEditorElement extends HTMLElement {
+  constructor() {
+    super();
+    this.style = 'display: block;';
+    const shadow = this.attachShadow({ mode: 'open' });
+    const iframe = document.createElement('iframe');
+    iframe.src = new URL('iframe.html?editor=src', import.meta.url).href;
+    iframe.style = `width: 100%; height: 100%;`;
+    shadow.appendChild(iframe);
+  }
+}
+
+customElements.define('monaco-editor', MonacoEditorElement);
+    </script>
+    <style>
+section {
+  margin: 80px;
+}
+
+iframe,
+monaco-editor {
+  width: 640px;
+  height: 400px;
+}
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>Monaco in a shadowRoot + iframe context</h1>
+      <monaco-editor></monaco-editor>
+    </section>
+    <hr>
+    <section>
+      <h1>Monaco in an iframe context</h1>
+      <iframe src="iframe.html?editor=src"></iframe>
+    </section>
+  </body>
+</html>
