@@ -1,6 +1,6 @@
 {
 	"name": "monaco-typescript",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"description": "TypeScript and JavaScript language support for Monaco Editor",
 	"scripts": {
 		"compile-amd": "mcopy ./src/lib/typescriptServices-amd.js ./out/amd/lib/typescriptServices.js && tsc -p ./src/tsconfig.json",
