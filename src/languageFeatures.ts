@@ -670,7 +670,7 @@ export class QuickInfoAdapter
 			range: this._textSpanToRange(model, info.textSpan),
 			contents: [
 				{
-					value: '```js\n' + contents + '\n```\n'
+					value: '```typescript\n' + contents + '\n```\n'
 				},
 				{
 					value: documentation + (tags ? '\n\n' + tags : '')
