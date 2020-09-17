@@ -26,8 +26,8 @@ var libSource = [
 ].join('\n');
 var libUri = 'ts:filename/facts.d.ts';
 monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
-// When resolving definitions and references, editor will try to use created models.
-// Following line allows "peek definition/references" commands to work with library.
+// When resolving definitions and references, the editor will try to use created models.
+// Creating a model for the library allows "peek definition/references" commands to work with the library.
 monaco.editor.createModel(libSource, 'typescript', monaco.Uri.parse(libUri));
 
 var jsCode = [
