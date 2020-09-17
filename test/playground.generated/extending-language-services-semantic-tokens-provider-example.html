@@ -55,7 +55,9 @@ function getType(type) {
 
 /** @type {(modifier: string[]|string|null)=>number} */
 function getModifier(modifiers) {
-    if (typeof modifiers === 'string') modifiers = [modifiers];
+    if (typeof modifiers === 'string') {
+        modifiers = [modifiers];
+    }
     if (Array.isArray(modifiers)) {
         let nModifiers = 0;
         for (let modifier of modifiers) {
@@ -91,7 +93,9 @@ monaco.languages.registerDocumentSemanticTokensProvider('plaintext', {
             for (let match = null; match = tokenPattern.exec(line);) {
                 // translate token and modifiers to number representations
                 let type = getType(match[1]);
-                if (type === -1) continue;
+                if (type === -1) {
+                    continue;
+                }
                 let modifier = match[2].length
                     ? getModifier(match[2].split('.').slice(1))
                     : 0;
@@ -176,29 +180,7 @@ const editor = monaco.editor.create(document.getElementById("container"), {
     'semanticHighlighting.enabled': true
 });
 
-// currently there isn't builtin token handling
-editor._themeService._knownThemes.forEach(function (theme) {
-    theme.getTokenStyleMetadata = function (type, modifiers) {
-        // use theme rules match
-        const style = theme._tokenTheme._root.match([type].concat(modifiers).join('.'));
-        return {
-            foreground: style._foreground,
-            italic: style._fontStyle & 1,
-            bold: style._fontStyle & 2,
-            underline: style._fontStyle & 4
-        };
-    };
-});
 
-// press F4 to change theme
-editor.addCommand(monaco.KeyCode.F4, function () {
-    switch (editor._themeService.getTheme().themeName) {
-        case 'vs': monaco.editor.setTheme('vs-dark'); break;
-        case 'vs-dark': monaco.editor.setTheme('hc-black'); break;
-        case 'hc-black': monaco.editor.setTheme('myCustomTheme'); break;
-        case 'myCustomTheme': monaco.editor.setTheme('vs'); break;
-    }
-});
 
 
 /*----------------------------------------SAMPLE JS END*/
