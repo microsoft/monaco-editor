@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Editor in tiny iframe</title>
+
+    <style>
+      #myIframe {
+        border: 1px solid pink;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Monaco Editor inside iframes sample</h2>
+
+    <br />
+    <br />
+    <iframe id="myIframe"></iframe>
+    <br />
+    <script>
+      var myIframe = document.getElementById("myIframe");
+      myIframe.style.width = "400px";
+      myIframe.style.height = "100px";
+      myIframe.style.display = "block";
+      myIframe.style.visibility = "visible";
+      const longText = `function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}function x() {\n\tconsole.log("Hello world!");\n}function x()
+			{\n\tconsole.log("Hello world!");\n}`;
+      const iframeDoc = myIframe.contentDocument;
+      const iframeWin = myIframe.contentWindow;
+      const injectSourceFiles = function () {
+        iframeWin.require.config({
+          paths: {
+            vs: "/vscode/out/vs",
+          },
+        });
+
+        iframeWin.require(["vs/editor/editor.main"], function () {
+          const container = iframeDoc.createElement("div");
+          container.setAttribute("id", "container");
+          container.style.height = "100vh";
+          iframeDoc.body.appendChild(container);
+          var editor = iframeWin.monaco.editor.create(
+            iframeDoc.getElementById("container"),
+            {
+              value: longText,
+              language: "javascript",
+            }
+          );
+
+          iframeWin.onresize = function () {
+            editor.layout();
+          };
+        });
+      };
+      const script = iframeDoc.createElement("script");
+      script.src = "/vscode/out/vs/loader.js";
+      script.onload = injectSourceFiles;
+      iframeDoc.head.appendChild(script);
+    </script>
+  </body>
+</html>
