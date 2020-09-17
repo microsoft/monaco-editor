@@ -816,6 +816,8 @@ function createSimpleServer(rootDir, port) {
 	});
 }
 
+gulp.task('generate-test-samples', taskSeries(generateTestSamplesTask));
+
 gulp.task('simpleserver', taskSeries(generateTestSamplesTask, function() {
 	const SERVER_ROOT = path.normalize(path.join(__dirname, '../'));
 	createSimpleServer(SERVER_ROOT, 8080);
