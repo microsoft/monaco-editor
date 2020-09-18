@@ -31,7 +31,11 @@ function resolveMonacoPath(filePath: string): string {
   try {
     return require.resolve(path.join('monaco-editor/esm', filePath));
   } catch(err) {
-    return require.resolve(path.join(process.cwd(), 'node_modules/monaco-editor/esm', filePath));
+    try {
+      return require.resolve(path.join(process.cwd(), 'node_modules/monaco-editor/esm', filePath));
+    } catch(err){
+      return require.resolve(filePath);
+    }
   }
 }
 
@@ -72,6 +76,11 @@ interface IMonacoEditorWebpackPluginOpts {
   languages?: EditorLanguage[];
 
   /**
+   * Custom languages (outside of the ones shipped with the `monaco-editor`).
+   */
+  customLanguages?: IFeatureDefinition[];
+
+  /**
    * Include only a subset of the editor features.
    * Use e.g. '!contextmenu' to exclude a certain feature.
    */
@@ -105,9 +114,10 @@ class MonacoEditorWebpackPlugin implements webpack.Plugin {
 
   constructor(options: IMonacoEditorWebpackPluginOpts = {}) {
     const languages = options.languages || Object.keys(languagesById);
+    const customLanguages = options.customLanguages || [];
     const features = getFeaturesIds(options.features || []);
     this.options = {
-      languages: coalesce(languages.map(id => languagesById[id])),
+      languages: coalesce(languages.map(id => languagesById[id])).concat(customLanguages),
       features: coalesce(features.map(id => featuresById[id])),
       filename: options.filename || "[name].worker.js",
       publicPath: options.publicPath || '',
