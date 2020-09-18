@@ -76,7 +76,7 @@ interface IMonacoEditorWebpackPluginOpts {
   languages?: EditorLanguage[];
 
   /**
-   * customer languages which feature definition
+   * Custom languages (outside of the ones shipped with the `monaco-editor`).
    */
   customLanguages?: IFeatureDefinition[];
 
@@ -114,9 +114,10 @@ class MonacoEditorWebpackPlugin implements webpack.Plugin {
 
   constructor(options: IMonacoEditorWebpackPluginOpts = {}) {
     const languages = options.languages || Object.keys(languagesById);
+    const customLanguages = options.customLanguages || [];
     const features = getFeaturesIds(options.features || []);
     this.options = {
-      languages: coalesce(languages.map(id => languagesById[id])).concat(options.customLanguages || []),
+      languages: coalesce(languages.map(id => languagesById[id])).concat(customLanguages),
       features: coalesce(features.map(id => featuresById[id])),
       filename: options.filename || "[name].worker.js",
       publicPath: options.publicPath || '',
