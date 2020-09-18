@@ -99,6 +99,8 @@ export const language = <languages.IMonarchLanguage>{
 
 		// Recognize strings, including those broken across lines with \ (but not without)
 		strings: [
+			[/\\'$/, '', '@popall'], // \' leaves @arguments at eol
+			[/\\'/, ''], // \' is not a string
 			[/'$/, 'string', '@popall'],
 			[/'/, 'string', '@stringBody'],
 			[/"$/, 'string', '@popall'],

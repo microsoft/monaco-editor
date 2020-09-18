@@ -223,5 +223,21 @@ testTokenization('dockerfile', [
 				{ startIndex: 45, type: 'string.dockerfile' }
 			]
 		}
+	],
+	[
+		{
+			line: "RUN \\'e\\'",
+			tokens: [
+				{ startIndex: 0, type: 'keyword.dockerfile' },
+				{ startIndex: 3, type: '' }
+			]
+		},
+		{
+			line: 'RUN echo hi this is # not a comment',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.dockerfile' },
+				{ startIndex: 3, type: '' }
+			]
+		}
 	]
 ]);
