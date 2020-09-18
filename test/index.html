@@ -18,7 +18,7 @@
 		<button id="updateCompilerSettingsBtn">Update compiler settings</button>
 
 		<script>
-			var paths = {
+			const paths = {
 				'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
 				'vs/language/typescript/fillers/monaco-editor-core':
 					'../out/amd/fillers/monaco-editor-core-amd',
@@ -33,7 +33,7 @@
 					paths['vs/language/typescript'] = prefix + '/out/amd';
 				}
 			}
-			var require = {
+			self.require = {
 				paths: paths
 			};
 		</script>
@@ -178,7 +178,7 @@
 				'vs/basic-languages/monaco.contribution',
 				'vs/language/typescript/monaco.contribution'
 			], () => {
-				var editor = monaco.editor.create(document.getElementById('container'), {
+				const editor = monaco.editor.create(document.getElementById('container'), {
 					value: localStorage.getItem('code') || getDefaultCode(),
 					language: 'typescript',
 					lightbulb: { enabled: true }

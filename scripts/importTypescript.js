@@ -34,7 +34,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 	);
 
-	var tsServices = fs
+	let tsServices = fs
 		.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js'))
 		.toString();
 
@@ -86,7 +86,7 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		process.exit(1);
 	}
 
-	var tsServices_amd =
+	const tsServices_amd =
 		generatedNote +
 		tsServices +
 		`
@@ -101,7 +101,7 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 		stripSourceMaps(tsServices_amd)
 	);
 
-	var tsServices_esm =
+	const tsServices_esm =
 		generatedNote +
 		tsServices +
 		`
@@ -122,7 +122,7 @@ export var TokenClass = ts.TokenClass;
 		stripSourceMaps(tsServices_esm)
 	);
 
-	var dtsServices = fs
+	let dtsServices = fs
 		.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.d.ts'))
 		.toString();
 	dtsServices += `
@@ -138,11 +138,11 @@ export = ts;
 
 function importLibs() {
 	function readLibFile(name) {
-		var srcPath = path.join(TYPESCRIPT_LIB_SOURCE, name);
+		const srcPath = path.join(TYPESCRIPT_LIB_SOURCE, name);
 		return fs.readFileSync(srcPath).toString();
 	}
 
-	var strLibResult = `/*---------------------------------------------------------------------------------------------
+	let strLibResult = `/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -151,7 +151,7 @@ ${generatedNote}
 /** Contains all the lib files */
 export const libFileMap: Record<string, string> = {}
 `;
-	var strIndexResult = `/*---------------------------------------------------------------------------------------------
+	let strIndexResult = `/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -160,10 +160,10 @@ ${generatedNote}
 /** Contains all the lib files */
 export const libFileSet: Record<string, boolean> = {}
 `;
-	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter((f) => f.includes('lib.'));
+	const dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter((f) => f.includes('lib.'));
 	while (dtsFiles.length > 0) {
-		var name = dtsFiles.shift();
-		var output = readLibFile(name).replace(/\r\n/g, '\n');
+		const name = dtsFiles.shift();
+		const output = readLibFile(name).replace(/\r\n/g, '\n');
 		strLibResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
 		strIndexResult += `libFileSet['${name}'] = true;\n`;
 	}
@@ -177,22 +177,23 @@ export const libFileSet: Record<string, boolean> = {}
  */
 function escapeText(text) {
 	// See http://www.javascriptkit.com/jsref/escapesequence.shtml
-	var _backspace = '\b'.charCodeAt(0);
-	var _formFeed = '\f'.charCodeAt(0);
-	var _newLine = '\n'.charCodeAt(0);
-	var _nullChar = 0;
-	var _carriageReturn = '\r'.charCodeAt(0);
-	var _tab = '\t'.charCodeAt(0);
-	var _verticalTab = '\v'.charCodeAt(0);
-	var _backslash = '\\'.charCodeAt(0);
-	var _doubleQuote = '"'.charCodeAt(0);
+	const _backspace = '\b'.charCodeAt(0);
+	const _formFeed = '\f'.charCodeAt(0);
+	const _newLine = '\n'.charCodeAt(0);
+	const _nullChar = 0;
+	const _carriageReturn = '\r'.charCodeAt(0);
+	const _tab = '\t'.charCodeAt(0);
+	const _verticalTab = '\v'.charCodeAt(0);
+	const _backslash = '\\'.charCodeAt(0);
+	const _doubleQuote = '"'.charCodeAt(0);
 
-	var startPos = 0,
-		chrCode,
-		replaceWith = null,
-		resultPieces = [];
+	const len = text.length;
+	let startPos = 0;
+	let chrCode;
+	let replaceWith = null;
+	let resultPieces = [];
 
-	for (var i = 0, len = text.length; i < len; i++) {
+	for (let i = 0; i < len; i++) {
 		chrCode = text.charCodeAt(i);
 		switch (chrCode) {
 			case _backspace:

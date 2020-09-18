@@ -5,7 +5,7 @@
 
 // Resolves with the global monaco API
 
-declare var define: any;
+declare const define: any;
 
 define([], function () {
 	return (<any>self).monaco;
