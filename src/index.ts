@@ -216,7 +216,8 @@ function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDe
             var currentOrigin = currentUrl.substr(0, currentUrl.length - window.location.hash.length - window.location.search.length - window.location.pathname.length);
             if (result.substring(0, currentOrigin.length) !== currentOrigin) {
               var js = '/*' + label + '*/importScripts("' + result + '");';
-              return 'data:text/javascript;charset=utf-8,' + encodeURIComponent(js);
+              var blob = new Blob([js], { type: 'application/javascript' });
+              return URL.createObjectURL(blob);
             }
           }
           return result;
