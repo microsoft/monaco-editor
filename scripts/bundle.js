@@ -40,26 +40,17 @@ function bundleOne(moduleId, exclude) {
 			packages: [
 				{
 					name: 'vscode-css-languageservice',
-					location: path.join(
-						REPO_ROOT,
-						'node_modules/vscode-css-languageservice/lib/umd'
-					),
+					location: path.join(REPO_ROOT, 'node_modules/vscode-css-languageservice/lib/umd'),
 					main: 'cssLanguageService'
 				},
 				{
 					name: 'vscode-languageserver-types',
-					location: path.join(
-						REPO_ROOT,
-						'node_modules/vscode-languageserver-types/lib/umd'
-					),
+					location: path.join(REPO_ROOT, 'node_modules/vscode-languageserver-types/lib/umd'),
 					main: 'main'
 				},
 				{
 					name: 'vscode-languageserver-textdocument',
-					location: path.join(
-						REPO_ROOT,
-						'node_modules/vscode-languageserver-textdocument/lib/umd'
-					),
+					location: path.join(REPO_ROOT, 'node_modules/vscode-languageserver-textdocument/lib/umd'),
 					main: 'main'
 				},
 				{
@@ -75,14 +66,8 @@ function bundleOne(moduleId, exclude) {
 			]
 		},
 		async function (buildResponse) {
-			const devFilePath = path.join(
-				REPO_ROOT,
-				'release/dev/' + moduleId + '.js'
-			);
-			const minFilePath = path.join(
-				REPO_ROOT,
-				'release/min/' + moduleId + '.js'
-			);
+			const devFilePath = path.join(REPO_ROOT, 'release/dev/' + moduleId + '.js');
+			const minFilePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
 			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
 			console.log(`Minifying ${devFilePath}...`);

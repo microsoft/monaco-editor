@@ -21,14 +21,9 @@ export class WorkerManager {
 	constructor(defaults: LanguageServiceDefaults) {
 		this._defaults = defaults;
 		this._worker = null;
-		this._idleCheckInterval = window.setInterval(
-			() => this._checkIfIdle(),
-			30 * 1000
-		);
+		this._idleCheckInterval = window.setInterval(() => this._checkIfIdle(), 30 * 1000);
 		this._lastUsedTime = 0;
-		this._configChangeListener = this._defaults.onDidChange(() =>
-			this._stopWorker()
-		);
+		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
 	}
 
 	private _stopWorker(): void {

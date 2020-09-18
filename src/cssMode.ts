@@ -16,9 +16,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor = (
-		...uris: Uri[]
-	): Promise<CSSWorker> => {
+	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<CSSWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
@@ -37,10 +35,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(
-					languageId,
-					new languageFeatures.HoverAdapter(worker)
-				)
+				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
@@ -77,10 +72,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(
-					languageId,
-					new languageFeatures.RenameAdapter(worker)
-				)
+				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
 			);
 		}
 		if (modeConfiguration.colors) {
@@ -100,9 +92,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(
-				new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults)
-			);
+			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
