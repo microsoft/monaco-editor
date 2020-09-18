@@ -54,10 +54,13 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		/^( +)var result = ts\.sys\.require\(.*$/m,
 		'$1// MONACOCHANGE\n$1var result = undefined;\n$1// END MONACOCHANGE'
 	);
-
 	tsServices = tsServices.replace(
 		/^( +)fs = require\("fs"\);$/m,
 		'$1// MONACOCHANGE\n$1fs = undefined;\n$1// END MONACOCHANGE'
+	);
+	tsServices = tsServices.replace(
+		/^( +)debugger;$/m,
+		'$1// MONACOCHANGE\n$1// debugger;\n$1// END MONACOCHANGE'
 	);
 
 	// Flag any new require calls (outside comments) so they can be corrected preemptively.
