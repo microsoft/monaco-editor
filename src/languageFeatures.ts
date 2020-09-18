@@ -387,6 +387,7 @@ interface MyCompletionItem extends languages.CompletionItem {
 	label: string;
 	uri: Uri;
 	position: Position;
+	offset: number;
 }
 
 export class SuggestAdapter extends Adapter implements languages.CompletionItemProvider {
@@ -433,6 +434,7 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 			return {
 				uri: resource,
 				position: position,
+				offset: offset,
 				range: range,
 				label: entry.name,
 				insertText: entry.name,
@@ -448,15 +450,13 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 	}
 
 	public async resolveCompletionItem(
-		model: editor.ITextModel,
-		_position: Position,
 		item: languages.CompletionItem,
 		token: CancellationToken
 	): Promise<languages.CompletionItem> {
 		const myItem = <MyCompletionItem>item;
 		const resource = myItem.uri;
 		const position = myItem.position;
-		const offset = model.getOffsetAt(position);
+		const offset = myItem.offset;
 
 		const worker = await this._worker(resource);
 		const details = await worker.getCompletionEntryDetails(
@@ -464,7 +464,7 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 			offset,
 			myItem.label
 		);
-		if (!details || model.isDisposed()) {
+		if (!details) {
 			return myItem;
 		}
 		return <MyCompletionItem>{
