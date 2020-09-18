@@ -18,10 +18,7 @@ export interface ITestItem {
 	tokens: IRelaxedToken[];
 }
 
-export function testTokenization(
-	_language: string | string[],
-	tests: ITestItem[][]
-): void {
+export function testTokenization(_language: string | string[], tests: ITestItem[][]): void {
 	let languages: string[];
 	if (typeof _language === 'string') {
 		languages = [_language];
@@ -43,11 +40,7 @@ export function testTokenization(
 	});
 }
 
-function runTests(
-	t: test.Test,
-	languageId: string,
-	tests: ITestItem[][]
-): void {
+function runTests(t: test.Test, languageId: string, tests: ITestItem[][]): void {
 	tests.forEach((test) => runTest(t, languageId, test));
 }
 

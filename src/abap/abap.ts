@@ -499,17 +499,11 @@ export const language = <languages.IMonarchLanguage>{
 			[/[:,.]/, 'delimiter'],
 
 			[/[{}()\[\]]/, '@brackets'],
-			[
-				/@symbols/,
-				{ cases: { '@operators': 'operator', '@default': '' } }
-			],
+			[/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
 
 			[/'/, { token: 'string', bracket: '@open', next: '@stringquote' }],
 			[/`/, { token: 'string', bracket: '@open', next: '@stringping' }],
-			[
-				/\|/,
-				{ token: 'string', bracket: '@open', next: '@stringtemplate' }
-			],
+			[/\|/, { token: 'string', bracket: '@open', next: '@stringtemplate' }],
 
 			[/\d+/, 'number']
 		],

@@ -3,10 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {
-	conf as tsConf,
-	language as tsLanguage
-} from '../typescript/typescript';
+import { conf as tsConf, language as tsLanguage } from '../typescript/typescript';
 import type { languages } from '../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = tsConf;

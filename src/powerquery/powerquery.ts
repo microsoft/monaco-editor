@@ -898,10 +898,7 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@strings' },
 
 			[/[{}()\[\]]/, '@brackets'],
-			[
-				/([=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/,
-				'operators'
-			],
+			[/([=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/, 'operators'],
 			[/[,;]/, 'delimiter']
 		],
 

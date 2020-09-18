@@ -141,8 +141,7 @@ testTokenization('systemverilog', [
 	],
 	[
 		{
-			line:
-				'assert property (@(clk) go ##1 get[*2] |-> !stop throughout put[->2]);',
+			line: 'assert property (@(clk) go ##1 get[*2] |-> !stop throughout put[->2]);',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.assert.sv' },
 				{ startIndex: 6, type: '' },
@@ -874,8 +873,7 @@ testTokenization('systemverilog', [
 	// Multiline Comments
 	[
 		{
-			line:
-				'/* temp_byte = data[0:7]; \\n m_buffer.push_back(temp_byte) */',
+			line: '/* temp_byte = data[0:7]; \\n m_buffer.push_back(temp_byte) */',
 			tokens: [{ startIndex: 0, type: 'comment.sv' }]
 		}
 	],

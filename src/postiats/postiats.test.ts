@@ -706,8 +706,7 @@ testTokenization('postiats', [
 			tokens: []
 		},
 		{
-			line:
-				'fun fact {n:nat} .<n>. (x: int n) : [r:int] (FACT(n, r) | int(r)) = (',
+			line: 'fun fact {n:nat} .<n>. (x: int n) : [r:int] (FACT(n, r) | int(r)) = (',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.pats' },
 				{ startIndex: 3, type: '' },

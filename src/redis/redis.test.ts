@@ -270,8 +270,7 @@ testTokenization('redis', [
 
 	[
 		{
-			line:
-				'GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"',
+			line: 'GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.redis' },
 				{ startIndex: 6, type: 'white.redis' },

@@ -125,18 +125,7 @@ export const language = <languages.IMonarchLanguage>{
 		'source'
 	],
 
-	special: [
-		'\\n',
-		'\\r',
-		'\\t',
-		'\\b',
-		'\\a',
-		'\\f',
-		'\\v',
-		"\\'",
-		'\\"',
-		'\\\\'
-	],
+	special: ['\\n', '\\r', '\\t', '\\b', '\\a', '\\f', '\\v', "\\'", '\\"', '\\\\'],
 
 	brackets: [
 		{ open: '{', close: '}', token: 'delimiter.curly' },

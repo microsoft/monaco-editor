@@ -347,10 +347,7 @@ export const language = <languages.IMonarchLanguage>{
 	tokenizer: {
 		root: [
 			[/(::)\s*|\b(isa)\s+/, 'keyword', '@typeanno'],
-			[
-				/\b(isa)(\s*\(@ident\s*,\s*)/,
-				['keyword', { token: '', next: '@typeanno' }]
-			],
+			[/\b(isa)(\s*\(@ident\s*,\s*)/, ['keyword', { token: '', next: '@typeanno' }]],
 			[/\b(type|struct)[ \t]+/, 'keyword', '@typeanno'],
 
 			// symbols
@@ -438,10 +435,7 @@ export const language = <languages.IMonarchLanguage>{
 		// type
 		typeanno: [
 			[/[a-zA-Z_]\w*(?:\.[a-zA-Z_]\w*)*\{/, 'type', '@gen'],
-			[
-				/([a-zA-Z_]\w*(?:\.[a-zA-Z_]\w*)*)(\s*<:\s*)/,
-				['type', 'keyword']
-			],
+			[/([a-zA-Z_]\w*(?:\.[a-zA-Z_]\w*)*)(\s*<:\s*)/, ['type', 'keyword']],
 			[/[a-zA-Z_]\w*(?:\.[a-zA-Z_]\w*)*/, 'type', '@pop'],
 			['', '', '@pop']
 		],

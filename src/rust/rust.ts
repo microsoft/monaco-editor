@@ -301,10 +301,7 @@ export const language = <languages.IMonarchLanguage>{
 			],
 
 			[/[{}()\[\]<>]/, '@brackets'],
-			[
-				/@symbols/,
-				{ cases: { '@operators': 'operator', '@default': '' } }
-			]
+			[/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }]
 		],
 
 		whitespace: [
@@ -332,10 +329,7 @@ export const language = <languages.IMonarchLanguage>{
 			//Binary
 			[/(0b[0-1_]+)(@intSuffixes)?/, { token: 'number' }],
 			//Exponent
-			[
-				/[\d][\d_]*(\.[\d][\d_]*)?[eE][+-][\d_]+(@floatSuffixes)?/,
-				{ token: 'number' }
-			],
+			[/[\d][\d_]*(\.[\d][\d_]*)?[eE][+-][\d_]+(@floatSuffixes)?/, { token: 'number' }],
 			//Float
 			[/\b(\d\.?[\d_]*)(@floatSuffixes)?\b/, { token: 'number' }],
 			//Hexadecimal

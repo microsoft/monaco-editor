@@ -89,10 +89,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/^(\t|[ ]{4})[^ ].*$/, 'string'],
 
 			// code block (3 tilde)
-			[
-				/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/,
-				{ token: 'string', next: '@codeblock' }
-			],
+			[/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: 'string', next: '@codeblock' }],
 
 			// github style code blocks (with backticks and language)
 			[
@@ -138,10 +135,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		// github style code blocks
 		codeblockgh: [
-			[
-				/```\s*$/,
-				{ token: 'variable.source', next: '@pop', nextEmbedded: '@pop' }
-			],
+			[/```\s*$/, { token: 'variable.source', next: '@pop', nextEmbedded: '@pop' }],
 			[/[^`]+/, 'variable.source']
 		],
 
@@ -159,10 +153,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// links
 			[/\{+[^}]+\}+/, 'string.target'],
-			[
-				/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/,
-				['string.link', '', 'string.link']
-			],
+			[/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/, ['string.link', '', 'string.link']],
 			[/(!?\[)((?:[^\]\\]|@escapes)*)(\])/, 'string.link'],
 
 			// or html
@@ -258,19 +249,13 @@ export const language = <languages.IMonarchLanguage>{
 
 		embeddedStyle: [
 			[/[^<]+/, ''],
-			[
-				/<\/style\s*>/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			],
+			[/<\/style\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
 			[/</, '']
 		],
 
 		embeddedScript: [
 			[/[^<]+/, ''],
-			[
-				/<\/script\s*>/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			],
+			[/<\/script\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
 			[/</, '']
 		]
 	}

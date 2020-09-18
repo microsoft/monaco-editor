@@ -173,8 +173,7 @@ testTokenization(
 		// HTML Expressions
 		[
 			{
-				line:
-					'<script type="text/x-handlebars-template"><h1>{{ title }}</h1></script>',
+				line: '<script type="text/x-handlebars-template"><h1>{{ title }}</h1></script>',
 				tokens: [
 					{ startIndex: 0, type: 'delimiter.html' },
 					{ startIndex: 1, type: 'tag.html' },

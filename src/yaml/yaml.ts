@@ -36,18 +36,7 @@ export const language = <languages.IMonarchLanguage>{
 		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
-	keywords: [
-		'true',
-		'True',
-		'TRUE',
-		'false',
-		'False',
-		'FALSE',
-		'null',
-		'Null',
-		'Null',
-		'~'
-	],
+	keywords: ['true', 'True', 'TRUE', 'false', 'False', 'FALSE', 'null', 'Null', 'Null', '~'],
 
 	numberInteger: /(?:0|[+-]?[0-9]+)/,
 	numberFloat: /(?:0|[+-]?[0-9]+)(?:\.[0-9]+)?(?:e[-+][1-9][0-9]*)?/,
@@ -89,10 +78,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/@numberDate(?![ \t]*\S+)/, 'number.date'],
 
 			// Key:Value pair
-			[
-				/(".*?"|'.*?'|.*?)([ \t]*)(:)( |$)/,
-				['type', 'white', 'operators', 'white']
-			],
+			[/(".*?"|'.*?'|.*?)([ \t]*)(:)( |$)/, ['type', 'white', 'operators', 'white']],
 
 			{ include: '@flowScalars' },
 

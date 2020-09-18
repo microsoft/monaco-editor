@@ -56,9 +56,7 @@ export const conf: languages.LanguageConfiguration = {
 	onEnterRules: [
 		{
 			beforeText: new RegExp(
-				`<(?!(?:${EMPTY_ELEMENTS.join(
-					'|'
-				)}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
+				`<(?!(?:${EMPTY_ELEMENTS.join('|')}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
 				'i'
 			),
 			afterText: /^<\/(\w[\w\d]*)\s*>$/i,
@@ -68,9 +66,7 @@ export const conf: languages.LanguageConfiguration = {
 		},
 		{
 			beforeText: new RegExp(
-				`<(?!(?:${EMPTY_ELEMENTS.join(
-					'|'
-				)}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
+				`<(?!(?:${EMPTY_ELEMENTS.join('|')}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
 				'i'
 			),
 			action: { indentAction: languages.IndentAction.Indent }
@@ -88,29 +84,14 @@ export const language = <languages.IMonarchLanguage>{
 		root: [
 			[/\{\{!--/, 'comment.block.start.handlebars', '@commentBlock'],
 			[/\{\{!/, 'comment.start.handlebars', '@comment'],
-			[
-				/\{\{/,
-				{ token: '@rematch', switchTo: '@handlebarsInSimpleState.root' }
-			],
+			[/\{\{/, { token: '@rematch', switchTo: '@handlebarsInSimpleState.root' }],
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
 			[/<!--/, 'comment.html', '@commentHtml'],
 			[/(<)(\w+)(\/>)/, ['delimiter.html', 'tag.html', 'delimiter.html']],
-			[
-				/(<)(script)/,
-				['delimiter.html', { token: 'tag.html', next: '@script' }]
-			],
-			[
-				/(<)(style)/,
-				['delimiter.html', { token: 'tag.html', next: '@style' }]
-			],
-			[
-				/(<)([:\w]+)/,
-				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
-			],
-			[
-				/(<\/)(\w+)/,
-				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
-			],
+			[/(<)(script)/, ['delimiter.html', { token: 'tag.html', next: '@script' }]],
+			[/(<)(style)/, ['delimiter.html', { token: 'tag.html', next: '@style' }]],
+			[/(<)([:\w]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
+			[/(<\/)(\w+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
 			[/</, 'delimiter.html'],
 			[/\{/, 'delimiter.html'],
 			[/[^<{]+/] // text
@@ -194,11 +175,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/], // whitespace
 			[
 				/(<\/)(script\s*)(>)/,
-				[
-					'delimiter.html',
-					'tag.html',
-					{ token: 'delimiter.html', next: '@pop' }
-				]
+				['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]
 			]
 		],
 
@@ -265,8 +242,7 @@ export const language = <languages.IMonarchLanguage>{
 				/\{\{/,
 				{
 					token: '@rematch',
-					switchTo:
-						'@handlebarsInSimpleState.scriptWithCustomType.$S2'
+					switchTo: '@handlebarsInSimpleState.scriptWithCustomType.$S2'
 				}
 			],
 			[
@@ -294,10 +270,7 @@ export const language = <languages.IMonarchLanguage>{
 					nextEmbedded: '@pop'
 				}
 			],
-			[
-				/<\/script/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			]
+			[/<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
 		],
 
 		// -- END <script> tags handling
@@ -329,11 +302,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/], // whitespace
 			[
 				/(<\/)(style\s*)(>)/,
-				[
-					'delimiter.html',
-					'tag.html',
-					{ token: 'delimiter.html', next: '@pop' }
-				]
+				['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]
 			]
 		],
 
@@ -428,20 +397,14 @@ export const language = <languages.IMonarchLanguage>{
 					nextEmbedded: '@pop'
 				}
 			],
-			[
-				/<\/style/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			]
+			[/<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
 		],
 
 		// -- END <style> tags handling
 
 		handlebarsInSimpleState: [
 			[/\{\{\{?/, 'delimiter.handlebars'],
-			[
-				/\}\}\}?/,
-				{ token: 'delimiter.handlebars', switchTo: '@$S2.$S3' }
-			],
+			[/\}\}\}?/, { token: 'delimiter.handlebars', switchTo: '@$S2.$S3' }],
 			{ include: 'handlebarsRoot' }
 		],
 

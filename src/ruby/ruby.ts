@@ -165,17 +165,7 @@ export const language = <languages.IMonarchLanguage>{
 		'unless'
 	],
 
-	linedecls: [
-		'def',
-		'case',
-		'do',
-		'begin',
-		'for',
-		'if',
-		'while',
-		'until',
-		'unless'
-	],
+	linedecls: ['def', 'case', 'do', 'begin', 'for', 'if', 'while', 'until', 'unless'],
 
 	operators: [
 		'^',
@@ -295,18 +285,12 @@ export const language = <languages.IMonarchLanguage>{
 			[/@@[\w]*/, 'namespace.class.identifier'], // class
 
 			// here document
-			[
-				/<<[-~](@heredelim).*/,
-				{ token: 'string.heredoc.delimiter', next: '@heredoc.$1' }
-			],
+			[/<<[-~](@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 			[
 				/[ \t\r\n]+<<(@heredelim).*/,
 				{ token: 'string.heredoc.delimiter', next: '@heredoc.$1' }
 			],
-			[
-				/^<<(@heredelim).*/,
-				{ token: 'string.heredoc.delimiter', next: '@heredoc.$1' }
-			],
+			[/^<<(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -325,10 +309,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/:'/, { token: 'string.s.delim', next: '@sstring.s' }],
 
 			// regular expressions. Lookahead for a (not escaped) closing forwardslash on the same line
-			[
-				/\/(?=(\\\/|[^\/\n])+\/)/,
-				{ token: 'regexp.delim', next: '@regexp' }
-			],
+			[/\/(?=(\\\/|[^\/\n])+\/)/, { token: 'regexp.delim', next: '@regexp' }],
 
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
@@ -525,14 +506,8 @@ export const language = <languages.IMonarchLanguage>{
 					{ token: 'regexp.escape.control', next: '@regexrange' }
 				]
 			],
-			[
-				/(\()(\?[:=!])/,
-				['@brackets.regexp.escape.control', 'regexp.escape.control']
-			],
-			[
-				/\(\?#/,
-				{ token: 'regexp.escape.control', next: '@regexpcomment' }
-			],
+			[/(\()(\?[:=!])/, ['@brackets.regexp.escape.control', 'regexp.escape.control']],
+			[/\(\?#/, { token: 'regexp.escape.control', next: '@regexpcomment' }],
 			[/[()]/, '@brackets.regexp.escape.control'],
 			[/@regexpctl/, 'regexp.escape.control'],
 			[/\\$/, 'regexp.escape'],
@@ -558,56 +533,23 @@ export const language = <languages.IMonarchLanguage>{
 		// % quoted strings
 		// A bit repetitive since we need to often special case the kind of ending delimiter
 		pstring: [
-			[
-				/%([qws])\(/,
-				{ token: 'string.$1.delim', switchTo: '@qstring.$1.(.)' }
-			],
-			[
-				/%([qws])\[/,
-				{ token: 'string.$1.delim', switchTo: '@qstring.$1.[.]' }
-			],
-			[
-				/%([qws])\{/,
-				{ token: 'string.$1.delim', switchTo: '@qstring.$1.{.}' }
-			],
-			[
-				/%([qws])</,
-				{ token: 'string.$1.delim', switchTo: '@qstring.$1.<.>' }
-			],
-			[
-				/%([qws])(@delim)/,
-				{ token: 'string.$1.delim', switchTo: '@qstring.$1.$2.$2' }
-			],
+			[/%([qws])\(/, { token: 'string.$1.delim', switchTo: '@qstring.$1.(.)' }],
+			[/%([qws])\[/, { token: 'string.$1.delim', switchTo: '@qstring.$1.[.]' }],
+			[/%([qws])\{/, { token: 'string.$1.delim', switchTo: '@qstring.$1.{.}' }],
+			[/%([qws])</, { token: 'string.$1.delim', switchTo: '@qstring.$1.<.>' }],
+			[/%([qws])(@delim)/, { token: 'string.$1.delim', switchTo: '@qstring.$1.$2.$2' }],
 
 			[/%r\(/, { token: 'regexp.delim', switchTo: '@pregexp.(.)' }],
 			[/%r\[/, { token: 'regexp.delim', switchTo: '@pregexp.[.]' }],
 			[/%r\{/, { token: 'regexp.delim', switchTo: '@pregexp.{.}' }],
 			[/%r</, { token: 'regexp.delim', switchTo: '@pregexp.<.>' }],
-			[
-				/%r(@delim)/,
-				{ token: 'regexp.delim', switchTo: '@pregexp.$1.$1' }
-			],
+			[/%r(@delim)/, { token: 'regexp.delim', switchTo: '@pregexp.$1.$1' }],
 
-			[
-				/%(x|W|Q?)\(/,
-				{ token: 'string.$1.delim', switchTo: '@qqstring.$1.(.)' }
-			],
-			[
-				/%(x|W|Q?)\[/,
-				{ token: 'string.$1.delim', switchTo: '@qqstring.$1.[.]' }
-			],
-			[
-				/%(x|W|Q?)\{/,
-				{ token: 'string.$1.delim', switchTo: '@qqstring.$1.{.}' }
-			],
-			[
-				/%(x|W|Q?)</,
-				{ token: 'string.$1.delim', switchTo: '@qqstring.$1.<.>' }
-			],
-			[
-				/%(x|W|Q?)(@delim)/,
-				{ token: 'string.$1.delim', switchTo: '@qqstring.$1.$2.$2' }
-			],
+			[/%(x|W|Q?)\(/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.(.)' }],
+			[/%(x|W|Q?)\[/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.[.]' }],
+			[/%(x|W|Q?)\{/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.{.}' }],
+			[/%(x|W|Q?)</, { token: 'string.$1.delim', switchTo: '@qqstring.$1.<.>' }],
+			[/%(x|W|Q?)(@delim)/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.$2.$2' }],
 
 			[/%([rqwsxW]|Q?)./, { token: 'invalid', next: '@pop' }], // recover
 			[/./, { token: 'invalid', next: '@pop' }] // recover
@@ -638,10 +580,7 @@ export const language = <languages.IMonarchLanguage>{
 		//  kind = Q|W|x  (double quote, array, command)
 		//  open = open delimiter
 		//  close = close delimiter
-		qqstring: [
-			[/#/, 'string.$S2.escape', '@interpolated'],
-			{ include: '@qstring' }
-		],
+		qqstring: [[/#/, 'string.$S2.escape', '@interpolated'], { include: '@qstring' }],
 
 		// whitespace & comments
 		whitespace: [

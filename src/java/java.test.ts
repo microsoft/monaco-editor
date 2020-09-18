@@ -233,8 +233,7 @@ testTokenization('java', [
 	// Keywords
 	[
 		{
-			line:
-				'package test; class Program { static void main(String[] args) {} } }',
+			line: 'package test; class Program { static void main(String[] args) {} } }',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.package.java' },
 				{ startIndex: 7, type: '' },

@@ -20,9 +20,7 @@ const lazyLanguageLoaders: { [languageId: string]: LazyLanguageLoader } = {};
 class LazyLanguageLoader {
 	public static getOrCreate(languageId: string): LazyLanguageLoader {
 		if (!lazyLanguageLoaders[languageId]) {
-			lazyLanguageLoaders[languageId] = new LazyLanguageLoader(
-				languageId
-			);
+			lazyLanguageLoaders[languageId] = new LazyLanguageLoader(languageId);
 		}
 		return lazyLanguageLoaders[languageId];
 	}

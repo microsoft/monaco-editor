@@ -299,23 +299,13 @@ export const language = {
 		regexp: [
 			[
 				/(\{)(\d+(?:,\d*)?)(\})/,
-				[
-					'regexp.escape.control',
-					'regexp.escape.control',
-					'regexp.escape.control'
-				]
+				['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']
 			],
 			[
 				/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
-				[
-					'regexp.escape.control',
-					{ token: 'regexp.escape.control', next: '@regexrange' }
-				]
+				['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]
 			],
-			[
-				/(\()(\?:|\?=|\?!)/,
-				['regexp.escape.control', 'regexp.escape.control']
-			],
+			[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
 			[/[()]/, 'regexp.escape.control'],
 			[/@regexpctl/, 'regexp.escape.control'],
 			[/[^\\\/]/, 'regexp'],
@@ -323,10 +313,7 @@ export const language = {
 			[/\\\./, 'regexp.invalid'],
 			[
 				/(\/)([gimsuy]*)/,
-				[
-					{ token: 'regexp', bracket: '@close', next: '@pop' },
-					'keyword.other'
-				]
+				[{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']
 			]
 		],
 

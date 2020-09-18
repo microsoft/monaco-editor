@@ -58,9 +58,7 @@ export const conf: languages.LanguageConfiguration = {
 	onEnterRules: [
 		{
 			beforeText: new RegExp(
-				`<(?!(?:${EMPTY_ELEMENTS.join(
-					'|'
-				)}))([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`,
+				`<(?!(?:${EMPTY_ELEMENTS.join('|')}))([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`,
 				'i'
 			),
 			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
@@ -70,9 +68,7 @@ export const conf: languages.LanguageConfiguration = {
 		},
 		{
 			beforeText: new RegExp(
-				`<(?!(?:${EMPTY_ELEMENTS.join(
-					'|'
-				)}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
+				`<(?!(?:${EMPTY_ELEMENTS.join('|')}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
 				'i'
 			),
 			action: { indentAction: languages.IndentAction.Indent }
@@ -97,20 +93,11 @@ export const language = <languages.IMonarchLanguage>{
 		root: [
 			[/<!DOCTYPE/, 'metatag', '@doctype'],
 			[/<!--/, 'comment', '@comment'],
-			[
-				/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/,
-				['delimiter', 'tag', '', 'delimiter']
-			],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/, ['delimiter', 'tag', '', 'delimiter']],
 			[/(<)(script)/, ['delimiter', { token: 'tag', next: '@script' }]],
 			[/(<)(style)/, ['delimiter', { token: 'tag', next: '@style' }]],
-			[
-				/(<)((?:[\w\-]+:)?[\w\-]+)/,
-				['delimiter', { token: 'tag', next: '@otherTag' }]
-			],
-			[
-				/(<\/)((?:[\w\-]+:)?[\w\-]+)/,
-				['delimiter', { token: 'tag', next: '@otherTag' }]
-			],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
+			[/(<\/)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
 			[/</, 'delimiter'],
 			[/[^<]+/] // text
 		],
@@ -153,10 +140,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 			[/[ \t\r\n]+/], // whitespace
-			[
-				/(<\/)(script\s*)(>)/,
-				['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]
-			]
+			[/(<\/)(script\s*)(>)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
 		],
 
 		// After <script ... type
@@ -221,10 +205,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		scriptEmbedded: [
-			[
-				/<\/script/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			],
+			[/<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
 			[/[^<]+/, '']
 		],
 
@@ -248,10 +229,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 			[/[ \t\r\n]+/], // whitespace
-			[
-				/(<\/)(style\s*)(>)/,
-				['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]
-			]
+			[/(<\/)(style\s*)(>)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
 		],
 
 		// After <style ... type
@@ -316,10 +294,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		styleEmbedded: [
-			[
-				/<\/style/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			],
+			[/<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
 			[/[^<]+/, '']
 		]
 

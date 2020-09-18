@@ -864,10 +864,7 @@ testTokenization('clojure', [
 	],
 
 	// comments
-	createTestCases(
-		['; this is an in-line comment.', ';; this is a line comment.'],
-		'comment'
-	),
+	createTestCases(['; this is an in-line comment.', ';; this is a line comment.'], 'comment'),
 
 	// `comment`
 	[

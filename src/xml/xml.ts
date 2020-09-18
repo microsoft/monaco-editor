@@ -38,33 +38,19 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@whitespace' },
 
 			// Standard opening tag
-			[
-				/(<)(@qualifiedName)/,
-				[{ token: 'delimiter' }, { token: 'tag', next: '@tag' }]
-			],
+			[/(<)(@qualifiedName)/, [{ token: 'delimiter' }, { token: 'tag', next: '@tag' }]],
 
 			// Standard closing tag
 			[
 				/(<\/)(@qualifiedName)(\s*)(>)/,
-				[
-					{ token: 'delimiter' },
-					{ token: 'tag' },
-					'',
-					{ token: 'delimiter' }
-				]
+				[{ token: 'delimiter' }, { token: 'tag' }, '', { token: 'delimiter' }]
 			],
 
 			// Meta tags - instruction
-			[
-				/(<\?)(@qualifiedName)/,
-				[{ token: 'delimiter' }, { token: 'metatag', next: '@tag' }]
-			],
+			[/(<\?)(@qualifiedName)/, [{ token: 'delimiter' }, { token: 'metatag', next: '@tag' }]],
 
 			// Meta tags - declaration
-			[
-				/(<\!)(@qualifiedName)/,
-				[{ token: 'delimiter' }, { token: 'metatag', next: '@tag' }]
-			],
+			[/(<\!)(@qualifiedName)/, [{ token: 'delimiter' }, { token: 'metatag', next: '@tag' }]],
 
 			// CDATA
 			[/<\!\[CDATA\[/, { token: 'delimiter.cdata', next: '@cdata' }],
@@ -94,10 +80,7 @@ export const language = <languages.IMonarchLanguage>{
 			],
 			[/@qualifiedName/, 'attribute.name'],
 			[/\?>/, { token: 'delimiter', next: '@pop' }],
-			[
-				/(\/)(>)/,
-				[{ token: 'tag' }, { token: 'delimiter', next: '@pop' }]
-			],
+			[/(\/)(>)/, [{ token: 'tag' }, { token: 'delimiter', next: '@pop' }]],
 			[/>/, { token: 'delimiter', next: '@pop' }]
 		],
 

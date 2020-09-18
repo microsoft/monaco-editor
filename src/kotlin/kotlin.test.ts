@@ -229,8 +229,7 @@ testTokenization('kotlin', [
 	// Keywords
 	[
 		{
-			line:
-				'package test class Program { fun main(vararg args: String) {} } }',
+			line: 'package test class Program { fun main(vararg args: String) {} } }',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.package.kt' },
 				{ startIndex: 7, type: '' },

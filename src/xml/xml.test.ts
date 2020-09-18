@@ -415,8 +415,7 @@ testTokenization('xml', [
 			]
 		},
 		{
-			line:
-				'<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">',
+			line: '<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">',
 			tokens: [
 				{ startIndex: 0, type: 'delimiter.xml' },
 				{ startIndex: 1, type: 'tag.xml' },
@@ -450,8 +449,7 @@ testTokenization('xml', [
 			]
 		},
 		{
-			line:
-				'      connectionString="value for the deployed Web.config file" ',
+			line: '      connectionString="value for the deployed Web.config file" ',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 6, type: 'attribute.name.xml' },
@@ -461,8 +459,7 @@ testTokenization('xml', [
 			]
 		},
 		{
-			line:
-				'      xdt:Transform="SetAttributes" xdt:Locator="Match(name)"/>',
+			line: '      xdt:Transform="SetAttributes" xdt:Locator="Match(name)"/>',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 6, type: 'attribute.name.xml' },
@@ -521,8 +518,7 @@ testTokenization('xml', [
 			]
 		},
 		{
-			line:
-				'      <error statusCode="500" redirect="InternalError.htm"/>',
+			line: '      <error statusCode="500" redirect="InternalError.htm"/>',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 6, type: 'delimiter.xml' },
@@ -562,8 +558,7 @@ testTokenization('xml', [
 			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
-			line:
-				'	<!-- The stuff below was added for extra tokenizer testing -->',
+			line: '	<!-- The stuff below was added for extra tokenizer testing -->',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 1, type: 'comment.xml' },

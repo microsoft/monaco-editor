@@ -460,10 +460,7 @@ export const language = <languages.IMonarchLanguage>{
 			],
 
 			// include statements
-			[
-				/^\s*`include/,
-				{ token: 'keyword.directive.include', next: '@include' }
-			],
+			[/^\s*`include/, { token: 'keyword.directive.include', next: '@include' }],
 
 			// Preprocessor directives
 			[/^\s*`\s*\w+/, 'keyword'],
@@ -518,22 +515,10 @@ export const language = <languages.IMonarchLanguage>{
 		numbers: [
 			[/\d+?[\d_]*(?:\.[\d_]+)?[eE][\-+]?\d+/, 'number.float'],
 			[/\d+?[\d_]*\.[\d_]+(?:\s*@timeunits)?/, 'number.float'],
-			[
-				/(?:\d+?[\d_]*\s*)?'[sS]?[dD]\s*[0-9xXzZ?]+?[0-9xXzZ?_]*/,
-				'number'
-			],
-			[
-				/(?:\d+?[\d_]*\s*)?'[sS]?[bB]\s*[0-1xXzZ?]+?[0-1xXzZ?_]*/,
-				'number.binary'
-			],
-			[
-				/(?:\d+?[\d_]*\s*)?'[sS]?[oO]\s*[0-7xXzZ?]+?[0-7xXzZ?_]*/,
-				'number.octal'
-			],
-			[
-				/(?:\d+?[\d_]*\s*)?'[sS]?[hH]\s*[0-9a-fA-FxXzZ?]+?[0-9a-fA-FxXzZ?_]*/,
-				'number.hex'
-			],
+			[/(?:\d+?[\d_]*\s*)?'[sS]?[dD]\s*[0-9xXzZ?]+?[0-9xXzZ?_]*/, 'number'],
+			[/(?:\d+?[\d_]*\s*)?'[sS]?[bB]\s*[0-1xXzZ?]+?[0-1xXzZ?_]*/, 'number.binary'],
+			[/(?:\d+?[\d_]*\s*)?'[sS]?[oO]\s*[0-7xXzZ?]+?[0-7xXzZ?_]*/, 'number.octal'],
+			[/(?:\d+?[\d_]*\s*)?'[sS]?[hH]\s*[0-9a-fA-FxXzZ?]+?[0-9a-fA-FxXzZ?_]*/, 'number.hex'],
 			[/1step/, 'number'],
 			[/[\dxXzZ]+?[\dxXzZ_]*(?:\s*@timeunits)?/, 'number'],
 			[/'[01xXzZ]+/, 'number']
@@ -541,10 +526,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		module_instance: [
 			{ include: '@whitespace' },
-			[
-				/(#?)(\()/,
-				['', { token: '@brackets', next: '@port_connection' }]
-			],
+			[/(#?)(\()/, ['', { token: '@brackets', next: '@port_connection' }]],
 			[/@identifier\s*[;={}\[\],]/, { token: '@rematch', next: '@pop' }],
 			[/@symbols|[;={}\[\],]/, { token: '@rematch', next: '@pop' }],
 			[/@identifier/, 'type'],

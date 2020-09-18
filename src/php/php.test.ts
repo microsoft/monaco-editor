@@ -2182,8 +2182,7 @@ testTokenization(
 		// html/js/php/js/
 		[
 			{
-				line:
-					'<abc><script>var i= 10;</script><?php5+3?><script>var x= 15;</script>',
+				line: '<abc><script>var i= 10;</script><?php5+3?><script>var x= 15;</script>',
 				tokens: [
 					{ startIndex: 0, type: 'delimiter.html' },
 					{ startIndex: 1, type: 'tag.html' },

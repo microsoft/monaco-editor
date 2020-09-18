@@ -385,8 +385,7 @@ testTokenization('pug', [
 			tokens: [{ startIndex: 0, type: 'comment.pug' }]
 		},
 		{
-			line:
-				'         syntax highlighting to kick in properly (especially for comments)',
+			line: '         syntax highlighting to kick in properly (especially for comments)',
 			tokens: [{ startIndex: 0, type: 'comment.pug' }]
 		},
 		{

@@ -569,8 +569,7 @@ testTokenization(
 		// Tag with Angular Attribute Name
 		[
 			{
-				line:
-					'<abc #myinput (click)="bar" [value]="someProperty" *ngIf="someCondition">',
+				line: '<abc #myinput (click)="bar" [value]="someProperty" *ngIf="someCondition">',
 				tokens: [
 					{ startIndex: 0, type: 'delimiter.html' },
 					{ startIndex: 1, type: 'tag.html' },

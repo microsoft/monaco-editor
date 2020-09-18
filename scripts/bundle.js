@@ -22,10 +22,7 @@ const BUNDLED_FILE_HEADER = [
 ].join('\n');
 
 bundleOne('monaco.contribution');
-glob('out/amd/*/*.contribution.js', { cwd: path.dirname(__dirname) }, function (
-	err,
-	files
-) {
+glob('out/amd/*/*.contribution.js', { cwd: path.dirname(__dirname) }, function (err, files) {
 	if (err) {
 		console.log(err);
 		return;
@@ -52,14 +49,8 @@ function bundleOne(moduleId, exclude) {
 			optimize: 'none'
 		},
 		async function (buildResponse) {
-			const devFilePath = path.join(
-				REPO_ROOT,
-				'release/dev/' + moduleId + '.js'
-			);
-			const minFilePath = path.join(
-				REPO_ROOT,
-				'release/min/' + moduleId + '.js'
-			);
+			const devFilePath = path.join(REPO_ROOT, 'release/dev/' + moduleId + '.js');
+			const minFilePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
 			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
 			console.log(`Minifying ${devFilePath}...`);

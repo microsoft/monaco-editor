@@ -194,10 +194,7 @@ export const language = <languages.IMonarchLanguage>{
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/@symbols/, 'operator'],
-			[
-				/\$+(?:\:\:)?\{/,
-				{ token: 'identifier', next: '@nestedVariable' }
-			],
+			[/\$+(?:\:\:)?\{/, { token: 'identifier', next: '@nestedVariable' }],
 			[/@variables/, 'type.identifier'],
 			[/\.(?!\d|\.)[\w\-]*/, 'operator.sql'],
 
@@ -209,19 +206,13 @@ export const language = <languages.IMonarchLanguage>{
 			[/;/, 'delimiter'],
 
 			// strings
-			[
-				/"/,
-				{ token: 'string.quote', bracket: '@open', next: '@dstring' }
-			],
+			[/"/, { token: 'string.quote', bracket: '@open', next: '@dstring' }],
 			[/'/, { token: 'string.quote', bracket: '@open', next: '@sstring' }]
 		],
 
 		dstring: [
 			[/\[/, { token: '@brackets', next: '@nestedCall' }],
-			[
-				/\$+(?:\:\:)?\{/,
-				{ token: 'identifier', next: '@nestedVariable' }
-			],
+			[/\$+(?:\:\:)?\{/, { token: 'identifier', next: '@nestedVariable' }],
 			[/@variables/, 'type.identifier'],
 			[/[^\\$\[\]"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
@@ -230,10 +221,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		sstring: [
 			[/\[/, { token: '@brackets', next: '@nestedCall' }],
-			[
-				/\$+(?:\:\:)?\{/,
-				{ token: 'identifier', next: '@nestedVariable' }
-			],
+			[/\$+(?:\:\:)?\{/, { token: 'identifier', next: '@nestedVariable' }],
 			[/@variables/, 'type.identifier'],
 			[/[^\\$\[\]']+/, 'string'],
 			[/@escapes/, 'string.escape'],

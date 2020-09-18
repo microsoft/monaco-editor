@@ -233,8 +233,7 @@ testTokenization('apex', [
 	// Keywords
 	[
 		{
-			line:
-				'package test; class Program { static void main(String[] args) {} } }',
+			line: 'package test; class Program { static void main(String[] args) {} } }',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.package.apex' },
 				{ startIndex: 7, type: '' },
@@ -271,8 +270,7 @@ testTokenization('apex', [
 	// Keywords with case variations
 	[
 		{
-			line:
-				'Package test; CLASS Program { Static void main(String[] args) {} } }',
+			line: 'Package test; CLASS Program { Static void main(String[] args) {} } }',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.Package.apex' },
 				{ startIndex: 7, type: '' },

@@ -102,14 +102,8 @@ export const language = <languages.IMonarchLanguage>{
 				/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/,
 				['delimiter.html', 'tag.html', '', 'delimiter.html']
 			],
-			[
-				/(<)(script)/,
-				['delimiter.html', { token: 'tag.html', next: '@script' }]
-			],
-			[
-				/(<)(style)/,
-				['delimiter.html', { token: 'tag.html', next: '@style' }]
-			],
+			[/(<)(script)/, ['delimiter.html', { token: 'tag.html', next: '@script' }]],
+			[/(<)(style)/, ['delimiter.html', { token: 'tag.html', next: '@style' }]],
 			[
 				/(<)((?:[\w\-]+:)?[\w\-]+)/,
 				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
@@ -142,11 +136,7 @@ export const language = <languages.IMonarchLanguage>{
 			// transition to ensure we mark its contents as strings.
 			[
 				/(verbatim)(\s*)([-~]?%})/,
-				[
-					'keyword.twig',
-					'',
-					{ token: 'delimiter.twig', next: '@rawDataState' }
-				]
+				['keyword.twig', '', { token: 'delimiter.twig', next: '@rawDataState' }]
 			],
 			{ include: 'expression' }
 		],
@@ -169,10 +159,7 @@ export const language = <languages.IMonarchLanguage>{
 		/**
 		 * Variable Tag Handling
 		 */
-		variableState: [
-			[/[-~]?}}/, 'delimiter.twig', '@pop'],
-			{ include: 'expression' }
-		],
+		variableState: [[/[-~]?}}/, 'delimiter.twig', '@pop'], { include: 'expression' }],
 
 		stringState: [
 			// closing double quoted string
@@ -224,10 +211,7 @@ export const language = <languages.IMonarchLanguage>{
 			// punctuation
 			[/\(|\)|\[|\]|{|}|,/, 'delimiter.twig'],
 			// strings
-			[
-				/"([^#"\\]*(?:\\.[^#"\\]*)*)"|\'([^\'\\]*(?:\\.[^\'\\]*)*)\'/,
-				'string.twig'
-			],
+			[/"([^#"\\]*(?:\\.[^#"\\]*)*)"|\'([^\'\\]*(?:\\.[^\'\\]*)*)\'/, 'string.twig'],
 			// opening double quoted string
 			[/"/, 'string.twig', '@stringState'],
 
@@ -283,11 +267,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/], // whitespace
 			[
 				/(<\/)(script\s*)(>)/,
-				[
-					'delimiter.html',
-					'tag.html',
-					{ token: 'delimiter.html', next: '@pop' }
-				]
+				['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]
 			]
 		],
 
@@ -353,10 +333,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		scriptEmbedded: [
-			[
-				/<\/script/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			],
+			[/<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
 			[/[^<]+/, '']
 		],
 
@@ -382,11 +359,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/], // whitespace
 			[
 				/(<\/)(style\s*)(>)/,
-				[
-					'delimiter.html',
-					'tag.html',
-					{ token: 'delimiter.html', next: '@pop' }
-				]
+				['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]
 			]
 		],
 
@@ -452,10 +425,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		styleEmbedded: [
-			[
-				/<\/style/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			],
+			[/<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
 			[/[^<]+/, '']
 		]
 	}

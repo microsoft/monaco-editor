@@ -373,8 +373,7 @@ testTokenization(
 
 		[
 			{
-				line:
-					'.something(@some, @other) when (iscolor(@other)) { aname// my commen',
+				line: '.something(@some, @other) when (iscolor(@other)) { aname// my commen',
 				tokens: [
 					{ startIndex: 0, type: 'tag.class.less' },
 					{ startIndex: 10, type: 'delimiter.parenthesis.less' },
@@ -529,8 +528,7 @@ testTokenization(
 		// Escape Strings
 		[
 			{
-				line:
-					'.class { filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";',
+				line: '.class { filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";',
 				tokens: [
 					{ startIndex: 0, type: 'tag.class.less' },
 					{ startIndex: 6, type: '' },
@@ -736,8 +734,7 @@ testTokenization(
 		// Attribute in a .class(...)
 		[
 			{
-				line:
-					'.box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6));',
+				line: '.box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6));',
 				tokens: [
 					{ startIndex: 0, type: 'tag.class.less' },
 					{ startIndex: 11, type: 'delimiter.parenthesis.less' },
@@ -939,8 +936,7 @@ testTokenization(
 		// Difficult little bugs... => Numbers in classes
 		[
 			{
-				line:
-					'.translate3d(@x, @y, @z) { -webkit-transform: translate3d(@x, @y, @z); }',
+				line: '.translate3d(@x, @y, @z) { -webkit-transform: translate3d(@x, @y, @z); }',
 				tokens: [
 					{ startIndex: 0, type: 'tag.class.less' },
 					{ startIndex: 12, type: 'delimiter.parenthesis.less' },
@@ -1418,8 +1414,7 @@ testTokenization(
 		//	@import url('something.css');@import url('something.css');
 		[
 			{
-				line:
-					'@import url("something.css");@import url("something.css");',
+				line: '@import url("something.css");@import url("something.css");',
 				tokens: [
 					{ startIndex: 0, type: 'keyword.less' },
 					{ startIndex: 7, type: '' },

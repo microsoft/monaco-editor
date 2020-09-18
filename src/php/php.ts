@@ -43,57 +43,33 @@ export const language = <languages.IMonarchLanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-			[
-				/<\?((php)|=)?/,
-				{ token: '@rematch', switchTo: '@phpInSimpleState.root' }
-			],
+			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.root' }],
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
 			[/<!--/, 'comment.html', '@comment'],
 			[/(<)(\w+)(\/>)/, ['delimiter.html', 'tag.html', 'delimiter.html']],
-			[
-				/(<)(script)/,
-				['delimiter.html', { token: 'tag.html', next: '@script' }]
-			],
-			[
-				/(<)(style)/,
-				['delimiter.html', { token: 'tag.html', next: '@style' }]
-			],
-			[
-				/(<)([:\w]+)/,
-				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
-			],
-			[
-				/(<\/)(\w+)/,
-				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
-			],
+			[/(<)(script)/, ['delimiter.html', { token: 'tag.html', next: '@script' }]],
+			[/(<)(style)/, ['delimiter.html', { token: 'tag.html', next: '@style' }]],
+			[/(<)([:\w]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
+			[/(<\/)(\w+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
 			[/</, 'delimiter.html'],
 			[/[^<]+/] // text
 		],
 
 		doctype: [
-			[
-				/<\?((php)|=)?/,
-				{ token: '@rematch', switchTo: '@phpInSimpleState.comment' }
-			],
+			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.comment' }],
 			[/[^>]+/, 'metatag.content.html'],
 			[/>/, 'metatag.html', '@pop']
 		],
 
 		comment: [
-			[
-				/<\?((php)|=)?/,
-				{ token: '@rematch', switchTo: '@phpInSimpleState.comment' }
-			],
+			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.comment' }],
 			[/-->/, 'comment.html', '@pop'],
 			[/[^-]+/, 'comment.content.html'],
 			[/./, 'comment.content.html']
 		],
 
 		otherTag: [
-			[
-				/<\?((php)|=)?/,
-				{ token: '@rematch', switchTo: '@phpInSimpleState.otherTag' }
-			],
+			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.otherTag' }],
 			[/\/?>/, 'delimiter.html', '@pop'],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
@@ -106,10 +82,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		// After <script
 		script: [
-			[
-				/<\?((php)|=)?/,
-				{ token: '@rematch', switchTo: '@phpInSimpleState.script' }
-			],
+			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.script' }],
 			[/type/, 'attribute.name', '@scriptAfterType'],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
@@ -126,11 +99,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/], // whitespace
 			[
 				/(<\/)(script\s*)(>)/,
-				[
-					'delimiter.html',
-					'tag.html',
-					{ token: 'delimiter.html', next: '@pop' }
-				]
+				['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]
 			]
 		],
 
@@ -225,10 +194,7 @@ export const language = <languages.IMonarchLanguage>{
 					nextEmbedded: '@pop'
 				}
 			],
-			[
-				/<\/script/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			]
+			[/<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
 		],
 
 		// -- END <script> tags handling
@@ -237,10 +203,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		// After <style
 		style: [
-			[
-				/<\?((php)|=)?/,
-				{ token: '@rematch', switchTo: '@phpInSimpleState.style' }
-			],
+			[/<\?((php)|=)?/, { token: '@rematch', switchTo: '@phpInSimpleState.style' }],
 			[/type/, 'attribute.name', '@styleAfterType'],
 			[/"([^"]*)"/, 'attribute.value'],
 			[/'([^']*)'/, 'attribute.value'],
@@ -257,11 +220,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/], // whitespace
 			[
 				/(<\/)(style\s*)(>)/,
-				[
-					'delimiter.html',
-					'tag.html',
-					{ token: 'delimiter.html', next: '@pop' }
-				]
+				['delimiter.html', 'tag.html', { token: 'delimiter.html', next: '@pop' }]
 			]
 		],
 
@@ -356,10 +315,7 @@ export const language = <languages.IMonarchLanguage>{
 					nextEmbedded: '@pop'
 				}
 			],
-			[
-				/<\/style/,
-				{ token: '@rematch', next: '@pop', nextEmbedded: '@pop' }
-			]
+			[/<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
 		],
 
 		// -- END <style> tags handling

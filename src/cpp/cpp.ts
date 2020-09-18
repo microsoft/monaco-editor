@@ -281,10 +281,7 @@ export const language = <languages.IMonarchLanguage>{
 	tokenizer: {
 		root: [
 			// C++ 11 Raw String
-			[
-				/@encoding?R\"(?:([^ ()\\\t]*))\(/,
-				{ token: 'string.raw.begin', next: '@raw.$1' }
-			],
+			[/@encoding?R\"(?:([^ ()\\\t]*))\(/, { token: 'string.raw.begin', next: '@raw.$1' }],
 
 			// identifiers and keywords
 			[
@@ -303,10 +300,7 @@ export const language = <languages.IMonarchLanguage>{
 			// [[ attributes ]].
 			[/\[\[.*\]\]/, 'annotation'],
 
-			[
-				/^\s*#include/,
-				{ token: 'keyword.directive.include', next: '@include' }
-			],
+			[/^\s*#include/, { token: 'keyword.directive.include', next: '@include' }],
 
 			// Preprocessor directive
 			[/^\s*#\s*\w+/, 'keyword'],
@@ -383,12 +377,7 @@ export const language = <languages.IMonarchLanguage>{
 							'string.raw.end',
 							{ token: 'string.raw.end', next: '@pop' }
 						],
-						'@default': [
-							'string.raw',
-							'string.raw',
-							'string.raw',
-							'string.raw'
-						]
+						'@default': ['string.raw', 'string.raw', 'string.raw', 'string.raw']
 					}
 				}
 			],

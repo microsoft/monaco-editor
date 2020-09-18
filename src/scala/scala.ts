@@ -38,12 +38,8 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			start: new RegExp(
-				'^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'
-			),
-			end: new RegExp(
-				'^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))'
-			)
+			start: new RegExp('^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'),
+			end: new RegExp('^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))')
 		}
 	}
 };
@@ -127,50 +123,21 @@ export const language = <languages.IMonarchLanguage>{
 	tokenizer: {
 		root: [
 			// strings
-			[
-				/\braw"""/,
-				{ token: 'string.quote', bracket: '@open', next: '@rawstringt' }
-			],
-			[
-				/\braw"/,
-				{ token: 'string.quote', bracket: '@open', next: '@rawstring' }
-			],
+			[/\braw"""/, { token: 'string.quote', bracket: '@open', next: '@rawstringt' }],
+			[/\braw"/, { token: 'string.quote', bracket: '@open', next: '@rawstring' }],
 
-			[
-				/\bs"""/,
-				{ token: 'string.quote', bracket: '@open', next: '@sstringt' }
-			],
-			[
-				/\bs"/,
-				{ token: 'string.quote', bracket: '@open', next: '@sstring' }
-			],
+			[/\bs"""/, { token: 'string.quote', bracket: '@open', next: '@sstringt' }],
+			[/\bs"/, { token: 'string.quote', bracket: '@open', next: '@sstring' }],
 
-			[
-				/\bf""""/,
-				{ token: 'string.quote', bracket: '@open', next: '@fstringt' }
-			],
-			[
-				/\bf"/,
-				{ token: 'string.quote', bracket: '@open', next: '@fstring' }
-			],
+			[/\bf""""/, { token: 'string.quote', bracket: '@open', next: '@fstringt' }],
+			[/\bf"/, { token: 'string.quote', bracket: '@open', next: '@fstring' }],
 
-			[
-				/"""/,
-				{ token: 'string.quote', bracket: '@open', next: '@stringt' }
-			],
+			[/"""/, { token: 'string.quote', bracket: '@open', next: '@stringt' }],
 			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
 
 			// numbers
-			[
-				/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/,
-				'number.float',
-				'@allowMethod'
-			],
-			[
-				/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/,
-				'number.float',
-				'@allowMethod'
-			],
+			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float', '@allowMethod'],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float', '@allowMethod'],
 			[/0[xX](@hexdigits)[Ll]?/, 'number.hex', '@allowMethod'],
 			[/(@digits)[fFdD]/, 'number.float', '@allowMethod'],
 			[/(@digits)[lL]?/, 'number', '@allowMethod'],
@@ -180,10 +147,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// identifiers and keywords
 			[/\bimport\b/, 'keyword', '@import'],
-			[
-				/\b(case)([ \t]+)(class)\b/,
-				['keyword.modifier', 'white', 'keyword']
-			],
+			[/\b(case)([ \t]+)(class)\b/, ['keyword.modifier', 'white', 'keyword']],
 			[/\bcase\b/, 'keyword', '@case'],
 			[/\bva[lr]\b/, 'keyword', '@vardef'],
 			[
@@ -191,10 +155,7 @@ export const language = <languages.IMonarchLanguage>{
 				['keyword', 'white', 'identifier']
 			],
 			[/@name(?=[ \t]*:(?!:))/, 'variable'],
-			[
-				/(\.)(@name|@symbols)/,
-				['operator', { token: '@rematch', next: '@allowMethod' }]
-			],
+			[/(\.)(@name|@symbols)/, ['operator', { token: '@rematch', next: '@allowMethod' }]],
 			[/([{(])(\s*)(@name(?=\s*=>))/, ['@brackets', 'white', 'variable']],
 			[
 				/@name/,
@@ -227,11 +188,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[{(]/, '@brackets'],
 			[/[})]/, '@brackets', '@allowMethod'],
 			[/\[/, 'operator.square'],
-			[
-				/](?!\s*(?:va[rl]|def|type)\b)/,
-				'operator.square',
-				'@allowMethod'
-			],
+			[/](?!\s*(?:va[rl]|def|type)\b)/, 'operator.square', '@allowMethod'],
 			[/]/, 'operator.square'],
 			[/([=-]>|<-|>:|<:|:>|<%)(?=[\s\w()[\]{},\."'`])/, 'keyword'],
 			[/@symbols/, 'operator'],
@@ -246,11 +203,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/'[^\\']'/, 'string', '@allowMethod'],
 			[
 				/(')(@escapes)(')/,
-				[
-					'string',
-					'string.escape',
-					{ token: 'string', next: '@allowMethod' }
-				]
+				['string', 'string.escape', { token: 'string', next: '@allowMethod' }]
 			],
 			[/'/, 'string.invalid']
 		],
@@ -361,14 +314,8 @@ export const language = <languages.IMonarchLanguage>{
 				/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
 				['metatag', 'keyword.modifier', 'number', 'metatag']
 			],
-			[
-				/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
-				['metatag', 'number', 'metatag']
-			],
-			[
-				/(%)([\-#+ 0,(])(@fstring_conv)/,
-				['metatag', 'keyword.modifier', 'metatag']
-			],
+			[/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'number', 'metatag']],
+			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'keyword.modifier', 'metatag']],
 			[/(%)(@fstring_conv)/, ['metatag', 'metatag']],
 			[/./, 'string']
 		],
@@ -392,14 +339,8 @@ export const language = <languages.IMonarchLanguage>{
 				/(%)([\-#+ 0,(])(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
 				['metatag', 'keyword.modifier', 'number', 'metatag']
 			],
-			[
-				/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/,
-				['metatag', 'number', 'metatag']
-			],
-			[
-				/(%)([\-#+ 0,(])(@fstring_conv)/,
-				['metatag', 'keyword.modifier', 'metatag']
-			],
+			[/(%)(\d+|\.\d+|\d+\.\d+)(@fstring_conv)/, ['metatag', 'number', 'metatag']],
+			[/(%)([\-#+ 0,(])(@fstring_conv)/, ['metatag', 'keyword.modifier', 'metatag']],
 			[/(%)(@fstring_conv)/, ['metatag', 'metatag']],
 			[/./, 'string']
 		],
@@ -437,11 +378,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/./, 'string']
 		],
 
-		interp: [
-			[/{/, 'operator', '@push'],
-			[/}/, 'operator', '@pop'],
-			{ include: '@root' }
-		],
+		interp: [[/{/, 'operator', '@push'], [/}/, 'operator', '@pop'], { include: '@root' }],
 
 		rawstring: [
 			[/[^"]/, 'string'],

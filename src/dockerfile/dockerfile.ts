@@ -39,10 +39,7 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@comment' },
 
 			[/(ONBUILD)(\s+)/, ['keyword', '']],
-			[
-				/(ENV)(\s+)([\w]+)/,
-				['keyword', '', { token: 'variable', next: '@arguments' }]
-			],
+			[/(ENV)(\s+)([\w]+)/, ['keyword', '', { token: 'variable', next: '@arguments' }]],
 			[
 				/(FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ARG|VOLUME|LABEL|USER|WORKDIR|COPY|CMD|STOPSIGNAL|SHELL|HEALTHCHECK|ENTRYPOINT)/,
 				{ token: 'keyword', next: '@arguments' }

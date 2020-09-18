@@ -205,8 +205,7 @@ testTokenization('csharp', [
 			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
-			line:
-				'			string someString = $"hello{outside+variable}the string again {{ escaped";',
+			line: '			string someString = $"hello{outside+variable}the string again {{ escaped";',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 3, type: 'keyword.string.cs' },
@@ -425,8 +424,7 @@ testTokenization('csharp', [
 	// Keywords
 	[
 		{
-			line:
-				'namespace VS { class Program { static void Main(string[] args) {} } }',
+			line: 'namespace VS { class Program { static void Main(string[] args) {} } }',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.namespace.cs' },
 				{ startIndex: 9, type: '' },

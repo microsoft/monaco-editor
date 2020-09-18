@@ -1694,8 +1694,7 @@ testTokenization('coffeescript', [
 			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
-			line:
-				'# Everything is an Expression (at least, as much as possible)',
+			line: '# Everything is an Expression (at least, as much as possible)',
 			tokens: [{ startIndex: 0, type: 'comment.coffee' }]
 		},
 		{

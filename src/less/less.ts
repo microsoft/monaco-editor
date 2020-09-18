@@ -64,11 +64,7 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@keyword' },
 			{ include: '@strings' },
 			{ include: '@numbers' },
-			[
-				'[*_]?[a-zA-Z\\-\\s]+(?=:.*(;|(\\\\$)))',
-				'attribute.name',
-				'@attribute'
-			],
+			['[*_]?[a-zA-Z\\-\\s]+(?=:.*(;|(\\\\$)))', 'attribute.name', '@attribute'],
 
 			['url(\\-prefix)?\\(', { token: 'tag', next: '@urldeclaration' }],
 
@@ -178,14 +174,8 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		strings: [
-			<any[]>[
-				'~?"',
-				{ token: 'string.delimiter', next: '@stringsEndDoubleQuote' }
-			],
-			<any[]>[
-				"~?'",
-				{ token: 'string.delimiter', next: '@stringsEndQuote' }
-			]
+			<any[]>['~?"', { token: 'string.delimiter', next: '@stringsEndDoubleQuote' }],
+			<any[]>["~?'", { token: 'string.delimiter', next: '@stringsEndQuote' }]
 		],
 
 		stringsEndDoubleQuote: [

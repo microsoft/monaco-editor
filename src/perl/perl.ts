@@ -322,14 +322,7 @@ export const language = <languages.IMonarchLanguage>{
 	],
 
 	// File handlers
-	builtinFileHandlers: [
-		'ARGV',
-		'STDERR',
-		'STDOUT',
-		'ARGVOUT',
-		'STDIN',
-		'ENV'
-	],
+	builtinFileHandlers: ['ARGV', 'STDERR', 'STDOUT', 'ARGVOUT', 'STDIN', 'ENV'],
 
 	// Perl variables
 	builtinVariables: [
@@ -515,10 +508,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[{}\[\]()]/, '@brackets'],
 
 			// RegExp
-			[
-				/[\/](?:(?:\[(?:\\]|[^\]])+\])|(?:\\\/|[^\]\/]))*[\/]\w*\s*(?=[).,;]|$)/,
-				'regexp'
-			],
+			[/[\/](?:(?:\[(?:\\]|[^\]])+\])|(?:\\\/|[^\]\/]))*[\/]\w*\s*(?=[).,;]|$)/, 'regexp'],
 
 			[/@symbols/, 'operators'],
 
@@ -563,86 +553,35 @@ export const language = <languages.IMonarchLanguage>{
 		// Percent strings in Ruby are similar to quote-like operators in Perl.
 		// This is adapted from pstrings in ../ruby/ruby.ts.
 		quotedConstructs: [
-			[
-				/(q|qw|tr|y)\s*\(/,
-				{ token: 'string.delim', switchTo: '@qstring.(.)' }
-			],
-			[
-				/(q|qw|tr|y)\s*\[/,
-				{ token: 'string.delim', switchTo: '@qstring.[.]' }
-			],
-			[
-				/(q|qw|tr|y)\s*\{/,
-				{ token: 'string.delim', switchTo: '@qstring.{.}' }
-			],
-			[
-				/(q|qw|tr|y)\s*</,
-				{ token: 'string.delim', switchTo: '@qstring.<.>' }
-			],
-			[
-				/(q|qw|tr|y)#/,
-				{ token: 'string.delim', switchTo: '@qstring.#.#' }
-			],
+			[/(q|qw|tr|y)\s*\(/, { token: 'string.delim', switchTo: '@qstring.(.)' }],
+			[/(q|qw|tr|y)\s*\[/, { token: 'string.delim', switchTo: '@qstring.[.]' }],
+			[/(q|qw|tr|y)\s*\{/, { token: 'string.delim', switchTo: '@qstring.{.}' }],
+			[/(q|qw|tr|y)\s*</, { token: 'string.delim', switchTo: '@qstring.<.>' }],
+			[/(q|qw|tr|y)#/, { token: 'string.delim', switchTo: '@qstring.#.#' }],
 			[
 				/(q|qw|tr|y)\s*([^A-Za-z0-9#\s])/,
 				{ token: 'string.delim', switchTo: '@qstring.$2.$2' }
 			],
-			[
-				/(q|qw|tr|y)\s+(\w)/,
-				{ token: 'string.delim', switchTo: '@qstring.$2.$2' }
-			],
+			[/(q|qw|tr|y)\s+(\w)/, { token: 'string.delim', switchTo: '@qstring.$2.$2' }],
 
-			[
-				/(qr|m|s)\s*\(/,
-				{ token: 'regexp.delim', switchTo: '@qregexp.(.)' }
-			],
-			[
-				/(qr|m|s)\s*\[/,
-				{ token: 'regexp.delim', switchTo: '@qregexp.[.]' }
-			],
-			[
-				/(qr|m|s)\s*\{/,
-				{ token: 'regexp.delim', switchTo: '@qregexp.{.}' }
-			],
-			[
-				/(qr|m|s)\s*</,
-				{ token: 'regexp.delim', switchTo: '@qregexp.<.>' }
-			],
+			[/(qr|m|s)\s*\(/, { token: 'regexp.delim', switchTo: '@qregexp.(.)' }],
+			[/(qr|m|s)\s*\[/, { token: 'regexp.delim', switchTo: '@qregexp.[.]' }],
+			[/(qr|m|s)\s*\{/, { token: 'regexp.delim', switchTo: '@qregexp.{.}' }],
+			[/(qr|m|s)\s*</, { token: 'regexp.delim', switchTo: '@qregexp.<.>' }],
 			[/(qr|m|s)#/, { token: 'regexp.delim', switchTo: '@qregexp.#.#' }],
 			[
 				/(qr|m|s)\s*([^A-Za-z0-9_#\s])/,
 				{ token: 'regexp.delim', switchTo: '@qregexp.$2.$2' }
 			],
-			[
-				/(qr|m|s)\s+(\w)/,
-				{ token: 'regexp.delim', switchTo: '@qregexp.$2.$2' }
-			],
+			[/(qr|m|s)\s+(\w)/, { token: 'regexp.delim', switchTo: '@qregexp.$2.$2' }],
 
-			[
-				/(qq|qx)\s*\(/,
-				{ token: 'string.delim', switchTo: '@qqstring.(.)' }
-			],
-			[
-				/(qq|qx)\s*\[/,
-				{ token: 'string.delim', switchTo: '@qqstring.[.]' }
-			],
-			[
-				/(qq|qx)\s*\{/,
-				{ token: 'string.delim', switchTo: '@qqstring.{.}' }
-			],
-			[
-				/(qq|qx)\s*</,
-				{ token: 'string.delim', switchTo: '@qqstring.<.>' }
-			],
+			[/(qq|qx)\s*\(/, { token: 'string.delim', switchTo: '@qqstring.(.)' }],
+			[/(qq|qx)\s*\[/, { token: 'string.delim', switchTo: '@qqstring.[.]' }],
+			[/(qq|qx)\s*\{/, { token: 'string.delim', switchTo: '@qqstring.{.}' }],
+			[/(qq|qx)\s*</, { token: 'string.delim', switchTo: '@qqstring.<.>' }],
 			[/(qq|qx)#/, { token: 'string.delim', switchTo: '@qqstring.#.#' }],
-			[
-				/(qq|qx)\s*([^A-Za-z0-9#\s])/,
-				{ token: 'string.delim', switchTo: '@qqstring.$2.$2' }
-			],
-			[
-				/(qq|qx)\s+(\w)/,
-				{ token: 'string.delim', switchTo: '@qqstring.$2.$2' }
-			]
+			[/(qq|qx)\s*([^A-Za-z0-9#\s])/, { token: 'string.delim', switchTo: '@qqstring.$2.$2' }],
+			[/(qq|qx)\s+(\w)/, { token: 'string.delim', switchTo: '@qqstring.$2.$2' }]
 		],
 
 		// Non-expanded quoted string
@@ -685,12 +624,7 @@ export const language = <languages.IMonarchLanguage>{
 			]
 		],
 
-		regexpModifiers: [
-			[
-				/[msixpodualngcer]+/,
-				{ token: 'regexp.modifier', next: '@popall' }
-			]
-		],
+		regexpModifiers: [[/[msixpodualngcer]+/, { token: 'regexp.modifier', next: '@popall' }]],
 
 		// Expanded quoted string
 		// qqstring.<open>.<close>

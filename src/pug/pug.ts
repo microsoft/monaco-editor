@@ -190,10 +190,7 @@ export const language = <languages.IMonarchLanguage>{
 						'$2@tags': {
 							cases: {
 								'@eos': ['', 'tag'],
-								'@default': [
-									'',
-									{ token: 'tag', next: '@tag.$1' }
-								]
+								'@default': ['', { token: 'tag', next: '@tag.$1' }]
 							}
 						},
 						'$2@keywords': ['', { token: 'keyword.$2' }],
@@ -219,10 +216,7 @@ export const language = <languages.IMonarchLanguage>{
 				{
 					cases: {
 						'@eos': ['', 'tag.class'],
-						'@default': [
-							'',
-							{ token: 'tag.class', next: '@tag.$1' }
-						]
+						'@default': ['', { token: 'tag.class', next: '@tag.$1' }]
 					}
 				}
 			],
@@ -257,10 +251,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		tag: [
-			[
-				/(\.)(\s*$)/,
-				[{ token: 'delimiter', next: '@blockText.$S2.' }, '']
-			],
+			[/(\.)(\s*$)/, [{ token: 'delimiter', next: '@blockText.$S2.' }, '']],
 			[/\s+/, { token: '', next: '@simpleText' }],
 
 			// id
@@ -321,11 +312,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/\s+/, ''],
 			[
 				/(\w+)(\s*=\s*)("|')/,
-				[
-					'attribute.name',
-					'delimiter',
-					{ token: 'attribute.value', next: '@value.$3' }
-				]
+				['attribute.name', 'delimiter', { token: 'attribute.value', next: '@value.$3' }]
 			],
 			[/\w+/, 'attribute.name'],
 
@@ -347,10 +334,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		whitespace: [
-			[
-				/^(\s*)(\/\/.*)$/,
-				{ token: 'comment', next: '@blockText.$1.comment' }
-			],
+			[/^(\s*)(\/\/.*)$/, { token: 'comment', next: '@blockText.$1.comment' }],
 			[/[ \t\r\n]+/, ''],
 			[/<!--/, { token: 'comment', next: '@comment' }]
 		],
@@ -409,11 +393,7 @@ export const language = <languages.IMonarchLanguage>{
 			// interpolation
 			[
 				/(#{)([^}]*)(})/,
-				[
-					'interpolation.delimiter',
-					'interpolation',
-					'interpolation.delimiter'
-				]
+				['interpolation.delimiter', 'interpolation', 'interpolation.delimiter']
 			],
 			[/#/, 'string'],
 			[

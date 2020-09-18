@@ -148,10 +148,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		quoted_identifier: [
 			[/[^\\"]+/, 'identifier'],
-			[
-				/"/,
-				{ token: 'identifier.quote', bracket: '@close', next: '@pop' }
-			]
+			[/"/, { token: 'identifier.quote', bracket: '@close', next: '@pop' }]
 		],
 
 		space_identifier_until_period: [
@@ -174,10 +171,7 @@ export const language = <languages.IMonarchLanguage>{
 		semver: [
 			{ include: '@whitespace' },
 			[':', 'delimiter'],
-			[
-				/\d*\.\d*\.\d*/,
-				{ token: 'number.semver', bracket: '@close', next: '@pop' }
-			]
+			[/\d*\.\d*\.\d*/, { token: 'number.semver', bracket: '@close', next: '@pop' }]
 		],
 
 		whitespace: [[/[ \t\r\n]+/, 'white']]

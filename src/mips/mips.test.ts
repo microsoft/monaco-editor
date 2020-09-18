@@ -108,8 +108,7 @@ testTokenization('mips', [
 
 	[
 		{
-			line:
-				'even_str: .asciiz "The number is even!" # Output string for even integer',
+			line: 'even_str: .asciiz "The number is even!" # Output string for even integer',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 8, type: 'delimiter.mips' },

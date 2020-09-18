@@ -174,8 +174,7 @@ testTokenization('swift', [
 	// String with interpolated expression
 	[
 		{
-			line:
-				'        let message = "\\(y) times 2.5 is \\(Double(25) * 2.5)"',
+			line: '        let message = "\\(y) times 2.5 is \\(Double(25) * 2.5)"',
 			tokens: [
 				{ startIndex: 0, type: 'white.swift' },
 				{ startIndex: 8, type: 'keyword.swift' } /* 'let' */,

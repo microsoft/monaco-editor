@@ -640,8 +640,7 @@ testTokenization('sql', [
 
 	[
 		{
-			line:
-				'BEGIN TRAN BEGIN TRY SELECT $ COMMIT END TRY BEGIN CATCH ROLLBACK END CATCH',
+			line: 'BEGIN TRAN BEGIN TRY SELECT $ COMMIT END TRY BEGIN CATCH ROLLBACK END CATCH',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.sql' },
 				{ startIndex: 10, type: 'white.sql' },

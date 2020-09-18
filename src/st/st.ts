@@ -395,14 +395,8 @@ export const language = <languages.IMonarchLanguage>{
 			[/[{}()\[\]]/, '@brackets'],
 
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
-			[
-				/"/,
-				{ token: 'string.quote', bracket: '@open', next: '@string_dq' }
-			],
-			[
-				/'/,
-				{ token: 'string.quote', bracket: '@open', next: '@string_sq' }
-			],
+			[/"/, { token: 'string.quote', bracket: '@open', next: '@string_dq' }],
+			[/'/, { token: 'string.quote', bracket: '@open', next: '@string_sq' }],
 
 			[/'[^\\']'/, 'string'],
 			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],

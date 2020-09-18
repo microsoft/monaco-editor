@@ -585,10 +585,7 @@ export const language = <languages.IMonarchLanguage>{
 			{ regex: /'\(/, action: { token: 'delimiter.parenthesis' } },
 			{ regex: /'\[/, action: { token: 'delimiter.bracket' } },
 			{ regex: /'\{/, action: { token: 'delimiter.brace' } },
-			[
-				/(')(\\@ESCHAR|\\[xX]@xdigit+|\\@digit+)(')/,
-				['string', 'string.escape', 'string']
-			],
+			[/(')(\\@ESCHAR|\\[xX]@xdigit+|\\@digit+)(')/, ['string', 'string.escape', 'string']],
 			[/'[^\\']'/, 'string'],
 
 			// lexing_DQUOTE

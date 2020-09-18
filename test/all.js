@@ -8,8 +8,7 @@ requirejs.config({
 	paths: {
 		'vs/css': 'test/css.mock',
 		'vs/nls': 'test/nls.mock',
-		'out/amd/fillers/monaco-editor-core':
-			'out/amd/fillers/monaco-editor-core-amd',
+		'out/amd/fillers/monaco-editor-core': 'out/amd/fillers/monaco-editor-core-amd',
 		vs: 'node_modules/monaco-editor-core/dev/vs'
 	},
 	nodeRequire: require
@@ -27,10 +26,7 @@ global.window = { location: {}, navigator: tmp.window.navigator };
 requirejs(
 	['./test/setup'],
 	function () {
-		glob('out/amd/*/*.test.js', { cwd: path.dirname(__dirname) }, function (
-			err,
-			files
-		) {
+		glob('out/amd/*/*.test.js', { cwd: path.dirname(__dirname) }, function (err, files) {
 			if (err) {
 				console.log(err);
 				return;

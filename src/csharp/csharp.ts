@@ -163,16 +163,7 @@ export const language = <languages.IMonarchLanguage>{
 
 	namespaceFollows: ['namespace', 'using'],
 
-	parenFollows: [
-		'if',
-		'for',
-		'while',
-		'switch',
-		'foreach',
-		'using',
-		'catch',
-		'when'
-	],
+	parenFollows: ['if', 'for', 'while', 'switch', 'foreach', 'using', 'catch', 'when'],
 
 	operators: [
 		'=',

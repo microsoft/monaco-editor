@@ -69,23 +69,14 @@ export const language = <languages.IMonarchLanguage>{
 				{ token: 'keyword', next: '@keyframedeclaration' }
 			],
 			['[@](page|content|font-face|-moz-document)', { token: 'keyword' }],
-			[
-				'[@](charset|namespace)',
-				{ token: 'keyword', next: '@declarationbody' }
-			],
+			['[@](charset|namespace)', { token: 'keyword', next: '@declarationbody' }],
 			[
 				'(url-prefix)(\\()',
-				[
-					'attribute.value',
-					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
-				]
+				['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]
 			],
 			[
 				'(url)(\\()',
-				[
-					'attribute.value',
-					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
-				]
+				['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]
 			],
 			{ include: '@selectorname' },
 			['[\\*]', 'tag'], // selector symbols
@@ -96,11 +87,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		selectorbody: [
 			{ include: '@comments' },
-			[
-				'[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))',
-				'attribute.name',
-				'@rulevalue'
-			], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
+			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', 'attribute.name', '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
 			['}', { token: 'delimiter.bracket', next: '@pop' }]
 		],
 
@@ -117,17 +104,11 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@comments' },
 			[
 				'(url-prefix)(\\()',
-				[
-					'attribute.value',
-					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
-				]
+				['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]
 			],
 			[
 				'(url)(\\()',
-				[
-					'attribute.value',
-					{ token: 'delimiter.parenthesis', next: '@urldeclaration' }
-				]
+				['attribute.value', { token: 'delimiter.parenthesis', next: '@urldeclaration' }]
 			],
 			{ include: '@functioninvocation' },
 			{ include: '@numbers' },
@@ -145,13 +126,9 @@ export const language = <languages.IMonarchLanguage>{
 			['(?=})', { token: '', next: '@pop' }] // missing semicolon
 		],
 
-		warndebug: [
-			['[@](warn|debug)', { token: 'keyword', next: '@declarationbody' }]
-		],
+		warndebug: [['[@](warn|debug)', { token: 'keyword', next: '@declarationbody' }]],
 
-		import: [
-			['[@](import)', { token: 'keyword', next: '@declarationbody' }]
-		],
+		import: [['[@](import)', { token: 'keyword', next: '@declarationbody' }]],
 
 		urldeclaration: [
 			{ include: '@strings' },
@@ -211,10 +188,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		functioninvocation: [
-			[
-				'@identifier\\(',
-				{ token: 'attribute.value', next: '@functionarguments' }
-			]
+			['@identifier\\(', { token: 'attribute.value', next: '@functionarguments' }]
 		],
 
 		functionarguments: [

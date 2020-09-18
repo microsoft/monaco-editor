@@ -67,14 +67,8 @@ export const language = <languages.IMonarchLanguage>{
 				{ token: 'keyword', next: '@keyframedeclaration' }
 			],
 			['[@](page|content|font-face|-moz-document)', { token: 'keyword' }], // sass: placeholder for includes
-			[
-				'[@](charset|namespace)',
-				{ token: 'keyword', next: '@declarationbody' }
-			],
-			[
-				'[@](function)',
-				{ token: 'keyword', next: '@functiondeclaration' }
-			],
+			['[@](charset|namespace)', { token: 'keyword', next: '@declarationbody' }],
+			['[@](function)', { token: 'keyword', next: '@functiondeclaration' }],
 			['[@](mixin)', { token: 'keyword', next: '@mixindeclaration' }],
 			['url(\\-prefix)?\\(', { token: 'meta', next: '@urldeclaration' }],
 			{ include: '@controlstatement' }, // sass control statements
@@ -86,11 +80,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		selectorbody: [
-			[
-				'[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))',
-				'attribute.name',
-				'@rulevalue'
-			], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
+			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', 'attribute.name', '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
 			{ include: '@selector' }, // sass: nested selectors
 			['[@](extend)', { token: 'keyword', next: '@extendbody' }], // sass: extend other selectors
 			['[@](return)', { token: 'keyword', next: '@declarationbody' }],
@@ -119,10 +109,7 @@ export const language = <languages.IMonarchLanguage>{
 			['([<>=\\+\\-\\*\\/\\^\\|\\~,])', 'operator'],
 			[',', 'delimiter'],
 			['!default', 'literal'],
-			[
-				'\\(',
-				{ token: 'delimiter.parenthesis', next: '@parenthizedterm' }
-			]
+			['\\(', { token: 'delimiter.parenthesis', next: '@parenthizedterm' }]
 		],
 
 		rulevalue: [
@@ -139,13 +126,9 @@ export const language = <languages.IMonarchLanguage>{
 			['}', { token: 'delimiter.curly', next: '@pop' }]
 		],
 
-		warndebug: [
-			['[@](warn|debug)', { token: 'keyword', next: '@declarationbody' }]
-		],
+		warndebug: [['[@](warn|debug)', { token: 'keyword', next: '@declarationbody' }]],
 
-		import: [
-			['[@](import)', { token: 'keyword', next: '@declarationbody' }]
-		],
+		import: [['[@](import)', { token: 'keyword', next: '@declarationbody' }]],
 
 		variabledeclaration: [
 			// sass variables
@@ -201,10 +184,7 @@ export const language = <languages.IMonarchLanguage>{
 		name: [['@identifier', 'attribute.value']],
 
 		numbers: [
-			[
-				'(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?',
-				{ token: 'number', next: '@units' }
-			],
+			['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'number', next: '@units' }],
 			['#[0-9a-fA-F_]+(?!\\w)', 'number.hex']
 		],
 
@@ -217,19 +197,13 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		functiondeclaration: [
-			[
-				'@identifier@ws\\(',
-				{ token: 'meta', next: '@parameterdeclaration' }
-			],
+			['@identifier@ws\\(', { token: 'meta', next: '@parameterdeclaration' }],
 			['{', { token: 'delimiter.curly', switchTo: '@functionbody' }]
 		],
 
 		mixindeclaration: [
 			// mixin with parameters
-			[
-				'@identifier@ws\\(',
-				{ token: 'meta', next: '@parameterdeclaration' }
-			],
+			['@identifier@ws\\(', { token: 'meta', next: '@parameterdeclaration' }],
 			// mixin without parameters
 			['@identifier', 'meta'],
 			['{', { token: 'delimiter.curly', switchTo: '@selectorbody' }]
@@ -284,9 +258,7 @@ export const language = <languages.IMonarchLanguage>{
 			['}', { token: 'delimiter.curly', next: '@pop' }]
 		],
 
-		functioninvocation: [
-			['@identifier\\(', { token: 'meta', next: '@functionarguments' }]
-		],
+		functioninvocation: [['@identifier\\(', { token: 'meta', next: '@functionarguments' }]],
 
 		functionarguments: [
 			['\\$@identifier@ws:', 'attribute.name'],
@@ -296,10 +268,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		strings: [
-			[
-				'~?"',
-				{ token: 'string.delimiter', next: '@stringenddoublequote' }
-			],
+			['~?"', { token: 'string.delimiter', next: '@stringenddoublequote' }],
 			["~?'", { token: 'string.delimiter', next: '@stringendquote' }]
 		],
 

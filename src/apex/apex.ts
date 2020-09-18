@@ -34,12 +34,8 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			start: new RegExp(
-				'^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'
-			),
-			end: new RegExp(
-				'^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))'
-			)
+			start: new RegExp('^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))'),
+			end: new RegExp('^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))')
 		}
 	}
 };
@@ -300,10 +296,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// numbers
 			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
-			[
-				/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/,
-				'number.float'
-			],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
 			[/(@digits)[fFdD]/, 'number.float'],
 			[/(@digits)[lL]?/, 'number'],
 

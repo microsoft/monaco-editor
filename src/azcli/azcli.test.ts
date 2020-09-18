@@ -3,15 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {
-	testTokenization as actualTestTokenization,
-	ITestItem
-} from '../test/testRunner';
+import { testTokenization as actualTestTokenization, ITestItem } from '../test/testRunner';
 
-function testTokenization(
-	_language: string | string[],
-	tests: ITestItem[][]
-): void {
+function testTokenization(_language: string | string[], tests: ITestItem[][]): void {
 	tests = tests.map((t) => {
 		return t.map((t) => {
 			return {
@@ -93,8 +87,7 @@ testTokenization('azcli', [
 	],
 	[
 		{
-			line:
-				'az ad sp create-for-rb  --name ServicePrincipalName --password PASSWORD',
+			line: 'az ad sp create-for-rb  --name ServicePrincipalName --password PASSWORD',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.azcli' },
 				{ startIndex: 23, type: 'key.identifier.azcli' },

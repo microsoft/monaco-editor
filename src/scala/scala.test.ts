@@ -257,8 +257,7 @@ testTokenization('scala', [
 	// Keywords
 	[
 		{
-			line:
-				'package test; object Program { def main(args: Array[String]): Unit = {} }',
+			line: 'package test; object Program { def main(args: Array[String]): Unit = {} }',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.scala' },
 				{ startIndex: 7, type: 'white.scala' },

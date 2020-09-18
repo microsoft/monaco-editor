@@ -800,9 +800,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/''/, 'string'],
 			[/'/, { token: 'string', next: '@pop' }]
 		],
-		complexIdentifiers: [
-			[/"/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
-		],
+		complexIdentifiers: [[/"/, { token: 'identifier.quote', next: '@quotedIdentifier' }]],
 		quotedIdentifier: [
 			[/[^"]+/, 'identifier'],
 			[/""/, 'identifier'],

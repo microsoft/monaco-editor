@@ -3,15 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {
-	testTokenization as actualTestTokenization,
-	ITestItem
-} from '../test/testRunner';
+import { testTokenization as actualTestTokenization, ITestItem } from '../test/testRunner';
 
-function testTokenization(
-	_language: string | string[],
-	tests: ITestItem[][]
-): void {
+function testTokenization(_language: string | string[], tests: ITestItem[][]): void {
 	tests = tests.map((t) => {
 		return t.map((t) => {
 			return {
@@ -360,8 +354,7 @@ testTokenization('scss', [
 	// Rules without whitespaces
 	[
 		{
-			line:
-				'legend {foo{a:s}margin-top:0;margin-bottom:#123;margin-top:s(1)}',
+			line: 'legend {foo{a:s}margin-top:0;margin-bottom:#123;margin-top:s(1)}',
 			tokens: [
 				{ startIndex: 0, type: 'tag.scss' } /* 'legend' */,
 				{ startIndex: 6, type: '' },
@@ -1344,10 +1337,7 @@ testTokenization('scss', [
 	// for statementwhitespaces
 	[
 		{
-			line:
-				'@for $i from 1 through 3 {\n' +
-				'  .item-#{$i} { width: 2em * $i; }\n' +
-				'}',
+			line: '@for $i from 1 through 3 {\n' + '  .item-#{$i} { width: 2em * $i; }\n' + '}',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.flow.scss' } /* '@for' */,
 				{ startIndex: 4, type: '' },
@@ -2035,11 +2025,7 @@ testTokenization('scss', [
 	// CSS @pagewhitespaces
 	[
 		{
-			line:
-				'@page :left {\n' +
-				'  margin-left: 4cm;\n' +
-				'  margin-right: 3cm;\n' +
-				'}',
+			line: '@page :left {\n' + '  margin-left: 4cm;\n' + '  margin-right: 3cm;\n' + '}',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.scss' } /* '@page' */,
 				{ startIndex: 5, type: '' },
@@ -2149,8 +2135,7 @@ testTokenization('scss', [
 	// @font-facewhitespaces
 	[
 		{
-			line:
-				"@font-face { font-family: Delicious; src: url('Delicious-Roman.otf'); } ",
+			line: "@font-face { font-family: Delicious; src: url('Delicious-Roman.otf'); } ",
 			tokens: [
 				{ startIndex: 0, type: 'keyword.scss' } /* '@font-face' */,
 				{ startIndex: 10, type: '' },

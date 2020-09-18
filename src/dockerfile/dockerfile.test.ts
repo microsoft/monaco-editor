@@ -146,8 +146,7 @@ testTokenization('dockerfile', [
 			]
 		},
 		{
-			line:
-				'    && sh autogen.sh && ./configure && make && make install \\',
+			line: '    && sh autogen.sh && ./configure && make && make install \\',
 			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{

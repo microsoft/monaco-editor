@@ -21,8 +21,7 @@ testTokenization('graphql', [
 	// Root schema definition
 	[
 		{
-			line:
-				'schema { query: Query, mutation: Mutation subscription: Subscription }',
+			line: 'schema { query: Query, mutation: Mutation subscription: Subscription }',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.gql' },
 				{ startIndex: 6, type: '' },

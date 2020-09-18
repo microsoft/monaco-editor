@@ -132,18 +132,12 @@ export const language = <languages.IMonarchLanguage>{
 
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
-			[
-				/@symbols/,
-				{ cases: { '@operators': 'operator', '@default': '' } }
-			],
+			[/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
 
 			// @ annotations.
 			// As an example, we emit a debugging log message on these tokens.
 			// Note: message are supressed during the first load -- change some lines to see them.
-			[
-				/@\s*[a-zA-Z_\$][\w\$]*/,
-				{ token: 'annotation', log: 'annotation token: $0' }
-			],
+			[/@\s*[a-zA-Z_\$][\w\$]*/, { token: 'annotation', log: 'annotation token: $0' }],
 
 			// numbers
 			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
@@ -153,10 +147,7 @@ export const language = <languages.IMonarchLanguage>{
 			// delimiter: after number because of .\d floats
 			[/[;,.]/, 'delimiter'],
 
-			[
-				/"""/,
-				{ token: 'string', next: '@mlstring', nextEmbedded: 'markdown' }
-			],
+			[/"""/, { token: 'string', next: '@mlstring', nextEmbedded: 'markdown' }],
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
