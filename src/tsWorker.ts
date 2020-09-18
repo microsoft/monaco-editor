@@ -313,14 +313,18 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		formatOptions: ts.FormatCodeOptions
 	): Promise<ReadonlyArray<ts.CodeFixAction>> {
 		const preferences = {};
-		return this._languageService.getCodeFixesAtPosition(
-			fileName,
-			start,
-			end,
-			errorCodes,
-			formatOptions,
-			preferences
-		);
+		try {
+			return this._languageService.getCodeFixesAtPosition(
+				fileName,
+				start,
+				end,
+				errorCodes,
+				formatOptions,
+				preferences
+			);
+		} catch {
+			return [];
+		}
 	}
 
 	async updateExtraLibs(extraLibs: IExtraLibs): Promise<void> {
