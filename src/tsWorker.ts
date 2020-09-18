@@ -64,8 +64,8 @@ export class TypeScriptWorker
 		return '';
 	}
 
-	getScriptText(fileName: string): Promise<string | undefined> {
-		return Promise.resolve(this._getScriptText(fileName));
+	async getScriptText(fileName: string): Promise<string | undefined> {
+		return this._getScriptText(fileName);
 	}
 
 	_getScriptText(fileName: string): string | undefined {
@@ -157,8 +157,8 @@ export class TypeScriptWorker
 		return fileName === this.getDefaultLibFileName(this._compilerOptions);
 	}
 
-	getLibFiles(): Promise<Record<string, string>> {
-		return Promise.resolve(libFileMap);
+	async getLibFiles(): Promise<Record<string, string>> {
+		return libFileMap;
 	}
 
 	// --- language features
@@ -176,183 +176,166 @@ export class TypeScriptWorker
 		return <Diagnostic[]>diagnostics;
 	}
 
-	getSyntacticDiagnostics(fileName: string): Promise<Diagnostic[]> {
+	async getSyntacticDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getSyntacticDiagnostics(fileName);
-		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
+		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
-	getSemanticDiagnostics(fileName: string): Promise<Diagnostic[]> {
+	async getSemanticDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
-		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
+		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
-	getSuggestionDiagnostics(fileName: string): Promise<Diagnostic[]> {
+	async getSuggestionDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getSuggestionDiagnostics(
 			fileName
 		);
-		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
+		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
-	getCompilerOptionsDiagnostics(fileName: string): Promise<Diagnostic[]> {
+	async getCompilerOptionsDiagnostics(fileName: string): Promise<Diagnostic[]> {
 		const diagnostics = this._languageService.getCompilerOptionsDiagnostics();
-		return Promise.resolve(TypeScriptWorker.clearFiles(diagnostics));
+		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
-	getCompletionsAtPosition(
+	async getCompletionsAtPosition(
 		fileName: string,
 		position: number
 	): Promise<ts.CompletionInfo | undefined> {
-		return Promise.resolve(
-			this._languageService.getCompletionsAtPosition(
-				fileName,
-				position,
-				undefined
-			)
+		return this._languageService.getCompletionsAtPosition(
+			fileName,
+			position,
+			undefined
 		);
 	}
 
-	getCompletionEntryDetails(
+	async getCompletionEntryDetails(
 		fileName: string,
 		position: number,
 		entry: string
 	): Promise<ts.CompletionEntryDetails | undefined> {
-		return Promise.resolve(
-			this._languageService.getCompletionEntryDetails(
-				fileName,
-				position,
-				entry,
-				undefined,
-				undefined,
-				undefined
-			)
+		return this._languageService.getCompletionEntryDetails(
+			fileName,
+			position,
+			entry,
+			undefined,
+			undefined,
+			undefined
 		);
 	}
 
-	getSignatureHelpItems(
+	async getSignatureHelpItems(
 		fileName: string,
 		position: number
 	): Promise<ts.SignatureHelpItems | undefined> {
-		return Promise.resolve(
-			this._languageService.getSignatureHelpItems(fileName, position, undefined)
+		return this._languageService.getSignatureHelpItems(
+			fileName,
+			position,
+			undefined
 		);
 	}
 
-	getQuickInfoAtPosition(
+	async getQuickInfoAtPosition(
 		fileName: string,
 		position: number
 	): Promise<ts.QuickInfo | undefined> {
-		return Promise.resolve(
-			this._languageService.getQuickInfoAtPosition(fileName, position)
-		);
+		return this._languageService.getQuickInfoAtPosition(fileName, position);
 	}
 
-	getOccurrencesAtPosition(
+	async getOccurrencesAtPosition(
 		fileName: string,
 		position: number
 	): Promise<ReadonlyArray<ts.ReferenceEntry> | undefined> {
-		return Promise.resolve(
-			this._languageService.getOccurrencesAtPosition(fileName, position)
-		);
+		return this._languageService.getOccurrencesAtPosition(fileName, position);
 	}
 
-	getDefinitionAtPosition(
+	async getDefinitionAtPosition(
 		fileName: string,
 		position: number
 	): Promise<ReadonlyArray<ts.DefinitionInfo> | undefined> {
-		return Promise.resolve(
-			this._languageService.getDefinitionAtPosition(fileName, position)
-		);
+		return this._languageService.getDefinitionAtPosition(fileName, position);
 	}
 
-	getReferencesAtPosition(
+	async getReferencesAtPosition(
 		fileName: string,
 		position: number
 	): Promise<ts.ReferenceEntry[] | undefined> {
-		return Promise.resolve(
-			this._languageService.getReferencesAtPosition(fileName, position)
-		);
+		return this._languageService.getReferencesAtPosition(fileName, position);
 	}
 
-	getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]> {
-		return Promise.resolve(
-			this._languageService.getNavigationBarItems(fileName)
-		);
+	async getNavigationBarItems(
+		fileName: string
+	): Promise<ts.NavigationBarItem[]> {
+		return this._languageService.getNavigationBarItems(fileName);
 	}
 
-	getFormattingEditsForDocument(
+	async getFormattingEditsForDocument(
 		fileName: string,
 		options: ts.FormatCodeOptions
 	): Promise<ts.TextChange[]> {
-		return Promise.resolve(
-			this._languageService.getFormattingEditsForDocument(fileName, options)
+		return this._languageService.getFormattingEditsForDocument(
+			fileName,
+			options
 		);
 	}
 
-	getFormattingEditsForRange(
+	async getFormattingEditsForRange(
 		fileName: string,
 		start: number,
 		end: number,
 		options: ts.FormatCodeOptions
 	): Promise<ts.TextChange[]> {
-		return Promise.resolve(
-			this._languageService.getFormattingEditsForRange(
-				fileName,
-				start,
-				end,
-				options
-			)
+		return this._languageService.getFormattingEditsForRange(
+			fileName,
+			start,
+			end,
+			options
 		);
 	}
 
-	getFormattingEditsAfterKeystroke(
+	async getFormattingEditsAfterKeystroke(
 		fileName: string,
 		postion: number,
 		ch: string,
 		options: ts.FormatCodeOptions
 	): Promise<ts.TextChange[]> {
-		return Promise.resolve(
-			this._languageService.getFormattingEditsAfterKeystroke(
-				fileName,
-				postion,
-				ch,
-				options
-			)
+		return this._languageService.getFormattingEditsAfterKeystroke(
+			fileName,
+			postion,
+			ch,
+			options
 		);
 	}
 
-	findRenameLocations(
+	async findRenameLocations(
 		fileName: string,
 		position: number,
 		findInStrings: boolean,
 		findInComments: boolean,
 		providePrefixAndSuffixTextForRename: boolean
 	): Promise<readonly ts.RenameLocation[] | undefined> {
-		return Promise.resolve(
-			this._languageService.findRenameLocations(
-				fileName,
-				position,
-				findInStrings,
-				findInComments,
-				providePrefixAndSuffixTextForRename
-			)
+		return this._languageService.findRenameLocations(
+			fileName,
+			position,
+			findInStrings,
+			findInComments,
+			providePrefixAndSuffixTextForRename
 		);
 	}
 
-	getRenameInfo(
+	async getRenameInfo(
 		fileName: string,
 		position: number,
 		options: ts.RenameInfoOptions
 	): Promise<ts.RenameInfo> {
-		return Promise.resolve(
-			this._languageService.getRenameInfo(fileName, position, options)
-		);
+		return this._languageService.getRenameInfo(fileName, position, options);
 	}
 
-	getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
-		return Promise.resolve(this._languageService.getEmitOutput(fileName));
+	async getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
+		return this._languageService.getEmitOutput(fileName);
 	}
 
-	getCodeFixesAtPosition(
+	async getCodeFixesAtPosition(
 		fileName: string,
 		start: number,
 		end: number,
@@ -360,19 +343,17 @@ export class TypeScriptWorker
 		formatOptions: ts.FormatCodeOptions
 	): Promise<ReadonlyArray<ts.CodeFixAction>> {
 		const preferences = {};
-		return Promise.resolve(
-			this._languageService.getCodeFixesAtPosition(
-				fileName,
-				start,
-				end,
-				errorCodes,
-				formatOptions,
-				preferences
-			)
+		return this._languageService.getCodeFixesAtPosition(
+			fileName,
+			start,
+			end,
+			errorCodes,
+			formatOptions,
+			preferences
 		);
 	}
 
-	updateExtraLibs(extraLibs: IExtraLibs) {
+	async updateExtraLibs(extraLibs: IExtraLibs): Promise<void> {
 		this._extraLibs = extraLibs;
 	}
 }
