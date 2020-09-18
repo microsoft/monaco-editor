@@ -84,8 +84,8 @@ function tokenize(
 	stopAtOffset?: number
 ): languages.ILineTokens {
 	// handle multiline strings and block comments
-	var numberOfInsertedCharacters = 0,
-		adjustOffset = false;
+	let numberOfInsertedCharacters = 0;
+	let adjustOffset = false;
 
 	switch (state.scanError) {
 		case json.ScanError.UnexpectedEndOfString:
@@ -98,21 +98,19 @@ function tokenize(
 			break;
 	}
 
-	var scanner = json.createScanner(line),
-		kind: json.SyntaxKind,
-		ret: languages.ILineTokens,
-		lastWasColon = state.lastWasColon;
+	const scanner = json.createScanner(line);
+	let lastWasColon = state.lastWasColon;
 
-	ret = {
+	const ret: languages.ILineTokens = {
 		tokens: <languages.IToken[]>[],
 		endState: state.clone()
 	};
 
 	while (true) {
-		var offset = offsetDelta + scanner.getPosition(),
-			type = '';
+		let offset = offsetDelta + scanner.getPosition();
+		let type = '';
 
-		kind = scanner.scan();
+		const kind = scanner.scan();
 		if (kind === json.SyntaxKind.EOF) {
 			break;
 		}
