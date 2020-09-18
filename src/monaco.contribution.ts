@@ -448,6 +448,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidExtraLibsChange = new Emitter<void>();
 
 	private _extraLibs: IExtraLibs;
+	private _removedExtraLibs: { [path: string]: number };
 	private _eagerModelSync: boolean;
 	private _compilerOptions!: CompilerOptions;
 	private _diagnosticsOptions!: DiagnosticsOptions;
@@ -460,6 +461,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		workerOptions: WorkerOptions
 	) {
 		this._extraLibs = Object.create(null);
+		this._removedExtraLibs = Object.create(null);
 		this._eagerModelSync = false;
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
@@ -499,6 +501,9 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		}
 
 		let myVersion = 1;
+		if (this._removedExtraLibs[filePath]) {
+			myVersion = this._removedExtraLibs[filePath] + 1;
+		}
 		if (this._extraLibs[filePath]) {
 			myVersion = this._extraLibs[filePath].version + 1;
 		}
@@ -520,12 +525,16 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 				}
 
 				delete this._extraLibs[filePath];
+				this._removedExtraLibs[filePath] = myVersion;
 				this._fireOnDidExtraLibsChangeSoon();
 			}
 		};
 	}
 
 	setExtraLibs(libs: { content: string; filePath?: string }[]): void {
+		for (const filePath in this._extraLibs) {
+			this._removedExtraLibs[filePath] = this._extraLibs[filePath].version;
+		}
 		// clear out everything
 		this._extraLibs = Object.create(null);
 
@@ -534,9 +543,13 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 				const filePath =
 					lib.filePath || `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
 				const content = lib.content;
+				let myVersion = 1;
+				if (this._removedExtraLibs[filePath]) {
+					myVersion = this._removedExtraLibs[filePath] + 1;
+				}
 				this._extraLibs[filePath] = {
 					content: content,
-					version: 1
+					version: myVersion
 				};
 			}
 		}
