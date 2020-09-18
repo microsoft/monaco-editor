@@ -112,6 +112,9 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 
 ## Shipping a new monaco-editor npm module
 
+#### 0.
+* make sure you have `https://github.com/microsoft/vscode-loc` checked out next to the `vscode` folder.
+
 #### 1. Ship a new `monaco-editor-core` npm module
 * bump version in `/src/vscode/build/monaco/package.json`
 * **[important]** push all local changes to the remote to get a good public commit id.
