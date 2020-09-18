@@ -12,10 +12,7 @@ const generatedNote = `//
 //
 `;
 
-const TYPESCRIPT_LIB_SOURCE = path.join(
-	__dirname,
-	'../node_modules/typescript/lib'
-);
+const TYPESCRIPT_LIB_SOURCE = path.join(__dirname, '../node_modules/typescript/lib');
 const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 
 (function () {
@@ -29,8 +26,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	const npmLsOutput = JSON.parse(
 		child_process.execSync('npm ls typescript --depth=0 --json=true').toString()
 	);
-	const typeScriptDependencyVersion =
-		npmLsOutput.dependencies.typescript.version;
+	const typeScriptDependencyVersion = npmLsOutput.dependencies.typescript.version;
 
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
@@ -73,19 +69,20 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		/(\/[*/]|^\s+\*[^/]).*\brequire\(.*/gm,
 		''
 	);
-	const linesWithRequire = tsServicesNoCommentedRequire.match(
-		/^.*?\brequire\(.*$/gm
-	);
+	const linesWithRequire = tsServicesNoCommentedRequire.match(/^.*?\brequire\(.*$/gm);
 
 	// Allow error messages to include references to require() in their strings
 	const runtimeRequires =
-		linesWithRequire && linesWithRequire.filter((l) => !l.includes(': diag(') && !l.includes("ts.DiagnosticCategory"));
+		linesWithRequire &&
+		linesWithRequire.filter((l) => !l.includes(': diag(') && !l.includes('ts.DiagnosticCategory'));
 
 	if (runtimeRequires && runtimeRequires.length && linesWithRequire) {
 		console.error(
 			'Found new require() calls on the following lines. These should be removed to avoid breaking webpack builds.\n'
 		);
-		console.error(runtimeRequires.map(r => `${r} (${tsServicesNoCommentedRequire.indexOf(r)})`).join('\n'));
+		console.error(
+			runtimeRequires.map((r) => `${r} (${tsServicesNoCommentedRequire.indexOf(r)})`).join('\n')
+		);
 		process.exit(1);
 	}
 
@@ -163,9 +160,7 @@ ${generatedNote}
 /** Contains all the lib files */
 export const libFileSet: Record<string, boolean> = {}
 `;
-	var dtsFiles = fs
-		.readdirSync(TYPESCRIPT_LIB_SOURCE)
-		.filter((f) => f.includes('lib.'));
+	var dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter((f) => f.includes('lib.'));
 	while (dtsFiles.length > 0) {
 		var name = dtsFiles.shift();
 		var output = readLibFile(name).replace(/\r\n/g, '\n');
@@ -173,14 +168,8 @@ export const libFileSet: Record<string, boolean> = {}
 		strIndexResult += `libFileSet['${name}'] = true;\n`;
 	}
 
-	fs.writeFileSync(
-		path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts'),
-		strLibResult
-	);
-	fs.writeFileSync(
-		path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.index.ts'),
-		strIndexResult
-	);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts'), strLibResult);
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.index.ts'), strIndexResult);
 }
 
 /**

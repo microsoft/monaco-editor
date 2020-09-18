@@ -44,14 +44,8 @@ function bundleOne(moduleId, exclude) {
 			optimize: 'none'
 		},
 		async function (buildResponse) {
-			const devFilePath = path.join(
-				REPO_ROOT,
-				'release/dev/' + moduleId + '.js'
-			);
-			const minFilePath = path.join(
-				REPO_ROOT,
-				'release/min/' + moduleId + '.js'
-			);
+			const devFilePath = path.join(REPO_ROOT, 'release/dev/' + moduleId + '.js');
+			const minFilePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
 			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
 			console.log(`Minifying ${devFilePath}...`);

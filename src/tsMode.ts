@@ -21,9 +21,7 @@ export function setupJavaScript(defaults: LanguageServiceDefaults): void {
 	javaScriptWorker = setupMode(defaults, 'javascript');
 }
 
-export function getJavaScriptWorker(): Promise<
-	(...uris: Uri[]) => Promise<TypeScriptWorker>
-> {
+export function getJavaScriptWorker(): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> {
 	return new Promise((resolve, reject) => {
 		if (!javaScriptWorker) {
 			return reject('JavaScript not registered!');
@@ -33,9 +31,7 @@ export function getJavaScriptWorker(): Promise<
 	});
 }
 
-export function getTypeScriptWorker(): Promise<
-	(...uris: Uri[]) => Promise<TypeScriptWorker>
-> {
+export function getTypeScriptWorker(): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> {
 	return new Promise((resolve, reject) => {
 		if (!typeScriptWorker) {
 			return reject('TypeScript not registered!');
@@ -56,18 +52,12 @@ function setupMode(
 
 	const libFiles = new languageFeatures.LibFiles(worker);
 
-	languages.registerCompletionItemProvider(
-		modeId,
-		new languageFeatures.SuggestAdapter(worker)
-	);
+	languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker));
 	languages.registerSignatureHelpProvider(
 		modeId,
 		new languageFeatures.SignatureHelpAdapter(worker)
 	);
-	languages.registerHoverProvider(
-		modeId,
-		new languageFeatures.QuickInfoAdapter(worker)
-	);
+	languages.registerHoverProvider(modeId, new languageFeatures.QuickInfoAdapter(worker));
 	languages.registerDocumentHighlightProvider(
 		modeId,
 		new languageFeatures.OccurrencesAdapter(worker)
@@ -80,10 +70,7 @@ function setupMode(
 		modeId,
 		new languageFeatures.ReferenceAdapter(libFiles, worker)
 	);
-	languages.registerDocumentSymbolProvider(
-		modeId,
-		new languageFeatures.OutlineAdapter(worker)
-	);
+	languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker));
 	languages.registerDocumentRangeFormattingEditProvider(
 		modeId,
 		new languageFeatures.FormatAdapter(worker)
@@ -92,14 +79,8 @@ function setupMode(
 		modeId,
 		new languageFeatures.FormatOnTypeAdapter(worker)
 	);
-	languages.registerCodeActionProvider(
-		modeId,
-		new languageFeatures.CodeActionAdaptor(worker)
-	);
-	languages.registerRenameProvider(
-		modeId,
-		new languageFeatures.RenameAdapter(worker)
-	);
+	languages.registerCodeActionProvider(modeId, new languageFeatures.CodeActionAdaptor(worker));
+	languages.registerRenameProvider(modeId, new languageFeatures.RenameAdapter(worker));
 	new languageFeatures.DiagnosticsAdapter(libFiles, defaults, modeId, worker);
 
 	return worker;

@@ -20,10 +20,7 @@
 	<body>
 		<h2>Monaco Editor TypeScript test page</h2>
 		<button id="resetBtn">Reset Sample</button>
-		<div
-			id="container"
-			style="width: 800px; height: 600px; border: 1px solid grey"
-		></div>
+		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 		<h3>Custom webworker</h3>
 		<button id="logDTS">Log DTS</button>
 		<button id="getAST">Print AST to console</button>
@@ -208,14 +205,11 @@
 					noLibCheck: true
 				});
 
-				var editor = monaco.editor.create(
-					document.getElementById('container'),
-					{
-						value: localStorage.getItem('code') || getDefaultCode(),
-						language: 'typescript',
-						lightbulb: { enabled: true }
-					}
-				);
+				var editor = monaco.editor.create(document.getElementById('container'), {
+					value: localStorage.getItem('code') || getDefaultCode(),
+					language: 'typescript',
+					lightbulb: { enabled: true }
+				});
 
 				editor.onDidChangeModelContent(() => {
 					const code = editor.getModel().getValue();

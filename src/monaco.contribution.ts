@@ -6,13 +6,7 @@
 
 import type * as mode from './tsMode';
 import { typescriptVersion as tsversion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
-import {
-	languages,
-	Emitter,
-	IEvent,
-	IDisposable,
-	Uri
-} from './fillers/monaco-editor-core';
+import { languages, Emitter, IEvent, IDisposable, Uri } from './fillers/monaco-editor-core';
 
 //#region enums copied from typescript to prevent loading the entire typescriptServices ---
 
@@ -323,10 +317,7 @@ export interface TypeScriptWorker {
 	 * Get code completions for the given file and position.
 	 * @returns `Promise<typescript.CompletionInfo | undefined>`
 	 */
-	getCompletionsAtPosition(
-		fileName: string,
-		position: number
-	): Promise<any | undefined>;
+	getCompletionsAtPosition(fileName: string, position: number): Promise<any | undefined>;
 
 	/**
 	 * Get code completion details for the given file, position, and entry.
@@ -342,19 +333,13 @@ export interface TypeScriptWorker {
 	 * Get signature help items for the item at the given file and position.
 	 * @returns `Promise<typescript.SignatureHelpItems | undefined>`
 	 */
-	getSignatureHelpItems(
-		fileName: string,
-		position: number
-	): Promise<any | undefined>;
+	getSignatureHelpItems(fileName: string, position: number): Promise<any | undefined>;
 
 	/**
 	 * Get quick info for the item at the given position in the file.
 	 * @returns `Promise<typescript.QuickInfo | undefined>`
 	 */
-	getQuickInfoAtPosition(
-		fileName: string,
-		position: number
-	): Promise<any | undefined>;
+	getQuickInfoAtPosition(fileName: string, position: number): Promise<any | undefined>;
 
 	/**
 	 * Get other ranges which are related to the item at the given position in the file (often used for highlighting).
@@ -378,10 +363,7 @@ export interface TypeScriptWorker {
 	 * Get references to the item at the given position in the file.
 	 * @returns `Promise<typescript.ReferenceEntry[] | undefined>`
 	 */
-	getReferencesAtPosition(
-		fileName: string,
-		position: number
-	): Promise<any[] | undefined>;
+	getReferencesAtPosition(fileName: string, position: number): Promise<any[] | undefined>;
 
 	/**
 	 * Get outline entries for the item at the given position in the file.
@@ -509,10 +491,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 			filePath = _filePath;
 		}
 
-		if (
-			this._extraLibs[filePath] &&
-			this._extraLibs[filePath].content === content
-		) {
+		if (this._extraLibs[filePath] && this._extraLibs[filePath].content === content) {
 			// no-op, there already exists an extra lib with this content
 			return {
 				dispose: () => {}
@@ -553,8 +532,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		if (libs && libs.length > 0) {
 			for (const lib of libs) {
 				const filePath =
-					lib.filePath ||
-					`ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
+					lib.filePath || `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
 				const content = lib.content;
 				this._extraLibs[filePath] = {
 					content: content,
@@ -627,15 +605,11 @@ export const javascriptDefaults: LanguageServiceDefaults = new LanguageServiceDe
 	{}
 );
 
-export const getTypeScriptWorker = (): Promise<
-	(...uris: Uri[]) => Promise<TypeScriptWorker>
-> => {
+export const getTypeScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> => {
 	return getMode().then((mode) => mode.getTypeScriptWorker());
 };
 
-export const getJavaScriptWorker = (): Promise<
-	(...uris: Uri[]) => Promise<TypeScriptWorker>
-> => {
+export const getJavaScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> => {
 	return getMode().then((mode) => mode.getJavaScriptWorker());
 };
 

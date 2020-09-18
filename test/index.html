@@ -12,18 +12,9 @@
 	<body>
 		<h2>Monaco Editor TypeScript test page</h2>
 		<button id="resetBtn">Reset Sample</button>
-		<div
-			id="container"
-			style="width: 800px; height: 600px; border: 1px solid grey"
-		></div>
+		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 		<h3>Compiler settings</h3>
-		<textarea
-			style="font-family: monospace"
-			id="compilerOpts"
-			cols="60"
-			rows="30"
-		></textarea
-		><br />
+		<textarea style="font-family: monospace" id="compilerOpts" cols="60" rows="30"></textarea><br />
 		<button id="updateCompilerSettingsBtn">Update compiler settings</button>
 
 		<script>
@@ -187,14 +178,11 @@
 				'vs/basic-languages/monaco.contribution',
 				'vs/language/typescript/monaco.contribution'
 			], () => {
-				var editor = monaco.editor.create(
-					document.getElementById('container'),
-					{
-						value: localStorage.getItem('code') || getDefaultCode(),
-						language: 'typescript',
-						lightbulb: { enabled: true }
-					}
-				);
+				var editor = monaco.editor.create(document.getElementById('container'), {
+					value: localStorage.getItem('code') || getDefaultCode(),
+					language: 'typescript',
+					lightbulb: { enabled: true }
+				});
 
 				editor.onDidChangeModelContent(() => {
 					const code = editor.getModel().getValue();
@@ -209,15 +197,11 @@
 					localStorage.getItem('compiler-opts') ||
 					JSON.stringify(getDefaultComplierOpts(), null, 4);
 				document.getElementById('compilerOpts').textContent = optsString;
-				monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
-					JSON.parse(optsString)
-				);
+				monaco.languages.typescript.typescriptDefaults.setCompilerOptions(JSON.parse(optsString));
 
 				document.getElementById('updateCompilerSettingsBtn').onclick = () => {
 					const newOpts = document.getElementById('compilerOpts').value;
-					monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
-						JSON.parse(newOpts)
-					);
+					monaco.languages.typescript.typescriptDefaults.setCompilerOptions(JSON.parse(newOpts));
 					localStorage.setItem('compiler-opts', newOpts);
 				};
 			});

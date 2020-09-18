@@ -57,9 +57,7 @@ export function flattenDiagnosticMessageText(
 	return result;
 }
 
-function displayPartsToString(
-	displayParts: ts.SymbolDisplayPart[] | undefined
-): string {
+function displayPartsToString(displayParts: ts.SymbolDisplayPart[] | undefined): string {
 	if (displayParts) {
 		return displayParts.map((displayPart) => displayPart.text).join('');
 	}
@@ -69,9 +67,7 @@ function displayPartsToString(
 //#endregion
 
 export abstract class Adapter {
-	constructor(
-		protected _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
-	) {}
+	constructor(protected _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>) {}
 
 	// protected _positionToOffset(model: editor.ITextModel, position: monaco.IPosition): number {
 	// 	return model.getOffsetAt(position);
@@ -81,10 +77,7 @@ export abstract class Adapter {
 	// 	return model.getPositionAt(offset);
 	// }
 
-	protected _textSpanToRange(
-		model: editor.ITextModel,
-		span: ts.TextSpan
-	): IRange {
+	protected _textSpanToRange(model: editor.ITextModel, span: ts.TextSpan): IRange {
 		let p1 = model.getPositionAt(span.start);
 		let p2 = model.getPositionAt(span.start + span.length);
 		let { lineNumber: startLineNumber, column: startColumn } = p1;
@@ -100,9 +93,7 @@ export class LibFiles {
 	private _hasFetchedLibFiles: boolean;
 	private _fetchLibFilesPromise: Promise<void> | null;
 
-	constructor(
-		private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
-	) {
+	constructor(private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>) {
 		this._libFiles = {};
 		this._hasFetchedLibFiles = false;
 		this._fetchLibFilesPromise = null;
@@ -124,11 +115,7 @@ export class LibFiles {
 			return model;
 		}
 		if (this.isLibFile(uri) && this._hasFetchedLibFiles) {
-			return editor.createModel(
-				this._libFiles[uri.path.slice(1)],
-				'javascript',
-				uri
-			);
+			return editor.createModel(this._libFiles[uri.path.slice(1)], 'javascript', uri);
 		}
 		return null;
 	}
@@ -239,9 +226,7 @@ export class DiagnosticsAdapter extends Adapter {
 			}
 		};
 		this._disposables.push(this._defaults.onDidChange(recomputeDiagostics));
-		this._disposables.push(
-			this._defaults.onDidExtraLibsChange(recomputeDiagostics)
-		);
+		this._disposables.push(this._defaults.onDidExtraLibsChange(recomputeDiagostics));
 
 		editor.getModels().forEach(onModelAdd);
 	}
@@ -286,9 +271,8 @@ export class DiagnosticsAdapter extends Adapter {
 			.reduce((p, c) => c.concat(p), [])
 			.filter(
 				(d) =>
-					(
-						this._defaults.getDiagnosticsOptions().diagnosticCodesToIgnore || []
-					).indexOf(d.code) === -1
+					(this._defaults.getDiagnosticsOptions().diagnosticCodesToIgnore || []).indexOf(d.code) ===
+					-1
 			);
 
 		// Fetch lib files if necessary
@@ -296,9 +280,7 @@ export class DiagnosticsAdapter extends Adapter {
 			.map((d) => d.relatedInformation || [])
 			.reduce((p, c) => c.concat(p), [])
 			.map((relatedInformation) =>
-				relatedInformation.file
-					? Uri.parse(relatedInformation.file.fileName)
-					: null
+				relatedInformation.file ? Uri.parse(relatedInformation.file.fileName) : null
 			);
 
 		await this._libFiles.fetchLibFilesIfNecessary(relatedUris);
@@ -315,20 +297,13 @@ export class DiagnosticsAdapter extends Adapter {
 		);
 	}
 
-	private _convertDiagnostics(
-		model: editor.ITextModel,
-		diag: ts.Diagnostic
-	): editor.IMarkerData {
+	private _convertDiagnostics(model: editor.ITextModel, diag: ts.Diagnostic): editor.IMarkerData {
 		const diagStart = diag.start || 0;
 		const diagLength = diag.length || 1;
-		const {
-			lineNumber: startLineNumber,
-			column: startColumn
-		} = model.getPositionAt(diagStart);
-		const {
-			lineNumber: endLineNumber,
-			column: endColumn
-		} = model.getPositionAt(diagStart + diagLength);
+		const { lineNumber: startLineNumber, column: startColumn } = model.getPositionAt(diagStart);
+		const { lineNumber: endLineNumber, column: endColumn } = model.getPositionAt(
+			diagStart + diagLength
+		);
 
 		const tags: MarkerTag[] = [];
 		if (diag.reportsUnnecessary) {
@@ -347,10 +322,7 @@ export class DiagnosticsAdapter extends Adapter {
 			message: flattenDiagnosticMessageText(diag.messageText, '\n'),
 			code: diag.code.toString(),
 			tags,
-			relatedInformation: this._convertRelatedInformation(
-				model,
-				diag.relatedInformation
-			)
+			relatedInformation: this._convertRelatedInformation(model, diag.relatedInformation)
 		};
 	}
 
@@ -375,14 +347,12 @@ export class DiagnosticsAdapter extends Adapter {
 			}
 			const infoStart = info.start || 0;
 			const infoLength = info.length || 1;
-			const {
-				lineNumber: startLineNumber,
-				column: startColumn
-			} = relatedResource.getPositionAt(infoStart);
-			const {
-				lineNumber: endLineNumber,
-				column: endColumn
-			} = relatedResource.getPositionAt(infoStart + infoLength);
+			const { lineNumber: startLineNumber, column: startColumn } = relatedResource.getPositionAt(
+				infoStart
+			);
+			const { lineNumber: endLineNumber, column: endColumn } = relatedResource.getPositionAt(
+				infoStart + infoLength
+			);
 
 			result.push({
 				resource: relatedResource.uri,
@@ -396,9 +366,7 @@ export class DiagnosticsAdapter extends Adapter {
 		return result;
 	}
 
-	private _tsDiagnosticCategoryToMarkerSeverity(
-		category: ts.DiagnosticCategory
-	): MarkerSeverity {
+	private _tsDiagnosticCategoryToMarkerSeverity(category: ts.DiagnosticCategory): MarkerSeverity {
 		switch (category) {
 			case DiagnosticCategory.Error:
 				return MarkerSeverity.Error;
@@ -421,9 +389,7 @@ interface MyCompletionItem extends languages.CompletionItem {
 	position: Position;
 }
 
-export class SuggestAdapter
-	extends Adapter
-	implements languages.CompletionItemProvider {
+export class SuggestAdapter extends Adapter implements languages.CompletionItemProvider {
 	public get triggerCharacters(): string[] {
 		return ['.'];
 	}
@@ -445,10 +411,7 @@ export class SuggestAdapter
 		const offset = model.getOffsetAt(position);
 
 		const worker = await this._worker(resource);
-		const info = await worker.getCompletionsAtPosition(
-			resource.toString(),
-			offset
-		);
+		const info = await worker.getCompletionsAtPosition(resource.toString(), offset);
 
 		if (!info || model.isDisposed()) {
 			return;
@@ -458,9 +421,7 @@ export class SuggestAdapter
 			let range = wordRange;
 			if (entry.replacementSpan) {
 				const p1 = model.getPositionAt(entry.replacementSpan.start);
-				const p2 = model.getPositionAt(
-					entry.replacementSpan.start + entry.replacementSpan.length
-				);
+				const p2 = model.getPositionAt(entry.replacementSpan.start + entry.replacementSpan.length);
 				range = new Range(p1.lineNumber, p1.column, p2.lineNumber, p2.column);
 			}
 
@@ -551,9 +512,7 @@ export class SuggestAdapter
 		return languages.CompletionItemKind.Property;
 	}
 
-	private static createDocumentationString(
-		details: ts.CompletionEntryDetails
-	): string {
+	private static createDocumentationString(details: ts.CompletionEntryDetails): string {
 		let documentationString = displayPartsToString(details.documentation);
 		if (details.tags) {
 			for (const tag of details.tags) {
@@ -576,9 +535,7 @@ function tagToString(tag: ts.JSDocTagInfo): string {
 	return tagLabel;
 }
 
-export class SignatureHelpAdapter
-	extends Adapter
-	implements languages.SignatureHelpProvider {
+export class SignatureHelpAdapter extends Adapter implements languages.SignatureHelpProvider {
 	public signatureHelpTriggerCharacters = ['(', ','];
 
 	public async provideSignatureHelp(
@@ -589,10 +546,7 @@ export class SignatureHelpAdapter
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
-		const info = await worker.getSignatureHelpItems(
-			resource.toString(),
-			offset
-		);
+		const info = await worker.getSignatureHelpItems(resource.toString(), offset);
 
 		if (!info || model.isDisposed()) {
 			return;
@@ -641,9 +595,7 @@ export class SignatureHelpAdapter
 
 // --- hover ------
 
-export class QuickInfoAdapter
-	extends Adapter
-	implements languages.HoverProvider {
+export class QuickInfoAdapter extends Adapter implements languages.HoverProvider {
 	public async provideHover(
 		model: editor.ITextModel,
 		position: Position,
@@ -652,19 +604,14 @@ export class QuickInfoAdapter
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
-		const info = await worker.getQuickInfoAtPosition(
-			resource.toString(),
-			offset
-		);
+		const info = await worker.getQuickInfoAtPosition(resource.toString(), offset);
 
 		if (!info || model.isDisposed()) {
 			return;
 		}
 
 		const documentation = displayPartsToString(info.documentation);
-		const tags = info.tags
-			? info.tags.map((tag) => tagToString(tag)).join('  \n\n')
-			: '';
+		const tags = info.tags ? info.tags.map((tag) => tagToString(tag)).join('  \n\n') : '';
 		const contents = displayPartsToString(info.displayParts);
 		return {
 			range: this._textSpanToRange(model, info.textSpan),
@@ -682,9 +629,7 @@ export class QuickInfoAdapter
 
 // --- occurrences ------
 
-export class OccurrencesAdapter
-	extends Adapter
-	implements languages.DocumentHighlightProvider {
+export class OccurrencesAdapter extends Adapter implements languages.DocumentHighlightProvider {
 	public async provideDocumentHighlights(
 		model: editor.ITextModel,
 		position: Position,
@@ -693,10 +638,7 @@ export class OccurrencesAdapter
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
-		const entries = await worker.getOccurrencesAtPosition(
-			resource.toString(),
-			offset
-		);
+		const entries = await worker.getOccurrencesAtPosition(resource.toString(), offset);
 
 		if (!entries || model.isDisposed()) {
 			return;
@@ -731,10 +673,7 @@ export class DefinitionAdapter extends Adapter {
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
-		const entries = await worker.getDefinitionAtPosition(
-			resource.toString(),
-			offset
-		);
+		const entries = await worker.getDefinitionAtPosition(resource.toString(), offset);
 
 		if (!entries || model.isDisposed()) {
 			return;
@@ -766,9 +705,7 @@ export class DefinitionAdapter extends Adapter {
 
 // --- references ------
 
-export class ReferenceAdapter
-	extends Adapter
-	implements languages.ReferenceProvider {
+export class ReferenceAdapter extends Adapter implements languages.ReferenceProvider {
 	constructor(
 		private readonly _libFiles: LibFiles,
 		worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
@@ -785,10 +722,7 @@ export class ReferenceAdapter
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
-		const entries = await worker.getReferencesAtPosition(
-			resource.toString(),
-			offset
-		);
+		const entries = await worker.getReferencesAtPosition(resource.toString(), offset);
 
 		if (!entries || model.isDisposed()) {
 			return;
@@ -820,9 +754,7 @@ export class ReferenceAdapter
 
 // --- outline ------
 
-export class OutlineAdapter
-	extends Adapter
-	implements languages.DocumentSymbolProvider {
+export class OutlineAdapter extends Adapter implements languages.DocumentSymbolProvider {
 	public async provideDocumentSymbols(
 		model: editor.ITextModel,
 		token: CancellationToken
@@ -843,9 +775,7 @@ export class OutlineAdapter
 			let result: languages.DocumentSymbol = {
 				name: item.text,
 				detail: '',
-				kind: <languages.SymbolKind>(
-					(outlineTypeTable[item.kind] || languages.SymbolKind.Variable)
-				),
+				kind: <languages.SymbolKind>(outlineTypeTable[item.kind] || languages.SymbolKind.Variable),
 				range: this._textSpanToRange(model, item.spans[0]),
 				selectionRange: this._textSpanToRange(model, item.spans[0]),
 				tags: [],
@@ -919,9 +849,7 @@ outlineTypeTable[Kind.localFunction] = languages.SymbolKind.Function;
 // --- formatting ----
 
 export abstract class FormatHelper extends Adapter {
-	protected static _convertOptions(
-		options: languages.FormattingOptions
-	): ts.FormatCodeOptions {
+	protected static _convertOptions(options: languages.FormattingOptions): ts.FormatCodeOptions {
 		return {
 			ConvertTabsToSpaces: options.insertSpaces,
 			TabSize: options.tabSize,
@@ -1020,9 +948,7 @@ export class FormatOnTypeAdapter
 
 // --- code actions ------
 
-export class CodeActionAdaptor
-	extends FormatHelper
-	implements languages.CodeActionProvider {
+export class CodeActionAdaptor extends FormatHelper implements languages.CodeActionProvider {
 	public async provideCodeActions(
 		model: editor.ITextModel,
 		range: Range,

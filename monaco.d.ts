@@ -285,10 +285,7 @@ declare namespace monaco.languages.typescript {
 		 * Get code completions for the given file and position.
 		 * @returns `Promise<typescript.CompletionInfo | undefined>`
 		 */
-		getCompletionsAtPosition(
-			fileName: string,
-			position: number
-		): Promise<any | undefined>;
+		getCompletionsAtPosition(fileName: string, position: number): Promise<any | undefined>;
 		/**
 		 * Get code completion details for the given file, position, and entry.
 		 * @returns `Promise<typescript.CompletionEntryDetails | undefined>`
@@ -302,18 +299,12 @@ declare namespace monaco.languages.typescript {
 		 * Get signature help items for the item at the given file and position.
 		 * @returns `Promise<typescript.SignatureHelpItems | undefined>`
 		 */
-		getSignatureHelpItems(
-			fileName: string,
-			position: number
-		): Promise<any | undefined>;
+		getSignatureHelpItems(fileName: string, position: number): Promise<any | undefined>;
 		/**
 		 * Get quick info for the item at the given position in the file.
 		 * @returns `Promise<typescript.QuickInfo | undefined>`
 		 */
-		getQuickInfoAtPosition(
-			fileName: string,
-			position: number
-		): Promise<any | undefined>;
+		getQuickInfoAtPosition(fileName: string, position: number): Promise<any | undefined>;
 		/**
 		 * Get other ranges which are related to the item at the given position in the file (often used for highlighting).
 		 * @returns `Promise<ReadonlyArray<typescript.ReferenceEntry> | undefined>`
@@ -334,10 +325,7 @@ declare namespace monaco.languages.typescript {
 		 * Get references to the item at the given position in the file.
 		 * @returns `Promise<typescript.ReferenceEntry[] | undefined>`
 		 */
-		getReferencesAtPosition(
-			fileName: string,
-			position: number
-		): Promise<any[] | undefined>;
+		getReferencesAtPosition(fileName: string, position: number): Promise<any[] | undefined>;
 		/**
 		 * Get outline entries for the item at the given position in the file.
 		 * @returns `Promise<typescript.NavigationBarItem[]>`
@@ -348,10 +336,7 @@ declare namespace monaco.languages.typescript {
 		 * @param options `typescript.FormatCodeOptions`
 		 * @returns `Promise<typescript.TextChange[]>`
 		 */
-		getFormattingEditsForDocument(
-			fileName: string,
-			options: any
-		): Promise<any[]>;
+		getFormattingEditsForDocument(fileName: string, options: any): Promise<any[]>;
 		/**
 		 * Get changes which should be applied to format the given range in the file.
 		 * @param options `typescript.FormatCodeOptions`
@@ -390,11 +375,7 @@ declare namespace monaco.languages.typescript {
 		 * @param options `typescript.RenameInfoOptions`
 		 * @returns `Promise<typescript.RenameInfo>`
 		 */
-		getRenameInfo(
-			fileName: string,
-			positon: number,
-			options: any
-		): Promise<any>;
+		getRenameInfo(fileName: string, positon: number, options: any): Promise<any>;
 		/**
 		 * Get transpiled output for the given file.
 		 * @returns `typescript.EmitOutput`
@@ -416,10 +397,6 @@ declare namespace monaco.languages.typescript {
 	export const typescriptVersion: string;
 	export const typescriptDefaults: LanguageServiceDefaults;
 	export const javascriptDefaults: LanguageServiceDefaults;
-	export const getTypeScriptWorker: () => Promise<
-		(...uris: Uri[]) => Promise<TypeScriptWorker>
-	>;
-	export const getJavaScriptWorker: () => Promise<
-		(...uris: Uri[]) => Promise<TypeScriptWorker>
-	>;
+	export const getTypeScriptWorker: () => Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>>;
+	export const getJavaScriptWorker: () => Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>>;
 }
