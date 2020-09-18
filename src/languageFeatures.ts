@@ -104,11 +104,7 @@ export class DiagnosticsAdapter {
 			.then((worker) => {
 				return worker.doValidation(resource.toString()).then((diagnostics) => {
 					const markers = diagnostics.map((d) => toDiagnostics(resource, d));
-					editor.setModelMarkers(
-						editor.getModel(resource),
-						languageId,
-						markers
-					);
+					editor.setModelMarkers(editor.getModel(resource), languageId, markers);
 				});
 			})
 			.then(undefined, (err) => {
@@ -132,12 +128,8 @@ function toSeverity(lsSeverity: number): MarkerSeverity {
 	}
 }
 
-function toDiagnostics(
-	resource: Uri,
-	diag: htmlService.Diagnostic
-): editor.IMarkerData {
-	const code =
-		typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
+function toDiagnostics(resource: Uri, diag: htmlService.Diagnostic): editor.IMarkerData {
+	const code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
 
 	return {
 		severity: toSeverity(diag.severity),
@@ -182,9 +174,7 @@ function toRange(range: htmlService.Range): Range {
 	);
 }
 
-function isInsertReplaceEdit(
-	edit: TextEdit | InsertReplaceEdit
-): edit is InsertReplaceEdit {
+function isInsertReplaceEdit(edit: TextEdit | InsertReplaceEdit): edit is InsertReplaceEdit {
 	return (
 		typeof (<InsertReplaceEdit>edit).insert !== 'undefined' &&
 		typeof (<InsertReplaceEdit>edit).replace !== 'undefined'
@@ -281,9 +271,7 @@ function fromCompletionItemKind(
 	return htmlService.CompletionItemKind.Property;
 }
 
-function toTextEdit(
-	textEdit: htmlService.TextEdit
-): editor.ISingleEditOperation {
+function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation {
 	if (!textEdit) {
 		return void 0;
 	}
@@ -347,13 +335,10 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 						item.insertText = entry.textEdit.newText;
 					}
 					if (entry.additionalTextEdits) {
-						item.additionalTextEdits = entry.additionalTextEdits.map(
-							toTextEdit
-						);
+						item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit);
 					}
 					if (entry.insertTextFormat === htmlService.InsertTextFormat.Snippet) {
-						item.insertTextRules =
-							languages.CompletionItemInsertTextRule.InsertAsSnippet;
+						item.insertTextRules = languages.CompletionItemInsertTextRule.InsertAsSnippet;
 					}
 					return item;
 				});
@@ -399,10 +384,7 @@ function toMarkdownString(
 }
 
 function toMarkedStringArray(
-	contents:
-		| htmlService.MarkupContent
-		| htmlService.MarkedString
-		| htmlService.MarkedString[]
+	contents: htmlService.MarkupContent | htmlService.MarkedString | htmlService.MarkedString[]
 ): IMarkdownString[] {
 	if (!contents) {
 		return void 0;
@@ -441,9 +423,7 @@ export class HoverAdapter implements languages.HoverProvider {
 
 // --- document highlights ------
 
-function toHighlighKind(
-	kind: htmlService.DocumentHighlightKind
-): languages.DocumentHighlightKind {
+function toHighlighKind(kind: htmlService.DocumentHighlightKind): languages.DocumentHighlightKind {
 	const mKind = languages.DocumentHighlightKind;
 
 	switch (kind) {
@@ -457,8 +437,7 @@ function toHighlighKind(
 	return mKind.Text;
 }
 
-export class DocumentHighlightAdapter
-	implements languages.DocumentHighlightProvider {
+export class DocumentHighlightAdapter implements languages.DocumentHighlightProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentHighlights(
@@ -469,12 +448,7 @@ export class DocumentHighlightAdapter
 		const resource = model.uri;
 
 		return this._worker(resource)
-			.then((worker) =>
-				worker.findDocumentHighlights(
-					resource.toString(),
-					fromPosition(position)
-				)
-			)
+			.then((worker) => worker.findDocumentHighlights(resource.toString(), fromPosition(position)))
 			.then((items) => {
 				if (!items) {
 					return;
@@ -595,8 +569,7 @@ function fromFormattingOptions(
 	};
 }
 
-export class DocumentFormattingEditProvider
-	implements languages.DocumentFormattingEditProvider {
+export class DocumentFormattingEditProvider implements languages.DocumentFormattingEditProvider {
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentFormattingEdits(
@@ -633,11 +606,7 @@ export class DocumentRangeFormattingEditProvider
 
 		return this._worker(resource).then((worker) => {
 			return worker
-				.format(
-					resource.toString(),
-					fromRange(range),
-					fromFormattingOptions(options)
-				)
+				.format(resource.toString(), fromRange(range), fromFormattingOptions(options))
 				.then((edits) => {
 					if (!edits || edits.length === 0) {
 						return;
@@ -661,11 +630,7 @@ export class RenameAdapter implements languages.RenameProvider {
 
 		return this._worker(resource)
 			.then((worker) => {
-				return worker.doRename(
-					resource.toString(),
-					fromPosition(position),
-					newName
-				);
+				return worker.doRename(resource.toString(), fromPosition(position), newName);
 			})
 			.then((edit) => {
 				return toWorkspaceEdit(edit);
@@ -673,9 +638,7 @@ export class RenameAdapter implements languages.RenameProvider {
 	}
 }
 
-function toWorkspaceEdit(
-	edit: htmlService.WorkspaceEdit
-): languages.WorkspaceEdit {
+function toWorkspaceEdit(edit: htmlService.WorkspaceEdit): languages.WorkspaceEdit {
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
@@ -719,9 +682,7 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 						end: range.endLine + 1
 					};
 					if (typeof range.kind !== 'undefined') {
-						result.kind = toFoldingRangeKind(
-							<htmlService.FoldingRangeKind>range.kind
-						);
+						result.kind = toFoldingRangeKind(<htmlService.FoldingRangeKind>range.kind);
 					}
 					return result;
 				});
@@ -729,9 +690,7 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	}
 }
 
-function toFoldingRangeKind(
-	kind: htmlService.FoldingRangeKind
-): languages.FoldingRangeKind {
+function toFoldingRangeKind(kind: htmlService.FoldingRangeKind): languages.FoldingRangeKind {
 	switch (kind) {
 		case htmlService.FoldingRangeKind.Comment:
 			return languages.FoldingRangeKind.Comment;
@@ -753,12 +712,7 @@ export class SelectionRangeAdapter implements languages.SelectionRangeProvider {
 		const resource = model.uri;
 
 		return this._worker(resource)
-			.then((worker) =>
-				worker.getSelectionRanges(
-					resource.toString(),
-					positions.map(fromPosition)
-				)
-			)
+			.then((worker) => worker.getSelectionRanges(resource.toString(), positions.map(fromPosition)))
 			.then((selectionRanges) => {
 				if (!selectionRanges) {
 					return;

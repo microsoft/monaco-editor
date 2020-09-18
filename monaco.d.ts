@@ -18,11 +18,7 @@ declare namespace monaco.languages.html {
 		readonly indentHandlebars: boolean;
 		readonly endWithNewline: boolean;
 		readonly extraLiners: string;
-		readonly wrapAttributes:
-			| 'auto'
-			| 'force'
-			| 'force-aligned'
-			| 'force-expand-multiline';
+		readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
 	}
 	export interface CompletionConfiguration {
 		[provider: string]: boolean;

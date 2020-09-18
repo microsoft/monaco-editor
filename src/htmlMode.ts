@@ -12,9 +12,7 @@ import { Uri, IDisposable, languages } from './fillers/monaco-editor-core';
 export function setupMode1(defaults: LanguageServiceDefaults): void {
 	const client = new WorkerManager(defaults);
 
-	const worker: languageFeatures.WorkerAccessor = (
-		...uris: Uri[]
-	): Promise<HTMLWorker> => {
+	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<HTMLWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
@@ -25,19 +23,13 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new languageFeatures.CompletionAdapter(worker)
 	);
-	languages.registerHoverProvider(
-		languageId,
-		new languageFeatures.HoverAdapter(worker)
-	);
+	languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker));
 
 	languages.registerDocumentHighlightProvider(
 		languageId,
 		new languageFeatures.DocumentHighlightAdapter(worker)
 	);
-	languages.registerLinkProvider(
-		languageId,
-		new languageFeatures.DocumentLinkAdapter(worker)
-	);
+	languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
 	languages.registerFoldingRangeProvider(
 		languageId,
 		new languageFeatures.FoldingRangeAdapter(worker)
@@ -50,10 +42,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new languageFeatures.SelectionRangeAdapter(worker)
 	);
-	languages.registerRenameProvider(
-		languageId,
-		new languageFeatures.RenameAdapter(worker)
-	);
+	languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker));
 
 	// only html
 	if (languageId === 'html') {
@@ -76,9 +65,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor = (
-		...uris: Uri[]
-	): Promise<HTMLWorker> => {
+	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<HTMLWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
@@ -97,10 +84,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(
-					languageId,
-					new languageFeatures.HoverAdapter(worker)
-				)
+				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
@@ -113,10 +97,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.links) {
 			providers.push(
-				languages.registerLinkProvider(
-					languageId,
-					new languageFeatures.DocumentLinkAdapter(worker)
-				)
+				languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
@@ -129,10 +110,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(
-					languageId,
-					new languageFeatures.RenameAdapter(worker)
-				)
+				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
 			);
 		}
 		if (modeConfiguration.foldingRanges) {
@@ -168,9 +146,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(
-				new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults)
-			);
+			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
 		}
 	}
 
