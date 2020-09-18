@@ -6,19 +6,11 @@
 import * as json from 'jsonc-parser';
 import { languages } from './fillers/monaco-editor-core';
 
-export function createTokenizationSupport(
-	supportComments: boolean
-): languages.TokensProvider {
+export function createTokenizationSupport(supportComments: boolean): languages.TokensProvider {
 	return {
 		getInitialState: () => new JSONState(null, null),
 		tokenize: (line, state, offsetDelta?, stopAtOffset?) =>
-			tokenize(
-				supportComments,
-				line,
-				<JSONState>state,
-				offsetDelta,
-				stopAtOffset
-			)
+			tokenize(supportComments, line, <JSONState>state, offsetDelta, stopAtOffset)
 	};
 }
 
@@ -108,8 +100,7 @@ function tokenize(
 		// Check that the scanner has advanced
 		if (offset === offsetDelta + scanner.getPosition()) {
 			throw new Error(
-				'Scanner did not advance, next 3 characters are: ' +
-					line.substr(scanner.getPosition(), 3)
+				'Scanner did not advance, next 3 characters are: ' + line.substr(scanner.getPosition(), 3)
 			);
 		}
 

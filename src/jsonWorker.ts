@@ -24,8 +24,7 @@ export class JSONWorker {
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
 		this._languageService = jsonService.getLanguageService({
-			schemaRequestService:
-				createData.enableSchemaRequest && defaultSchemaRequestService
+			schemaRequestService: createData.enableSchemaRequest && defaultSchemaRequestService
 		});
 		this._languageService.configure(this._languageSettings);
 	}
@@ -46,15 +45,10 @@ export class JSONWorker {
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doComplete(document, position, jsonDocument);
 	}
-	async doResolve(
-		item: jsonService.CompletionItem
-	): Promise<jsonService.CompletionItem> {
+	async doResolve(item: jsonService.CompletionItem): Promise<jsonService.CompletionItem> {
 		return this._languageService.doResolve(item);
 	}
-	async doHover(
-		uri: string,
-		position: jsonService.Position
-	): Promise<jsonService.Hover> {
+	async doHover(uri: string, position: jsonService.Position): Promise<jsonService.Hover> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doHover(document, position, jsonDocument);
@@ -71,26 +65,16 @@ export class JSONWorker {
 	async resetSchema(uri: string): Promise<boolean> {
 		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
-	async findDocumentSymbols(
-		uri: string
-	): Promise<jsonService.SymbolInformation[]> {
+	async findDocumentSymbols(uri: string): Promise<jsonService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let symbols = this._languageService.findDocumentSymbols(
-			document,
-			jsonDocument
-		);
+		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
 		return Promise.resolve(symbols);
 	}
-	async findDocumentColors(
-		uri: string
-	): Promise<jsonService.ColorInformation[]> {
+	async findDocumentColors(uri: string): Promise<jsonService.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let colorSymbols = this._languageService.findDocumentColors(
-			document,
-			jsonDocument
-		);
+		let colorSymbols = this._languageService.findDocumentColors(document, jsonDocument);
 		return Promise.resolve(colorSymbols);
 	}
 	async getColorPresentations(
@@ -122,11 +106,7 @@ export class JSONWorker {
 	): Promise<jsonService.SelectionRange[]> {
 		let document = this._getTextDocument(uri);
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let ranges = this._languageService.getSelectionRanges(
-			document,
-			positions,
-			jsonDocument
-		);
+		let ranges = this._languageService.getSelectionRanges(document, positions, jsonDocument);
 		return Promise.resolve(ranges);
 	}
 	private _getTextDocument(uri: string): jsonService.TextDocument {
@@ -151,9 +131,6 @@ export interface ICreateData {
 	enableSchemaRequest: boolean;
 }
 
-export function create(
-	ctx: worker.IWorkerContext,
-	createData: ICreateData
-): JSONWorker {
+export function create(ctx: worker.IWorkerContext, createData: ICreateData): JSONWorker {
 	return new JSONWorker(ctx, createData);
 }

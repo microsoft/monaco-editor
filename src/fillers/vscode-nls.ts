@@ -33,11 +33,7 @@ function format(message: string, args: any[]): string {
 	return result;
 }
 
-function localize(
-	key: string | LocalizeInfo,
-	message: string,
-	...args: any[]
-): string {
+function localize(key: string | LocalizeInfo, message: string, ...args: any[]): string {
 	return format(message, args);
 }
 

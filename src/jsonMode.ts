@@ -17,9 +17,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor = (
-		...uris: Uri[]
-	): Promise<JSONWorker> => {
+	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<JSONWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
@@ -54,10 +52,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(
-					languageId,
-					new languageFeatures.HoverAdapter(worker)
-				)
+				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
@@ -69,9 +64,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			);
 		}
 		if (modeConfiguration.tokens) {
-			providers.push(
-				languages.setTokensProvider(languageId, createTokenizationSupport(true))
-			);
+			providers.push(languages.setTokensProvider(languageId, createTokenizationSupport(true)));
 		}
 		if (modeConfiguration.colors) {
 			providers.push(
@@ -90,9 +83,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(
-				new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults)
-			);
+			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
@@ -106,12 +97,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 
 	registerProviders();
 
-	disposables.push(
-		languages.setLanguageConfiguration(
-			defaults.languageId,
-			richEditConfiguration
-		)
-	);
+	disposables.push(languages.setLanguageConfiguration(defaults.languageId, richEditConfiguration));
 
 	let modeConfiguration = defaults.modeConfiguration;
 	defaults.onDidChange((newDefaults) => {

@@ -5,12 +5,6 @@
 		"moduleResolution": "node",
 		"outDir": "../out/esm",
 		"target": "es5",
-		"lib": [
-			"dom",
-			"es5",
-			"es2015.collection",
-			"es2015.promise",
-			"es2015.iterable"
-		]
+		"lib": ["dom", "es5", "es2015.collection", "es2015.promise", "es2015.iterable"]
 	}
 }
