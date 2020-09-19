@@ -159,6 +159,12 @@ var PLAY_SAMPLES = [
 	},
 	{
 		chapter: "Extending Language Services",
+		name: "Semantic tokens provider example",
+		id: "extending-language-services-semantic-tokens-provider-example",
+		path: "extending-language-services/semantic-tokens-provider-example"
+	},
+	{
+		chapter: "Extending Language Services",
 		name: "Configure JavaScript defaults",
 		id: "extending-language-services-configure-javascript-defaults",
 		path: "extending-language-services/configure-javascript-defaults"
