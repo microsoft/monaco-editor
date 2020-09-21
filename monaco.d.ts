@@ -245,6 +245,10 @@ declare namespace monaco.languages.typescript {
 		 */
 		setDiagnosticsOptions(options: DiagnosticsOptions): void;
 		/**
+		 * Configure webworker options
+		 */
+		setWorkerOptions(options: WorkerOptions): void;
+		/**
 		 * No-op.
 		 */
 		setMaximumWorkerIdleTime(value: number): void;
