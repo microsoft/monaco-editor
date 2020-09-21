@@ -1,23 +1,38 @@
+/*
+* C# Program to Display All the Prime Numbers Between 1 to 100
+*/
+
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace VS
 {
 	class Program
 	{
 		static void Main(string[] args)
-		{
-			ProcessStartInfo si = new ProcessStartInfo();
-			float load= 3.2e02f;
-
-			si.FileName = @"tools\\node.exe";
-			si.Arguments = "tools\\simpleserver.js";
-
-			Process.Start(si);
+    		{
+			bool isPrime = true;
+			Console.WriteLine("Prime Numbers : ");
+			for (int i = 2; i <= 100; i++)
+			{
+				for (int j = 2; j <= 100; j++)
+				{
+					if (i != j && i % j == 0)
+					{
+						isPrime = false;
+						break;
+					}
+				}
+				
+				if (isPrime)
+				{
+					Console.Write("\t" +i);
+				}
+				isPrime = true;
+			}
+			Console.ReadKey();
 		}
 	}
 }
