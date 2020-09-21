@@ -107,7 +107,8 @@ function generateFeatures() {
 	const skipImports = [
 		'vs/editor/common/standaloneStrings',
 		'vs/editor/contrib/tokenization/tokenization',
-		'vs/editor/editor.all'
+		'vs/editor/editor.all',
+		'vs/base/browser/ui/codicons/codiconStyles'
 	];
 
 	let features = [];

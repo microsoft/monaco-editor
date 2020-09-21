@@ -1,18 +1,7 @@
 {
-	"name": "helloworld",
-	"dependencies": {},
+	"name": "browser-esm-webpack-small",
 	"scripts": {
-		"build": "webpack --progress",
+		"build": "../node_modules/.bin/webpack --progress",
 		"generate-imports": "node generate-imports.js"
-	},
-	"devDependencies": {
-		"css-loader": "^4.3.0",
-		"file-loader": "^6.1.0",
-		"glob": "^7.1.6",
-		"monaco-editor": "^0.20.0",
-		"style-loader": "^1.2.1",
-		"terser-webpack-plugin": "^4.2.1",
-		"webpack": "^4.44.2",
-		"webpack-cli": "^3.3.12"
 	}
 }

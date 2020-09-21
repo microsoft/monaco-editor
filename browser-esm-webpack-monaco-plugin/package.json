@@ -1,22 +1,6 @@
 {
-	"name": "monaco",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"private": true,
+	"name": "browser-esm-webpack-monaco-plugin",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "webpack --progress"
-	},
-	"keywords": [],
-	"author": "",
-	"devDependencies": {
-		"css-loader": "^4.3.0",
-		"file-loader": "^6.1.0",
-		"monaco-editor": "^0.20.0",
-		"monaco-editor-webpack-plugin": "^1.9.0",
-		"style-loader": "^1.2.1",
-		"webpack": "^4.44.2",
-		"webpack-cli": "^3.3.12"
+		"build": "../node_modules/.bin/webpack --progress"
 	}
 }
