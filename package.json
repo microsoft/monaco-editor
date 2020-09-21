@@ -8,6 +8,7 @@
     "test": "node ./node_modules/webpack/bin/webpack.js --config test/webpack.config.js --progress",
     "test-cross-origin": "node ./node_modules/webpack/bin/webpack.js --config test/webpack-cross-origin.config.js --progress",
     "watch": "tsc -w -p tsconfig.json",
+    "import-editor": "node ./scripts/import-editor.js",
     "prepublishOnly": "tsc -p tsconfig.json"
   },
   "repository": {
@@ -28,21 +29,21 @@
   "homepage": "https://github.com/Microsoft/monaco-editor-webpack-plugin#readme",
   "peerDependencies": {
     "webpack": "^4.5.0",
-    "monaco-editor": "0.19.x || 0.20.x"
+    "monaco-editor": "0.21.x"
   },
   "devDependencies": {
     "@types/loader-utils": "^2.0.1",
     "@types/webpack": "^4.41.22",
-    "css-loader": "^4.2.2",
+    "css-loader": "^4.3.0",
     "file-loader": "^6.1.0",
     "glob": "^7.1.6",
-    "monaco-editor": "^0.20.0",
+    "monaco-editor": "^0.21.0",
     "style-loader": "^1.2.1",
-    "typescript": "^3.7.5",
-    "webpack": "^4.44.1",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "loader-utils": "^1.2.3"
+    "loader-utils": "^2.0.0"
   }
 }

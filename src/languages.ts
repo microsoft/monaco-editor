@@ -57,6 +57,10 @@ export const languagesArr: IFeatureDefinition[] = [
     }
   },
   {
+    label: 'dart',
+    entry: 'vs/basic-languages/dart/dart.contribution'
+  },
+  {
     label: 'dockerfile',
     entry: 'vs/basic-languages/dockerfile/dockerfile.contribution'
   },
@@ -75,6 +79,10 @@ export const languagesArr: IFeatureDefinition[] = [
   {
     label: 'handlebars',
     entry: 'vs/basic-languages/handlebars/handlebars.contribution'
+  },
+  {
+    label: 'hcl',
+    entry: 'vs/basic-languages/hcl/hcl.contribution'
   },
   {
     label: 'html',
@@ -108,12 +116,20 @@ export const languagesArr: IFeatureDefinition[] = [
     }
   },
   {
+    label: 'julia',
+    entry: 'vs/basic-languages/julia/julia.contribution'
+  },
+  {
     label: 'kotlin',
     entry: 'vs/basic-languages/kotlin/kotlin.contribution'
   },
   {
     label: 'less',
     entry: 'vs/basic-languages/less/less.contribution'
+  },
+  {
+    label: 'lexon',
+    entry: 'vs/basic-languages/lexon/lexon.contribution'
   },
   {
     label: 'lua',
@@ -212,6 +228,10 @@ export const languagesArr: IFeatureDefinition[] = [
     entry: 'vs/basic-languages/sb/sb.contribution'
   },
   {
+    label: 'scala',
+    entry: 'vs/basic-languages/scala/scala.contribution'
+  },
+  {
     label: 'scheme',
     entry: 'vs/basic-languages/scheme/scheme.contribution'
   },
@@ -242,6 +262,10 @@ export const languagesArr: IFeatureDefinition[] = [
   {
     label: 'swift',
     entry: 'vs/basic-languages/swift/swift.contribution'
+  },
+  {
+    label: 'systemverilog',
+    entry: 'vs/basic-languages/systemverilog/systemverilog.contribution'
   },
   {
     label: 'tcl',
@@ -276,5 +300,5 @@ export const languagesArr: IFeatureDefinition[] = [
   }
 ];
 
-export type EditorLanguage = 'abap' | 'apex' | 'azcli' | 'bat' | 'cameligo' | 'clojure' | 'coffee' | 'cpp' | 'csharp' | 'csp' | 'css' | 'dockerfile' | 'fsharp' | 'go' | 'graphql' | 'handlebars' | 'html' | 'ini' | 'java' | 'javascript' | 'json' | 'kotlin' | 'less' | 'lua' | 'markdown' | 'mips' | 'msdax' | 'mysql' | 'objective-c' | 'pascal' | 'pascaligo' | 'perl' | 'pgsql' | 'php' | 'postiats' | 'powerquery' | 'powershell' | 'pug' | 'python' | 'r' | 'razor' | 'redis' | 'redshift' | 'restructuredtext' | 'ruby' | 'rust' | 'sb' | 'scheme' | 'scss' | 'shell' | 'solidity' | 'sophia' | 'sql' | 'st' | 'swift' | 'tcl' | 'twig' | 'typescript' | 'vb' | 'xml' | 'yaml';
+export type EditorLanguage = 'abap' | 'apex' | 'azcli' | 'bat' | 'cameligo' | 'clojure' | 'coffee' | 'cpp' | 'csharp' | 'csp' | 'css' | 'dart' | 'dockerfile' | 'fsharp' | 'go' | 'graphql' | 'handlebars' | 'hcl' | 'html' | 'ini' | 'java' | 'javascript' | 'json' | 'julia' | 'kotlin' | 'less' | 'lexon' | 'lua' | 'markdown' | 'mips' | 'msdax' | 'mysql' | 'objective-c' | 'pascal' | 'pascaligo' | 'perl' | 'pgsql' | 'php' | 'postiats' | 'powerquery' | 'powershell' | 'pug' | 'python' | 'r' | 'razor' | 'redis' | 'redshift' | 'restructuredtext' | 'ruby' | 'rust' | 'sb' | 'scala' | 'scheme' | 'scss' | 'shell' | 'solidity' | 'sophia' | 'sql' | 'st' | 'swift' | 'systemverilog' | 'tcl' | 'twig' | 'typescript' | 'vb' | 'xml' | 'yaml';
 

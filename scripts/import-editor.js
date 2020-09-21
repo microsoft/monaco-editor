@@ -12,11 +12,13 @@ const customFeatureLabels = {
   'vs/editor/contrib/caretOperations/caretOperations': 'caretOperations',
   'vs/editor/contrib/caretOperations/transpose': 'transpose',
   'vs/editor/contrib/colorPicker/colorDetector': 'colorDetector',
+  'vs/editor/contrib/rename/onTypeRename': 'onTypeRename',
   'vs/editor/contrib/gotoSymbol/link/goToDefinitionAtPosition': 'gotoSymbol',
   'vs/editor/contrib/snippet/snippetController2': 'snippets',
-  'vs/editor/standalone/browser/quickOpen/gotoLine': 'gotoLine',
-  'vs/editor/standalone/browser/quickOpen/quickCommand': 'quickCommand',
-  'vs/editor/standalone/browser/quickOpen/quickOutline': 'quickOutline',
+  'vs/editor/standalone/browser/quickAccess/standaloneGotoLineQuickAccess': 'gotoLine',
+  'vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess': 'quickCommand',
+  'vs/editor/standalone/browser/quickAccess/standaloneGotoSymbolQuickAccess': 'quickOutline',
+  'vs/editor/standalone/browser/quickAccess/standaloneHelpQuickAccess': 'quickHelp',
 };
 
 generateLanguages();
@@ -191,6 +193,8 @@ function generateFeatures() {
     'vs/editor/common/standaloneStrings',
     'vs/editor/contrib/tokenization/tokenization',
     'vs/editor/editor.all',
+    'vs/base/browser/ui/codicons/codiconStyles',
+    'vs/editor/contrib/gotoSymbol/documentSymbols',
   ];
 
   let features = [];

@@ -10,6 +10,10 @@ export const featuresArr: IFeatureDefinition[] = [
     entry: 'vs/editor/standalone/browser/accessibilityHelp/accessibilityHelp'
   },
   {
+    label: 'anchorSelect',
+    entry: 'vs/editor/contrib/anchorSelect/anchorSelect'
+  },
+  {
     label: 'bracketMatching',
     entry: 'vs/editor/contrib/bracketMatching/bracketMatching'
   },
@@ -75,7 +79,7 @@ export const featuresArr: IFeatureDefinition[] = [
   },
   {
     label: 'gotoLine',
-    entry: 'vs/editor/standalone/browser/quickOpen/gotoLine'
+    entry: 'vs/editor/standalone/browser/quickAccess/standaloneGotoLineQuickAccess'
   },
   {
     label: 'gotoSymbol',
@@ -97,6 +101,10 @@ export const featuresArr: IFeatureDefinition[] = [
     entry: 'vs/editor/contrib/inPlaceReplace/inPlaceReplace'
   },
   {
+    label: 'indentation',
+    entry: 'vs/editor/contrib/indentation/indentation'
+  },
+  {
     label: 'inspectTokens',
     entry: 'vs/editor/standalone/browser/inspectTokens/inspectTokens'
   },
@@ -113,16 +121,24 @@ export const featuresArr: IFeatureDefinition[] = [
     entry: 'vs/editor/contrib/multicursor/multicursor'
   },
   {
+    label: 'onTypeRename',
+    entry: 'vs/editor/contrib/rename/onTypeRename'
+  },
+  {
     label: 'parameterHints',
     entry: 'vs/editor/contrib/parameterHints/parameterHints'
   },
   {
     label: 'quickCommand',
-    entry: 'vs/editor/standalone/browser/quickOpen/quickCommand'
+    entry: 'vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess'
+  },
+  {
+    label: 'quickHelp',
+    entry: 'vs/editor/standalone/browser/quickAccess/standaloneHelpQuickAccess'
   },
   {
     label: 'quickOutline',
-    entry: 'vs/editor/standalone/browser/quickOpen/quickOutline'
+    entry: 'vs/editor/standalone/browser/quickAccess/standaloneGotoSymbolQuickAccess'
   },
   {
     label: 'referenceSearch',
@@ -157,6 +173,14 @@ export const featuresArr: IFeatureDefinition[] = [
     entry: 'vs/editor/contrib/caretOperations/transpose'
   },
   {
+    label: 'unusualLineTerminators',
+    entry: 'vs/editor/contrib/unusualLineTerminators/unusualLineTerminators'
+  },
+  {
+    label: 'viewportSemanticTokens',
+    entry: 'vs/editor/contrib/viewportSemanticTokens/viewportSemanticTokens'
+  },
+  {
     label: 'wordHighlighter',
     entry: 'vs/editor/contrib/wordHighlighter/wordHighlighter'
   },
@@ -170,6 +194,6 @@ export const featuresArr: IFeatureDefinition[] = [
   }
 ];
 
-export type EditorFeature = 'accessibilityHelp' | 'bracketMatching' | 'caretOperations' | 'clipboard' | 'codeAction' | 'codelens' | 'colorDetector' | 'comment' | 'contextmenu' | 'coreCommands' | 'cursorUndo' | 'dnd' | 'find' | 'folding' | 'fontZoom' | 'format' | 'gotoError' | 'gotoLine' | 'gotoSymbol' | 'hover' | 'iPadShowKeyboard' | 'inPlaceReplace' | 'inspectTokens' | 'linesOperations' | 'links' | 'multicursor' | 'parameterHints' | 'quickCommand' | 'quickOutline' | 'referenceSearch' | 'rename' | 'smartSelect' | 'snippets' | 'suggest' | 'toggleHighContrast' | 'toggleTabFocusMode' | 'transpose' | 'wordHighlighter' | 'wordOperations' | 'wordPartOperations';
+export type EditorFeature = 'accessibilityHelp' | 'anchorSelect' | 'bracketMatching' | 'caretOperations' | 'clipboard' | 'codeAction' | 'codelens' | 'colorDetector' | 'comment' | 'contextmenu' | 'coreCommands' | 'cursorUndo' | 'dnd' | 'find' | 'folding' | 'fontZoom' | 'format' | 'gotoError' | 'gotoLine' | 'gotoSymbol' | 'hover' | 'iPadShowKeyboard' | 'inPlaceReplace' | 'indentation' | 'inspectTokens' | 'linesOperations' | 'links' | 'multicursor' | 'onTypeRename' | 'parameterHints' | 'quickCommand' | 'quickHelp' | 'quickOutline' | 'referenceSearch' | 'rename' | 'smartSelect' | 'snippets' | 'suggest' | 'toggleHighContrast' | 'toggleTabFocusMode' | 'transpose' | 'unusualLineTerminators' | 'viewportSemanticTokens' | 'wordHighlighter' | 'wordOperations' | 'wordPartOperations';
 
-export type NegatedEditorFeature = '!accessibilityHelp' | '!bracketMatching' | '!caretOperations' | '!clipboard' | '!codeAction' | '!codelens' | '!colorDetector' | '!comment' | '!contextmenu' | '!coreCommands' | '!cursorUndo' | '!dnd' | '!find' | '!folding' | '!fontZoom' | '!format' | '!gotoError' | '!gotoLine' | '!gotoSymbol' | '!hover' | '!iPadShowKeyboard' | '!inPlaceReplace' | '!inspectTokens' | '!linesOperations' | '!links' | '!multicursor' | '!parameterHints' | '!quickCommand' | '!quickOutline' | '!referenceSearch' | '!rename' | '!smartSelect' | '!snippets' | '!suggest' | '!toggleHighContrast' | '!toggleTabFocusMode' | '!transpose' | '!wordHighlighter' | '!wordOperations' | '!wordPartOperations';
+export type NegatedEditorFeature = '!accessibilityHelp' | '!anchorSelect' | '!bracketMatching' | '!caretOperations' | '!clipboard' | '!codeAction' | '!codelens' | '!colorDetector' | '!comment' | '!contextmenu' | '!coreCommands' | '!cursorUndo' | '!dnd' | '!find' | '!folding' | '!fontZoom' | '!format' | '!gotoError' | '!gotoLine' | '!gotoSymbol' | '!hover' | '!iPadShowKeyboard' | '!inPlaceReplace' | '!indentation' | '!inspectTokens' | '!linesOperations' | '!links' | '!multicursor' | '!onTypeRename' | '!parameterHints' | '!quickCommand' | '!quickHelp' | '!quickOutline' | '!referenceSearch' | '!rename' | '!smartSelect' | '!snippets' | '!suggest' | '!toggleHighContrast' | '!toggleTabFocusMode' | '!transpose' | '!unusualLineTerminators' | '!viewportSemanticTokens' | '!wordHighlighter' | '!wordOperations' | '!wordPartOperations';
