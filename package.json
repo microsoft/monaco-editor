@@ -4,6 +4,7 @@
 	"description": "Samples for using the Monaco Editor",
 	"main": "index.js",
 	"scripts": {
+		"prettier": "prettier --write .",
 		"simpleserver": "yaserver --root ./ --port 8888"
 	},
 	"author": "Microsoft Corporation",

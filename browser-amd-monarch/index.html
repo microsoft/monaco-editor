@@ -5,10 +5,7 @@
 	</head>
 	<body>
 		<h2>Monarch Tokenizer Sample</h2>
-		<div
-			id="container"
-			style="width: 800px; height: 600px; border: 1px solid grey"
-		></div>
+		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 
 		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
@@ -41,14 +38,11 @@
 					]
 				});
 
-				var editor = monaco.editor.create(
-					document.getElementById('container'),
-					{
-						theme: 'myCoolTheme',
-						value: getCode(),
-						language: 'myCustomLanguage'
-					}
-				);
+				var editor = monaco.editor.create(document.getElementById('container'), {
+					theme: 'myCoolTheme',
+					value: getCode(),
+					language: 'myCustomLanguage'
+				});
 			});
 
 			function getCode() {

@@ -10,10 +10,7 @@
 	</head>
 	<body>
 		<h2>Monaco Editor Sync Loading Sample</h2>
-		<div
-			id="container"
-			style="width: 800px; height: 600px; border: 1px solid grey"
-		></div>
+		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 
 		<script>
 			var require = { paths: { vs: '../node_modules/monaco-editor/min/vs' } };
@@ -24,9 +21,7 @@
 
 		<script>
 			var editor = monaco.editor.create(document.getElementById('container'), {
-				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
-					'\n'
-				),
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 				language: 'javascript'
 			});
 		</script>

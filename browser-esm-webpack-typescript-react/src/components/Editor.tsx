@@ -26,9 +26,7 @@ export const Editor: React.FC = () => {
 	useEffect(() => {
 		if (divEl.current) {
 			editor = monaco.editor.create(divEl.current, {
-				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
-					'\n'
-				),
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 				language: 'typescript'
 			});
 		}

@@ -34,14 +34,8 @@ module.exports = {
 					{
 						loader: require.resolve('babel-loader'),
 						options: {
-							presets: [
-								'@babel/preset-env',
-								'@babel/preset-typescript',
-								'@babel/preset-react'
-							],
-							plugins: [
-								isDevelopment && require.resolve('react-refresh/babel')
-							].filter(Boolean)
+							presets: ['@babel/preset-env', '@babel/preset-typescript', '@babel/preset-react'],
+							plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean)
 						}
 					}
 				]

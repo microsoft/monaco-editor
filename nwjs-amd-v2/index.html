@@ -48,9 +48,7 @@
 		self.process.browser = true;
 		ERequire(['vs/editor/editor.main'], function () {
 			var editor = monaco.editor.create(document.getElementById('container'), {
-				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
-					'\n'
-				),
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 				language: 'javascript',
 				theme: 'vs-dark'
 			});

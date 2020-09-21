@@ -5,14 +5,8 @@
 	</head>
 	<body>
 		<h2>Monaco Editor Shared Models Sample</h2>
-		<div
-			id="container1"
-			style="width: 400px; height: 200px; border: 1px solid grey"
-		></div>
-		<div
-			id="container2"
-			style="width: 400px; height: 200px; border: 1px solid grey"
-		></div>
+		<div id="container1" style="width: 400px; height: 200px; border: 1px solid grey"></div>
+		<div id="container2" style="width: 400px; height: 200px; border: 1px solid grey"></div>
 
 		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
@@ -23,18 +17,12 @@
 					['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 					'javascript'
 				);
-				var editor1 = monaco.editor.create(
-					document.getElementById('container1'),
-					{
-						model: model
-					}
-				);
-				var editor2 = monaco.editor.create(
-					document.getElementById('container2'),
-					{
-						model: model
-					}
-				);
+				var editor1 = monaco.editor.create(document.getElementById('container1'), {
+					model: model
+				});
+				var editor2 = monaco.editor.create(document.getElementById('container2'), {
+					model: model
+				});
 			});
 		</script>
 	</body>

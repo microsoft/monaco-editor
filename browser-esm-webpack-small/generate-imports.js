@@ -27,9 +27,7 @@ function getBasicLanguages() {
 
 				resolve(
 					files.map((file) => {
-						return file
-							.substring('./node_modules/monaco-editor/esm/'.length)
-							.replace(/\.js$/, '');
+						return file.substring('./node_modules/monaco-editor/esm/'.length).replace(/\.js$/, '');
 					})
 				);
 			}
@@ -53,14 +51,8 @@ function getAdvancedLanguages() {
 
 				resolve(
 					files
-						.map((file) =>
-							file.substring(
-								'./node_modules/monaco-editor/esm/vs/language/'.length
-							)
-						)
-						.map((file) =>
-							file.substring(0, file.length - '/monaco.contribution.js'.length)
-						)
+						.map((file) => file.substring('./node_modules/monaco-editor/esm/vs/language/'.length))
+						.map((file) => file.substring(0, file.length - '/monaco.contribution.js'.length))
 						.map((lang) => `vs/language/${lang}/monaco.contribution`)
 				);
 			}
@@ -115,18 +107,12 @@ function generateFeatures() {
 	const files =
 		fs
 			.readFileSync(
-				path.join(
-					__dirname,
-					'../node_modules/monaco-editor/esm/vs/editor/edcore.main.js'
-				)
+				path.join(__dirname, '../node_modules/monaco-editor/esm/vs/editor/edcore.main.js')
 			)
 			.toString() +
 		fs
 			.readFileSync(
-				path.join(
-					__dirname,
-					'../node_modules/monaco-editor/esm/vs/editor/editor.all.js'
-				)
+				path.join(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.all.js')
 			)
 			.toString();
 	files.split(/\r\n|\n/).forEach((line) => {

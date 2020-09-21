@@ -1,0 +1,7 @@
+/browser-esm-parcel/.cache/
+/browser-esm-parcel/dist/
+/browser-esm-webpack/dist/*.js
+/browser-esm-webpack-monaco-plugin/dist/*.js
+/browser-esm-webpack-small/dist/*.js
+/browser-esm-webpack-typescript/dist/*.js
+/browser-esm-webpack-typescript-react/dist/*.js

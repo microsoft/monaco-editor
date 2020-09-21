@@ -4,16 +4,13 @@
 		<meta charset="UTF-8" />
 		<meta
 			http-equiv="Content-Security-Policy"
-			content="default-src 'none'; script-src file: 'sha256-TtwXDwNf27AqcsOrUpfkC3hkt80RRVrp7Xlab9b0ZVk='; style-src 'unsafe-inline' file:; font-src file:"
+			content="default-src 'none'; script-src file: 'sha256-RtE3AqQ1tBhtcwykhJsEKY7jjCqiGy5yH1mRDwu6gEE='; style-src 'unsafe-inline' file:; font-src file:"
 		/>
 		<title>Monaco Editor!</title>
 	</head>
 	<body>
 		<h1>Monaco Editor in Electron!</h1>
-		<div
-			id="container"
-			style="width: 500px; height: 300px; border: 1px solid #ccc"
-		></div>
+		<div id="container" style="width: 500px; height: 300px; border: 1px solid #ccc"></div>
 	</body>
 
 	<script>
@@ -32,26 +29,17 @@
 			}
 
 			amdRequire.config({
-				baseUrl: uriFromPath(
-					path.join(__dirname, '../node_modules/monaco-editor/min')
-				)
+				baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
 			});
 
 			// workaround monaco-css not understanding the environment
 			self.module = undefined;
 
 			amdRequire(['vs/editor/editor.main'], function () {
-				var editor = monaco.editor.create(
-					document.getElementById('container'),
-					{
-						value: [
-							'function x() {',
-							'\tconsole.log("Hello world!");',
-							'}'
-						].join('\n'),
-						language: 'javascript'
-					}
-				);
+				var editor = monaco.editor.create(document.getElementById('container'), {
+					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+					language: 'javascript'
+				});
 			});
 		})();
 	</script>

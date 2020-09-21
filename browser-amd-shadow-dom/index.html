@@ -14,10 +14,7 @@
 	</head>
 	<body>
 		<h2>Monaco Editor Sample</h2>
-		<div
-			id="container"
-			style="width: 800px; height: 600px; border: 1px solid grey"
-		></div>
+		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 
 		<!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
 		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
@@ -44,9 +41,7 @@
 
 			require(['vs/editor/editor.main'], function () {
 				const editor = monaco.editor.create(innerContainer, {
-					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
-						'\n'
-					),
+					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 					language: 'javascript'
 				});
 			});
