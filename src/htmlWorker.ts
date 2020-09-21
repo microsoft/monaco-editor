@@ -45,11 +45,8 @@ export class HTMLWorker {
 		options: htmlService.FormattingOptions
 	): Promise<htmlService.TextEdit[]> {
 		let document = this._getTextDocument(uri);
-		let textEdits = this._languageService.format(
-			document,
-			range,
-			this._languageSettings && this._languageSettings.format
-		);
+		let formattingOptions = { ...this._languageSettings.format, ...options };
+		let textEdits = this._languageService.format(document, range, formattingOptions);
 		return Promise.resolve(textEdits);
 	}
 	async doHover(uri: string, position: htmlService.Position): Promise<htmlService.Hover> {
