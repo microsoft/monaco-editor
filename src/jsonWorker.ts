@@ -5,6 +5,7 @@
 
 import * as jsonService from 'vscode-json-languageservice';
 import type { worker } from './fillers/monaco-editor-core';
+import { URI } from 'vscode-uri';
 
 let defaultSchemaRequestService;
 if (typeof fetch !== 'undefined') {
@@ -24,6 +25,12 @@ export class JSONWorker {
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
 		this._languageService = jsonService.getLanguageService({
+			workspaceContext: {
+				resolveRelativePath: (relativePath: string, resource: string) => {
+					const base = resource.substr(0, resource.lastIndexOf('/') + 1);
+					return resolvePath(base, relativePath);
+				}
+			},
 			schemaRequestService: createData.enableSchemaRequest && defaultSchemaRequestService
 		});
 		this._languageService.configure(this._languageSettings);
@@ -123,6 +130,54 @@ export class JSONWorker {
 		}
 		return null;
 	}
+}
+
+// URI path utilities, will (hopefully) move to vscode-uri
+
+const Slash = '/'.charCodeAt(0);
+const Dot = '.'.charCodeAt(0);
+
+function isAbsolutePath(path: string) {
+	return path.charCodeAt(0) === Slash;
+}
+
+function resolvePath(uriString: string, path: string): string {
+	if (isAbsolutePath(path)) {
+		const uri = URI.parse(uriString);
+		const parts = path.split('/');
+		return uri.with({ path: normalizePath(parts) }).toString();
+	}
+	return joinPath(uriString, path);
+}
+
+function normalizePath(parts: string[]): string {
+	const newParts: string[] = [];
+	for (const part of parts) {
+		if (part.length === 0 || (part.length === 1 && part.charCodeAt(0) === Dot)) {
+			// ignore
+		} else if (part.length === 2 && part.charCodeAt(0) === Dot && part.charCodeAt(1) === Dot) {
+			newParts.pop();
+		} else {
+			newParts.push(part);
+		}
+	}
+	if (parts.length > 1 && parts[parts.length - 1].length === 0) {
+		newParts.push('');
+	}
+	let res = newParts.join('/');
+	if (parts[0].length === 0) {
+		res = '/' + res;
+	}
+	return res;
+}
+
+function joinPath(uriString: string, ...paths: string[]): string {
+	const uri = URI.parse(uriString);
+	const parts = uri.path.split('/');
+	for (let path of paths) {
+		parts.push(...path.split('/'));
+	}
+	return uri.with({ path: normalizePath(parts) }).toString();
 }
 
 export interface ICreateData {
