@@ -52,10 +52,7 @@ export class HTMLWorker {
 		);
 		return Promise.resolve(textEdits);
 	}
-	async doHover(
-		uri: string,
-		position: htmlService.Position
-	): Promise<htmlService.Hover> {
+	async doHover(uri: string, position: htmlService.Position): Promise<htmlService.Hover> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		let hover = this._languageService.doHover(document, position, htmlDocument);
@@ -67,11 +64,7 @@ export class HTMLWorker {
 	): Promise<htmlService.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		let highlights = this._languageService.findDocumentHighlights(
-			document,
-			position,
-			htmlDocument
-		);
+		let highlights = this._languageService.findDocumentHighlights(document, position, htmlDocument);
 		return Promise.resolve(highlights);
 	}
 	async findDocumentLinks(uri: string): Promise<htmlService.DocumentLink[]> {
@@ -79,15 +72,10 @@ export class HTMLWorker {
 		let links = this._languageService.findDocumentLinks(document, null);
 		return Promise.resolve(links);
 	}
-	async findDocumentSymbols(
-		uri: string
-	): Promise<htmlService.SymbolInformation[]> {
+	async findDocumentSymbols(uri: string): Promise<htmlService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		let symbols = this._languageService.findDocumentSymbols(
-			document,
-			htmlDocument
-		);
+		let symbols = this._languageService.findDocumentSymbols(document, htmlDocument);
 		return Promise.resolve(symbols);
 	}
 	async getFoldingRanges(
@@ -113,12 +101,7 @@ export class HTMLWorker {
 	): Promise<htmlService.WorkspaceEdit> {
 		let document = this._getTextDocument(uri);
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		let renames = this._languageService.doRename(
-			document,
-			position,
-			newName,
-			htmlDocument
-		);
+		let renames = this._languageService.doRename(document, position, newName, htmlDocument);
 		return Promise.resolve(renames);
 	}
 	private _getTextDocument(uri: string): htmlService.TextDocument {
@@ -142,9 +125,6 @@ export interface ICreateData {
 	languageSettings: Options;
 }
 
-export function create(
-	ctx: worker.IWorkerContext,
-	createData: ICreateData
-): HTMLWorker {
+export function create(ctx: worker.IWorkerContext, createData: ICreateData): HTMLWorker {
 	return new HTMLWorker(ctx, createData);
 }

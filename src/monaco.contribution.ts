@@ -18,11 +18,7 @@ export interface HTMLFormatConfiguration {
 	readonly indentHandlebars: boolean;
 	readonly endWithNewline: boolean;
 	readonly extraLiners: string;
-	readonly wrapAttributes:
-		| 'auto'
-		| 'force'
-		| 'force-aligned'
-		| 'force-expand-multiline';
+	readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
 }
 
 export interface CompletionConfiguration {
@@ -118,11 +114,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _modeConfiguration: ModeConfiguration;
 	private _languageId: string;
 
-	constructor(
-		languageId: string,
-		options: Options,
-		modeConfiguration: ModeConfiguration
-	) {
+	constructor(languageId: string, options: Options, modeConfiguration: ModeConfiguration) {
 		this._languageId = languageId;
 		this.setOptions(options);
 		this.setModeConfiguration(modeConfiguration);
@@ -186,9 +178,7 @@ const razorOptionsDefault: Required<Options> = {
 	suggest: { html5: true, razor: true }
 };
 
-function getConfigurationDefault(
-	languageId: string
-): Required<ModeConfiguration> {
+function getConfigurationDefault(languageId: string): Required<ModeConfiguration> {
 	return {
 		completionItems: true,
 		hovers: true,
