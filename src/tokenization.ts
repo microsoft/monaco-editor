@@ -10,7 +10,7 @@ export function createTokenizationSupport(
 	supportComments: boolean
 ): languages.TokensProvider {
 	return {
-		getInitialState: () => new JSONState(null, null, false, []),
+		getInitialState: () => new JSONState(null, null, false, null),
 		tokenize: (line, state, offsetDelta?, stopAtOffset?) =>
 			tokenize(
 				supportComments,
@@ -34,9 +34,53 @@ export const TOKEN_PROPERTY_NAME = 'string.key.json';
 export const TOKEN_COMMENT_BLOCK = 'comment.block.json';
 export const TOKEN_COMMENT_LINE = 'comment.line.json';
 
-enum JSONParent {
+const enum JSONParent {
 	Object = 0,
 	Array = 1
+}
+
+class ParentsStack {
+	constructor(
+		public readonly parent: ParentsStack | null,
+		public readonly type: JSONParent
+	) {}
+
+	public static pop(parents: ParentsStack | null): ParentsStack | null {
+		if (parents) {
+			return parents.parent;
+		}
+		return null;
+	}
+
+	public static push(
+		parents: ParentsStack | null,
+		type: JSONParent
+	): ParentsStack {
+		return new ParentsStack(parents, type);
+	}
+
+	public static equals(
+		a: ParentsStack | null,
+		b: ParentsStack | null
+	): boolean {
+		if (!a && !b) {
+			return true;
+		}
+		if (!a || !b) {
+			return false;
+		}
+		while (a && b) {
+			if (a === b) {
+				return true;
+			}
+			if (a.type !== b.type) {
+				return false;
+			}
+			a = a.parent;
+			b = b.parent;
+		}
+		return true;
+	}
 }
 
 class JSONState implements languages.IState {
@@ -44,41 +88,18 @@ class JSONState implements languages.IState {
 
 	public scanError: json.ScanError;
 	public lastWasColon: boolean;
-	public parents: JSONParent[];
+	public parents: ParentsStack | null;
 
 	constructor(
 		state: languages.IState,
 		scanError: json.ScanError,
 		lastWasColon: boolean,
-		parents: JSONParent[]
+		parents: ParentsStack | null
 	) {
 		this._state = state;
 		this.scanError = scanError;
 		this.lastWasColon = lastWasColon;
 		this.parents = parents;
-	}
-
-	private static areArraysEqual(first: JSONParent[], second: JSONParent[]) {
-		if (first === second) {
-			return true;
-		}
-
-		if (first == null || second === null) {
-			return false;
-		}
-
-		if (first.length !== second.length) {
-			return false;
-		}
-
-		let index = -1;
-		while (++index < first.length) {
-			if (first[index] !== second[index]) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	public clone(): JSONState {
@@ -98,9 +119,9 @@ class JSONState implements languages.IState {
 			return false;
 		}
 		return (
-			this.scanError === (<JSONState>other).scanError &&
-			this.lastWasColon === (<JSONState>other).lastWasColon &&
-			JSONState.areArraysEqual(this.parents, (<JSONState>other).parents)
+			this.scanError === other.scanError &&
+			this.lastWasColon === other.lastWasColon &&
+			ParentsStack.equals(this.parents, other.parents)
 		);
 	}
 
@@ -135,9 +156,9 @@ function tokenize(
 			break;
 	}
 
-	let scanner = json.createScanner(line),
-		lastWasColon = state.lastWasColon,
-		parents = Array.from(state.parents);
+	const scanner = json.createScanner(line);
+	let lastWasColon = state.lastWasColon;
+	let parents = state.parents;
 
 	const ret: languages.ILineTokens = {
 		tokens: <languages.IToken[]>[],
@@ -171,22 +192,22 @@ function tokenize(
 		// brackets and type
 		switch (kind) {
 			case json.SyntaxKind.OpenBraceToken:
-				parents.push(JSONParent.Object);
+				parents = ParentsStack.push(parents, JSONParent.Object);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
 				break;
 			case json.SyntaxKind.CloseBraceToken:
-				parents.pop();
+				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
 				break;
 			case json.SyntaxKind.OpenBracketToken:
-				parents.push(JSONParent.Array);
+				parents = ParentsStack.push(parents, JSONParent.Array);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
 				break;
 			case json.SyntaxKind.CloseBracketToken:
-				parents.pop();
+				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
 				break;
@@ -208,10 +229,8 @@ function tokenize(
 				lastWasColon = false;
 				break;
 			case json.SyntaxKind.StringLiteral:
-				let currentParent = parents.length
-					? parents[parents.length - 1]
-					: JSONParent.Object;
-				let inArray = currentParent === JSONParent.Array;
+				const currentParent = parents ? parents.type : JSONParent.Object;
+				const inArray = currentParent === JSONParent.Array;
 				type =
 					lastWasColon || inArray ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
 				lastWasColon = false;
