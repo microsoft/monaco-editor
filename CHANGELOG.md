@@ -45,6 +45,10 @@ Contributions to `monaco-typescript`:
   * Format signature and parameter documentation as Markdown [PR #66](https://github.com/microsoft/monaco-typescript/pull/66)
 * [Spencer (@SpencerSharkey)](https://github.com/SpencerSharkey): Use typescript language for hover tooltip header [PR #70](https://github.com/microsoft/monaco-typescript/pull/70)
 
+Contributions to `monaco-json`:
+
+* [@pankajk07](https://github.com/pankajk07): Fixes microsoft/monaco-editor#1999 [PR #12](https://github.com/microsoft/monaco-json/pull/12)
+
 Contributions to `monaco-languages`:
 
 * [theangryepicbanana (@ALANVF)](https://github.com/ALANVF)
