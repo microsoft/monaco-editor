@@ -9,7 +9,8 @@ function createWindow() {
 		width: 800,
 		height: 600,
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true,
+			worldSafeExecuteJavaScript: true
 		}
 	});
 	mainWindow.loadURL(`file://${__dirname}/electron-index.html`);
