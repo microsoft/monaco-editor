@@ -10,7 +10,7 @@ export function createTokenizationSupport(
 	supportComments: boolean
 ): languages.TokensProvider {
 	return {
-		getInitialState: () => new JSONState(null, null),
+		getInitialState: () => new JSONState(null, null, false, []),
 		tokenize: (line, state, offsetDelta?, stopAtOffset?) =>
 			tokenize(
 				supportComments,
@@ -34,18 +34,60 @@ export const TOKEN_PROPERTY_NAME = 'string.key.json';
 export const TOKEN_COMMENT_BLOCK = 'comment.block.json';
 export const TOKEN_COMMENT_LINE = 'comment.line.json';
 
+enum JSONParent {
+	Object = 0,
+	Array = 1
+}
+
 class JSONState implements languages.IState {
 	private _state: languages.IState;
 
 	public scanError: json.ScanError;
+	public lastWasColon: boolean;
+	public parents: JSONParent[];
 
-	constructor(state: languages.IState, scanError: json.ScanError) {
+	constructor(
+		state: languages.IState,
+		scanError: json.ScanError,
+		lastWasColon: boolean,
+		parents: JSONParent[]
+	) {
 		this._state = state;
 		this.scanError = scanError;
+		this.lastWasColon = lastWasColon;
+		this.parents = parents;
+	}
+
+	private static areArraysEqual(first: JSONParent[], second: JSONParent[]) {
+		if (first === second) {
+			return true;
+		}
+
+		if (first == null || second === null) {
+			return false;
+		}
+
+		if (first.length !== second.length) {
+			return false;
+		}
+
+		let index = -1;
+		while (++index < first.length) {
+			if (first[index] !== second[index]) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public clone(): JSONState {
-		return new JSONState(this._state, this.scanError);
+		return new JSONState(
+			this._state,
+			this.scanError,
+			this.lastWasColon,
+			this.parents
+		);
 	}
 
 	public equals(other: languages.IState): boolean {
@@ -55,7 +97,11 @@ class JSONState implements languages.IState {
 		if (!other || !(other instanceof JSONState)) {
 			return false;
 		}
-		return this.scanError === (<JSONState>other).scanError;
+		return (
+			this.scanError === (<JSONState>other).scanError &&
+			this.lastWasColon === (<JSONState>other).lastWasColon &&
+			JSONState.areArraysEqual(this.parents, (<JSONState>other).parents)
+		);
 	}
 
 	public getStateData(): languages.IState {
@@ -89,7 +135,9 @@ function tokenize(
 			break;
 	}
 
-	const scanner = json.createScanner(line);
+	let scanner = json.createScanner(line),
+		lastWasColon = state.lastWasColon,
+		parents = Array.from(state.parents);
 
 	const ret: languages.ILineTokens = {
 		tokens: <languages.IToken[]>[],
@@ -123,46 +171,54 @@ function tokenize(
 		// brackets and type
 		switch (kind) {
 			case json.SyntaxKind.OpenBraceToken:
+				parents.push(JSONParent.Object);
 				type = TOKEN_DELIM_OBJECT;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.CloseBraceToken:
+				parents.pop();
 				type = TOKEN_DELIM_OBJECT;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.OpenBracketToken:
+				parents.push(JSONParent.Array);
 				type = TOKEN_DELIM_ARRAY;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.CloseBracketToken:
+				parents.pop();
 				type = TOKEN_DELIM_ARRAY;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.ColonToken:
-				for (let i = ret.tokens.length - 1; i >= 0; i--) {
-					const token = ret.tokens[i];
-					if (token.scopes === '' || token.scopes === TOKEN_COMMENT_BLOCK) {
-						continue;
-					}
-					if (token.scopes === TOKEN_VALUE_STRING) {
-						// !change previous token to property name!
-						token.scopes = TOKEN_PROPERTY_NAME;
-					}
-					break;
-				}
 				type = TOKEN_DELIM_COLON;
+				lastWasColon = true;
 				break;
 			case json.SyntaxKind.CommaToken:
 				type = TOKEN_DELIM_COMMA;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.TrueKeyword:
 			case json.SyntaxKind.FalseKeyword:
 				type = TOKEN_VALUE_BOOLEAN;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.NullKeyword:
 				type = TOKEN_VALUE_NULL;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.StringLiteral:
-				type = TOKEN_VALUE_STRING;
+				let currentParent = parents.length
+					? parents[parents.length - 1]
+					: JSONParent.Object;
+				let inArray = currentParent === JSONParent.Array;
+				type =
+					lastWasColon || inArray ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
+				lastWasColon = false;
 				break;
 			case json.SyntaxKind.NumericLiteral:
 				type = TOKEN_VALUE_NUMBER;
+				lastWasColon = false;
 				break;
 		}
 
@@ -178,7 +234,12 @@ function tokenize(
 			}
 		}
 
-		ret.endState = new JSONState(state.getStateData(), scanner.getTokenError());
+		ret.endState = new JSONState(
+			state.getStateData(),
+			scanner.getTokenError(),
+			lastWasColon,
+			parents
+		);
 		ret.tokens.push({
 			startIndex: offset,
 			scopes: type
