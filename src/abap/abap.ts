@@ -571,7 +571,21 @@ const abapKeywords = [
 	'perform',
 	'performing',
 	'person',
-	'pf',
+	'pf1',
+	'pf10',
+	'pf11',
+	'pf12',
+	'pf13',
+	'pf14',
+	'pf15',
+	'pf2',
+	'pf3',
+	'pf4',
+	'pf5',
+	'pf6',
+	'pf7',
+	'pf8',
+	'pf9',
 	'pf-status',
 	'pink',
 	'places',
@@ -1078,6 +1092,7 @@ export const language = <languages.IMonarchLanguage>{
 					cases: {
 						'@typeKeywords': 'keyword',
 						'@keywords': 'keyword',
+						'@operators': 'operator',
 						'@default': 'identifier'
 					}
 				}
@@ -1090,6 +1105,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[:,.]/, 'delimiter'],
 
 			[/[{}()\[\]]/, '@brackets'],
+
 			[/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
 
 			[/'/, { token: 'string', bracket: '@open', next: '@stringquote' }],
