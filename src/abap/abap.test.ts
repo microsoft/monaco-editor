@@ -121,7 +121,7 @@ testTokenization('abap', [
 				{ startIndex: 6, type: '' },
 				{ startIndex: 7, type: 'keyword.abap' },
 				{ startIndex: 9, type: '' },
-				{ startIndex: 10, type: 'keyword.abap' },
+				{ startIndex: 10, type: 'operator.abap' },
 				{ startIndex: 13, type: '' },
 				{ startIndex: 14, type: 'keyword.abap' },
 				{ startIndex: 21, type: 'delimiter.abap' }
