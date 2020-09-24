@@ -77,12 +77,7 @@ No.
 
 ❓ **Why doesn't the editor support TextMate grammars?**
 
-* All the regular expressions in TM grammars are based on [oniguruma](https://github.com/kkos/oniguruma), a regular expression library written in C.
-* The only way to interpret the grammars and get anywhere near original fidelity is to use the exact same regular expression library (with its custom syntax constructs).
-* In VSCode, our runtime is node.js and we can use a node native module that exposes the library to JavaScript.
-* In Monaco, we are constrained to a browser environment where we cannot do anything similar.
-* We have experimented with Emscripten to compile the C library to asm.js, but performance was very poor even in Firefox (10x slower) and extremely poor in Chrome (100x slower).
-* We can revisit this once WebAssembly gets traction in the major browsers, but we will still need to consider the browser matrix we support, i.e. if we support IE11 and only Edge will add WebAssembly support, what will the experience be in IE11, etc.
+* Please see https://github.com/bolinfest/monaco-tm which puts together `monaco-editor`, `vscode-oniguruma` and `vscode-textmate` to get TM grammar support in the editor.
 
 ❓ **What about IE 11 support?**
 
