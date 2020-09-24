@@ -1,6 +1,24 @@
 # Monaco Editor Changelog
 
-## [0.21.0] (19.09.2020)
+## [0.21.0] (24.09.2020)
+
+Fixes [a few regressions](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+milestone%3A%22August+2020+%282%29%22+is%3Aclosed).
+
+### Thank you
+
+Contributions to `monaco-html`:
+
+* [Pankaj Khandelwal (@pankajk07)](https://github.com/pankajk07): Fixes microsoft/monaco-editor#2101 [PR #12](https://github.com/microsoft/monaco-html/pull/12)
+
+Contributions to `monaco-languages`:
+
+* [Marc Bernard (@mbtools)](https://github.com/mbtools): Overhaul of ABAP language based on release 7.54 [PR #112](https://github.com/microsoft/monaco-languages/pull/112)
+
+Contributions to `monaco-typescript`:
+
+* [PG Herveou (@pgherveou)](https://github.com/pgherveou): Add missing setWorkerOptions [PR #71](https://github.com/microsoft/monaco-typescript/pull/71)
+
+## [0.21.0] (21.09.2020)
 
 ### New & Noteworthy
 * Added `Paste` in the context menu in browsers which support the clipboard API.
