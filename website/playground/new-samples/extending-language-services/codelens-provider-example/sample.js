@@ -26,7 +26,8 @@ monaco.languages.registerCodeLensProvider('json', {
                         title: "First Line"
                     }
                 }
-            ]
+            ],
+            dispose: () => {}
         };
     },
     resolveCodeLens: function (model, codeLens, token) {
