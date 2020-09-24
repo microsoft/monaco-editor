@@ -1,6 +1,6 @@
 # Monaco Editor Changelog
 
-## [0.21.0] (24.09.2020)
+## [0.21.1] (24.09.2020)
 
 Fixes [a few regressions](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+milestone%3A%22August+2020+%282%29%22+is%3Aclosed).
 
