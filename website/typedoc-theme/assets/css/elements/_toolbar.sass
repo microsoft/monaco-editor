@@ -1,0 +1,175 @@
+// Displays the toolbar at the top of the page.
+//
+// <div class="tsd-page-toolbar">
+//   <div class="container">
+//     <div class="table-wrap">
+//       <div class="table-cell">
+//         <a href="../index.html" class="title">TypeDoc Documentation</a>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+//
+.tsd-page-toolbar
+    position: fixed
+    z-index: 1
+    top: 0
+    left: 0
+    width: 100%
+    height: $TOOLBAR_HEIGHT
+    color: $TOOLBAR_TEXT_COLOR
+    background: $TOOLBAR_COLOR
+    border-bottom: 1px solid $COLOR_PANEL_DIVIDER
+    transition: transform .3s linear
+
+    a
+        color: $TOOLBAR_TEXT_COLOR
+        text-decoration: none
+
+        &.title
+            font-weight: bold
+
+        &.title:hover
+            text-decoration: underline
+
+    .table-wrap
+        display: table
+        width: 100%
+        height: $TOOLBAR_HEIGHT
+
+    .table-cell
+        display: table-cell
+        position: relative
+        white-space: nowrap
+        line-height: $TOOLBAR_HEIGHT
+
+        &:first-child
+            width: 100%
+
+.tsd-page-toolbar--hide
+    transform: translateY(-100%)
+
+%TSD_WIDGET_ICON
+    &:before
+        content: ''
+        display: inline-block
+        width: 40px
+        height: 40px
+        margin: 0 -8px 0 0
+        background-image: url(../../images/widgets.png)
+        background-repeat: no-repeat
+        text-indent: -1024px
+        vertical-align: bottom
+
+        +retina
+            background-image: url(../../images/widgets@2x.png)
+            background-size: 320px 40px
+
+.tsd-widget
+    @extend %TSD_WIDGET_ICON
+    display: inline-block
+    overflow: hidden
+    opacity: 0.6
+    height: $TOOLBAR_HEIGHT
+    transition: opacity 0.1s, background-color 0.2s
+    vertical-align: bottom
+    cursor: pointer
+
+    &:hover
+        opacity: 0.8
+
+    &.active
+        opacity: 1
+        background-color: $COLOR_PANEL_DIVIDER
+
+    &.no-caption
+        width: 40px
+
+        &:before
+            margin: 0
+
+    &.search:before
+        background-position: 0 0
+
+    &.menu:before
+        background-position: -40px 0
+
+    &.options:before
+        background-position: -80px 0
+
+    &.options,
+    &.menu
+        display: none
+
+        +size-xs-sm
+            display: inline-block
+
+    input[type=checkbox] + &:before
+        background-position: -120px 0
+
+    input[type=checkbox]:checked + &:before
+        background-position: -160px 0
+
+.tsd-select
+    position: relative
+    display: inline-block
+    height: $TOOLBAR_HEIGHT
+    transition: opacity 0.1s, background-color 0.2s
+    vertical-align: bottom
+    cursor: pointer
+
+    .tsd-select-label
+        @extend %TSD_WIDGET_ICON
+        opacity: 0.6
+        transition: opacity 0.2s
+
+        &:before
+            background-position: -240px 0
+
+    &.active
+        .tsd-select-label
+            opacity: 0.8
+
+        .tsd-select-list
+            visibility: visible
+            opacity: 1
+            transition-delay: 0s
+
+    .tsd-select-list
+        position: absolute
+        visibility: hidden
+        top: $TOOLBAR_HEIGHT
+        left: 0
+        margin: 0
+        padding: 0
+        opacity: 0
+        list-style: none
+        box-shadow: 0 0 4px rgba(#000, 0.25)
+        transition: visibility 0s 0.2s, opacity 0.2s
+
+        li
+            @extend %TSD_WIDGET_ICON
+            padding: 0 20px 0 0
+            background-color: $COLOR_BACKGROUND
+
+            &:before
+                background-position: 40px 0
+
+            &:nth-child(even)
+                background-color: $COLOR_PANEL
+
+            &:hover
+                background-color: $COLOR_PANEL_DIVIDER
+
+            &.selected:before
+                background-position: -200px 0
+
+    +size-xs-sm
+        .tsd-select-list
+            top: 0
+            left: auto
+            right: 100%
+            margin-right: -5px
+
+        .tsd-select-label:before
+            background-position: -280px 0

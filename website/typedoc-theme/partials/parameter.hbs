@@ -1,9 +1,11 @@
 <ul class="tsd-parameters">
     {{#if signatures}}
-        <li class="tsd-parameter-siganture">
+        <li class="tsd-parameter-signature">
             <ul class="tsd-signatures {{cssClasses}}">
                 {{#each signatures}}
-                    <li class="tsd-signature tsd-kind-icon">{{> member.signature.title hideName=true }}</li>
+                    <li class="tsd-signature tsd-kind-icon">{{#compact}}
+                        {{> member.signature.title hideName=true }}
+                    {{/compact}}</li>
                 {{/each}}
             </ul>
 

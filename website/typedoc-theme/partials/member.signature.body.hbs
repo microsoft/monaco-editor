@@ -42,7 +42,7 @@
 {{/if}}
 
 {{#if type}}
-    <h4 class="tsd-returns-title">Returns {{#with type}}{{>type}}{{/with}}</h4>
+    <h4 class="tsd-returns-title">Returns {{#compact}}{{#with type}}{{>type}}{{/with}}{{/compact}}</h4>
 
     {{#if comment.returns}}
         {{#markdown}}{{{comment.returns}}}{{/markdown}}

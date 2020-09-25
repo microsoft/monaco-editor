@@ -1,0 +1,166 @@
+$type-icons:
+    (object-literal),
+    (class),
+    ('class.tsd-has-type-parameter'),
+    (interface),
+    ('interface.tsd-has-type-parameter'),
+    (namespace, module),
+    (enum),
+    (enum-member),
+    (signature),
+    (type-alias),
+    ('type-alias.tsd-has-type-parameter');
+
+$member-icons:
+    (variable, property),
+    (get-signature),
+    (set-signature),
+    (accessor),
+    (function, method, call-signature),
+    ('function.tsd-has-type-parameter', 'method.tsd-has-type-parameter'),
+    (constructor, constructor-signature),
+    (index-signature),
+    (event),
+    (property),
+    (function, method, call-signature),
+    (event);
+
+// parameter
+// type-literal
+// type-parameter
+
+.tsd-kind-icon {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    text-indent: -20px;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 17px;
+        height: 17px;
+        margin: 0 3px 2px 0;
+        background-image: url(../../images/icons.png);
+
+        @include retina {
+            background-image: url(../../images/icons@2x.png);
+            background-size: 238px 204px;
+        }
+    }
+}
+
+.tsd-signature.tsd-kind-icon:before {
+    background-position: 0 -153px;
+}
+
+$icon-size:                        17px;
+$type:                             -0 * $icon-size;
+$type-protected:                   -1 * $icon-size;
+$type-private:                     -2 * $icon-size;
+$member-class-public:              -3 * $icon-size;
+$member-class-public-inherited:    -4 * $icon-size;
+$member-class-protected:           -5 * $icon-size;
+$member-class-protected-inherited: -6 * $icon-size;
+$member-private:                   -7 * $icon-size;
+$member:                           -8 * $icon-size;
+$member-protected:                 -9 * $icon-size;
+$member-enum:                     -10 * $icon-size;
+$member-enum-protected:           -11 * $icon-size;
+$member-interface:                -12 * $icon-size;
+$member-interface-inherited:      -13 * $icon-size;
+
+
+@for $index from 1 through length($type-icons) {
+    @each $kind in nth($type-icons, $index) {
+        $selector: '.tsd-kind-' + $kind;
+        $offset: -#{17 * ($index)}px;
+
+        #{$selector} {
+            > .tsd-kind-icon:before {
+                background-position: $type $offset;
+            }
+
+            &.tsd-is-protected > .tsd-kind-icon:before {
+                background-position: $type-protected $offset;
+            }
+
+            &.tsd-is-private > .tsd-kind-icon:before {
+                background-position: $type-private $offset;
+            }
+        }
+    }
+}
+
+@for $index from 1 through length($member-icons) {
+    @each $kind in nth($member-icons, $index) {
+        $offset: -#{17 * ($index - 1)}px;
+        $selector: '.tsd-kind-' + $kind;
+        @if $index == 10 {
+            $selector: '.tsd-is-static';
+        } @else if $index > 10 {
+            $selector: '.tsd-is-static.tsd-kind-' + $kind;
+        }
+
+        #{$selector} {
+            > .tsd-kind-icon:before {
+                background-position: $member $offset;
+            }
+
+            &.tsd-is-protected > .tsd-kind-icon:before {
+                background-position: $member-protected $offset;
+            }
+
+            &.tsd-is-private > .tsd-kind-icon:before {
+                background-position: $member-private $offset;
+            }
+
+            &.tsd-parent-kind-class {
+                > .tsd-kind-icon:before {
+                    background-position: $member-class-public $offset;
+                }
+
+                &.tsd-is-inherited > .tsd-kind-icon:before {
+                    background-position: $member-class-public-inherited $offset;
+                }
+
+                &.tsd-is-protected > .tsd-kind-icon:before {
+                    background-position: $member-class-protected $offset;
+                }
+
+                &.tsd-is-protected.tsd-is-inherited > .tsd-kind-icon:before {
+                    background-position: $member-class-protected-inherited $offset;
+                }
+
+                &.tsd-is-private > .tsd-kind-icon:before {
+                    background-position: $member-private $offset;
+                }
+            }
+
+            &.tsd-parent-kind-enum {
+                > .tsd-kind-icon:before {
+                    background-position: $member-enum $offset;
+                }
+
+                &.tsd-is-protected > .tsd-kind-icon:before {
+                    background-position: $member-enum-protected $offset;
+                }
+
+                &.tsd-is-private > .tsd-kind-icon:before {
+                    background-position: $member-private $offset;
+                }
+            }
+
+            &.tsd-parent-kind-interface {
+                > .tsd-kind-icon:before {
+                    background-position: $member-interface $offset;
+                }
+
+                &.tsd-is-inherited > .tsd-kind-icon:before {
+                    background-position: $member-interface-inherited $offset;
+                }
+            }
+        }
+    }
+}

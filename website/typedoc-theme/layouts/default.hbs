@@ -2,14 +2,12 @@
 <html class="default no-js">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{#ifCond model.name '==' project.name}}{{project.name}}{{else}}{{model.name}} | {{project.name}}{{/ifCond}}</title>
-    <meta name="description" content="">
+    <meta name="description" content="Documentation for {{project.name}}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{relativeURL "assets/css/main.css"}}">
-    {{!--MONACO_CHANGE
-    <script src="{{relativeURL "assets/js/modernizr.js"}}"></script>
-    MONACO_CHANGE--}}
 </head>
 <body>
 
@@ -44,7 +42,6 @@
 
 <div class="overlay"></div>
 <script src="{{relativeURL "assets/js/main.js"}}"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="{{relativeURL "assets/js/search.js"}}"><' + '/script>');</script>
 
 {{> analytics}}
 

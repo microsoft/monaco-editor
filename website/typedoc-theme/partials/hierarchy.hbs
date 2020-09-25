@@ -4,7 +4,7 @@
             {{#if ../isTarget}}
                 <span class="target">{{this}}</span>
             {{else}}
-                {{> type}}
+                {{#compact}}{{> type}}{{/compact}}
             {{/if}}
 
             {{#if @last}}

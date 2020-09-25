@@ -1,0 +1,54 @@
+@keyframes fade-in
+    from
+        opacity: 0
+    to
+        opacity: 1
+
+@keyframes fade-out
+    from
+        opacity: 1
+        visibility: visible
+    to
+        opacity: 0
+
+@keyframes fade-in-delayed
+    0%
+        opacity: 0
+    33%
+        opacity: 0
+    100%
+        opacity: 1
+
+@keyframes fade-out-delayed
+    0%
+        opacity: 1
+        visibility: visible
+    66%
+        opacity: 0
+    100%
+        opacity: 0
+
+@keyframes shift-to-left
+    from
+        transform: translate(0,0)
+    to
+        transform: translate(-25%,0)
+
+@keyframes unshift-to-left
+    from
+        transform: translate(-25%,0)
+    to
+        transform: translate(0,0)
+
+@keyframes pop-in-from-right
+    from
+        transform: translate(100%,0)
+    to
+        transform: translate(0,0)
+
+@keyframes pop-out-to-right
+    from
+        transform: translate(0,0)
+        visibility: visible
+    to
+        transform: translate(100%,0)

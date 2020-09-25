@@ -531,11 +531,34 @@ function addPluginThirdPartyNotices() {
 
 
 // --- website
-
+function typedocStream() {
+	const initialCWD = process.cwd();
+	// TypeDoc is silly and consumes the `exclude` option.
+	// This option does not make it to typescript compiler, which ends up including /node_modules/ .d.ts files.
+	// We work around this by changing the cwd... :O
+	return gulp.src('monaco.d.ts')
+	.pipe(es.through(undefined, function() {
+		process.chdir(os.tmpdir());
+		this.emit('end');
+	}))
+	.pipe(typedoc({
+		mode: 'file',
+		out: path.join(__dirname, '../monaco-editor-website/api'),
+		includeDeclarations: true,
+		theme: path.join(__dirname, 'website/typedoc-theme'),
+		entryPoint: 'monaco',
+		name: 'Monaco Editor API v' + MONACO_EDITOR_VERSION,
+		readme: 'none',
+		hideGenerator: true
+	}))
+	.pipe(es.through(undefined, function() {
+		process.chdir(initialCWD);
+		this.emit('end');
+	}))
+};
+gulp.task('typedoc', () => typedocStream());
 const cleanWebsiteTask = function(cb) { rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb); };
 const buildWebsiteTask = taskSeries(cleanWebsiteTask, function() {
-
-	const initialCWD = process.cwd();
 
 	function replaceWithRelativeResource(dataPath, contents, regex, callback) {
 		return contents.replace(regex, function(_, m0) {
@@ -630,29 +653,7 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function() {
 			}))
 			.pipe(gulp.dest('../monaco-editor-website')),
 
-			// TypeDoc is silly and consumes the `exclude` option.
-			// This option does not make it to typescript compiler, which ends up including /node_modules/ .d.ts files.
-			// We work around this by changing the cwd... :O
-
-			gulp.src('monaco.d.ts')
-			.pipe(es.through(undefined, function() {
-				process.chdir(os.tmpdir());
-				this.emit('end');
-			}))
-			.pipe(typedoc({
-				mode: 'file',
-				out: path.join(__dirname, '../monaco-editor-website/api'),
-				includeDeclarations: true,
-				theme: path.join(__dirname, 'website/typedoc-theme'),
-				entryPoint: 'monaco',
-				name: 'Monaco Editor API v' + MONACO_EDITOR_VERSION,
-				readme: 'none',
-				hideGenerator: true
-			}))
-			.pipe(es.through(undefined, function() {
-				process.chdir(initialCWD);
-				this.emit('end');
-			}))
+			typedocStream()
 		)
 
 		.pipe(es.through(function(data) {

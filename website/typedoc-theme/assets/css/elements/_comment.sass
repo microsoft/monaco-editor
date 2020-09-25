@@ -1,0 +1,53 @@
+// Displays all regular comment tags
+//
+// <dl class="tsd-comment-tags">
+//   <dt>see</dt>
+//   <dd><p><a href="#">Dispatcher.EVENT_BEGIN</a></p></dd>
+//   <dt>see</dt>
+//   <dd><p><a href="#">Dispatcher.EVENT_BEGIN_RESOLVE</a></p></dd>
+//   <dt>see</dt>
+//   <dd><p><a href="#">Dispatcher.EVENT_END_RESOLVE</a></p></dd>
+// </dl>
+//
+dl.tsd-comment-tags
+    overflow: hidden
+
+    dt
+        float: left
+        padding: 1px 5px
+        margin: 0 10px 0 0
+        border-radius: 4px
+        border: 1px solid $COLOR_COMMENT_TAG
+        color: $COLOR_COMMENT_TAG
+        font-size: 0.8em
+        font-weight: normal
+
+    dd
+        margin: 0 0 10px 0
+
+        &:before, &:after
+            display: table
+            content: " "
+        pre, &:after
+            clear: both
+
+    p
+        margin: 0
+
+
+// Special formatting for the main reflection on each page.
+//
+// <section class="tsd-panel tsd-comment">
+//   <div class="tsd-comment tsd-typography">
+//     <div class="lead"><p>The default TypeDoc main application class.</p></div>
+//     <p>This class holds the two main components of TypeDoc, the Dispatcher and the Renderer.</p>
+//   </div>
+// </section>
+//
+.tsd-panel.tsd-comment .lead
+    font-size: 1.1em
+    line-height: $LINE_HEIGHT
+    margin-bottom: 2em
+
+    &:last-child
+        margin-bottom: 0

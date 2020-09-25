@@ -25,7 +25,7 @@
         <h3>Implements</h3>
         <ul class="tsd-hierarchy">
             {{#each model.implementedTypes}}
-                <li>{{> type}}</li>
+                <li>{{#compact}}{{> type}}{{/compact}}</li>
             {{/each}}
         </ul>
     </section>
@@ -36,7 +36,7 @@
         <h3>Implemented by</h3>
         <ul class="tsd-hierarchy">
             {{#each model.implementedBy}}
-                <li>{{> type}}</li>
+                <li>{{#compact}}{{> type}}{{/compact}}</li>
             {{/each}}
         </ul>
     </section>
@@ -73,9 +73,6 @@
     </section>
 {{/if}}
 
-{{!--MONACO_CHANGE--}}
-{{sortModelGroups model}}
-{{!--MONACO_CHANGE--}}
 {{#with model}}
     {{> index}}
     {{> members}}

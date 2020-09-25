@@ -1,0 +1,79 @@
+// Displays an index of grouped links.
+//
+// <section class="tsd-panel tsd-index-panel">
+//   <div class="tsd-index-content">
+//     <div class="tsd-index-section">
+//       <h3>Constructor methods</h3>
+//       <ul class="tsd-member-index">
+//         <li class="tsd-kind-constructor-method tsd-parent-kind-class"><a href="#" class="tsd-kind-icon">constructor</a></li>
+//       </ul>
+//     </div>
+//     <div class="tsd-index-section">
+//       <h3>Properties</h3>
+//       <ul class="tsd-member-index">
+//         <li class="tsd-kind-property tsd-parent-kind-class"><a href="#" class="tsd-kind-icon">EVENT_<wbr>BEGIN</a></li>
+//         <li class="tsd-kind-property tsd-parent-kind-class"><a href="#" class="tsd-kind-icon">EVENT_<wbr>BEGIN_<wbr>DECLARATION</a></li>
+//         <li class="tsd-kind-property tsd-parent-kind-class"><a href="#" class="tsd-kind-icon">EVENT_<wbr>BEGIN_<wbr>DOCUMENT</a></li>
+//         <li class="tsd-kind-property tsd-parent-kind-class"><a href="#" class="tsd-kind-icon">EVENT_<wbr>BEGIN_<wbr>RESOLVE</a></li>
+//       </ul>
+//     </div>
+//   </div>
+// </section>
+//
+.tsd-index-panel
+    .tsd-index-content
+        margin-bottom: -30px !important
+
+    .tsd-index-section
+        margin-bottom: 30px !important
+
+    h3
+        @extend h4
+        margin: 0 -20px 10px -20px
+        padding: 0 20px 10px 20px
+        border-bottom: 1px solid $COLOR_PANEL_DIVIDER
+
+    ul.tsd-index-list
+        +vendors(column-count, 3)
+        +vendors(column-gap, 20px)
+        padding: 0
+        list-style: none
+        line-height: $LINE_HEIGHT
+
+        +size-xs-sm
+            +vendors(column-count, 1)
+
+        +size-md
+            +vendors(column-count, 2)
+
+        li
+            +vendors(page-break-inside, avoid)
+
+    a,
+    .tsd-parent-kind-module a
+        color: $COLOR_TS
+
+    .tsd-parent-kind-interface a
+        color: $COLOR_TS_INTERFACE
+
+    .tsd-parent-kind-enum a
+        color: $COLOR_TS_ENUM
+
+    .tsd-parent-kind-class a
+        color: $COLOR_TS_CLASS
+
+
+    .tsd-kind-module a
+        color: $COLOR_TS
+
+    .tsd-kind-interface a
+        color: $COLOR_TS_INTERFACE
+
+    .tsd-kind-enum a
+        color: $COLOR_TS_ENUM
+
+    .tsd-kind-class a
+        color: $COLOR_TS_CLASS
+
+    .tsd-is-private a
+        color: $COLOR_TS_PRIVATE

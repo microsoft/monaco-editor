@@ -1,0 +1,65 @@
+// Classes set on the body to control the visible state of the filtered elements
+//
+.toggle-protected .tsd-is-private
+    display: none
+
+.toggle-public .tsd-is-private,
+.toggle-public .tsd-is-protected,
+.toggle-public .tsd-is-private-protected
+    display: none
+
+.toggle-inherited .tsd-is-inherited
+    display: none
+
+.toggle-only-exported .tsd-is-not-exported
+    display: none
+
+.toggle-externals .tsd-is-external
+    display: none
+
+
+// Filter Buttons in the toolbar
+//
+#tsd-filter
+    position: relative
+    display: inline-block
+    height: $TOOLBAR_HEIGHT
+    vertical-align: bottom
+
+    .no-filter &
+        display: none
+
+    .tsd-filter-group
+        display: inline-block
+        height: $TOOLBAR_HEIGHT
+        vertical-align: bottom
+        white-space: nowrap
+
+    input
+        display: none
+
+    +size-xs-sm
+        .tsd-filter-group
+            display: block
+            position: absolute
+            top: $TOOLBAR_HEIGHT
+            right: 20px
+            height: auto
+            background-color: $COLOR_PANEL
+            visibility: hidden
+            transform: translate(50%,0)
+            box-shadow: 0 0 4px rgba(#000, 0.25)
+
+            .has-options &
+                visibility: visible
+
+            .to-has-options &
+                animation: fade-in 0.2s
+
+            .from-has-options &
+                animation: fade-out 0.2s
+
+        label,
+        .tsd-select
+            display: block
+            padding-right: 20px
