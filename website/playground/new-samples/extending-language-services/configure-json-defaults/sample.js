@@ -27,7 +27,7 @@ monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
             }
         }
     }, {
-        uri: "http://myserver/bar-schema.json", // id of the first schema
+        uri: "http://myserver/bar-schema.json", // id of the second schema
         schema: {
             type: "object",
             properties: {
