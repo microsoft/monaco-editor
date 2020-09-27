@@ -196,7 +196,7 @@ export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 );
 
 // export to the global based API
-(<any>languages).json = { cssDefaults, lessDefaults, scssDefaults };
+(<any>languages).css = { cssDefaults, lessDefaults, scssDefaults };
 
 // --- Registration to monaco editor ---
 
