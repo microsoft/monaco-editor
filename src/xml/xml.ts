@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from '../fillers/monaco-editor-core';
+import { languages } from '../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
@@ -19,6 +19,19 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: '<', close: '>' },
 		{ open: "'", close: "'" },
 		{ open: '"', close: '"' }
+	],
+	onEnterRules: [
+		{
+			beforeText: new RegExp(`<([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`, 'i'),
+			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
+			action: {
+				indentAction: languages.IndentAction.IndentOutdent
+			}
+		},
+		{
+			beforeText: new RegExp(`<(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`, 'i'),
+			action: { indentAction: languages.IndentAction.Indent }
+		}
 	]
 };
 
