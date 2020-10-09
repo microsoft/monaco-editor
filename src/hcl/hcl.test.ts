@@ -992,6 +992,35 @@ testTokenization('hcl', [
 		}
 	],
 	/*
+      foo = <<-EOF
+      bar
+      EOF
+    */
+	[
+		{
+			line: '  foo = <<-EOF',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'variable.hcl' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'operator.hcl' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'string.heredoc.delimiter.hcl' }
+			]
+		},
+		{
+			line: '  bar',
+			tokens: [{ startIndex: 0, type: 'string.heredoc.hcl' }]
+		},
+		{
+			line: '  EOF',
+			tokens: [
+				{ startIndex: 0, type: 'string.heredoc.hcl' },
+				{ startIndex: 2, type: 'string.heredoc.delimiter.hcl' }
+			]
+		}
+	],
+	/*
     foo = <<EOF
     bar
     EOF
