@@ -36,7 +36,16 @@ declare namespace monaco.languages.json {
 		 *  If set, the schema service would load schema content on-demand with 'fetch' if available
 		 */
 		readonly enableSchemaRequest?: boolean;
+		/**
+		 * The severity of problems from schema validation. If set to 'ignore', schema validation will be skipped. If not set, 'warning' is used.
+		 */
+		readonly schemaValidation?: SeverityLevel;
+		/**
+		 * The severity of problems that occurred when resolving and loading schemas. If set to 'ignore', schema resolving problems are not reported. If not set, 'warning' is used.
+		 */
+		readonly schemaRequest?: SeverityLevel;
 	}
+	export type SeverityLevel = 'error' | 'warning' | 'ignore';
 	export interface ModeConfiguration {
 		/**
 		 * Defines whether the built-in documentFormattingEdit provider is enabled.

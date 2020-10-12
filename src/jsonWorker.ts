@@ -6,6 +6,7 @@
 import * as jsonService from 'vscode-json-languageservice';
 import type { worker } from './fillers/monaco-editor-core';
 import { URI } from 'vscode-uri';
+import { DiagnosticsOptions } from './monaco.contribution';
 
 let defaultSchemaRequestService;
 if (typeof fetch !== 'undefined') {
@@ -17,7 +18,7 @@ if (typeof fetch !== 'undefined') {
 export class JSONWorker {
 	private _ctx: worker.IWorkerContext;
 	private _languageService: jsonService.LanguageService;
-	private _languageSettings: jsonService.LanguageSettings;
+	private _languageSettings: DiagnosticsOptions;
 	private _languageId: string;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
@@ -40,7 +41,7 @@ export class JSONWorker {
 		let document = this._getTextDocument(uri);
 		if (document) {
 			let jsonDocument = this._languageService.parseJSONDocument(document);
-			return this._languageService.doValidation(document, jsonDocument);
+			return this._languageService.doValidation(document, jsonDocument, this._languageSettings);
 		}
 		return Promise.resolve([]);
 	}
@@ -182,7 +183,7 @@ function joinPath(uriString: string, ...paths: string[]): string {
 
 export interface ICreateData {
 	languageId: string;
-	languageSettings: jsonService.LanguageSettings;
+	languageSettings: DiagnosticsOptions;
 	enableSchemaRequest: boolean;
 }
 
