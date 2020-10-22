@@ -103,7 +103,7 @@ export class DiagnosticsAdapter {
 			.then((diagnostics) => {
 				const markers = diagnostics.map((d) => toDiagnostics(resource, d));
 				let model = editor.getModel(resource);
-				if (model.getModeId() === languageId) {
+				if (model && model.getModeId() === languageId) {
 					editor.setModelMarkers(model, languageId, markers);
 				}
 			})
