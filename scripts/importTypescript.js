@@ -62,6 +62,10 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		/^( +)debugger;$/m,
 		'$1// MONACOCHANGE\n$1// debugger;\n$1// END MONACOCHANGE'
 	);
+	tsServices = tsServices.replace(
+		/= require\("perf_hooks"\)/m,
+		'/* MONACOCHANGE */= {}/* END MONACOCHANGE */'
+	);
 
 	// Flag any new require calls (outside comments) so they can be corrected preemptively.
 	// To avoid missing cases (or using an even more complex regex), temporarily remove comments
