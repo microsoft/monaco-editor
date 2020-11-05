@@ -16,6 +16,7 @@ import './csp/csp.contribution';
 import './css/css.contribution';
 import './dart/dart.contribution';
 import './dockerfile/dockerfile.contribution';
+import './ecl/ecl.contribution';
 import './fsharp/fsharp.contribution';
 import './go/go.contribution';
 import './graphql/graphql.contribution';
