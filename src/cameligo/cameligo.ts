@@ -24,7 +24,6 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: "'", close: "'" },
 		{ open: "\"", close: "\""},
 		{ open: "(*", close: "*)"},
-		{ open: "begin", close: "end"},
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
@@ -34,7 +33,6 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: "'", close: "'" },
 		{ open: "\"", close: "\""},
 		{ open: "(*", close: "*)"},
-		{ open: "begin", close: "end"},
 	]
 };
 
@@ -53,14 +51,12 @@ export const language = <languages.IMonarchLanguage>{
 	keywords: [
 		'abs',
 		'assert',
-		'begin',
 		'block',
 		'Bytes',
 		'case',
 		'Crypto',
 		'Current',
 		'else',
-		'end',
 		'failwith',
 		'false',
 		'for',
@@ -121,8 +117,6 @@ export const language = <languages.IMonarchLanguage>{
 		'<-',
 		'&&',
 		'||',
-		'!',
-		''
 	],
 
 	// we include these common regular expressions
