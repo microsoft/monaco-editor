@@ -21,14 +21,20 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '<', close: '>' },
-		{ open: "'", close: "'" }
+		{ open: "'", close: "'" },
+		{ open: "\"", close: "\""},
+		{ open: "(*", close: "*)"},
+		{ open: "begin", close: "end"},
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '<', close: '>' },
-		{ open: "'", close: "'" }
+		{ open: "'", close: "'" },
+		{ open: "\"", close: "\""},
+		{ open: "(*", close: "*)"},
+		{ open: "begin", close: "end"},
 	]
 };
 
@@ -46,14 +52,18 @@ export const language = <languages.IMonarchLanguage>{
 
 	keywords: [
 		'abs',
+		'assert',
 		'begin',
+		'block',
 		'Bytes',
+		'case',
 		'Crypto',
 		'Current',
 		'else',
 		'end',
 		'failwith',
 		'false',
+		'for',
 		'fun',
 		'if',
 		'in',
@@ -71,18 +81,21 @@ export const language = <languages.IMonarchLanguage>{
 		'operation',
 		'Operation',
 		'of',
+		'record',
 		'Set',
 		'set',
 		'sender',
+		'skip',
 		'source',
 		'String',
 		'then',
+		'to',
 		'true',
 		'type',
-		'with'
+		'with',
 	],
 
-	typeKeywords: ['int', 'unit', 'string', 'tz'],
+	typeKeywords: ['int', 'unit', 'string', 'tz', 'nat', 'bool'],
 
 	operators: [
 		'=',
@@ -105,7 +118,11 @@ export const language = <languages.IMonarchLanguage>{
 		'^',
 		'%',
 		'->',
-		'<-'
+		'<-',
+		'&&',
+		'||',
+		'!',
+		''
 	],
 
 	// we include these common regular expressions
