@@ -51,7 +51,7 @@ The Monaco Editor is generated straight from VS Code's sources with some shims a
 
 ❓ **What is the relationship between VS Code's version and the Monaco Editor's version?**
 
-None. The Monaco Editor is a library and it reflects directly the source code.
+None. The Monaco Editor is a library and it directly reflects the source code.
 
 ❓ **I've written an extension for VS Code, will it work on the Monaco Editor in a browser?**
 
