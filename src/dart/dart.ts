@@ -181,7 +181,7 @@ export const language = <languages.IMonarchLanguage>{
 					}
 				}
 			],
-			[/(?<![a-zA-Z0-9_$])([_$]*[A-Z][a-zA-Z0-9_$]*)/, 'type.identifier'], // to show class names nicely
+			[/[A-Z_$][\w\$]*/, 'type.identifier'], // show class names
 			// [/[A-Z][\w\$]*/, 'identifier'],
 
 			// whitespace
