@@ -104,7 +104,10 @@ export class DiagnosticsAdapter {
 			.then((worker) => {
 				return worker.doValidation(resource.toString()).then((diagnostics) => {
 					const markers = diagnostics.map((d) => toDiagnostics(resource, d));
-					editor.setModelMarkers(editor.getModel(resource), languageId, markers);
+					const model = editor.getModel(resource);
+					if (model && model.getModeId() === languageId) {
+						editor.setModelMarkers(model, languageId, markers);
+					}
 				});
 			})
 			.then(undefined, (err) => {
