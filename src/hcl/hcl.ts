@@ -143,7 +143,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 		heredocBody: [
 			[
-				/^([\w\-]+)$/,
+				/([\w\-]+)$/,
 				{
 					cases: {
 						'$1==$S2': [
