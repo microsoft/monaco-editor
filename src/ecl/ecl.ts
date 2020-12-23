@@ -3,12 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-'use strict';
+import type { languages } from '../fillers/monaco-editor-core';
 
-import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
-import ILanguage = monaco.languages.IMonarchLanguage;
-
-export const conf: IRichLanguageConfiguration = {
+export const conf: languages.LanguageConfiguration = {
 	comments: {
 		lineComment: '//',
 		blockComment: ['/*', '*/']
@@ -35,7 +32,7 @@ export const conf: IRichLanguageConfiguration = {
 	]
 };
 
-export const language = <ILanguage>{
+export const language = <languages.IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.ecl',
 	ignoreCase: true,
