@@ -2,7 +2,7 @@
 	"name": "helloworld",
 	"dependencies": {},
 	"scripts": {
-		"simpleserver": "../node_modules/.bin/yaserver --root ./dist --port 9999",
+		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999",
 		"build": "npm run build-index && npm run build-json && npm run build-css && npm run build-html && npm run build-ts && npm run build-worker",
 		"build-index": "parcel build src/index.html",
 		"build-json": "parcel build ../node_modules/monaco-editor/esm/vs/language/json/json.worker.js --no-source-maps",
