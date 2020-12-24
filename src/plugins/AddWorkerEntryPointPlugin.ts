@@ -9,11 +9,11 @@ export interface IAddWorkerEntryPointPluginOptions {
   entry: string;
   filename: string;
   chunkFilename?: string;
-  plugins: webpack.Plugin[];
+  plugins: webpack.WebpackPluginInstance[];
 }
 
 function getCompilerHook(compiler: webpack.Compiler, { id, entry, filename, chunkFilename, plugins }: IAddWorkerEntryPointPluginOptions) {
-  return function (compilation: webpack.compilation.Compilation, callback: Function) {
+  return function (compilation: webpack.Compilation, callback: (error?: Error | null | false) => void) {
     const outputOptions = {
       filename,
       chunkFilename,
@@ -21,18 +21,18 @@ function getCompilerHook(compiler: webpack.Compiler, { id, entry, filename, chun
       // HACK: globalObject is necessary to fix https://github.com/webpack/webpack/issues/6642
       globalObject: 'this',
     };
-    const childCompiler = (<any>compilation).createChildCompiler(id, outputOptions, [
+    const childCompiler = compilation.createChildCompiler(id, outputOptions, [
       new WebWorkerTemplatePlugin(),
       new LoaderTargetPlugin('webworker'),
     ]);
     new SingleEntryPlugin(compiler.context, entry, 'main').apply(childCompiler);
     plugins.forEach((plugin) => plugin.apply(childCompiler));
 
-    childCompiler.runAsChild(callback);
+    childCompiler.runAsChild((err?: Error, entries?: webpack.Chunk[], compilation?: webpack.Compilation) => callback(err));
   }
 }
 
-export class AddWorkerEntryPointPlugin implements webpack.Plugin {
+export class AddWorkerEntryPointPlugin implements webpack.WebpackPluginInstance {
 
   private readonly options: IAddWorkerEntryPointPluginOptions;
 
@@ -43,7 +43,7 @@ export class AddWorkerEntryPointPlugin implements webpack.Plugin {
   apply(compiler: webpack.Compiler) {
     const compilerHook = getCompilerHook(compiler, this.options);
     if (webpackVersion < '4') {
-      compiler.plugin('make', compilerHook);
+      (<any>compiler).plugin('make', compilerHook);
     } else {
       compiler.hooks.make.tapAsync('AddWorkerEntryPointPlugin', compilerHook);
     }

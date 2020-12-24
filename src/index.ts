@@ -108,7 +108,7 @@ interface IInternalMonacoEditorWebpackPluginOpts {
   publicPath: string;
 }
 
-class MonacoEditorWebpackPlugin implements webpack.Plugin {
+class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 
   private readonly options: IInternalMonacoEditorWebpackPluginOpts;
 
@@ -161,12 +161,19 @@ function addCompilerRules(compiler: webpack.Compiler, rules: webpack.RuleSetRule
   }
 }
 
-function addCompilerPlugins(compiler: webpack.Compiler, plugins: webpack.Plugin[]) {
+function addCompilerPlugins(compiler: webpack.Compiler, plugins: webpack.WebpackPluginInstance[]) {
   plugins.forEach((plugin) => plugin.apply(compiler));
 }
 
 function getCompilationPublicPath(compiler: webpack.Compiler): string {
-  return compiler.options.output && compiler.options.output.publicPath || '';
+  if (compiler.options.output && compiler.options.output.publicPath) {
+    if (typeof compiler.options.output.publicPath === 'string') {
+      return compiler.options.output.publicPath;
+    } else {
+      console.warn(`Cannot handle options.publicPath (expected a string)`);
+    }
+  }
+  return '';
 }
 
 function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDefinition[], workers: ILabeledWorkerDefinition[], filename: string, pluginPublicPath: string, compilationPublicPath: string): webpack.RuleSetRule[] {
