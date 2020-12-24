@@ -20,6 +20,5 @@ self.MonacoEnvironment = {
 
 monaco.editor.create(document.getElementById('container'), {
 	value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-	// language: 'javascript'
-	language: 'scss'
+	language: 'javascript'
 });
