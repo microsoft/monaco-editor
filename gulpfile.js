@@ -824,8 +824,3 @@ gulp.task('simpleserver', taskSeries(generateTestSamplesTask, function() {
 	createSimpleServer(SERVER_ROOT, 8080);
 	createSimpleServer(SERVER_ROOT, 8088);
 }));
-
-gulp.task('ciserver', taskSeries(generateTestSamplesTask, function () {
-	const SERVER_ROOT = path.normalize(path.join(__dirname, './'));
-	createSimpleServer(SERVER_ROOT, 8080);
-}));
