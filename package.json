@@ -11,7 +11,7 @@
     "website": "gulp website",
     "build-website": "gulp build-website",
     "build-test": "tsc -b ./ci/tsconfig.json --preserveWatchOutput",
-    "bundle": "webpack --config ci/webpack.config.js --display-error-details --bail",
+    "bundle": "webpack --config ci/webpack.config.js --bail",
     "test": "mocha \"out-ci/*.test.js\" --headless",
     "ciserver": "gulp ciserver"
   },
