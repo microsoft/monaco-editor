@@ -30,6 +30,7 @@
     "monaco-typescript": "4.1.1",
     "rimraf": "^3.0.2",
     "typedoc": "^0.19.1",
+    "typescript": "4.1.3",
     "uncss": "^0.17.3",
     "vinyl": "^2.2.1",
     "yaserver": "^0.3.0"
