@@ -1,8 +1,8 @@
 {
 	"name": "monaco-esm-webpack-typescript",
 	"scripts": {
-		"start": "../node_modules/.bin/webpack-dev-server",
-		"build": "NODE_ENV='production' ../node_modules/.bin/webpack --progress"
+		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+		"build": "NODE_ENV='production' node ../node_modules/webpack/bin/webpack.js --progress"
 	},
 	"dependencies": {},
 	"devDependencies": {
