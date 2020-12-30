@@ -1,10 +1,7 @@
 {
-	"name": "helloworld",
+	"name": "electron-amd",
 	"scripts": {
-		"execute": "electron ."
+		"execute": "node ../node_modules/electron/cli.js ."
 	},
-	"main": "./main",
-	"devDependencies": {
-		"electron": "^10.1.2"
-	}
+	"main": "./main"
 }
