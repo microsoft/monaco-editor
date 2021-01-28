@@ -22,18 +22,18 @@
 	"module": "./release/esm/monaco.contribution.js",
 	"typings": "./release/esm/monaco.contribution.d.ts",
 	"devDependencies": {
-		"husky": "^4.3.0",
-		"jsonc-parser": "^2.3.1",
-		"monaco-editor-core": "0.21.0",
-		"monaco-languages": "2.1.0",
+		"husky": "^4.3.8",
+		"jsonc-parser": "^3.0.0",
+		"monaco-editor-core": "0.22.0",
+		"monaco-languages": "2.2.0",
 		"monaco-plugin-helpers": "^1.0.3",
-		"prettier": "^2.1.2",
-		"pretty-quick": "^3.0.2",
+		"prettier": "^2.2.1",
+		"pretty-quick": "^3.1.0",
 		"requirejs": "^2.3.6",
-		"terser": "^5.3.2",
-		"typescript": "4.0.3",
-		"vscode-json-languageservice": "3.9.0",
-		"vscode-uri": "2.1.2"
+		"terser": "^5.5.1",
+		"typescript": "4.1.3",
+		"vscode-json-languageservice": "4.0.2",
+		"vscode-uri": "3.0.2"
 	},
 	"husky": {
 		"hooks": {
