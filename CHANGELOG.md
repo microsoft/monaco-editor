@@ -1,5 +1,51 @@
 # Monaco Editor Changelog
 
+## [0.22.0] (29.01.2021)
+
+### New & Noteworthy
+* new grammars for Modula-3 and ECL (Enterprise Control Language).
+* added `monaco.editor.onDidChangeMarkers` to listen for marker changes.
+* added `monaco.editor.registerCommand` to register global commands.
+* added `monaco.languages.setColorMap` to allow defining the color map used for tokenization.
+* added `IMonarchLanguage.includeLF` to allow matching against the `\n` at the end of each line.
+* new editor option `stickyTabStops` to make interacting with spaces in indentation behave more like interacting with tabs.
+
+### Breaking changes
+* The ESM version of the editor will no longer define a global `monaco` object. You can define `global.MonacoEnvironment = { globalAPI: true }` if you want for the editor to define this global object.
+* Renamed `OnTypeRenameProvider` to `LinkedEditingRangeProvider` and related methods like the editor option `renameOnType` (now `linkedEditing`), `registerOnTypeRenameProvider` (now `registerLinkedEditingRangeProvider`), etc.
+* Renamed `OnEnterRule.oneLineAboveText` to `OnEnterRule.previousLineText`
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [@Gittenburg](https://github.com/Gittenburg): Fix comment in sample [PR #2161](https://github.com/microsoft/monaco-editor/pull/2161)
+* [@luminaxster (David Gonzalez)](https://github.com/luminaxster): Missing breaking change [PR #2186](https://github.com/microsoft/monaco-editor/pull/2186)
+* [@svick (Petr Onderka)](https://github.com/svick): Fixed indentation in C# sample [PR #2250](https://github.com/microsoft/monaco-editor/pull/2250)
+
+Contributions to `monaco-languages`:
+
+* [@arlosi (Arlo Siemsen)](https://github.com/arlosi): Rust: add support for keywords from the 2018 edition [PR #123](https://github.com/microsoft/monaco-languages/pull/123)
+* [@dehilsterlexis (David de Hilster)](https://github.com/dehilsterlexis): LEXER-ECL-001 Lexer for ECL (Enterprise Control Language) [PR #118](https://github.com/microsoft/monaco-languages/pull/118)
+* [@fonsecas72 (Hugo Fonseca)](https://github.com/fonsecas72): terraform Fix heredoc [PR #116](https://github.com/microsoft/monaco-languages/pull/116)
+* [@jcchu](https://github.com/jcchu): Add Modula-3 support [PR #117](https://github.com/microsoft/monaco-languages/pull/117)
+* [@maclockard (Mac Lockard)](https://github.com/maclockard): Fix highlighting of GROUP BY for redshift [PR #122](https://github.com/microsoft/monaco-languages/pull/122)
+* [@philipsens (Sergi Philipsen)](https://github.com/philipsens): Add auto indent for xml [PR #113](https://github.com/microsoft/monaco-languages/pull/113)
+* [@stla](https://github.com/stla)
+  * completed the list of roxygen tags [PR #114](https://github.com/microsoft/monaco-languages/pull/114)
+  * removed white spaces in constants [PR #115](https://github.com/microsoft/monaco-languages/pull/115)
+* [@VarghaSabee (Sabolch Varha)](https://github.com/VarghaSabee): Safari regex error fix (negative lookbehind) #2179 [PR #121](https://github.com/microsoft/monaco-languages/pull/121)
+
+Contributions to `monaco-typescript`:
+
+* [@Kingwl (Wenlu Wang)](https://github.com/Kingwl): Add new jsx emit option [PR #73](https://github.com/microsoft/monaco-typescript/pull/73)
+
+Contributions to `monaco-css`:
+
+* [@jpett](https://github.com/jpett): Fix error Cannot read property 'getModeId' of null [PR #10](https://github.com/microsoft/monaco-css/pull/10)
+
+
+
 ## [0.21.3] (18.01.2021)
 
 Fixes a regression in suggestions where the browser clipboard API would be accessed by incomplete suggestion lists (see https://github.com/microsoft/vscode/commit/96d61842bae1e5dd11f9ff6139fad9e3e5141401).
