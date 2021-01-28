@@ -538,15 +538,42 @@ function tagToString(tag: ts.JSDocTagInfo): string {
 export class SignatureHelpAdapter extends Adapter implements languages.SignatureHelpProvider {
 	public signatureHelpTriggerCharacters = ['(', ','];
 
+	private static _toSignatureHelpTriggerReason(
+		context: languages.SignatureHelpContext
+	): ts.SignatureHelpTriggerReason {
+		switch (context.triggerKind) {
+			case languages.SignatureHelpTriggerKind.TriggerCharacter:
+				if (context.triggerCharacter) {
+					if (context.isRetrigger) {
+						return { kind: 'retrigger', triggerCharacter: context.triggerCharacter as any };
+					} else {
+						return { kind: 'characterTyped', triggerCharacter: context.triggerCharacter as any };
+					}
+				} else {
+					return { kind: 'invoked' };
+				}
+
+			case languages.SignatureHelpTriggerKind.ContentChange:
+				return context.isRetrigger ? { kind: 'retrigger' } : { kind: 'invoked' };
+
+			case languages.SignatureHelpTriggerKind.Invoke:
+			default:
+				return { kind: 'invoked' };
+		}
+	}
+
 	public async provideSignatureHelp(
 		model: editor.ITextModel,
 		position: Position,
-		token: CancellationToken
+		token: CancellationToken,
+		context: languages.SignatureHelpContext
 	): Promise<languages.SignatureHelpResult | undefined> {
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
-		const info = await worker.getSignatureHelpItems(resource.toString(), offset);
+		const info = await worker.getSignatureHelpItems(resource.toString(), offset, {
+			triggerReason: SignatureHelpAdapter._toSignatureHelpTriggerReason(context)
+		});
 
 		if (!info || model.isDisposed()) {
 			return;

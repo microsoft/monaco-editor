@@ -340,7 +340,7 @@ export interface TypeScriptWorker {
 	 * Get signature help items for the item at the given file and position.
 	 * @returns `Promise<typescript.SignatureHelpItems | undefined>`
 	 */
-	getSignatureHelpItems(fileName: string, position: number): Promise<any | undefined>;
+	getSignatureHelpItems(fileName: string, position: number, options: any): Promise<any | undefined>;
 
 	/**
 	 * Get quick info for the item at the given position in the file.

@@ -215,9 +215,10 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	async getSignatureHelpItems(
 		fileName: string,
-		position: number
+		position: number,
+		options: ts.SignatureHelpItemsOptions | undefined
 	): Promise<ts.SignatureHelpItems | undefined> {
-		return this._languageService.getSignatureHelpItems(fileName, position, undefined);
+		return this._languageService.getSignatureHelpItems(fileName, position, options);
 	}
 
 	async getQuickInfoAtPosition(
