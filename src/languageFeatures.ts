@@ -1094,13 +1094,19 @@ export class RenameAdapter extends Adapter implements languages.RenameProvider {
 
 		const edits: languages.WorkspaceTextEdit[] = [];
 		for (const renameLocation of renameLocations) {
-			edits.push({
-				resource: Uri.parse(renameLocation.fileName),
-				edit: {
-					range: this._textSpanToRange(model, renameLocation.textSpan),
-					text: newName
-				}
-			});
+			const resource = Uri.parse(renameLocation.fileName);
+			const model = editor.getModel(resource);
+			if (model) {
+				edits.push({
+					resource,
+					edit: {
+						range: this._textSpanToRange(model, renameLocation.textSpan),
+						text: newName
+					}
+				});
+			} else {
+				throw new Error(`Unknown URI ${resource}.`);
+			}
 		}
 
 		return { edits };
