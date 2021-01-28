@@ -20,4 +20,6 @@ define('vs/nls', [], {
 	}
 });
 
-define(['vs/editor/editor.main', function () {}]);
+define(['vs/editor/editor.main'], function (api) {
+	global.monaco = api;
+});
