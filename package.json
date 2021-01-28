@@ -1,6 +1,6 @@
 {
 	"name": "monaco-html",
-	"version": "3.1.1",
+	"version": "3.2.0",
 	"description": "HTML plugin for the Monaco Editor",
 	"scripts": {
 		"compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json && node ./scripts/dts && prettier --write ./monaco.d.ts",
