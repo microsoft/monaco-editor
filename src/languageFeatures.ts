@@ -115,7 +115,7 @@ export class LibFiles {
 			return model;
 		}
 		if (this.isLibFile(uri) && this._hasFetchedLibFiles) {
-			return editor.createModel(this._libFiles[uri.path.slice(1)], 'javascript', uri);
+			return editor.createModel(this._libFiles[uri.path.slice(1)], 'typescript', uri);
 		}
 		return null;
 	}
