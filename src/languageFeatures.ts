@@ -926,6 +926,10 @@ export class FormatAdapter
 			column: range.endColumn
 		});
 		const worker = await this._worker(resource);
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const edits = await worker.getFormattingEditsForRange(
 			resource.toString(),
 			startOffset,
