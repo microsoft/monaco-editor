@@ -154,7 +154,7 @@ interface ILabeledWorkerDefinition {
 function addCompilerRules(compiler: webpack.Compiler, rules: webpack.RuleSetRule[]): void {
   const compilerOptions = compiler.options;
   if (!compilerOptions.module) {
-    compilerOptions.module = { rules: rules };
+    compilerOptions.module = <any>{ rules: rules };
   } else {
     const moduleOptions = compilerOptions.module;
     moduleOptions.rules = (moduleOptions.rules || []).concat(rules);
