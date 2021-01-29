@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.22.1] (29.01.2021)
+
+Fixes a regression where format commands would no longer work (see https://github.com/microsoft/monaco-editor/issues/2327).
+
 ## [0.22.0] (29.01.2021)
 
 ### New & Noteworthy
