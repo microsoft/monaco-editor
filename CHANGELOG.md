@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.22.2] (01.02.2021)
+
+Fixes a regression where under certain webpack configurations `process.nextTick` could be used without explicitly checking for it being defined (see https://github.com/microsoft/monaco-editor/issues/2328).
+
 ## [0.22.1] (29.01.2021)
 
 Fixes a regression where format commands would no longer work (see https://github.com/microsoft/monaco-editor/issues/2327).
