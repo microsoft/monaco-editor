@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.22.3] (01.02.2021)
+
+Fixes a regression where symbol icons used in suggestions or quick outline were missing colors (see https://github.com/microsoft/monaco-editor/issues/2329).
+
 ## [0.22.2] (01.02.2021)
 
 Fixes a regression where under certain webpack configurations `process.nextTick` could be used without explicitly checking for it being defined (see https://github.com/microsoft/monaco-editor/issues/2328).
