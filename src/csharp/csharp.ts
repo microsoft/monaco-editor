@@ -125,7 +125,6 @@ export const language = <languages.IMonarchLanguage>{
 		'event',
 		'method',
 		'param',
-		'property',
 		'public',
 		'protected',
 		'internal',
