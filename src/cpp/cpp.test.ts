@@ -858,6 +858,7 @@ testTokenization('cpp', [
 		}
 	],
 
+	// Annotations
 	[
 		{
 			line: '[[nodiscard]]',
@@ -905,6 +906,13 @@ testTokenization('cpp', [
 				{ startIndex: 7, type: 'identifier.cpp' },
 				{ startIndex: 8, type: 'delimiter.cpp' }
 			]
+		}
+	],
+	[
+		// We don't support newlines between annotation square brackets, but we do support other whitespace.
+		{
+			line: '[ [nodiscard] ]',
+			tokens: [{ startIndex: 0, type: 'annotation.cpp' }]
 		}
 	]
 ]);
