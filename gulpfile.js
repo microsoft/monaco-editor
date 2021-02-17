@@ -545,8 +545,7 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function() {
 	return (
 		es.merge(
 			gulp.src([
-				'website/**/*',
-				'!website/typedoc-theme/**'
+				'website/**/*'
 			], { dot: true })
 			.pipe(es.through(function(data) {
 				if (!data.contents || !/\.(html)$/.test(data.path) || /new-samples/.test(data.path)) {
