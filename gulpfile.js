@@ -433,7 +433,7 @@ function addPluginDTS() {
 		}));
 
 		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
-		fs.writeFileSync('doc/monaco.d.ts', contents);
+		fs.writeFileSync('typedoc/monaco.d.ts', contents);
 		this.emit('data', data);
 	});
 }

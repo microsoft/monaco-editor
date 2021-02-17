@@ -10,7 +10,7 @@
     "release": "gulp release",
     "website": "gulp website && npm run typedoc",
     "build-website": "gulp build-website && npm run typedoc",
-    "typedoc": "cd doc && \"../node_modules/.bin/typedoc\" --options ./typedoc.json"
+    "typedoc": "cd typedoc && \"../node_modules/.bin/typedoc\" --options ./typedoc.json"
   },
   "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",
