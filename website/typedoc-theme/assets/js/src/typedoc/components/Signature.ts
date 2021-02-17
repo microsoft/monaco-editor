@@ -1,5 +1,5 @@
-import {Component, IComponentOptions} from "../Component";
-import {Viewport} from "../services/Viewport";
+import { Component, IComponentOptions } from "../Component";
+import { Viewport } from "../services/Viewport";
 
 /**
  * Holds a signature and its description.
@@ -15,7 +15,6 @@ class SignatureGroup {
      */
     description: Element;
 
-
     /**
      * Create a new SignatureGroup instance.
      *
@@ -26,7 +25,6 @@ class SignatureGroup {
         this.signature = signature;
         this.description = description;
     }
-
 
     /**
      * Add the given class to all elements of the group.
@@ -39,7 +37,6 @@ class SignatureGroup {
         return this;
     }
 
-
     /**
      * Remove the given class from all elements of the group.
      *
@@ -51,7 +48,6 @@ class SignatureGroup {
         return this;
     }
 }
-
 
 /**
  * Controls the tab like behaviour of methods and functions with multiple signatures.
@@ -72,7 +68,6 @@ export class Signature extends Component {
      */
     private index: number = -1;
 
-
     /**
      * Create a new Signature instance.
      *
@@ -84,16 +79,19 @@ export class Signature extends Component {
         this.createGroups();
 
         if (this.container) {
-            this.el.classList.add('active');
-            Array.from(this.el.children).forEach(signature => {
-                signature.addEventListener('touchstart', (event) => this.onClick(event));
-                signature.addEventListener('click', (event) => this.onClick(event));
+            this.el.classList.add("active");
+            Array.from(this.el.children).forEach((signature) => {
+                signature.addEventListener("touchstart", (event) =>
+                    this.onClick(event)
+                );
+                signature.addEventListener("click", (event) =>
+                    this.onClick(event)
+                );
             });
-            this.container.classList.add('active');
+            this.container.classList.add("active");
             this.setIndex(0);
         }
     }
-
 
     /**
      * Set the index of the active signature.
@@ -109,23 +107,22 @@ export class Signature extends Component {
         if (this.index > -1) {
             const from = this.groups[this.index];
 
-            from.removeClass('current').addClass('fade-out');
-            to.addClass('current');
-            to.addClass('fade-in');
+            from.removeClass("current").addClass("fade-out");
+            to.addClass("current");
+            to.addClass("fade-in");
             Viewport.instance.triggerResize();
 
             setTimeout(() => {
-                from.removeClass('fade-out');
-                to.removeClass('fade-in');
+                from.removeClass("fade-out");
+                to.removeClass("fade-in");
             }, 300);
         } else {
-            to.addClass('current');
+            to.addClass("current");
             Viewport.instance.triggerResize();
         }
 
         this.index = index;
     }
-
 
     /**
      * Find all signature/description groups.
@@ -139,10 +136,11 @@ export class Signature extends Component {
 
         this.groups = [];
         for (let index = 0; index < signatures.length; index++) {
-            this.groups.push(new SignatureGroup(signatures[index], descriptions[index]));
+            this.groups.push(
+                new SignatureGroup(signatures[index], descriptions[index])
+            );
         }
     }
-
 
     /**
      * Triggered when the user clicks onto a signature header.
@@ -157,4 +155,3 @@ export class Signature extends Component {
         });
     }
 }
-

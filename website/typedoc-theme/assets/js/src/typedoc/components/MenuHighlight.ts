@@ -1,5 +1,5 @@
-import {Component, IComponentOptions} from "../Component";
-import {Viewport} from "../services/Viewport";
+import { Component, IComponentOptions } from "../Component";
+import { Viewport } from "../services/Viewport";
 
 /**
  * Stored element and position data of a single anchor.
@@ -21,7 +21,6 @@ interface IAnchorInfo {
     position: number;
 }
 
-
 /**
  * Manages the sticky state of the navigation and moves the highlight
  * to the current navigation item.
@@ -37,7 +36,6 @@ export class MenuHighlight extends Component {
      */
     private index: number = -1;
 
-
     /**
      * Create a new MenuHighlight instance.
      *
@@ -46,49 +44,56 @@ export class MenuHighlight extends Component {
     constructor(options: IComponentOptions) {
         super(options);
 
-        Viewport.instance.addEventListener('resize', () => this.onResize());
-        Viewport.instance.addEventListener<{ scrollTop: number }>('scroll', e => this.onScroll(e));
+        Viewport.instance.addEventListener("resize", () => this.onResize());
+        Viewport.instance.addEventListener<{ scrollTop: number }>(
+            "scroll",
+            (e) => this.onScroll(e)
+        );
 
         this.createAnchors();
     }
-
 
     /**
      * Find all anchors on the current page.
      */
     private createAnchors() {
         let base = window.location.href;
-        if (base.indexOf('#') != -1) {
-            base = base.substr(0, base.indexOf('#'));
+        if (base.indexOf("#") != -1) {
+            base = base.substr(0, base.indexOf("#"));
         }
 
-        this.el.querySelectorAll('a').forEach(el => {
+        this.el.querySelectorAll("a").forEach((el) => {
             const href = el.href;
-            if (href.indexOf('#') == -1) return;
+            if (href.indexOf("#") == -1) return;
             if (href.substr(0, base.length) != base) return;
 
-            const hash = href.substr(href.indexOf('#') + 1);
-            const anchor = document.querySelector<HTMLElement>('a.tsd-anchor[name=' + hash + ']');
+            const hash = href.substr(href.indexOf("#") + 1);
+            const anchor = document.querySelector<HTMLElement>(
+                "a.tsd-anchor[name=" + hash + "]"
+            );
             const link = el.parentNode;
             if (!anchor || !link) return;
 
             this.anchors.push({
                 link: link as HTMLElement,
                 anchor: anchor,
-                position: 0
+                position: 0,
             });
         });
 
         this.onResize();
     }
 
-
     /**
      * Triggered after the viewport was resized.
      */
     private onResize() {
         let anchor: IAnchorInfo;
-        for (let index = 0, count = this.anchors.length; index < count; index++) {
+        for (
+            let index = 0, count = this.anchors.length;
+            index < count;
+            index++
+        ) {
             anchor = this.anchors[index];
             const rect = anchor.anchor.getBoundingClientRect();
             anchor.position = rect.top + document.body.scrollTop;
@@ -98,14 +103,13 @@ export class MenuHighlight extends Component {
             return a.position - b.position;
         });
 
-        const event = new CustomEvent('scroll', {
+        const event = new CustomEvent("scroll", {
             detail: {
                 scrollTop: Viewport.instance.scrollTop,
-            }
+            },
         });
         this.onScroll(event);
     }
-
 
     /**
      * Triggered after the viewport was scrolled.
@@ -127,9 +131,11 @@ export class MenuHighlight extends Component {
         }
 
         if (this.index != index) {
-            if (this.index > -1) this.anchors[this.index].link.classList.remove('focus');
+            if (this.index > -1)
+                this.anchors[this.index].link.classList.remove("focus");
             this.index = index;
-            if (this.index > -1) this.anchors[this.index].link.classList.add('focus');
+            if (this.index > -1)
+                this.anchors[this.index].link.classList.add("focus");
         }
     }
 }

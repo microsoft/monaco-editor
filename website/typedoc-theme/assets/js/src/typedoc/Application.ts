@@ -1,4 +1,4 @@
-import {IComponentOptions} from "./Component";
+import { IComponentOptions } from "./Component";
 
 /**
  * Component definition.
@@ -16,13 +16,15 @@ const components: IComponent[] = [];
 /**
  * Register a new component.
  */
-export function registerComponent(constructor: IComponent['constructor'], selector: string) {
+export function registerComponent(
+    constructor: IComponent["constructor"],
+    selector: string
+) {
     components.push({
         selector: selector,
         constructor: constructor,
     });
 }
-
 
 /**
  * TypeDoc application class.
@@ -42,7 +44,7 @@ export class Application {
         components.forEach((c) => {
             context.querySelectorAll<HTMLElement>(c.selector).forEach((el) => {
                 if (!el.dataset.hasInstance) {
-                    new c.constructor({el: el});
+                    new c.constructor({ el: el });
                     el.dataset.hasInstance = String(true);
                 }
             });

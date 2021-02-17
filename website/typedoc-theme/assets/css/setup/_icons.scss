@@ -1,29 +1,13 @@
-$type-icons:
-    (object-literal),
-    (class),
-    ('class.tsd-has-type-parameter'),
-    (interface),
-    ('interface.tsd-has-type-parameter'),
-    (namespace, module),
-    (enum),
-    (enum-member),
-    (signature),
-    (type-alias),
-    ('type-alias.tsd-has-type-parameter');
+$type-icons: (object-literal), (class), ("class.tsd-has-type-parameter"),
+    (interface), ("interface.tsd-has-type-parameter"), (namespace, module),
+    (enum), (enum-member), (signature), (type-alias),
+    ("type-alias.tsd-has-type-parameter");
 
-$member-icons:
-    (variable, property),
-    (get-signature),
-    (set-signature),
-    (accessor),
-    (function, method, call-signature),
-    ('function.tsd-has-type-parameter', 'method.tsd-has-type-parameter'),
-    (constructor, constructor-signature),
-    (index-signature),
-    (event),
-    (property),
-    (function, method, call-signature),
-    (event);
+$member-icons: (variable, property), (get-signature), (set-signature),
+    (accessor), (function, method, call-signature),
+    ("function.tsd-has-type-parameter", "method.tsd-has-type-parameter"),
+    (constructor, constructor-signature), (index-signature), (event), (property),
+    (function, method, call-signature), (event);
 
 // parameter
 // type-literal
@@ -36,7 +20,7 @@ $member-icons:
     text-indent: -20px;
 
     &:before {
-        content: '';
+        content: "";
         display: inline-block;
         vertical-align: middle;
         width: 17px;
@@ -55,26 +39,25 @@ $member-icons:
     background-position: 0 -153px;
 }
 
-$icon-size:                        17px;
-$type:                             -0 * $icon-size;
-$type-protected:                   -1 * $icon-size;
-$type-private:                     -2 * $icon-size;
-$member-class-public:              -3 * $icon-size;
-$member-class-public-inherited:    -4 * $icon-size;
-$member-class-protected:           -5 * $icon-size;
+$icon-size: 17px;
+$type: -0 * $icon-size;
+$type-protected: -1 * $icon-size;
+$type-private: -2 * $icon-size;
+$member-class-public: -3 * $icon-size;
+$member-class-public-inherited: -4 * $icon-size;
+$member-class-protected: -5 * $icon-size;
 $member-class-protected-inherited: -6 * $icon-size;
-$member-private:                   -7 * $icon-size;
-$member:                           -8 * $icon-size;
-$member-protected:                 -9 * $icon-size;
-$member-enum:                     -10 * $icon-size;
-$member-enum-protected:           -11 * $icon-size;
-$member-interface:                -12 * $icon-size;
-$member-interface-inherited:      -13 * $icon-size;
-
+$member-private: -7 * $icon-size;
+$member: -8 * $icon-size;
+$member-protected: -9 * $icon-size;
+$member-enum: -10 * $icon-size;
+$member-enum-protected: -11 * $icon-size;
+$member-interface: -12 * $icon-size;
+$member-interface-inherited: -13 * $icon-size;
 
 @for $index from 1 through length($type-icons) {
     @each $kind in nth($type-icons, $index) {
-        $selector: '.tsd-kind-' + $kind;
+        $selector: ".tsd-kind-" + $kind;
         $offset: -#{17 * ($index)}px;
 
         #{$selector} {
@@ -96,11 +79,11 @@ $member-interface-inherited:      -13 * $icon-size;
 @for $index from 1 through length($member-icons) {
     @each $kind in nth($member-icons, $index) {
         $offset: -#{17 * ($index - 1)}px;
-        $selector: '.tsd-kind-' + $kind;
+        $selector: ".tsd-kind-" + $kind;
         @if $index == 10 {
-            $selector: '.tsd-is-static';
+            $selector: ".tsd-is-static";
         } @else if $index > 10 {
-            $selector: '.tsd-is-static.tsd-kind-' + $kind;
+            $selector: ".tsd-is-static.tsd-kind-" + $kind;
         }
 
         #{$selector} {
@@ -130,7 +113,8 @@ $member-interface-inherited:      -13 * $icon-size;
                 }
 
                 &.tsd-is-protected.tsd-is-inherited > .tsd-kind-icon:before {
-                    background-position: $member-class-protected-inherited $offset;
+                    background-position: $member-class-protected-inherited
+                        $offset;
                 }
 
                 &.tsd-is-private > .tsd-kind-icon:before {

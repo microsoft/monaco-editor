@@ -1,5 +1,5 @@
-import {Component, IComponentOptions} from "../Component";
-import {pointerDown, pointerUp} from "../utils/pointer";
+import { Component, IComponentOptions } from "../Component";
+import { pointerDown, pointerUp } from "../utils/pointer";
 
 abstract class FilterItem<T> {
     protected key: string;
@@ -7,7 +7,6 @@ abstract class FilterItem<T> {
     protected value: T;
 
     protected defaultValue: T;
-
 
     constructor(key: string, value: T) {
         this.key = key;
@@ -21,17 +20,13 @@ abstract class FilterItem<T> {
         }
     }
 
-
-    protected initialize() {
-    }
-
+    protected initialize() {}
 
     protected abstract handleValueChange(oldValue: T, newValue: T): void;
 
     protected abstract fromLocalStorage(value: string): T;
 
     protected abstract toLocalStorage(value: T): string;
-
 
     protected setValue(value: T) {
         if (this.value == value) return;
@@ -44,92 +39,97 @@ abstract class FilterItem<T> {
     }
 }
 
-
 class FilterItemCheckbox extends FilterItem<boolean> {
     private checkbox!: HTMLInputElement;
 
-
     protected initialize() {
-        const checkbox = document.querySelector<HTMLInputElement>('#tsd-filter-' + this.key);
+        const checkbox = document.querySelector<HTMLInputElement>(
+            "#tsd-filter-" + this.key
+        );
         if (!checkbox) return;
 
         this.checkbox = checkbox;
-        this.checkbox.addEventListener('change', () => {
+        this.checkbox.addEventListener("change", () => {
             this.setValue(this.checkbox.checked);
         });
     }
 
-
     protected handleValueChange(oldValue: boolean, newValue: boolean) {
         if (!this.checkbox) return;
         this.checkbox.checked = this.value;
-        document.documentElement.classList.toggle('toggle-' + this.key, this.value != this.defaultValue);
+        document.documentElement.classList.toggle(
+            "toggle-" + this.key,
+            this.value != this.defaultValue
+        );
     }
-
 
     protected fromLocalStorage(value: string): boolean {
-        return value == 'true';
+        return value == "true";
     }
-
 
     protected toLocalStorage(value: boolean): string {
-        return value ? 'true' : 'false';
+        return value ? "true" : "false";
     }
 }
-
 
 class FilterItemSelect extends FilterItem<string> {
     private select!: HTMLElement;
 
-
     protected initialize() {
-        document.documentElement.classList.add('toggle-' + this.key + this.value);
+        document.documentElement.classList.add(
+            "toggle-" + this.key + this.value
+        );
 
-        const select = document.querySelector<HTMLElement>('#tsd-filter-' + this.key);
+        const select = document.querySelector<HTMLElement>(
+            "#tsd-filter-" + this.key
+        );
         if (!select) return;
 
         this.select = select;
         const onActivate = () => {
-            this.select.classList.add('active');
+            this.select.classList.add("active");
         };
         const onDeactivate = () => {
-            this.select.classList.remove('active');
+            this.select.classList.remove("active");
         };
 
         this.select.addEventListener(pointerDown, onActivate);
-        this.select.addEventListener('mouseover', onActivate);
-        this.select.addEventListener('mouseleave', onDeactivate);
+        this.select.addEventListener("mouseover", onActivate);
+        this.select.addEventListener("mouseleave", onDeactivate);
 
-        this.select.querySelectorAll('li').forEach(el => {
+        this.select.querySelectorAll("li").forEach((el) => {
             el.addEventListener(pointerUp, (e) => {
-                select.classList.remove('active');
-                this.setValue((e.target as HTMLElement).dataset.value || '');
-            })
+                select.classList.remove("active");
+                this.setValue((e.target as HTMLElement).dataset.value || "");
+            });
         });
 
         document.addEventListener(pointerDown, (e) => {
             if (this.select.contains(e.target as HTMLElement)) return;
 
-            this.select.classList.remove('active');
+            this.select.classList.remove("active");
         });
     }
 
-
     protected handleValueChange(oldValue: string, newValue: string) {
-        this.select.querySelectorAll('li.selected').forEach(el => {
-            el.classList.remove('selected')
+        this.select.querySelectorAll("li.selected").forEach((el) => {
+            el.classList.remove("selected");
         });
 
-        const selected = this.select.querySelector<HTMLElement>('li[data-value="' + newValue + '"]');
-        const label = this.select.querySelector<HTMLElement>('.tsd-select-label');
+        const selected = this.select.querySelector<HTMLElement>(
+            'li[data-value="' + newValue + '"]'
+        );
+        const label = this.select.querySelector<HTMLElement>(
+            ".tsd-select-label"
+        );
 
         if (selected && label) {
-            selected.classList.add('selected');
+            selected.classList.add("selected");
             label.textContent = selected.textContent;
         }
 
-        document.documentElement.classList.remove('toggle-' + oldValue);
-        document.documentElement.classList.add('toggle-' + newValue);
+        document.documentElement.classList.remove("toggle-" + oldValue);
+        document.documentElement.classList.add("toggle-" + newValue);
     }
 
     protected fromLocalStorage(value: string): string {
@@ -141,30 +141,24 @@ class FilterItemSelect extends FilterItem<string> {
     }
 }
 
-
 export class Filter extends Component {
     private optionVisibility: FilterItemSelect;
 
     private optionInherited: FilterItemCheckbox;
 
-    private optionOnlyExported: FilterItemCheckbox;
-
     private optionExternals: FilterItemCheckbox;
-
 
     constructor(options: IComponentOptions) {
         super(options);
 
-        this.optionVisibility = new FilterItemSelect('visibility', 'private');
-        this.optionInherited = new FilterItemCheckbox('inherited', true);
-        this.optionExternals = new FilterItemCheckbox('externals', true);
-        this.optionOnlyExported = new FilterItemCheckbox('only-exported', false);
+        this.optionVisibility = new FilterItemSelect("visibility", "private");
+        this.optionInherited = new FilterItemCheckbox("inherited", true);
+        this.optionExternals = new FilterItemCheckbox("externals", true);
     }
-
 
     static isSupported(): boolean {
         try {
-            return typeof window.localStorage != 'undefined';
+            return typeof window.localStorage != "undefined";
         } catch (e) {
             return false;
         }

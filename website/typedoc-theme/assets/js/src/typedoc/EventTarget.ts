@@ -13,7 +13,7 @@ export class EventTarget {
             this.listeners[type] = [];
         }
         this.listeners[type].push(callback);
-    };
+    }
 
     public removeEventListener<T>(type: string, callback: IEventListener<T>) {
         if (!(type in this.listeners)) {
@@ -26,7 +26,7 @@ export class EventTarget {
                 return;
             }
         }
-    };
+    }
 
     public dispatchEvent<T>(event: CustomEvent<T>) {
         if (!(event.type in this.listeners)) {
@@ -38,5 +38,5 @@ export class EventTarget {
             stack[i].call(this, event);
         }
         return !event.defaultPrevented;
-    };
+    }
 }

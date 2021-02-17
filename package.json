@@ -8,8 +8,9 @@
   "scripts": {
     "simpleserver": "gulp simpleserver",
     "release": "gulp release",
-    "website": "gulp website",
-    "build-website": "gulp build-website"
+    "website": "gulp website && npm run typedoc",
+    "build-website": "gulp build-website && npm run typedoc",
+    "typedoc": "cd doc && \"../node_modules/.bin/typedoc\" --options ./typedoc.json"
   },
   "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",
@@ -21,7 +22,6 @@
     "clean-css": "^4.2.3",
     "event-stream": "4.0.1",
     "gulp": "^4.0.2",
-    "gulp-typedoc": "^2.2.5",
     "monaco-css": "3.2.0",
     "monaco-editor-core": "0.22.3",
     "monaco-html": "3.2.0",
@@ -29,7 +29,7 @@
     "monaco-languages": "2.2.0",
     "monaco-typescript": "4.2.0",
     "rimraf": "^3.0.2",
-    "typedoc": "^0.19.1",
+    "typedoc": "^0.20.25",
     "typescript": "4.1.3",
     "uncss": "^0.17.3",
     "vinyl": "^2.2.1",

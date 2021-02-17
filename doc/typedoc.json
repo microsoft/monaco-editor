@@ -1,0 +1,8 @@
+{
+    "entryPoints": ["monaco.d.ts"],
+    "out": "../../monaco-editor-website/api",
+    "theme": "../website/typedoc-theme",
+    "name": "Monaco Editor API",
+    "readme": "none",
+    "hideGenerator": true
+}

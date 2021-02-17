@@ -40,11 +40,6 @@
                                 <input type="checkbox" id="tsd-filter-externals" checked />
                                 <label class="tsd-widget" for="tsd-filter-externals">Externals</label>
                             {{/unless}}
-
-                            {{#unless settings.excludeNotExported}}
-                                <input type="checkbox" id="tsd-filter-only-exported" />
-                                <label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-                            {{/unless}}
                         </div>
                     </div>
 
@@ -56,12 +51,16 @@
     </div>
     <div class="tsd-page-title">
         <div class="container">
-            <ul class="tsd-breadcrumb">
-                {{#with model}}{{> breadcrumb}}{{/with}}
-            </ul>
+            {{#if model.parent}} {{! Don't show breadcrumbs on main project page, it is the root page. !}}
+                <ul class="tsd-breadcrumb">
+                    {{#with model}}{{> breadcrumb}}{{/with}}
+                </ul>
+            {{/if}}
             {{!--MONACO_CHANGE
             <h1>{{#compact}}
-                {{model.kindString}}&nbsp;
+                {{#ifCond model.kindString "!==" "Project" }}
+                    {{model.kindString}}&nbsp;
+                {{/ifCond}}
                 {{model.name}}
                 {{#if model.typeParameters}}
                     &lt;

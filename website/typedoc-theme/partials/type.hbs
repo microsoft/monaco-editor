@@ -73,9 +73,61 @@ if an inner type may result in invalid output without them. For example:
     <span class="tsd-signature-type">{{name}}</span>
 {{/inline}}
 
+{{#*inline 'literal'}}
+    <span class="tsd-signature-type">{{stringify value}}</span>
+{{/inline}}
+
+{{#*inline 'mapped'}}
+    <span class="tsd-signature-symbol">{</span>
+    {{#ifCond readonlyModifier '===' '+'}}
+        <span class="tsd-signature-symbol">readonly </span>
+    {{else}}
+        {{#ifCond readonlyModifier '===' '-'}}
+            <span class="tsd-signature-symbol">-readonly </span>
+        {{/ifCond}}
+    {{/ifCond}}
+
+    <span class="tsd-signature-symbol">[ </span>
+    <span class="tsd-signature-type">{{parameter}}</span>
+    <span class="tsd-signature-symbol"> in </span>
+
+    {{#with parameterType}}
+        {{>type}}
+    {{/with}}
+
+    {{#with nameType}}
+        <span class="tsd-signature-symbol"> as </span>
+        {{>type}}
+    {{/with}}
+
+    <span class="tsd-signature-symbol">]</span>
+    {{#ifCond readonlyModifier '===' '+'}}
+        <span class="tsd-signature-symbol">?: </span>
+    {{else}}
+        {{#ifCond readonlyModifier '===' '-'}}
+            <span class="tsd-signature-symbol">-?: </span>
+        {{else}}
+            <span class="tsd-signature-symbol">: </span>
+        {{/ifCond}}
+    {{/ifCond}}
+
+    {{#with templateType}}
+        {{>type}}
+    {{/with}}
+
+    <span class="tsd-signature-symbol"> }</span>
+{{/inline}}
+
+{{#*inline 'optional'}}
+    {{#with elementType}}
+        {{> type}}
+    {{/with}}
+    <span class="tsd-signature-symbol">?</span>
+{{/inline}}
+
 {{#*inline 'predicate'}}
     {{#if asserts}}
-        <span class="tsd-signature-symbol">asserts</span>
+        <span class="tsd-signature-symbol">asserts </span>
     {{/if}}
     <span class="tsd-signature-type">{{name}}</span>
     {{#if targetType}}
@@ -94,13 +146,13 @@ if an inner type may result in invalid output without them. For example:
 {{/inline}}
 
 {{#*inline 'reference'}}
-    {{#if reflection}}
-        <a href="{{relativeURL reflection.url}}" class="tsd-signature-type">
-            {{reflection.name}}
+    {{#with getReflection }}
+        <a href="{{relativeURL url}}" class="tsd-signature-type" data-tsd-kind="{{kindString}}">
+            {{name}}
         </a>
     {{else}}
         <span class="tsd-signature-type">{{name}}</span>
-    {{/if}}
+    {{/with}}
     {{#if typeArguments}}
         <span class="tsd-signature-symbol">&lt;</span>
         {{#each typeArguments}}
@@ -120,17 +172,56 @@ if an inner type may result in invalid output without them. For example:
             {{#unless @first}}
                 <span class="tsd-signature-symbol">; </span>
             {{/unless}}
-            {{name}}
-            {{#if flags.isOptional }}
-                <span class="tsd-signature-symbol">?: </span>
+
+            {{#if getSignature}}
+                {{#if setSignature}}
+                    {{name}}
+                    <span class="tsd-signature-symbol">: </span>
+                    {{#with getSignature.type}}
+                        {{> type}}
+                    {{else}}
+                        <span class="tsd-signature-type">any</span>
+                    {{/with}}
+                {{else}}
+                    <span class="tsd-signature-symbol">get </span>
+                    {{name}}
+                    <span class="tsd-signature-symbol">(): </span>
+                    {{#with getSignature.type}}
+                        {{> type}}
+                    {{else}}
+                        <span class="tsd-signature-type">any</span>
+                    {{/with}}
+                {{/if}}
             {{else}}
-                <span class="tsd-signature-symbol">: </span>
+                {{#if setSignature}}
+                    <span class="tsd-signature-symbol">set </span>
+                    {{name}}
+                    <span class="tsd-signature-symbol">(</span>
+                    {{! Rather hacky to use each here... but we know there is exactly one. }}
+                    {{#each setSignature.parameters}}
+                        {{name}}
+                        <span class="tsd-signature-symbol">: </span>
+                        {{#with type}}
+                            {{> type}}
+                        {{else}}
+                            <span class="tsd-signature-type">any</span>
+                        {{/with}}
+                    {{/each}}
+                    <span class="tsd-signature-symbol">)</span>
+                {{else}}
+                    {{name}}
+                    {{#if flags.isOptional }}
+                        <span class="tsd-signature-symbol">?: </span>
+                    {{else}}
+                        <span class="tsd-signature-symbol">: </span>
+                    {{/if}}
+                    {{#with type}}
+                        {{> type}}
+                    {{else}}
+                        <span class="tsd-signature-type">any</span>
+                    {{/with}}
+                {{/if}}
             {{/if}}
-            {{#with type}}
-                {{> type}}
-            {{else}}
-                <span class="tsd-signature-type">any</span>
-            {{/with}}
         {{/each}}
         <span class="tsd-signature-symbol"> }</span>
     {{else if declaration.signatures}}
@@ -159,8 +250,11 @@ if an inner type may result in invalid output without them. For example:
     {{/if}}
 {{/inline}}
 
-{{#*inline 'stringLiteral'}}
-    <span class="tsd-signature-type">"{{value}}"</span>
+{{#*inline 'rest'}}
+    <span class="tsd-signature-symbol">...</span>
+    {{#with elementType}}
+        {{> type}}
+    {{/with}}
 {{/inline}}
 
 {{#*inline 'tuple'}}
@@ -172,6 +266,24 @@ if an inner type may result in invalid output without them. For example:
         {{> type}}
     {{/each}}
     <span class="tsd-signature-symbol">]</span>
+{{/inline}}
+
+{{#*inline 'template-literal'}}
+    <span class="tsd-signature-symbol">`</span>
+    {{#if head}}
+        <span class="tsd-signature-type">{{head}}</span>
+    {{/if}}
+    {{#each tail}}
+        <span class="tsd-signature-symbol">${</span>
+        {{#with this.[0]}}
+            {{>type}}
+        {{/with}}
+        <span class="tsd-signature-symbol">}</span>
+        {{#if this.[1]}}
+            <span class="tsd-signature-type">{{this.[1]}}</span>
+        {{/if}}
+    {{/each}}
+    <span class="tsd-signature-symbol">`</span>
 {{/inline}}
 
 {{#*inline 'typeOperator'}}
