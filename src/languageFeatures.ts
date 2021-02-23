@@ -4,7 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 
-import { LanguageServiceDefaults } from './monaco.contribution';
+import {
+	Diagnostic,
+	DiagnosticRelatedInformation,
+	LanguageServiceDefaults
+} from './monaco.contribution';
 import type * as ts from './lib/typescriptServices';
 import type { TypeScriptWorker } from './tsWorker';
 import { libFileSet } from './lib/lib.index';
@@ -244,7 +248,7 @@ export class DiagnosticsAdapter extends Adapter {
 			return;
 		}
 
-		const promises: Promise<ts.Diagnostic[]>[] = [];
+		const promises: Promise<Diagnostic[]>[] = [];
 		const {
 			noSyntaxValidation,
 			noSemanticValidation,
@@ -297,7 +301,7 @@ export class DiagnosticsAdapter extends Adapter {
 		);
 	}
 
-	private _convertDiagnostics(model: editor.ITextModel, diag: ts.Diagnostic): editor.IMarkerData {
+	private _convertDiagnostics(model: editor.ITextModel, diag: Diagnostic): editor.IMarkerData {
 		const diagStart = diag.start || 0;
 		const diagLength = diag.length || 1;
 		const { lineNumber: startLineNumber, column: startColumn } = model.getPositionAt(diagStart);
@@ -328,7 +332,7 @@ export class DiagnosticsAdapter extends Adapter {
 
 	private _convertRelatedInformation(
 		model: editor.ITextModel,
-		relatedInformation?: ts.DiagnosticRelatedInformation[]
+		relatedInformation?: DiagnosticRelatedInformation[]
 	): editor.IRelatedInformation[] | undefined {
 		if (!relatedInformation) {
 			return;

@@ -179,13 +179,13 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	private static clearFiles(diagnostics: ts.Diagnostic[]): Diagnostic[] {
 		// Clear the `file` field, which cannot be JSON'yfied because it
-		// contains cyclic data structures.
-		diagnostics.forEach((diag) => {
-			diag.file = undefined;
-			const related = <ts.Diagnostic[]>diag.relatedInformation;
-			if (related) {
-				related.forEach((diag2) => (diag2.file = undefined));
-			}
+		// contains cyclic data structures, except for the `fileName`
+		// property.
+		diagnostics.forEach((diag: Diagnostic) => {
+			diag.file = diag.file ? { fileName: diag.file.fileName } : undefined;
+			diag.relatedInformation?.forEach(
+				(diag2) => (diag2.file = diag2.file ? { fileName: diag2.file.fileName } : undefined)
+			);
 		});
 		return <Diagnostic[]>diagnostics;
 	}

@@ -187,15 +187,16 @@ interface DiagnosticMessageChain {
 export interface Diagnostic extends DiagnosticRelatedInformation {
 	/** May store more in future. For now, this will simply be `true` to indicate when a diagnostic is an unused-identifier diagnostic. */
 	reportsUnnecessary?: {};
+	reportsDeprecated?: {};
 	source?: string;
 	relatedInformation?: DiagnosticRelatedInformation[];
 }
-interface DiagnosticRelatedInformation {
+export interface DiagnosticRelatedInformation {
 	/** Diagnostic category: warning = 0, error = 1, suggestion = 2, message = 3 */
 	category: 0 | 1 | 2 | 3;
 	code: number;
-	/** TypeScriptWorker removes this to avoid serializing circular JSON structures. */
-	file: undefined;
+	/** TypeScriptWorker removes all but the `fileName` property to avoid serializing circular JSON structures. */
+	file: { fileName: string } | undefined;
 	start: number | undefined;
 	length: number | undefined;
 	messageText: string | DiagnosticMessageChain;
