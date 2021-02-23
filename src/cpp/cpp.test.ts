@@ -856,5 +856,63 @@ testTokenization('cpp', [
 				{ startIndex: 4, type: 'comment.cpp' }
 			]
 		}
+	],
+
+	// Annotations
+	[
+		{
+			line: '[[nodiscard]]',
+			tokens: [{ startIndex: 0, type: 'annotation.cpp' }]
+		}
+	],
+	[
+		{
+			// Example from http://eel.is/c++draft/dcl.attr
+			line: '[[using CC: opt(1), debug]]',
+			tokens: [
+				{ startIndex: 0, type: 'annotation.cpp' }, // [[
+				{ startIndex: 2, type: 'keyword.cpp' }, // using
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'annotation.cpp' }, // CC
+				{ startIndex: 10, type: 'delimiter.cpp' }, // colon
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'annotation.cpp' }, // opt
+				{ startIndex: 15, type: 'delimiter.parenthesis.cpp' }, // (
+				{ startIndex: 16, type: 'annotation.cpp' }, // 1
+				{ startIndex: 17, type: 'delimiter.parenthesis.cpp' }, // )
+				{ startIndex: 18, type: 'delimiter.cpp' }, // ,
+				{ startIndex: 19, type: '' },
+				{ startIndex: 20, type: 'annotation.cpp' } // debug]]
+			]
+		}
+	],
+	[
+		// Multiline and comments.
+		{
+			line: '[[nodiscard /*commented*/',
+			tokens: [
+				{ startIndex: 0, type: 'annotation.cpp' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'comment.cpp' }
+			]
+		},
+		{
+			line: ']] int i;',
+			tokens: [
+				{ startIndex: 0, type: 'annotation.cpp' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'keyword.int.cpp' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'identifier.cpp' },
+				{ startIndex: 8, type: 'delimiter.cpp' }
+			]
+		}
+	],
+	[
+		// We don't support newlines between annotation square brackets, but we do support other whitespace.
+		{
+			line: '[ [nodiscard] ]',
+			tokens: [{ startIndex: 0, type: 'annotation.cpp' }]
+		}
 	]
 ]);

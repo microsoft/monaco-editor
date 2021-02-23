@@ -298,7 +298,7 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@whitespace' },
 
 			// [[ attributes ]].
-			[/\[\[.*\]\]/, 'annotation'],
+			[/\[\s*\[/, { token: 'annotation', next: '@annotation' }],
 
 			[/^\s*#include/, { token: 'keyword.directive.include', next: '@include' }],
 
@@ -382,6 +382,15 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 			[/.*/, 'string.raw']
+		],
+
+		annotation: [
+			{ include: '@whitespace' },
+			[/using|alignas/, 'keyword'],
+			[/[a-zA-Z0-9_]+/, 'annotation'],
+			[/[,:]/, 'delimiter'],
+			[/[()]/, '@brackets'],
+			[/\]\s*\]/, { token: 'annotation', next: '@pop' }]
 		],
 
 		include: [
