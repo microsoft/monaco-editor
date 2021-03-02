@@ -416,6 +416,11 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 		const offset = model.getOffsetAt(position);
 
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const info = await worker.getCompletionsAtPosition(resource.toString(), offset);
 
 		if (!info || model.isDisposed()) {
@@ -575,6 +580,11 @@ export class SignatureHelpAdapter extends Adapter implements languages.Signature
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const info = await worker.getSignatureHelpItems(resource.toString(), offset, {
 			triggerReason: SignatureHelpAdapter._toSignatureHelpTriggerReason(context)
 		});
@@ -635,6 +645,11 @@ export class QuickInfoAdapter extends Adapter implements languages.HoverProvider
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const info = await worker.getQuickInfoAtPosition(resource.toString(), offset);
 
 		if (!info || model.isDisposed()) {
@@ -669,6 +684,11 @@ export class OccurrencesAdapter extends Adapter implements languages.DocumentHig
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const entries = await worker.getOccurrencesAtPosition(resource.toString(), offset);
 
 		if (!entries || model.isDisposed()) {
@@ -704,6 +724,11 @@ export class DefinitionAdapter extends Adapter {
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const entries = await worker.getDefinitionAtPosition(resource.toString(), offset);
 
 		if (!entries || model.isDisposed()) {
@@ -753,6 +778,11 @@ export class ReferenceAdapter extends Adapter implements languages.ReferenceProv
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const entries = await worker.getReferencesAtPosition(resource.toString(), offset);
 
 		if (!entries || model.isDisposed()) {
@@ -792,6 +822,11 @@ export class OutlineAdapter extends Adapter implements languages.DocumentSymbolP
 	): Promise<languages.DocumentSymbol[] | undefined> {
 		const resource = model.uri;
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const items = await worker.getNavigationBarItems(resource.toString());
 
 		if (!items || model.isDisposed()) {
@@ -930,6 +965,7 @@ export class FormatAdapter
 			column: range.endColumn
 		});
 		const worker = await this._worker(resource);
+
 		if (model.isDisposed()) {
 			return;
 		}
@@ -966,6 +1002,11 @@ export class FormatOnTypeAdapter
 		const resource = model.uri;
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const edits = await worker.getFormattingEditsAfterKeystroke(
 			resource.toString(),
 			offset,
@@ -989,7 +1030,7 @@ export class CodeActionAdaptor extends FormatHelper implements languages.CodeAct
 		range: Range,
 		context: languages.CodeActionContext,
 		token: CancellationToken
-	): Promise<languages.CodeActionList> {
+	): Promise<languages.CodeActionList | undefined> {
 		const resource = model.uri;
 		const start = model.getOffsetAt({
 			lineNumber: range.startLineNumber,
@@ -1005,6 +1046,11 @@ export class CodeActionAdaptor extends FormatHelper implements languages.CodeAct
 			.map((m) => m.code)
 			.map(Number);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
+
 		const codeFixes = await worker.getCodeFixesAtPosition(
 			resource.toString(),
 			start,
@@ -1073,6 +1119,10 @@ export class RenameAdapter extends Adapter implements languages.RenameProvider {
 		const fileName = resource.toString();
 		const offset = model.getOffsetAt(position);
 		const worker = await this._worker(resource);
+
+		if (model.isDisposed()) {
+			return;
+		}
 
 		const renameInfo = await worker.getRenameInfo(fileName, offset, {
 			allowRenameOfImportPath: false
