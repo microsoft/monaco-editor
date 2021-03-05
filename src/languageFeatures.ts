@@ -18,7 +18,8 @@ import {
 	IDisposable,
 	MarkerSeverity
 } from './fillers/monaco-editor-core';
-import { InsertReplaceEdit, TextEdit } from 'vscode-css-languageservice';
+import { TextEdit } from 'vscode-css-languageservice';
+import { InsertReplaceEdit } from 'vscode-languageserver-types';
 
 export interface WorkerAccessor {
 	(first: Uri, ...more: Uri[]): Promise<CSSWorker>;
