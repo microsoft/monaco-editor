@@ -8,7 +8,7 @@
   "scripts": {
     "simpleserver": "gulp simpleserver",
     "release": "gulp release",
-    "website": "gulp website && npm run typedoc",
+    "website": "gulp build-website && npm run typedoc && gulp prepare-website-branch",
     "build-website": "gulp build-website && npm run typedoc",
     "typedoc": "cd typedoc && \"../node_modules/.bin/typedoc\" --options ./typedoc.json"
   },
