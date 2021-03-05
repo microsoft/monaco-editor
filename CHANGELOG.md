@@ -1,5 +1,10 @@
 # Monaco Editor Changelog
 
+## [0.23.0] (05.03.2021)
+
+* improves input on Android (using Gboard)
+* automatically switches to high contrast when the OS is using high contrast (doesn't work in Firefox). Can be turned off via `autoDetectHighContrast`.
+
 ## [0.22.3] (01.02.2021)
 
 Fixes a regression where symbol icons used in suggestions or quick outline were missing colors (see https://github.com/microsoft/monaco-editor/issues/2329).

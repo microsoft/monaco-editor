@@ -1158,9 +1158,15 @@ declare namespace monaco.editor {
          * Theme to be used for rendering.
          * The current out-of-the-box available themes are: 'vs' (default), 'vs-dark', 'hc-black'.
          * You can create custom themes via `monaco.editor.defineTheme`.
-         * To switch a theme, use `monaco.editor.setTheme`
+         * To switch a theme, use `monaco.editor.setTheme`.
+         * **NOTE**: The theme might be overwritten if the OS is in high contrast mode, unless `autoDetectHighContrast` is set to false.
          */
         theme?: string;
+        /**
+         * If enabled, will automatically change to high contrast theme if the OS is using a high contrast theme.
+         * Defaults to true.
+         */
+        autoDetectHighContrast?: boolean;
     }
 
     /**
@@ -1185,9 +1191,15 @@ declare namespace monaco.editor {
          * Initial theme to be used for rendering.
          * The current out-of-the-box available themes are: 'vs' (default), 'vs-dark', 'hc-black'.
          * You can create custom themes via `monaco.editor.defineTheme`.
-         * To switch a theme, use `monaco.editor.setTheme`
+         * To switch a theme, use `monaco.editor.setTheme`.
+         * **NOTE**: The theme might be overwritten if the OS is in high contrast mode, unless `autoDetectHighContrast` is set to false.
          */
         theme?: string;
+        /**
+         * If enabled, will automatically change to high contrast theme if the OS is using a high contrast theme.
+         * Defaults to true.
+         */
+        autoDetectHighContrast?: boolean;
         /**
          * An URL to open when Ctrl+H (Windows and Linux) or Cmd+H (OSX) is pressed in
          * the accessibility help dialog in the editor.
@@ -1205,9 +1217,15 @@ declare namespace monaco.editor {
          * Initial theme to be used for rendering.
          * The current out-of-the-box available themes are: 'vs' (default), 'vs-dark', 'hc-black'.
          * You can create custom themes via `monaco.editor.defineTheme`.
-         * To switch a theme, use `monaco.editor.setTheme`
+         * To switch a theme, use `monaco.editor.setTheme`.
+         * **NOTE**: The theme might be overwritten if the OS is in high contrast mode, unless `autoDetectHighContrast` is set to false.
          */
         theme?: string;
+        /**
+         * If enabled, will automatically change to high contrast theme if the OS is using a high contrast theme.
+         * Defaults to true.
+         */
+        autoDetectHighContrast?: boolean;
     }
 
     export interface IStandaloneCodeEditor extends ICodeEditor {
@@ -3252,6 +3270,14 @@ declare namespace monaco.editor {
          * Control the wrapping of the diff editor.
          */
         diffWordWrap?: 'off' | 'on' | 'inherit';
+        /**
+         * Aria label for original editor.
+         */
+        originalAriaLabel?: string;
+        /**
+         * Aria label for modifed editor.
+         */
+        modifiedAriaLabel?: string;
     }
 
     /**
@@ -4085,12 +4111,12 @@ declare namespace monaco.editor {
         accessibilitySupport: IEditorOption<EditorOption.accessibilitySupport, AccessibilitySupport>;
         accessibilityPageSize: IEditorOption<EditorOption.accessibilityPageSize, number>;
         ariaLabel: IEditorOption<EditorOption.ariaLabel, string>;
-        autoClosingBrackets: IEditorOption<EditorOption.autoClosingBrackets, EditorAutoClosingStrategy>;
-        autoClosingOvertype: IEditorOption<EditorOption.autoClosingOvertype, EditorAutoClosingOvertypeStrategy>;
-        autoClosingQuotes: IEditorOption<EditorOption.autoClosingQuotes, EditorAutoClosingStrategy>;
+        autoClosingBrackets: IEditorOption<EditorOption.autoClosingBrackets, 'always' | 'languageDefined' | 'beforeWhitespace' | 'never'>;
+        autoClosingOvertype: IEditorOption<EditorOption.autoClosingOvertype, 'always' | 'never' | 'auto'>;
+        autoClosingQuotes: IEditorOption<EditorOption.autoClosingQuotes, 'always' | 'languageDefined' | 'beforeWhitespace' | 'never'>;
         autoIndent: IEditorOption<EditorOption.autoIndent, EditorAutoIndentStrategy>;
         automaticLayout: IEditorOption<EditorOption.automaticLayout, boolean>;
-        autoSurround: IEditorOption<EditorOption.autoSurround, EditorAutoSurroundStrategy>;
+        autoSurround: IEditorOption<EditorOption.autoSurround, 'languageDefined' | 'never' | 'quotes' | 'brackets'>;
         stickyTabStops: IEditorOption<EditorOption.stickyTabStops, boolean>;
         codeLens: IEditorOption<EditorOption.codeLens, boolean>;
         codeLensFontFamily: IEditorOption<EditorOption.codeLensFontFamily, string>;
@@ -6415,9 +6441,16 @@ declare namespace monaco.languages {
         resolveCodeLens?(model: editor.ITextModel, codeLens: CodeLens, token: CancellationToken): ProviderResult<CodeLens>;
     }
 
+    export enum InlineHintKind {
+        Other = 0,
+        Type = 1,
+        Parameter = 2
+    }
+
     export interface InlineHint {
         text: string;
         range: IRange;
+        kind: InlineHintKind;
         description?: string | IMarkdownString;
         whitespaceBefore?: boolean;
         whitespaceAfter?: boolean;
@@ -6510,6 +6543,10 @@ declare namespace monaco.languages {
          * Defaults to false
          */
         includeLF?: boolean;
+        /**
+         * Other keys that can be referred to by the tokenizer.
+         */
+        [key: string]: any;
     }
 
     /**
@@ -6801,15 +6838,20 @@ declare namespace monaco.languages.typescript {
     export interface Diagnostic extends DiagnosticRelatedInformation {
         /** May store more in future. For now, this will simply be `true` to indicate when a diagnostic is an unused-identifier diagnostic. */
         reportsUnnecessary?: {};
+        reportsDeprecated?: {};
         source?: string;
         relatedInformation?: DiagnosticRelatedInformation[];
     }
-    interface DiagnosticRelatedInformation {
+    export interface DiagnosticRelatedInformation {
         /** Diagnostic category: warning = 0, error = 1, suggestion = 2, message = 3 */
         category: 0 | 1 | 2 | 3;
         code: number;
-        /** TypeScriptWorker removes this to avoid serializing circular JSON structures. */
-        file: undefined;
+        /** TypeScriptWorker removes all but the `fileName` property to avoid serializing circular JSON structures. */
+        file:
+            | {
+                    fileName: string;
+              }
+            | undefined;
         start: number | undefined;
         length: number | undefined;
         messageText: string | DiagnosticMessageChain;
