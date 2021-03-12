@@ -4,6 +4,7 @@
 
 * improves input on Android (using Gboard)
 * automatically switches to high contrast when the OS is using high contrast (doesn't work in Firefox). Can be turned off via `autoDetectHighContrast`.
+* the editor no longer supports classical Edge, which has reached End of Support on March 9th, 2021. See https://docs.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge#what-is-the-lifecycle-policy-for-microsoft-edge
 
 ### Thank you
 
