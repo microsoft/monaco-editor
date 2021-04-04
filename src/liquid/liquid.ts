@@ -27,9 +27,7 @@ const EMPTY_ELEMENTS: string[] = [
 export const conf: languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
-	// comments: {
-	// 	blockComment: ['{{!--', '--}}']
-	// },
+	// TODO support if,else,elseif,for,in and other built in keywords
 
 	brackets: [
 		['<!--', '-->'],
@@ -79,14 +77,100 @@ export const conf: languages.LanguageConfiguration = {
 export const language = <languages.IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '',
-	// ignoreCase: true,
+
+	builtinTags: [
+		'if',
+		'else',
+		'elseif',
+		'endif',
+		'render',
+		'assign',
+		'capture',
+		'endcapture',
+		'case',
+		'endcase',
+		'comment',
+		'endcomment',
+		'cycle',
+		'decrement',
+		'for',
+		'endfor',
+		'include',
+		'increment',
+		'layout',
+		'raw',
+		'endraw',
+		'render',
+		'tablerow',
+		'endtablerow',
+		'unless',
+		'endunless'
+	],
+
+	builtinFilters: [
+		'abs',
+		'append',
+		'at_least',
+		'at_most',
+		'capitalize',
+		'ceil',
+		'compact',
+		'date',
+		'default',
+		'divided_by',
+		'downcase',
+		'escape',
+		'escape_once',
+		'first',
+		'floor',
+		'join',
+		'json',
+		'last',
+		'lstrip',
+		'map',
+		'minus',
+		'modulo',
+		'newline_to_br',
+		'plus',
+		'prepend',
+		'remove',
+		'remove_first',
+		'replace',
+		'replace_first',
+		'reverse',
+		'round',
+		'rstrip',
+		'size',
+		'slice',
+		'sort',
+		'sort_natural',
+		'split',
+		'strip',
+		'strip_html',
+		'strip_newlines',
+		'times',
+		'truncate',
+		'truncatewords',
+		'uniq',
+		'upcase',
+		'url_decode',
+		'url_encode',
+		'where'
+	],
+
+	constants: ['true', 'false'],
+	operators: ['==', '!=', '>', '<', '>=', '<='],
+
+	symbol: /[=><!]+/,
+	identifier: /[a-zA-Z_][\w]*/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
 			[/\{\%\s*comment\s*\%\}/, 'comment.start.liquid', '@comment'],
-			[/\{\{/, { token: '@rematch', switchTo: '@liquidInSimpleState.root' }],
-			[/\{\%/, { token: '@rematch', switchTo: '@liquidInSimpleState.root' }],
+			// [/\{\%\s*raw\s*\%\}/, 'delimiter.tag', '@raw'],
+			[/\{\{/, { token: '@rematch', switchTo: '@liquidState.root' }],
+			[/\{\%/, { token: '@rematch', switchTo: '@liquidState.root' }],
 			[/(<)(\w+)(\/>)/, ['delimiter.html', 'tag.html', 'delimiter.html']],
 			[/(<)([:\w]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
 			[/(<\/)(\w+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
@@ -105,14 +189,14 @@ export const language = <languages.IMonarchLanguage>{
 				/\{\{/,
 				{
 					token: '@rematch',
-					switchTo: '@liquidInSimpleState.otherTag'
+					switchTo: '@liquidState.otherTag'
 				}
 			],
 			[
-				/\{%/,
+				/\{\%/,
 				{
 					token: '@rematch',
-					switchTo: '@liquidInSimpleState.otherTag'
+					switchTo: '@liquidState.otherTag'
 				}
 			],
 			[/\/?>/, 'delimiter.html', '@pop'],
@@ -123,25 +207,48 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/] // whitespace
 		],
 
-		liquidInSimpleState: [
-			[/\{\{/, 'delimiter.liquid'],
-			[/\}\}/, { token: 'delimiter.liquid', switchTo: '@$S2.$S3' }],
-			[/\{\%/, 'delimiter.output.liquid'],
-			[/\%\}/, { token: 'delimiter.liquid', switchTo: '@$S2.$S3' }],
+		liquidState: [
+			[/\{\{/, 'delimiter.output.liquid'],
+			[/\}\}/, { token: 'delimiter.output.liquid', switchTo: '@$S2.$S3' }],
+			[/\{\%/, 'delimiter.tag.liquid'],
+			[/raw\s*\%\}/, 'delimiter.tag.liquid', '@liquidRaw'],
+			[/\%\}/, { token: 'delimiter.tag.liquid', switchTo: '@$S2.$S3' }],
 			{ include: 'liquidRoot' }
 		],
 
-		liquidInTagState: [
-			[/%\}/, { token: 'delimiter.output.liquid', switchTo: '@$S2.$S3' }],
-			// { include: 'liquidRoot' },
-			[/[^%]/, 'wut']
+		liquidRaw: [
+			[/^(?!\{\%\s*endraw\s*\%\}).+/],
+			[/\{\%/, 'delimiter.tag.liquid'],
+			[/@identifier/],
+			[/\%\}/, { token: 'delimiter.tag.liquid', next: '@root' }],
 		],
 
 		liquidRoot: [
 			[/\d+(\.\d+)?/, 'number.liquid'],
 			[/"[^"]*"/, 'string.liquid'],
 			[/'[^']*'/, 'string.liquid'],
-			[/[\s]+/],
+			[/\s+/],
+			[
+				/@symbol/,
+				{
+					cases: {
+						'@operators': 'operator.liquid',
+						'@default': ''
+					}
+				}
+			],
+			[/\./],
+			[
+				/@identifier/,
+				{
+					cases: {
+						'@constants': 'keyword.liquid',
+						'@builtinFilters': 'predefined.liquid',
+						'@builtinTags': 'predefined.liquid',
+						'@default': 'variable.liquid'
+					}
+				}
+			],
 			[/[^}|%]/, 'variable.liquid']
 		]
 	}
