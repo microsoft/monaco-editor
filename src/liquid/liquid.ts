@@ -27,8 +27,6 @@ const EMPTY_ELEMENTS: string[] = [
 export const conf: languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
-	// TODO support if,else,elseif,for,in and other built in keywords
-
 	brackets: [
 		['<!--', '-->'],
 		['<', '>'],
@@ -164,11 +162,9 @@ export const language = <languages.IMonarchLanguage>{
 	symbol: /[=><!]+/,
 	identifier: /[a-zA-Z_][\w]*/,
 
-	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
 			[/\{\%\s*comment\s*\%\}/, 'comment.start.liquid', '@comment'],
-			// [/\{\%\s*raw\s*\%\}/, 'delimiter.tag', '@raw'],
 			[/\{\{/, { token: '@rematch', switchTo: '@liquidState.root' }],
 			[/\{\%/, { token: '@rematch', switchTo: '@liquidState.root' }],
 			[/(<)(\w+)(\/>)/, ['delimiter.html', 'tag.html', 'delimiter.html']],
