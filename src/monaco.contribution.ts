@@ -7,6 +7,7 @@ import './abap/abap.contribution';
 import './apex/apex.contribution';
 import './azcli/azcli.contribution';
 import './bat/bat.contribution';
+import './bicep/bicep.contribution';
 import './cameligo/cameligo.contribution';
 import './clojure/clojure.contribution';
 import './coffee/coffee.contribution';
