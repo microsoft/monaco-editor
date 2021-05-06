@@ -99,6 +99,15 @@ interface IMonacoEditorWebpackPluginOpts {
    * Use e.g. '/' if you want to load your resources from the current origin.
    */
   publicPath?: string;
+
+  /**
+   * Specify whether the editor API should be exposed through a global `monaco` object or not. This
+   * option is applicable to `0.22.0` and newer version of `monaco-editor`. Since `0.22.0`, the ESM
+   * version of the monaco editor does no longer define a global `monaco` object unless
+   * `global.MonacoEnvironment = { globalAPI: true }` is set ([change
+   * log](https://github.com/microsoft/monaco-editor/blob/main/CHANGELOG.md#0220-29012021)).
+   */
+  globalAPI?: boolean;
 }
 
 interface IInternalMonacoEditorWebpackPluginOpts {
@@ -106,6 +115,7 @@ interface IInternalMonacoEditorWebpackPluginOpts {
   features: IFeatureDefinition[];
   filename: string;
   publicPath: string;
+  globalAPI: boolean;
 }
 
 class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
@@ -121,11 +131,12 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
       features: coalesce(features.map(id => featuresById[id])),
       filename: options.filename || "[name].worker.js",
       publicPath: options.publicPath || '',
+      globalAPI: options.globalAPI || false,
     };
   }
 
   apply(compiler: webpack.Compiler): void {
-    const { languages, features, filename, publicPath } = this.options;
+    const { languages, features, filename, publicPath, globalAPI } = this.options;
     const compilationPublicPath = getCompilationPublicPath(compiler);
     const modules = [EDITOR_MODULE].concat(languages).concat(features);
     const workers: ILabeledWorkerDefinition[] = [];
@@ -138,7 +149,7 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
         });
       }
     });
-    const rules = createLoaderRules(languages, features, workers, filename, publicPath, compilationPublicPath);
+    const rules = createLoaderRules(languages, features, workers, filename, publicPath, compilationPublicPath, globalAPI);
     const plugins = createPlugins(workers, filename);
     addCompilerRules(compiler, rules);
     addCompilerPlugins(compiler, plugins);
@@ -176,7 +187,7 @@ function getCompilationPublicPath(compiler: webpack.Compiler): string {
   return '';
 }
 
-function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDefinition[], workers: ILabeledWorkerDefinition[], filename: string, pluginPublicPath: string, compilationPublicPath: string): webpack.RuleSetRule[] {
+function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDefinition[], workers: ILabeledWorkerDefinition[], filename: string, pluginPublicPath: string, compilationPublicPath: string, globalAPI: boolean): webpack.RuleSetRule[] {
   if (!languages.length && !features.length) {
     return [];
   }
@@ -215,6 +226,7 @@ function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDe
         return str.replace(/\\/$/, '');
       }
       return {
+        globalAPI: ${globalAPI},
         getWorkerUrl: function (moduleId, label) {
           var pathPrefix = ${pathPrefix};
           var result = (pathPrefix ? stripTrailingSlash(pathPrefix) + '/' : '') + paths[label];

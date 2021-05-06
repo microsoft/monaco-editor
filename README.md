@@ -71,6 +71,9 @@ Options can be passed in to `MonacoWebpackPlugin`. They can be used to generate 
   * default value: <!-- FEATURES_BEGIN -->`['accessibilityHelp', 'anchorSelect', 'bracketMatching', 'caretOperations', 'clipboard', 'codeAction', 'codelens', 'colorPicker', 'comment', 'contextmenu', 'coreCommands', 'cursorUndo', 'dnd', 'documentSymbols', 'find', 'folding', 'fontZoom', 'format', 'gotoError', 'gotoLine', 'gotoSymbol', 'hover', 'iPadShowKeyboard', 'inPlaceReplace', 'indentation', 'inlineHints', 'inspectTokens', 'linesOperations', 'linkedEditing', 'links', 'multicursor', 'parameterHints', 'quickCommand', 'quickHelp', 'quickOutline', 'referenceSearch', 'rename', 'smartSelect', 'snippets', 'suggest', 'toggleHighContrast', 'toggleTabFocusMode', 'transpose', 'unusualLineTerminators', 'viewportSemanticTokens', 'wordHighlighter', 'wordOperations', 'wordPartOperations']`<!-- FEATURES_END -->.
   * excluded features: It is also possible to exclude certain default features prefixing them with an exclamation mark '!'.
 
+* `globalAPI` (`boolean`) - specify whether the editor API should be exposed through a global `monaco` object or not. This option is applicable to `0.22.0` and newer version of `monaco-editor`. Since `0.22.0`, the ESM version of the monaco editor does no longer define a global `monaco` object unless `global.MonacoEnvironment = { globalAPI: true }` is set ([change log](https://github.com/microsoft/monaco-editor/blob/main/CHANGELOG.md#0220-29012021)).
+  * default value: `false`.
+
 ## Version Matrix
 
 | `monaco-editor-webpack-plugin` | `monaco-editor` |
