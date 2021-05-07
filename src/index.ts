@@ -1,5 +1,5 @@
+import type * as webpack from 'webpack';
 import * as path from 'path';
-import * as webpack from 'webpack';
 import * as loaderUtils from 'loader-utils';
 import * as fs from 'fs';
 import { AddWorkerEntryPointPlugin } from './plugins/AddWorkerEntryPointPlugin';
@@ -139,7 +139,7 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
       }
     });
     const rules = createLoaderRules(languages, features, workers, filename, publicPath, compilationPublicPath);
-    const plugins = createPlugins(workers, filename);
+    const plugins = createPlugins(compiler, workers, filename);
     addCompilerRules(compiler, rules);
     addCompilerPlugins(compiler, plugins);
   }
@@ -247,7 +247,9 @@ function createLoaderRules(languages: IFeatureDefinition[], features: IFeatureDe
   ];
 }
 
-function createPlugins(workers: ILabeledWorkerDefinition[], filename: string): AddWorkerEntryPointPlugin[] {
+function createPlugins(compiler: webpack.Compiler, workers: ILabeledWorkerDefinition[], filename: string): AddWorkerEntryPointPlugin[] {
+  const webpack = compiler.webpack ?? require('webpack');
+
   return (
     (<AddWorkerEntryPointPlugin[]>[])
       .concat(workers.map(({ id, entry }) =>
