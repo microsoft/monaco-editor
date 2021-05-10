@@ -84,7 +84,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// String nodes
 			[
-				/.+$/,
+				/[^#]+/,
 				{
 					cases: {
 						'@keywords': 'keyword',

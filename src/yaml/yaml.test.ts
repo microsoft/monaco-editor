@@ -449,5 +449,30 @@ testTokenization('yaml', [
 				}
 			]
 		}
+	],
+	[
+		{
+			line:
+				"text: Pretty vector drawing. #this is comment doesn't have proper syntax higlighting",
+			tokens: [
+				{ startIndex: 0, type: 'type.yaml' },
+				{ startIndex: 4, type: 'operators.yaml' },
+				{ startIndex: 5, type: 'white.yaml' },
+				{ startIndex: 6, type: 'string.yaml' },
+				{ startIndex: 29, type: 'comment.yaml' }
+			]
+		}
+	],
+	[
+		{
+			line: "number: 3 #this comment also doesn't have proper syntax highlighting",
+			tokens: [
+				{ startIndex: 0, type: 'type.yaml' },
+				{ startIndex: 6, type: 'operators.yaml' },
+				{ startIndex: 7, type: 'white.yaml' },
+				{ startIndex: 8, type: 'string.yaml' },
+				{ startIndex: 10, type: 'comment.yaml' }
+			]
+		}
 	]
 ]);
