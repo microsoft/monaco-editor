@@ -577,5 +577,17 @@ testTokenization('css', [
 				{ startIndex: 8, type: 'delimiter.bracket.css' }
 			]
 		}
+	],
+
+	[
+		{
+			line: "@import 'https://example.com/test.css';",
+			tokens: [
+				{ startIndex: 0, type: 'keyword.css' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'string.css' },
+				{ startIndex: 38, type: 'delimiter.css' }
+			]
+		}
 	]
 ]);

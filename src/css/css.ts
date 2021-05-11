@@ -113,6 +113,7 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@functioninvocation' },
 			{ include: '@numbers' },
 			{ include: '@name' },
+			{ include: '@strings' },
 			['([<>=\\+\\-\\*\\/\\^\\|\\~,])', 'delimiter'],
 			[',', 'delimiter']
 		],
