@@ -143,6 +143,11 @@ declare namespace monaco.languages.typescript {
 		noSemanticValidation?: boolean;
 		noSyntaxValidation?: boolean;
 		noSuggestionDiagnostics?: boolean;
+		/**
+		 * Limit diagnostic computation to only visible files.
+		 * Defaults to false.
+		 */
+		onlyVisible?: boolean;
 		diagnosticCodesToIgnore?: number[];
 	}
 	export interface WorkerOptions {

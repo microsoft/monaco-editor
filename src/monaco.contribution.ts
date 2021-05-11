@@ -156,6 +156,7 @@ export interface DiagnosticsOptions {
 	noSemanticValidation?: boolean;
 	noSyntaxValidation?: boolean;
 	noSuggestionDiagnostics?: boolean;
+	onlyVisible?: boolean;
 	diagnosticCodesToIgnore?: number[];
 }
 
@@ -616,13 +617,13 @@ export const typescriptVersion: string = tsversion;
 
 export const typescriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: false, noSyntaxValidation: false },
+	{ noSemanticValidation: false, noSyntaxValidation: false, onlyVisible: false },
 	{}
 );
 
 export const javascriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: true, noSyntaxValidation: false },
+	{ noSemanticValidation: true, noSyntaxValidation: false, onlyVisible: false },
 	{}
 );
 
