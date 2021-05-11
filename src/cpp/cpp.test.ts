@@ -439,7 +439,7 @@ testTokenization('cpp', [
 		{
 			line: '#ifdef VAR',
 			tokens: [
-				{ startIndex: 0, type: 'keyword.cpp' },
+				{ startIndex: 0, type: 'keyword.directive.cpp' },
 				{ startIndex: 6, type: '' },
 				{ startIndex: 7, type: 'identifier.cpp' }
 			]
@@ -447,7 +447,7 @@ testTokenization('cpp', [
 		{
 			line: '#define SUM(A,B) (A) + (B)',
 			tokens: [
-				{ startIndex: 0, type: 'keyword.cpp' },
+				{ startIndex: 0, type: 'keyword.directive.cpp' },
 				{ startIndex: 7, type: '' },
 				{ startIndex: 8, type: 'identifier.cpp' },
 				{ startIndex: 11, type: 'delimiter.parenthesis.cpp' },
@@ -784,12 +784,12 @@ testTokenization('cpp', [
 		},
 		{
 			line: '#endif',
-			tokens: [{ startIndex: 0, type: 'keyword.cpp' }]
+			tokens: [{ startIndex: 0, type: 'keyword.directive.cpp' }]
 		},
 		{
 			line: '#    ifdef VAR',
 			tokens: [
-				{ startIndex: 0, type: 'keyword.cpp' },
+				{ startIndex: 0, type: 'keyword.directive.cpp' },
 				{ startIndex: 10, type: '' },
 				{ startIndex: 11, type: 'identifier.cpp' }
 			]
@@ -797,7 +797,7 @@ testTokenization('cpp', [
 		{
 			line: '#	define SUM(A,B) (A) + (B)',
 			tokens: [
-				{ startIndex: 0, type: 'keyword.cpp' },
+				{ startIndex: 0, type: 'keyword.directive.cpp' },
 				{ startIndex: 8, type: '' },
 				{ startIndex: 9, type: 'identifier.cpp' },
 				{ startIndex: 12, type: 'delimiter.parenthesis.cpp' },
@@ -913,6 +913,42 @@ testTokenization('cpp', [
 		{
 			line: '[ [nodiscard] ]',
 			tokens: [{ startIndex: 0, type: 'annotation.cpp' }]
+		}
+	],
+
+	// Preprocessor directives with whitespace inamongst the characters,
+	// and crucially checking with whitespace before the initial #.
+	[
+		{
+			line: ' # if defined(SOMETHING)',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.directive.cpp' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'identifier.cpp' },
+				{ startIndex: 13, type: 'delimiter.parenthesis.cpp' },
+				{ startIndex: 14, type: 'identifier.cpp' },
+				{ startIndex: 23, type: 'delimiter.parenthesis.cpp' }
+			]
+		},
+		{
+			line: '        #include <io.h>',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.directive.include.cpp' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'keyword.directive.include.begin.cpp' },
+				{ startIndex: 18, type: 'string.include.identifier.cpp' },
+				{ startIndex: 22, type: 'keyword.directive.include.end.cpp' }
+			]
+		},
+		{
+			line: '      #  include <io.h>',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.directive.include.cpp' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'keyword.directive.include.begin.cpp' },
+				{ startIndex: 18, type: 'string.include.identifier.cpp' },
+				{ startIndex: 22, type: 'keyword.directive.include.end.cpp' }
+			]
 		}
 	]
 ]);

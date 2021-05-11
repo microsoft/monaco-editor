@@ -294,17 +294,20 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
+			// The preprocessor checks must be before whitespace as they check /^\s*#/ which
+			// otherwise fails to match later after other whitespace has been removed.
+
+			// Inclusion
+			[/^\s*#\s*include/, { token: 'keyword.directive.include', next: '@include' }],
+
+			// Preprocessor directive
+			[/^\s*#\s*\w+/, 'keyword.directive'],
+
 			// whitespace
 			{ include: '@whitespace' },
 
 			// [[ attributes ]].
 			[/\[\s*\[/, { token: 'annotation', next: '@annotation' }],
-
-			[/^\s*#include/, { token: 'keyword.directive.include', next: '@include' }],
-
-			// Preprocessor directive
-			[/^\s*#\s*\w+/, 'keyword'],
-
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[/[<>](?!@symbols)/, '@brackets'],
