@@ -8,7 +8,7 @@ import { registerLanguage } from '../_.contribution';
 registerLanguage({
 	id: 'handlebars',
 	extensions: ['.handlebars', '.hbs'],
-	aliases: ['Handlebars', 'handlebars'],
+	aliases: ['Handlebars', 'handlebars', 'hbs'],
 	mimetypes: ['text/x-handlebars-template'],
 	loader: () => import('./handlebars')
 });
