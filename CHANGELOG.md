@@ -949,6 +949,34 @@ Contributions to `monaco-languages`:
 - The editor functions now correctly when hosted inside a `position:fixed` element.
 - Cross-origin configuration is now picked up (as advertised in documentation from MonacoEnvironment)
 
+[0.23.0]: https://github.com/Microsoft/monaco-editor/compare/v0.22.3...v0.23.0
+[0.22.3]: https://github.com/Microsoft/monaco-editor/compare/v0.22.2...v0.22.3
+[0.22.2]: https://github.com/Microsoft/monaco-editor/compare/v0.22.1...v0.22.2
+[0.22.1]: https://github.com/Microsoft/monaco-editor/compare/v0.22.0...v0.22.1
+[0.22.0]: https://github.com/Microsoft/monaco-editor/compare/v0.21.3...v0.22.0
+[0.21.3]: https://github.com/Microsoft/monaco-editor/compare/v0.21.2...v0.21.3
+[0.21.2]: https://github.com/Microsoft/monaco-editor/compare/v0.21.1...v0.21.2
+[0.21.1]: https://github.com/Microsoft/monaco-editor/compare/v0.21.0...v0.21.1
+[0.21.0]: https://github.com/Microsoft/monaco-editor/compare/v0.20.0...v0.21.0
+[0.20.0]: https://github.com/Microsoft/monaco-editor/compare/v0.19.3...v0.20.0
+[0.19.3]: https://github.com/Microsoft/monaco-editor/compare/v0.19.2...v0.19.3
+[0.19.2]: https://github.com/Microsoft/monaco-editor/compare/v0.19.1...v0.19.2
+[0.19.1]: https://github.com/Microsoft/monaco-editor/compare/v0.20.0...v0.19.1
+[0.19.0]: https://github.com/Microsoft/monaco-editor/compare/v0.18.1...v0.19.0
+[0.18.1]: https://github.com/Microsoft/monaco-editor/compare/v0.18.0...v0.18.1
+[0.18.0]: https://github.com/Microsoft/monaco-editor/compare/v0.17.1...v0.18.0
+[0.17.1]: https://github.com/Microsoft/monaco-editor/compare/v0.17.0...v0.17.1
+[0.17.0]: https://github.com/Microsoft/monaco-editor/compare/v0.16.2...v0.17.0
+[0.16.2]: https://github.com/Microsoft/monaco-editor/compare/v0.16.1...v0.16.2
+[0.16.1]: https://github.com/Microsoft/monaco-editor/compare/v0.16.0...v0.16.1
+[0.16.0]: https://github.com/Microsoft/monaco-editor/compare/v0.15.6...v0.16.0
+[0.15.6]: https://github.com/Microsoft/monaco-editor/compare/v0.15.5...v0.15.6
+[0.15.5]: https://github.com/Microsoft/monaco-editor/compare/v0.15.4...v0.15.5
+[0.15.4]: https://github.com/Microsoft/monaco-editor/compare/v0.15.3...v0.15.4
+[0.15.3]: https://github.com/Microsoft/monaco-editor/compare/v0.15.2...v0.15.3
+[0.15.2]: https://github.com/Microsoft/monaco-editor/compare/v0.15.1...v0.15.2
+[0.15.1]: https://github.com/Microsoft/monaco-editor/compare/v0.15.0...v0.15.1
+[0.15.0]: https://github.com/Microsoft/monaco-editor/compare/v0.14.3...v0.15.0
 [0.14.3]: https://github.com/Microsoft/monaco-editor/compare/v0.14.2...v0.14.3
 [0.14.2]: https://github.com/Microsoft/monaco-editor/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/Microsoft/monaco-editor/compare/v0.14.0...v0.14.1
