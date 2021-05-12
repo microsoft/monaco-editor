@@ -10,11 +10,13 @@ import { Emitter, IEvent, languages } from './fillers/monaco-editor-core';
 
 export interface DiagnosticsOptions {
 	/**
-	 * If set, the validator will be enabled and perform syntax validation as well as schema based validation.
+	 * If set, the validator will be enabled and perform syntax and validation schema based validation,
+	 * unless `DiagnosticsOptions.schemaValidation` is set to `ignore`.
 	 */
 	readonly validate?: boolean;
 	/**
 	 * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
+	 * `DiagnosticsOptions.allowComments` will override this setting.
 	 */
 	readonly allowComments?: boolean;
 	/**
@@ -26,7 +28,10 @@ export interface DiagnosticsOptions {
 		 */
 		readonly uri: string;
 		/**
-		 * A list of file names that are associated to the schema. The '*' wildcard can be used. For example '*.schema.json', 'package.json'
+		 * A list of glob patterns that describe for which file URIs the JSON schema will be used.
+		 * '*' and '**' wildcards are supported. Exclusion patterns start with '!'.
+		 * For example '*.schema.json', 'package.json', '!foo*.schema.json', 'foo/**\/BADRESP.json'.
+		 * A match succeeds when there is at least one pattern matching and last matching pattern does not start with '!'.
 		 */
 		readonly fileMatch?: string[];
 		/**
@@ -46,6 +51,14 @@ export interface DiagnosticsOptions {
 	 * The severity of problems that occurred when resolving and loading schemas. If set to 'ignore', schema resolving problems are not reported. If not set, 'warning' is used.
 	 */
 	readonly schemaRequest?: SeverityLevel;
+	/**
+	 * The severity of reported trailing commas. If not set, trailing commas will be reported as errors.
+	 */
+	readonly trailingCommas?: SeverityLevel;
+	/**
+	 * The severity of reported comments. If not set, 'DiagnosticsOptions.allowComments' defines whether comments are ignored or reported as errors.
+	 */
+	readonly comments?: SeverityLevel;
 }
 
 export declare type SeverityLevel = 'error' | 'warning' | 'ignore';
@@ -160,7 +173,9 @@ const diagnosticDefault: Required<DiagnosticsOptions> = {
 	schemas: [],
 	enableSchemaRequest: false,
 	schemaRequest: 'warning',
-	schemaValidation: 'warning'
+	schemaValidation: 'warning',
+	comments: 'error',
+	trailingCommas: 'error'
 };
 
 const modeConfigurationDefault: Required<ModeConfiguration> = {
