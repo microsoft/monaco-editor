@@ -241,7 +241,7 @@ function ESM_pluginStream(plugin, destinationPath) {
 			pluginPath + '/**/*'
 		])
 		.pipe(es.through(function(data) {
-			if (!/\.js$/.test(data.path)) {
+			if (!/(\.js$)|(\.ts$)/.test(data.path)) {
 				this.emit('data', data);
 				return;
 			}
