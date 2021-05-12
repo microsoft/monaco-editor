@@ -1,8 +1,4 @@
-import * as webpack from 'webpack';
-const webpackVersion = require('webpack/package.json').version;
-const SingleEntryPlugin = require('webpack/lib/SingleEntryPlugin');
-const LoaderTargetPlugin = require('webpack/lib/LoaderTargetPlugin');
-const WebWorkerTemplatePlugin = require('webpack/lib/webworker/WebWorkerTemplatePlugin');
+import type * as webpack from 'webpack';
 
 export interface IAddWorkerEntryPointPluginOptions {
   id: string;
@@ -13,6 +9,8 @@ export interface IAddWorkerEntryPointPluginOptions {
 }
 
 function getCompilerHook(compiler: webpack.Compiler, { id, entry, filename, chunkFilename, plugins }: IAddWorkerEntryPointPluginOptions) {
+  const webpack = compiler.webpack ?? require('webpack');
+
   return function (compilation: webpack.Compilation, callback: (error?: Error | null | false) => void) {
     const outputOptions = {
       filename,
@@ -22,13 +20,14 @@ function getCompilerHook(compiler: webpack.Compiler, { id, entry, filename, chun
       globalObject: 'this',
     };
     const childCompiler = compilation.createChildCompiler(id, outputOptions, [
-      new WebWorkerTemplatePlugin(),
-      new LoaderTargetPlugin('webworker'),
+      new webpack.webworker.WebWorkerTemplatePlugin(),
+      new webpack.LoaderTargetPlugin('webworker'),
     ]);
+    const SingleEntryPlugin = webpack.EntryPlugin ?? webpack.SingleEntryPlugin;
     new SingleEntryPlugin(compiler.context, entry, 'main').apply(childCompiler);
     plugins.forEach((plugin) => plugin.apply(childCompiler));
 
-    childCompiler.runAsChild((err?: Error, entries?: webpack.Chunk[], compilation?: webpack.Compilation) => callback(err));
+    childCompiler.runAsChild((err?: Error) => callback(err));
   }
 }
 
@@ -41,8 +40,10 @@ export class AddWorkerEntryPointPlugin implements webpack.WebpackPluginInstance 
   }
 
   apply(compiler: webpack.Compiler) {
+    const webpack = compiler.webpack ?? require('webpack');
     const compilerHook = getCompilerHook(compiler, this.options);
-    if (webpackVersion < '4') {
+    const majorVersion = webpack.version.split('.')[0]
+    if (parseInt(majorVersion) < 4) {
       (<any>compiler).plugin('make', compilerHook);
     } else {
       compiler.hooks.make.tapAsync('AddWorkerEntryPointPlugin', compilerHook);
