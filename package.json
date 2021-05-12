@@ -31,7 +31,7 @@
     "rimraf": "^3.0.2",
     "typedoc": "^0.20.29",
     "typescript": "4.2.3",
-    "uncss": "^0.17.3",
+    "uncss": "https://github.com/uncss/uncss.git#d0adf4bb89ef4f82006f8dd5b40d22a94269e50a",
     "vinyl": "^2.2.1",
     "yaserver": "^0.3.0"
   }
