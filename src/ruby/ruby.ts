@@ -282,7 +282,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[A-Z][\w]*[!?=]?/, 'constructor.identifier'], // constant
 			[/\$[\w]*/, 'global.constant'], // global
 			[/@[\w]*/, 'namespace.instance.identifier'], // instance
-			[/@@[\w]*/, 'namespace.class.identifier'], // class
+			[/@@@[\w]*/, 'namespace.class.identifier'], // class
 
 			// here document
 			[/<<[-~](@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
@@ -444,7 +444,7 @@ export const language = <languages.IMonarchLanguage>{
 		interpolated: [
 			[/\$\w*/, 'global.constant', '@pop'],
 			[/@\w*/, 'namespace.class.identifier', '@pop'],
-			[/@@\w*/, 'namespace.instance.identifier', '@pop'],
+			[/@@@\w*/, 'namespace.instance.identifier', '@pop'],
 			[
 				/[{]/,
 				{

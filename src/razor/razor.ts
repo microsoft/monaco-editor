@@ -81,7 +81,7 @@ export const language = <languages.IMonarchLanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-			[/@@/], // text
+			[/@@@@/], // text
 			[/@[^@]/, { token: '@rematch', switchTo: '@razorInSimpleState.root' }],
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
 			[/<!--/, 'comment.html', '@comment'],
