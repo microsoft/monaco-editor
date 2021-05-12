@@ -8,7 +8,7 @@
 declare namespace monaco.languages.json {
 	export interface DiagnosticsOptions {
 		/**
-		 * If set, the validator will be enabled and perform syntax and validation schema based validation,
+		 * If set, the validator will be enabled and perform syntax and schema based validation,
 		 * unless `DiagnosticsOptions.schemaValidation` is set to `ignore`.
 		 */
 		readonly validate?: boolean;
