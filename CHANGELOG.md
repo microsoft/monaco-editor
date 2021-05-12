@@ -1,5 +1,40 @@
 # Monaco Editor Changelog
 
+## [0.24.0] (12.05.2021)
+
+* added a setting `domReadOnly` which controls if the `<textarea>` used for editor input should have the DOM `readonly` attribute
+* added a setting `useShadowDOM` which can be set to `false` to prevent the editor from using shadow DOM in its implementation (e.g. for the contextmenus).
+* added a settings `autoClosingDelete` that controls how backspace works inside auto-closing pairs.
+* added `DiagnosticsOptions.onlyVisible` for TypeScript which limits the computation of diagnostics to only visible text models.
+* fixed issue where the editor would not load in Safari 13.
+
+### Breaking changes
+* `EditorAutoClosingOvertypeStrategy` has been renamed to `EditorAutoClosingEditStrategy`
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [@AmyQianqianwang (王倩倩)](https://github.com/AmyQianqianwang): add version compare link for version greater than V0.14.3 [PR #2433](https://github.com/microsoft/monaco-editor/pull/2433)
+
+Contributions to `monaco-editor-webpack-plugin`:
+
+* [@k15a (Konstantin Pschera)](https://github.com/k15a): Use compiler.webpack if available [PR #147](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/147)
+* [@sangmokh (Sangmok Han)](https://github.com/sangmokh): Add globalAPI option to expose the editor API through a global monaco object [PR #145](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/145)
+
+Contributions to `monaco-languages`:
+
+* [@anthony-c-martin (Anthony Martin)](https://github.com/anthony-c-martin): Add support for Bicep language [PR #132](https://github.com/microsoft/monaco-languages/pull/132)
+* [@jonatanklosko (Jonatan Kłosko)](https://github.com/jonatanklosko): Add Elixir language definition and tokenizer [PR #130](https://github.com/microsoft/monaco-languages/pull/130)
+* [@mattgodbolt (Matt Godbolt)](https://github.com/mattgodbolt): Handle whitespace within C++ preprocessor comments [PR #127](https://github.com/microsoft/monaco-languages/pull/127)
+* [@mattvague (Matt Vague)](https://github.com/mattvague): Add basic language support for Liquid  [PR #128](https://github.com/microsoft/monaco-languages/pull/128)
+* [@NullVoxPopuli](https://github.com/NullVoxPopuli): Add hbs alias to handlebars [PR #134](https://github.com/microsoft/monaco-languages/pull/134)
+
+Contributions to `monaco-typescript`:
+
+* [@spahnke (Sebastian Pahnke)](https://github.com/spahnke): Deep clone diagnostic objects [PR #76](https://github.com/microsoft/monaco-typescript/pull/76)
+
+
 ## [0.23.0] (05.03.2021)
 
 * improves input on Android (using Gboard)
@@ -949,6 +984,7 @@ Contributions to `monaco-languages`:
 - The editor functions now correctly when hosted inside a `position:fixed` element.
 - Cross-origin configuration is now picked up (as advertised in documentation from MonacoEnvironment)
 
+[0.24.0]: https://github.com/Microsoft/monaco-editor/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/Microsoft/monaco-editor/compare/v0.22.3...v0.23.0
 [0.22.3]: https://github.com/Microsoft/monaco-editor/compare/v0.22.2...v0.22.3
 [0.22.2]: https://github.com/Microsoft/monaco-editor/compare/v0.22.1...v0.22.2
