@@ -7,6 +7,6 @@ import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
 	id: 'liquid',
-	extensions: ['.liquid', '.liquid.html', '.liquid.css'],
+	extensions: ['.liquid', '.html.liquid'],
 	loader: () => import('./liquid')
 });
