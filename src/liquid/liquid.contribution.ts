@@ -8,5 +8,7 @@ import { registerLanguage } from '../_.contribution';
 registerLanguage({
 	id: 'liquid',
 	extensions: ['.liquid', '.liquid.html', '.liquid.css'],
+	aliases: ['Liquid', 'liquid'],
+	mimetypes: ['application/liquid'],
 	loader: () => import('./liquid')
 });
