@@ -7,7 +7,8 @@
 import {
 	Diagnostic,
 	DiagnosticRelatedInformation,
-	LanguageServiceDefaults
+	LanguageServiceDefaults,
+	typescriptDefaults
 } from './monaco.contribution';
 import type * as ts from './lib/typescriptServices';
 import type { TypeScriptWorker } from './tsWorker';
@@ -789,6 +790,17 @@ export class DefinitionAdapter extends Adapter {
 					uri: uri,
 					range: this._textSpanToRange(refModel, entry.textSpan)
 				});
+			} else {
+				const matchedLibFile = typescriptDefaults.getExtraLibs()[entry.fileName]
+				if (matchedLibFile) {
+					const libModel = editor.createModel(matchedLibFile.content, 'typescript', uri);
+					return {
+						uri: uri,
+						range: this._textSpanToRange(libModel, entry.textSpan)
+					}
+				}
+
+
 			}
 		}
 		return result;
