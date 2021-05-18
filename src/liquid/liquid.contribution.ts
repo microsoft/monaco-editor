@@ -6,9 +6,9 @@
 import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
-	id: 'handlebars',
-	extensions: ['.handlebars', '.hbs'],
-	aliases: ['Handlebars', 'handlebars', 'hbs'],
-	mimetypes: ['text/x-handlebars-template'],
-	loader: () => import('./handlebars')
+	id: 'liquid',
+	extensions: ['.liquid', '.html.liquid'],
+	aliases: ['Liquid', 'liquid'],
+	mimetypes: ['application/liquid'],
+	loader: () => import('./liquid')
 });

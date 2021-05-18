@@ -200,7 +200,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		attribute: [
 			[
-				/\@@identifier/,
+				/@@@identifier/,
 				{
 					cases: {
 						'@attributes': 'keyword.control',

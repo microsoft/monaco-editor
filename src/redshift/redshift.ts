@@ -58,6 +58,7 @@ export const language = <languages.IMonarchLanguage>{
 		'BINARY',
 		'BLANKSASNULL',
 		'BOTH',
+		'BY',
 		'BYTEDICT',
 		'BZIP2',
 		'CASE',

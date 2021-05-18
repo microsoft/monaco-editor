@@ -6,9 +6,8 @@
 import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
-	id: 'handlebars',
-	extensions: ['.handlebars', '.hbs'],
-	aliases: ['Handlebars', 'handlebars', 'hbs'],
-	mimetypes: ['text/x-handlebars-template'],
-	loader: () => import('./handlebars')
+	id: 'elixir',
+	extensions: ['.ex', '.exs'],
+	aliases: ['Elixir', 'elixir', 'ex'],
+	loader: () => import('./elixir')
 });

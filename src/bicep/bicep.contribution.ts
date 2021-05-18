@@ -6,9 +6,8 @@
 import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
-	id: 'handlebars',
-	extensions: ['.handlebars', '.hbs'],
-	aliases: ['Handlebars', 'handlebars', 'hbs'],
-	mimetypes: ['text/x-handlebars-template'],
-	loader: () => import('./handlebars')
+	id: 'bicep',
+	extensions: ['.bicep'],
+	aliases: ['Bicep'],
+	loader: () => import('./bicep')
 });
