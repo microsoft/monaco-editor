@@ -130,6 +130,7 @@ export const language = {
 		'private',
 		'protected',
 		'public',
+		'override',
 		'readonly',
 		'require',
 		'global',
