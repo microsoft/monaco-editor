@@ -7,7 +7,8 @@
 import {
 	Diagnostic,
 	DiagnosticRelatedInformation,
-	LanguageServiceDefaults
+	LanguageServiceDefaults,
+	typescriptDefaults
 } from './monaco.contribution';
 import type * as ts from './lib/typescriptServices';
 import type { TypeScriptWorker } from './tsWorker';
@@ -163,6 +164,15 @@ enum DiagnosticCategory {
 	Message = 3
 }
 
+/**
+ * temporary interface until the editor API exposes
+ * `IModel.isAttachedToEditor` and `IModel.onDidChangeAttached`
+ */
+interface IInternalEditorModel extends editor.IModel {
+	onDidChangeAttached(listener: () => void): IDisposable;
+	isAttachedToEditor(): boolean;
+}
+
 export class DiagnosticsAdapter extends Adapter {
 	private _disposables: IDisposable[] = [];
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
@@ -175,25 +185,52 @@ export class DiagnosticsAdapter extends Adapter {
 	) {
 		super(worker);
 
-		const onModelAdd = (model: editor.IModel): void => {
+		const onModelAdd = (model: IInternalEditorModel): void => {
 			if (model.getModeId() !== _selector) {
 				return;
 			}
 
+			const maybeValidate = () => {
+				const { onlyVisible } = this._defaults.getDiagnosticsOptions();
+				if (onlyVisible) {
+					if (model.isAttachedToEditor()) {
+						this._doValidate(model);
+					}
+				} else {
+					this._doValidate(model);
+				}
+			};
+
 			let handle: number;
 			const changeSubscription = model.onDidChangeContent(() => {
 				clearTimeout(handle);
-				handle = setTimeout(() => this._doValidate(model), 500);
+				handle = setTimeout(maybeValidate, 500);
+			});
+
+			const visibleSubscription = model.onDidChangeAttached(() => {
+				const { onlyVisible } = this._defaults.getDiagnosticsOptions();
+				if (onlyVisible) {
+					if (model.isAttachedToEditor()) {
+						// this model is now attached to an editor
+						// => compute diagnostics
+						maybeValidate();
+					} else {
+						// this model is no longer attached to an editor
+						// => clear existing diagnostics
+						editor.setModelMarkers(model, this._selector, []);
+					}
+				}
 			});
 
 			this._listener[model.uri.toString()] = {
 				dispose() {
 					changeSubscription.dispose();
+					visibleSubscription.dispose();
 					clearTimeout(handle);
 				}
 			};
 
-			this._doValidate(model);
+			maybeValidate();
 		};
 
 		const onModelRemoved = (model: editor.IModel): void => {
@@ -205,12 +242,12 @@ export class DiagnosticsAdapter extends Adapter {
 			}
 		};
 
-		this._disposables.push(editor.onDidCreateModel(onModelAdd));
+		this._disposables.push(editor.onDidCreateModel((model) => onModelAdd(<IInternalEditorModel>model)));
 		this._disposables.push(editor.onWillDisposeModel(onModelRemoved));
 		this._disposables.push(
 			editor.onDidChangeModelLanguage((event) => {
 				onModelRemoved(event.model);
-				onModelAdd(event.model);
+				onModelAdd(<IInternalEditorModel>event.model);
 			})
 		);
 
@@ -226,13 +263,13 @@ export class DiagnosticsAdapter extends Adapter {
 			// redo diagnostics when options change
 			for (const model of editor.getModels()) {
 				onModelRemoved(model);
-				onModelAdd(model);
+				onModelAdd(<IInternalEditorModel>model);
 			}
 		};
 		this._disposables.push(this._defaults.onDidChange(recomputeDiagostics));
 		this._disposables.push(this._defaults.onDidExtraLibsChange(recomputeDiagostics));
 
-		editor.getModels().forEach(onModelAdd);
+		editor.getModels().forEach((model) => onModelAdd(<IInternalEditorModel>model));
 	}
 
 	public dispose(): void {
@@ -753,6 +790,17 @@ export class DefinitionAdapter extends Adapter {
 					uri: uri,
 					range: this._textSpanToRange(refModel, entry.textSpan)
 				});
+			} else {
+				const matchedLibFile = typescriptDefaults.getExtraLibs()[entry.fileName]
+				if (matchedLibFile) {
+					const libModel = editor.createModel(matchedLibFile.content, 'typescript', uri);
+					return {
+						uri: uri,
+						range: this._textSpanToRange(libModel, entry.textSpan)
+					}
+				}
+
+
 			}
 		}
 		return result;
