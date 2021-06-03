@@ -333,9 +333,9 @@ export class DiagnosticsAdapter extends Adapter {
 	private _convertRelatedInformation(
 		model: editor.ITextModel,
 		relatedInformation?: DiagnosticRelatedInformation[]
-	): editor.IRelatedInformation[] | undefined {
+	): editor.IRelatedInformation[] {
 		if (!relatedInformation) {
-			return;
+			return [];
 		}
 
 		const result: editor.IRelatedInformation[] = [];
