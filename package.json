@@ -32,7 +32,7 @@
 		"pretty-quick": "^3.1.0",
 		"requirejs": "^2.3.6",
 		"terser": "^5.6.0",
-		"typescript": "^4.2.4"
+		"typescript": "^4.3.2"
 	},
 	"husky": {
 		"hooks": {
