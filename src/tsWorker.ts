@@ -253,6 +253,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 			entry,
 			undefined,
 			undefined,
+			undefined, 
 			undefined
 		);
 	}

@@ -370,9 +370,9 @@ export class DiagnosticsAdapter extends Adapter {
 	private _convertRelatedInformation(
 		model: editor.ITextModel,
 		relatedInformation?: DiagnosticRelatedInformation[]
-	): editor.IRelatedInformation[] | undefined {
+	): editor.IRelatedInformation[] {
 		if (!relatedInformation) {
-			return;
+			return [];
 		}
 
 		const result: editor.IRelatedInformation[] = [];
@@ -572,9 +572,9 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 function tagToString(tag: ts.JSDocTagInfo): string {
 	let tagLabel = `*@${tag.name}*`;
 	if (tag.name === 'param' && tag.text) {
-		const [paramName, ...rest] = tag.text.split(' ');
-		tagLabel += `\`${paramName}\``;
-		if (rest.length > 0) tagLabel += ` — ${rest.join(' ')}`;
+		const [paramName, ...rest] = tag.text;
+		tagLabel += `\`${paramName.text}\``;
+		if (rest.length > 0) tagLabel += ` — ${rest.map(r => r.text).join(' ')}`;
 	} else if (tag.text) {
 		tagLabel += ` — ${tag.text}`;
 	}
