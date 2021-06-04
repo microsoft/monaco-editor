@@ -893,8 +893,9 @@ export class OutlineAdapter extends Adapter implements languages.DocumentSymbolP
 				range: this._textSpanToRange(model, item.spans[0]),
 				selectionRange: this._textSpanToRange(model, item.spans[0]),
 				tags: [],
-				containerName: containerLabel
 			};
+
+			if (containerLabel) result.containerName = containerLabel;
 
 			if (item.childItems && item.childItems.length > 0) {
 				for (let child of item.childItems) {
