@@ -6,7 +6,7 @@
 import * as mode from './cssMode';
 import { languages, Emitter, IEvent } from './fillers/monaco-editor-core';
 
-export interface DiagnosticsOptions {
+export interface Options {
 	readonly validate?: boolean;
 	readonly lint?: {
 		readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error';
@@ -28,6 +28,10 @@ export interface DiagnosticsOptions {
 		readonly float?: 'ignore' | 'warning' | 'error';
 		readonly idSelector?: 'ignore' | 'warning' | 'error';
 	};
+	/**
+	 * Configures the CSS data types known by the langauge service.
+	 */
+	readonly data?: CSSDataConfiguration;
 }
 
 export interface ModeConfiguration {
@@ -90,27 +94,36 @@ export interface ModeConfiguration {
 export interface LanguageServiceDefaults {
 	readonly languageId: string;
 	readonly onDidChange: IEvent<LanguageServiceDefaults>;
-	readonly diagnosticsOptions: DiagnosticsOptions;
+
 	readonly modeConfiguration: ModeConfiguration;
-	setDiagnosticsOptions(options: DiagnosticsOptions): void;
+	readonly options: Options;
+	setOptions(options: Options): void;
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
+
+	/** @deprecated Use options instead */
+	readonly diagnosticsOptions: DiagnosticsOptions;
+	/** @deprecated Use setOptions instead */
+	setDiagnosticsOptions(options: DiagnosticsOptions): void;
 }
+
+/** @deprecated Use Options instead */
+export type DiagnosticsOptions = Options;
 
 // --- CSS configuration and defaults ---------
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
-	private _diagnosticsOptions: DiagnosticsOptions;
+	private _options: Options;
 	private _modeConfiguration: ModeConfiguration;
 	private _languageId: string;
 
 	constructor(
 		languageId: string,
-		diagnosticsOptions: DiagnosticsOptions,
+		options: Options,
 		modeConfiguration: ModeConfiguration
 	) {
 		this._languageId = languageId;
-		this.setDiagnosticsOptions(diagnosticsOptions);
+		this.setOptions(options);
 		this.setModeConfiguration(modeConfiguration);
 	}
 
@@ -126,13 +139,21 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		return this._modeConfiguration;
 	}
 
-	get diagnosticsOptions(): DiagnosticsOptions {
-		return this._diagnosticsOptions;
+	get diagnosticsOptions(): Options {
+		return this.options;
 	}
 
-	setDiagnosticsOptions(options: DiagnosticsOptions): void {
-		this._diagnosticsOptions = options || Object.create(null);
+	get options(): Options {
+		return this._options;
+	}
+
+	setOptions(options: Options): void {
+		this._options = options || Object.create(null);
 		this._onDidChange.fire(this);
+	}
+
+	setDiagnosticsOptions(options: Options): void {
+		this.setOptions(options);
 	}
 
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
@@ -141,7 +162,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	}
 }
 
-const diagnosticDefault: Required<DiagnosticsOptions> = {
+const optionsDefault: Required<Options> = {
 	validate: true,
 	lint: {
 		compatibleVendorPrefixes: 'ignore',
@@ -162,7 +183,8 @@ const diagnosticDefault: Required<DiagnosticsOptions> = {
 		important: 'ignore',
 		float: 'ignore',
 		idSelector: 'ignore'
-	}
+	},
+	data: { useDefaultDataProvider: true }
 };
 
 const modeConfigurationDefault: Required<ModeConfiguration> = {
@@ -181,17 +203,17 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 
 export const cssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	'css',
-	diagnosticDefault,
+	optionsDefault,
 	modeConfigurationDefault
 );
 export const scssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	'scss',
-	diagnosticDefault,
+	optionsDefault,
 	modeConfigurationDefault
 );
 export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	'less',
-	diagnosticDefault,
+	optionsDefault,
 	modeConfigurationDefault
 );
 
@@ -215,3 +237,82 @@ languages.onLanguage('scss', () => {
 languages.onLanguage('css', () => {
 	getMode().then((mode) => mode.setupMode(cssDefaults));
 });
+
+
+// CSS Data
+
+export interface CSSDataConfiguration {
+	/**
+	 * Defines whether the standard CSS properties, at-directives, pseudoClasses and pseudoElements are shown.
+	 */
+	useDefaultDataProvider?: boolean;
+	/**
+	 * Provides a set of custom data providers.
+	 */
+	dataProviders?: { [providerId: string]: CSSDataV1 };
+}
+
+/**
+ * Custom CSS properties, at-directives, pseudoClasses and pseudoElements
+ * https://github.com/microsoft/vscode-css-languageservice/blob/main/docs/customData.md
+ */
+export interface CSSDataV1 {
+	version: 1 | 1.1;
+	properties?: IPropertyData[];
+	atDirectives?: IAtDirectiveData[];
+	pseudoClasses?: IPseudoClassData[];
+	pseudoElements?: IPseudoElementData[];
+}
+
+export type EntryStatus = 'standard' | 'experimental' | 'nonstandard' | 'obsolete';
+
+export interface IReference {
+	name: string;
+	url: string;
+}
+
+export interface IPropertyData {
+	name: string;
+	description?: string | MarkupContent;
+	browsers?: string[];
+	restrictions?: string[];
+	status?: EntryStatus;
+	syntax?: string;
+	values?: IValueData[];
+	references?: IReference[];
+	relevance?: number;
+}
+export interface IAtDirectiveData {
+	name: string;
+	description?: string | MarkupContent;
+	browsers?: string[];
+	status?: EntryStatus;
+	references?: IReference[];
+}
+export interface IPseudoClassData {
+	name: string;
+	description?: string | MarkupContent;
+	browsers?: string[];
+	status?: EntryStatus;
+	references?: IReference[];
+}
+export interface IPseudoElementData {
+	name: string;
+	description?: string | MarkupContent;
+	browsers?: string[];
+	status?: EntryStatus;
+	references?: IReference[];
+}
+
+export interface IValueData {
+	name: string;
+	description?: string | MarkupContent;
+	browsers?: string[];
+	status?: EntryStatus;
+	references?: IReference[];
+}
+export interface MarkupContent {
+    kind: MarkupKind;
+    value: string;
+}
+export declare type MarkupKind = 'plaintext' | 'markdown';

@@ -5,6 +5,7 @@
 
 import type { worker } from './fillers/monaco-editor-core';
 import * as cssService from 'vscode-css-languageservice';
+import { Options } from './monaco.contribution';
 
 export class CSSWorker {
 	// --- model sync -----------------------
@@ -16,17 +17,29 @@ export class CSSWorker {
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
-		this._languageSettings = createData.languageSettings;
+		this._languageSettings = createData.options;
 		this._languageId = createData.languageId;
+
+		const data = createData.options.data;
+
+		const useDefaultDataProvider = data?.useDefaultDataProvider;
+		const customDataProviders: cssService.ICSSDataProvider[] = [];
+		if (data?.dataProviders) {
+			for (const id in data.dataProviders) {
+				customDataProviders.push(cssService.newCSSDataProvider(data.dataProviders[id]));
+			}
+		}
+		const lsOptions: cssService.LanguageServiceOptions = { customDataProviders, useDefaultDataProvider };
+
 		switch (this._languageId) {
 			case 'css':
-				this._languageService = cssService.getCSSLanguageService();
+				this._languageService = cssService.getCSSLanguageService(lsOptions);
 				break;
 			case 'less':
-				this._languageService = cssService.getLESSLanguageService();
+				this._languageService = cssService.getLESSLanguageService(lsOptions);
 				break;
 			case 'scss':
-				this._languageService = cssService.getSCSSLanguageService();
+				this._languageService = cssService.getSCSSLanguageService(lsOptions);
 				break;
 			default:
 				throw new Error('Invalid language id: ' + this._languageId);
@@ -160,7 +173,7 @@ export class CSSWorker {
 
 export interface ICreateData {
 	languageId: string;
-	languageSettings: cssService.LanguageSettings;
+	options: Options
 }
 
 export function create(ctx: worker.IWorkerContext, createData: ICreateData): CSSWorker {

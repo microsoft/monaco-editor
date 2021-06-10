@@ -6,7 +6,7 @@
 /// <reference path="node_modules/monaco-editor-core/monaco.d.ts" />
 
 declare namespace monaco.languages.css {
-	export interface DiagnosticsOptions {
+	export interface Options {
 		readonly validate?: boolean;
 		readonly lint?: {
 			readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error';
@@ -28,6 +28,10 @@ declare namespace monaco.languages.css {
 			readonly float?: 'ignore' | 'warning' | 'error';
 			readonly idSelector?: 'ignore' | 'warning' | 'error';
 		};
+		/**
+		 * Configures the CSS data types known by the langauge service.
+		 */
+		readonly data?: CSSDataConfiguration;
 	}
 	export interface ModeConfiguration {
 		/**
@@ -78,12 +82,90 @@ declare namespace monaco.languages.css {
 	export interface LanguageServiceDefaults {
 		readonly languageId: string;
 		readonly onDidChange: IEvent<LanguageServiceDefaults>;
-		readonly diagnosticsOptions: DiagnosticsOptions;
 		readonly modeConfiguration: ModeConfiguration;
-		setDiagnosticsOptions(options: DiagnosticsOptions): void;
+		readonly options: Options;
+		setOptions(options: Options): void;
 		setModeConfiguration(modeConfiguration: ModeConfiguration): void;
+		/** @deprecated Use options instead */
+		readonly diagnosticsOptions: DiagnosticsOptions;
+		/** @deprecated Use setOptions instead */
+		setDiagnosticsOptions(options: DiagnosticsOptions): void;
 	}
+	/** @deprecated Use Options instead */
+	export type DiagnosticsOptions = Options;
 	export const cssDefaults: LanguageServiceDefaults;
 	export const scssDefaults: LanguageServiceDefaults;
 	export const lessDefaults: LanguageServiceDefaults;
+	export interface CSSDataConfiguration {
+		/**
+		 * Defines whether the standard CSS properties, at-directives, pseudoClasses and pseudoElements are shown.
+		 */
+		useDefaultDataProvider?: boolean;
+		/**
+		 * Provides a set of custom data providers.
+		 */
+		dataProviders?: {
+			[providerId: string]: CSSDataV1;
+		};
+	}
+	/**
+	 * Custom CSS properties, at-directives, pseudoClasses and pseudoElements
+	 * https://github.com/microsoft/vscode-css-languageservice/blob/main/docs/customData.md
+	 */
+	export interface CSSDataV1 {
+		version: 1 | 1.1;
+		properties?: IPropertyData[];
+		atDirectives?: IAtDirectiveData[];
+		pseudoClasses?: IPseudoClassData[];
+		pseudoElements?: IPseudoElementData[];
+	}
+	export type EntryStatus = 'standard' | 'experimental' | 'nonstandard' | 'obsolete';
+	export interface IReference {
+		name: string;
+		url: string;
+	}
+	export interface IPropertyData {
+		name: string;
+		description?: string | MarkupContent;
+		browsers?: string[];
+		restrictions?: string[];
+		status?: EntryStatus;
+		syntax?: string;
+		values?: IValueData[];
+		references?: IReference[];
+		relevance?: number;
+	}
+	export interface IAtDirectiveData {
+		name: string;
+		description?: string | MarkupContent;
+		browsers?: string[];
+		status?: EntryStatus;
+		references?: IReference[];
+	}
+	export interface IPseudoClassData {
+		name: string;
+		description?: string | MarkupContent;
+		browsers?: string[];
+		status?: EntryStatus;
+		references?: IReference[];
+	}
+	export interface IPseudoElementData {
+		name: string;
+		description?: string | MarkupContent;
+		browsers?: string[];
+		status?: EntryStatus;
+		references?: IReference[];
+	}
+	export interface IValueData {
+		name: string;
+		description?: string | MarkupContent;
+		browsers?: string[];
+		status?: EntryStatus;
+		references?: IReference[];
+	}
+	export interface MarkupContent {
+		kind: MarkupKind;
+		value: string;
+	}
+	export type MarkupKind = 'plaintext' | 'markdown';
 }
