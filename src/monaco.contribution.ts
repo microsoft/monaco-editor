@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './htmlMode';
-import { languages, Emitter, IEvent } from './fillers/monaco-editor-core';
+import { languages, Emitter, IEvent, IDisposable } from './fillers/monaco-editor-core';
 
 export interface HTMLFormatConfiguration {
 	readonly tabSize: number;
@@ -104,8 +104,8 @@ export interface LanguageServiceDefaults {
 	readonly onDidChange: IEvent<LanguageServiceDefaults>;
 	readonly options: Options;
 	setOptions(options: Options): void;
+	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 }
-
 // --- HTML configuration and defaults ---------
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
@@ -199,21 +199,26 @@ const htmlLanguageId = 'html';
 const handlebarsLanguageId = 'handlebars';
 const razorLanguageId = 'razor';
 
-export const htmlDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+export const htmlLanguageService = registerHTMLLanguageService(
 	htmlLanguageId,
 	htmlOptionsDefault,
 	getConfigurationDefault(htmlLanguageId)
 );
-export const handlebarDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+export const htmlDefaults = htmlLanguageService.defaults;
+
+export const handlebarLanguageService = registerHTMLLanguageService(
 	handlebarsLanguageId,
 	handlebarOptionsDefault,
 	getConfigurationDefault(handlebarsLanguageId)
 );
-export const razorDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+export const handlebarDefaults = handlebarLanguageService.defaults;
+
+export const razorLanguageService = registerHTMLLanguageService(
 	razorLanguageId,
 	razorOptionsDefault,
 	getConfigurationDefault(razorLanguageId)
 );
+export const razorDefaults = razorLanguageService.defaults;
 
 // export to the global based API
 (<any>languages).html = { htmlDefaults, razorDefaults, handlebarDefaults };
@@ -224,12 +229,35 @@ function getMode(): Promise<typeof mode> {
 	return import('./htmlMode');
 }
 
-languages.onLanguage(htmlLanguageId, () => {
-	getMode().then((mode) => mode.setupMode(htmlDefaults));
-});
-languages.onLanguage(handlebarsLanguageId, () => {
-	getMode().then((mode) => mode.setupMode(handlebarDefaults));
-});
-languages.onLanguage(razorLanguageId, () => {
-	getMode().then((mode) => mode.setupMode(razorDefaults));
-});
+export interface LanguageServiceRegistration extends IDisposable {
+	readonly defaults: LanguageServiceDefaults;
+}
+
+/**
+ * Registers a new HTML language service for the languageId.
+ * Note: 'html', 'handlebar' and 'razor' are registered by default.
+ *
+ * Use this method to register additional language ids with a HTML service.
+ * The language server has to be registered before an editor model is opened.
+ */
+export function registerHTMLLanguageService(
+	languageId: string,
+	options: Options,
+	modeConfiguration: ModeConfiguration
+): LanguageServiceRegistration {
+	const defaults = new LanguageServiceDefaultsImpl(languageId, options, modeConfiguration);
+	let mode: IDisposable | undefined;
+
+	// delay the initalization of the mode until the language is accessed the first time
+	const onLanguageListener = languages.onLanguage(languageId, async () => {
+		mode = (await getMode()).setupMode(defaults);
+	});
+	return {
+		defaults,
+		dispose() {
+			onLanguageListener.dispose();
+			mode?.dispose();
+			mode = undefined;
+		}
+	};
+}

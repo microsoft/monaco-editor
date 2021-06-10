@@ -89,8 +89,27 @@ declare namespace monaco.languages.html {
 		readonly onDidChange: IEvent<LanguageServiceDefaults>;
 		readonly options: Options;
 		setOptions(options: Options): void;
+		setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 	}
+	export const htmlLanguageService: LanguageServiceRegistration;
 	export const htmlDefaults: LanguageServiceDefaults;
+	export const handlebarLanguageService: LanguageServiceRegistration;
 	export const handlebarDefaults: LanguageServiceDefaults;
+	export const razorLanguageService: LanguageServiceRegistration;
 	export const razorDefaults: LanguageServiceDefaults;
+	export interface LanguageServiceRegistration extends IDisposable {
+		readonly defaults: LanguageServiceDefaults;
+	}
+	/**
+	 * Registers a new HTML language service for the languageId.
+	 * Note: 'html', 'handlebar' and 'razor' registered by default.
+	 *
+	 * Use this method only to register additional language ids with a HTML service.
+	 * The language server has to be registered before an editor model is opened.
+	 */
+	export function registerHTMLLanguageService(
+		languageId: string,
+		options: Options,
+		modeConfiguration: ModeConfiguration
+	): LanguageServiceRegistration;
 }
