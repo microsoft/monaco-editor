@@ -21,7 +21,7 @@ declare namespace monaco.languages.html {
 		readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
 	}
 	export interface CompletionConfiguration {
-		[provider: string]: boolean;
+		[providerId: string]: boolean;
 	}
 	export interface Options {
 		/**
@@ -32,6 +32,10 @@ declare namespace monaco.languages.html {
 		 * A list of known schemas and/or associations of schemas to file names.
 		 */
 		readonly suggest?: CompletionConfiguration;
+		/**
+		 * Configures the HTML data types known by the HTML langauge service.
+		 */
+		readonly data?: HTMLDataConfiguration;
 	}
 	export interface ModeConfiguration {
 		/**
@@ -102,9 +106,9 @@ declare namespace monaco.languages.html {
 	}
 	/**
 	 * Registers a new HTML language service for the languageId.
-	 * Note: 'html', 'handlebar' and 'razor' registered by default.
+	 * Note: 'html', 'handlebar' and 'razor' are registered by default.
 	 *
-	 * Use this method only to register additional language ids with a HTML service.
+	 * Use this method to register additional language ids with a HTML service.
 	 * The language server has to be registered before an editor model is opened.
 	 */
 	export function registerHTMLLanguageService(
@@ -112,4 +116,57 @@ declare namespace monaco.languages.html {
 		options: Options,
 		modeConfiguration: ModeConfiguration
 	): LanguageServiceRegistration;
+	export interface HTMLDataConfiguration {
+		/**
+		 * Defines whether the standard HTML tags and attributes are shown
+		 */
+		useDefaultDataProvider?: boolean;
+		/**
+		 * Provides a set of custom data providers.
+		 */
+		dataProviders?: {
+			[providerId: string]: HTMLDataV1;
+		};
+	}
+	/**
+	 * Custom HTML tags attributes and attribute values
+	 * https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md
+	 */
+	export interface HTMLDataV1 {
+		version: 1 | 1.1;
+		tags?: ITagData[];
+		globalAttributes?: IAttributeData[];
+		valueSets?: IValueSet[];
+	}
+	export interface IReference {
+		name: string;
+		url: string;
+	}
+	export interface ITagData {
+		name: string;
+		description?: string | MarkupContent;
+		attributes: IAttributeData[];
+		references?: IReference[];
+	}
+	export interface IAttributeData {
+		name: string;
+		description?: string | MarkupContent;
+		valueSet?: string;
+		values?: IValueData[];
+		references?: IReference[];
+	}
+	export interface IValueData {
+		name: string;
+		description?: string | MarkupContent;
+		references?: IReference[];
+	}
+	export interface IValueSet {
+		name: string;
+		values: IValueData[];
+	}
+	export interface MarkupContent {
+		kind: MarkupKind;
+		value: string;
+	}
+	export type MarkupKind = 'plaintext' | 'markdown';
 }

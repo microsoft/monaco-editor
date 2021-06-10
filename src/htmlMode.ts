@@ -54,7 +54,6 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 			languageId,
 			new languageFeatures.DocumentRangeFormattingEditProvider(worker)
 		);
-		new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults);
 	}
 }
 
@@ -144,9 +143,6 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
 				)
 			);
-		}
-		if (modeConfiguration.diagnostics) {
-			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
 		}
 	}
 

@@ -22,7 +22,7 @@ export interface HTMLFormatConfiguration {
 }
 
 export interface CompletionConfiguration {
-	[provider: string]: boolean;
+	[providerId: string]: boolean;
 }
 
 export interface Options {
@@ -34,6 +34,10 @@ export interface Options {
 	 * A list of known schemas and/or associations of schemas to file names.
 	 */
 	readonly suggest?: CompletionConfiguration;
+	/**
+	 * Configures the HTML data types known by the HTML langauge service.
+	 */
+	readonly data?: HTMLDataConfiguration;
 }
 
 export interface ModeConfiguration {
@@ -165,17 +169,20 @@ const formatDefaults: Required<HTMLFormatConfiguration> = {
 
 const htmlOptionsDefault: Required<Options> = {
 	format: formatDefaults,
-	suggest: { html5: true, angular1: true, ionic: true }
+	suggest: { html5: true, angular1: true, ionic: true },
+	data: { useDefaultDataProvider: true }
 };
 
 const handlebarOptionsDefault: Required<Options> = {
 	format: formatDefaults,
-	suggest: { html5: true }
+	suggest: { html5: true },
+	data: { useDefaultDataProvider: true }
 };
 
 const razorOptionsDefault: Required<Options> = {
 	format: formatDefaults,
-	suggest: { html5: true, razor: true }
+	suggest: { html5: true, razor: true },
+	data: { useDefaultDataProvider: true }
 };
 
 function getConfigurationDefault(languageId: string): Required<ModeConfiguration> {
@@ -261,3 +268,59 @@ export function registerHTMLLanguageService(
 		}
 	};
 }
+
+
+
+export interface HTMLDataConfiguration {
+	/**
+	 * Defines whether the standard HTML tags and attributes are shown
+	 */
+	useDefaultDataProvider?: boolean;
+	/**
+	 * Provides a set of custom data providers.
+	 */
+	dataProviders?: { [providerId: string]: HTMLDataV1 };
+}
+
+/**
+ * Custom HTML tags attributes and attribute values
+ * https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md
+ */
+export interface HTMLDataV1 {
+    version: 1 | 1.1;
+    tags?: ITagData[];
+    globalAttributes?: IAttributeData[];
+    valueSets?: IValueSet[];
+}
+
+export interface IReference {
+    name: string;
+    url: string;
+}
+export interface ITagData {
+    name: string;
+    description?: string | MarkupContent;
+    attributes: IAttributeData[];
+    references?: IReference[];
+}
+export interface IAttributeData {
+    name: string;
+    description?: string | MarkupContent;
+    valueSet?: string;
+    values?: IValueData[];
+    references?: IReference[];
+}
+export interface IValueData {
+    name: string;
+    description?: string | MarkupContent;
+    references?: IReference[];
+}
+export interface IValueSet {
+    name: string;
+    values: IValueData[];
+}
+export interface MarkupContent {
+    kind: MarkupKind;
+    value: string;
+}
+export declare type MarkupKind = 'plaintext' | 'markdown';

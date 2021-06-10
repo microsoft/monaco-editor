@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { LanguageServiceDefaults } from './monaco.contribution';
 import type { HTMLWorker } from './htmlWorker';
 import * as htmlService from 'vscode-html-languageservice';
 import {
@@ -13,137 +12,11 @@ import {
 	Position,
 	Range,
 	CancellationToken,
-	IDisposable,
-	MarkerSeverity,
 	IMarkdownString
 } from './fillers/monaco-editor-core';
-import { InsertReplaceEdit, TextEdit } from 'vscode-html-languageservice';
 
 export interface WorkerAccessor {
 	(...more: Uri[]): Promise<HTMLWorker>;
-}
-
-// --- diagnostics --- ---
-
-export class DiagnosticsAdapter {
-	private _disposables: IDisposable[] = [];
-	private _listener: { [uri: string]: IDisposable } = Object.create(null);
-
-	constructor(
-		private _languageId: string,
-		private _worker: WorkerAccessor,
-		defaults: LanguageServiceDefaults
-	) {
-		const onModelAdd = (model: editor.IModel): void => {
-			const modeId = model.getModeId();
-			if (modeId !== this._languageId) {
-				return;
-			}
-
-			let handle: number;
-			this._listener[model.uri.toString()] = model.onDidChangeContent(() => {
-				clearTimeout(handle);
-				handle = setTimeout(() => this._doValidate(model.uri, modeId), 500);
-			});
-
-			this._doValidate(model.uri, modeId);
-		};
-
-		const onModelRemoved = (model: editor.IModel): void => {
-			editor.setModelMarkers(model, this._languageId, []);
-			const uriStr = model.uri.toString();
-			const listener = this._listener[uriStr];
-			if (listener) {
-				listener.dispose();
-				delete this._listener[uriStr];
-			}
-		};
-
-		this._disposables.push(editor.onDidCreateModel(onModelAdd));
-		this._disposables.push(
-			editor.onWillDisposeModel((model) => {
-				onModelRemoved(model);
-			})
-		);
-		this._disposables.push(
-			editor.onDidChangeModelLanguage((event) => {
-				onModelRemoved(event.model);
-				onModelAdd(event.model);
-			})
-		);
-
-		this._disposables.push(
-			defaults.onDidChange((_) => {
-				editor.getModels().forEach((model) => {
-					if (model.getModeId() === this._languageId) {
-						onModelRemoved(model);
-						onModelAdd(model);
-					}
-				});
-			})
-		);
-
-		this._disposables.push({
-			dispose: () => {
-				for (const key in this._listener) {
-					this._listener[key].dispose();
-				}
-			}
-		});
-
-		editor.getModels().forEach(onModelAdd);
-	}
-
-	public dispose(): void {
-		this._disposables.forEach((d) => d && d.dispose());
-		this._disposables = [];
-	}
-
-	private _doValidate(resource: Uri, languageId: string): void {
-		this._worker(resource)
-			.then((worker) => {
-				return worker.doValidation(resource.toString()).then((diagnostics) => {
-					const markers = diagnostics.map((d) => toDiagnostics(resource, d));
-					const model = editor.getModel(resource);
-					if (model && model.getModeId() === languageId) {
-						editor.setModelMarkers(model, languageId, markers);
-					}
-				});
-			})
-			.then(undefined, (err) => {
-				console.error(err);
-			});
-	}
-}
-
-function toSeverity(lsSeverity: number): MarkerSeverity {
-	switch (lsSeverity) {
-		case htmlService.DiagnosticSeverity.Error:
-			return MarkerSeverity.Error;
-		case htmlService.DiagnosticSeverity.Warning:
-			return MarkerSeverity.Warning;
-		case htmlService.DiagnosticSeverity.Information:
-			return MarkerSeverity.Info;
-		case htmlService.DiagnosticSeverity.Hint:
-			return MarkerSeverity.Hint;
-		default:
-			return MarkerSeverity.Info;
-	}
-}
-
-function toDiagnostics(resource: Uri, diag: htmlService.Diagnostic): editor.IMarkerData {
-	const code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
-
-	return {
-		severity: toSeverity(diag.severity),
-		startLineNumber: diag.range.start.line + 1,
-		startColumn: diag.range.start.character + 1,
-		endLineNumber: diag.range.end.line + 1,
-		endColumn: diag.range.end.character + 1,
-		message: diag.message,
-		code: code,
-		source: diag.source
-	};
 }
 
 // --- completion ------
@@ -177,10 +50,10 @@ function toRange(range: htmlService.Range): Range {
 	);
 }
 
-function isInsertReplaceEdit(edit: TextEdit | InsertReplaceEdit): edit is InsertReplaceEdit {
+function isInsertReplaceEdit(edit: htmlService.TextEdit | htmlService.InsertReplaceEdit): edit is htmlService.InsertReplaceEdit {
 	return (
-		typeof (<InsertReplaceEdit>edit).insert !== 'undefined' &&
-		typeof (<InsertReplaceEdit>edit).replace !== 'undefined'
+		typeof (<htmlService.InsertReplaceEdit>edit).insert !== 'undefined' &&
+		typeof (<htmlService.InsertReplaceEdit>edit).replace !== 'undefined'
 	);
 }
 
@@ -285,7 +158,7 @@ function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation
 }
 
 export class CompletionAdapter implements languages.CompletionItemProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public get triggerCharacters(): string[] {
 		return ['.', ':', '<', '"', '=', '/'];
@@ -399,7 +272,7 @@ function toMarkedStringArray(
 }
 
 export class HoverAdapter implements languages.HoverProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	provideHover(
 		model: editor.IReadOnlyModel,
@@ -441,7 +314,7 @@ function toHighlighKind(kind: htmlService.DocumentHighlightKind): languages.Docu
 }
 
 export class DocumentHighlightAdapter implements languages.DocumentHighlightProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public provideDocumentHighlights(
 		model: editor.IReadOnlyModel,
@@ -511,7 +384,7 @@ function toSymbolKind(kind: htmlService.SymbolKind): languages.SymbolKind {
 }
 
 export class DocumentSymbolAdapter implements languages.DocumentSymbolProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public provideDocumentSymbols(
 		model: editor.IReadOnlyModel,
@@ -539,7 +412,7 @@ export class DocumentSymbolAdapter implements languages.DocumentSymbolProvider {
 }
 
 export class DocumentLinkAdapter implements languages.LinkProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public provideLinks(
 		model: editor.IReadOnlyModel,
@@ -573,7 +446,7 @@ function fromFormattingOptions(
 }
 
 export class DocumentFormattingEditProvider implements languages.DocumentFormattingEditProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public provideDocumentFormattingEdits(
 		model: editor.IReadOnlyModel,
@@ -597,7 +470,7 @@ export class DocumentFormattingEditProvider implements languages.DocumentFormatt
 
 export class DocumentRangeFormattingEditProvider
 	implements languages.DocumentRangeFormattingEditProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public provideDocumentRangeFormattingEdits(
 		model: editor.IReadOnlyModel,
@@ -621,7 +494,7 @@ export class DocumentRangeFormattingEditProvider
 }
 
 export class RenameAdapter implements languages.RenameProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	provideRenameEdits(
 		model: editor.IReadOnlyModel,
@@ -664,7 +537,7 @@ function toWorkspaceEdit(edit: htmlService.WorkspaceEdit): languages.WorkspaceEd
 }
 
 export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public provideFoldingRanges(
 		model: editor.IReadOnlyModel,
@@ -705,7 +578,7 @@ function toFoldingRangeKind(kind: htmlService.FoldingRangeKind): languages.Foldi
 }
 
 export class SelectionRangeAdapter implements languages.SelectionRangeProvider {
-	constructor(private _worker: WorkerAccessor) {}
+	constructor(private _worker: WorkerAccessor) { }
 
 	public provideSelectionRanges(
 		model: editor.IReadOnlyModel,

@@ -29,9 +29,9 @@
 		"prettier": "^2.2.1",
 		"pretty-quick": "^3.1.0",
 		"requirejs": "^2.3.6",
-		"typescript": "^4.2.3",
 		"terser": "^5.6.0",
-		"vscode-html-languageservice": "4.0.1",
+		"typescript": "^4.2.3",
+		"vscode-html-languageservice": "^4.0.5",
 		"vscode-languageserver-types": "3.16.0",
 		"vscode-languageserver-textdocument": "^1.0.1"
 	},

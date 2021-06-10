@@ -6,6 +6,7 @@
 import { worker } from './fillers/monaco-editor-core';
 import * as htmlService from 'vscode-html-languageservice';
 import type { Options } from './monaco.contribution';
+import { IHTMLDataProvider } from 'vscode-html-languageservice';
 
 export class HTMLWorker {
 	private _ctx: worker.IWorkerContext;
@@ -17,13 +18,19 @@ export class HTMLWorker {
 		this._ctx = ctx;
 		this._languageSettings = createData.languageSettings;
 		this._languageId = createData.languageId;
-		this._languageService = htmlService.getLanguageService();
+
+		const data = this._languageSettings.data;
+
+		const useDefaultDataProvider = data?.useDefaultDataProvider;
+		const customDataProviders: IHTMLDataProvider[] = [];
+		if (data?.dataProviders) {
+			for (const id in data.dataProviders) {
+				customDataProviders.push(htmlService.newHTMLDataProvider(id, data.dataProviders[id]));
+			}
+		}
+		this._languageService = htmlService.getLanguageService({ useDefaultDataProvider, customDataProviders });
 	}
 
-	async doValidation(uri: string): Promise<htmlService.Diagnostic[]> {
-		// not yet suported
-		return Promise.resolve([]);
-	}
 	async doComplete(
 		uri: string,
 		position: htmlService.Position
