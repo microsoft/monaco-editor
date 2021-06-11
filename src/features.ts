@@ -109,8 +109,12 @@ export const featuresArr: IFeatureDefinition[] = [
     entry: 'vs/editor/contrib/indentation/indentation'
   },
   {
-    label: 'inlineHints',
-    entry: 'vs/editor/contrib/inlineHints/inlineHintsController'
+    label: 'inlayHints',
+    entry: 'vs/editor/contrib/inlayHints/inlayHintsController'
+  },
+  {
+    label: 'inlineCompletions',
+    entry: 'vs/editor/contrib/inlineCompletions/ghostTextController'
   },
   {
     label: 'inspectTokens',
@@ -202,6 +206,6 @@ export const featuresArr: IFeatureDefinition[] = [
   }
 ];
 
-export type EditorFeature = 'accessibilityHelp' | 'anchorSelect' | 'bracketMatching' | 'caretOperations' | 'clipboard' | 'codeAction' | 'codelens' | 'colorPicker' | 'comment' | 'contextmenu' | 'coreCommands' | 'cursorUndo' | 'dnd' | 'documentSymbols' | 'find' | 'folding' | 'fontZoom' | 'format' | 'gotoError' | 'gotoLine' | 'gotoSymbol' | 'hover' | 'iPadShowKeyboard' | 'inPlaceReplace' | 'indentation' | 'inlineHints' | 'inspectTokens' | 'linesOperations' | 'linkedEditing' | 'links' | 'multicursor' | 'parameterHints' | 'quickCommand' | 'quickHelp' | 'quickOutline' | 'referenceSearch' | 'rename' | 'smartSelect' | 'snippets' | 'suggest' | 'toggleHighContrast' | 'toggleTabFocusMode' | 'transpose' | 'unusualLineTerminators' | 'viewportSemanticTokens' | 'wordHighlighter' | 'wordOperations' | 'wordPartOperations';
+export type EditorFeature = 'accessibilityHelp' | 'anchorSelect' | 'bracketMatching' | 'caretOperations' | 'clipboard' | 'codeAction' | 'codelens' | 'colorPicker' | 'comment' | 'contextmenu' | 'coreCommands' | 'cursorUndo' | 'dnd' | 'documentSymbols' | 'find' | 'folding' | 'fontZoom' | 'format' | 'gotoError' | 'gotoLine' | 'gotoSymbol' | 'hover' | 'iPadShowKeyboard' | 'inPlaceReplace' | 'indentation' | 'inlayHints' | 'inlineCompletions' | 'inspectTokens' | 'linesOperations' | 'linkedEditing' | 'links' | 'multicursor' | 'parameterHints' | 'quickCommand' | 'quickHelp' | 'quickOutline' | 'referenceSearch' | 'rename' | 'smartSelect' | 'snippets' | 'suggest' | 'toggleHighContrast' | 'toggleTabFocusMode' | 'transpose' | 'unusualLineTerminators' | 'viewportSemanticTokens' | 'wordHighlighter' | 'wordOperations' | 'wordPartOperations';
 
-export type NegatedEditorFeature = '!accessibilityHelp' | '!anchorSelect' | '!bracketMatching' | '!caretOperations' | '!clipboard' | '!codeAction' | '!codelens' | '!colorPicker' | '!comment' | '!contextmenu' | '!coreCommands' | '!cursorUndo' | '!dnd' | '!documentSymbols' | '!find' | '!folding' | '!fontZoom' | '!format' | '!gotoError' | '!gotoLine' | '!gotoSymbol' | '!hover' | '!iPadShowKeyboard' | '!inPlaceReplace' | '!indentation' | '!inlineHints' | '!inspectTokens' | '!linesOperations' | '!linkedEditing' | '!links' | '!multicursor' | '!parameterHints' | '!quickCommand' | '!quickHelp' | '!quickOutline' | '!referenceSearch' | '!rename' | '!smartSelect' | '!snippets' | '!suggest' | '!toggleHighContrast' | '!toggleTabFocusMode' | '!transpose' | '!unusualLineTerminators' | '!viewportSemanticTokens' | '!wordHighlighter' | '!wordOperations' | '!wordPartOperations';
+export type NegatedEditorFeature = '!accessibilityHelp' | '!anchorSelect' | '!bracketMatching' | '!caretOperations' | '!clipboard' | '!codeAction' | '!codelens' | '!colorPicker' | '!comment' | '!contextmenu' | '!coreCommands' | '!cursorUndo' | '!dnd' | '!documentSymbols' | '!find' | '!folding' | '!fontZoom' | '!format' | '!gotoError' | '!gotoLine' | '!gotoSymbol' | '!hover' | '!iPadShowKeyboard' | '!inPlaceReplace' | '!indentation' | '!inlayHints' | '!inlineCompletions' | '!inspectTokens' | '!linesOperations' | '!linkedEditing' | '!links' | '!multicursor' | '!parameterHints' | '!quickCommand' | '!quickHelp' | '!quickOutline' | '!referenceSearch' | '!rename' | '!smartSelect' | '!snippets' | '!suggest' | '!toggleHighContrast' | '!toggleTabFocusMode' | '!transpose' | '!unusualLineTerminators' | '!viewportSemanticTokens' | '!wordHighlighter' | '!wordOperations' | '!wordPartOperations';
