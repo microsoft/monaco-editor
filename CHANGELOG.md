@@ -1,5 +1,36 @@
 # Monaco Editor Changelog
 
+## [0.25.0] (11.06.2021)
+
+* added a new feature `inlineSuggest` that features a provider api and new settings.
+* added `suggest.preview` to toggle previewing the selected suggest item.
+* added `suggest.showDeprecated`
+* CSS/HTML: added support for [custom data format](https://code.visualstudio.com/blogs/2020/02/24/custom-data-format)
+* HTML: added `registerHTMLLanguageService`
+
+### Breaking changes
+* renamed `inlineHints` to `inlayHints`.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [@JeanPerriault (El Jùanch0)](https://github.com/JeanPerriault): Fix error message in Safari - Semantic token play [PR #2486](https://github.com/microsoft/monaco-editor/pull/2486)
+* [@jonatanklosko (Jonatan Kłosko)](https://github.com/jonatanklosko): Add Elixir sample [PR #2491](https://github.com/microsoft/monaco-editor/pull/2491)
+
+Contributions to `monaco-languages`:
+
+* [@akonatala (apoorva konatala)](https://github.com/akonatala): Update cameligo language support [PR #137](https://github.com/microsoft/monaco-languages/pull/137)
+* [@anark](https://github.com/anark): Add aliases and mimetypes to liquid language [PR #136](https://github.com/microsoft/monaco-languages/pull/136)
+* [@mattvague (Matt Vague)](https://github.com/mattvague): Fix incorrect filenames for liquid [PR #135](https://github.com/microsoft/monaco-languages/pull/135)
+* [@spahnke (Sebastian Pahnke)](https://github.com/spahnke)
+  * [JS/TS] Add support for the RegExp Match Indices flag [PR #139](https://github.com/microsoft/monaco-languages/pull/139)
+  * [TS] Add override keyword [PR #140](https://github.com/microsoft/monaco-languages/pull/140)
+
+Contributions to `monaco-typescript`:
+
+* [@paranoidjk (paranoidjk)](https://github.com/paranoidjk): fix: support go to definition for extraLib file [PR #79](https://github.com/microsoft/monaco-typescript/pull/79)
+
 ## [0.24.0] (12.05.2021)
 
 * added a setting `domReadOnly` which controls if the `<textarea>` used for editor input should have the DOM `readonly` attribute

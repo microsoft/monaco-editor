@@ -151,7 +151,7 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 
 #### 5. Update release note.
 * API Change/Breaking Change/New and noteworthy
-* Thank you
+* Thank you ([use this tool](https://vscode-tools.azurewebsites.net/))
 
 #### 6. Publish
 
