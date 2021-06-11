@@ -576,7 +576,7 @@ function tagToString(tag: ts.JSDocTagInfo): string {
 		tagLabel += `\`${paramName.text}\``;
 		if (rest.length > 0) tagLabel += ` — ${rest.map(r => r.text).join(' ')}`;
 	} else if (tag.text) {
-		tagLabel += ` — ${tag.text}`;
+		tagLabel += ` — ${tag.text.map(r => r.text).join(' ')}`;
 	}
 	return tagLabel;
 }
