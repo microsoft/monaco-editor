@@ -240,7 +240,7 @@ export const language = {
 
 			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
 			[
-				/\/(?=([^\\\/]|\\.)+\/([gimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
+				/\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
 				{ token: 'regexp', bracket: '@open', next: '@regexp' }
 			],
 
@@ -313,7 +313,7 @@ export const language = {
 			[/@regexpesc/, 'regexp.escape'],
 			[/\\\./, 'regexp.invalid'],
 			[
-				/(\/)([gimsuy]*)/,
+				/(\/)([dgimsuy]*)/,
 				[{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']
 			]
 		],

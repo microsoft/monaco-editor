@@ -652,7 +652,7 @@ testTokenization('javascript', [
 
 	[
 		{
-			line: '/foo/gimsuy',
+			line: '/foo/dgimsuy',
 			tokens: [
 				{ startIndex: 0, type: 'regexp.js' },
 				{ startIndex: 5, type: 'keyword.other.js' }

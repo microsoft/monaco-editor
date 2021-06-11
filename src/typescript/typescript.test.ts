@@ -674,7 +674,7 @@ testTokenization('typescript', [
 
 	[
 		{
-			line: '/foo/gimsuy',
+			line: '/foo/dgimsuy',
 			tokens: [
 				{ startIndex: 0, type: 'regexp.ts' },
 				{ startIndex: 5, type: 'keyword.other.ts' }
