@@ -35,7 +35,7 @@ function getModifier(modifiers) {
     }
 }
 
-const tokenPattern = new RegExp('(?<=\\[)([a-zA-Z]+)((?:\\.[a-zA-Z]+)*)(?=\\])', 'g');
+const tokenPattern = new RegExp('([a-zA-Z]+)((?:\\.[a-zA-Z]+)*)', 'g');
 
 monaco.languages.registerDocumentSemanticTokensProvider('plaintext', {
     getLegend: function () {
