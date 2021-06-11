@@ -1,6 +1,6 @@
 {
 	"name": "monaco-css",
-	"version": "3.4.0",
+	"version": "3.5.0",
 	"description": "CSS, LESS and SCSS plugin for the Monaco Editor",
 	"scripts": {
 		"compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json && node ./scripts/dts && prettier --write ./monaco.d.ts",
