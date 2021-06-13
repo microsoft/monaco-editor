@@ -8,6 +8,12 @@ import { testTokenization } from '../test/testRunner';
 testTokenization('restructuredtext', [
 	[
 		{
+			line: 'some property = Text::ProxyLibrary::ProxyInterfaceTest::DeleteProxyInterface();',
+			tokens: [{ startIndex: 0, type: '' }]
+		}
+	],
+	[
+		{
 			line: '#####',
 			tokens: [{ startIndex: 0, type: 'keyword.rst' }]
 		}
