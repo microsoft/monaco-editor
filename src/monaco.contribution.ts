@@ -22,7 +22,7 @@ export interface HTMLFormatConfiguration {
 }
 
 export interface CompletionConfiguration {
-	[providerId: string]: boolean;
+	readonly [providerId: string]: boolean;
 }
 
 export interface Options {
@@ -167,23 +167,12 @@ const formatDefaults: Required<HTMLFormatConfiguration> = {
 	wrapAttributes: 'auto'
 };
 
-const htmlOptionsDefault: Required<Options> = {
+const optionsDefault: Required<Options> = {
 	format: formatDefaults,
-	suggest: { html5: true, angular1: true, ionic: true },
+	suggest: {},
 	data: { useDefaultDataProvider: true }
 };
 
-const handlebarOptionsDefault: Required<Options> = {
-	format: formatDefaults,
-	suggest: { html5: true },
-	data: { useDefaultDataProvider: true }
-};
-
-const razorOptionsDefault: Required<Options> = {
-	format: formatDefaults,
-	suggest: { html5: true, razor: true },
-	data: { useDefaultDataProvider: true }
-};
 
 function getConfigurationDefault(languageId: string): Required<ModeConfiguration> {
 	return {
@@ -208,27 +197,28 @@ const razorLanguageId = 'razor';
 
 export const htmlLanguageService = registerHTMLLanguageService(
 	htmlLanguageId,
-	htmlOptionsDefault,
+	optionsDefault,
 	getConfigurationDefault(htmlLanguageId)
 );
 export const htmlDefaults = htmlLanguageService.defaults;
 
 export const handlebarLanguageService = registerHTMLLanguageService(
 	handlebarsLanguageId,
-	handlebarOptionsDefault,
+	optionsDefault,
 	getConfigurationDefault(handlebarsLanguageId)
 );
 export const handlebarDefaults = handlebarLanguageService.defaults;
 
 export const razorLanguageService = registerHTMLLanguageService(
 	razorLanguageId,
-	razorOptionsDefault,
+	optionsDefault,
 	getConfigurationDefault(razorLanguageId)
 );
 export const razorDefaults = razorLanguageService.defaults;
 
 // export to the global based API
-(<any>languages).html = { htmlDefaults, razorDefaults, handlebarDefaults };
+(<any>languages).html = { htmlDefaults, razorDefaults, handlebarDefaults, htmlLanguageService, handlebarLanguageService, razorLanguageService, registerHTMLLanguageService };
+
 
 // --- Registration to monaco editor ---
 
@@ -249,8 +239,8 @@ export interface LanguageServiceRegistration extends IDisposable {
  */
 export function registerHTMLLanguageService(
 	languageId: string,
-	options: Options,
-	modeConfiguration: ModeConfiguration
+	options: Options = optionsDefault,
+	modeConfiguration: ModeConfiguration = getConfigurationDefault(languageId)
 ): LanguageServiceRegistration {
 	const defaults = new LanguageServiceDefaultsImpl(languageId, options, modeConfiguration);
 	let mode: IDisposable | undefined;
@@ -275,11 +265,11 @@ export interface HTMLDataConfiguration {
 	/**
 	 * Defines whether the standard HTML tags and attributes are shown
 	 */
-	useDefaultDataProvider?: boolean;
+	readonly useDefaultDataProvider?: boolean;
 	/**
 	 * Provides a set of custom data providers.
 	 */
-	dataProviders?: { [providerId: string]: HTMLDataV1 };
+	readonly dataProviders?: { [providerId: string]: HTMLDataV1 };
 }
 
 /**
@@ -287,40 +277,40 @@ export interface HTMLDataConfiguration {
  * https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md
  */
 export interface HTMLDataV1 {
-    version: 1 | 1.1;
-    tags?: ITagData[];
-    globalAttributes?: IAttributeData[];
-    valueSets?: IValueSet[];
+	readonly version: 1 | 1.1;
+	readonly tags?: ITagData[];
+	readonly globalAttributes?: IAttributeData[];
+	readonly valueSets?: IValueSet[];
 }
 
 export interface IReference {
-    name: string;
-    url: string;
+	readonly name: string;
+	readonly url: string;
 }
 export interface ITagData {
-    name: string;
-    description?: string | MarkupContent;
-    attributes: IAttributeData[];
-    references?: IReference[];
+	readonly name: string;
+	readonly description?: string | MarkupContent;
+	readonly attributes: IAttributeData[];
+	readonly references?: IReference[];
 }
 export interface IAttributeData {
-    name: string;
-    description?: string | MarkupContent;
-    valueSet?: string;
-    values?: IValueData[];
-    references?: IReference[];
+	readonly name: string;
+	readonly description?: string | MarkupContent;
+	readonly valueSet?: string;
+	readonly values?: IValueData[];
+	readonly references?: IReference[];
 }
 export interface IValueData {
-    name: string;
-    description?: string | MarkupContent;
-    references?: IReference[];
+	readonly name: string;
+	readonly description?: string | MarkupContent;
+	readonly references?: IReference[];
 }
 export interface IValueSet {
-    name: string;
-    values: IValueData[];
+	readonly name: string;
+	readonly values: IValueData[];
 }
 export interface MarkupContent {
-    kind: MarkupKind;
-    value: string;
+	readonly kind: MarkupKind;
+	readonly value: string;
 }
 export declare type MarkupKind = 'plaintext' | 'markdown';

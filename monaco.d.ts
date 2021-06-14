@@ -21,7 +21,7 @@ declare namespace monaco.languages.html {
 		readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
 	}
 	export interface CompletionConfiguration {
-		[providerId: string]: boolean;
+		readonly [providerId: string]: boolean;
 	}
 	export interface Options {
 		/**
@@ -113,18 +113,18 @@ declare namespace monaco.languages.html {
 	 */
 	export function registerHTMLLanguageService(
 		languageId: string,
-		options: Options,
-		modeConfiguration: ModeConfiguration
+		options?: Options,
+		modeConfiguration?: ModeConfiguration
 	): LanguageServiceRegistration;
 	export interface HTMLDataConfiguration {
 		/**
 		 * Defines whether the standard HTML tags and attributes are shown
 		 */
-		useDefaultDataProvider?: boolean;
+		readonly useDefaultDataProvider?: boolean;
 		/**
 		 * Provides a set of custom data providers.
 		 */
-		dataProviders?: {
+		readonly dataProviders?: {
 			[providerId: string]: HTMLDataV1;
 		};
 	}
@@ -133,40 +133,40 @@ declare namespace monaco.languages.html {
 	 * https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md
 	 */
 	export interface HTMLDataV1 {
-		version: 1 | 1.1;
-		tags?: ITagData[];
-		globalAttributes?: IAttributeData[];
-		valueSets?: IValueSet[];
+		readonly version: 1 | 1.1;
+		readonly tags?: ITagData[];
+		readonly globalAttributes?: IAttributeData[];
+		readonly valueSets?: IValueSet[];
 	}
 	export interface IReference {
-		name: string;
-		url: string;
+		readonly name: string;
+		readonly url: string;
 	}
 	export interface ITagData {
-		name: string;
-		description?: string | MarkupContent;
-		attributes: IAttributeData[];
-		references?: IReference[];
+		readonly name: string;
+		readonly description?: string | MarkupContent;
+		readonly attributes: IAttributeData[];
+		readonly references?: IReference[];
 	}
 	export interface IAttributeData {
-		name: string;
-		description?: string | MarkupContent;
-		valueSet?: string;
-		values?: IValueData[];
-		references?: IReference[];
+		readonly name: string;
+		readonly description?: string | MarkupContent;
+		readonly valueSet?: string;
+		readonly values?: IValueData[];
+		readonly references?: IReference[];
 	}
 	export interface IValueData {
-		name: string;
-		description?: string | MarkupContent;
-		references?: IReference[];
+		readonly name: string;
+		readonly description?: string | MarkupContent;
+		readonly references?: IReference[];
 	}
 	export interface IValueSet {
-		name: string;
-		values: IValueData[];
+		readonly name: string;
+		readonly values: IValueData[];
 	}
 	export interface MarkupContent {
-		kind: MarkupKind;
-		value: string;
+		readonly kind: MarkupKind;
+		readonly value: string;
 	}
 	export type MarkupKind = 'plaintext' | 'markdown';
 }
