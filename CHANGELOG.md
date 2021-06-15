@@ -1,7 +1,10 @@
 # Monaco Editor Changelog
 
-## [0.25.0] (11.06.2021)
+## [0.25.1] (15.06.2021)
 
+* fixes that [`registerHTMLLanguageService` is not available in the AMD version of the monaco-html contribution](https://github.com/microsoft/monaco-editor/issues/2525).
+
+## [0.25.0] (11.06.2021)
 * added a new feature `inlineSuggest` that features a provider api and new settings.
 * added `suggest.preview` to toggle previewing the selected suggest item.
 * added `suggest.showDeprecated`
