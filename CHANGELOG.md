@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.25.2] (17.06.2021)
+
+* fixes a problem that [certain characters could not be typed on non-US keyboards](https://github.com/microsoft/monaco-editor/issues/2533).
+
 ## [0.25.1] (15.06.2021)
 
 * fixes that [`registerHTMLLanguageService` is not available in the AMD version of the monaco-html contribution](https://github.com/microsoft/monaco-editor/issues/2525).
