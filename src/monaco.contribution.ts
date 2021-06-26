@@ -50,6 +50,7 @@ import './powerquery/powerquery.contribution';
 import './powershell/powershell.contribution';
 import './pug/pug.contribution';
 import './python/python.contribution';
+import './qsharp/qsharp.contribution';
 import './r/r.contribution';
 import './razor/razor.contribution';
 import './redis/redis.contribution';
