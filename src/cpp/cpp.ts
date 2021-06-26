@@ -347,10 +347,12 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@doccomment'],
 			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*\\$/, 'comment', '@comment'],
 			[/\/\/.*$/, 'comment']
 		],
 
 		comment: [
+			[/.*[^\\]$/, 'comment', '@pop'],
 			[/[^\/*]+/, 'comment'],
 			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
