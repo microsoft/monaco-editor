@@ -253,7 +253,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 			entry,
 			undefined,
 			undefined,
-			undefined, 
+			undefined,
 			undefined
 		);
 	}
@@ -414,6 +414,29 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	async updateExtraLibs(extraLibs: IExtraLibs): Promise<void> {
 		this._extraLibs = extraLibs;
+	}
+
+	async provideInlayHints(fileName: string, start: number, end: number): Promise<readonly ts.InlayHint[]> {
+		if (fileNameIsLib(fileName)) {
+			return [];
+		}
+		const preferences: ts.InlayHintsOptions = {
+			includeInlayParameterNameHints: "all"
+		};
+		const span: ts.TextSpan = {
+			start,
+			length: end - start
+		}
+
+		try {
+			return this._languageService.provideInlayHints(
+				fileName,
+				span,
+				preferences
+			);
+		} catch {
+			return [];
+		}
 	}
 }
 

@@ -81,7 +81,7 @@ function setupMode(
 	);
 	languages.registerCodeActionProvider(modeId, new languageFeatures.CodeActionAdaptor(worker));
 	languages.registerRenameProvider(modeId, new languageFeatures.RenameAdapter(worker));
+	languages.registerInlayHintsProvider(modeId, new languageFeatures.InlayHintsAdapter(worker));
 	new languageFeatures.DiagnosticsAdapter(libFiles, defaults, modeId, worker);
-
 	return worker;
 }

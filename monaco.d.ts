@@ -413,6 +413,12 @@ declare namespace monaco.languages.typescript {
 			errorCodes: number[],
 			formatOptions: any
 		): Promise<ReadonlyArray<any>>;
+		/**
+	 	* Get inlay hints in the range of the file.
+	 	* @param fileName
+	 	* @returns `Promise<typescript.InlayHint[]>`
+	 	*/
+		provideInlayHints(fileName: string, start: number, end: number): Promise<ReadonlyArray<any>>;
 	}
 	export const typescriptVersion: string;
 	export const typescriptDefaults: LanguageServiceDefaults;
