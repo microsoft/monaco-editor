@@ -5,8 +5,30 @@
 
 import type { languages } from '../fillers/monaco-editor-core';
 
+export const conf: languages.LanguageConfiguration = {
+	comments: {
+		lineComment: '//'
+	},
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
+	],
+	autoClosingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"', notIn: ['string', 'comment'] }
+	],
+	surroundingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' }
+	]
+};
 
-export const language = <languages.IMonarchLanguage> {
+export const language = <languages.IMonarchLanguage>{
 	// Set defaultToken to invalid to see what you do not tokenize yet
 	defaultToken: 'invalid',
 
@@ -45,7 +67,7 @@ export const language = <languages.IMonarchLanguage> {
 		'intrinsic',
 		'let',
 		'set',
-		'w\/',
+		'w/',
 		'new',
 		'not',
 		'and',
@@ -55,7 +77,7 @@ export const language = <languages.IMonarchLanguage> {
 		'using',
 		'borrowing',
 		'mutable'
-	  ],
+	],
 
 	typeKeywords: [
 		'Unit',
@@ -136,16 +158,7 @@ export const language = <languages.IMonarchLanguage> {
 		'volatile'
 	],
 
-	constants: [
-		'true',
-		'false',
-		'PauliI',
-		'PauliX',
-		'PauliY',
-		'PauliZ',
-		'One',
-		'Zero'
-	],
+	constants: ['true', 'false', 'PauliI', 'PauliX', 'PauliY', 'PauliZ', 'One', 'Zero'],
 
 	builtin: [
 		'X',
@@ -179,101 +192,104 @@ export const language = <languages.IMonarchLanguage> {
 	],
 
 	operators: [
-	  'and=',
-	  '<-',
-	  '->',
-	  '*',
-	  '*=',
-	  '@',
-	  '!',
-	  '^',
-	  '^=',
-	  ':',
-	  '::',
-	  '..',
-	  '==',
-	  '...',
-	  '=',
-	  '=>',
-	  '>',
-	  '>=',
-	  '<',
-	  '<=',
-	  '-',
-	  '-=',
-	  '!=',
-	  'or=',
-	  '%',
-	  '%=',
-	  '|',
-	  '+',
-	  '+=',
-	  '?',
-	  '/',
-	  '/=',
-	  '&&&',
-	  '&&&=',
-	  '^^^',
-	  '^^^=',
-	  '>>>',
-	  '>>>=',
-	  '<<<',
-	  '<<<=',
-	  '|||',
-	  '|||=',
-	  '~~~',
-	  '_',
-	  'w/',
-	  'w/='
+		'and=',
+		'<-',
+		'->',
+		'*',
+		'*=',
+		'@',
+		'!',
+		'^',
+		'^=',
+		':',
+		'::',
+		'..',
+		'==',
+		'...',
+		'=',
+		'=>',
+		'>',
+		'>=',
+		'<',
+		'<=',
+		'-',
+		'-=',
+		'!=',
+		'or=',
+		'%',
+		'%=',
+		'|',
+		'+',
+		'+=',
+		'?',
+		'/',
+		'/=',
+		'&&&',
+		'&&&=',
+		'^^^',
+		'^^^=',
+		'>>>',
+		'>>>=',
+		'<<<',
+		'<<<=',
+		'|||',
+		'|||=',
+		'~~~',
+		'_',
+		'w/',
+		'w/='
 	],
 
-	symbols:  /[=><!~?:&|+\-*\/\^%@._]+/,
+	symbols: /[=><!~?:&|+\-*\/\^%@._]+/,
 
 	escapes: /\\[\s\S]/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
-	  root: [
-		// identifiers and keywords
-		[/[a-zA-Z_$][\w$]*/, { cases: { '@typeKeywords': 'type',
-									 '@keywords': 'keyword',
-									 '@constants': 'constant',
-									 '@builtin': 'keyword',
-									 '@invalidKeywords': 'invalid',
-									 '@default': 'identifier'
-									 } }],
+		root: [
+			// identifiers and keywords
+			[
+				/[a-zA-Z_$][\w$]*/,
+				{
+					cases: {
+						'@typeKeywords': 'type',
+						'@keywords': 'keyword',
+						'@constants': 'constant',
+						'@builtin': 'keyword',
+						'@invalidKeywords': 'invalid',
+						'@default': 'identifier'
+					}
+				}
+			],
 
-		// whitespace
-		{ include: '@whitespace' },
+			// whitespace
+			{ include: '@whitespace' },
 
-		// delimiters and operators
-		[/[{}()\[\]]/, '@brackets'],
-		[/@symbols/, { cases: { '@operators': 'operator',
-								'@default'  : '' } } ],
+			// delimiters and operators
+			[/[{}()\[\]]/, '@brackets'],
+			[/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
 
+			// numbers
+			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+			[/\d+/, 'number'],
 
-		// numbers
-		[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
-		[/\d+/, 'number'],
+			// delimiter: after number because of .\d floats
+			[/[;,.]/, 'delimiter'],
 
-		// delimiter: after number because of .\d floats
-		[/[;,.]/, 'delimiter'],
+			// strings
+			//[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }]
+		],
 
-		// strings
-		//[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-		[/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+		string: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
+		],
 
-	  ],
-
-	  string: [
-		[/[^\\"]+/,  'string'],
-		[/@escapes/, 'string.escape'],
-		[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
-	  ],
-
-	  whitespace: [
-		[/[ \t\r\n]+/, 'white'],
-		[/(\/\/).*/,    'comment']
-	  ],
-	},
-  };
+		whitespace: [
+			[/[ \t\r\n]+/, 'white'],
+			[/(\/\/).*/, 'comment']
+		]
+	}
+};
