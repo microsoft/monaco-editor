@@ -81,6 +81,7 @@ export const language = <languages.IMonarchLanguage>{
 		'enum',
 		'extension',
 		'fallthrough',
+		'fileprivate',
 		'final',
 		'for',
 		'func',
