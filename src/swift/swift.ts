@@ -55,7 +55,7 @@ export const language = <languages.IMonarchLanguage>{
 		'@IBInspectable',
 		'@IBOutlet'
 	],
-	accessmodifiers: ['public', 'private', 'internal'],
+	accessmodifiers: ['public', 'private', 'fileprivate', 'internal'],
 	keywords: [
 		'__COLUMN__',
 		'__FILE__',
@@ -81,6 +81,7 @@ export const language = <languages.IMonarchLanguage>{
 		'enum',
 		'extension',
 		'fallthrough',
+		'fileprivate',
 		'final',
 		'for',
 		'func',
