@@ -64,6 +64,7 @@ import './scss/scss.contribution';
 import './shell/shell.contribution';
 import './solidity/solidity.contribution';
 import './sophia/sophia.contribution';
+import './sparql/sparql.contribution';
 import './sql/sql.contribution';
 import './st/st.contribution';
 import './swift/swift.contribution';
