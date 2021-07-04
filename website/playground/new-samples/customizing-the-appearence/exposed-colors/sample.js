@@ -104,6 +104,7 @@ monaco.editor.create(document.getElementById("container"), {
 'editorWhitespace.foreground' // Color of whitespace characters in the editor.
 'editorIndentGuide.background' // Color of the editor indentation guides.
 'editorLineNumber.foreground' // Color of editor line numbers.
+'editorLineNumber.activeForeground' // Color of editor active line number.
 'editorRuler.foreground' // Color of the editor rulers.
 'editorCodeLens.foreground' // Foreground color of editor code lenses
 'editorBracketMatch.background' // Background color behind matching brackets
