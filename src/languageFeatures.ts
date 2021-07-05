@@ -157,6 +157,10 @@ function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation
 	};
 }
 
+function toCommand(c: htmlService.Command | undefined): languages.Command {
+	return c ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
+}
+
 export class CompletionAdapter implements languages.CompletionItemProvider {
 	constructor(private _worker: WorkerAccessor) { }
 
@@ -195,6 +199,7 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 						sortText: entry.sortText,
 						filterText: entry.filterText,
 						documentation: entry.documentation,
+						command: toCommand(entry.command),
 						detail: entry.detail,
 						range: wordRange,
 						kind: toCompletionItemKind(entry.kind)
