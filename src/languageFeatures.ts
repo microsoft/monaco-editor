@@ -157,8 +157,8 @@ function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation
 	};
 }
 
-function toCommand(c: htmlService.Command | undefined): languages.Command {
-	return c ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
+function toCommand(c: cssService.Command | undefined): languages.Command {
+	return c && c.command === 'editor.action.triggerSuggest' ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
 }
 
 export class CompletionAdapter implements languages.CompletionItemProvider {
