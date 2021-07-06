@@ -30,8 +30,6 @@ export const conf: languages.LanguageConfiguration = {
 
 export const language = <languages.IMonarchLanguage>{
 	// Set defaultToken to invalid to see what you do not tokenize yet
-	defaultToken: 'invalid',
-
 	keywords: [
 		'namespace',
 		'open',
@@ -240,6 +238,8 @@ export const language = <languages.IMonarchLanguage>{
 		'w/='
 	],
 
+	namespaceFollows: ['namespace', 'open'],
+
 	symbols: /[=><!~?:&|+\-*\/\^%@._]+/,
 
 	escapes: /\\[\s\S]/,
@@ -252,6 +252,10 @@ export const language = <languages.IMonarchLanguage>{
 				/[a-zA-Z_$][\w$]*/,
 				{
 					cases: {
+						'@namespaceFollows': {
+							token: 'keyword.$0',
+							next: '@namespace'
+						},
 						'@typeKeywords': 'type',
 						'@keywords': 'keyword',
 						'@constants': 'constant',
@@ -285,6 +289,13 @@ export const language = <languages.IMonarchLanguage>{
 			[/[^\\"]+/, 'string'],
 			[/@escapes/, 'string.escape'],
 			[/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
+		],
+
+		namespace: [
+			{ include: '@whitespace' },
+			[/[A-Za-z]\w*/, 'namespace'],
+			[/[\.=]/, 'delimiter'],
+			['', '', '@pop']
 		],
 
 		whitespace: [
