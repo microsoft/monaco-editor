@@ -157,7 +157,7 @@ function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation
 	};
 }
 
-function toCommand(c: cssService.Command | undefined): languages.Command {
+function toCommand(c: htmlService.Command | undefined): languages.Command {
 	return c && c.command === 'editor.action.triggerSuggest' ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
 }
 
