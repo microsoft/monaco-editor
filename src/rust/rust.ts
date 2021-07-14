@@ -270,9 +270,6 @@ export const language = <languages.IMonarchLanguage>{
 
 	tokenizer: {
 		root: [
-			// Raw string literals
-			[/r(?=#*")/, { token: 'string.raw', bracket: '@open', next: '@stringraw' }],
-			[
 				/[a-zA-Z][a-zA-Z0-9_]*!?|_[a-zA-Z0-9_]+/,
 				{
 					cases: {

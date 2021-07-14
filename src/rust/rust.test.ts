@@ -23,44 +23,6 @@ testTokenization('rust', [
 			]
 		}
 	],
-	// Raw String
-	[
-		{
-			line: 'r"This is a raw string" ',
-			tokens: [
-				{ startIndex: 0, type: 'string.raw.rust' },
-				{ startIndex: 23, type: 'white.rust' },
-			]
-		}
-	],
-	[
-		{
-			line: 'r#"This is a raw string"# ',
-			tokens: [
-				{ startIndex: 0, type: 'string.raw.rust' },
-				{ startIndex: 25, type: 'white.rust' },
-			]
-		}
-	],
-	[
-		{
-			line: 'r##"This is a# raw string"## ',
-			tokens: [
-				{ startIndex: 0, type: 'string.raw.rust' },
-				{ startIndex: 28, type: 'white.rust' },
-			]
-		}
-	],
-	[
-		{
-			line: 'r###"This is ##"#"##a raw### string"### ',
-			tokens: [
-				{ startIndex: 0, type: 'string.raw.rust' },
-				{ startIndex: 39, type: 'white.rust' },
-			]
-		}
-	],
-	
 	// Byte literal
 	[
 		{
