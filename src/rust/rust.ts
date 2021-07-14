@@ -270,6 +270,7 @@ export const language = <languages.IMonarchLanguage>{
 
 	tokenizer: {
 		root: [
+			[
 				/[a-zA-Z][a-zA-Z0-9_]*!?|_[a-zA-Z0-9_]+/,
 				{
 					cases: {
@@ -325,10 +326,6 @@ export const language = <languages.IMonarchLanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
-		],
-		stringraw: [
-				[/[^#"]/, 'string.raw'],
-				[/(#*)".*?"\1/, { token: 'string.raw', bracket: '@close', next: '@pop' }]
 		],
 		numbers: [
 			//Octal
