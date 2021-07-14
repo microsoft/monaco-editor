@@ -186,7 +186,6 @@ export const language = <languages.IMonarchLanguage>{
 
 		// Recognize Roxygen comments
 		roxygen: [
-			[/(^$)/, { token: 'comment.doc', next: '@pop' }],
 			[
 				/@\w+/,
 				{
