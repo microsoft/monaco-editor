@@ -38,7 +38,19 @@ testTokenization('rust', [
 			]
 		}
 	],
-
+	[
+		{
+			line: "'\"'",
+			tokens: [{ startIndex: 0, type: 'string.byteliteral.rust' }]
+		}
+	],
+	[
+		{
+			line: "'\0'",
+			tokens: [{ startIndex: 0, type: 'string.byteliteral.rust' }]
+		}
+	],
+	
 	// Comment
 	[
 		{
