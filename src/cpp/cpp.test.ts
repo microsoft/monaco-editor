@@ -950,5 +950,30 @@ testTokenization('cpp', [
 				{ startIndex: 22, type: 'keyword.directive.include.end.cpp' }
 			]
 		}
+	],
+
+	[
+		// microsoft/monaco-editor#2497 : comment continuation highlighting
+		{
+			line: '// this is a comment \\',
+			tokens: [{ startIndex: 0, type: 'comment.cpp' }]
+		},
+		{
+			line: 'this is still a comment',
+			tokens: [{ startIndex: 0, type: 'comment.cpp' }]
+		},
+		{
+			line: 'int x = 1;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.int.cpp' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.cpp' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.cpp' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'number.cpp' },
+				{ startIndex: 9, type: 'delimiter.cpp' }
+			]
+		}
 	]
 ]);
