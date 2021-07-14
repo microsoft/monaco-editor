@@ -290,7 +290,7 @@ export const language = <languages.IMonarchLanguage>{
 			// Lifetime annotations
 			[/'[a-zA-Z_][a-zA-Z0-9_]*(?=[^\'])/, 'identifier'],
 			// Byte literal
-			[/'(\S)'/, 'string.byteliteral'],
+			[/'\S'/, 'string.byteliteral'],
 			// Strings
 			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
 			{ include: '@numbers' },
