@@ -347,6 +347,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@doccomment'],
 			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*\\$/, 'comment', '@linecomment'],
 			[/\/\/.*$/, 'comment']
 		],
 
@@ -355,6 +356,13 @@ export const language = <languages.IMonarchLanguage>{
 			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
 		],
+		
+		//For use with continuous line comments
+		linecomment: [
+			[/.*[^\\]$/, 'comment', '@pop'],
+			[/[^]+/, 'comment']
+		],
+		
 		//Identical copy of comment above, except for the addition of .doc
 		doccomment: [
 			[/[^\/*]+/, 'comment.doc'],
