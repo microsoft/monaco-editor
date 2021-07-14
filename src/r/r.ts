@@ -163,7 +163,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[{}\[\]()]/, '@brackets'],
 
 			{ include: '@operators' },
-
+			[/#'$/, 'comment.doc'],
 			[/#'/, 'comment.doc', '@roxygen'],
 			[/(^#.*$)/, 'comment'],
 
@@ -186,6 +186,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		// Recognize Roxygen comments
 		roxygen: [
+			[/(^$)/, { token: 'comment.doc', next: '@pop' }],
 			[
 				/@\w+/,
 				{
