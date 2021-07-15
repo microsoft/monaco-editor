@@ -163,7 +163,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[{}\[\]()]/, '@brackets'],
 
 			{ include: '@operators' },
-
+			[/#'$/, 'comment.doc'],
 			[/#'/, 'comment.doc', '@roxygen'],
 			[/(^#.*$)/, 'comment'],
 
