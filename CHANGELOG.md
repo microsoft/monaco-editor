@@ -1,5 +1,36 @@
 # Monaco Editor Changelog
 
+## [0.26.0] (15.07.2021)
+
+* added support for injected text. Use `IModelDecorationOptions.before`/`after`.
+* adds support for inlay hints provider.
+
+### Breaking Changes
+
+* CompletionItemLabel now has the property `label`, `detail` and `description` (instead of `name`, `parameters`, `qualifier` and `type`).
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [@anthony-c-martin (Anthony Martin)](https://github.com/anthony-c-martin): Add Bicep sample [PR #2541](https://github.com/microsoft/monaco-editor/pull/2541)
+
+Contributions to `monaco-languages`:
+
+* [@anjbur (Angela Burton)](https://github.com/anjbur): Add support for Q# [PR #142](https://github.com/microsoft/monaco-languages/pull/142)
+* [@maxwrlr](https://github.com/maxwrlr): Implement Syntax-Highlighting for SPARQL [PR #145](https://github.com/microsoft/monaco-languages/pull/145)
+* [@nathanrreed (Nathan Reed)](https://github.com/nathanrreed)
+  * fix c++ comment continuation highlighting #2497 [PR #143](https://github.com/microsoft/monaco-languages/pull/143)
+  * fix rust raw string highlighting #2552 [PR #146](https://github.com/microsoft/monaco-languages/pull/146)
+  * fix char literal highlighting #2481 [PR #147](https://github.com/microsoft/monaco-languages/pull/147)
+  * fix rust raw string highlighting #2086 [PR #148](https://github.com/microsoft/monaco-languages/pull/148)
+* [@qwefgh90 (Changwon Choe)](https://github.com/qwefgh90): improve a rule which freeze a page in restructuredText [PR #141](https://github.com/microsoft/monaco-languages/pull/141)
+* [@RubenRBS (Rubén Rincón Blanco)](https://github.com/RubenRBS): Add Swift fileprivate access modifier [PR #144](https://github.com/microsoft/monaco-languages/pull/144)
+
+Contributions to `monaco-typescript`:
+
+* [@spahnke (Sebastian Pahnke)](https://github.com/spahnke): Build tag text correctly for all tags [PR #81](https://github.com/microsoft/monaco-typescript/pull/81)
+
 ## [0.25.2] (17.06.2021)
 
 * fixes a problem that [certain characters could not be typed on non-US keyboards](https://github.com/microsoft/monaco-editor/issues/2533).
