@@ -24,7 +24,7 @@
 		"glob": "^7.1.6",
 		"husky": "^4.3.8",
 		"jsdom": "^16.4.0",
-		"monaco-editor-core": "0.25.0",
+		"monaco-editor-core": "0.26.0",
 		"monaco-plugin-helpers": "^1.0.3",
 		"prettier": "^2.2.1",
 		"pretty-quick": "^3.1.0",
