@@ -64,11 +64,6 @@ function bundleOne(moduleId, exclude) {
 					main: 'index'
 				},
 				{
-					name: 'minimatch',
-					location: path.join(REPO_ROOT, 'node_modules/minimatch'),
-					main: 'minimatch'
-				},
-				{
 					name: 'vscode-nls',
 					location: path.join(REPO_ROOT, '/out/amd/fillers'),
 					main: 'vscode-nls'
