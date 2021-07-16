@@ -80,7 +80,9 @@ export class WorkerManager {
 				_client = client;
 			})
 			.then((_) => {
-				return this._worker.withSyncedResources(resources);
+				if (this._worker) {
+					return this._worker.withSyncedResources(resources);
+				}
 			})
 			.then((_) => _client);
 	}
