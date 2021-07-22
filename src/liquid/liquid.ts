@@ -167,9 +167,9 @@ export const language = <languages.IMonarchLanguage>{
 			[/\{\%\s*comment\s*\%\}/, 'comment.start.liquid', '@comment'],
 			[/\{\{/, { token: '@rematch', switchTo: '@liquidState.root' }],
 			[/\{\%/, { token: '@rematch', switchTo: '@liquidState.root' }],
-			[/(<)(\w+)(\/>)/, ['delimiter.html', 'tag.html', 'delimiter.html']],
+			[/(<)([\w\-]+)(\/>)/, ['delimiter.html', 'tag.html', 'delimiter.html']],
 			[/(<)([:\w]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
-			[/(<\/)(\w+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
+			[/(<\/)([\w\-]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
 			[/</, 'delimiter.html'],
 			[/\{/, 'delimiter.html'],
 			[/[^<{]+/] // text
