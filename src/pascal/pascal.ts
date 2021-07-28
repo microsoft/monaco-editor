@@ -128,6 +128,7 @@ export const language = <languages.IMonarchLanguage>{
 		'shr',
 		'specialize',
 		'stored',
+		'strict',
 		'then',
 		'threadvar',
 		'to',
