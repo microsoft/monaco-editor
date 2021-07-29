@@ -42,8 +42,8 @@ testTokenization('flow9', [
 				{ startIndex: 1, type: 'keyword.flow' },
 				{ startIndex: 7, type: '' },
 				{ startIndex: 8, type: 'identifier.flow' },
-				{ startIndex: 13, type: '' },
-				{ startIndex: 14, type: 'number.flow' }
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'number.flow' }
 			]
 		}
 	],
@@ -131,19 +131,18 @@ testTokenization('flow9', [
 
 	[
 		{
-			line: '"""',
-			tokens: [
-				{ startIndex: 0, type: 'string.flow' },
-				{ startIndex: 1, type: 'string.escape.flow' },
-				{ startIndex: 3, type: 'string.flow' }
-			]
+			line: '""',
+			tokens: [{ startIndex: 0, type: 'string.flow' }]
 		}
 	],
 
 	[
 		{
-			line: '""',
-			tokens: [{ startIndex: 0, type: 'string.invalid.flow' }]
+			line: '"""',
+			tokens: [
+				{ startIndex: 0, type: 'string.flow' },
+				{ startIndex: 2, type: 'string.invalid.flow' }
+			]
 		}
 	]
 ]);
