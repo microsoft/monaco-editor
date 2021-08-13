@@ -242,7 +242,9 @@ export class DiagnosticsAdapter extends Adapter {
 			}
 		};
 
-		this._disposables.push(editor.onDidCreateModel((model) => onModelAdd(<IInternalEditorModel>model)));
+		this._disposables.push(
+			editor.onDidCreateModel((model) => onModelAdd(<IInternalEditorModel>model))
+		);
 		this._disposables.push(editor.onWillDisposeModel(onModelRemoved));
 		this._disposables.push(
 			editor.onDidChangeModelLanguage((event) => {
@@ -574,9 +576,9 @@ function tagToString(tag: ts.JSDocTagInfo): string {
 	if (tag.name === 'param' && tag.text) {
 		const [paramName, ...rest] = tag.text;
 		tagLabel += `\`${paramName.text}\``;
-		if (rest.length > 0) tagLabel += ` — ${rest.map(r => r.text).join(' ')}`;
+		if (rest.length > 0) tagLabel += ` — ${rest.map((r) => r.text).join(' ')}`;
 	} else if (Array.isArray(tag.text)) {
-		tagLabel += ` — ${tag.text.map(r => r.text).join(' ')}`;
+		tagLabel += ` — ${tag.text.map((r) => r.text).join(' ')}`;
 	} else if (tag.text) {
 		tagLabel += ` — ${tag.text}`;
 	}
@@ -793,16 +795,14 @@ export class DefinitionAdapter extends Adapter {
 					range: this._textSpanToRange(refModel, entry.textSpan)
 				});
 			} else {
-				const matchedLibFile = typescriptDefaults.getExtraLibs()[entry.fileName]
+				const matchedLibFile = typescriptDefaults.getExtraLibs()[entry.fileName];
 				if (matchedLibFile) {
 					const libModel = editor.createModel(matchedLibFile.content, 'typescript', uri);
 					return {
 						uri: uri,
 						range: this._textSpanToRange(libModel, entry.textSpan)
-					}
+					};
 				}
-
-
 			}
 		}
 		return result;
@@ -894,7 +894,7 @@ export class OutlineAdapter extends Adapter implements languages.DocumentSymbolP
 				kind: <languages.SymbolKind>(outlineTypeTable[item.kind] || languages.SymbolKind.Variable),
 				range: this._textSpanToRange(model, item.spans[0]),
 				selectionRange: this._textSpanToRange(model, item.spans[0]),
-				tags: [],
+				tags: []
 			};
 
 			if (containerLabel) result.containerName = containerLabel;
@@ -1247,20 +1247,20 @@ export class InlayHintsAdapter extends Adapter implements languages.InlayHintsPr
 
 		const hints = await worker.provideInlayHints(fileName, start, end);
 
-		return hints.map(hint => {
+		return hints.map((hint) => {
 			return {
 				...hint,
 				position: model.getPositionAt(hint.position),
 				kind: this._convertHintKind(hint.kind)
-			}
-		})
+			};
+		});
 	}
 
-	private _convertHintKind (kind?: ts.InlayHintKind) {
+	private _convertHintKind(kind?: ts.InlayHintKind) {
 		switch (kind) {
-			case "Parameter":
+			case 'Parameter':
 				return languages.InlayHintKind.Parameter;
-			case "Type":
+			case 'Type':
 				return languages.InlayHintKind.Type;
 			default:
 				return languages.InlayHintKind.Other;
