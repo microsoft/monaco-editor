@@ -310,6 +310,11 @@ function toTextEdit(textEdit: jsonService.TextEdit): editor.ISingleEditOperation
 		range: toRange(textEdit.range),
 		text: textEdit.newText
 	};
+
+}
+
+function toCommand(c: jsonService.Command | undefined): languages.Command {
+	return c && c.command === 'editor.action.triggerSuggest' ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
 }
 
 export class CompletionAdapter implements languages.CompletionItemProvider {
@@ -351,6 +356,7 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 						filterText: entry.filterText,
 						documentation: entry.documentation,
 						detail: entry.detail,
+						command: toCommand(entry.command),
 						range: wordRange,
 						kind: toCompletionItemKind(entry.kind)
 					};
