@@ -1,4 +1,4 @@
-// Add additonal d.ts files to the JavaScript language service and change.
+// Add additional d.ts files to the JavaScript language service and change.
 // Also change the default compilation options.
 // The sample below shows how a class Facts is declared and introduced
 // to the system and how the compiler is told to use ES6 (target=2).
