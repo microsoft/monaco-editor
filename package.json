@@ -29,7 +29,7 @@
   "homepage": "https://github.com/Microsoft/monaco-editor-webpack-plugin#readme",
   "peerDependencies": {
     "webpack": "^4.5.0 || 5.x",
-    "monaco-editor": "0.25.x || 0.26.x"
+    "monaco-editor": "0.25.x || 0.26.x || 0.27.x"
   },
   "devDependencies": {
     "css-loader": "^5.1.1",
