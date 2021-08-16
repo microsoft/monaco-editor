@@ -1,9 +1,34 @@
 # Monaco Editor Changelog
 
+## [0.27.0] (16.08.2021)
+
+* added property `inlineClassName` to style injected text
+* added option `foldingImportsByDefault`
+* added more JSON diagnostic options.
+
+### Breaking Change
+
+* changed `seedSearchStringFromSelection` from boolean to `'never' | 'always' 'selection'`
+* changed suggestion preview mode `subwordDiff` to `subwordSmart`, introduced `subword`
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [@Surm4 (Marcin)](https://github.com/Surm4): Exposed colors sample update in the playground. [PR #2561](https://github.com/microsoft/monaco-editor/pull/2561)
+
+Contributions to `monaco-languages`:
+
+* [@alefragnani (Alessandro Fragnani)](https://github.com/alefragnani): Adds `strict` keyword to Pascal language [PR #153](https://github.com/microsoft/monaco-languages/pull/153)
+* [@jonatanklosko (Jonatan Kłosko)](https://github.com/jonatanklosko): Properly tokenize fence closing in GitHub style code blocks [PR #149](https://github.com/microsoft/monaco-languages/pull/149)
+* [@kupiakos (Alyssa Haroldsen)](https://github.com/kupiakos): Remove ' as an auto-closing pair for Rust [PR #151](https://github.com/microsoft/monaco-languages/pull/151)
+* [@lofcz (Matěj Štágl)](https://github.com/lofcz): Fix razor + liquid render of tags with a dash symbol [PR #150](https://github.com/microsoft/monaco-languages/pull/150)
+
+
 ## [0.26.0] (15.07.2021)
 
 * added support for injected text. Use `IModelDecorationOptions.before`/`after`.
-* adds support for inlay hints provider.
+* added support for inlay hints provider.
 
 ### Breaking Changes
 
