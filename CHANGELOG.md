@@ -24,6 +24,9 @@ Contributions to `monaco-languages`:
 * [@kupiakos (Alyssa Haroldsen)](https://github.com/kupiakos): Remove ' as an auto-closing pair for Rust [PR #151](https://github.com/microsoft/monaco-languages/pull/151)
 * [@lofcz (Matěj Štágl)](https://github.com/lofcz): Fix razor + liquid render of tags with a dash symbol [PR #150](https://github.com/microsoft/monaco-languages/pull/150)
 
+## [0.26.1] (15.07.2021)
+
+* fixes [minimatch dependency issue](https://github.com/microsoft/monaco-editor/issues/2578) by downgrading the monaco-json dependency.
 
 ## [0.26.0] (15.07.2021)
 
