@@ -273,7 +273,7 @@ export const language = <languages.IMonarchLanguage>{
 	// we include these common regular expressions
 	symbols: /[=><!~?:&|+\-*\/\^%]+/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
-	integersuffix: /((l|L|ll|LL)?(u|U)?)|((u|U)?(l|L|ll|LL)?)/,
+	integersuffix: /([uU](ll|LL|l|L)|(ll|LL|l|L)?[uU]?)/,
 	floatsuffix: /[fFlL]?/,
 	encoding: /u|u8|U|L/,
 
@@ -356,13 +356,13 @@ export const language = <languages.IMonarchLanguage>{
 			[/\*\//, 'comment', '@pop'],
 			[/[\/*]/, 'comment']
 		],
-		
+
 		//For use with continuous line comments
 		linecomment: [
 			[/.*[^\\]$/, 'comment', '@pop'],
 			[/[^]+/, 'comment']
 		],
-		
+
 		//Identical copy of comment above, except for the addition of .doc
 		doccomment: [
 			[/[^\/*]+/, 'comment.doc'],
