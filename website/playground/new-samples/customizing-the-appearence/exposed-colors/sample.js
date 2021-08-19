@@ -140,7 +140,7 @@ monaco.editor.create(document.getElementById("container"), {
 'peekViewEditor.matchHighlightBackground' // Match highlight color in the peek view editor.
 
 /*
-var colors = require('vs/platform/registry/common/platform').Registry.data['base.contributions.colors'].colorSchema.properties
+var colors = require('vs/platform/registry/common/platform').Registry.data.get('base.contributions.colors').colorSchema.properties
 Object.keys(colors).forEach(function(key) {
     var val = colors[key];
     console.log( '//' + val.description + '\n' + key);
