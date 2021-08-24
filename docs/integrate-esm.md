@@ -4,6 +4,7 @@
   - [Option 1: Using the Monaco Editor Loader Plugin](#option-1-using-the-monaco-editor-loader-plugin)
   - [Option 2: Using plain webpack](#option-2-using-plain-webpack)
 - [Parcel](#using-parcel)
+- [Vite](#using-vite)
 
 ### Using webpack
 
@@ -184,3 +185,41 @@ parcel build $ROOT/editor/editor.worker.js $OPTS
 Then, simply run `sh ./build_workers.sh && parcel index.html`. This builds the workers into the same directory as your main bundle (usually `./dist`). If you want to change the `--out-dir` of the workers, you must change the paths in `index.js` to reflect their new location.
 
 *note - the `getWorkerUrl` paths are relative to the build directory of your src bundle*
+
+---
+
+### Using Vite
+
+Adding monaco editor to [Vite](https://vitejs.dev/) is simple since it has built-in support for web workers. You only need to implement the `getWorker` function (NOT the `getWorkerUrl`) to use Vite's output ([Source](https://github.com/vitejs/vite/discussions/1791#discussioncomment-321046)):
+
+```js
+import * as monaco from 'monaco-editor'
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+
+self.MonacoEnvironment = {
+  getWorker(_, label) {
+    if (label === 'json') {
+      return new jsonWorker()
+    }
+    if (label === 'css' || label === 'scss' || label === 'less') {
+      return new cssWorker()
+    }
+    if (label === 'html' || label === 'handlebars' || label === 'razor') {
+      return new htmlWorker()
+    }
+    if (label === 'typescript' || label === 'javascript') {
+      return new tsWorker()
+    }
+    return new editorWorker()
+  }
+}
+
+monaco.editor.create(document.getElementById('container'), {
+  value: "function hello() {\n\talert('Hello world!');\n}",
+  language: 'javascript'
+})
+```
