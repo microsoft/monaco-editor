@@ -154,6 +154,15 @@ declare namespace monaco.languages.typescript {
 		/** A full HTTP path to a JavaScript file which adds a function `customTSWorkerFactory` to the self inside a web-worker */
 		customWorkerPath?: string;
 	}
+	interface InlayHintsOptions {
+		readonly includeInlayParameterNameHints?: 'none' | 'literals' | 'all';
+		readonly includeInlayParameterNameHintsWhenArgumentMatchesName?: boolean;
+		readonly includeInlayFunctionParameterTypeHints?: boolean;
+		readonly includeInlayVariableTypeHints?: boolean;
+		readonly includeInlayPropertyDeclarationTypeHints?: boolean;
+		readonly includeInlayFunctionLikeReturnTypeHints?: boolean;
+		readonly includeInlayEnumMemberValueHints?: boolean;
+	}
 	interface IExtraLib {
 		content: string;
 		version: number;
@@ -212,6 +221,7 @@ declare namespace monaco.languages.typescript {
 		 */
 		readonly onDidExtraLibsChange: IEvent<void>;
 		readonly workerOptions: WorkerOptions;
+		readonly inlayHintsOptions: InlayHintsOptions;
 		/**
 		 * Get the current extra libs registered with the language service.
 		 */
@@ -413,6 +423,12 @@ declare namespace monaco.languages.typescript {
 			errorCodes: number[],
 			formatOptions: any
 		): Promise<ReadonlyArray<any>>;
+		/**
+		 * Get inlay hints in the range of the file.
+		 * @param fileName
+		 * @returns `Promise<typescript.InlayHint[]>`
+		 */
+		provideInlayHints(fileName: string, start: number, end: number): Promise<ReadonlyArray<any>>;
 	}
 	export const typescriptVersion: string;
 	export const typescriptDefaults: LanguageServiceDefaults;

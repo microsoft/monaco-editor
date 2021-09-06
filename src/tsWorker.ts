@@ -39,11 +39,13 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	private _extraLibs: IExtraLibs = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
+	private _inlayHintsOptions?: ts.InlayHintsOptions;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
 		this._compilerOptions = createData.compilerOptions;
 		this._extraLibs = createData.extraLibs;
+		this._inlayHintsOptions = createData.inlayHintsOptions;
 	}
 
 	// --- language service host ---------------
@@ -191,7 +193,9 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 				diagnostic.relatedInformation = [];
 				for (const tsRelatedDiagnostic of tsDiagnostic.relatedInformation) {
 					const relatedDiagnostic: DiagnosticRelatedInformation = { ...tsRelatedDiagnostic };
-					relatedDiagnostic.file = relatedDiagnostic.file ? { fileName: relatedDiagnostic.file.fileName } : undefined
+					relatedDiagnostic.file = relatedDiagnostic.file
+						? { fileName: relatedDiagnostic.file.fileName }
+						: undefined;
 					diagnostic.relatedInformation.push(relatedDiagnostic);
 				}
 			}
@@ -253,7 +257,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 			entry,
 			undefined,
 			undefined,
-			undefined, 
+			undefined,
 			undefined
 		);
 	}
@@ -415,12 +419,34 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	async updateExtraLibs(extraLibs: IExtraLibs): Promise<void> {
 		this._extraLibs = extraLibs;
 	}
+
+	async provideInlayHints(
+		fileName: string,
+		start: number,
+		end: number
+	): Promise<readonly ts.InlayHint[]> {
+		if (fileNameIsLib(fileName)) {
+			return [];
+		}
+		const preferences: ts.InlayHintsOptions = this._inlayHintsOptions ?? {};
+		const span: ts.TextSpan = {
+			start,
+			length: end - start
+		};
+
+		try {
+			return this._languageService.provideInlayHints(fileName, span, preferences);
+		} catch {
+			return [];
+		}
+	}
 }
 
 export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
 	extraLibs: IExtraLibs;
 	customWorkerPath?: string;
+	inlayHintsOptions?: ts.InlayHintsOptions;
 }
 
 /** The shape of the factory */

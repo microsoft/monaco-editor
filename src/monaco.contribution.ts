@@ -169,6 +169,16 @@ export interface WorkerOptions {
 	customWorkerPath?: string;
 }
 
+interface InlayHintsOptions {
+	readonly includeInlayParameterNameHints?: 'none' | 'literals' | 'all';
+	readonly includeInlayParameterNameHintsWhenArgumentMatchesName?: boolean;
+	readonly includeInlayFunctionParameterTypeHints?: boolean;
+	readonly includeInlayVariableTypeHints?: boolean;
+	readonly includeInlayPropertyDeclarationTypeHints?: boolean;
+	readonly includeInlayFunctionLikeReturnTypeHints?: boolean;
+	readonly includeInlayEnumMemberValueHints?: boolean;
+}
+
 interface IExtraLib {
 	content: string;
 	version: number;
@@ -229,6 +239,8 @@ export interface LanguageServiceDefaults {
 	readonly onDidExtraLibsChange: IEvent<void>;
 
 	readonly workerOptions: WorkerOptions;
+
+	readonly inlayHintsOptions: InlayHintsOptions;
 
 	/**
 	 * Get the current extra libs registered with the language service.
@@ -452,6 +464,13 @@ export interface TypeScriptWorker {
 		errorCodes: number[],
 		formatOptions: any
 	): Promise<ReadonlyArray<any>>;
+
+	/**
+	 * Get inlay hints in the range of the file.
+	 * @param fileName
+	 * @returns `Promise<typescript.InlayHint[]>`
+	 */
+	provideInlayHints(fileName: string, start: number, end: number): Promise<ReadonlyArray<any>>;
 }
 
 // --- TypeScript configuration and defaults ---------
@@ -467,11 +486,13 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _diagnosticsOptions!: DiagnosticsOptions;
 	private _workerOptions!: WorkerOptions;
 	private _onDidExtraLibsChangeTimeout: number;
+	private _inlayHintsOptions!: InlayHintsOptions;
 
 	constructor(
 		compilerOptions: CompilerOptions,
 		diagnosticsOptions: DiagnosticsOptions,
-		workerOptions: WorkerOptions
+		workerOptions: WorkerOptions,
+		inlayHintsOptions: InlayHintsOptions
 	) {
 		this._extraLibs = Object.create(null);
 		this._removedExtraLibs = Object.create(null);
@@ -479,6 +500,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
 		this.setWorkerOptions(workerOptions);
+		this.setInlayHintsOptions(inlayHintsOptions);
 		this._onDidExtraLibsChangeTimeout = -1;
 	}
 
@@ -492,6 +514,10 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	get workerOptions(): WorkerOptions {
 		return this._workerOptions;
+	}
+
+	get inlayHintsOptions(): InlayHintsOptions {
+		return this._inlayHintsOptions;
 	}
 
 	getExtraLibs(): IExtraLibs {
@@ -604,6 +630,11 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this._onDidChange.fire(undefined);
 	}
 
+	setInlayHintsOptions(options: InlayHintsOptions): void {
+		this._inlayHintsOptions = options || Object.create(null);
+		this._onDidChange.fire(undefined);
+	}
+
 	setMaximumWorkerIdleTime(value: number): void {}
 
 	setEagerModelSync(value: boolean) {
@@ -622,12 +653,14 @@ export const typescriptVersion: string = tsversion;
 export const typescriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: false, noSyntaxValidation: false, onlyVisible: false },
+	{},
 	{}
 );
 
 export const javascriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false, onlyVisible: false },
+	{},
 	{}
 );
 
