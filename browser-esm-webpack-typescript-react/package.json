@@ -6,16 +6,16 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"@babel/core": "^7.11.6",
-		"@babel/preset-env": "^7.11.5",
-		"@babel/preset-react": "^7.10.4",
-		"@babel/preset-typescript": "^7.10.4",
-		"@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
-		"@types/react": "^16.9.49",
-		"@types/react-dom": "^16.9.8",
-		"babel-loader": "^8.1.0",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
-		"react-refresh": "^0.8.3"
+		"@babel/core": "^7.15.5",
+		"@babel/preset-env": "^7.15.4",
+		"@babel/preset-react": "^7.14.5",
+		"@babel/preset-typescript": "^7.15.0",
+		"@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+		"@types/react": "^17.0.20",
+		"@types/react-dom": "^17.0.9",
+		"babel-loader": "^8.2.2",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-refresh": "^0.10.0"
 	}
 }
