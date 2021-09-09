@@ -177,10 +177,10 @@ minimatch@^3.0.4:
   dependencies:
     brace-expansion "^1.1.7"
 
-monaco-editor-core@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/monaco-editor-core/-/monaco-editor-core-0.25.0.tgz#6e903e58875de3163976f02a0f86193c4c3f67d5"
-  integrity sha512-PcaM+wCw2UggfECbBd/v5LDX5JtG/NS/9VAVYZj+azI2geoy6ohEpISPTJYiWRhk9yu8LxPDG6/NJXguzG2Bxg==
+monaco-editor-core@0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor-core/-/monaco-editor-core-0.27.0.tgz#2a24d1155d6331f966525e82154a0591e4b179f3"
+  integrity sha512-x7I0QiIwwvxt1lzYSoQjf1xGjtEPobFx3Zvrj+tWbJbJFsXUy11IJ6TEIZ2yRjEFzuy+vrlbcfASC6lcGg/xhw==
 
 monaco-languages@^2.4.0:
   version "2.5.0"
@@ -356,10 +356,10 @@ typescript@^4.2.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
   integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
-vscode-html-languageservice@^4.0.7:
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/vscode-html-languageservice/-/vscode-html-languageservice-4.0.7.tgz#94f2ed22c821965f828222d13b5aa541b358d992"
-  integrity sha512-P5TQMYpgxAdLs+PwpC7Lm+0lXCyQAC6kZ41YuPYNHVooC4XO7Y2+ncHBcQJVK4C9LU2cTOAl0lzq4WAxuwRHYw==
+vscode-html-languageservice@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/vscode-html-languageservice/-/vscode-html-languageservice-4.0.8.tgz#9429bacce3244dcfcb3a7172903f33b6f418db3b"
+  integrity sha512-VJ4boG3uOD5Ls0pCvml7ZkHY+f1uDuxr+wR39XrerPr7qQFAu91DRTBuOzBsp6lV3x5Vz2S835AS2ZzLNmezbg==
   dependencies:
     vscode-languageserver-textdocument "^1.0.1"
     vscode-languageserver-types "^3.16.0"
