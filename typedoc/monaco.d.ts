@@ -5818,7 +5818,7 @@ declare namespace monaco.languages {
          * *Note:* The range must be a {@link Range.isSingleLine single line} and it must
          * {@link Range.contains contain} the position at which completion has been {@link CompletionItemProvider.provideCompletionItems requested}.
          */
-        range: IRange | {
+        range?: IRange | {
             insert: IRange;
             replace: IRange;
         };
