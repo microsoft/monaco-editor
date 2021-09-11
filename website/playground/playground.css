@@ -46,6 +46,7 @@ select {
 	border-bottom: 0;
 	cursor: pointer;
 	float: right;
+	font: inherit;
 	padding-left: 16px;
 }
 .playground-page .action.run {
