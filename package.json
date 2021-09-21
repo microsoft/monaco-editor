@@ -24,7 +24,7 @@
 	"devDependencies": {
 		"husky": "^5.1.3",
 		"jsonc-parser": "^3.0.0",
-		"monaco-editor-core": "0.28.0",
+		"monaco-editor-core": "0.28.1",
 		"monaco-languages": "2.4.0",
 		"monaco-plugin-helpers": "^1.0.3",
 		"prettier": "^2.2.1",
