@@ -23,7 +23,7 @@
 	"typings": "./release/esm/monaco.contribution.d.ts",
 	"devDependencies": {
 		"husky": "^5.1.3",
-		"monaco-editor-core": "0.27.0",
+		"monaco-editor-core": "0.28.0",
 		"monaco-languages": "^2.4.0",
 		"monaco-plugin-helpers": "^1.0.3",
 		"prettier": "^2.2.1",
