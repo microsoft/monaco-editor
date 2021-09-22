@@ -1,9 +1,20 @@
 /// <reference path="../node_modules/monaco-editor-core/monaco.d.ts" />
+/// <reference path="../node_modules/monaco-typescript/monaco.d.ts" />
 define(['require', './samples'], function(require, SAMPLES) {
 
 var domutils = require('vs/base/browser/dom');
 
 var model = monaco.editor.createModel('', 'plaintext');
+
+monaco.languages.typescript.typescriptDefaults.setInlayHintsOptions({
+	includeInlayParameterNameHints: 'all',
+	includeInlayParameterNameHintsWhenArgumentMatchesName: true,
+	includeInlayFunctionParameterTypeHints: true,
+	includeInlayVariableTypeHints: true,
+	includeInlayPropertyDeclarationTypeHints: true,
+	includeInlayFunctionLikeReturnTypeHints: true,
+	includeInlayEnumMemberValueHints: true
+});
 
 var editor = monaco.editor.create(document.getElementById('container'), {
 	model: model,
@@ -293,6 +304,20 @@ function createOptions(editor) {
 		function(editor, newValue) {
 			folding = newValue;
 			editor.updateOptions({ folding: folding });
+		}
+	));
+
+
+	var bracketPairColorizationEnabled = false;
+	options.appendChild(createOptionToggle(
+		editor,
+		'bracketPairColorizationEnabled',
+		function() {
+			return (bracketPairColorizationEnabled === false ? false : true);
+		},
+		function(editor, newValue) {
+			bracketPairColorizationEnabled = newValue;
+			editor.updateOptions({ "bracketPairColorization.enabled": bracketPairColorizationEnabled, });
 		}
 	));
 }
