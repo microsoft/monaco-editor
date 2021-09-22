@@ -1,5 +1,49 @@
 # Monaco Editor Changelog
 
+## [0.28.0] (22.09.2021)
+
+* adds [support for typescript inlay hints](https://github.com/microsoft/monaco-typescript/pull/82). Inlay hints can be enabled like this:
+```ts
+monaco.languages.typescript.typescriptDefaults.setInlayHintsOptions({
+	includeInlayParameterNameHints: 'all',
+	includeInlayParameterNameHintsWhenArgumentMatchesName: true,
+	includeInlayFunctionParameterTypeHints: true,
+	includeInlayVariableTypeHints: true,
+	includeInlayPropertyDeclarationTypeHints: true,
+	includeInlayFunctionLikeReturnTypeHints: true,
+	includeInlayEnumMemberValueHints: true
+});
+```
+* adds support for bracket pair highlighting, which can be enabled by configuring `bracketPairColorization.enabled` when creating a new editor:
+```ts
+var editor = monaco.editor.create(document.getElementById('container'), {
+	model: model,
+	language: 'javascript',
+  "bracketPairColorization.enabled": true,
+});
+```
+
+* `registerCodeActionProvider` now accepts metadata to specify provided code action kinds (e.g. `quickfix`, `refactor` or `source`).
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [@SpaceComet](https://github.com/SpaceComet): Small update on the website playground [PR #2616](https://github.com/microsoft/monaco-editor/pull/2616)
+* [@thien-do (Thien Do)](https://github.com/thien-do): Add usage with Vite to ESM Integrate doc [PR #2632](https://github.com/microsoft/monaco-editor/pull/2632)
+
+Contributions to `monaco-html`:
+
+* [@Pranomvignesh (Pranom Vignesh)](https://github.com/Pranomvignesh): fix(workerManager.js) : Added a check for the existence of the worker [PR #15](https://github.com/microsoft/monaco-html/pull/15)
+
+Contributions to `monaco-languages`:
+
+* [@ladyrick (LadyRick)](https://github.com/ladyrick): fix(cpp): fix cpp language integer suffix [PR #156](https://github.com/microsoft/monaco-languages/pull/156)
+
+Contributions to `monaco-typescript`:
+
+* [@Kingwl (Wenlu Wang)](https://github.com/Kingwl): Add inlay hints support [PR #82](https://github.com/microsoft/monaco-typescript/pull/82)
+
 ## [0.27.0] (16.08.2021)
 
 * added property `inlineClassName` to style injected text
