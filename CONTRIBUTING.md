@@ -156,5 +156,10 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 #### 6. Publish
 
 * `/src/monaco-editor> npm version minor`
+* `/src/monaco-editor> npm run release`
 * `/src/monaco-editor/release> npm publish`
 * `/src/monaco-editor> git push --tags`
+
+#### 7. Update Website
+
+* `/src/monaco-editor> npm run website`
