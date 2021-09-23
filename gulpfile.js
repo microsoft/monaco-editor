@@ -472,7 +472,9 @@ function toExternalDTS(contents) {
 
 		if (line.indexOf('declare let MonacoEnvironment') === 0) {
 			lines[i] = `declare global {\n    let MonacoEnvironment: Environment | undefined;\n}`;
-			// lines[i] = line.replace('declare namespace monaco.', 'export namespace ');
+		}
+		if (line.indexOf('    MonacoEnvironment?') === 0) {
+			lines[i] = `    MonacoEnvironment?: Environment | undefined;`;
 		}
 	}
 	return lines.join('\n').replace(/\n\n\n+/g, '\n\n');
