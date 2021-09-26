@@ -50,7 +50,7 @@ function setupMode(
 		return client.getLanguageServiceWorker(...uris);
 	};
 
-	const libFiles = new languageFeatures.LibFiles(worker);
+	const libFiles = new languageFeatures.LibFiles(modeId, worker);
 
 	languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker));
 	languages.registerSignatureHelpProvider(
@@ -80,7 +80,7 @@ function setupMode(
 		new languageFeatures.FormatOnTypeAdapter(worker)
 	);
 	languages.registerCodeActionProvider(modeId, new languageFeatures.CodeActionAdaptor(worker));
-	languages.registerRenameProvider(modeId, new languageFeatures.RenameAdapter(worker));
+	languages.registerRenameProvider(modeId, new languageFeatures.RenameAdapter(libFiles, worker));
 	languages.registerInlayHintsProvider(modeId, new languageFeatures.InlayHintsAdapter(worker));
 	new languageFeatures.DiagnosticsAdapter(libFiles, defaults, modeId, worker);
 	return worker;

@@ -98,7 +98,10 @@ export class LibFiles {
 	private _hasFetchedLibFiles: boolean;
 	private _fetchLibFilesPromise: Promise<void> | null;
 
-	constructor(private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>) {
+	constructor(
+		private readonly modeId: string,
+		private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
+	) {
 		this._libFiles = {};
 		this._hasFetchedLibFiles = false;
 		this._fetchLibFilesPromise = null;
@@ -120,7 +123,16 @@ export class LibFiles {
 			return model;
 		}
 		if (this.isLibFile(uri) && this._hasFetchedLibFiles) {
-			return editor.createModel(this._libFiles[uri.path.slice(1)], 'typescript', uri);
+			return editor.createModel(this._libFiles[uri.path.slice(1)], this.modeId, uri);
+		}
+		const extraLibs = typescriptDefaults.getExtraLibs();
+		const extraLibPaths = Object.keys(extraLibs);
+		for (let i = 0; i < extraLibPaths.length; i++) {
+			const currentPath = extraLibPaths[i];
+			const currentUri = Uri.parse(currentPath);
+			if (currentUri.path === uri.path) {
+				return editor.createModel(extraLibs[currentPath].content, this.modeId, uri);
+			}
 		}
 		return null;
 	}
@@ -794,15 +806,6 @@ export class DefinitionAdapter extends Adapter {
 					uri: uri,
 					range: this._textSpanToRange(refModel, entry.textSpan)
 				});
-			} else {
-				const matchedLibFile = typescriptDefaults.getExtraLibs()[entry.fileName];
-				if (matchedLibFile) {
-					const libModel = editor.createModel(matchedLibFile.content, 'typescript', uri);
-					return {
-						uri: uri,
-						range: this._textSpanToRange(libModel, entry.textSpan)
-					};
-				}
 			}
 		}
 		return result;
@@ -1160,6 +1163,12 @@ export class CodeActionAdaptor extends FormatHelper implements languages.CodeAct
 // --- rename ----
 
 export class RenameAdapter extends Adapter implements languages.RenameProvider {
+	constructor(
+		private readonly _libFiles: LibFiles,
+		worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
+	) {
+		super(worker);
+	}
 	public async provideRenameEdits(
 		model: editor.ITextModel,
 		position: Position,
@@ -1204,7 +1213,7 @@ export class RenameAdapter extends Adapter implements languages.RenameProvider {
 		const edits: languages.WorkspaceTextEdit[] = [];
 		for (const renameLocation of renameLocations) {
 			const resource = Uri.parse(renameLocation.fileName);
-			const model = editor.getModel(resource);
+			const model = this._libFiles.getOrCreateModel(resource);
 			if (model) {
 				edits.push({
 					resource,
