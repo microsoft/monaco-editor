@@ -7,7 +7,7 @@ import type { languages } from '../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: '//',
+		lineComment: '#',
 		blockComment: ['/*', '*/']
 	},
 	brackets: [
