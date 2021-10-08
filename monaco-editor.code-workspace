@@ -4,6 +4,9 @@
 			"path": "../vscode"
 		},
 		{
+			"path": "../vscode-loc"
+		},
+		{
 			"path": "."
 		},
 		{
