@@ -293,11 +293,8 @@ export class DiagnosticsAdapter extends Adapter {
 		}
 
 		const promises: Promise<Diagnostic[]>[] = [];
-		const {
-			noSyntaxValidation,
-			noSemanticValidation,
-			noSuggestionDiagnostics
-		} = this._defaults.getDiagnosticsOptions();
+		const { noSyntaxValidation, noSemanticValidation, noSuggestionDiagnostics } =
+			this._defaults.getDiagnosticsOptions();
 		if (!noSyntaxValidation) {
 			promises.push(worker.getSyntacticDiagnostics(model.uri.toString()));
 		}
@@ -394,9 +391,8 @@ export class DiagnosticsAdapter extends Adapter {
 			}
 			const infoStart = info.start || 0;
 			const infoLength = info.length || 1;
-			const { lineNumber: startLineNumber, column: startColumn } = relatedResource.getPositionAt(
-				infoStart
-			);
+			const { lineNumber: startLineNumber, column: startColumn } =
+				relatedResource.getPositionAt(infoStart);
 			const { lineNumber: endLineNumber, column: endColumn } = relatedResource.getPositionAt(
 				infoStart + infoLength
 			);
@@ -992,7 +988,8 @@ export abstract class FormatHelper extends Adapter {
 
 export class FormatAdapter
 	extends FormatHelper
-	implements languages.DocumentRangeFormattingEditProvider {
+	implements languages.DocumentRangeFormattingEditProvider
+{
 	public async provideDocumentRangeFormattingEdits(
 		model: editor.ITextModel,
 		range: Range,
@@ -1031,7 +1028,8 @@ export class FormatAdapter
 
 export class FormatOnTypeAdapter
 	extends FormatHelper
-	implements languages.OnTypeFormattingEditProvider {
+	implements languages.OnTypeFormattingEditProvider
+{
 	get autoFormatTriggerCharacters() {
 		return [';', '}', '\n'];
 	}
