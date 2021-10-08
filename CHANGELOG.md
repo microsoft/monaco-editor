@@ -1,5 +1,46 @@
 # Monaco Editor Changelog
 
+## [0.29.0] (08.10.2021)
+
+* adds an `ariaContainerElement` option for editors
+* adds `guides.bracketPairs` to enable guides driven by bracket pairs
+* adds `maxFileSize` to control the maximum file size for which to compute diffs
+* adds `CodeActionProvider.resolveCodeAction`
+
+### Breaking Change
+
+* consolidated the options `renderIndentGuides`, `highlightActiveIndentGuide` to `guides`
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+* [@crackalak (Dan Hughes)](https://github.com/crackalak): Added `ariaContainerElement` to shadow dom test [PR #2644](https://github.com/microsoft/monaco-editor/pull/2644)
+* [@HKalbasi](https://github.com/HKalbasi): Add example for inlay hints [PR #2640](https://github.com/microsoft/monaco-editor/pull/2640)
+* [@silverwind](https://github.com/silverwind): Fix letter case in repo URL [PR #2674](https://github.com/microsoft/monaco-editor/pull/2674)
+* [@Un-index](https://github.com/Un-index): chore: Align run button text in playground.css [PR #2658](https://github.com/microsoft/monaco-editor/pull/2658)
+
+Contributions to `monaco-editor-samples`:
+
+* [@koto (Krzysztof Kotowicz)](https://github.com/koto): Added an example of loading Monaco with Trusted Types [PR #92](https://github.com/microsoft/monaco-editor-samples/pull/92)
+
+Contributions to `monaco-editor-webpack-plugin`:
+
+* [@six-ponies (马騳骉)](https://github.com/six-ponies): fix: Failed to execute 'importScripts' on 'WorkerGlobalScope': The URL xxx is invalid. [PR #160](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/160)
+
+Contributions to `monaco-languages`:
+
+* [@aaaaaa2493 (Vladimir Turov)](https://github.com/aaaaaa2493): Support Java 12-17 syntax [PR #159](https://github.com/microsoft/monaco-languages/pull/159)
+* [@mbtools (Marc Bernard)](https://github.com/mbtools): Update ABAP syntax  [PR #160](https://github.com/microsoft/monaco-languages/pull/160)
+* [@scarolan (Sean Carolan)](https://github.com/scarolan): Replace // with # for line comments [PR #158](https://github.com/microsoft/monaco-languages/pull/158)
+* [@valeriia-melnychuk (Valeriia Melnychuk)](https://github.com/valeriia-melnychuk): Implement syntax highlighting for Flow9 [PR #154](https://github.com/microsoft/monaco-languages/pull/154)
+
+Contributions to `monaco-typescript`:
+
+* [@paranoidjk (paranoidjk)](https://github.com/paranoidjk): feat: support find reference to extraLib [PR #84](https://github.com/microsoft/monaco-typescript/pull/84)
+* [@troy351](https://github.com/troy351): Add type definition of `setInlayHintsOptions` [PR #83](https://github.com/microsoft/monaco-typescript/pull/83)
+
+
 ## [0.28.0] (22.09.2021)
 
 * adds [support for typescript inlay hints](https://github.com/microsoft/monaco-typescript/pull/82). Inlay hints can be enabled like this:
