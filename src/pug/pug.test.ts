@@ -380,8 +380,7 @@ testTokenization('pug', [
 			]
 		},
 		{
-			line:
-				'        // Disclaimer: You will need to turn insertSpaces to true in order for the',
+			line: '        // Disclaimer: You will need to turn insertSpaces to true in order for the',
 			tokens: [{ startIndex: 0, type: 'comment.pug' }]
 		},
 		{

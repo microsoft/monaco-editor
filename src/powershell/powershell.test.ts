@@ -480,8 +480,7 @@ testTokenization('powershell', [
 			]
 		},
 		{
-			line:
-				'#the object info array contains hashmaps, each of which represent a parameter set and describe a target in the XenCenter resource list',
+			line: '#the object info array contains hashmaps, each of which represent a parameter set and describe a target in the XenCenter resource list',
 			tokens: [{ startIndex: 0, type: 'comment.ps1' }]
 		},
 		{
@@ -527,8 +526,7 @@ testTokenization('powershell', [
 			]
 		},
 		{
-			line:
-				'		#When the XenCenter node is selected a parameter set is created for each of your connected servers with the class and objUuid keys marked as blank',
+			line: '		#When the XenCenter node is selected a parameter set is created for each of your connected servers with the class and objUuid keys marked as blank',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 2, type: 'comment.ps1' }
@@ -622,8 +620,7 @@ testTokenization('powershell', [
 			]
 		},
 		{
-			line:
-				'		#When a disconnected server is selected there is no session information, we get null for everything except class',
+			line: '		#When a disconnected server is selected there is no session information, we get null for everything except class',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 2, type: 'comment.ps1' }
@@ -662,8 +659,7 @@ testTokenization('powershell', [
 			]
 		},
 		{
-			line:
-				'		Connect-XenServer -url $parameterSet["url"] -opaqueref $parameterSet["sessionRef"]',
+			line: '		Connect-XenServer -url $parameterSet["url"] -opaqueref $parameterSet["sessionRef"]',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 20, type: 'delimiter.ps1' },
@@ -689,16 +685,14 @@ testTokenization('powershell', [
 			]
 		},
 		{
-			line:
-				'		#-properties allows us to filter the results to just include the selected object',
+			line: '		#-properties allows us to filter the results to just include the selected object',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 2, type: 'comment.ps1' }
 			]
 		},
 		{
-			line:
-				'		$exp = "Get-XenServer:{0} -properties @{{uuid=\'{1}\'}}" -f $parameterSet["class"], $parameterSet["objUuid"]',
+			line: '		$exp = "Get-XenServer:{0} -properties @{{uuid=\'{1}\'}}" -f $parameterSet["class"], $parameterSet["objUuid"]',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 2, type: 'variable.ps1' },

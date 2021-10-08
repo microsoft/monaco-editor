@@ -107,13 +107,11 @@ testTokenization('r', [
 			tokens: [
 				{ startIndex: 0, type: 'white.r' },
 				{ startIndex: 1, type: 'comment.doc.r' }
-			]			
+			]
 		},
 		{
-			line: " ",
-			tokens: [
-				{ startIndex: 0, type: 'white.r' },
-			]
+			line: ' ',
+			tokens: [{ startIndex: 0, type: 'white.r' }]
 		}
 	],
 

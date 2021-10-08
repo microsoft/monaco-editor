@@ -425,7 +425,7 @@ export const language = <languages.IMonarchLanguage>{
 		'inner',
 		'inout',
 		'input',
-		'insert',  // also a built-in
+		'insert', // also a built-in
 		'instance',
 		'instances',
 		'instr',
@@ -1200,10 +1200,7 @@ export const language = <languages.IMonarchLanguage>{
 		'*sys*'
 	],
 
-	builtinMethods: [
-		'class_constructor',
-		'constructor'
-	],
+	builtinMethods: ['class_constructor', 'constructor'],
 
 	derivedTypes: [
 		'%CID',
@@ -1243,13 +1240,7 @@ export const language = <languages.IMonarchLanguage>{
 		'$SELF'
 	],
 
-	selectors: [
-		'->',
-		'->*',
-		'=>',
-		'~',
-		'~*'
-	],
+	selectors: ['->', '->*', '=>', '~', '~*'],
 
 	//
 	// Operators
@@ -1339,7 +1330,7 @@ export const language = <languages.IMonarchLanguage>{
 	tokenizer: {
 		root: [
 			[
-				/[a-z_\/$%@]([\w\/$%]|-(?!>))*/,  // exclude '->' selector
+				/[a-z_\/$%@]([\w\/$%]|-(?!>))*/, // exclude '->' selector
 				{
 					cases: {
 						'@typeKeywords': 'type',

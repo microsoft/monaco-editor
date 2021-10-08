@@ -9,8 +9,7 @@ testTokenization('objective-c', [
 	// Keywords
 	[
 		{
-			line:
-				'-(id) initWithParams:(id<anObject>) aHandler withDeviceStateManager:(id<anotherObject>) deviceStateManager',
+			line: '-(id) initWithParams:(id<anObject>) aHandler withDeviceStateManager:(id<anotherObject>) deviceStateManager',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 1, type: 'delimiter.parenthesis.objective-c' },

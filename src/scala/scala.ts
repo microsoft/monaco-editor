@@ -12,7 +12,8 @@ export const conf: languages.LanguageConfiguration = {
 	 * unary_<op> is allowed as an identifier.
 	 * <name>_= is allowed as an identifier.
 	 */
-	wordPattern: /(unary_[@~!#%^&*()\-=+\\|:<>\/?]+)|([a-zA-Z_$][\w$]*?_=)|(`[^`]+`)|([a-zA-Z_$][\w$]*)/g,
+	wordPattern:
+		/(unary_[@~!#%^&*()\-=+\\|:<>\/?]+)|([a-zA-Z_$][\w$]*?_=)|(`[^`]+`)|([a-zA-Z_$][\w$]*)/g,
 	comments: {
 		lineComment: '//',
 		blockComment: ['/*', '*/']

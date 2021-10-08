@@ -118,8 +118,7 @@ testTokenization(
 		// If tag / keywords / block style tags
 		[
 			{
-				line:
-					'<div>{% if true=false %}<div>True</div>{% else %}<div>False</div>{% endif %}</div>',
+				line: '<div>{% if true=false %}<div>True</div>{% else %}<div>False</div>{% endif %}</div>',
 				tokens: [
 					{ startIndex: 0, type: 'delimiter.html' },
 					{ startIndex: 1, type: 'tag.html' },
@@ -187,8 +186,7 @@ testTokenization(
 		// Raw tag
 		[
 			{
-				line:
-					'<div>Everything here should be escaped {% raw %} In Handlebars, {{ this }} will be HTML-escaped, but {{{ that }}} will not. {% endraw %}</div>',
+				line: '<div>Everything here should be escaped {% raw %} In Handlebars, {{ this }} will be HTML-escaped, but {{{ that }}} will not. {% endraw %}</div>',
 				tokens: [
 					{ startIndex: 0, type: 'delimiter.html' },
 					{ startIndex: 1, type: 'tag.html' },

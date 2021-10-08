@@ -53,8 +53,7 @@ testTokenization('dockerfile', [
 			tokens: []
 		},
 		{
-			line:
-				'ONBUILD RUN curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/kvminstall.sh | sh',
+			line: 'ONBUILD RUN curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/kvminstall.sh | sh',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.dockerfile' },
 				{ startIndex: 7, type: '' },
@@ -79,8 +78,7 @@ testTokenization('dockerfile', [
 			tokens: [{ startIndex: 0, type: 'string.dockerfile' }]
 		},
 		{
-			line:
-				'    && kvm alias default | xargs -i ln -s $KRE_USER_HOME/packages/{} $KRE_USER_HOME/packages/default"',
+			line: '    && kvm alias default | xargs -i ln -s $KRE_USER_HOME/packages/{} $KRE_USER_HOME/packages/default"',
 			tokens: [
 				{ startIndex: 0, type: 'string.dockerfile' },
 				{ startIndex: 42, type: 'variable.dockerfile' },
@@ -94,8 +92,7 @@ testTokenization('dockerfile', [
 			tokens: []
 		},
 		{
-			line:
-				'# Install libuv for Kestrel from source code (binary is not in wheezy and one in jessie is still too old)',
+			line: '# Install libuv for Kestrel from source code (binary is not in wheezy and one in jessie is still too old)',
 			tokens: [{ startIndex: 0, type: 'comment.dockerfile' }]
 		},
 		{
@@ -129,8 +126,7 @@ testTokenization('dockerfile', [
 			]
 		},
 		{
-			line:
-				'    && curl -sSL https://github.com/joyent/libuv/archive/v${LIBUV_VERSION}.tar.gz | tar zxfv - -C /usr/local/src \\',
+			line: '    && curl -sSL https://github.com/joyent/libuv/archive/v${LIBUV_VERSION}.tar.gz | tar zxfv - -C /usr/local/src \\',
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 58, type: 'variable.dockerfile' },

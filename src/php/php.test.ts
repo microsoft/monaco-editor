@@ -2258,8 +2258,7 @@ testTokenization(
 		// HTML (CSS (PHP)), HTML ( PHP, JS (PHP), PHP)
 		[
 			{
-				line:
-					'<html><style><?="div"?> { color:blue; }</style><!--<?="HTML Comment"?>--><script>var x = 3;/* <?="JS Comment"/*</script>*/?> */var y = 4;</script></html><? $x = 3;?>',
+				line: '<html><style><?="div"?> { color:blue; }</style><!--<?="HTML Comment"?>--><script>var x = 3;/* <?="JS Comment"/*</script>*/?> */var y = 4;</script></html><? $x = 3;?>',
 				tokens: [
 					{ startIndex: 0, type: 'delimiter.html' },
 					{ startIndex: 1, type: 'tag.html' },

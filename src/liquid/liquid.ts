@@ -216,7 +216,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/^(?!\{\%\s*endraw\s*\%\}).+/],
 			[/\{\%/, 'delimiter.tag.liquid'],
 			[/@identifier/],
-			[/\%\}/, { token: 'delimiter.tag.liquid', next: '@root' }],
+			[/\%\}/, { token: 'delimiter.tag.liquid', next: '@root' }]
 		],
 
 		liquidRoot: [

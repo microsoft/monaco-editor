@@ -335,8 +335,7 @@ testTokenization('systemverilog', [
 	],
 	[
 		{
-			line:
-				'typedef enum int {FAST_SIM = 0, RANDOM = 1, NOMINAL = 2, START_UP = 3} clock_plan_e;',
+			line: 'typedef enum int {FAST_SIM = 0, RANDOM = 1, NOMINAL = 2, START_UP = 3} clock_plan_e;',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.typedef.sv' },
 				{ startIndex: 7, type: '' },
