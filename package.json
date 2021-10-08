@@ -16,7 +16,7 @@
   "module": "./esm/vs/editor/editor.main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/monaco-editor"
+    "url": "https://github.com/microsoft/monaco-editor"
   },
   "devDependencies": {
     "clean-css": "^5.1.1",
