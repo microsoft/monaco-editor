@@ -114,13 +114,18 @@ export class LibFiles {
 		return false;
 	}
 
-	public getOrCreateModel(uri: Uri): editor.ITextModel | null {
+	public getOrCreateModel(fileName: string): editor.ITextModel | null {
+		const uri = Uri.parse(fileName);
 		const model = editor.getModel(uri);
 		if (model) {
 			return model;
 		}
 		if (this.isLibFile(uri) && this._hasFetchedLibFiles) {
 			return editor.createModel(this._libFiles[uri.path.slice(1)], 'typescript', uri);
+		}
+		const matchedLibFile = typescriptDefaults.getExtraLibs()[fileName];
+		if (matchedLibFile) {
+			return editor.createModel(matchedLibFile.content, 'typescript', uri);
 		}
 		return null;
 	}
@@ -381,8 +386,7 @@ export class DiagnosticsAdapter extends Adapter {
 		relatedInformation.forEach((info) => {
 			let relatedResource: editor.ITextModel | null = model;
 			if (info.file) {
-				const relatedResourceUri = Uri.parse(info.file.fileName);
-				relatedResource = this._libFiles.getOrCreateModel(relatedResourceUri);
+				relatedResource = this._libFiles.getOrCreateModel(info.file.fileName);
 			}
 
 			if (!relatedResource) {
@@ -787,22 +791,12 @@ export class DefinitionAdapter extends Adapter {
 
 		const result: languages.Location[] = [];
 		for (let entry of entries) {
-			const uri = Uri.parse(entry.fileName);
-			const refModel = this._libFiles.getOrCreateModel(uri);
+			const refModel = this._libFiles.getOrCreateModel(entry.fileName);
 			if (refModel) {
 				result.push({
-					uri: uri,
+					uri: refModel.uri,
 					range: this._textSpanToRange(refModel, entry.textSpan)
 				});
-			} else {
-				const matchedLibFile = typescriptDefaults.getExtraLibs()[entry.fileName];
-				if (matchedLibFile) {
-					const libModel = editor.createModel(matchedLibFile.content, 'typescript', uri);
-					return {
-						uri: uri,
-						range: this._textSpanToRange(libModel, entry.textSpan)
-					};
-				}
 			}
 		}
 		return result;
@@ -850,11 +844,10 @@ export class ReferenceAdapter extends Adapter implements languages.ReferenceProv
 
 		const result: languages.Location[] = [];
 		for (let entry of entries) {
-			const uri = Uri.parse(entry.fileName);
-			const refModel = this._libFiles.getOrCreateModel(uri);
+			const refModel = this._libFiles.getOrCreateModel(entry.fileName);
 			if (refModel) {
 				result.push({
-					uri: uri,
+					uri: refModel.uri,
 					range: this._textSpanToRange(refModel, entry.textSpan)
 				});
 			}
@@ -1160,6 +1153,12 @@ export class CodeActionAdaptor extends FormatHelper implements languages.CodeAct
 // --- rename ----
 
 export class RenameAdapter extends Adapter implements languages.RenameProvider {
+	constructor(
+		private readonly _libFiles: LibFiles,
+		worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
+	) {
+		super(worker);
+	}
 	public async provideRenameEdits(
 		model: editor.ITextModel,
 		position: Position,
@@ -1203,18 +1202,17 @@ export class RenameAdapter extends Adapter implements languages.RenameProvider {
 
 		const edits: languages.WorkspaceTextEdit[] = [];
 		for (const renameLocation of renameLocations) {
-			const resource = Uri.parse(renameLocation.fileName);
-			const model = editor.getModel(resource);
+			const model = this._libFiles.getOrCreateModel(renameLocation.fileName);
 			if (model) {
 				edits.push({
-					resource,
+					resource: model.uri,
 					edit: {
 						range: this._textSpanToRange(model, renameLocation.textSpan),
 						text: newName
 					}
 				});
 			} else {
-				throw new Error(`Unknown URI ${resource}.`);
+				throw new Error(`Unknown file ${renameLocation.fileName}.`);
 			}
 		}
 
