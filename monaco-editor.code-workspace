@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "../vscode"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../monaco-css"
+		},
+		{
+			"path": "../monaco-html"
+		},
+		{
+			"path": "../monaco-json"
+		},
+		{
+			"path": "../monaco-languages"
+		},
+		{
+			"path": "../monaco-typescript"
+		},
+		{
+			"path": "../monaco-editor-webpack-plugin"
+		},
+		{
+			"path": "../monaco-editor-samples"
+		},
+	]
+}
