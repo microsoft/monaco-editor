@@ -50,7 +50,7 @@ function setupMode(
 		return client.getLanguageServiceWorker(...uris);
 	};
 
-	const libFiles = new languageFeatures.LibFiles(modeId, worker);
+	const libFiles = new languageFeatures.LibFiles(worker);
 
 	languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker));
 	languages.registerSignatureHelpProvider(

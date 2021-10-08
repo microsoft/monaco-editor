@@ -98,10 +98,7 @@ export class LibFiles {
 	private _hasFetchedLibFiles: boolean;
 	private _fetchLibFilesPromise: Promise<void> | null;
 
-	constructor(
-		private readonly modeId: string,
-		private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>
-	) {
+	constructor(private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>) {
 		this._libFiles = {};
 		this._hasFetchedLibFiles = false;
 		this._fetchLibFilesPromise = null;
@@ -123,7 +120,7 @@ export class LibFiles {
 			return model;
 		}
 		if (this.isLibFile(uri) && this._hasFetchedLibFiles) {
-			return editor.createModel(this._libFiles[uri.path.slice(1)], this.modeId, uri);
+			return editor.createModel(this._libFiles[uri.path.slice(1)], 'typescript', uri);
 		}
 		const extraLibs = typescriptDefaults.getExtraLibs();
 		const extraLibPaths = Object.keys(extraLibs);
@@ -131,7 +128,7 @@ export class LibFiles {
 			const currentPath = extraLibPaths[i];
 			const currentUri = Uri.parse(currentPath);
 			if (currentUri.path === uri.path) {
-				return editor.createModel(extraLibs[currentPath].content, this.modeId, uri);
+				return editor.createModel(extraLibs[currentPath].content, 'typescript', uri);
 			}
 		}
 		return null;
