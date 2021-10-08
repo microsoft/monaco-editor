@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Microsoft/monaco-editor-webpack-plugin.git"
+    "url": "git+https://github.com/microsoft/monaco-editor-webpack-plugin.git"
   },
   "keywords": [
     "webpack",
@@ -24,9 +24,9 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Microsoft/monaco-editor-webpack-plugin/issues"
+    "url": "https://github.com/microsoft/monaco-editor-webpack-plugin/issues"
   },
-  "homepage": "https://github.com/Microsoft/monaco-editor-webpack-plugin#readme",
+  "homepage": "https://github.com/microsoft/monaco-editor-webpack-plugin#readme",
   "peerDependencies": {
     "webpack": "^4.5.0 || 5.x",
     "monaco-editor": "0.25.x || 0.26.x || 0.27.x || 0.28.x"
