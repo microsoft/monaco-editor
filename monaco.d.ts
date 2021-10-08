@@ -284,6 +284,10 @@ declare namespace monaco.languages.typescript {
 		 * to the worker on start or restart.
 		 */
 		getEagerModelSync(): boolean;
+		/**
+		 * Configure inlay hints options.
+		 */
+		setInlayHintsOptions(options: InlayHintsOptions): void;
 	}
 	export interface TypeScriptWorker {
 		/**
