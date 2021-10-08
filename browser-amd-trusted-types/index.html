@@ -12,21 +12,23 @@
 		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
 			// Allow monaco-editor to load scripts from its own paths only
-			var  scriptLoadingPolicy = {
-					createScriptURL: function allowOnlyMonacoPaths(url) {
-						if (url.indexOf('../node_modules/monaco-editor/min/vs/') === 0 &&
-						    url.lastIndexOf('..') == 0) {
-								return url;
-						}
+			var scriptLoadingPolicy = {
+				createScriptURL: function allowOnlyMonacoPaths(url) {
+					if (
+						url.indexOf('../node_modules/monaco-editor/min/vs/') === 0 &&
+						url.lastIndexOf('..') == 0
+					) {
+						return url;
 					}
+				}
 			};
 			// If browser supports Trusted Types, use them.
-			if (typeof trustedTypes !== "undefined") {
-				scriptLoadingPolicy =  trustedTypes.createPolicy('monaco-editor', scriptLoadingPolicy);
+			if (typeof trustedTypes !== 'undefined') {
+				scriptLoadingPolicy = trustedTypes.createPolicy('monaco-editor', scriptLoadingPolicy);
 			}
 			require.config({
 				paths: { vs: '../node_modules/monaco-editor/min/vs' },
-				trustedTypesPolicy: scriptLoadingPolicy,
+				trustedTypesPolicy: scriptLoadingPolicy
 			});
 
 			require(['vs/editor/editor.main'], function () {
