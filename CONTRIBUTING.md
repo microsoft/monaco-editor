@@ -163,3 +163,22 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 #### 7. Update Website
 
 * `/src/monaco-editor> npm run website`
+
+
+#### 8. Publish new webpack plugin
+
+* https://github.com/microsoft/monaco-editor-webpack-plugin
+* update to latest `monaco-editor`
+* `npm install .`
+* `npm run import-editor`
+* if there are no changes generated after the script:
+  * update the peer dependency in `package.json` and use the `||` format e.g. `"monaco-editor": "0.27.x || 0.28.x"`
+  * update the version matrix in the README.md and add the new editor version to the plugin's current major version
+  * use `npm version minor`
+  * publish using `npm publish`
+* if there are any changes generated after the script:
+  * update the peer dependency in `package.json` e.g. `"monaco-editor": "0.29.x"`
+  * update the version matrix in the README.md and add a new row with the new major version
+  * use `npm version major`
+  * publish using `npm publish`
+* remember to push tags upstream
