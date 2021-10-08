@@ -96,7 +96,12 @@ export const language = <languages.IMonarchLanguage>{
 		'super',
 		'while',
 		'true',
-		'false'
+		'false',
+		'yield',
+		'record',
+		'sealed',
+		'non-sealed',
+		'permits'
 	],
 
 	operators: [
@@ -150,6 +155,9 @@ export const language = <languages.IMonarchLanguage>{
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
+			// Special keyword with a dash
+			['non-sealed', 'keyword.non-sealed'],
+
 			// identifiers and keywords
 			[
 				/[a-zA-Z_$][\w$]*/,
@@ -194,6 +202,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/"""/, 'string', '@multistring'],
 			[/"/, 'string', '@string'],
 
 			// characters
@@ -230,6 +239,14 @@ export const language = <languages.IMonarchLanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"/, 'string', '@pop']
+		],
+
+		multistring: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"""/, 'string', '@pop'],
+			[/./, 'string']
 		]
 	}
 };
