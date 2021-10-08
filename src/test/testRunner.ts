@@ -18,6 +18,12 @@ export interface ITestItem {
 	tokens: IRelaxedToken[];
 }
 
+function timeout(ms: number) {
+	return new Promise((resolve, reject) => {
+		setTimeout(resolve, ms);
+	});
+}
+
 export function testTokenization(_language: string | string[], tests: ITestItem[][]): void {
 	let languages: string[];
 	if (typeof _language === 'string') {
@@ -27,16 +33,10 @@ export function testTokenization(_language: string | string[], tests: ITestItem[
 	}
 	let mainLanguage = languages[0];
 
-	test(mainLanguage + ' tokenization', (t: test.Test) => {
-		Promise.all(languages.map((l) => loadLanguage(l)))
-			.then(() => {
-				// clean stack
-				setTimeout(() => {
-					runTests(t, mainLanguage, tests);
-					t.end();
-				});
-			})
-			.then(null, () => t.end());
+	test(mainLanguage + ' tokenization', async (t: test.Test) => {
+		await Promise.all(languages.map((l) => loadLanguage(l)));
+		await timeout(0);
+		runTests(t, mainLanguage, tests);
 	});
 }
 

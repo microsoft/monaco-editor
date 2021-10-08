@@ -5,11 +5,9 @@
 			"name": "Unit Tests",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/node_modules/.bin/tape",
+			"program": "./test/all.js",
 			"stopOnEntry": false,
 			"args": [
-				"-r",
-				"./test/all.js"
 				// "--grep",
 				// "typescript"
 			],
