@@ -50,7 +50,7 @@ testTokenization('rust', [
 			tokens: [{ startIndex: 0, type: 'string.byteliteral.rust' }]
 		}
 	],
-	
+
 	// Comment
 	[
 		{

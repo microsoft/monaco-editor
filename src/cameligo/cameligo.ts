@@ -22,8 +22,8 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '<', close: '>' },
 		{ open: "'", close: "'" },
-		{ open: "\"", close: "\""},
-		{ open: "(*", close: "*)"},
+		{ open: '"', close: '"' },
+		{ open: '(*', close: '*)' }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
@@ -31,8 +31,8 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: '(', close: ')' },
 		{ open: '<', close: '>' },
 		{ open: "'", close: "'" },
-		{ open: "\"", close: "\""},
-		{ open: "(*", close: "*)"},
+		{ open: '"', close: '"' },
+		{ open: '(*', close: '*)' }
 	]
 };
 
@@ -88,7 +88,7 @@ export const language = <languages.IMonarchLanguage>{
 		'to',
 		'true',
 		'type',
-		'with',
+		'with'
 	],
 
 	typeKeywords: ['int', 'unit', 'string', 'tz', 'nat', 'bool'],
@@ -116,7 +116,7 @@ export const language = <languages.IMonarchLanguage>{
 		'->',
 		'<-',
 		'&&',
-		'||',
+		'||'
 	],
 
 	// we include these common regular expressions

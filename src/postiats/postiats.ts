@@ -459,7 +459,8 @@ export const language = <languages.IMonarchLanguage>{
 	fexponent_bin: /[pP][+-]?[0-9]+/,
 	deciexp: /\.[0-9]*@fexponent?/,
 	hexiexp: /\.[0-9a-zA-Z]*@fexponent_bin?/,
-	irregular_keywords: /val[+-]?|case[+-]?|addr\@?|fold\@|free\@|fix\@?|lam\@?|llam\@?|prop[+-]?|type[+-]?|view[+-@]?|viewt@?ype[+-]?|t@?ype[+-]?|v(iew)?t@?ype[+-]?|abst@?ype|absv(iew)?t@?ype|for\*?|while\*?/,
+	irregular_keywords:
+		/val[+-]?|case[+-]?|addr\@?|fold\@|free\@|fix\@?|lam\@?|llam\@?|prop[+-]?|type[+-]?|view[+-@]?|viewt@?ype[+-]?|t@?ype[+-]?|v(iew)?t@?ype[+-]?|abst@?ype|absv(iew)?t@?ype|for\*?|while\*?/,
 	ESCHAR: /[ntvbrfa\\\?'"\(\[\{]/,
 
 	start: 'root',

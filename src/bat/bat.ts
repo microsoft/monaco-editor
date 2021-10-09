@@ -44,7 +44,8 @@ export const language = <languages.IMonarchLanguage>{
 		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
-	keywords: /call|defined|echo|errorlevel|exist|for|goto|if|pause|set|shift|start|title|not|pushd|popd/,
+	keywords:
+		/call|defined|echo|errorlevel|exist|for|goto|if|pause|set|shift|start|title|not|pushd|popd/,
 
 	// we include these common regular expressions
 	symbols: /[=><!~?&|+\-*\/\^;\.,]+/,

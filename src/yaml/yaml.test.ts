@@ -452,8 +452,7 @@ testTokenization('yaml', [
 	],
 	[
 		{
-			line:
-				"text: Pretty vector drawing. #this is comment doesn't have proper syntax higlighting",
+			line: "text: Pretty vector drawing. #this is comment doesn't have proper syntax higlighting",
 			tokens: [
 				{ startIndex: 0, type: 'type.yaml' },
 				{ startIndex: 4, type: 'operators.yaml' },

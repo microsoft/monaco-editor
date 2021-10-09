@@ -66,8 +66,7 @@ testTokenization('bicep', [
 			]
 		},
 		{
-			line:
-				"    domainConfigurationType/*comment*/:/*comment*/'as//notacomment!d/* also not a comment */fsdf'// test!/*",
+			line: "    domainConfigurationType/*comment*/:/*comment*/'as//notacomment!d/* also not a comment */fsdf'// test!/*",
 			tokens: [
 				{ startIndex: 0, type: '' },
 				{ startIndex: 4, type: 'identifier.bicep' },
@@ -374,8 +373,7 @@ testTokenization('bicep', [
 			tokens: [{ startIndex: 0, type: '' }]
 		},
 		{
-			line:
-				"resource secrets1 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = if (secrets0.id == '') {",
+			line: "resource secrets1 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = if (secrets0.id == '') {",
 			tokens: [
 				{ startIndex: 0, type: 'keyword.bicep' },
 				{ startIndex: 8, type: '' },
@@ -429,8 +427,7 @@ testTokenization('bicep', [
 			tokens: []
 		},
 		{
-			line:
-				"resource secrets2 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = [for secret in secretsObject.secrets: {",
+			line: "resource secrets2 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = [for secret in secretsObject.secrets: {",
 			tokens: [
 				{ startIndex: 0, type: 'keyword.bicep' },
 				{ startIndex: 8, type: '' },
@@ -478,8 +475,7 @@ testTokenization('bicep', [
 			tokens: []
 		},
 		{
-			line:
-				"resource secrets3 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = [for secret in secretsObject.secrets: {",
+			line: "resource secrets3 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = [for secret in secretsObject.secrets: {",
 			tokens: [
 				{ startIndex: 0, type: 'keyword.bicep' },
 				{ startIndex: 8, type: '' },
@@ -551,8 +547,7 @@ testTokenization('bicep', [
 			tokens: []
 		},
 		{
-			line:
-				"resource secrets4 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = [for secret in secretsObject.secrets: if (true) {",
+			line: "resource secrets4 'Microsoft.KeyVault/vaults/secrets@2018-02-14' = [for secret in secretsObject.secrets: if (true) {",
 			tokens: [
 				{ startIndex: 0, type: 'keyword.bicep' },
 				{ startIndex: 8, type: '' },
@@ -609,8 +604,7 @@ testTokenization('bicep', [
 			tokens: []
 		},
 		{
-			line:
-				"resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-08-01' existing = {",
+			line: "resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-08-01' existing = {",
 			tokens: [
 				{ startIndex: 0, type: 'keyword.bicep' },
 				{ startIndex: 8, type: '' },

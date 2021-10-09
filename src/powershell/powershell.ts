@@ -7,7 +7,8 @@ import type { languages } from '../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	// the default separators except `$-`
-	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#%\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
+	wordPattern:
+		/(-?\d*\.\d\w*)|([^\`\~\!\@\#%\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	comments: {
 		lineComment: '#',
 		blockComment: ['<#', '#>']
@@ -90,7 +91,8 @@ export const language = <languages.IMonarchLanguage>{
 		'configuration'
 	],
 
-	helpKeywords: /SYNOPSIS|DESCRIPTION|PARAMETER|EXAMPLE|INPUTS|OUTPUTS|NOTES|LINK|COMPONENT|ROLE|FUNCTIONALITY|FORWARDHELPTARGETNAME|FORWARDHELPCATEGORY|REMOTEHELPRUNSPACE|EXTERNALHELP/,
+	helpKeywords:
+		/SYNOPSIS|DESCRIPTION|PARAMETER|EXAMPLE|INPUTS|OUTPUTS|NOTES|LINK|COMPONENT|ROLE|FUNCTIONALITY|FORWARDHELPTARGETNAME|FORWARDHELPCATEGORY|REMOTEHELPRUNSPACE|EXTERNALHELP/,
 
 	// we include these common regular expressions
 	symbols: /[=><!~?&%|+\-*\/\^;\.,]+/,

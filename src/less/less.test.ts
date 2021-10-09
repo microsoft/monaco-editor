@@ -1001,8 +1001,7 @@ testTokenization(
 
 		[
 			{
-				line:
-					'.bw-gradient(@color: #F5F5F5, @start: 0, @stop: 255) { background: -webkit-gradient(color-stop(0, rgb(@start,@start,@start)), color-stop(1, rgb(@stop,@stop,@stop))); }',
+				line: '.bw-gradient(@color: #F5F5F5, @start: 0, @stop: 255) { background: -webkit-gradient(color-stop(0, rgb(@start,@start,@start)), color-stop(1, rgb(@stop,@stop,@stop))); }',
 				tokens: [
 					{ startIndex: 0, type: 'tag.class.less' },
 					{ startIndex: 12, type: 'delimiter.parenthesis.less' },

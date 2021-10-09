@@ -809,8 +809,7 @@ testTokenization('coffeescript', [
 	// syntax highligting issue with {} - bug 16176
 	[
 		{
-			line:
-				'"/api/v2/course/#{ $stateParams.courseId }/grading/student/#{$stateParams.studentId}",',
+			line: '"/api/v2/course/#{ $stateParams.courseId }/grading/student/#{$stateParams.studentId}",',
 			tokens: [
 				{ startIndex: 0, type: 'string.coffee' },
 				{ startIndex: 18, type: '' },

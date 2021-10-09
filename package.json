@@ -1,12 +1,12 @@
 {
 	"name": "monaco-languages",
-	"version": "2.8.1",
+	"version": "2.9.0",
 	"description": "Bundle of many languages for the Monaco Editor.",
 	"scripts": {
 		"compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
 		"watch": "tsc -p ./src --watch",
 		"watch-esm": "tsc -p ./src/tsconfig.esm.json --watch",
-		"test": "tape -r ./test/all.js",
+		"test": "node ./test/all.js",
 		"prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle",
 		"prettier": "prettier --write ."
 	},
@@ -20,18 +20,18 @@
 		"url": "https://github.com/Microsoft/monaco-languages/issues"
 	},
 	"devDependencies": {
-		"@types/tape": "^4.13.0",
-		"glob": "^7.1.6",
+		"@types/tape": "^4.13.2",
+		"glob": "^7.2.0",
 		"husky": "^4.3.8",
-		"jsdom": "^16.4.0",
-		"monaco-editor-core": "0.28.1",
+		"jsdom": "^17.0.0",
+		"monaco-editor-core": "0.29.1",
 		"monaco-plugin-helpers": "^1.0.3",
-		"prettier": "^2.2.1",
-		"pretty-quick": "^3.1.0",
+		"prettier": "^2.4.1",
+		"pretty-quick": "^3.1.1",
 		"requirejs": "^2.3.6",
-		"tape": "^5.1.1",
-		"terser": "^5.5.1",
-		"typescript": "4.1.3"
+		"tape": "^5.3.1",
+		"terser": "^5.9.0",
+		"typescript": "4.4.3"
 	},
 	"husky": {
 		"hooks": {

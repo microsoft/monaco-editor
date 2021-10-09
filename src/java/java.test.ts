@@ -728,5 +728,151 @@ testTokenization('java', [
 				{ startIndex: 29, type: 'keyword.private.java' }
 			]
 		}
+	],
+
+	[
+		{
+			line: 'String s = """Multiline string""";',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.java' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'identifier.java' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'delimiter.java' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'string.java' },
+				{ startIndex: 33, type: 'delimiter.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'String s = """',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.java' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'identifier.java' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'delimiter.java' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'string.java' }
+			]
+		},
+		{
+			line: '     <html></html>',
+			tokens: [{ startIndex: 0, type: 'string.java' }]
+		},
+		{
+			line: '     """;',
+			tokens: [
+				{ startIndex: 0, type: 'string.java' },
+				{ startIndex: 8, type: 'delimiter.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'String s = """',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.java' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'identifier.java' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'delimiter.java' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'string.java' }
+			]
+		},
+
+		{
+			line: '     \\"""Triple quoted string inside text block\\"""',
+			tokens: [
+				{ startIndex: 0, type: 'string.java' },
+				{ startIndex: 5, type: 'string.escape.java' },
+				{ startIndex: 7, type: 'string.java' },
+				{ startIndex: 47, type: 'string.escape.java' },
+				{ startIndex: 49, type: 'string.java' }
+			]
+		},
+
+		{
+			line: '     """;',
+			tokens: [
+				{ startIndex: 0, type: 'string.java' },
+				{ startIndex: 8, type: 'delimiter.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'yield "123"',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.yield.java' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'string.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'public sealed class Shape permits Circle, Square { }',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.public.java' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'keyword.sealed.java' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'keyword.class.java' },
+				{ startIndex: 19, type: '' },
+				{ startIndex: 20, type: 'identifier.java' },
+				{ startIndex: 25, type: '' },
+				{ startIndex: 26, type: 'keyword.permits.java' },
+				{ startIndex: 33, type: '' },
+				{ startIndex: 34, type: 'identifier.java' },
+				{ startIndex: 40, type: 'delimiter.java' },
+				{ startIndex: 41, type: '' },
+				{ startIndex: 42, type: 'identifier.java' },
+				{ startIndex: 48, type: '' },
+				{ startIndex: 49, type: 'delimiter.curly.java' },
+				{ startIndex: 50, type: '' },
+				{ startIndex: 51, type: 'delimiter.curly.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'public non-sealed class Shape',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.public.java' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'keyword.non-sealed.java' },
+				{ startIndex: 17, type: '' },
+				{ startIndex: 18, type: 'keyword.class.java' },
+				{ startIndex: 23, type: '' },
+				{ startIndex: 24, type: 'identifier.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'int x = y-z;', // Make sure "y-z" is not identifier
+			tokens: [
+				{ startIndex: 0, type: 'keyword.int.java' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.java' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.java' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'identifier.java' },
+				{ startIndex: 9, type: 'delimiter.java' },
+				{ startIndex: 10, type: 'identifier.java' },
+				{ startIndex: 11, type: 'delimiter.java' }
+			]
+		}
 	]
 ]);
