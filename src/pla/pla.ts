@@ -54,8 +54,6 @@ export const language = <languages.IMonarchLanguage>{
 		'.end'
 	],
 
-	types: ['f', 'r', 'fd', 'fr', 'dr', 'fdr'],
-
 	// regular expressions
 	comment: /#.*$/,
 	identifier: /[a-zA-Z]+[a-zA-Z0-9_\-]*/,
@@ -94,18 +92,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		whitespace: [[/[ \t\r\n]+/, '']],
 
-		type: [
-			{ include: '@whitespace' },
-			[
-				/\w+/,
-				{
-					cases: {
-						'@types': { token: 'type', next: '@pop' },
-						'@default': { token: 'invalid', next: '@pop' }
-					}
-				}
-			]
-		],
+		type: [{ include: '@whitespace' }, [/\w+/, { token: 'type', next: '@pop' }]],
 
 		keywordArg: [
 			// whitespace

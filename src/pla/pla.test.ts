@@ -214,11 +214,11 @@ testTokenization('pla', [
 			]
 		},
 		{
-			line: '.type inval',
+			line: '.type other',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.type.pla' },
 				{ startIndex: 5, type: '' },
-				{ startIndex: 6, type: 'invalid.pla' }
+				{ startIndex: 6, type: 'type.pla' }
 			]
 		}
 	],
