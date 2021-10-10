@@ -49,6 +49,7 @@ import './php/php.contribution';
 import './postiats/postiats.contribution';
 import './powerquery/powerquery.contribution';
 import './powershell/powershell.contribution';
+import './protobuf/protobuf.contribution';
 import './pug/pug.contribution';
 import './python/python.contribution';
 import './qsharp/qsharp.contribution';
