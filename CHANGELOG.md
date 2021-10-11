@@ -1,5 +1,19 @@
 # Monaco Editor Changelog
 
+## [0.29.1] (11.10.2021)
+
+* fixes [an issue with the ESM version in DOMPurify](https://github.com/microsoft/monaco-editor/issues/2691).
+
+### Thank you
+
+Contributions to `monaco-languages`:
+
+* [@sw23 (Spencer Williams)](https://github.com/sw23)
+  * Adding syntax highlighting support for .pla files (Programmable Logic Array) [PR #163](https://github.com/microsoft/monaco-languages/pull/163)
+  * SystemVerilog: Adding better syntax highlighting for primitive table definitions [PR #165](https://github.com/microsoft/monaco-languages/pull/165)
+* [@tochicool (Tochi Obudulu)](https://github.com/tochicool): Add support for Protocol Buffers language [PR #164](https://github.com/microsoft/monaco-languages/pull/164)
+
+
 ## [0.29.0] (08.10.2021)
 
 * adds an `ariaContainerElement` option for editors
