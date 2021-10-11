@@ -449,6 +449,10 @@ export const language = <languages.IMonarchLanguage>{
 								token: 'keyword.$2',
 								next: '@module_instance'
 							},
+							table: {
+								token: 'keyword.$2',
+								next: '@table'
+							},
 							'@keywords': { token: 'keyword.$2' },
 							'@default': {
 								token: 'identifier',
@@ -468,7 +472,7 @@ export const language = <languages.IMonarchLanguage>{
 			// identifiers and keywords
 			{ include: '@identifier_or_keyword' },
 
-			// whitespace
+			// whitespace and comments
 			{ include: '@whitespace' },
 
 			// (* attributes *).
@@ -589,6 +593,14 @@ export const language = <languages.IMonarchLanguage>{
 					{ token: 'string.include.identifier', next: '@pop' }
 				]
 			]
+		],
+
+		table: [
+			{ include: '@whitespace' },
+			[/[()]/, '@brackets'],
+			[/[:;]/, 'delimiter'],
+			[/[01\-*?xXbBrRfFpPnN]/, 'variable.predefined'],
+			['endtable', 'keyword.endtable', '@pop']
 		]
 	}
 };

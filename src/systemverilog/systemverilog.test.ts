@@ -1180,5 +1180,88 @@ testTokenization('systemverilog', [
 				{ startIndex: 49, type: 'delimiter.sv' }
 			]
 		}
+	],
+	// table
+	[
+		{
+			line: 'table',
+			tokens: [{ startIndex: 0, type: 'keyword.table.sv' }]
+		},
+		{
+			line: '  //  clk  d    q    q+',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'comment.sv' }
+			]
+		},
+		{
+			line: '  r  ?  0 : ? : - ;',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'variable.predefined.sv' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 5, type: 'variable.predefined.sv' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 8, type: 'variable.predefined.sv' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'delimiter.sv' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'variable.predefined.sv' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'delimiter.sv' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'variable.predefined.sv' },
+				{ startIndex: 17, type: '' },
+				{ startIndex: 18, type: 'delimiter.sv' }
+			]
+		},
+		{
+			line: '  0 x (01) : 0 : 1; // Comment ',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'variable.predefined.sv' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'variable.predefined.sv' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.parenthesis.sv' },
+				{ startIndex: 7, type: 'variable.predefined.sv' },
+				{ startIndex: 9, type: 'delimiter.parenthesis.sv' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'delimiter.sv' },
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'variable.predefined.sv' },
+				{ startIndex: 14, type: '' },
+				{ startIndex: 15, type: 'delimiter.sv' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'variable.predefined.sv' },
+				{ startIndex: 18, type: 'delimiter.sv' },
+				{ startIndex: 19, type: '' },
+				{ startIndex: 20, type: 'comment.sv' }
+			]
+		},
+		{
+			line: '0 0 1 : 0 : 1 ;',
+			tokens: [
+				{ startIndex: 0, type: 'variable.predefined.sv' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'variable.predefined.sv' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'variable.predefined.sv' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.sv' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'variable.predefined.sv' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'delimiter.sv' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'variable.predefined.sv' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'delimiter.sv' }
+			]
+		},
+		{
+			line: 'endtable',
+			tokens: [{ startIndex: 0, type: 'keyword.endtable.sv' }]
+		}
 	]
 ]);
