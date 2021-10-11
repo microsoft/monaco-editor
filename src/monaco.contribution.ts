@@ -46,6 +46,7 @@ import './pascaligo/pascaligo.contribution';
 import './perl/perl.contribution';
 import './pgsql/pgsql.contribution';
 import './php/php.contribution';
+import './pla/pla.contributions';
 import './postiats/postiats.contribution';
 import './powerquery/powerquery.contribution';
 import './powershell/powershell.contribution';
