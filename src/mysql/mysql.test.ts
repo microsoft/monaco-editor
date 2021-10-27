@@ -30,7 +30,7 @@ testTokenization('mysql', [
 				{ startIndex: 7, type: 'white.sql' },
 				{ startIndex: 8, type: 'identifier.sql' },
 				{ startIndex: 9, type: 'white.sql' },
-				{ startIndex: 10, type: 'keyword.sql' }
+				{ startIndex: 10, type: 'identifier.sql' }
 			]
 		}
 	],
