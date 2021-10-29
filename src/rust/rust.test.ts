@@ -23,6 +23,57 @@ testTokenization('rust', [
 			]
 		}
 	],
+	// Raw String
+	[
+		{
+			line: 'r"This is a raw string" ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 2, type: 'string.rust' },
+				{ startIndex: 22, type: 'string.quote.rust' },
+				{ startIndex: 23, type: 'white.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'r#"This is a raw string"# ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 3, type: 'string.rust' },
+				{ startIndex: 23, type: 'string.quote.rust' },
+				{ startIndex: 25, type: 'white.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'r##"This is a# raw string"## ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 4, type: 'string.rust' },
+				{ startIndex: 25, type: 'string.quote.rust' },
+				{ startIndex: 28, type: 'white.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'r###"This is multi-line',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 5, type: 'string.rust' }
+			]
+		},
+		{
+			line: 'raw "##string"### ',
+			tokens: [
+				{ startIndex: 0, type: 'string.rust' },
+				{ startIndex: 13, type: 'string.quote.rust' },
+				{ startIndex: 17, type: 'white.rust' }
+			]
+		}
+	],
 	// Byte literal
 	[
 		{
@@ -40,17 +91,16 @@ testTokenization('rust', [
 	],
 	[
 		{
-			line: "'\"'",
+			line: "'\\\"'",
 			tokens: [{ startIndex: 0, type: 'string.byteliteral.rust' }]
 		}
 	],
 	[
 		{
-			line: "'\0'",
+			line: "'\\0'",
 			tokens: [{ startIndex: 0, type: 'string.byteliteral.rust' }]
 		}
 	],
-
 	// Comment
 	[
 		{
