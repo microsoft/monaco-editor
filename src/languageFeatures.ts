@@ -37,7 +37,7 @@ export class DiagnosticsAdapter {
 		defaults: LanguageServiceDefaults
 	) {
 		const onModelAdd = (model: editor.IModel): void => {
-			let modeId = model.getModeId();
+			let modeId = model.getLanguageId();
 			if (modeId !== this._languageId) {
 				return;
 			}
@@ -73,7 +73,7 @@ export class DiagnosticsAdapter {
 
 		defaults.onDidChange((_) => {
 			editor.getModels().forEach((model) => {
-				if (model.getModeId() === this._languageId) {
+				if (model.getLanguageId() === this._languageId) {
 					onModelRemoved(model);
 					onModelAdd(model);
 				}
@@ -104,7 +104,7 @@ export class DiagnosticsAdapter {
 			.then((diagnostics) => {
 				const markers = diagnostics.map((d) => toDiagnostics(resource, d));
 				let model = editor.getModel(resource);
-				if (model && model.getModeId() === languageId) {
+				if (model && model.getLanguageId() === languageId) {
 					editor.setModelMarkers(model, languageId, markers);
 				}
 			})
