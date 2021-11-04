@@ -84,7 +84,7 @@ export class WorkerManager {
 						return this._worker.withSyncedResources(
 							editor
 								.getModels()
-								.filter((model) => model.getModeId() === this._modeId)
+								.filter((model) => model.getLanguageId() === this._modeId)
 								.map((model) => model.uri)
 						);
 					}

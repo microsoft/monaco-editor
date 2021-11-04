@@ -191,7 +191,7 @@ export class DiagnosticsAdapter extends Adapter {
 		super(worker);
 
 		const onModelAdd = (model: IInternalEditorModel): void => {
-			if (model.getModeId() !== _selector) {
+			if (model.getLanguageId() !== _selector) {
 				return;
 			}
 
