@@ -23,16 +23,16 @@
 	"typings": "./release/esm/monaco.contribution.d.ts",
 	"devDependencies": {
 		"husky": "^5.1.3",
-		"monaco-editor-core": "0.28.1",
-		"monaco-languages": "^2.4.0",
+		"monaco-editor-core": "0.30.0",
+		"monaco-languages": "^2.11.0",
 		"monaco-plugin-helpers": "^1.0.3",
 		"prettier": "^2.2.1",
 		"pretty-quick": "^3.1.0",
 		"requirejs": "^2.3.6",
 		"terser": "^5.6.0",
 		"typescript": "^4.2.3",
-		"vscode-html-languageservice": "^4.0.8",
-		"vscode-languageserver-textdocument": "^1.0.1",
+		"vscode-html-languageservice": "^4.1.1",
+		"vscode-languageserver-textdocument": "^1.0.2",
 		"vscode-languageserver-types": "3.16.0"
 	},
 	"husky": {
