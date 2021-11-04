@@ -78,6 +78,7 @@ Options can be passed in to `MonacoWebpackPlugin`. They can be used to generate 
 
 | `monaco-editor-webpack-plugin` | `monaco-editor` |
 |---|---|
+| `6.*.*` | `0.30.*` |
 | `5.*.*` | `0.29.*` |
 | `4.*.*` | `0.25.*`, `0.26.*`, `0.27.*`, `0.28.*` |
 | `3.*.*` | `0.22.*`, `0.23.*`, `0.24.*` |
