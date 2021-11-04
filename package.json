@@ -26,7 +26,7 @@
 		"@typescript/vfs": "^1.3.5",
 		"husky": "^5.1.3",
 		"monaco-editor-core": "0.30.0",
-		"monaco-languages": "^2.9.0",
+		"monaco-languages": "^2.11.0",
 		"monaco-plugin-helpers": "^1.0.3",
 		"prettier": "^2.4.1",
 		"pretty-quick": "^3.1.1",
