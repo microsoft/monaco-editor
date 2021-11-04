@@ -1,5 +1,33 @@
 # Monaco Editor Changelog
 
+## [0.30.0] (04.11.2021)
+
+* adds support for rendering horizontal guides between bracket pairs and improves the vertical rendering to account for content in between brackets.
+* adds new `hover.above` option to control the hover position.
+* adds `ICodeEditor.onDidChangeHiddenAreas` which is fired when folding/unfolding.
+* to address [CVE-2021-42574](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-42574), the editor now renders Unicode directional formatting characters by default. The special rendering can be turned off using `renderControlCharacters`. See https://code.visualstudio.com/updates/v1_62#_unicode-directional-formatting-characters for an explanation.
+
+### Breaking Changes
+
+* renamed enum members of `monaco.KeyCode` to align with the names given for browser codes.
+* renamed `ITextModel.getModeId()` to `ITextModel.getLanguageId()`
+* renamed `IPasteEvent.mode` to `IPasteEvent.languageId`
+
+### Thank you
+
+Contributions to `monaco-editor-webpack-plugin`:
+
+* [@silverwind](https://github.com/silverwind): Fix letter case in repo URL [PR #165](https://github.com/microsoft/monaco-editor-webpack-plugin/pull/165)
+
+Contributions to `monaco-languages`:
+
+* [@arlosi (Arlo Siemsen)](https://github.com/arlosi): Rust: highlighting raw strings and fix chars with escapes [PR #167](https://github.com/microsoft/monaco-languages/pull/167)
+* [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin)
+  * Add new functions in postgresql 14 [PR #168](https://github.com/microsoft/monaco-languages/pull/168)
+  * Update json functions for postgresql [PR #169](https://github.com/microsoft/monaco-languages/pull/169)
+  * Add missing postgresql functions [PR #170](https://github.com/microsoft/monaco-languages/pull/170)
+
+
 ## [0.29.1] (11.10.2021)
 
 * fixes [an issue with the ESM version in DOMPurify](https://github.com/microsoft/monaco-editor/issues/2691).
