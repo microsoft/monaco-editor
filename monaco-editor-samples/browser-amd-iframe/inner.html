@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container" style="width: 100%; height: 100%"></div>
+		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+		<script>
+			require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
+
+			require(['vs/editor/editor.main'], function () {
+				var editor = monaco.editor.create(document.getElementById('container'), {
+					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+					language: 'javascript'
+				});
+
+				window.onresize = function () {
+					editor.layout();
+				};
+			});
+		</script>
+	</body>
+</html>

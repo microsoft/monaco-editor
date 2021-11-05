@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Monaco Editor under nodewebkit</title>
+		<!--link rel="stylesheet" data-name="vs/editor/editor.main" href="/node_modules/monaco-editor/min/vs/editor/editor.main.css"-->
+		<!--link rel="stylesheet" type="text/css" href="/resources/css/flex-boxes.css"-->
+		<style type="text/css">
+			body,
+			#container {
+				margin: 0px;
+				padding: 0px;
+				box-sizing: border-box;
+			}
+			body {
+				height: 100vh;
+				overflow: hidden;
+			}
+			#container {
+				overflow: hidden;
+				height: 100vh;
+			}
+			.toolbox {
+				height: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"></div>
+	</body>
+
+	<!--script>
+		// Monaco uses a custom amd loader that over-rides node's require.
+		// Keep a reference to node's require so we can restore it after executing the amd loader file.
+		var nodeRequire1 = require;
+	</script-->
+	<!--script src="/node_modules/monaco-editor/min/vs/loader1.js"></script-->
+	<script>
+		var ERequire = require('../../node_modules/monaco-editor/min/vs/loader.js');
+		//__dirname == root path of you application
+		ERequire.config({
+			baseUrl: 'file:///' + __dirname + '/node_modules/monaco-editor/min/'
+		});
+
+		// workaround monaco-css not understanding the environment
+		self.module = undefined;
+		// workaround monaco-typescript not understanding the environment
+		self.process.browser = true;
+		ERequire(['vs/editor/editor.main'], function () {
+			var editor = monaco.editor.create(document.getElementById('container'), {
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+				language: 'javascript',
+				theme: 'vs-dark'
+			});
+		});
+	</script>
+</html>

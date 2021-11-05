@@ -1,0 +1,6 @@
+{
+	"name": "browser-esm-webpack-monaco-plugin",
+	"scripts": {
+		"build": "node ../node_modules/webpack/bin/webpack.js --progress"
+	}
+}
