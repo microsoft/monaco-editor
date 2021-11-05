@@ -18,7 +18,8 @@
 				modulePrefix: 'vs/language/typescript',
 				thirdPartyNotices: 'node_modules/monaco-typescript/ThirdPartyNotices.txt',
 				paths: {
-					src: '/monaco-typescript/release/dev',
+					// use ./ to indicate it is relative to the repository root
+					src: './monaco-typescript/release/dev',
 					'npm/dev': 'node_modules/monaco-typescript/release/dev',
 					'npm/min': 'node_modules/monaco-typescript/release/min',
 					esm: 'node_modules/monaco-typescript/release/esm',
@@ -29,7 +30,8 @@
 				contrib: 'vs/language/css/monaco.contribution',
 				modulePrefix: 'vs/language/css',
 				paths: {
-					src: '/monaco-css/release/dev',
+					// use ./ to indicate it is relative to the repository root
+					src: './monaco-css/release/dev',
 					'npm/dev': 'node_modules/monaco-css/release/dev',
 					'npm/min': 'node_modules/monaco-css/release/min',
 					esm: 'node_modules/monaco-css/release/esm',
@@ -40,7 +42,8 @@
 				contrib: 'vs/language/json/monaco.contribution',
 				modulePrefix: 'vs/language/json',
 				paths: {
-					src: '/monaco-json/release/dev',
+					// use ./ to indicate it is relative to the repository root
+					src: './monaco-json/release/dev',
 					'npm/dev': 'node_modules/monaco-json/release/dev',
 					'npm/min': 'node_modules/monaco-json/release/min',
 					esm: 'node_modules/monaco-json/release/esm',
@@ -52,7 +55,8 @@
 				modulePrefix: 'vs/language/html',
 				thirdPartyNotices: 'node_modules/monaco-html/ThirdPartyNotices.txt',
 				paths: {
-					src: '/monaco-html/release/dev',
+					// use ./ to indicate it is relative to the repository root
+					src: './monaco-html/release/dev',
 					'npm/dev': 'node_modules/monaco-html/release/dev',
 					'npm/min': 'node_modules/monaco-html/release/min',
 					esm: 'node_modules/monaco-html/release/esm',
@@ -64,7 +68,8 @@
 				modulePrefix: 'vs/basic-languages',
 				thirdPartyNotices: 'node_modules/monaco-languages/ThirdPartyNotices.txt',
 				paths: {
-					src: '/monaco-languages/release/dev',
+					// use ./ to indicate it is relative to the repository root
+					src: './monaco-languages/release/dev',
 					'npm/dev': 'node_modules/monaco-languages/release/dev',
 					'npm/min': 'node_modules/monaco-languages/release/min',
 					esm: 'node_modules/monaco-languages/release/esm',

@@ -6,15 +6,15 @@
 const path = require('path');
 const helpers = require('monaco-plugin-helpers');
 
-const REPO_ROOT = path.join(__dirname, '../');
+const REPO_ROOT = path.join(__dirname, '../../');
 
 helpers.packageESM({
 	repoRoot: REPO_ROOT,
-	esmSource: 'out/esm',
-	esmDestination: 'release/esm',
+	esmSource: 'monaco-css/out/esm',
+	esmDestination: 'monaco-css/release/esm',
 	entryPoints: ['monaco.contribution.js', 'cssMode.js', 'css.worker.js'],
 	resolveAlias: {
-		'vscode-nls': path.join(REPO_ROOT, 'out/esm/fillers/vscode-nls.js')
+		'vscode-nls': path.join(REPO_ROOT, 'monaco-css/out/esm/fillers/vscode-nls.js')
 	},
 	resolveSkip: ['monaco-editor-core'],
 	destinationFolderSimplification: {

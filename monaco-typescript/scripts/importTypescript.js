@@ -12,8 +12,9 @@ const generatedNote = `//
 //
 `;
 
-const TYPESCRIPT_LIB_SOURCE = path.join(__dirname, '../node_modules/typescript/lib');
-const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
+const REPO_ROOT = path.join(__dirname, '../../');
+const TYPESCRIPT_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/typescript/lib');
+const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'monaco-typescript/src/lib');
 
 (function () {
 	try {
@@ -24,7 +25,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(__dirname, '../src/lib');
 	importLibs();
 
 	const npmLsOutput = JSON.parse(
-		child_process.execSync('npm ls typescript --depth=0 --json=true').toString()
+		child_process.execSync('npm ls typescript --depth=0 --json=true', { cwd: REPO_ROOT }).toString()
 	);
 	const typeScriptDependencyVersion = npmLsOutput.dependencies.typescript.version;
 

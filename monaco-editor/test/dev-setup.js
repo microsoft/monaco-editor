@@ -57,7 +57,14 @@
 	};
 	Component.prototype.getResolvedPath = function(PATH_PREFIX) {
 		let resolvedPath = this.paths[this.selectedPath];
-		if (this.selectedPath === 'npm/dev' || this.selectedPath === 'npm/min' || this.isRelease()) {
+		if (/\.\//.test(resolvedPath)) {
+			// starts with ./ => treat as relative to repo root
+			if (IS_FILE_PROTOCOL) {
+				resolvedPath = DIRNAME + '/../' + resolvedPath;
+			} else {
+				resolvedPath = PATH_PREFIX + '/monaco-editor/' + resolvedPath;
+			}
+		} else if (this.selectedPath === 'npm/dev' || this.selectedPath === 'npm/min' || this.isRelease()) {
 			if (IS_FILE_PROTOCOL) {
 				resolvedPath = DIRNAME + '/../' + resolvedPath;
 			} else {

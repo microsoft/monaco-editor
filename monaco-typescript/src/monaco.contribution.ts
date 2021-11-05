@@ -490,7 +490,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _compilerOptions!: CompilerOptions;
 	private _diagnosticsOptions!: DiagnosticsOptions;
 	private _workerOptions!: WorkerOptions;
-	private _onDidExtraLibsChangeTimeout: number;
+	private _onDidExtraLibsChangeTimeout: any;
 	private _inlayHintsOptions!: InlayHintsOptions;
 
 	constructor(

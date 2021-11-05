@@ -15,7 +15,7 @@ const ts = require('typescript');
 
 const WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
 const MONACO_EDITOR_VERSION = (function() {
-	const packageJsonPath = path.join(__dirname, 'package.json');
+	const packageJsonPath = path.join(__dirname, '..', 'package.json');
 	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
 	const version = packageJson.version;
 	if (!/\d+\.\d+\.\d+/.test(version)) {
@@ -791,7 +791,7 @@ function createSimpleServer(rootDir, port) {
 gulp.task('generate-test-samples', taskSeries(generateTestSamplesTask));
 
 gulp.task('simpleserver', taskSeries(generateTestSamplesTask, function() {
-	const SERVER_ROOT = path.normalize(path.join(__dirname, '../'));
+	const SERVER_ROOT = path.normalize(path.join(__dirname, '../../'));
 	createSimpleServer(SERVER_ROOT, 8080);
 	createSimpleServer(SERVER_ROOT, 8088);
 }));

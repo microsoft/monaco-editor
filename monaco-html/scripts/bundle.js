@@ -4,10 +4,10 @@ const fs = require('fs');
 const terser = require('terser');
 const helpers = require('monaco-plugin-helpers');
 
-const REPO_ROOT = path.resolve(__dirname, '..');
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
 const sha1 = helpers.getGitVersion(REPO_ROOT);
-const semver = require('../package.json').version;
+const semver = require('../../package.json').version;
 const headerVersion = semver + '(' + sha1 + ')';
 
 const BUNDLED_FILE_HEADER = [
@@ -32,9 +32,9 @@ function bundleOne(moduleId, exclude) {
 			out: 'release/dev/' + moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/language/html': REPO_ROOT + '/out/amd',
+				'vs/language/html': REPO_ROOT + '/monaco-html/out/amd',
 				'vs/language/html/fillers/monaco-editor-core':
-					REPO_ROOT + '/out/amd/fillers/monaco-editor-core-amd'
+					REPO_ROOT + '/monaco-html/out/amd/fillers/monaco-editor-core-amd'
 			},
 			optimize: 'none',
 			packages: [
@@ -60,14 +60,14 @@ function bundleOne(moduleId, exclude) {
 				},
 				{
 					name: 'vscode-nls',
-					location: path.join(REPO_ROOT, '/out/amd/fillers'),
+					location: path.join(REPO_ROOT, 'monaco-html/out/amd/fillers'),
 					main: 'vscode-nls'
 				}
 			]
 		},
 		async function (buildResponse) {
-			const devFilePath = path.join(REPO_ROOT, 'release/dev/' + moduleId + '.js');
-			const minFilePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
+			const devFilePath = path.join(REPO_ROOT, 'monaco-html/release/dev/' + moduleId + '.js');
+			const minFilePath = path.join(REPO_ROOT, 'monaco-html/release/min/' + moduleId + '.js');
 			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
 			console.log(`Minifying ${devFilePath}...`);
@@ -78,7 +78,7 @@ function bundleOne(moduleId, exclude) {
 			});
 			console.log(`Done minifying ${devFilePath}.`);
 			try {
-				fs.mkdirSync(path.join(REPO_ROOT, 'release/min'));
+				fs.mkdirSync(path.join(REPO_ROOT, 'monaco-html/release/min'));
 			} catch (err) {}
 			fs.writeFileSync(minFilePath, BUNDLED_FILE_HEADER + result.code);
 		}

@@ -5,10 +5,10 @@ const terser = require('terser');
 const glob = require('glob');
 const helpers = require('monaco-plugin-helpers');
 
-const REPO_ROOT = path.resolve(__dirname, '..');
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
 const sha1 = helpers.getGitVersion(REPO_ROOT);
-const semver = require('../package.json').version;
+const semver = require('../../package.json').version;
 const headerVersion = semver + '(' + sha1 + ')';
 
 const BUNDLED_FILE_HEADER = [
@@ -42,15 +42,15 @@ function bundleOne(moduleId, exclude) {
 			out: 'release/dev/' + moduleId + '.js',
 			exclude: exclude,
 			paths: {
-				'vs/basic-languages': REPO_ROOT + '/out/amd',
+				'vs/basic-languages': REPO_ROOT + '/monaco-languages/out/amd',
 				'vs/basic-languages/fillers/monaco-editor-core':
-					REPO_ROOT + '/out/amd/fillers/monaco-editor-core-amd'
+					REPO_ROOT + '/monaco-languages/out/amd/fillers/monaco-editor-core-amd'
 			},
 			optimize: 'none'
 		},
 		async function (buildResponse) {
-			const devFilePath = path.join(REPO_ROOT, 'release/dev/' + moduleId + '.js');
-			const minFilePath = path.join(REPO_ROOT, 'release/min/' + moduleId + '.js');
+			const devFilePath = path.join(REPO_ROOT, 'monaco-languages/release/dev/' + moduleId + '.js');
+			const minFilePath = path.join(REPO_ROOT, 'monaco-languages/release/min/' + moduleId + '.js');
 			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
 			console.log(`Minifying ${devFilePath}...`);
@@ -61,7 +61,7 @@ function bundleOne(moduleId, exclude) {
 			});
 			console.log(`Done minifying ${devFilePath}.`);
 			try {
-				fs.mkdirSync(path.join(REPO_ROOT, 'release/min'));
+				fs.mkdirSync(path.join(REPO_ROOT, 'monaco-languages/release/min'));
 			} catch (err) {}
 			try {
 				fs.mkdirSync(path.dirname(minFilePath));

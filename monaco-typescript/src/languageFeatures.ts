@@ -206,7 +206,7 @@ export class DiagnosticsAdapter extends Adapter {
 				}
 			};
 
-			let handle: number;
+			let handle: any;
 			const changeSubscription = model.onDidChangeContent(() => {
 				clearTimeout(handle);
 				handle = setTimeout(maybeValidate, 500);
