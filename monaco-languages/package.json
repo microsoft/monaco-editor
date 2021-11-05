@@ -4,7 +4,6 @@
 		"watch": "../node_modules/.bin/tsc -p ./src --watch",
 		"watch-esm": "../node_modules/.bin/tsc -p ./src/tsconfig.esm.json --watch",
 		"test": "node ./test/all.js",
-		"prepublishOnly": "../node_modules/.bin/mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle",
-		"prettier": "prettier --write ."
+		"prepublishOnly": "../node_modules/.bin/mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle"
 	}
 }

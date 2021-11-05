@@ -1,4 +1,3 @@
-
 // Theme matching (i.e. applying a style to a token) happens in JavaScript.
 // We must therefore register the theme rules in JavaScript.
 
@@ -20,12 +19,15 @@ monaco.editor.defineTheme('myCustomTheme', {
 	]
 });
 
-monaco.editor.create(document.getElementById("container"), {
+monaco.editor.create(document.getElementById('container'), {
 	value: getCode(),
-	language: "text/html",
-	theme: "myCustomTheme"
+	language: 'text/html',
+	theme: 'myCustomTheme'
 });
 
 function getCode() {
-	return "<html><!-- // !!! Tokens can be inspected using F1 > Developer: Inspect Tokens !!! -->\n<head>\n	<!-- HTML comment -->\n	<style type=\"text/css\">\n		/* CSS comment */\n	</style>\n	<script type=\"javascript\">\n		// JavaScript comment\n	</"+"script>\n</head>\n<body></body>\n</html>";
+	return (
+		'<html><!-- // !!! Tokens can be inspected using F1 > Developer: Inspect Tokens !!! -->\n<head>\n	<!-- HTML comment -->\n	<style type="text/css">\n		/* CSS comment */\n	</style>\n	<script type="javascript">\n		// JavaScript comment\n	</' +
+		'script>\n</head>\n<body></body>\n</html>'
+	);
 }

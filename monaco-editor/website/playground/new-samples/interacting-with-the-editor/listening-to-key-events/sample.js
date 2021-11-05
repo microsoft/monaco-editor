@@ -1,9 +1,9 @@
-var editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById('container'), {
 	value: "function hello() {\n\talert('Hello world!');\n}",
-	language: "javascript"
+	language: 'javascript'
 });
 
-var myBinding = editor.addCommand(monaco.KeyCode.F9, function() {
+var myBinding = editor.addCommand(monaco.KeyCode.F9, function () {
 	alert('F9 pressed!');
 });
 

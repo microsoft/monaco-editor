@@ -1,29 +1,33 @@
 /// <reference path="../../release/monaco.d.ts" />
 
 (function () {
-
 	'use strict';
 
 	var isMac = /Mac/i.test(navigator.userAgent);
 	window.onload = function () {
 		require(['vs/editor/editor.main'], function () {
 			xhr('playground/monaco.d.ts.txt').then(function (response) {
-				monaco.languages.typescript.javascriptDefaults.addExtraLib(response.responseText, 'ts:monaco.d.ts');
-				monaco.languages.typescript.javascriptDefaults.addExtraLib([
-					'declare var require: {',
-					'	toUrl(path: string): string;',
-					'	(moduleName: string): any;',
-					'	(dependencies: string[], callback: (...args: any[]) => any, errorback?: (err: any) => void): any;',
-					'	config(data: any): any;',
-					'	onError: Function;',
-					'};',
-				].join('\n'), 'ts:require.d.ts');
+				monaco.languages.typescript.javascriptDefaults.addExtraLib(
+					response.responseText,
+					'ts:monaco.d.ts'
+				);
+				monaco.languages.typescript.javascriptDefaults.addExtraLib(
+					[
+						'declare var require: {',
+						'	toUrl(path: string): string;',
+						'	(moduleName: string): any;',
+						'	(dependencies: string[], callback: (...args: any[]) => any, errorback?: (err: any) => void): any;',
+						'	config(data: any): any;',
+						'	onError: Function;',
+						'};'
+					].join('\n'),
+					'ts:require.d.ts'
+				);
 			});
 
 			var loading = document.getElementById('loading');
 			loading.parentNode.removeChild(loading);
 			load();
-
 		});
 	};
 
@@ -44,7 +48,6 @@
 	};
 
 	function load() {
-
 		function layout() {
 			var GLOBAL_PADDING = 20;
 
@@ -61,7 +64,7 @@
 			var REMAINING_HEIGHT = HEIGHT - TITLE_HEIGHT - FOOTER_HEIGHT - SWITCHER_HEIGHT;
 
 			playgroundContainer.style.width = WIDTH + 'px';
-			playgroundContainer.style.height = (HEIGHT - FOOTER_HEIGHT) + 'px';
+			playgroundContainer.style.height = HEIGHT - FOOTER_HEIGHT + 'px';
 
 			sampleSwitcher.style.position = 'absolute';
 			sampleSwitcher.style.top = TITLE_HEIGHT + 'px';
@@ -85,12 +88,12 @@
 			editorContainer.style.top = TABS_HEIGHT + 'px';
 			editorContainer.style.left = 0;
 			editorContainer.style.width = HALF_WIDTH + 'px';
-			editorContainer.style.height = (REMAINING_HEIGHT - TABS_HEIGHT) + 'px';
+			editorContainer.style.height = REMAINING_HEIGHT - TABS_HEIGHT + 'px';
 
 			if (editor) {
 				editor.layout({
 					width: HALF_WIDTH - 2,
-					height: (REMAINING_HEIGHT - TABS_HEIGHT) - 1
+					height: REMAINING_HEIGHT - TABS_HEIGHT - 1
 				});
 			}
 
@@ -98,9 +101,9 @@
 			runContainer.style.top = GLOBAL_PADDING + TITLE_HEIGHT + SWITCHER_HEIGHT + TABS_HEIGHT + 'px';
 			runContainer.style.left = GLOBAL_PADDING + INNER_PADDING + HALF_WIDTH + 'px';
 			runContainer.style.width = HALF_WIDTH + 'px';
-			runContainer.style.height = (REMAINING_HEIGHT - TABS_HEIGHT) + 'px';
+			runContainer.style.height = REMAINING_HEIGHT - TABS_HEIGHT + 'px';
 
-			runIframeHeight = (REMAINING_HEIGHT - TABS_HEIGHT);
+			runIframeHeight = REMAINING_HEIGHT - TABS_HEIGHT;
 			if (runIframe) {
 				runIframe.style.height = runIframeHeight + 'px';
 			}
@@ -131,7 +134,6 @@
 			editor.focus();
 		}
 
-
 		// create the typing side
 		var typingContainer = document.createElement('div');
 		typingContainer.className = 'typingContainer';
@@ -143,19 +145,25 @@
 			var jsTab = document.createElement('span');
 			jsTab.className = 'tab active';
 			jsTab.appendChild(document.createTextNode('JavaScript'));
-			jsTab.onclick = function () { changeTab(jsTab, 'js'); };
+			jsTab.onclick = function () {
+				changeTab(jsTab, 'js');
+			};
 			tabArea.appendChild(jsTab);
 
 			var cssTab = document.createElement('span');
 			cssTab.className = 'tab';
 			cssTab.appendChild(document.createTextNode('CSS'));
-			cssTab.onclick = function () { changeTab(cssTab, 'css'); };
+			cssTab.onclick = function () {
+				changeTab(cssTab, 'css');
+			};
 			tabArea.appendChild(cssTab);
 
 			var htmlTab = document.createElement('span');
 			htmlTab.className = 'tab';
 			htmlTab.appendChild(document.createTextNode('HTML'));
-			htmlTab.onclick = function () { changeTab(htmlTab, 'html'); };
+			htmlTab.onclick = function () {
+				changeTab(htmlTab, 'html');
+			};
 			tabArea.appendChild(htmlTab);
 
 			var runLabel = 'Press ' + (isMac ? 'CMD + return' : 'CTRL + Enter') + ' to run the code.';
@@ -164,7 +172,9 @@
 			runBtn.setAttribute('role', 'button');
 			runBtn.setAttribute('aria-label', runLabel);
 			runBtn.appendChild(document.createTextNode('Run'));
-			runBtn.onclick = function () { run(); };
+			runBtn.onclick = function () {
+				run();
+			};
 			tabArea.appendChild(runBtn);
 
 			return tabArea;
@@ -228,23 +238,32 @@
 
 			samplePath = 'playground/new-samples/' + samplePath;
 
-			var js = xhr(samplePath + '/sample.js').then(function (response) { return response.responseText });
-			var css = xhr(samplePath + '/sample.css').then(function (response) { return response.responseText });
-			var html = xhr(samplePath + '/sample.html').then(function (response) { return response.responseText });
-			Promise.all([js, css, html]).then(function (_) {
-				var js = _[0];
-				var css = _[1];
-				var html = _[2];
-				LOADED_SAMPLES.push({
-					id: sampleId,
-					js: js,
-					css: css,
-					html: html
-				});
-				return callback(null, findLoadedSample(sampleId));
-			}, function (err) {
-				callback(err, null);
+			var js = xhr(samplePath + '/sample.js').then(function (response) {
+				return response.responseText;
 			});
+			var css = xhr(samplePath + '/sample.css').then(function (response) {
+				return response.responseText;
+			});
+			var html = xhr(samplePath + '/sample.html').then(function (response) {
+				return response.responseText;
+			});
+			Promise.all([js, css, html]).then(
+				function (_) {
+					var js = _[0];
+					var css = _[1];
+					var html = _[2];
+					LOADED_SAMPLES.push({
+						id: sampleId,
+						js: js,
+						css: css,
+						html: html
+					});
+					return callback(null, findLoadedSample(sampleId));
+				},
+				function (err) {
+					callback(err, null);
+				}
+			);
 		}
 
 		sampleSwitcher.onchange = function () {
@@ -289,7 +308,7 @@
 				}
 			}
 
-			var myToken = (++currentToken);
+			var myToken = ++currentToken;
 			loadSample(sampleId, function (err, sample) {
 				if (err) {
 					alert('Sample not found! ' + err.message);
@@ -327,7 +346,8 @@
 		});
 	}
 
-	var runIframe = null, runIframeHeight = 0;
+	var runIframe = null,
+		runIframeHeight = 0;
 	function doRun(runContainer) {
 		if (runIframe) {
 			// Unload old iframe
@@ -374,29 +394,33 @@
 		}
 
 		var req = null;
-		return new Promise(function (c, e) {
-			req = new XMLHttpRequest();
-			req.onreadystatechange = function () {
-				if (req._canceled) { return; }
-
-				if (req.readyState === 4) {
-					if ((req.status >= 200 && req.status < 300) || req.status === 1223) {
-						c(req);
-					} else {
-						e(req);
+		return new Promise(
+			function (c, e) {
+				req = new XMLHttpRequest();
+				req.onreadystatechange = function () {
+					if (req._canceled) {
+						return;
 					}
-					req.onreadystatechange = function () { };
-				}
-			};
 
-			req.open("GET", url, true);
-			req.responseType = "";
+					if (req.readyState === 4) {
+						if ((req.status >= 200 && req.status < 300) || req.status === 1223) {
+							c(req);
+						} else {
+							e(req);
+						}
+						req.onreadystatechange = function () {};
+					}
+				};
 
-			req.send(null);
-		}, function () {
-			req._canceled = true;
-			req.abort();
-		});
+				req.open('GET', url, true);
+				req.responseType = '';
+
+				req.send(null);
+			},
+			function () {
+				req._canceled = true;
+				req.abort();
+			}
+		);
 	}
-
 })();

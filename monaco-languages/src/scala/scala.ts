@@ -202,10 +202,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// characters
 			[/'[^\\']'/, 'string', '@allowMethod'],
-			[
-				/(')(@escapes)(')/,
-				['string', 'string.escape', { token: 'string', next: '@allowMethod' }]
-			],
+			[/(')(@escapes)(')/, ['string', 'string.escape', { token: 'string', next: '@allowMethod' }]],
 			[/'/, 'string.invalid']
 		],
 

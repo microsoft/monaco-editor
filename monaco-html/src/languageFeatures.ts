@@ -50,7 +50,9 @@ function toRange(range: htmlService.Range): Range {
 	);
 }
 
-function isInsertReplaceEdit(edit: htmlService.TextEdit | htmlService.InsertReplaceEdit): edit is htmlService.InsertReplaceEdit {
+function isInsertReplaceEdit(
+	edit: htmlService.TextEdit | htmlService.InsertReplaceEdit
+): edit is htmlService.InsertReplaceEdit {
 	return (
 		typeof (<htmlService.InsertReplaceEdit>edit).insert !== 'undefined' &&
 		typeof (<htmlService.InsertReplaceEdit>edit).replace !== 'undefined'
@@ -158,11 +160,13 @@ function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation
 }
 
 function toCommand(c: htmlService.Command | undefined): languages.Command {
-	return c && c.command === 'editor.action.triggerSuggest' ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
+	return c && c.command === 'editor.action.triggerSuggest'
+		? { id: c.command, title: c.title, arguments: c.arguments }
+		: undefined;
 }
 
 export class CompletionAdapter implements languages.CompletionItemProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	public get triggerCharacters(): string[] {
 		return ['.', ':', '<', '"', '=', '/'];
@@ -277,7 +281,7 @@ function toMarkedStringArray(
 }
 
 export class HoverAdapter implements languages.HoverProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	provideHover(
 		model: editor.IReadOnlyModel,
@@ -319,7 +323,7 @@ function toHighlighKind(kind: htmlService.DocumentHighlightKind): languages.Docu
 }
 
 export class DocumentHighlightAdapter implements languages.DocumentHighlightProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentHighlights(
 		model: editor.IReadOnlyModel,
@@ -389,7 +393,7 @@ function toSymbolKind(kind: htmlService.SymbolKind): languages.SymbolKind {
 }
 
 export class DocumentSymbolAdapter implements languages.DocumentSymbolProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentSymbols(
 		model: editor.IReadOnlyModel,
@@ -417,7 +421,7 @@ export class DocumentSymbolAdapter implements languages.DocumentSymbolProvider {
 }
 
 export class DocumentLinkAdapter implements languages.LinkProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	public provideLinks(
 		model: editor.IReadOnlyModel,
@@ -451,7 +455,7 @@ function fromFormattingOptions(
 }
 
 export class DocumentFormattingEditProvider implements languages.DocumentFormattingEditProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentFormattingEdits(
 		model: editor.IReadOnlyModel,
@@ -474,8 +478,9 @@ export class DocumentFormattingEditProvider implements languages.DocumentFormatt
 }
 
 export class DocumentRangeFormattingEditProvider
-	implements languages.DocumentRangeFormattingEditProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	implements languages.DocumentRangeFormattingEditProvider
+{
+	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentRangeFormattingEdits(
 		model: editor.IReadOnlyModel,
@@ -499,7 +504,7 @@ export class DocumentRangeFormattingEditProvider
 }
 
 export class RenameAdapter implements languages.RenameProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	provideRenameEdits(
 		model: editor.IReadOnlyModel,
@@ -542,7 +547,7 @@ function toWorkspaceEdit(edit: htmlService.WorkspaceEdit): languages.WorkspaceEd
 }
 
 export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	public provideFoldingRanges(
 		model: editor.IReadOnlyModel,
@@ -583,7 +588,7 @@ function toFoldingRangeKind(kind: htmlService.FoldingRangeKind): languages.Foldi
 }
 
 export class SelectionRangeAdapter implements languages.SelectionRangeProvider {
-	constructor(private _worker: WorkerAccessor) { }
+	constructor(private _worker: WorkerAccessor) {}
 
 	public provideSelectionRanges(
 		model: editor.IReadOnlyModel,

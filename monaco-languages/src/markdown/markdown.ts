@@ -68,10 +68,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/^\s*\|/, '@rematch', '@table_header'],
 
 			// headers (with #)
-			[
-				/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/,
-				['white', 'keyword', 'keyword', 'keyword']
-			],
+			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', 'keyword', 'keyword', 'keyword']],
 
 			// headers (with =)
 			[/^\s*(=+|\-+)\s*$/, 'keyword'],
@@ -212,10 +209,7 @@ export const language = <languages.IMonarchLanguage>{
 					'string.html'
 				]
 			],
-			[
-				/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/,
-				['attribute.name.html', 'delimiter.html', 'string.html']
-			],
+			[/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name.html', 'delimiter.html', 'string.html']],
 			[/\w+/, 'attribute.name.html'],
 			[/\/>/, 'tag', '@pop'],
 			[

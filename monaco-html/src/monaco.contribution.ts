@@ -173,7 +173,6 @@ const optionsDefault: Required<Options> = {
 	data: { useDefaultDataProvider: true }
 };
 
-
 function getConfigurationDefault(languageId: string): Required<ModeConfiguration> {
 	return {
 		completionItems: true,
@@ -217,8 +216,15 @@ export const razorLanguageService = registerHTMLLanguageService(
 export const razorDefaults = razorLanguageService.defaults;
 
 // export to the global based API
-(<any>languages).html = { htmlDefaults, razorDefaults, handlebarDefaults, htmlLanguageService, handlebarLanguageService, razorLanguageService, registerHTMLLanguageService };
-
+(<any>languages).html = {
+	htmlDefaults,
+	razorDefaults,
+	handlebarDefaults,
+	htmlLanguageService,
+	handlebarLanguageService,
+	razorLanguageService,
+	registerHTMLLanguageService
+};
 
 // --- Registration to monaco editor ---
 
@@ -258,8 +264,6 @@ export function registerHTMLLanguageService(
 		}
 	};
 }
-
-
 
 export interface HTMLDataConfiguration {
 	/**

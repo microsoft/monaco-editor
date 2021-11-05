@@ -617,9 +617,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		escapeChar: [[/@escape/, 'constant.character.escape']],
 
-		interpolation: [
-			[/#{/, { token: 'delimiter.bracket.embed', next: '@interpolationContinue' }]
-		],
+		interpolation: [[/#{/, { token: 'delimiter.bracket.embed', next: '@interpolationContinue' }]],
 
 		interpolationContinue: [
 			[/}/, { token: 'delimiter.bracket.embed', next: '@pop' }],

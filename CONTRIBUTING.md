@@ -6,21 +6,20 @@ This repository contains no source code, it only contains the scripts to package
 
 These packages are described in the root file called `metadata.js` and it is possible to create an editor distribution that contains only certain plugins by editing that file.
 
-| repository | npm module | explanation |
-|------------|------------|-------------|
-| [vscode](https://github.com/Microsoft/vscode) | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode. |
-| [monaco-languages](https://github.com/Microsoft/monaco-languages) | [monaco-languages](https://www.npmjs.com/package/monaco-languages) | plugin that adds colorization and basic supports for dozens of languages. |
-| [monaco-typescript](https://github.com/Microsoft/monaco-typescript) | [monaco-typescript](https://www.npmjs.com/package/monaco-typescript) | plugin that adds rich language support for JavaScript and TypeScript. |
-| [monaco-css](https://github.com/Microsoft/monaco-css) | [monaco-css](https://www.npmjs.com/package/monaco-css) | plugin that adds rich language support for CSS, LESS and SCSS. |
-| [monaco-json](https://github.com/Microsoft/monaco-json) | [monaco-json](https://www.npmjs.com/package/monaco-json) | plugin that adds rich language support for JSON. |
-| [monaco-html](https://github.com/Microsoft/monaco-html) | [monaco-html](https://www.npmjs.com/package/monaco-html) | plugin that adds rich language support for HTML. |
-
+| repository                                                          | npm module                                                             | explanation                                                               |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [vscode](https://github.com/Microsoft/vscode)                       | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode.   |
+| [monaco-languages](https://github.com/Microsoft/monaco-languages)   | [monaco-languages](https://www.npmjs.com/package/monaco-languages)     | plugin that adds colorization and basic supports for dozens of languages. |
+| [monaco-typescript](https://github.com/Microsoft/monaco-typescript) | [monaco-typescript](https://www.npmjs.com/package/monaco-typescript)   | plugin that adds rich language support for JavaScript and TypeScript.     |
+| [monaco-css](https://github.com/Microsoft/monaco-css)               | [monaco-css](https://www.npmjs.com/package/monaco-css)                 | plugin that adds rich language support for CSS, LESS and SCSS.            |
+| [monaco-json](https://github.com/Microsoft/monaco-json)             | [monaco-json](https://www.npmjs.com/package/monaco-json)               | plugin that adds rich language support for JSON.                          |
+| [monaco-html](https://github.com/Microsoft/monaco-html)             | [monaco-html](https://www.npmjs.com/package/monaco-html)               | plugin that adds rich language support for HTML.                          |
 
 ## Running the editor from source
 
 You need to have all the build setup of VS Code to be able to build the Monaco Editor.
 
-* Install all the [prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
+- Install all the [prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
 
 ### OS X and Linux
 
@@ -50,7 +49,7 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 /src/vscode> yarn run watch
 ```
 
-* For the monaco editor test pages:
+- For the monaco editor test pages:
 
 ```bash
 # clone monaco-editor (note the folders must be siblings!)
@@ -90,7 +89,7 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 > Tip: All folders must be cloned as siblings.
 
 > Tip: When running the test pages, use the control panel in the top right corner to switch between running from source, running from npm or running from the local release:
-![image](https://cloud.githubusercontent.com/assets/5047891/19599080/eb0d7622-979e-11e6-96ce-dde98cd95dc1.png)
+> ![image](https://cloud.githubusercontent.com/assets/5047891/19599080/eb0d7622-979e-11e6-96ce-dde98cd95dc1.png)
 
 ## Running the website locally
 
@@ -113,72 +112,76 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 ## Shipping a new monaco-editor npm module
 
 #### 0.
-* make sure you have `https://github.com/microsoft/vscode-loc` checked out next to the `vscode` folder.
+
+- make sure you have `https://github.com/microsoft/vscode-loc` checked out next to the `vscode` folder.
 
 #### 1. Ship a new `monaco-editor-core` npm module
-* bump version in `/src/vscode/build/monaco/package.json`
-* **[important]** push all local changes to the remote to get a good public commit id.
-* generate npm package `/src/vscode> node_modules/.bin/gulp editor-distro`
-* publish npm package `/src/vscode/out-monaco-editor-core> npm publish`
+
+- bump version in `/src/vscode/build/monaco/package.json`
+- **[important]** push all local changes to the remote to get a good public commit id.
+- generate npm package `/src/vscode> node_modules/.bin/gulp editor-distro`
+- publish npm package `/src/vscode/out-monaco-editor-core> npm publish`
 
 #### 2. Adopt new `monaco-editor-core` in plugins
-* if there are breaking API changes that affect the language plugins, adopt the new API in:
-  * [repo - monaco-typescript](https://github.com/Microsoft/monaco-typescript)
-  * [repo - monaco-languages](https://github.com/Microsoft/monaco-languages)
-  * [repo - monaco-css](https://github.com/Microsoft/monaco-css)
-  * [repo - monaco-json](https://github.com/Microsoft/monaco-json)
-  * [repo - monaco-html](https://github.com/Microsoft/monaco-html)
-* publish new versions of those plugins to npm as necessary.
+
+- if there are breaking API changes that affect the language plugins, adopt the new API in:
+  - [repo - monaco-typescript](https://github.com/Microsoft/monaco-typescript)
+  - [repo - monaco-languages](https://github.com/Microsoft/monaco-languages)
+  - [repo - monaco-css](https://github.com/Microsoft/monaco-css)
+  - [repo - monaco-json](https://github.com/Microsoft/monaco-json)
+  - [repo - monaco-html](https://github.com/Microsoft/monaco-html)
+- publish new versions of those plugins to npm as necessary.
 
 #### 3. Update package.json
-* edit `/src/monaco-editor/package.json` and update the version (as necessary):
-  * [npm - monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core)
-  * [npm - monaco-typescript](https://www.npmjs.com/package/monaco-typescript)
-  * [npm - monaco-languages](https://www.npmjs.com/package/monaco-languages)
-  * [npm - monaco-css](https://www.npmjs.com/package/monaco-css)
-  * [npm - monaco-json](https://www.npmjs.com/package/monaco-json)
-  * [npm - monaco-html](https://www.npmjs.com/package/monaco-html)
-* **[important]** fetch latest deps by running `/src/monaco-editor> npm install .`
+
+- edit `/src/monaco-editor/package.json` and update the version (as necessary):
+  - [npm - monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core)
+  - [npm - monaco-typescript](https://www.npmjs.com/package/monaco-typescript)
+  - [npm - monaco-languages](https://www.npmjs.com/package/monaco-languages)
+  - [npm - monaco-css](https://www.npmjs.com/package/monaco-css)
+  - [npm - monaco-json](https://www.npmjs.com/package/monaco-json)
+  - [npm - monaco-html](https://www.npmjs.com/package/monaco-html)
+- **[important]** fetch latest deps by running `/src/monaco-editor> npm install .`
 
 #### 4. Generate and try out the local release
 
-* `/src/monaco-editor> npm run release`
-* try as many test pages as you think are relevant. e.g.:
-  * open `http://localhost:8080/monaco-editor/test/?editor=releaseDev`
-  * open `http://localhost:8080/monaco-editor/test/?editor=releaseMin`
-  * open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseDev`
-  * open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseMin`
+- `/src/monaco-editor> npm run release`
+- try as many test pages as you think are relevant. e.g.:
+  - open `http://localhost:8080/monaco-editor/test/?editor=releaseDev`
+  - open `http://localhost:8080/monaco-editor/test/?editor=releaseMin`
+  - open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseDev`
+  - open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseMin`
 
 #### 5. Update release note.
-* API Change/Breaking Change/New and noteworthy
-* Thank you ([use this tool](https://vscode-tools.azurewebsites.net/))
+
+- API Change/Breaking Change/New and noteworthy
+- Thank you ([use this tool](https://vscode-tools.azurewebsites.net/))
 
 #### 6. Publish
 
-* `/src/monaco-editor> npm version minor`
-* `/src/monaco-editor> npm run release`
-* `/src/monaco-editor/release> npm publish`
-* `/src/monaco-editor> git push --tags`
+- `/src/monaco-editor> npm version minor`
+- `/src/monaco-editor> npm run release`
+- `/src/monaco-editor/release> npm publish`
+- `/src/monaco-editor> git push --tags`
 
 #### 7. Update Website
 
-* `/src/monaco-editor> npm run website`
-
+- `/src/monaco-editor> npm run website`
 
 #### 8. Publish new webpack plugin
 
-* https://github.com/microsoft/monaco-editor-webpack-plugin
-* update to latest `monaco-editor`
-* `npm install .`
-* `npm run import-editor`
-* if there are no changes generated after the script:
-  * update the peer dependency in `package.json` and use the `||` format e.g. `"monaco-editor": "0.27.x || 0.28.x"`
-  * update the version matrix in the README.md and add the new editor version to the plugin's current major version
-  * use `npm version minor`
-  * publish using `npm publish`
-* if there are any changes generated after the script:
-  * update the peer dependency in `package.json` e.g. `"monaco-editor": "0.29.x"`
-  * update the version matrix in the README.md and add a new row with the new major version
-  * use `npm version major`
-  * publish using `npm publish`
-* remember to push tags upstream
+- https://github.com/microsoft/monaco-editor-webpack-plugin
+- update to latest `monaco-editor`
+- `npm install .`
+- `npm run import-editor`
+- if there are no changes generated after the script:
+  - update the peer dependency in `package.json` and use the `||` format e.g. `"monaco-editor": "0.27.x || 0.28.x"`
+  - update the version matrix in the README.md and add the new editor version to the plugin's current major version
+  - use `npm version minor`
+  - publish using `npm publish`
+- if there are any changes generated after the script:
+  - update the peer dependency in `package.json` e.g. `"monaco-editor": "0.29.x"`
+  - update the version matrix in the README.md and add a new row with the new major version
+  - use `npm version major`
+  - publish using `npm publish`
+- remember to push tags upstream

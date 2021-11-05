@@ -267,10 +267,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[^\\\/]/, 'regexp'],
 			[/@regexpesc/, 'regexp.escape'],
 			[/\\\./, 'regexp.invalid'],
-			[
-				/(\/)([gimsuy]*)/,
-				[{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']
-			]
+			[/(\/)([gimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
 		],
 
 		regexrange: [

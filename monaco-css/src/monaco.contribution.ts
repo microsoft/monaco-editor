@@ -117,11 +117,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _modeConfiguration: ModeConfiguration;
 	private _languageId: string;
 
-	constructor(
-		languageId: string,
-		options: Options,
-		modeConfiguration: ModeConfiguration
-	) {
+	constructor(languageId: string, options: Options, modeConfiguration: ModeConfiguration) {
 		this._languageId = languageId;
 		this.setOptions(options);
 		this.setModeConfiguration(modeConfiguration);
@@ -238,7 +234,6 @@ languages.onLanguage('css', () => {
 	getMode().then((mode) => mode.setupMode(cssDefaults));
 });
 
-
 // CSS Data
 
 export interface CSSDataConfiguration {
@@ -312,7 +307,7 @@ export interface IValueData {
 	references?: IReference[];
 }
 export interface MarkupContent {
-    kind: MarkupKind;
-    value: string;
+	kind: MarkupKind;
+	value: string;
 }
 export declare type MarkupKind = 'plaintext' | 'markdown';

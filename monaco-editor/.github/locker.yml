@@ -1,6 +1,1 @@
-{
-    daysAfterClose: 45,
-    daysSinceLastUpdate: 3,
-    ignoredLabels: ['*out-of-scope'],
-    perform: true
-}
+{ daysAfterClose: 45, daysSinceLastUpdate: 3, ignoredLabels: ['*out-of-scope'], perform: true }

@@ -2,18 +2,18 @@
 // Here are a few examples of config options that can be passed to the editor.
 // You can also call editor.updateOptions at any time to change the options.
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById('container'), {
 	value: "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line",
-	language: "javascript",
+	language: 'javascript',
 
-	lineNumbers: "off",
+	lineNumbers: 'off',
 	roundedSelection: false,
 	scrollBeyondLastLine: false,
 	readOnly: false,
-	theme: "vs-dark",
+	theme: 'vs-dark'
 });
-setTimeout(function() {
+setTimeout(function () {
 	editor.updateOptions({
-		lineNumbers: "on"
+		lineNumbers: 'on'
 	});
 }, 2000);

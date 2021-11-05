@@ -56,15 +56,7 @@ export const language = <languages.IMonarchLanguage>{
 		'type'
 	],
 
-	constructors: [
-		'#binary',
-		'#date',
-		'#datetime',
-		'#datetimezone',
-		'#duration',
-		'#table',
-		'#time'
-	],
+	constructors: ['#binary', '#date', '#datetime', '#datetimezone', '#duration', '#table', '#time'],
 
 	constants: ['#infinity', '#nan', '#sections', '#shared'],
 

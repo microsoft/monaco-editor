@@ -1,5 +1,5 @@
 function lineNumbersFunc(originalLineNumber) {
-	var map = [ 'O', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+	var map = ['O', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 	if (originalLineNumber < map.length) {
 		return map[originalLineNumber];
 	}
@@ -18,8 +18,8 @@ var jsCode = [
 	'};'
 ].join('\n');
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById('container'), {
 	value: jsCode,
-	language: "javascript",
+	language: 'javascript',
 	lineNumbers: lineNumbersFunc
 });

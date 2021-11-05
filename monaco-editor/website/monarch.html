@@ -1,144 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width" />
 
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width">
+		<title>Monaco Editor Monarch</title>
 
-	<title>Monaco Editor Monarch</title>
+		<link data-inline="yes-please" href="./lib/bootstrap-cosmo.css" rel="stylesheet" />
+		<link data-inline="yes-please" href="./lib/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link data-inline="yes-please" href="./all.css" rel="stylesheet" type="text/css" />
+		<link data-inline="yes-please" href="./monarch/monarch.css" rel="stylesheet" />
 
-	<link data-inline="yes-please" href="./lib/bootstrap-cosmo.css" rel="stylesheet">
-	<link data-inline="yes-please" href="./lib/bootstrap-responsive.min.css" rel="stylesheet">
-	<link data-inline="yes-please" href="./all.css" rel="stylesheet" type="text/css">
-	<link data-inline="yes-please" href="./monarch/monarch.css" rel="stylesheet" />
+		<link
+			data-name="vs/editor/editor.main"
+			rel="stylesheet"
+			href="../release/dev/vs/editor/editor.main.css"
+		/>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<div class="logo">
+						<a href="index.html">Monaco Editor</a>
+					</div>
+					<!-- collapse button for smaller screens -->
+					<button
+						type="button"
+						class="btn btn-navbar"
+						data-toggle="collapse"
+						data-target=".nav-collapse"
+					>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 
-	<link data-name="vs/editor/editor.main" rel="stylesheet" href="../release/dev/vs/editor/editor.main.css">
-</head>
-<body>
-
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<div class="logo">
-					<a href="index.html">Monaco Editor</a>
-				</div>
-				<!-- collapse button for smaller screens -->
-				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-
-				<!-- navbar title -->
-				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li><a class="nav-item" href="index.html">Home</a></li>
-						<li><a class="nav-item" href="api/index.html">API Doc</a></li>
-						<li><a class="nav-item" href="playground.html">Playground</a></li>
-						<li><a class="nav-item" href="monarch.html">Monarch</a></li>
-						<li><a class="nav-item" target="_blank" href="https://registry.npmjs.org/monaco-editor/-/monaco-editor-{{version}}.tgz">Download {{version}}</a></li>
-					</ul>
+					<!-- navbar title -->
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li><a class="nav-item" href="index.html">Home</a></li>
+							<li><a class="nav-item" href="api/index.html">API Doc</a></li>
+							<li><a class="nav-item" href="playground.html">Playground</a></li>
+							<li><a class="nav-item" href="monarch.html">Monarch</a></li>
+							<li>
+								<a
+									class="nav-item"
+									target="_blank"
+									href="https://registry.npmjs.org/monaco-editor/-/monaco-editor-{{version}}.tgz"
+									>Download {{version}}</a
+								>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-	</nav>
+		</nav>
 
-	<section id="monarch">
-
-<!--******************************************
+		<section id="monarch">
+			<!--******************************************
     Main elements
 **********************************************-->
 
-  <div id="main">
-    <div id="header"><img src="monarch/monarch-34px.png" id="logo" alt="Monarch-Logo">Monarch Documentation
-    </div>
+			<div id="main">
+				<div id="header">
+					<img src="monarch/monarch-34px.png" id="logo" alt="Monarch-Logo" />Monarch Documentation
+				</div>
 
-    <div id="leftPane">
-      <div class="paneheader">Language syntax definition
-        <span class="selectbox">
-          Sample: <select id="sampleselect">
-            <option>mylang</option>
-            <option>java</option>
-            <option>javascript</option>
-            <option>python</option>
-            <option>csharp</option>
-            <option>xdot</option>
-            <option>koka</option>
-            <option disabled label=" "></option>
-            <option>boogie</option>
-            <option>chalice</option>
-            <option>dafny</option>
-            <option>formula</option>
-            <option>smt2</option>
-            <option>specsharp</option>
-            <option>z3python</option>
-            <option disabled label=" "></option>
-            <option>html</option>
-            <option>markdown</option>
-            <option>ruby</option>
-          </select>
-        </span>
-      </div>
-      <div id="langPane"></div>
-      <div id="commandbar">Generate:
-      </div>
-    </div>
+				<div id="leftPane">
+					<div class="paneheader">
+						Language syntax definition
+						<span class="selectbox">
+							Sample:
+							<select id="sampleselect">
+								<option>mylang</option>
+								<option>java</option>
+								<option>javascript</option>
+								<option>python</option>
+								<option>csharp</option>
+								<option>xdot</option>
+								<option>koka</option>
+								<option disabled label=" "></option>
+								<option>boogie</option>
+								<option>chalice</option>
+								<option>dafny</option>
+								<option>formula</option>
+								<option>smt2</option>
+								<option>specsharp</option>
+								<option>z3python</option>
+								<option disabled label=" "></option>
+								<option>html</option>
+								<option>markdown</option>
+								<option>ruby</option>
+							</select>
+						</span>
+					</div>
+					<div id="langPane"></div>
+					<div id="commandbar">Generate:</div>
+				</div>
 
-    <div id="rightPane">
-      <div class="paneheader">Language editor
-        <span class="arrowdown" style="display:none">&#x25BC;</span>
-        <span class="selectbox">
-          Theme: <select id="themeselect">
-            <option>vs</option>
-            <option>vs-dark</option>
-            <option>hc-black</option>
-          </select>
-        </span>
-      </div>
-      <div id="editor"></div>
-      <div id="monarchConsole"></div>
-    </div>
+				<div id="rightPane">
+					<div class="paneheader">
+						Language editor
+						<span class="arrowdown" style="display: none">&#x25BC;</span>
+						<span class="selectbox">
+							Theme:
+							<select id="themeselect">
+								<option>vs</option>
+								<option>vs-dark</option>
+								<option>hc-black</option>
+							</select>
+						</span>
+					</div>
+					<div id="editor"></div>
+					<div id="monarchConsole"></div>
+				</div>
 
-
-<!--******************************************
+				<!--******************************************
   Documentation
 **********************************************-->
-<!--  <div id="footer">
+				<!--  <div id="footer">
     Documentation <span class="arrowdown">&#x25BC;</span>
   </div>-->
-  <div id="documentation">
-    <h2>Monarch: create declarative syntax highlighters using JSON</h2>
-    <p>This document describes how to create a syntax highlighter using the
-      Monarch library. This library allows you to specify an efficient syntax highlighter, using a declarative lexical specification (written as a JSON value). The specification is expressive enough to specify sophisticated highlighters with complex state transitions, dynamic brace matching, auto-completion, other language embeddings, etc. as shown in the 'advanced' topic sections of this document. On a first read, it is safe to skip any section or paragraph marked as <span class="adv">(Advanced)</span> since many of the advanced features are rarely used in most language definitions.<br>
-    &nbsp;&nbsp;&nbsp; &ndash; Daan Leijen.
-    </p>
+				<div id="documentation">
+					<h2>Monarch: create declarative syntax highlighters using JSON</h2>
+					<p>
+						This document describes how to create a syntax highlighter using the Monarch library.
+						This library allows you to specify an efficient syntax highlighter, using a declarative
+						lexical specification (written as a JSON value). The specification is expressive enough
+						to specify sophisticated highlighters with complex state transitions, dynamic brace
+						matching, auto-completion, other language embeddings, etc. as shown in the 'advanced'
+						topic sections of this document. On a first read, it is safe to skip any section or
+						paragraph marked as
+						<span class="adv">(Advanced)</span> since many of the advanced features are rarely used
+						in most language definitions.<br />
+						&nbsp;&nbsp;&nbsp; &ndash; Daan Leijen.
+					</p>
 
-    <h2>Creating a language definition</h2>
+					<h2>Creating a language definition</h2>
 
-    <p>A language definition is basically just a JSON value describing various properties of your language. Recognized attributes are:</p>
+					<p>
+						A language definition is basically just a JSON value describing various properties of
+						your language. Recognized attributes are:
+					</p>
 
-    <dl>
-      <dt>ignoreCase</dt><dd>(optional=<code>false</code>, boolean) Is the language case insensitive?. The regular expressions in the tokenizer use this to do case (in)sensitive matching, as well
-      as tests in the <code>cases</code> construct.</dd>
+					<dl>
+						<dt>ignoreCase</dt>
+						<dd>
+							(optional=<code>false</code>, boolean) Is the language case insensitive?. The regular
+							expressions in the tokenizer use this to do case (in)sensitive matching, as well as
+							tests in the
+							<code>cases</code> construct.
+						</dd>
 
-      <dt>defaultToken</dt><dd>(optional=<code>"source"</code>, string) The default token returned if nothing matches in the tokenizer. It can be convenient to set this to <code>"invalid"</code> during development of your colorizer to easily spot what is not matched yet.</dd>
-      <dt id="brackets">brackets</dt><dd>(optional, array of bracket definitions) This is used by the tokenizer to easily define matching braces. See <a href="#@brackets"><code class="dt">@brackets</code></a> and <a href="#bracket"><code class="dt">bracket</code></a> for more information. Each bracket definition is an array of 3 elements, or object, describing the <code>open</code> brace, the <code>close</code> brace, and the <code>token</code> class. The default definition is:
-        <pre class="highlight">
+						<dt>defaultToken</dt>
+						<dd>
+							(optional=<code>"source"</code>, string) The default token returned if nothing matches
+							in the tokenizer. It can be convenient to set this to <code>"invalid"</code> during
+							development of your colorizer to easily spot what is not matched yet.
+						</dd>
+						<dt id="brackets">brackets</dt>
+						<dd>
+							(optional, array of bracket definitions) This is used by the tokenizer to easily
+							define matching braces. See
+							<a href="#@brackets"><code class="dt">@brackets</code></a> and
+							<a href="#bracket"><code class="dt">bracket</code></a> for more information. Each
+							bracket definition is an array of 3 elements, or object, describing the
+							<code>open</code> brace, the <code>close</code> brace, and the
+							<code>token</code> class. The default definition is:
+							<pre class="highlight">
     [ ['{','}','delimiter.curly'],
       ['[',']','delimiter.square'],
       ['(',')','delimiter.parenthesis'],
-      ['&lt;','>','delimiter.angle'] ]</pre>
-        </dd>
-      <dt>tokenizer</dt><dd>(required, object with states) This defines the tokenization rules &ndash; see the next section for a detailed description.</dd>
-    </dl>
+      ['&lt;','>','delimiter.angle'] ]</pre
+							>
+						</dd>
+						<dt>tokenizer</dt>
+						<dd>
+							(required, object with states) This defines the tokenization rules &ndash; see the
+							next section for a detailed description.
+						</dd>
+					</dl>
 
+					<p>
+						There are more attributes that can be specified which are described in the
+						<a href="#moreattr">advanced attributes</a> section later in this document.
+					</p>
 
-    <p>There are more attributes that can be specified which are described in the <a href="#moreattr">advanced attributes</a> section later in this document.</p>
+					<h2>Creating a tokenizer</h2>
 
-    <h2>Creating a tokenizer</h2>
-
-    <p>The <code>tokenizer</code> attribute describes how lexical analysis takes place, and how the input is divided into tokens. Each token is given a CSS class name which is used to render each token in the editor. Standard CSS token classes include:</p>
-    <pre class="highlight">
+					<p>
+						The <code>tokenizer</code> attribute describes how lexical analysis takes place, and how
+						the input is divided into tokens. Each token is given a CSS class name which is used to
+						render each token in the editor. Standard CSS token classes include:
+					</p>
+					<pre class="highlight">
 identifier         entity           constructor
 operators          tag              namespace
 keyword            info-token       type
@@ -151,76 +207,240 @@ constant           attribute
 delimiter .[curly,square,parenthesis,angle,array,bracket]
 number    .[hex,octal,binary,float]
 variable  .[name,value]
-meta      .[content]</pre>
+meta      .[content]</pre
+					>
 
-    <h3>States</h3>
-    <p>A tokenizer consists of an object that defines states. The initial state of the tokenizer is the first state defined in the tokenizer. When a tokenizer is in a certain state, only the rules in that state will be applied. All rules are matched in order and when the first one matches its action is used to determine the token class. No further rules are tried. Therefore, it can
-    be important to order the rules in a way that is most efficient, i.e. whitespace and identifiers first.</p>
+					<h3>States</h3>
+					<p>
+						A tokenizer consists of an object that defines states. The initial state of the
+						tokenizer is the first state defined in the tokenizer. When a tokenizer is in a certain
+						state, only the rules in that state will be applied. All rules are matched in order and
+						when the first one matches its action is used to determine the token class. No further
+						rules are tried. Therefore, it can be important to order the rules in a way that is most
+						efficient, i.e. whitespace and identifiers first.
+					</p>
 
-    <p><span class="adv">(Advanced)</span> A state is interpreted as dot (<code>.</code>) separated sub-states. When looking up the rules for a state, the tokenizer first tries the entire state name, and then looks at its parent until it finds a definition. For example, in our example, the states <code>"comment.block"</code> and <code>"comment.foo"</code> would both be handled by the <code>comment</code> rules. Hierarchical state names can be used to maintain complex lexer states, as shown for example in the section on <a href="#htmlembed">complex embeddings</a>.</p>
+					<p>
+						<span class="adv">(Advanced)</span> A state is interpreted as dot (<code>.</code>)
+						separated sub-states. When looking up the rules for a state, the tokenizer first tries
+						the entire state name, and then looks at its parent until it finds a definition. For
+						example, in our example, the states <code>"comment.block"</code> and
+						<code>"comment.foo"</code> would both be handled by the <code>comment</code> rules.
+						Hierarchical state names can be used to maintain complex lexer states, as shown for
+						example in the section on <a href="#htmlembed">complex embeddings</a>.
+					</p>
 
-    <h3>Rules</h3>
-    <p>Each state is defined as an array of rules which are used to match the input.
-    Rules can have the following form:</p>
-    <dl>
-    <dt>[<em>regex</em>, <em>action</em>]</dt><dd>Shorthand for <code>{ regex: <em>regex</em>, action: <em>action</em> }</code></dd>
+					<h3>Rules</h3>
+					<p>
+						Each state is defined as an array of rules which are used to match the input. Rules can
+						have the following form:
+					</p>
+					<dl>
+						<dt>[<em>regex</em>, <em>action</em>]</dt>
+						<dd>
+							Shorthand for
+							<code>{ regex: <em>regex</em>, action: <em>action</em> }</code>
+						</dd>
 
-    <dt>[<em>regex</em>, <em>action</em>, <em>next</em>]</dt><dd>Shorthand for <code>{ regex: <em>regex</em>, action: <em>action</em>{next: <em>next</em>} }</code></dd>
+						<dt>[<em>regex</em>, <em>action</em>, <em>next</em>]</dt>
+						<dd>
+							Shorthand for
+							<code>{ regex: <em>regex</em>, action: <em>action</em>{next: <em>next</em>} }</code>
+						</dd>
 
-    <dt>{regex: <em>regex</em>, action: <em>action</em> }</dt><dd>When <code><em>regex</em></code> matches against the current input, then <code><em>action</em></code> is applied to set the token class. The regular expression <code><em>regex</em></code> can be either a regular expression (using <code>/<em>regex</em>/</code>), or a string representing a regular expression. If it starts with a <code>^</code> character, the expression only
-    matches at the start of a source line. The <code>$</code> can be used to match against the end of  a source line. Note that the tokenizer is not called when the end of the line is already reached, and the empty pattern <code>/$/</code> will therefore never match (but see <a href="#@eos"><code class="dt">'@eos'</code></a> too). Inside a regular expression, you can reference a string attribute named <code><em>attr</em></code> as <code>@<em>attr</em></code>, which is automatically expanded. This is used in the standard example to share the regular expression for escape sequences using <code>'@escapes'</code> inside the regular expression for characters and strings.
+						<dt>{regex: <em>regex</em>, action: <em>action</em> }</dt>
+						<dd>
+							When <code><em>regex</em></code> matches against the current input, then
+							<code><em>action</em></code> is applied to set the token class. The regular expression
+							<code><em>regex</em></code> can be either a regular expression (using
+							<code>/<em>regex</em>/</code>), or a string representing a regular expression. If it
+							starts with a <code>^</code> character, the expression only matches at the start of a
+							source line. The <code>$</code> can be used to match against the end of a source line.
+							Note that the tokenizer is not called when the end of the line is already reached, and
+							the empty pattern <code>/$/</code> will therefore never match (but see
+							<a href="#@eos"><code class="dt">'@eos'</code></a> too). Inside a regular expression,
+							you can reference a string attribute named <code><em>attr</em></code> as
+							<code>@<em>attr</em></code
+							>, which is automatically expanded. This is used in the standard example to share the
+							regular expression for escape sequences using <code>'@escapes'</code> inside the
+							regular expression for characters and strings.
 
-    <p>Regular expression primer: common regular expression escapes we use are <code>\d</code> for <code>[0-9]</code>, <code>\w</code> for <code>[a-zA-Z0-9_]</code>, and <code>\s</code> for <code>[ \t\r\n]</code>. The notation <code><em>regex</em>{<em>n</em>}</code> stands for <code><em>n</em></code> occurrences of <code><em>regex</em></code>. Also, we use <code>(?=<em>regex</em>)</code> for non-consuming `followed by <code><em>regex</em></code>', <code>(?!<em>regex</em>)</code> for `not followed by', and <code>(?:<em>regex</em>)</code> for a non-capturing group (i.e. cannot use <code>$<em>n</em></code> to refer to it).</p>
-    </dd>
-    <dt>{ include: <em>state</em> }</dt><dd> Used for nice organization of your rules and expands to all the rules defined in <code><em>state</em></code>. This is pre-expanded and has no influence on performance. Many samples include the <code>'@whitespace'</code> state for example.</dd>
-    </dl>
+							<p>
+								Regular expression primer: common regular expression escapes we use are
+								<code>\d</code> for <code>[0-9]</code>, <code>\w</code> for
+								<code>[a-zA-Z0-9_]</code>, and <code>\s</code> for <code>[ \t\r\n]</code>. The
+								notation <code><em>regex</em>{<em>n</em>}</code> stands for
+								<code><em>n</em></code> occurrences of <code><em>regex</em></code
+								>. Also, we use <code>(?=<em>regex</em>)</code> for non-consuming `followed by
+								<code><em>regex</em></code
+								>', <code>(?!<em>regex</em>)</code> for `not followed by', and
+								<code>(?:<em>regex</em>)</code> for a non-capturing group (i.e. cannot use
+								<code>$<em>n</em></code> to refer to it).
+							</p>
+						</dd>
+						<dt>{ include: <em>state</em> }</dt>
+						<dd>
+							Used for nice organization of your rules and expands to all the rules defined in
+							<code><em>state</em></code
+							>. This is pre-expanded and has no influence on performance. Many samples include the
+							<code>'@whitespace'</code> state for example.
+						</dd>
+					</dl>
 
-    <h3>Actions</h3>
-    <p>An action determines the resulting token class. An action can have the following forms:</p>
-    <dl>
-      <dt><em>string</em></dt><dd>Shorthand for <code>{ token: <em>string</em> }</code>.</dd>
-      <dt>[<em>action1</em>,...,<em>actionN</em>]</dt><dd>An array of N actions. This is only allowed when the regular expression consists of exactly N groups (ie. parenthesized parts). Due to the way the tokenizer works, you must define the groups in such a way that all groups appear at top-level and encompass the entire input, for example, we could define characters with an ascii code escape sequence as:
-      <pre class="highlight">/(')(\\(?:[abnfrt]|[xX][0-9]{2}))(')/, ['string','string.escape','string']]</pre>
-      <p>Note how we used a non-capturing group using <code>(?: )</code> in the inner group</p>
-      <dt id="token">{ token: <em>tokenclass</em> }</dt><dd>An object that defines the token class used with CSS rendering. Common token classes are for example <code>&apos;keyword&apos;</code>, <code>&apos;comment&apos;</code> or <code>&apos;identifier&apos;</code>. You can use a dot to use hierarchical CSS names, like <code>&apos;type.identifier&apos;</code> or <code>&apos;string.escape&apos;</code>. You can also include <code>$</code> patterns that are substituted with a captured group from the matched input or the tokenizer state. The patterns are described in the <a href="#pattern">guard section</a> of this document.
-      There are some special token classes:
-      <dl>
-        <dt id="@brackets">"@brackets"</dt> <dd>or</dd>
-        <dt>"@brackets.<em>tokenclass</em></dt><dd>Signifies that brackets were tokenized. The token class for CSS is determined by the token class defined in the <a href="#brackets"><code>brackets</code></a> attribute (together with <code><em>tokenclass</em></code> if present). Moreover, <a href="#bracket"><code class="dt">bracket</code></a> attribute is set such that the editor is matches the braces (and does auto indentation). For example:
-        <pre class="highlight">[/[{}()\[\]]/, '@brackets']</pre>
-        </dd>
+					<h3>Actions</h3>
+					<p>
+						An action determines the resulting token class. An action can have the following forms:
+					</p>
+					<dl>
+						<dt><em>string</em></dt>
+						<dd>
+							Shorthand for <code>{ token: <em>string</em> }</code>.
+						</dd>
+						<dt>[<em>action1</em>,...,<em>actionN</em>]</dt>
+						<dd>
+							An array of N actions. This is only allowed when the regular expression consists of
+							exactly N groups (ie. parenthesized parts). Due to the way the tokenizer works, you
+							must define the groups in such a way that all groups appear at top-level and encompass
+							the entire input, for example, we could define characters with an ascii code escape
+							sequence as:
+							<pre class="highlight">
+/(')(\\(?:[abnfrt]|[xX][0-9]{2}))(')/, ['string','string.escape','string']]</pre
+							>
+							<p>
+								Note how we used a non-capturing group using
+								<code>(?: )</code> in the inner group
+							</p>
+						</dd>
 
-        <dt id="@rematch">"@rematch"</dt><dd><span class="adv">(Advanced)</span> Backs up the input and re-invokes the tokenizer. This of course only works when a state change happens too (or we go into an infinite recursion), so this is usually used in combination with the <code class="dt">next</code> attribute. This can be used for example when you are in a certain tokenizer state  and want to get out when seeing certain end markers but don't want to consume them while being in that state. See also <a href="#nextEmbedded"><code class="dt">nextEmbedded</code></a>.</dd>
-      </dl>
-      <p>An action object can contain more fields that influence the state of a lexer. The following attributes are recognized:</p>
-      <dl>
-        <dt id="next">next: <em>state</em></dt><dd>(string) If defined it pushes the current state onto the tokenizer stack and makes <code><em>state</em></code> the current state. This can be used for example to start tokenizing a block comment:
-        <pre class="highlight">['/\\*', 'comment', '@comment' ]</pre>
-        <p>Note that this is a shorthand for</p>
-        <pre class="highlight">{ regex: '/\\*', action: { token: 'comment', next: '@comment' } }</pre>
-        <p>Here the matched <code>/*</code> is given the <code>"comment"</code> token class, and the tokenizer proceeds with matching the input using the rules in state <code>@comment</code>.</p>
-        <p>There are a few special states that can be used for the <code>next</code> attribute:</p>
-        <dl>
-          <dt>"@pop"</dt><dd>Pops the tokenizer stack to return to the previous state. This is used for example to return from block comment tokenizing after seeing the end marker:
-          <pre class="highlight">['\\*/', 'comment', '@pop']</pre>
-          </dd>
+						<dt id="token">{ token: <em>tokenclass</em> }</dt>
+						<dd>
+							An object that defines the token class used with CSS rendering. Common token classes
+							are for example
+							<code>&apos;keyword&apos;</code>, <code>&apos;comment&apos;</code> or
+							<code>&apos;identifier&apos;</code>. You can use a dot to use hierarchical CSS names,
+							like <code>&apos;type.identifier&apos;</code> or
+							<code>&apos;string.escape&apos;</code>. You can also include <code>$</code> patterns
+							that are substituted with a captured group from the matched input or the tokenizer
+							state. The patterns are described in the <a href="#pattern">guard section</a> of this
+							document. There are some special token classes:
+							<dl>
+								<dt id="@brackets">"@brackets"</dt>
+								<dd>or</dd>
+								<dt>"@brackets.<em>tokenclass</em></dt>
+								<dd>
+									Signifies that brackets were tokenized. The token class for CSS is determined by
+									the token class defined in the
+									<a href="#brackets"><code>brackets</code></a> attribute (together with
+									<code><em>tokenclass</em></code> if present). Moreover,
+									<a href="#bracket"><code class="dt">bracket</code></a>
+									attribute is set such that the editor is matches the braces (and does auto
+									indentation). For example:
+									<pre class="highlight">[/[{}()\[\]]/, '@brackets']</pre>
+								</dd>
 
-          <dt>"@push"</dt><dd>Pushes the current state and continues in the current state. Nice for doing nested block comments when seeing a comment begin marker, i.e. in the <code>@comment</code> state, we can do:
-          <pre class="highlight">['/\\*', 'comment', '@push']</pre>
-          <dt id="popall">"@popall"</dt><dd>Pops everything from tokenizer stack and returns to the top state. This can be used during recovery to 'jump' back to the initial state from a deep nesting level.
-          </dd>
-        </dl>
-        </dd>
+								<dt id="@rematch">"@rematch"</dt>
+								<dd>
+									<span class="adv">(Advanced)</span> Backs up the input and re-invokes the
+									tokenizer. This of course only works when a state change happens too (or we go
+									into an infinite recursion), so this is usually used in combination with the
+									<code class="dt">next</code> attribute. This can be used for example when you are
+									in a certain tokenizer state and want to get out when seeing certain end markers
+									but don't want to consume them while being in that state. See also
+									<a href="#nextEmbedded"><code class="dt">nextEmbedded</code></a
+									>.
+								</dd>
+							</dl>
+							<p>
+								An action object can contain more fields that influence the state of a lexer. The
+								following attributes are recognized:
+							</p>
+							<dl>
+								<dt id="next">next: <em>state</em></dt>
+								<dd>
+									(string) If defined it pushes the current state onto the tokenizer stack and makes
+									<code><em>state</em></code> the current state. This can be used for example to
+									start tokenizing a block comment:
+									<pre class="highlight">['/\\*', 'comment', '@comment' ]</pre>
+									<p>Note that this is a shorthand for</p>
+									<pre class="highlight">
+{ regex: '/\\*', action: { token: 'comment', next: '@comment' } }</pre
+									>
+									<p>
+										Here the matched <code>/*</code> is given the <code>"comment"</code> token
+										class, and the tokenizer proceeds with matching the input using the rules in
+										state <code>@comment</code>.
+									</p>
+									<p>
+										There are a few special states that can be used for the
+										<code>next</code> attribute:
+									</p>
+									<dl>
+										<dt>"@pop"</dt>
+										<dd>
+											Pops the tokenizer stack to return to the previous state. This is used for
+											example to return from block comment tokenizing after seeing the end marker:
+											<pre class="highlight">['\\*/', 'comment', '@pop']</pre>
+										</dd>
 
-        <dt id="switchTo">switchTo: <em>state</em></dt><dd><span class="adv">(Advanced)</span> Switch to <code><em>state</em></code> without changing the stack.</dd>
+										<dt>"@push"</dt>
+										<dd>
+											Pushes the current state and continues in the current state. Nice for doing
+											nested block comments when seeing a comment begin marker, i.e. in the
+											<code>@comment</code> state, we can do:
+											<pre class="highlight">['/\\*', 'comment', '@push']</pre>
+										</dd>
 
-        <dt id="goBack">goBack: <em>number</em></dt><dd><span class="adv">(Advanced)</span> Back up the input by <code><em>number</em></code> characters.</dd>
+										<dt id="popall">"@popall"</dt>
+										<dd>
+											Pops everything from tokenizer stack and returns to the top state. This can be
+											used during recovery to 'jump' back to the initial state from a deep nesting
+											level.
+										</dd>
+									</dl>
+								</dd>
 
-        <dt id="bracket">bracket: <em>kind</em></dt><dd><span class="adv">(Advanced)</span> The <code><em>kind</em></code> can be either <code>'@open'</code> or <code>'@close'</code>. This signifies that a token is either an open or close brace. This attribute is set automatically if the token class is <a href="#@brackets"><code class="dt">@brackets</code></a>.
-        The editor uses the bracket information to show matching braces (where an open bracket matches with a close bracket if their token classes are the same). Moreover, when a user opens a new line the editor will do auto indentation on open braces. Normally, this attribute does not need to be set if you are using the <a href="#brackets"><code class="dt">brackets</code></a> attribute and it is only used for complex brace matching. This is discussed further in the next section on <a href="#complexmatch">advanced brace matching</a>.</dd>
+								<dt id="switchTo">switchTo: <em>state</em></dt>
+								<dd>
+									<span class="adv">(Advanced)</span> Switch to <code><em>state</em></code> without
+									changing the stack.
+								</dd>
 
-        <dt id="nextEmbedded">nextEmbedded: <em>langId</em> <span>or</span> '@pop'</dt><dd><span class="adv">(Advanced)</span> Signifies to the editor that this token is followed by code in another language specified by the <code><em>langId</em></code>, i.e. for example <code>javascript</code>. Internally, our syntax highlighter keeps tokenizing the source until it finds an an ending sequence. At that point, you can use <code class="dt">nextEmbedded</code> with a <code class="dt">'@pop'</code> value to pop out of the embedded mode again. <code class="dt">nextEmbedded</code> usually needs a <code class="dt">next</code> attribute to switch to a state where we can tokenize the foreign code. As an example, here is how we could support CSS fragments in our language:
-        <pre class="highlight">root: [
+								<dt id="goBack">goBack: <em>number</em></dt>
+								<dd>
+									<span class="adv">(Advanced)</span> Back up the input by
+									<code><em>number</em></code> characters.
+								</dd>
+
+								<dt id="bracket">bracket: <em>kind</em></dt>
+								<dd>
+									<span class="adv">(Advanced)</span> The <code><em>kind</em></code> can be either
+									<code>'@open'</code> or <code>'@close'</code>. This signifies that a token is
+									either an open or close brace. This attribute is set automatically if the token
+									class is <a href="#@brackets"><code class="dt">@brackets</code></a
+									>. The editor uses the bracket information to show matching braces (where an open
+									bracket matches with a close bracket if their token classes are the same).
+									Moreover, when a user opens a new line the editor will do auto indentation on open
+									braces. Normally, this attribute does not need to be set if you are using the
+									<a href="#brackets"><code class="dt">brackets</code></a>
+									attribute and it is only used for complex brace matching. This is discussed
+									further in the next section on
+									<a href="#complexmatch">advanced brace matching</a>.
+								</dd>
+
+								<dt id="nextEmbedded">nextEmbedded: <em>langId</em> <span>or</span> '@pop'</dt>
+								<dd>
+									<span class="adv">(Advanced)</span> Signifies to the editor that this token is
+									followed by code in another language specified by the <code><em>langId</em></code
+									>, i.e. for example <code>javascript</code>. Internally, our syntax highlighter
+									keeps tokenizing the source until it finds an an ending sequence. At that point,
+									you can use <code class="dt">nextEmbedded</code> with a
+									<code class="dt">'@pop'</code> value to pop out of the embedded mode again.
+									<code class="dt">nextEmbedded</code> usually needs a
+									<code class="dt">next</code> attribute to switch to a state where we can tokenize
+									the foreign code. As an example, here is how we could support CSS fragments in our
+									language:
+									<pre class="highlight">
+root: [
   [/&lt;style\s*>/,   { token: 'keyword', bracket: '@open'
                    , next: '@css_block', nextEmbedded: 'text/css' }],
 
@@ -233,36 +453,86 @@ css_block: [
   [/&lt;\/style\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
   [/"/, 'string', '@string' ],
   [/&lt;/, '']
-],</pre>
-      <p>Note how we switch to the <code>css_block</code> state for tokenizing the CSS source. Also inside the CSS we use the <code>@string</code> state to tokenize CSS strings such that we do not stop the CSS block when we find <code>&lt;/style&gt;</code> inside a string. When we find the closing tag, we also <a href="#@pop"><code class="dt">"@pop"</code></a> the state to get back to normal tokenization. Finally, we need to <a href="#@rematch"><code class="dt">"@rematch"</code></a> the token (in the <code>root</code> state) since the editor ignores our token classes until we actually exit the embedded mode. See also a later section on <a href="#htmlembed">complex dynamic embeddings</a>.
-        (Bug: you can only start an embedded section if the you consume characters at the start of the embedded block (like consuming the <code>&lt;style&gt;</code> tag) (Aug 2012))</p>
-      </dd>
+],</pre
+									>
+									<p>
+										Note how we switch to the <code>css_block</code> state for tokenizing the CSS
+										source. Also inside the CSS we use the <code>@string</code> state to tokenize
+										CSS strings such that we do not stop the CSS block when we find
+										<code>&lt;/style&gt;</code> inside a string. When we find the closing tag, we
+										also <a href="#@pop"><code class="dt">"@pop"</code></a> the state to get back to
+										normal tokenization. Finally, we need to
+										<a href="#@rematch"><code class="dt">"@rematch"</code></a>
+										the token (in the <code>root</code> state) since the editor ignores our token
+										classes until we actually exit the embedded mode. See also a later section on
+										<a href="#htmlembed">complex dynamic embeddings</a>. (Bug: you can only start an
+										embedded section if the you consume characters at the start of the embedded
+										block (like consuming the <code>&lt;style&gt;</code> tag) (Aug 2012))
+									</p>
+								</dd>
 
-      <dt id="log">log: <em>message</em></dt><dd>Used for debugging. Logs <code><em>message</em></code> to the console window in the browser (press F12 to see it). This can be useful to see if a certain action is executing. For example:
-      <pre class="highlight">[/\d+/, { token: 'number', log: 'found number $0 in state $S0' } ]</pre>
-      </dd>
-      <dd>&nbsp;</dd>
-        <!--
+								<dt id="log">log: <em>message</em></dt>
+								<dd>
+									Used for debugging. Logs <code><em>message</em></code> to the console window in
+									the browser (press F12 to see it). This can be useful to see if a certain action
+									is executing. For example:
+									<pre class="highlight">
+[/\d+/, { token: 'number', log: 'found number $0 in state $S0' } ]</pre
+									>
+								</dd>
+								<dd>&nbsp;</dd>
+								<!--
         <dt>bracketType: <em>bracketType</em></dt><dd>If <code>token</code> is <code>"@brackets"</code>, this attribute can specify for an arbitrary matched input (like <code>"end"</code>), which is not present in the <code>brackets</code> attribute, what kind of bracket this is: <code>"@open"</code>, <code>"@close"</code>, or <code>"@none"</code>.</dd>
       -->
-      </dl>
-      </dd>
+							</dl>
+						</dd>
 
-      <dt id="cases">{ cases: { <em>guard1</em>: <em>action1</em>, ..., <em>guardN</em>: <em>actionN</em> } }</dt><dd>The final kind of action object is a cases statement. A cases object contains an object where each field functions as a guard. Each guard is applied to the matched input and as soon as one of them matches, the corresponding action is applied. Note that since these are actions themselves, cases can be nested.
-      Cases are used for efficiency: for example, we match for identifiers and then test whether the identifier is possibly a keyword or builtin function:
-      <pre class="highlight">[/[a-z_\$][a-zA-Z0-9_\$]*/,
+						<dt id="cases">
+							{ cases: { <em>guard1</em>: <em>action1</em>, ..., <em>guardN</em>: <em>actionN</em> }
+							}
+						</dt>
+						<dd>
+							The final kind of action object is a cases statement. A cases object contains an
+							object where each field functions as a guard. Each guard is applied to the matched
+							input and as soon as one of them matches, the corresponding action is applied. Note
+							that since these are actions themselves, cases can be nested. Cases are used for
+							efficiency: for example, we match for identifiers and then test whether the identifier
+							is possibly a keyword or builtin function:
+							<pre class="highlight">
+[/[a-z_\$][a-zA-Z0-9_\$]*/,
   { cases: { '@typeKeywords': 'keyword.type'
            , '@keywords': 'keyword'
            , '@default': 'identifier' }
   }
-]</pre>
-      <p>The guards can consist of:</p>
-      <dl>
-        <dt>"@<em>keywords</em>"</dt><dd>The attribute <code><em>keywords</em></code> must be defined in the language object and consist of an array of strings. The guard succeeds if the matched input matches any of the strings. (Note: all cases are pre-compiled and the list is tested using efficient hash maps). <span class="adv">Advanced</span>: if the attribute refers to a single string (instead of an array) it is compiled to a regular expression which is tested against the matched input.</dd>
-        <dt>"@default"</dt><dd>(or <code>"@"</code> or <code>""</code>) The default guard that always succeeds.</dd>
-        <dt id="@eos">"@eos"</dt><dd>Succeeds if the matched input has reached the end of the line.</dd>
-        <dt>"<em>regex</em>"</dt><dd>If the guard does not start with a <code>@</code> (or <code>$</code>) character it is interpreted as a regular expression that is tested against the matched input. Note: the <code><em>regex</em></code> is prefixed with <code>^</code> and postfixed with <code>$</code> so it must match the matched input entirely. This can be used for example to test for specific inputs, here is an example from the Koka language which uses this to enter various tokenizer states based on the declaration:
-        <pre class="highlight">
+]</pre
+							>
+							<p>The guards can consist of:</p>
+							<dl>
+								<dt>"@<em>keywords</em>"</dt>
+								<dd>
+									The attribute <code><em>keywords</em></code> must be defined in the language
+									object and consist of an array of strings. The guard succeeds if the matched input
+									matches any of the strings. (Note: all cases are pre-compiled and the list is
+									tested using efficient hash maps). <span class="adv">Advanced</span>: if the
+									attribute refers to a single string (instead of an array) it is compiled to a
+									regular expression which is tested against the matched input.
+								</dd>
+								<dt>"@default"</dt>
+								<dd>
+									(or <code>"@"</code> or <code>""</code>) The default guard that always succeeds.
+								</dd>
+								<dt id="@eos">"@eos"</dt>
+								<dd>Succeeds if the matched input has reached the end of the line.</dd>
+								<dt>"<em>regex</em>"</dt>
+								<dd>
+									If the guard does not start with a <code>@</code> (or <code>$</code>) character it
+									is interpreted as a regular expression that is tested against the matched input.
+									Note: the <code><em>regex</em></code> is prefixed with <code>^</code> and
+									postfixed with <code>$</code> so it must match the matched input entirely. This
+									can be used for example to test for specific inputs, here is an example from the
+									Koka language which uses this to enter various tokenizer states based on the
+									declaration:
+									<pre class="highlight">
 [/[a-z](\w|\-[a-zA-Z])*/,
   { cases:{ '@keywords': {
                cases: { 'alias'              : { token: 'keyword', next: '@alias-type' }
@@ -275,39 +545,117 @@ css_block: [
           , '@default' : 'identifier' }
   }
 ]
-</pre>
-        <p>Note the use of nested cases to improve efficiency. Also, the library recognizes simple regular expressions like the ones above and compiles them efficiently. For example, the list of words <code>type|cotype|rectype</code> is tested using a Javascript hashmap/object.</p>
-        </dd>
-      </dl>
-      <p id="pattern"><span class="adv">(Advanced)</span> In general, a guard has the form <code class="dt">[<em>pat</em>][<em>op</em>]<em>match</em></code>, with an optional pattern, and operator (which are <code>$#</code> and <code>~</code> by default). The pattern can be any of:</p>
-      <dl>
-        <dt>$#</dt><dd>(default) The matched input (or the group that matched when the action is an array).</dd>
-        <dt>$<em>n</em></dt><dd>The <em>n</em>th group of the matched input, or the entire matched input for <code>$0</code>.</dd>
-        <dt>$S<em>n</em></dt><dd>The <em>n</em>th part of the state, i.e. <code>$S2</code> returns <code>foo</code> in a state <code>@tag.foo</code>. Use <code>$S0</code> for the full state name.</dd>
-      </dl>
-      <p>The above patterns can actually occur in many attributes and are automatically expanded. Attributes where these patterns expand are <a href="#token"><code class="dt">token</code></a>, <a href="#next"><code class="dt">next</code></a>, <a href="#nextEmbedded"><code class="dt">nextEmbedded</code></a>, <a href="#switchTo"><code class="dt">switchTo</code></a>, and <a href="#log"><code class="dt">log</code></a>. Also, these patterns are expanded in the <code class="dt"><em>match</em></code> part of a guard.</p>
+</pre
+									>
+									<p>
+										Note the use of nested cases to improve efficiency. Also, the library recognizes
+										simple regular expressions like the ones above and compiles them efficiently.
+										For example, the list of words <code>type|cotype|rectype</code> is tested using
+										a Javascript hashmap/object.
+									</p>
+								</dd>
+							</dl>
+							<p id="pattern">
+								<span class="adv">(Advanced)</span> In general, a guard has the form
+								<code class="dt">[<em>pat</em>][<em>op</em>]<em>match</em></code
+								>, with an optional pattern, and operator (which are <code>$#</code> and
+								<code>~</code> by default). The pattern can be any of:
+							</p>
+							<dl>
+								<dt>$#</dt>
+								<dd>
+									(default) The matched input (or the group that matched when the action is an
+									array).
+								</dd>
+								<dt>$<em>n</em></dt>
+								<dd>
+									The <em>n</em>th group of the matched input, or the entire matched input for
+									<code>$0</code>.
+								</dd>
+								<dt>$S<em>n</em></dt>
+								<dd>
+									The <em>n</em>th part of the state, i.e. <code>$S2</code> returns
+									<code>foo</code> in a state <code>@tag.foo</code>. Use <code>$S0</code> for the
+									full state name.
+								</dd>
+							</dl>
+							<p>
+								The above patterns can actually occur in many attributes and are automatically
+								expanded. Attributes where these patterns expand are
+								<a href="#token"><code class="dt">token</code></a
+								>, <a href="#next"><code class="dt">next</code></a
+								>, <a href="#nextEmbedded"><code class="dt">nextEmbedded</code></a
+								>, <a href="#switchTo"><code class="dt">switchTo</code></a
+								>, and <a href="#log"><code class="dt">log</code></a
+								>. Also, these patterns are expanded in the
+								<code class="dt"><em>match</em></code> part of a guard.
+							</p>
 
-      <p>The guard operator <code><em>op</em></code> and <code><em>match</em></code> can be any of:</p>
-      <dl>
-        <dt>~<em>regex</em> <span style="color: black">or</span> !~<em>regex</em></dt><dd>(default for <code><em>op</em></code> is <code>~</code>) Tests <code><em>pat</em></code> against the regular expression or its negation.</dd>
-        <dt>@<em>attribute</em> <span style="color: black">or</span> !@<em>attribute</em></dt><dd>Tests whether <code><em>pat</em></code> is an element (<code>@</code>), or not an element (<code>!@</code>), of an array of strings defined by <code><em>attribute</em></code>.</dd>
-        <dt>==<em>str</em> <span style="color: black">or</span> !=<em>str</em></dt><dd>Tests if <code><em>pat</em></code> is equal or unequal to the given string <code><em>str</em></code>.</dd>
-      </dl>
-      <p>For example, here is how to check if the second group is not equal to <code>foo</code> or <code>bar</code>: <code>$2!~foo|bar</code>, or if the first captured group equals the name of the current lexer state: <code>$1==$S0</code>.</p>
-      <p>If both <code><em>op</em></code> and <code><em>match</em></code> are empty and there is just a pattern, then the guard succeeds if the pattern is non-empty. This can be used for example to improve efficiency. In the Koka language, an upper case identifier followed by a dot is module name, but without the following dot it is a constructor. This can be matched for in one go using:</p>
-    <pre class="highlight">[/([A-Z](?:[a-zA-Z0-9_]|\-[a-zA-Z])*)(\.?)/,
+							<p>
+								The guard operator <code><em>op</em></code> and <code><em>match</em></code> can be
+								any of:
+							</p>
+							<dl>
+								<dt>~<em>regex</em> <span style="color: black">or</span> !~<em>regex</em></dt>
+								<dd>
+									(default for <code><em>op</em></code> is <code>~</code>) Tests
+									<code><em>pat</em></code> against the regular expression or its negation.
+								</dd>
+								<dt>
+									@<em>attribute</em> <span style="color: black">or</span> !@<em>attribute</em>
+								</dt>
+								<dd>
+									Tests whether <code><em>pat</em></code> is an element (<code>@</code>), or not an
+									element (<code>!@</code>), of an array of strings defined by
+									<code><em>attribute</em></code
+									>.
+								</dd>
+								<dt>==<em>str</em> <span style="color: black">or</span> !=<em>str</em></dt>
+								<dd>
+									Tests if <code><em>pat</em></code> is equal or unequal to the given string
+									<code><em>str</em></code
+									>.
+								</dd>
+							</dl>
+							<p>
+								For example, here is how to check if the second group is not equal to
+								<code>foo</code> or <code>bar</code>: <code>$2!~foo|bar</code>, or if the first
+								captured group equals the name of the current lexer state: <code>$1==$S0</code>.
+							</p>
+							<p>
+								If both <code><em>op</em></code> and <code><em>match</em></code> are empty and there
+								is just a pattern, then the guard succeeds if the pattern is non-empty. This can be
+								used for example to improve efficiency. In the Koka language, an upper case
+								identifier followed by a dot is module name, but without the following dot it is a
+								constructor. This can be matched for in one go using:
+							</p>
+							<pre class="highlight">
+[/([A-Z](?:[a-zA-Z0-9_]|\-[a-zA-Z])*)(\.?)/,
   { cases: { '$2'      : ['identifier.namespace','keyword.dot']
            , '@default': 'identifier.constructor' }}
-]</pre>
-      </dd>
-    </dl>
+]</pre
+							>
+						</dd>
+					</dl>
 
-    <p>&nbsp;</p>
-    <h2 id="complexmatch">Advanced: complex brace matching</h2>
+					<p>&nbsp;</p>
+					<h2 id="complexmatch">Advanced: complex brace matching</h2>
 
-    <p>This section gives some advanced examples of brace matching using the <a href="#bracket"><code class="dt">bracket</code></a> attribute in an action. Usually, we can match braces just using the <a href="#brackets"><code>brackets</code></a> attribute in combination with the <a href="#@brackets"><code>@brackets</code></a> token class. But sometimes we need more
-    fine grained control. For example, in Ruby many declarations like <code class="token keyword">class</code> or <code class="token keyword">def</code> are ended with the <code class="token keyword">end</code> keyword. To make them match, we all give them the same token class (<code>keyword.decl</code>) and use bracket <code>@close</code> for <code class="token keyword">end</code> and <code>@open</code> for all declarations:</p>
-      <pre class="highlight">declarations: ['class','def','module', ... ]
+					<p>
+						This section gives some advanced examples of brace matching using the
+						<a href="#bracket"><code class="dt">bracket</code></a> attribute in an action. Usually,
+						we can match braces just using the
+						<a href="#brackets"><code>brackets</code></a> attribute in combination with the
+						<a href="#@brackets"><code>@brackets</code></a> token class. But sometimes we need more
+						fine grained control. For example, in Ruby many declarations like
+						<code class="token keyword">class</code> or <code class="token keyword">def</code> are
+						ended with the <code class="token keyword">end</code> keyword. To make them match, we
+						all give them the same token class (<code>keyword.decl</code>) and use bracket
+						<code>@close</code> for <code class="token keyword">end</code> and
+						<code>@open</code> for all declarations:
+					</p>
+					<pre class="highlight">
+declarations: ['class','def','module', ... ]
 
 tokenizer: {
   root: {
@@ -317,51 +665,135 @@ tokenizer: {
                , '@keywords'    : 'keyword'
                , '@default'     : 'identifier' }
       }
-    ],</pre>
-    <p>Note that to make <em>outdentation</em> work on the <code>end</code> keyword, you would also need to include the <code>'d'</code> character in the <a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a> string.</p>
+    ],</pre
+					>
+					<p>
+						Note that to make <em>outdentation</em> work on the <code>end</code> keyword, you would
+						also need to include the <code>'d'</code> character in the
+						<a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a>
+						string.
+					</p>
 
-        <p>Another example of complex matching is HTML where we would like to match starting tags, like <code>&lt;div&gt;</code> with an ending tag <code>&lt;/div&gt;</code>. To make an end tag only match its specific open tag, we need to dynamically  generate token classes that make the braces match correctly. This can be done using <code>$</code> expansion in the token class:</p>
-        <pre class="highlight">tokenizer: {
+					<p>
+						Another example of complex matching is HTML where we would like to match starting tags,
+						like <code>&lt;div&gt;</code> with an ending tag <code>&lt;/div&gt;</code>. To make an
+						end tag only match its specific open tag, we need to dynamically generate token classes
+						that make the braces match correctly. This can be done using <code>$</code> expansion in
+						the token class:
+					</p>
+					<pre class="highlight">
+tokenizer: {
   root: {
      [/&lt;(\w+)(>?)/,   { token: 'tag-$1', bracket: '@open'  }],
-     [/&lt;\/(\w+)\s*>/, { token: 'tag-$1', bracket: '@close' }],</pre>
-        <p>Note how we captured the actual tag name as a group and used that to generate the right token class. Again, to make outdentation work on the closing tag, you would also need to include the <code>'>'</code> character in the <a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a> string.</p>
+     [/&lt;\/(\w+)\s*>/, { token: 'tag-$1', bracket: '@close' }],</pre
+					>
+					<p>
+						Note how we captured the actual tag name as a group and used that to generate the right
+						token class. Again, to make outdentation work on the closing tag, you would also need to
+						include the
+						<code>'>'</code> character in the
+						<a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a>
+						string.
+					</p>
 
-        <p>A final advanced example of brace matching is Visual Basic where declarations like <code class="token keyword">Structure</code> are matched with end declarations as <code class="token keyword">End Structure</code>. Just like HTML we need to dynamically set token classes so that an <code class="token keyword">End Enum</code> does not match with a <code class="token keyword">Structure</code>. A tricky part is that we now need to match multiple tokens at once, and we match a construct like <code class="token keyword">End Enum</code> as one closing token, but non declaration endings, like <code class="token keyword">End</code> <code class="token constructor"> Foo</code>, as three tokens:</p>
-        <pre class="highlight">decls: ["Structure","Class","Enum","Function",...],
+					<p>
+						A final advanced example of brace matching is Visual Basic where declarations like
+						<code class="token keyword">Structure</code> are matched with end declarations as
+						<code class="token keyword">End Structure</code>. Just like HTML we need to dynamically
+						set token classes so that an <code class="token keyword">End Enum</code> does not match
+						with a <code class="token keyword">Structure</code>. A tricky part is that we now need
+						to match multiple tokens at once, and we match a construct like
+						<code class="token keyword">End Enum</code> as one closing token, but non declaration
+						endings, like
+						<code class="token keyword">End</code>
+						<code class="token constructor"> Foo</code>, as three tokens:
+					</p>
+					<pre class="highlight">
+decls: ["Structure","Class","Enum","Function",...],
 
 tokenizer: {
   root: {
      [/(End)(\s+)([A-Z]\w*)/, { cases: { '$3@decls': { token: 'keyword.decl-$3', bracket: '@close'},
                                          '@default': ['keyword','white','identifier.invalid'] }}],
      [/[A-Z]\w*/, { cases: { '@decls'  : { token: 'keyword.decl-$0', bracket: '@open' },
-                             '@default': 'constructor' } }],</pre>
-          <p>Note how we used <code>$3</code> to first test if the third group is a declaration, and then use <code>$3</code> in the <code>token</code> attribute to generate a declaration specific token class (so we match correctly). Also, to make outdentation work correctly, we would need to include all the ending characters of the declarations in the <a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a> string.</p>
+                             '@default': 'constructor' } }],</pre
+					>
+					<p>
+						Note how we used <code>$3</code> to first test if the third group is a declaration, and
+						then use <code>$3</code> in the <code>token</code> attribute to generate a declaration
+						specific token class (so we match correctly). Also, to make outdentation work correctly,
+						we would need to include all the ending characters of the declarations in the
+						<a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a>
+						string.
+					</p>
 
-    <p>&nbsp;</p>
-    <h2 id="moreattr">Advanced: more attributes on the language definition</h2>
-    <p>Here are more advanced attributes that can be defined in the language definition:</p>
-    <dl>
+					<p>&nbsp;</p>
+					<h2 id="moreattr">Advanced: more attributes on the language definition</h2>
+					<p>Here are more advanced attributes that can be defined in the language definition:</p>
+					<dl>
+						<dt>tokenPostfix</dt>
+						<dd>
+							(optional=<code>"." + name</code>, string) Optional postfix attached to all returned
+							tokens. By default this attaches the language name so in the CSS you can refer to your
+							specific language. For example, for the Java language, we could use
+							<code>.identifier.java</code> to target all Java identifiers specifically in CSS.
+						</dd>
 
-    <dt>tokenPostfix</dt><dd>(optional=<code>"." + name</code>, string) Optional postfix attached to all returned tokens. By default this attaches the language name so in the CSS you can refer to your specific language. For example, for the Java language, we could use <code>.identifier.java</code> to target all Java identifiers specifically in CSS.</dd>
+						<dt>start</dt>
+						<dd>
+							(optional, string) The start state of the tokenizer. By default, this is the first
+							entry in the tokenizer attribute.
+						</dd>
 
-    <dt>start</dt><dd>(optional, string) The start state of the tokenizer. By default, this is the first entry in the tokenizer attribute.</dd>
+						<dt id="outdentTriggers">outdentTriggers</dt>
+						<dd>
+							(optional, string) Optional string that defines characters that when typed could cause
+							<em>outdentation</em>. This attribute is only used when using advanced brace matching
+							in combination with the
+							<a href="#bracket"><code class="dt">bracket</code></a> attribute. By default it always
+							includes the last characters of the closing brackets in the
+							<a href="#brackets"><code class="dt">brackets</code></a> list. Outdentation happens
+							when the user types a closing bracket word on an line that starts with only white
+							space. If the closing bracket matches a open bracket it is indented to the same amount
+							of that bracket. Usually, this causes the bracket to outdent. For example, in the Ruby
+							language, the <code class="token keyword">end</code> keyword would match with an open
+							declaration like <code class="token keyword">def</code> or
+							<code class="token keyword">class</code>. To make outdentation happen though, we would
+							need to include the <code>d</code> character in the
+							<a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a>
+							attribute so it is checked when the users type
+							<code class="token keyword">end</code>:
+							<pre class="highlight">outdentTriggers: 'd',</pre>
+						</dd>
+					</dl>
 
-    <dt id="outdentTriggers">outdentTriggers</dt><dd>(optional, string) Optional string that defines characters that when typed could cause <em>outdentation</em>. This attribute is only used when using advanced brace matching in combination with the <a href="#bracket"><code class="dt">bracket</code></a> attribute. By default it always includes the last characters of the closing brackets in the <a href="#brackets"><code class="dt">brackets</code></a> list.
-    Outdentation happens when the user types a closing bracket word on an line that starts with only white space. If the closing bracket matches a open bracket it is indented to the same amount of that bracket. Usually, this causes the bracket to outdent. For example, in the Ruby language, the <code class="token keyword">end</code> keyword would match with an open declaration like <code class="token keyword">def</code> or <code class="token keyword">class</code>. To make outdentation happen though, we would need to include the <code>d</code> character in the <a href="#outdentTriggers"><code class="dt">outdentTriggers</code></a> attribute so it is checked when the users type <code class="token keyword">end</code>:
-    <pre class="highlight">outdentTriggers: 'd',</pre>
-    </dd>
+					<p>&nbsp;</p>
+					<h2 id="htmlembed">&Uuml;ber Advanced: complex embeddings with dynamic end tags</h2>
 
-    </dl>
-
-    <p>&nbsp;</p>
-    <h2 id="htmlembed">&Uuml;ber Advanced: complex embeddings with dynamic end tags</h2>
-
-    <p>Many times, embedding other language fragments is easy as shown in the earlier CSS example, but sometimes it is more dynamic. For example, in HTML we would like to start embeddings on a <code class="token tag html">script</code> tag and <code class="token tag html">style</code> tag. By default, the script language is <code>javascript</code> but if the <code class="token key js">type</code> attribute is set, that defines the script language mime type. First, we define  general tag open and close rules:</p>
-    <pre class="highlight">[/&lt;(\w+)/,       { token: 'tag.tag-$1', bracket: '@open', next: '@tag.$1' }],
-[/&lt;\/(\w+)\s*>/, { token: 'tag.tag-$1', bracket: '@close' } ],</pre>
-    <p>Here, we use the <code>$1</code> to capture the open tag name in both the token class and the next state. By putting the tag name in the token class, the brace matching will match and auto indent corresponding tags automatically. Next we define the <code>@tag</code> state that matches content within an HTML tag. Because the open tag rule will set the next state to <code>@tag.<em>tagname</em></code>, this will match the <code>@tag</code> state due to dot seperation.</p>
-    <pre class="highlight">tag: [
+					<p>
+						Many times, embedding other language fragments is easy as shown in the earlier CSS
+						example, but sometimes it is more dynamic. For example, in HTML we would like to start
+						embeddings on a
+						<code class="token tag html">script</code> tag and
+						<code class="token tag html">style</code> tag. By default, the script language is
+						<code>javascript</code> but if the <code class="token key js">type</code> attribute is
+						set, that defines the script language mime type. First, we define general tag open and
+						close rules:
+					</p>
+					<pre class="highlight">
+[/&lt;(\w+)/,       { token: 'tag.tag-$1', bracket: '@open', next: '@tag.$1' }],
+[/&lt;\/(\w+)\s*>/, { token: 'tag.tag-$1', bracket: '@close' } ],</pre
+					>
+					<p>
+						Here, we use the <code>$1</code> to capture the open tag name in both the token class
+						and the next state. By putting the tag name in the token class, the brace matching will
+						match and auto indent corresponding tags automatically. Next we define the
+						<code>@tag</code> state that matches content within an HTML tag. Because the open tag
+						rule will set the next state to <code>@tag.<em>tagname</em></code
+						>, this will match the <code>@tag</code> state due to dot seperation.
+					</p>
+					<pre class="highlight">
+tag: [
   [/[ \t\r\n]+/, 'white'],
   [/(type)(\s*=\s*)(['"])([^'"]+)(['"])/, [ 'attribute', 'delimiter', 'string', // todo: should match up quotes properly
                                             {token: 'string', switchTo: '@tag.$S2.$4' },
@@ -372,54 +804,86 @@ tokenizer: {
                                              '@default': { token: 'delimiter', switchTo: '@embedded.$S2', nextEmbedded: 'javascript' } }
                  , '@default'   : { token: 'delimiter', next: '@pop' } } }]
   [/[^>]/,'']  // catch all
-],</pre>
-    <p>Inside the <code>@tag.<em>tagname</em></code> state, we access the <code><em>tagname</em></code> through <code>$S2</code>. This is used to test if the tag name matches a script of style tag, in which case we start an embedded mode. We also need <a href="#switchTo"><code class="dt">switchTo</code></a> here since we do not want to get back to the <code>@tag</code> state at that point. Also, on a <code class="token key js">type</code> attribute we extend the state to <code>@tag.<em>tagname</em>.<em>mimetype</em></code> which allows us to access the mime type as <code>$S3</code> if it was set. This is used to determine the script language (or default to <code>javascript</code>). Finally, the script and style start an embedded mode and switch to a state <code>@embedded.<em>tagname</em></code>. The tag name is included in the state so we can scan for exactly a matching end tag:</p>
-    <pre class="highlight">embedded: [
+],</pre
+					>
+					<p>
+						Inside the <code>@tag.<em>tagname</em></code> state, we access the
+						<code><em>tagname</em></code> through <code>$S2</code>. This is used to test if the tag
+						name matches a script of style tag, in which case we start an embedded mode. We also
+						need <a href="#switchTo"><code class="dt">switchTo</code></a> here since we do not want
+						to get back to the <code>@tag</code> state at that point. Also, on a
+						<code class="token key js">type</code> attribute we extend the state to
+						<code>@tag.<em>tagname</em>.<em>mimetype</em></code> which allows us to access the mime
+						type as <code>$S3</code> if it was set. This is used to determine the script language
+						(or default to <code>javascript</code>). Finally, the script and style start an embedded
+						mode and switch to a state <code>@embedded.<em>tagname</em></code
+						>. The tag name is included in the state so we can scan for exactly a matching end tag:
+					</p>
+					<pre class="highlight">
+embedded: [
   [/[^"&lt;]+/, ''],
   [/&lt;\/(\w+)\s*>/, { cases: { '$1==$S2' : { token: '@rematch', next: '@pop', nextEmbedded: '@pop' },
                               '@default': '' } }],
   [/"/, 'string', '@string' ],
   [/&lt;/, '']
-],</pre>
-    <p>Only when we find a matching end tag (outside a string), <code>$1==$S2</code>, we pop the state and exit the embedded mode. Note that we need <a href="#@rematch"><code class="dt">@rematch</code></a> since the editor is ignoring our token classes until we actually exit the embedded mode (and we handle the close tag again in the <code>@root</code> state).</p>
+],</pre
+					>
+					<p>
+						Only when we find a matching end tag (outside a string),
+						<code>$1==$S2</code>, we pop the state and exit the embedded mode. Note that we need
+						<a href="#@rematch"><code class="dt">@rematch</code></a> since the editor is ignoring
+						our token classes until we actually exit the embedded mode (and we handle the close tag
+						again in the <code>@root</code> state).
+					</p>
 
-    <p>&nbsp;</p>
-    <h2 id="inspectingtokens">Inspecting Tokens</h2>
+					<p>&nbsp;</p>
+					<h2 id="inspectingtokens">Inspecting Tokens</h2>
 
-    <p>Monaco provides an <code>Inspect Tokens</code> tool in browsers to help identify the tokens parsed from source code.</p>
-    <p>To activate:</p>
-    <ol>
-      <li>Press <kbd>F1</kbd> while focused on a Monaco instance</li>
-      <li>Trigger the <code>Developer: Inspect Tokens</code> option</li>
-    </ol>
+					<p>
+						Monaco provides an <code>Inspect Tokens</code> tool in browsers to help identify the
+						tokens parsed from source code.
+					</p>
+					<p>To activate:</p>
+					<ol>
+						<li>Press <kbd>F1</kbd> while focused on a Monaco instance</li>
+						<li>Trigger the <code>Developer: Inspect Tokens</code> option</li>
+					</ol>
 
-    <p>This will show a display over the currently selected token for its language, token type, basic font style and colors, and selector you can target in your editor themes.</p>
+					<p>
+						This will show a display over the currently selected token for its language, token type,
+						basic font style and colors, and selector you can target in your editor themes.
+					</p>
 
-    <p>&nbsp;</p>
-    <h2>Additional Examples</h2>
+					<p>&nbsp;</p>
+					<h2>Additional Examples</h2>
 
-    <p>Additional examples can be found in the <code class="dt">src</code> folder of the <a href='https://github.com/microsoft/monaco-languages'>monaco-languages</a> repo.</p>
+					<p>
+						Additional examples can be found in the
+						<code class="dt">src</code> folder of the
+						<a href="https://github.com/microsoft/monaco-languages">monaco-languages</a>
+						repo.
+					</p>
+				</div>
+				<!-- documentation -->
+			</div>
+			<!-- main -->
 
-    </div> <!-- documentation -->
-  </div> <!-- main -->
-
-
-
-
-<!--******************************************
+			<!--******************************************
     Samples are included as PRE elements
 **********************************************-->
-<div id="samples" style="display: none">
-
-<pre id="mylang-sample">// Type source code in your language here...
+			<div id="samples" style="display: none">
+				<pre id="mylang-sample">
+// Type source code in your language here...
 class MyClass {
   @attribute
   void main() {
     Console.writeln( "Hello Monarch world\n");
   }
 }
-</pre>
-<pre id='mylang'>// Create your own language definition here
+</pre
+				>
+				<pre id="mylang">
+// Create your own language definition here
 // You can safely look at other samples without losing modifications.
 // Modifications are not saved on browser refresh/close though -- copy often!
 return {
@@ -512,16 +976,20 @@ return {
     ],
   },
 };
-</pre>
+</pre
+				>
 
-<pre id="java-sample">// Type source code in your Java here...
+				<pre id="java-sample">
+// Type source code in your Java here...
 public class HelloWorld {
    public static void main(String[] args) {
       System.out.println("Hello, World");
    }
 }
-</pre>
-<pre id="java">// Difficulty: "Easy"
+</pre
+				>
+				<pre id="java">
+// Difficulty: "Easy"
 // Language definition for Java
 return {
 	defaultToken: '',
@@ -633,14 +1101,14 @@ return {
 		],
 	},
 };
-</pre>
+</pre
+				>
 
-
-
-<!--******************************************
+				<!--******************************************
     Javascript
 **********************************************-->
-<pre id="javascript-sample">// Type source code in JavaScript here...
+				<pre id="javascript-sample">
+// Type source code in JavaScript here...
 define('module',[],function()
 {
   function test(s) {
@@ -650,8 +1118,10 @@ define('module',[],function()
   return {
     main: alert(test("hello monarch world\n"))
   }
-});</pre>
-<pre id="javascript">// Difficulty: "Moderate"
+});</pre
+				>
+				<pre id="javascript">
+// Difficulty: "Moderate"
 // This is the JavaScript tokenizer that is actually used to highlight
 // all code in the syntax definition editor and the documentation!
 //
@@ -819,13 +1289,13 @@ return {
 		],
 	},
 };
-</pre>
+</pre
+				>
 
-
-<!--******************************************
+				<!--******************************************
     Dafny
 **********************************************-->
-<pre id="dafny-sample">
+				<pre id="dafny-sample">
 // This method computes the sum and max of a given array of
 // integers.  The method's postcondition only promises that
 // 'sum' will be no greater than 'max'.  Can you write a
@@ -850,8 +1320,10 @@ method M(N: int, a: array&lt;int&gt;) returns (sum: int, max: int)
     i := i + 1;
   }
 }
-</pre>
-<pre id='dafny'>// Difficulty: "Easy"
+</pre
+				>
+				<pre id="dafny">
+// Difficulty: "Easy"
 // Language definition sample for the Dafny language.
 // See 'http://rise4fun.com/Dafny'.
 return {
@@ -927,13 +1399,14 @@ return {
       [/"/,        'string', '@pop' ]
     ],
   }
-};</pre>
+};</pre
+				>
 
-
-<!--******************************************
+				<!--******************************************
     Koka
 **********************************************-->
-<pre id="koka-sample">// This module implements the Garcia-Wachs algorithm.
+				<pre id="koka-sample">
+// This module implements the Garcia-Wachs algorithm.
 // It is an adaptation of the algorithm in ML as described by Jean-Christophe Filliï¿½tre:
 // in ''A functional implementation of the Garsia-Wachs algorithm. (functional pearl). ML workshop 2008, pages 91--96''.
 // See: http://www.lri.fr/~filliatr/publis/gw-wml08.pdf
@@ -1058,8 +1531,10 @@ public function main() {
   tree  = wlist.garciawachs()
   tree.show.print()
 }
-</pre>
-<pre id='koka'>// Difficulty: "Moderate"
+</pre
+				>
+				<pre id="koka">
+// Difficulty: "Moderate"
 // Language definition for the Koka language
 // See 'rise4fun.com/Koka' for more information.
 // This definition uses states extensively to color types correctly
@@ -1284,12 +1759,14 @@ return {
     ]
   }
 };
-</pre>
+</pre
+				>
 
-<!--******************************************
+				<!--******************************************
     HTML
 **********************************************-->
-<pre id="html-sample">&lt;!DOCTYPE html>
+				<pre id="html-sample">
+&lt;!DOCTYPE html>
 &lt;html>
 &lt;head>
   &lt;title>Monarch Workbench&lt;/title>
@@ -1317,8 +1794,10 @@ return {
   &lt;/div>
 &lt;/body>
 &lt;/html>
-</pre>
-<pre id='html'>// Difficulty: "Hurt me plenty"
+</pre
+				>
+				<pre id="html">
+// Difficulty: "Hurt me plenty"
 // Language definition for HTML
 // This definition uses states extensively to
 // - match up tags.
@@ -1463,12 +1942,14 @@ return {
 		// -- END &lt;style&gt; tags handling
 	},
 };
-</pre>
+</pre
+				>
 
-<!--******************************************
+				<!--******************************************
     Markdown
 **********************************************-->
-<pre id="markdown-sample"># Header 1 #
+				<pre id="markdown-sample">
+# Header 1 #
 ## Header 2 ##
 ### Header 3 ###             (Hashes on right are optional)
 ## Markdown plus h2 with a custom ID ##   {#id-goes-here}
@@ -1573,9 +2054,11 @@ Pop
 * Definitions can include multiple paragraphs too
 
 *[ABBR]: Markdown plus abbreviations (produces an &lt;abbr> tag)
-</pre>
+</pre
+				>
 
-<pre id='markdown'>// Difficulty: "Ultra-Violence"
+				<pre id="markdown">
+// Difficulty: "Ultra-Violence"
 // Language definition for Markdown
 // Quite complex definition mostly due to almost full inclusion
 // of the HTML mode (so we can properly match nested HTML tag definitions)
@@ -1730,9 +2213,11 @@ return {
 		],
 	}
 };
-</pre>
+</pre
+				>
 
-<pre id='ruby-sample'>#
+				<pre id="ruby-sample">
+#
 # This program evaluates polynomials.  It first asks for the coefficients
 # of a polynomial, which must be entered on one line, highest-order first.
 # It then requests values of x and will compute the value of the poly for
@@ -1868,8 +2353,10 @@ rescue Interrupt, SignalException
 else
     print "--- Bye ---\n"
 end
-</pre>
-<pre id='ruby'>// Difficulty: "Nightmare!"
+</pre
+				>
+				<pre id="ruby">
+// Difficulty: "Nightmare!"
 /*
 Ruby language definition
 
@@ -2275,9 +2762,11 @@ return {
 		],
 	}
 };
-</pre>
+</pre
+				>
 
-<pre id='python-sample'>from Tkinter   import *
+				<pre id="python-sample">
+from Tkinter   import *
 import Pmw, string
 
 class SLabel(Frame):
@@ -2449,8 +2938,10 @@ class Evaluator:
                 return 'Error'
 
 Calculator().mainloop()
-</pre>
-<pre id='python'>// Difficulty: "Moderate"
+</pre
+				>
+				<pre id="python">
+// Difficulty: "Moderate"
 // Python language definition.
 // Only trickiness is that we need to check strings before identifiers
 // since they have letter prefixes. We also treat ':' as an @open bracket
@@ -2664,9 +3155,11 @@ return {
 		]
 	}
 };
-</pre>
+</pre
+				>
 
-<pre id='z3python-sample'># 9x9 matrix of integer variables
+				<pre id="z3python-sample">
+# 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
       for i in range(9) ]
 
@@ -2713,9 +3206,11 @@ if s.check() == sat:
     print_matrix(r)
 else:
     print "failed to solve"
-</pre>
+</pre
+				>
 
-<pre id='z3python'>// Difficulty: "Moderate"
+				<pre id="z3python">
+// Difficulty: "Moderate"
 // This is the Python language definition but specialized for use with Z3
 // See also: http://www.rise4fun.com/Z3Py
 return {
@@ -2888,9 +3383,11 @@ return {
     ],
   },
 };
-</pre>
+</pre
+				>
 
-<pre id="smt2-sample">; This example illustrates different uses of the arrays
+				<pre id="smt2-sample">
+; This example illustrates different uses of the arrays
 ; supported in Z3.
 ; This includes Combinatory Array Logic (de Moura &amp; Bjorner, FMCAD 2009).
 ;
@@ -2942,8 +3439,10 @@ return {
 (get-model)
 (pop)
 (exit)
-</pre>
-<pre id='smt2'>// Difficulty: "Easy"
+</pre
+				>
+				<pre id="smt2">
+// Difficulty: "Easy"
 // SMT 2.0 language
 // See http://www.rise4fun.com/z3 or http://www.smtlib.org/ for more information
 return {
@@ -3047,10 +3546,11 @@ return {
     ],
   },
 };
-</pre>
+</pre
+				>
 
-
-<pre id="xdot-sample">digraph "If.try_if_then"
+				<pre id="xdot-sample">
+digraph "If.try_if_then"
 {
   label = "If.try_if_then";
   rankdir="TD";
@@ -3132,8 +3632,10 @@ return {
   node_58 -> node_44 [label = "exe", dir = back];
   node_61 -> node_44 [label = "exe", dir = back];
 } /* Graph "If.try_if_then" */
-</pre>
-<pre id='xdot'>// Difficulty: Easy
+</pre
+				>
+				<pre id="xdot">
+// Difficulty: Easy
 // Dot graph language.
 // See http://www.rise4fun.com/Agl
 return {
@@ -3231,9 +3733,11 @@ return {
     ],
   },
 };
-</pre>
+</pre
+				>
 
-<pre id="csharp-sample">// CSharp 4.0 ray-tracer sample by Luke Hoban
+				<pre id="csharp-sample">
+// CSharp 4.0 ray-tracer sample by Luke Hoban
 using System.Drawing;
 using System.Linq;
 using System;
@@ -3635,8 +4139,10 @@ namespace RayTracer {
         }
     }
 }
-</pre>
-<pre id='csharp'>// Difficulty: Moderate
+</pre
+				>
+				<pre id="csharp">
+// Difficulty: Moderate
 // CSharp language definition
 // Takes special care to color types and namespaces nicely.
 // (note: this can't be done completely accurately though on a lexical level,
@@ -3814,9 +4320,11 @@ return {
 		],
 	},
 };
-</pre>
+</pre
+				>
 
-<pre id='chalice-sample'>// This example shows a use of a channel.  Properties of the messages
+				<pre id="chalice-sample">
+// This example shows a use of a channel.  Properties of the messages
 // passed along the channel, as well as permissions and channel credits,
 // are specified in the channel's "where" clause.
 
@@ -3883,9 +4391,11 @@ class Sieve {
 external class ChalicePrint {
   method Int(x: int) { }
 }
-</pre>
+</pre
+				>
 
-<pre id='chalice'>// Difficulty: "Easy"
+				<pre id="chalice">
+// Difficulty: "Easy"
 // Language definition sample for the Chalice language.
 // See 'http://rise4fun.com/Chalice'.
 return {
@@ -3976,9 +4486,11 @@ return {
     ],
   }
 };
-</pre>
+</pre
+				>
 
-<pre id='specsharp-sample'>// This example shows many of the features of Spec#, including pre-
+				<pre id="specsharp-sample">
+// This example shows many of the features of Spec#, including pre-
 // and postcondition of methods and object invariants.  The basic
 // idea in the example is to implement a "chunker", which returns
 // successive portions of a given string.  The main work is done
@@ -4015,9 +4527,11 @@ public class Chunker
     n = 0;
   }
 }
-</pre>
+</pre
+				>
 
-<pre id='specsharp'>// Difficulty: Moderate
+				<pre id="specsharp">
+// Difficulty: Moderate
 // SpecSharp language definition. This is an extension of the C# language definition.
 // See: http://rise4fun.com/SpecSharp for more information
 //
@@ -4205,9 +4719,11 @@ return {
       [/\/\/.*$/,    'comment'],
     ],
   },
-};</pre>
+};</pre
+				>
 
-<pre id='boogie-sample'>// The partition step of Quick Sort picks a 'pivot' element from a specified subsection
+				<pre id="boogie-sample">
+// The partition step of Quick Sort picks a 'pivot' element from a specified subsection
 // of a given integer array.  It then partially sorts the elements of the array so that
 // elements smaller than the pivot end up to the left of the pivot and elements larger
 // than the pivot end up to the right of the pivot.  Finally, the index of the pivot is
@@ -4276,9 +4792,11 @@ procedure Partition(l: int, r: int) returns (result: int)
     assume i == j;
     result := i;
 }
-</pre>
+</pre
+				>
 
-<pre id='boogie'>// Difficulty: "Easy"
+				<pre id="boogie">
+// Difficulty: "Easy"
 // Language definition sample for the Boogie language.
 // See 'http://rise4fun.com/Boogie'.
 return {
@@ -4348,9 +4866,11 @@ return {
     ]
   }
 }
-</pre>
+</pre
+				>
 
-<pre id='formula-sample'>/*
+				<pre id="formula-sample">
+/*
   This Formula specificatin models a problem in graph theory. It tries to find
   a Eulerian walk within a specified graph. The problem is to find a walk through
   the graph with the following properties:
@@ -4423,9 +4943,11 @@ partial model nikolaus2 of EulerWay
     SolutionEdge(7,_,_)
     SolutionEdge(8,_,_)
 }
-</pre>
+</pre
+				>
 
-<pre id='formula'>// Difficulty: 'Easy'
+				<pre id="formula">
+// Difficulty: 'Easy'
 // Language definition for the Formula language
 // More information at: http://rise4fun.com/formula
 return {
@@ -4520,30 +5042,37 @@ return {
     ],
   }
 };
-</pre>
+</pre
+				>
+			</div>
+			<!-- samples -->
+		</section>
 
-</div> <!-- samples -->
+		<footer class="container">
+			<hr />
+			<p class="text-center">
+				<small>&copy; {{year}} Microsoft</small>
+			</p>
+		</footer>
 
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+			integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"
+			integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8="
+			crossorigin="anonymous"
+		></script>
 
+		<script>
+			var require = { paths: { vs: '../release/dev/vs' } };
+		</script>
+		<script src="../release/dev/vs/loader.js"></script>
+		<script src="../release/dev/vs/editor/editor.main.nls.js"></script>
+		<script src="../release/dev/vs/editor/editor.main.js"></script>
 
-
-	</section>
-
-	<footer class="container">
-		<hr>
-		<p class="text-center">
-			<small>&copy; {{year}} Microsoft</small>
-		</p>
-	</footer>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js" integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8=" crossorigin="anonymous"></script>
-
-	<script>var require = { paths: { 'vs': '../release/dev/vs' } };</script>
-	<script src="../release/dev/vs/loader.js"></script>
-	<script src="../release/dev/vs/editor/editor.main.nls.js"></script>
-	<script src="../release/dev/vs/editor/editor.main.js"></script>
-
-	<script data-inline="yes-please" src="./monarch/monarch.js"></script>
-</body>
+		<script data-inline="yes-please" src="./monarch/monarch.js"></script>
+	</body>
 </html>

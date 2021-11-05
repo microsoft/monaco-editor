@@ -40,7 +40,7 @@ export class DiagnosticsAdapter {
 				return;
 			}
 
-			let handle: number;
+			let handle: any;
 			this._listener[model.uri.toString()] = model.onDidChangeContent(() => {
 				clearTimeout(handle);
 				handle = setTimeout(() => this._doValidate(model.uri, modeId), 500);
@@ -310,11 +310,12 @@ function toTextEdit(textEdit: jsonService.TextEdit): editor.ISingleEditOperation
 		range: toRange(textEdit.range),
 		text: textEdit.newText
 	};
-
 }
 
 function toCommand(c: jsonService.Command | undefined): languages.Command {
-	return c && c.command === 'editor.action.triggerSuggest' ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
+	return c && c.command === 'editor.action.triggerSuggest'
+		? { id: c.command, title: c.title, arguments: c.arguments }
+		: undefined;
 }
 
 export class CompletionAdapter implements languages.CompletionItemProvider {
@@ -574,7 +575,8 @@ export class DocumentFormattingEditProvider implements languages.DocumentFormatt
 }
 
 export class DocumentRangeFormattingEditProvider
-	implements languages.DocumentRangeFormattingEditProvider {
+	implements languages.DocumentRangeFormattingEditProvider
+{
 	constructor(private _worker: WorkerAccessor) {}
 
 	public provideDocumentRangeFormattingEdits(

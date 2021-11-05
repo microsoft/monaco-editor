@@ -22,7 +22,7 @@ var libSource = [
 	'     * Returns the next fact',
 	'     */',
 	'    static next():string',
-	'}',
+	'}'
 ].join('\n');
 var libUri = 'ts:filename/facts.d.ts';
 monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);

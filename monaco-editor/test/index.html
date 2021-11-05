@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" href="./index.css" />
-</head>
-<body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link rel="stylesheet" href="./index.css" />
+	</head>
+	<body>
+		Jump to:
+		<a class="loading-opts" href="./smoketest.html">[SMOKETEST]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./playground.generated/index.html">[PLAYGROUND]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./mouse-fixed.html">[fixed element]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./mouse-scrollable-body.html">[scrollable body]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./mouse-scrollable-element.html">[scrollable element]</a><br />
+		&#160;|&#160;
+		<a class="loading-opts" href="./shadow-dom.html">[Shadow DOM]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./colorize.html">[colorize element]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./cross-origin-broken.html">[cross origin broken]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./cross-origin-good.html">[cross origin good]</a>
+		&#160;|&#160;
+		<a class="loading-opts" href="./diff.html">[diff]</a>
+		<br /><br />
 
-Jump to:
-<a class="loading-opts" href="./smoketest.html">[SMOKETEST]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./playground.generated/index.html">[PLAYGROUND]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./mouse-fixed.html">[fixed element]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./mouse-scrollable-body.html">[scrollable body]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./mouse-scrollable-element.html">[scrollable element]</a><br/>
-&#160;|&#160;
-<a class="loading-opts" href="./shadow-dom.html">[Shadow DOM]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./colorize.html">[colorize element]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./cross-origin-broken.html">[cross origin broken]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./cross-origin-good.html">[cross origin good]</a>
-&#160;|&#160;
-<a class="loading-opts" href="./diff.html">[diff]</a>
-<br/><br/>
+		<div id="bar" style="margin-bottom: 6px"></div>
+		<div style="clear: both"></div>
+		<div
+			id="container"
+			style="float: left; width: 800px; height: 450px; border: 1px solid grey"
+		></div>
+		<div
+			id="options"
+			style="float: left; width: 220px; height: 450px; border: 1px solid grey"
+		></div>
+		<div style="clear: both"></div>
 
-<div id="bar" style="margin-bottom: 6px;"></div>
-<div style="clear:both"></div>
-<div id="container" style="float:left;width:800px;height:450px;border: 1px solid grey"></div>
-<div id="options" style="float:left;width:220px;height:450px;border: 1px solid grey"></div>
-<div style="clear:both"></div>
-
-<script src="../metadata.js"></script>
-<script src="dev-setup.js"></script>
-<script>
-	loadEditor(function() {
-		require(['./index'], function() {});
-	});
-</script>
-</body>
+		<script src="../metadata.js"></script>
+		<script src="dev-setup.js"></script>
+		<script>
+			loadEditor(function () {
+				require(['./index'], function () {});
+			});
+		</script>
+	</body>
 </html>

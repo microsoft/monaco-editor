@@ -1,11 +1,10 @@
-
 export interface IWorkerDefinition {
-  id: string;
-  entry: string;
+	id: string;
+	entry: string;
 }
 
 export interface IFeatureDefinition {
-  label: string;
-  entry: string | string[] | undefined;
-  worker?: IWorkerDefinition;
+	label: string;
+	entry: string | string[] | undefined;
+	worker?: IWorkerDefinition;
 }

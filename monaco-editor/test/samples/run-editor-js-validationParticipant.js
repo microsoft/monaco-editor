@@ -1,14 +1,9 @@
-define([
-	'vs/base/common/severity'
-], function(severity) {
+define(['vs/base/common/severity'], function (severity) {
 	'use strict';
-	function ValidateParticipant() {
-
-	}
+	function ValidateParticipant() {}
 
 	ValidateParticipant.ID = 'doc.validateParticipant';
-	ValidateParticipant.prototype.validate = function(mirrorModel, markerService) {
-
+	ValidateParticipant.prototype.validate = function (mirrorModel, markerService) {
 		var marker = {
 			severity: severity.Error,
 			message: [

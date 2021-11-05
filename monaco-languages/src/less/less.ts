@@ -158,10 +158,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		numbers: [
-			[
-				'(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?',
-				{ token: 'attribute.value.number', next: '@units' }
-			],
+			['(\\d*\\.)?\\d+([eE][\\-+]?\\d+)?', { token: 'attribute.value.number', next: '@units' }],
 			['#[0-9a-fA-F_]+(?!\\w)', 'attribute.value.hex']
 		],
 

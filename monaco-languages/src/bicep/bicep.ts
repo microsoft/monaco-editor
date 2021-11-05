@@ -54,9 +54,7 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	autoCloseBefore: ":.,=}])' \n\t",
 	indentationRules: {
-		increaseIndentPattern: new RegExp(
-			'^((?!\\/\\/).)*(\\{[^}"\'`]*|\\([^)"\'`]*|\\[[^\\]"\'`]*)$'
-		),
+		increaseIndentPattern: new RegExp('^((?!\\/\\/).)*(\\{[^}"\'`]*|\\([^)"\'`]*|\\[[^\\]"\'`]*)$'),
 		decreaseIndentPattern: new RegExp('^((?!.*?\\/\\*).*\\*/)?\\s*[\\}\\]].*$')
 	}
 };

@@ -4,18 +4,18 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '12.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm run build-website
-  displayName: 'Build website'
+  - script: |
+      npm install
+      npm run build-website
+    displayName: 'Build website'
 
-- script: |
-    ./build/publish-website.sh
-  env:
-    GITHUB_TOKEN: $(GITHUB_TOKEN)
-  displayName: 'Publish website'
+  - script: |
+      ./build/publish-website.sh
+    env:
+      GITHUB_TOKEN: $(GITHUB_TOKEN)
+    displayName: 'Publish website'

@@ -10,9 +10,7 @@
 			"name": "gulp release",
 			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
 			"stopOnEntry": true,
-			"args": [
-				"release"
-			],
+			"args": ["release"],
 			"cwd": "${workspaceFolder}"
 		},
 		{
@@ -21,10 +19,8 @@
 			"name": "gulp website",
 			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
 			"stopOnEntry": true,
-			"args": [
-				"website"
-			],
+			"args": ["website"],
 			"cwd": "${workspaceFolder}"
-		},
+		}
 	]
 }

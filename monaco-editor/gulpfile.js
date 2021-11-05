@@ -1,4 +1,3 @@
-
 const gulp = require('gulp');
 const metadata = require('./metadata');
 const es = require('event-stream');
@@ -14,7 +13,7 @@ const File = require('vinyl');
 const ts = require('typescript');
 
 const WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
-const MONACO_EDITOR_VERSION = (function() {
+const MONACO_EDITOR_VERSION = (function () {
 	const packageJsonPath = path.join(__dirname, '..', 'package.json');
 	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
 	const version = packageJson.version;
@@ -50,8 +49,8 @@ async function _execute(task) {
 			return;
 		}
 		// this is a stream returning task
-		taskResult.on('end', _ => resolve());
-		taskResult.on('error', err => reject(err));
+		taskResult.on('end', (_) => resolve());
+		taskResult.on('error', (err) => reject(err));
 	});
 }
 
@@ -63,60 +62,67 @@ function taskSeries(...tasks) {
 	};
 }
 
-const cleanReleaseTask = function(cb) { rimraf('release', { maxBusyTries: 1 }, cb); };
-gulp.task('release', taskSeries(cleanReleaseTask, function() {
-	return es.merge(
+const cleanReleaseTask = function (cb) {
+	rimraf('release', { maxBusyTries: 1 }, cb);
+};
+gulp.task(
+	'release',
+	taskSeries(cleanReleaseTask, function () {
+		return es.merge(
+			// dev folder
+			releaseOne('dev'),
 
-		// dev folder
-		releaseOne('dev'),
+			// min folder
+			releaseOne('min'),
 
-		// min folder
-		releaseOne('min'),
+			// esm folder
+			ESM_release(),
 
-		// esm folder
-		ESM_release(),
+			// package.json
+			gulp
+				.src('package.json')
+				.pipe(
+					es.through(function (data) {
+						var json = JSON.parse(data.contents.toString());
+						json.private = false;
+						data.contents = Buffer.from(JSON.stringify(json, null, '  '));
+						this.emit('data', data);
+					})
+				)
+				.pipe(gulp.dest('release')),
 
-		// package.json
-		gulp.src('package.json')
-			.pipe(es.through(function(data) {
-				var json = JSON.parse(data.contents.toString());
-				json.private = false;
-				data.contents = Buffer.from(JSON.stringify(json, null, '  '));
-				this.emit('data', data);
-			}))
-			.pipe(gulp.dest('release')),
+			gulp.src('CHANGELOG.md').pipe(gulp.dest('release')),
 
-		gulp.src('CHANGELOG.md')
-			.pipe(gulp.dest('release')),
+			// min-maps folder
+			gulp.src('node_modules/monaco-editor-core/min-maps/**/*').pipe(gulp.dest('release/min-maps')),
 
-		// min-maps folder
-		gulp.src('node_modules/monaco-editor-core/min-maps/**/*')
-			.pipe(gulp.dest('release/min-maps')),
-
-		// other files
-		gulp.src([
-			'node_modules/monaco-editor-core/LICENSE',
-			'node_modules/monaco-editor-core/monaco.d.ts',
-			'node_modules/monaco-editor-core/ThirdPartyNotices.txt',
-			'README.md'
-		])
-		.pipe(addPluginDTS())
-		.pipe(addPluginThirdPartyNotices())
-		.pipe(gulp.dest('release'))
-	)
-}));
+			// other files
+			gulp
+				.src([
+					'node_modules/monaco-editor-core/LICENSE',
+					'node_modules/monaco-editor-core/monaco.d.ts',
+					'node_modules/monaco-editor-core/ThirdPartyNotices.txt',
+					'README.md'
+				])
+				.pipe(addPluginDTS())
+				.pipe(addPluginThirdPartyNotices())
+				.pipe(gulp.dest('release'))
+		);
+	})
+);
 
 /**
  * Release to `dev` or `min`.
  */
 function releaseOne(type) {
 	return es.merge(
-		gulp.src('node_modules/monaco-editor-core/' + type + '/**/*')
+		gulp
+			.src('node_modules/monaco-editor-core/' + type + '/**/*')
 			.pipe(addPluginContribs(type))
 			.pipe(gulp.dest('release/' + type)),
 
 		pluginStreams(type, 'release/' + type + '/')
-	)
+	);
 }
 
 /**
@@ -124,7 +130,7 @@ function releaseOne(type) {
  */
 function pluginStreams(type, destinationPath) {
 	return es.merge(
-		metadata.METADATA.PLUGINS.map(function(plugin) {
+		metadata.METADATA.PLUGINS.map(function (plugin) {
 			return pluginStream(plugin, type, destinationPath);
 		})
 	);
@@ -135,25 +141,27 @@ function pluginStreams(type, destinationPath) {
  */
 function pluginStream(plugin, type, destinationPath) {
 	var pluginPath = plugin.paths[`npm/${type}`]; // npm/dev or npm/min
-	var contribPath = path.join(pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
-	return (
-		gulp.src([
-			pluginPath + '/**/*',
-			'!' + contribPath
-		])
-		.pipe(es.through(function(data) {
-			if (!/_\.contribution/.test(data.path)) {
-				this.emit('data', data);
-				return;
-			}
+	var contribPath =
+		path.join(pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
+	return gulp
+		.src([pluginPath + '/**/*', '!' + contribPath])
+		.pipe(
+			es.through(function (data) {
+				if (!/_\.contribution/.test(data.path)) {
+					this.emit('data', data);
+					return;
+				}
 
-			let contents = data.contents.toString();
-			contents = contents.replace('define(["require", "exports"],', 'define(["require", "exports", "vs/editor/editor.api"],');
-			data.contents = Buffer.from(contents);
-			this.emit('data', data);
-		}))
-		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
-	);
+				let contents = data.contents.toString();
+				contents = contents.replace(
+					'define(["require", "exports"],',
+					'define(["require", "exports", "vs/editor/editor.api"],'
+				);
+				data.contents = Buffer.from(contents);
+				this.emit('data', data);
+			})
+		)
+		.pipe(gulp.dest(destinationPath + plugin.modulePrefix));
 }
 
 /**
@@ -163,7 +171,7 @@ function pluginStream(plugin, type, destinationPath) {
  * - append new AMD module 'vs/editor/editor.main' that stiches things together
  */
 function addPluginContribs(type) {
-	return es.through(function(data) {
+	return es.through(function (data) {
 		if (!/editor\.main\.js$/.test(data.path)) {
 			this.emit('data', data);
 			return;
@@ -176,26 +184,36 @@ function addPluginContribs(type) {
 		var extraContent = [];
 		var allPluginsModuleIds = [];
 
-		metadata.METADATA.PLUGINS.forEach(function(plugin) {
+		metadata.METADATA.PLUGINS.forEach(function (plugin) {
 			allPluginsModuleIds.push(plugin.contrib);
 			var pluginPath = plugin.paths[`npm/${type}`]; // npm/dev or npm/min
-			var contribPath = path.join(__dirname, pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
+			var contribPath =
+				path.join(__dirname, pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 			var contribContents = fs.readFileSync(contribPath).toString();
 
 			contribContents = contribContents.replace(
 				/define\((['"][a-z\/\-]+\/fillers\/monaco-editor-core['"]),\[\],/,
-				'define($1,[\'vs/editor/editor.api\'],'
+				"define($1,['vs/editor/editor.api'],"
 			);
 
 			extraContent.push(contribContents);
 		});
 
-		extraContent.push(`define("vs/editor/editor.main", ["vs/editor/edcore.main","${allPluginsModuleIds.join('","')}"], function(api) { return api; });`);
+		extraContent.push(
+			`define("vs/editor/editor.main", ["vs/editor/edcore.main","${allPluginsModuleIds.join(
+				'","'
+			)}"], function(api) { return api; });`
+		);
 		var insertIndex = contents.lastIndexOf('//# sourceMappingURL=');
 		if (insertIndex === -1) {
 			insertIndex = contents.length;
 		}
-		contents = contents.substring(0, insertIndex) + '\n' + extraContent.join('\n') + '\n' + contents.substring(insertIndex);
+		contents =
+			contents.substring(0, insertIndex) +
+			'\n' +
+			extraContent.join('\n') +
+			'\n' +
+			contents.substring(insertIndex);
 
 		data.contents = Buffer.from(contents);
 		this.emit('data', data);
@@ -204,17 +222,18 @@ function addPluginContribs(type) {
 
 function ESM_release() {
 	return es.merge(
-		gulp.src([
-			'node_modules/monaco-editor-core/esm/**/*',
-			// we will create our own editor.api.d.ts which also contains the plugins API
-			'!node_modules/monaco-editor-core/esm/vs/editor/editor.api.d.ts'
-		])
+		gulp
+			.src([
+				'node_modules/monaco-editor-core/esm/**/*',
+				// we will create our own editor.api.d.ts which also contains the plugins API
+				'!node_modules/monaco-editor-core/esm/vs/editor/editor.api.d.ts'
+			])
 			.pipe(ESM_addImportSuffix())
 			.pipe(ESM_addPluginContribs('release/esm'))
 			.pipe(gulp.dest('release/esm')),
 
 		ESM_pluginStreams('release/esm/')
-	)
+	);
 }
 
 /**
@@ -222,7 +241,7 @@ function ESM_release() {
  */
 function ESM_pluginStreams(destinationPath) {
 	return es.merge(
-		metadata.METADATA.PLUGINS.map(function(plugin) {
+		metadata.METADATA.PLUGINS.map(function (plugin) {
 			return ESM_pluginStream(plugin, destinationPath);
 		})
 	);
@@ -236,85 +255,88 @@ function ESM_pluginStreams(destinationPath) {
 function ESM_pluginStream(plugin, destinationPath) {
 	const DESTINATION = path.join(__dirname, destinationPath);
 	let pluginPath = plugin.paths[`esm`];
-	return (
-		gulp.src([
-			pluginPath + '/**/*'
-		])
-		.pipe(es.through(function(data) {
-			if (!/(\.js$)|(\.ts$)/.test(data.path)) {
-				this.emit('data', data);
-				return;
-			}
-
-			let contents = data.contents.toString();
-
-			const info = ts.preProcessFile(contents);
-			for (let i = info.importedFiles.length - 1; i >= 0; i--) {
-				let importText = info.importedFiles[i].fileName;
-				const pos = info.importedFiles[i].pos;
-				const end = info.importedFiles[i].end;
-
-				if (!/(^\.\/)|(^\.\.\/)/.test(importText)) {
-					// non-relative import
-					if (!/^monaco-editor-core/.test(importText)) {
-						console.error(`Non-relative import for unknown module: ${importText} in ${data.path}`);
-						process.exit(0);
-					}
-
-					if (importText === 'monaco-editor-core') {
-						importText = 'monaco-editor-core/esm/vs/editor/editor.api';
-					}
-
-					const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
-					const importFilePath = path.join(DESTINATION, importText.substr('monaco-editor-core/esm/'.length));
-					let relativePath = path.relative(path.dirname(myFileDestPath), importFilePath).replace(/\\/g, '/');
-					if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-						relativePath = './' + relativePath;
-					}
-
-					contents = (
-						contents.substring(0, pos + 1)
-						+ relativePath
-						+ contents.substring(end + 1)
-					);
+	return gulp
+		.src([pluginPath + '/**/*'])
+		.pipe(
+			es.through(function (data) {
+				if (!/(\.js$)|(\.ts$)/.test(data.path)) {
+					this.emit('data', data);
+					return;
 				}
-			}
 
-			contents = contents.replace(/\/\/# sourceMappingURL=.*((\r?\n)|$)/g, '');
+				let contents = data.contents.toString();
 
-			data.contents = Buffer.from(contents);
-			this.emit('data', data);
-		}))
-		.pipe(es.through(function(data) {
-			if (!/monaco\.contribution\.js$/.test(data.path)) {
+				const info = ts.preProcessFile(contents);
+				for (let i = info.importedFiles.length - 1; i >= 0; i--) {
+					let importText = info.importedFiles[i].fileName;
+					const pos = info.importedFiles[i].pos;
+					const end = info.importedFiles[i].end;
+
+					if (!/(^\.\/)|(^\.\.\/)/.test(importText)) {
+						// non-relative import
+						if (!/^monaco-editor-core/.test(importText)) {
+							console.error(
+								`Non-relative import for unknown module: ${importText} in ${data.path}`
+							);
+							process.exit(0);
+						}
+
+						if (importText === 'monaco-editor-core') {
+							importText = 'monaco-editor-core/esm/vs/editor/editor.api';
+						}
+
+						const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
+						const importFilePath = path.join(
+							DESTINATION,
+							importText.substr('monaco-editor-core/esm/'.length)
+						);
+						let relativePath = path
+							.relative(path.dirname(myFileDestPath), importFilePath)
+							.replace(/\\/g, '/');
+						if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
+							relativePath = './' + relativePath;
+						}
+
+						contents = contents.substring(0, pos + 1) + relativePath + contents.substring(end + 1);
+					}
+				}
+
+				contents = contents.replace(/\/\/# sourceMappingURL=.*((\r?\n)|$)/g, '');
+
+				data.contents = Buffer.from(contents);
 				this.emit('data', data);
-				return;
-			}
+			})
+		)
+		.pipe(
+			es.through(function (data) {
+				if (!/monaco\.contribution\.js$/.test(data.path)) {
+					this.emit('data', data);
+					return;
+				}
 
-			const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
-			const apiFilePath = path.join(DESTINATION, 'vs/editor/editor.api');
-			let relativePath = path.relative(path.dirname(myFileDestPath), apiFilePath).replace(/\\/g, '/');
-			if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-				relativePath = './' + relativePath;
-			}
+				const myFileDestPath = path.join(DESTINATION, plugin.modulePrefix, data.relative);
+				const apiFilePath = path.join(DESTINATION, 'vs/editor/editor.api');
+				let relativePath = path
+					.relative(path.dirname(myFileDestPath), apiFilePath)
+					.replace(/\\/g, '/');
+				if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
+					relativePath = './' + relativePath;
+				}
 
-			let contents = data.contents.toString();
-			contents = (
-				`import '${relativePath}';\n` +
-				contents
-			);
+				let contents = data.contents.toString();
+				contents = `import '${relativePath}';\n` + contents;
 
-			data.contents = Buffer.from(contents);
+				data.contents = Buffer.from(contents);
 
-			this.emit('data', data);
-		}))
+				this.emit('data', data);
+			})
+		)
 		.pipe(ESM_addImportSuffix())
-		.pipe(gulp.dest(destinationPath + plugin.modulePrefix))
-	);
+		.pipe(gulp.dest(destinationPath + plugin.modulePrefix));
 }
 
 function ESM_addImportSuffix() {
-	return es.through(function(data) {
+	return es.through(function (data) {
 		if (!/\.js$/.test(data.path)) {
 			this.emit('data', data);
 			return;
@@ -332,11 +354,7 @@ function ESM_addImportSuffix() {
 				continue;
 			}
 
-			contents = (
-				contents.substring(0, pos + 1)
-				+ importText + '.js'
-				+ contents.substring(end + 1)
-			);
+			contents = contents.substring(0, pos + 1) + importText + '.js' + contents.substring(end + 1);
 		}
 
 		data.contents = Buffer.from(contents);
@@ -350,24 +368,29 @@ function ESM_addImportSuffix() {
  */
 function ESM_addPluginContribs(dest) {
 	const DESTINATION = path.join(__dirname, dest);
-	return es.through(function(data) {
+	return es.through(function (data) {
 		if (!/editor\.main\.js$/.test(data.path)) {
 			this.emit('data', data);
 			return;
 		}
 
-		this.emit('data', new File({
-			path: data.path.replace(/editor\.main/, 'edcore.main'),
-			base: data.base,
-			contents: data.contents
-		}));
+		this.emit(
+			'data',
+			new File({
+				path: data.path.replace(/editor\.main/, 'edcore.main'),
+				base: data.base,
+				contents: data.contents
+			})
+		);
 
 		const mainFileDestPath = path.join(DESTINATION, 'vs/editor/editor.main.js');
 		let mainFileImports = [];
-		metadata.METADATA.PLUGINS.forEach(function(plugin) {
+		metadata.METADATA.PLUGINS.forEach(function (plugin) {
 			const contribDestPath = path.join(DESTINATION, plugin.contrib);
 
-			let relativePath = path.relative(path.dirname(mainFileDestPath), contribDestPath).replace(/\\/g, '/');
+			let relativePath = path
+				.relative(path.dirname(mainFileDestPath), contribDestPath)
+				.replace(/\\/g, '/');
 			if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 				relativePath = './' + relativePath;
 			}
@@ -375,16 +398,18 @@ function ESM_addPluginContribs(dest) {
 			mainFileImports.push(relativePath);
 		});
 
-		let mainFileContents = (
-			mainFileImports.map((name) => `import '${name}';`).join('\n')
-			+ `\n\nexport * from './edcore.main';`
-		);
+		let mainFileContents =
+			mainFileImports.map((name) => `import '${name}';`).join('\n') +
+			`\n\nexport * from './edcore.main';`;
 
-		this.emit('data', new File({
-			path: data.path,
-			base: data.base,
-			contents: Buffer.from(mainFileContents)
-		}));
+		this.emit(
+			'data',
+			new File({
+				path: data.path,
+				base: data.base,
+				contents: Buffer.from(mainFileContents)
+			})
+		);
 	});
 }
 
@@ -393,7 +418,7 @@ function ESM_addPluginContribs(dest) {
  * - append monaco.d.ts from plugins
  */
 function addPluginDTS() {
-	return es.through(function(data) {
+	return es.through(function (data) {
 		if (!/monaco\.d\.ts$/.test(data.path)) {
 			this.emit('data', data);
 			return;
@@ -401,7 +426,7 @@ function addPluginDTS() {
 		var contents = data.contents.toString();
 
 		var extraContent = [];
-		metadata.METADATA.PLUGINS.forEach(function(plugin) {
+		metadata.METADATA.PLUGINS.forEach(function (plugin) {
 			var pluginPath = plugin.paths[`npm/min`]; // npm/dev or npm/min
 			var dtsPath = path.join(pluginPath, '../monaco.d.ts');
 			try {
@@ -413,24 +438,32 @@ function addPluginDTS() {
 			}
 		});
 
-		contents = [
-			'/*!-----------------------------------------------------------',
-			' * Copyright (c) Microsoft Corporation. All rights reserved.',
-			' * Type definitions for monaco-editor',
-			' * Released under the MIT license',
-			'*-----------------------------------------------------------*/',
-		].join('\n') + '\n' + contents + '\n' + extraContent.join('\n');
+		contents =
+			[
+				'/*!-----------------------------------------------------------',
+				' * Copyright (c) Microsoft Corporation. All rights reserved.',
+				' * Type definitions for monaco-editor',
+				' * Released under the MIT license',
+				'*-----------------------------------------------------------*/'
+			].join('\n') +
+			'\n' +
+			contents +
+			'\n' +
+			extraContent.join('\n');
 
 		// Ensure consistent indentation and line endings
 		contents = cleanFile(contents);
 
 		data.contents = Buffer.from(contents);
 
-		this.emit('data', new File({
-			path: path.join(path.dirname(data.path), 'esm/vs/editor/editor.api.d.ts'),
-			base: data.base,
-			contents: Buffer.from(toExternalDTS(contents))
-		}));
+		this.emit(
+			'data',
+			new File({
+				path: path.join(path.dirname(data.path), 'esm/vs/editor/editor.api.d.ts'),
+				base: data.base,
+				contents: Buffer.from(toExternalDTS(contents))
+			})
+		);
 
 		fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
 		fs.writeFileSync('typedoc/monaco.d.ts', contents);
@@ -484,18 +517,21 @@ function toExternalDTS(contents) {
  * Normalize line endings and ensure consistent 4 spaces indentation
  */
 function cleanFile(contents) {
-	return contents.split(/\r\n|\r|\n/).map(function(line) {
-		var m = line.match(/^(\t+)/);
-		if (!m) {
-			return line;
-		}
-		var tabsCount = m[1].length;
-		var newIndent = '';
-		for (var i = 0; i < 4 * tabsCount; i++) {
-			newIndent += ' ';
-		}
-		return newIndent + line.substring(tabsCount);
-	}).join('\n');
+	return contents
+		.split(/\r\n|\r|\n/)
+		.map(function (line) {
+			var m = line.match(/^(\t+)/);
+			if (!m) {
+				return line;
+			}
+			var tabsCount = m[1].length;
+			var newIndent = '';
+			for (var i = 0; i < 4 * tabsCount; i++) {
+				newIndent += ' ';
+			}
+			return newIndent + line.substring(tabsCount);
+		})
+		.join('\n');
 }
 
 /**
@@ -503,7 +539,7 @@ function cleanFile(contents) {
  * - append ThirdPartyNotices.txt from plugins
  */
 function addPluginThirdPartyNotices() {
-	return es.through(function(data) {
+	return es.through(function (data) {
 		if (!/ThirdPartyNotices\.txt$/.test(data.path)) {
 			this.emit('data', data);
 			return;
@@ -511,7 +547,7 @@ function addPluginThirdPartyNotices() {
 		var contents = data.contents.toString();
 
 		var extraContent = [];
-		metadata.METADATA.PLUGINS.forEach(function(plugin) {
+		metadata.METADATA.PLUGINS.forEach(function (plugin) {
 			if (!plugin.thirdPartyNotices) {
 				return;
 			}
@@ -529,13 +565,13 @@ function addPluginThirdPartyNotices() {
 	});
 }
 
-
 // --- website
-const cleanWebsiteTask = function(cb) { rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb); };
-const buildWebsiteTask = taskSeries(cleanWebsiteTask, function() {
-
+const cleanWebsiteTask = function (cb) {
+	rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb);
+};
+const buildWebsiteTask = taskSeries(cleanWebsiteTask, function () {
 	function replaceWithRelativeResource(dataPath, contents, regex, callback) {
-		return contents.replace(regex, function(_, m0) {
+		return contents.replace(regex, function (_, m0) {
 			var filePath = path.join(path.dirname(dataPath), m0);
 			return callback(m0, fs.readFileSync(filePath));
 		});
@@ -544,116 +580,149 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function() {
 	var waiting = 0;
 	var done = false;
 
-	return (
-		es.merge(
-			gulp.src([
-				'website/**/*'
-			], { dot: true })
-			.pipe(es.through(function(data) {
-				if (!data.contents || !/\.(html)$/.test(data.path) || /new-samples/.test(data.path)) {
-					return this.emit('data', data);
-				}
-
-				var contents = data.contents.toString();
-				contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
-				contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
-				contents = contents.replace(/{{year}}/g, new Date().getFullYear());
-
-				// Preload xhr contents
-				contents = replaceWithRelativeResource(data.path, contents, /<pre data-preload="([^"]+)".*/g, function(m0, fileContents) {
-					return (
-						'<pre data-preload="' + m0 + '" style="display:none">'
-						+ fileContents.toString('utf8')
-							.replace(/&/g, '&amp;')
-							.replace(/</g, '&lt;')
-							.replace(/>/g, '&gt;')
-						+ '</pre>'
-					);
-				});
-
-				// Inline fork.png
-				contents = replaceWithRelativeResource(data.path, contents, /src="(\.\/fork.png)"/g, function(m0, fileContents) {
-					return (
-						'src="data:image/png;base64,' + fileContents.toString('base64') + '"'
-					);
-				});
-
-				var allCSS = '';
-				var tmpcontents = replaceWithRelativeResource(data.path, contents, /<link data-inline="yes-please" href="([^"]+)".*/g, function(m0, fileContents) {
-					allCSS += fileContents.toString('utf8');
-					return '';
-				});
-				tmpcontents = tmpcontents.replace(/<script.*/g, '');
-				tmpcontents = tmpcontents.replace(/<link.*/g, '');
-
-				waiting++;
-				uncss(tmpcontents, {
-					raw: allCSS,
-					ignore: [/\.alert\b/, /\.alert-error\b/, /\.playground-page\b/]
-				}, function(err, output) {
-					waiting--;
-
-					if (!err) {
-						output = new CleanCSS().minify(output).styles;
-						var isFirst = true;
-						contents = contents.replace(/<link data-inline="yes-please" href="([^"]+)".*/g, function(_, m0) {
-							if (isFirst) {
-								isFirst = false;
-								return '<style>' + output + '</style>';
+	return es
+		.merge(
+			gulp
+				.src(['website/**/*'], { dot: true })
+				.pipe(
+					es.through(
+						function (data) {
+							if (!data.contents || !/\.(html)$/.test(data.path) || /new-samples/.test(data.path)) {
+								return this.emit('data', data);
 							}
-							return '';
-						});
-					}
 
-					// Inline javascript
-					contents = replaceWithRelativeResource(data.path, contents, /<script data-inline="yes-please" src="([^"]+)".*/g, function(m0, fileContents) {
-						return '<script>' + fileContents.toString('utf8') + '</script>';
-					});
+							var contents = data.contents.toString();
+							contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
+							contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
+							contents = contents.replace(/{{year}}/g, new Date().getFullYear());
 
-					data.contents = Buffer.from(contents.split(/\r\n|\r|\n/).join('\n'));
-					this.emit('data', data);
+							// Preload xhr contents
+							contents = replaceWithRelativeResource(
+								data.path,
+								contents,
+								/<pre data-preload="([^"]+)".*/g,
+								function (m0, fileContents) {
+									return (
+										'<pre data-preload="' +
+										m0 +
+										'" style="display:none">' +
+										fileContents
+											.toString('utf8')
+											.replace(/&/g, '&amp;')
+											.replace(/</g, '&lt;')
+											.replace(/>/g, '&gt;') +
+										'</pre>'
+									);
+								}
+							);
 
-					if (done && waiting === 0) {
-						this.emit('end');
-					}
-				}.bind(this));
+							// Inline fork.png
+							contents = replaceWithRelativeResource(
+								data.path,
+								contents,
+								/src="(\.\/fork.png)"/g,
+								function (m0, fileContents) {
+									return 'src="data:image/png;base64,' + fileContents.toString('base64') + '"';
+								}
+							);
 
-			}, function() {
-				done = true;
-				if (waiting === 0) {
-					this.emit('end');
-				}
-			}))
-			.pipe(gulp.dest('../monaco-editor-website'))
+							var allCSS = '';
+							var tmpcontents = replaceWithRelativeResource(
+								data.path,
+								contents,
+								/<link data-inline="yes-please" href="([^"]+)".*/g,
+								function (m0, fileContents) {
+									allCSS += fileContents.toString('utf8');
+									return '';
+								}
+							);
+							tmpcontents = tmpcontents.replace(/<script.*/g, '');
+							tmpcontents = tmpcontents.replace(/<link.*/g, '');
+
+							waiting++;
+							uncss(
+								tmpcontents,
+								{
+									raw: allCSS,
+									ignore: [/\.alert\b/, /\.alert-error\b/, /\.playground-page\b/]
+								},
+								function (err, output) {
+									waiting--;
+
+									if (!err) {
+										output = new CleanCSS().minify(output).styles;
+										var isFirst = true;
+										contents = contents.replace(
+											/<link data-inline="yes-please" href="([^"]+)".*/g,
+											function (_, m0) {
+												if (isFirst) {
+													isFirst = false;
+													return '<style>' + output + '</style>';
+												}
+												return '';
+											}
+										);
+									}
+
+									// Inline javascript
+									contents = replaceWithRelativeResource(
+										data.path,
+										contents,
+										/<script data-inline="yes-please" src="([^"]+)".*/g,
+										function (m0, fileContents) {
+											return '<script>' + fileContents.toString('utf8') + '</script>';
+										}
+									);
+
+									data.contents = Buffer.from(contents.split(/\r\n|\r|\n/).join('\n'));
+									this.emit('data', data);
+
+									if (done && waiting === 0) {
+										this.emit('end');
+									}
+								}.bind(this)
+							);
+						},
+						function () {
+							done = true;
+							if (waiting === 0) {
+								this.emit('end');
+							}
+						}
+					)
+				)
+				.pipe(gulp.dest('../monaco-editor-website'))
 		)
 
-		.pipe(es.through(function(data) {
-			this.emit('data', data);
-		}, function() {
+		.pipe(
+			es.through(
+				function (data) {
+					this.emit('data', data);
+				},
+				function () {
+					// temporarily create package.json so that npm install doesn't bark
+					fs.writeFileSync('../monaco-editor-website/package.json', '{}');
+					fs.writeFileSync('../monaco-editor-website/.nojekyll', '');
+					cp.execSync('npm install monaco-editor', {
+						cwd: path.join(__dirname, '../monaco-editor-website')
+					});
+					fs.unlinkSync('../monaco-editor-website/package.json');
 
-			// temporarily create package.json so that npm install doesn't bark
-			fs.writeFileSync('../monaco-editor-website/package.json', '{}');
-			fs.writeFileSync('../monaco-editor-website/.nojekyll', '');
-			cp.execSync('npm install monaco-editor', {
-				cwd: path.join(__dirname, '../monaco-editor-website')
-			});
-			fs.unlinkSync('../monaco-editor-website/package.json');
-
-			this.emit('end');
-		}))
-	);
-
+					this.emit('end');
+				}
+			)
+		);
 });
 gulp.task('build-website', buildWebsiteTask);
 
-gulp.task('prepare-website-branch', async function() {
+gulp.task('prepare-website-branch', async function () {
 	cp.execSync('git init', {
 		cwd: path.join(__dirname, '../monaco-editor-website')
 	});
 
-	let remoteUrl = cp.execSync('git remote get-url origin')
-	let committerUserName = cp.execSync('git log --format=\'%an\' -1');
-	let committerEmail = cp.execSync('git log --format=\'%ae\' -1');
+	let remoteUrl = cp.execSync('git remote get-url origin');
+	let committerUserName = cp.execSync("git log --format='%an' -1");
+	let committerEmail = cp.execSync("git log --format='%ae' -1");
 
 	cp.execSync(`git config user.name ${committerUserName}`, {
 		cwd: path.join(__dirname, '../monaco-editor-website')
@@ -677,9 +746,9 @@ gulp.task('prepare-website-branch', async function() {
 	console.log('RUN monaco-editor-website>git push origin gh-pages --force');
 });
 
-const generateTestSamplesTask = function() {
+const generateTestSamplesTask = function () {
 	var sampleNames = fs.readdirSync(path.join(__dirname, 'test/samples'));
-	var samples = sampleNames.map(function(sampleName) {
+	var samples = sampleNames.map(function (sampleName) {
 		var samplePath = path.join(__dirname, 'test/samples', sampleName);
 		var sampleContent = fs.readFileSync(samplePath).toString();
 		return {
@@ -687,9 +756,13 @@ const generateTestSamplesTask = function() {
 			content: sampleContent
 		};
 	});
-	var prefix = '//This is a generated file via gulp generate-test-samples\ndefine([], function() { return';
-	var suffix = '; });'
-	fs.writeFileSync(path.join(__dirname, 'test/samples-all.generated.js'), prefix + JSON.stringify(samples, null, '\t') + suffix );
+	var prefix =
+		'//This is a generated file via gulp generate-test-samples\ndefine([], function() { return';
+	var suffix = '; });';
+	fs.writeFileSync(
+		path.join(__dirname, 'test/samples-all.generated.js'),
+		prefix + JSON.stringify(samples, null, '\t') + suffix
+	);
 
 	var PLAY_SAMPLES = require(path.join(WEBSITE_GENERATED_PATH, 'all.js')).PLAY_SAMPLES;
 	var locations = [];
@@ -745,13 +818,16 @@ const generateTestSamplesTask = function() {
 			'});',
 			'</script>',
 			'</body>',
-			'</html>',
+			'</html>'
 		];
-		fs.writeFileSync(path.join(__dirname, 'test/playground.generated/' + sampleId + '.html'), result.join('\n'));
+		fs.writeFileSync(
+			path.join(__dirname, 'test/playground.generated/' + sampleId + '.html'),
+			result.join('\n')
+		);
 		locations.push({
 			path: sampleId + '.html',
 			name: sample.chapter + ' &gt; ' + sample.name
-		})
+		});
 	}
 
 	var index = [
@@ -764,34 +840,47 @@ const generateTestSamplesTask = function() {
 		'<body>',
 		'<a class="loading-opts" href="index.html">[&lt;&lt; BACK]</a><br/>',
 		'THIS IS A GENERATED FILE VIA gulp generate-test-samples<br/><br/>',
-		locations.map(function(location) {
-			return '<a class="loading-opts" href="playground.generated/' + location.path + '">' + location.name + '</a>';
-		}).join('<br/>\n'),
+		locations
+			.map(function (location) {
+				return (
+					'<a class="loading-opts" href="playground.generated/' +
+					location.path +
+					'">' +
+					location.name +
+					'</a>'
+				);
+			})
+			.join('<br/>\n'),
 		'<script src="../metadata.js"></script>',
 		'<script src="dev-setup.js"></script>',
 		'</body>',
-		'</html>',
-	]
+		'</html>'
+	];
 	fs.writeFileSync(path.join(__dirname, 'test/playground.generated/index.html'), index.join('\n'));
 };
 
 function createSimpleServer(rootDir, port) {
-	yaserver.createServer({
-		rootDir: rootDir
-	}).then((staticServer) => {
-		const server = http.createServer((request, response) => {
-			return staticServer.handle(request, response);
+	yaserver
+		.createServer({
+			rootDir: rootDir
+		})
+		.then((staticServer) => {
+			const server = http.createServer((request, response) => {
+				return staticServer.handle(request, response);
+			});
+			server.listen(port, '127.0.0.1', () => {
+				console.log(`Running at http://127.0.0.1:${port}`);
+			});
 		});
-		server.listen(port, '127.0.0.1', () => {
-			console.log(`Running at http://127.0.0.1:${port}`);
-		});
-	});
 }
 
 gulp.task('generate-test-samples', taskSeries(generateTestSamplesTask));
 
-gulp.task('simpleserver', taskSeries(generateTestSamplesTask, function() {
-	const SERVER_ROOT = path.normalize(path.join(__dirname, '../../'));
-	createSimpleServer(SERVER_ROOT, 8080);
-	createSimpleServer(SERVER_ROOT, 8088);
-}));
+gulp.task(
+	'simpleserver',
+	taskSeries(generateTestSamplesTask, function () {
+		const SERVER_ROOT = path.normalize(path.join(__dirname, '../../'));
+		createSimpleServer(SERVER_ROOT, 8080);
+		createSimpleServer(SERVER_ROOT, 8088);
+	})
+);

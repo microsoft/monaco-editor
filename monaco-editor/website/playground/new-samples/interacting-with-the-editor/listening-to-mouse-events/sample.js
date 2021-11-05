@@ -10,43 +10,46 @@ var jsCode = [
 	'};'
 ].join('\n');
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById('container'), {
 	value: jsCode,
-	language: "javascript",
+	language: 'javascript',
 	glyphMargin: true,
 	contextmenu: false
 });
 
-var decorations = editor.deltaDecorations([], [
-	{
-		range: new monaco.Range(3,1,3,1),
-		options: {
-			isWholeLine: true,
-			className: 'myContentClass',
-			glyphMarginClassName: 'myGlyphMarginClass'
+var decorations = editor.deltaDecorations(
+	[],
+	[
+		{
+			range: new monaco.Range(3, 1, 3, 1),
+			options: {
+				isWholeLine: true,
+				className: 'myContentClass',
+				glyphMarginClassName: 'myGlyphMarginClass'
+			}
 		}
-	}
-]);
+	]
+);
 
 // Add a zone to make hit testing more interesting
 var viewZoneId = null;
-editor.changeViewZones(function(changeAccessor) {
-		var domNode = document.createElement('div');
-		domNode.style.background = 'lightgreen';
-		viewZoneId = changeAccessor.addZone({
-					afterLineNumber: 3,
-					heightInLines: 3,
-					domNode: domNode
-		});
+editor.changeViewZones(function (changeAccessor) {
+	var domNode = document.createElement('div');
+	domNode.style.background = 'lightgreen';
+	viewZoneId = changeAccessor.addZone({
+		afterLineNumber: 3,
+		heightInLines: 3,
+		domNode: domNode
+	});
 });
 
 // Add a content widget (scrolls inline with text)
 var contentWidget = {
 	domNode: null,
-	getId: function() {
+	getId: function () {
 		return 'my.content.widget';
 	},
-	getDomNode: function() {
+	getDomNode: function () {
 		if (!this.domNode) {
 			this.domNode = document.createElement('div');
 			this.domNode.innerHTML = 'My content widget';
@@ -54,13 +57,16 @@ var contentWidget = {
 		}
 		return this.domNode;
 	},
-	getPosition: function() {
+	getPosition: function () {
 		return {
 			position: {
 				lineNumber: 7,
 				column: 8
 			},
-			preference: [monaco.editor.ContentWidgetPositionPreference.ABOVE, monaco.editor.ContentWidgetPositionPreference.BELOW]
+			preference: [
+				monaco.editor.ContentWidgetPositionPreference.ABOVE,
+				monaco.editor.ContentWidgetPositionPreference.BELOW
+			]
 		};
 	}
 };
@@ -69,10 +75,10 @@ editor.addContentWidget(contentWidget);
 // Add an overlay widget
 var overlayWidget = {
 	domNode: null,
-	getId: function() {
+	getId: function () {
 		return 'my.overlay.widget';
 	},
-	getDomNode: function() {
+	getDomNode: function () {
 		if (!this.domNode) {
 			this.domNode = document.createElement('div');
 			this.domNode.innerHTML = 'My overlay widget';
@@ -82,7 +88,7 @@ var overlayWidget = {
 		}
 		return this.domNode;
 	},
-	getPosition: function() {
+	getPosition: function () {
 		return null;
 	}
 };
@@ -90,14 +96,12 @@ editor.addOverlayWidget(overlayWidget);
 
 var output = document.getElementById('output');
 function showEvent(str) {
-	while(output.childNodes.length > 6) {
+	while (output.childNodes.length > 6) {
 		output.removeChild(output.firstChild.nextSibling.nextSibling);
 	}
 	output.appendChild(document.createTextNode(str));
 	output.appendChild(document.createElement('br'));
 }
-
-
 
 editor.onMouseMove(function (e) {
 	showEvent('mousemove - ' + e.target.toString());

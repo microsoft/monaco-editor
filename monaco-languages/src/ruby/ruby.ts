@@ -286,10 +286,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// here document
 			[/<<[-~](@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
-			[
-				/[ \t\r\n]+<<(@heredelim).*/,
-				{ token: 'string.heredoc.delimiter', next: '@heredoc.$1' }
-			],
+			[/[ \t\r\n]+<<(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 			[/^<<(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
 
 			// whitespace
@@ -429,10 +426,7 @@ export const language = <languages.IMonarchLanguage>{
 				/^(\s*)(@heredelim)$/,
 				{
 					cases: {
-						'$2==$S2': [
-							'string.heredoc',
-							{ token: 'string.heredoc.delimiter', next: '@pop' }
-						],
+						'$2==$S2': ['string.heredoc', { token: 'string.heredoc.delimiter', next: '@pop' }],
 						'@default': ['string.heredoc', 'string.heredoc']
 					}
 				}
@@ -501,10 +495,7 @@ export const language = <languages.IMonarchLanguage>{
 			],
 			[
 				/(\[)(\^?)/,
-				[
-					'@brackets.regexp.escape.control',
-					{ token: 'regexp.escape.control', next: '@regexrange' }
-				]
+				['@brackets.regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]
 			],
 			[/(\()(\?[:=!])/, ['@brackets.regexp.escape.control', 'regexp.escape.control']],
 			[/\(\?#/, { token: 'regexp.escape.control', next: '@regexpcomment' }],

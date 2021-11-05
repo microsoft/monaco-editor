@@ -29,7 +29,10 @@ export class CSSWorker {
 				customDataProviders.push(cssService.newCSSDataProvider(data.dataProviders[id]));
 			}
 		}
-		const lsOptions: cssService.LanguageServiceOptions = { customDataProviders, useDefaultDataProvider };
+		const lsOptions: cssService.LanguageServiceOptions = {
+			customDataProviders,
+			useDefaultDataProvider
+		};
 
 		switch (this._languageId) {
 			case 'css':
@@ -173,7 +176,7 @@ export class CSSWorker {
 
 export interface ICreateData {
 	languageId: string;
-	options: Options
+	options: Options;
 }
 
 export function create(ctx: worker.IWorkerContext, createData: ICreateData): CSSWorker {

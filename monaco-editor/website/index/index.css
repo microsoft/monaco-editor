@@ -26,15 +26,15 @@
 
 .try .drops li.active h4,
 .try .drops li.active:hover h4 {
-	color: #0072C6;
+	color: #0072c6;
 }
 
 .try .drops li:hover h4 {
-	color: rgba(0, 114, 198, .5);
+	color: rgba(0, 114, 198, 0.5);
 }
 
 .try .editor.row {
-	padding: 18px 0
+	padding: 18px 0;
 }
 
 .try .row h4 {
@@ -53,11 +53,11 @@
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
 
-	-webkit-box-sizing:	border-box;
-	-o-box-sizing:		border-box;
-	-moz-box-sizing:	border-box;
-	-ms-box-sizing:		border-box;
-	box-sizing:			border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .try .tile:hover {
@@ -83,9 +83,9 @@
 	height: 43px;
 	width: 80px;
 
-	opacity: .5;
-	transition: opacity .5s ease, bottom .5s ease;
-	-webkit-transition: opacity .5s ease, bottom .5s ease;
+	opacity: 0.5;
+	transition: opacity 0.5s ease, bottom 0.5s ease;
+	-webkit-transition: opacity 0.5s ease, bottom 0.5s ease;
 }
 
 .try .tile:hover .glyph {
@@ -104,7 +104,7 @@
 	margin-right: 4px;
 }
 
-.try .editor.row .monaco-editor .find-widget input[type="text"] {
+.try .editor.row .monaco-editor .find-widget input[type='text'] {
 	margin-bottom: 0;
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
@@ -140,7 +140,7 @@
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	background-color: rgba(255, 255, 255, .5);
+	background-color: rgba(255, 255, 255, 0.5);
 	margin: 0 auto;
 	display: none;
 	z-index: 100;
@@ -176,7 +176,7 @@
 }
 
 .try .editor .vs-dark.monaco-editor .context-view.monaco-menu-container a {
-	color: #BBB;
+	color: #bbb;
 }
 
 @media (min-width: 1200px) {
@@ -219,12 +219,14 @@
 
 /* ------- BEGIN bootstrap fixes for the editor ------- */
 
-.monaco-editor .container:before, .monaco-editor .row:before {
-	content: "";
+.monaco-editor .container:before,
+.monaco-editor .row:before {
+	content: '';
 	display: inherit;
 }
 
-.monaco-editor .container:after, .monaco-editor .row:after {
+.monaco-editor .container:after,
+.monaco-editor .row:after {
 	clear: inherit;
 }
 

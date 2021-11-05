@@ -1,16 +1,19 @@
 /// <reference path="../../release/monaco.d.ts" />
 
-"use strict";
+'use strict';
 
-var editor = null, diffEditor = null;
+var editor = null,
+	diffEditor = null;
 
-$(document).ready(function() {
+$(document).ready(function () {
 	require(['vs/editor/editor.main'], function () {
-		var MODES = (function() {
-			var modesIds = monaco.languages.getLanguages().map(function(lang) { return lang.id; });
+		var MODES = (function () {
+			var modesIds = monaco.languages.getLanguages().map(function (lang) {
+				return lang.id;
+			});
 			modesIds.sort();
 
-			return modesIds.map(function(modeId) {
+			return modesIds.map(function (modeId) {
 				return {
 					modeId: modeId,
 					sampleURL: 'index/samples/sample.' + modeId + '.txt'
@@ -25,15 +28,15 @@ $(document).ready(function() {
 			if (MODES[i].modeId === 'typescript') {
 				startModeIndex = i;
 			}
-			$(".language-picker").append(o);
+			$('.language-picker').append(o);
 		}
-		$(".language-picker")[0].selectedIndex = startModeIndex;
+		$('.language-picker')[0].selectedIndex = startModeIndex;
 		loadSample(MODES[startModeIndex]);
-		$(".language-picker").change(function() {
+		$('.language-picker').change(function () {
 			loadSample(MODES[this.selectedIndex]);
 		});
 
-		$(".theme-picker").change(function() {
+		$('.theme-picker').change(function () {
 			changeTheme(this.selectedIndex);
 		});
 
@@ -57,10 +60,10 @@ $(document).ready(function() {
 });
 
 var preloaded = {};
-(function() {
+(function () {
 	var elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0);
 
-	elements.forEach(function(el) {
+	elements.forEach(function (el) {
 		var path = el.getAttribute('data-preload');
 		preloaded[path] = el.innerText || el.textContent;
 		el.parentNode.removeChild(el);
@@ -78,14 +81,14 @@ function xhr(url, cb) {
 		error: function () {
 			cb(this, null);
 		}
-	}).done(function(data) {
+	}).done(function (data) {
 		cb(null, data);
 	});
 }
 
 function loadSample(mode) {
 	$('.loading.editor').show();
-	xhr(mode.sampleURL, function(err, data) {
+	xhr(mode.sampleURL, function (err, data) {
 		if (err) {
 			if (editor) {
 				if (editor.getModel()) {
@@ -96,14 +99,16 @@ function loadSample(mode) {
 			}
 			$('.loading.editor').fadeOut({ duration: 200 });
 			$('#editor').empty();
-			$('#editor').append('<p class="alert alert-error">Failed to load ' + mode.modeId + ' sample</p>');
+			$('#editor').append(
+				'<p class="alert alert-error">Failed to load ' + mode.modeId + ' sample</p>'
+			);
 			return;
 		}
 
 		if (!editor) {
 			$('#editor').empty();
 			editor = monaco.editor.create(document.getElementById('editor'), {
-				model: null,
+				model: null
 			});
 		}
 
@@ -114,34 +119,35 @@ function loadSample(mode) {
 			oldModel.dispose();
 		}
 		$('.loading.editor').fadeOut({ duration: 300 });
-	})
+	});
 }
 
 function loadDiffSample() {
-
-	var onError = function() {
+	var onError = function () {
 		$('.loading.diff-editor').fadeOut({ duration: 200 });
 		$('#diff-editor').append('<p class="alert alert-error">Failed to load diff editor sample</p>');
 	};
 
 	$('.loading.diff-editor').show();
 
-	var lhsData = null, rhsData = null, jsMode = null;
+	var lhsData = null,
+		rhsData = null,
+		jsMode = null;
 
-	xhr('index/samples/diff.lhs.txt', function(err, data) {
+	xhr('index/samples/diff.lhs.txt', function (err, data) {
 		if (err) {
 			return onError();
 		}
 		lhsData = data;
 		onProgress();
-	})
-	xhr('index/samples/diff.rhs.txt', function(err, data) {
+	});
+	xhr('index/samples/diff.rhs.txt', function (err, data) {
 		if (err) {
 			return onError();
 		}
 		rhsData = data;
 		onProgress();
-	})
+	});
 
 	function onProgress() {
 		if (lhsData && rhsData) {
@@ -163,6 +169,6 @@ function loadDiffSample() {
 }
 
 function changeTheme(theme) {
-	var newTheme = (theme === 1 ? 'vs-dark' : ( theme === 0 ? 'vs' : 'hc-black' ));
+	var newTheme = theme === 1 ? 'vs-dark' : theme === 0 ? 'vs' : 'hc-black';
 	monaco.editor.setTheme(newTheme);
 }

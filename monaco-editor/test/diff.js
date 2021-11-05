@@ -1,19 +1,16 @@
-/// <reference path="../node_modules/monaco-editor-core/monaco.d.ts" />
+/// <reference path="../../node_modules/monaco-editor-core/monaco.d.ts" />
 define(['require'], function (require) {
-
 	var container = document.getElementById('container');
 
 	var original = monaco.editor.createModel(getOriginalStr(), 'javascript');
 	var modified = monaco.editor.createModel(getModifiedStr(), 'javascript');
 
-	var diffEditor = monaco.editor.createDiffEditor(container, {
-	});
+	var diffEditor = monaco.editor.createDiffEditor(container, {});
 
 	diffEditor.setModel({
 		original: original,
 		modified: modified
 	});
-
 });
 
 function getOriginalStr() {
@@ -40,8 +37,8 @@ function getOriginalStr() {
 		'			var key = keys[i];',
 		'			var enumerable = key.charCodeAt(0) !== /*_*/95;',
 		'			var member = members[key];',
-		'			if (member && typeof member === \'object\') {',
-		'				if (member.value !== undefined || typeof member.get === \'function\' || typeof member.set === \'function\') {',
+		"			if (member && typeof member === 'object') {",
+		"				if (member.value !== undefined || typeof member.get === 'function' || typeof member.set === 'function') {",
 		'					if (member.enumerable === undefined) {',
 		'						member.enumerable = enumerable;',
 		'					}',
@@ -263,8 +260,8 @@ function getModifiedStr() {
 		'			var key = keys[i];',
 		'			var enumerable = key.charCodeAt(0) !== /*_*/95;',
 		'			var member = members[key];',
-		'			if (member && typeof member === \'object\') {',
-		'				if (member.value !== undefined || typeof member.get === \'function\' || typeof member.set === \'function\') {',
+		"			if (member && typeof member === 'object') {",
+		"				if (member.value !== undefined || typeof member.get === 'function' || typeof member.set === 'function') {",
 		'					if (member.enumerable === undefined) {',
 		'						member.enumerable = enumerable;',
 		'					}',
@@ -449,6 +446,6 @@ function getModifiedStr() {
 		'',
 		'	})(WinJS);',
 		'',
-		'})(this);',
+		'})(this);'
 	].join('\n');
 }

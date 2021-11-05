@@ -19,25 +19,26 @@ $ npm install monaco-editor
 ```
 
 You will get:
-* inside `esm`: ESM version of the editor (compatible with e.g. webpack)
-* inside `dev`: AMD bundled, not minified
-* inside `min`: AMD bundled, and minified
-* inside `min-maps`: source maps for `min`
-* `monaco.d.ts`: this specifies the API of the editor (this is what is actually versioned, everything else is considered private and might break with any release).
+
+- inside `esm`: ESM version of the editor (compatible with e.g. webpack)
+- inside `dev`: AMD bundled, not minified
+- inside `min`: AMD bundled, and minified
+- inside `min-maps`: source maps for `min`
+- `monaco.d.ts`: this specifies the API of the editor (this is what is actually versioned, everything else is considered private and might break with any release).
 
 It is recommended to develop against the `dev` version, and in production to use the `min` version.
 
 ## Documentation
 
-* Learn how to integrate the editor with these [complete samples](https://github.com/Microsoft/monaco-editor-samples/).
-    * [Integrate the AMD version](./monaco-editor/docs/integrate-amd.md).
-    * [Integrate the AMD version cross-domain](./monaco-editor/docs/integrate-amd-cross.md)
-    * [Integrate the ESM version](./monaco-editor/docs/integrate-esm.md)
-* Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
-* Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
-* Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
-* Create a Monarch tokenizer for a new programming language [in the Monarch playground](https://microsoft.github.io/monaco-editor/monarch.html).
-* Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor)! Search open and closed issues, there are a lot of tips in there!
+- Learn how to integrate the editor with these [complete samples](https://github.com/Microsoft/monaco-editor-samples/).
+  - [Integrate the AMD version](./monaco-editor/docs/integrate-amd.md).
+  - [Integrate the AMD version cross-domain](./monaco-editor/docs/integrate-amd-cross.md)
+  - [Integrate the ESM version](./monaco-editor/docs/integrate-esm.md)
+- Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
+- Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
+- Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
+- Create a Monarch tokenizer for a new programming language [in the Monarch playground](https://microsoft.github.io/monaco-editor/monarch.html).
+- Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor)! Search open and closed issues, there are a lot of tips in there!
 
 ## Issues
 
@@ -77,11 +78,11 @@ No.
 
 ❓ **Why doesn't the editor support TextMate grammars?**
 
-* Please see https://github.com/bolinfest/monaco-tm which puts together `monaco-editor`, `vscode-oniguruma` and `vscode-textmate` to get TM grammar support in the editor.
+- Please see https://github.com/bolinfest/monaco-tm which puts together `monaco-editor`, `vscode-oniguruma` and `vscode-textmate` to get TM grammar support in the editor.
 
 ❓ **What about IE 11 support?**
 
-* The Monaco Editor no longer supports IE 11. The last version that was tested on IE 11 is `0.18.1`.
+- The Monaco Editor no longer supports IE 11. The last version that was tested on IE 11 is `0.18.1`.
 
 ## Development setup
 
@@ -91,6 +92,6 @@ Please see [CONTRIBUTING](./CONTRIBUTING.md)
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-
 ## License
+
 Licensed under the [MIT](https://github.com/Microsoft/monaco-editor/blob/master/LICENSE.md) License.

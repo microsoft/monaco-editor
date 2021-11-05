@@ -17,11 +17,12 @@ jsCodeArr = jsCodeArr.concat(jsCodeArr.slice(0));
 jsCodeArr = jsCodeArr.concat(jsCodeArr.slice(0));
 jsCodeArr = jsCodeArr.concat(jsCodeArr.slice(0));
 
-jsCodeArr[49] += 'And this is some long line. And this is some long line. And this is some long line. And this is some long line. And this is some long line. ';
+jsCodeArr[49] +=
+	'And this is some long line. And this is some long line. And this is some long line. And this is some long line. And this is some long line. ';
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById('container'), {
 	value: jsCodeArr.join('\n'),
-	language: "javascript"
+	language: 'javascript'
 });
 
 editor.revealPositionInCenter({ lineNumber: 50, column: 120 });

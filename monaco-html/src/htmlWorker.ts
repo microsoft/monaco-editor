@@ -28,7 +28,10 @@ export class HTMLWorker {
 				customDataProviders.push(htmlService.newHTMLDataProvider(id, data.dataProviders[id]));
 			}
 		}
-		this._languageService = htmlService.getLanguageService({ useDefaultDataProvider, customDataProviders });
+		this._languageService = htmlService.getLanguageService({
+			useDefaultDataProvider,
+			customDataProviders
+		});
 	}
 
 	async doComplete(

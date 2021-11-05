@@ -1,5 +1,4 @@
 (function () {
-
 	var METADATA = {
 		CORE: {
 			paths: {
@@ -8,7 +7,7 @@
 				'npm/min': 'node_modules/monaco-editor-core/min/vs',
 				built: '/vscode/out-monaco-editor-core/min/vs',
 				releaseDev: 'release/dev/vs',
-				releaseMin: 'release/min/vs',
+				releaseMin: 'release/min/vs'
 			}
 		},
 		PLUGINS: [
@@ -22,7 +21,7 @@
 					src: './monaco-typescript/release/dev',
 					'npm/dev': 'node_modules/monaco-typescript/release/dev',
 					'npm/min': 'node_modules/monaco-typescript/release/min',
-					esm: 'node_modules/monaco-typescript/release/esm',
+					esm: 'node_modules/monaco-typescript/release/esm'
 				}
 			},
 			{
@@ -34,7 +33,7 @@
 					src: './monaco-css/release/dev',
 					'npm/dev': 'node_modules/monaco-css/release/dev',
 					'npm/min': 'node_modules/monaco-css/release/min',
-					esm: 'node_modules/monaco-css/release/esm',
+					esm: 'node_modules/monaco-css/release/esm'
 				}
 			},
 			{
@@ -46,7 +45,7 @@
 					src: './monaco-json/release/dev',
 					'npm/dev': 'node_modules/monaco-json/release/dev',
 					'npm/min': 'node_modules/monaco-json/release/min',
-					esm: 'node_modules/monaco-json/release/esm',
+					esm: 'node_modules/monaco-json/release/esm'
 				}
 			},
 			{
@@ -59,7 +58,7 @@
 					src: './monaco-html/release/dev',
 					'npm/dev': 'node_modules/monaco-html/release/dev',
 					'npm/min': 'node_modules/monaco-html/release/min',
-					esm: 'node_modules/monaco-html/release/esm',
+					esm: 'node_modules/monaco-html/release/esm'
 				}
 			},
 			{
@@ -72,16 +71,15 @@
 					src: './monaco-languages/release/dev',
 					'npm/dev': 'node_modules/monaco-languages/release/dev',
 					'npm/min': 'node_modules/monaco-languages/release/min',
-					esm: 'node_modules/monaco-languages/release/esm',
+					esm: 'node_modules/monaco-languages/release/esm'
 				}
 			}
 		]
-	}
+	};
 
 	if (typeof exports !== 'undefined') {
-		exports.METADATA = METADATA
+		exports.METADATA = METADATA;
 	} else {
 		self.METADATA = METADATA;
 	}
-
 })();

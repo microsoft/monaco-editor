@@ -137,10 +137,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/'/, 'invalid']
 		],
 		heredoc: [
-			[
-				/<<[-]*\s*["]?([\w\-]+)["]?/,
-				{ token: 'string.heredoc.delimiter', next: '@heredocBody.$1' }
-			]
+			[/<<[-]*\s*["]?([\w\-]+)["]?/, { token: 'string.heredoc.delimiter', next: '@heredocBody.$1' }]
 		],
 		heredocBody: [
 			[

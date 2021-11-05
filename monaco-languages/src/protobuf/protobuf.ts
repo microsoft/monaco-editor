@@ -34,9 +34,7 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	autoCloseBefore: ".,=}])>' \n\t",
 	indentationRules: {
-		increaseIndentPattern: new RegExp(
-			'^((?!\\/\\/).)*(\\{[^}"\'`]*|\\([^)"\'`]*|\\[[^\\]"\'`]*)$'
-		),
+		increaseIndentPattern: new RegExp('^((?!\\/\\/).)*(\\{[^}"\'`]*|\\([^)"\'`]*|\\[[^\\]"\'`]*)$'),
 		decreaseIndentPattern: new RegExp('^((?!.*?\\/\\*).*\\*/)?\\s*[\\}\\]].*$')
 	}
 };
@@ -119,8 +117,7 @@ export const language = <languages.IMonarchLanguage>{
 	hexLit: /0[xX][0-9a-fA-F]+/,
 
 	type: /double|float|int32|int64|uint32|uint64|sint32|sint64|fixed32|fixed64|sfixed32|sfixed64|bool|string|bytes|@messageType|@enumType/,
-	keyType:
-		/int32|int64|uint32|uint64|sint32|sint64|fixed32|fixed64|sfixed32|sfixed64|bool|string/,
+	keyType: /int32|int64|uint32|uint64|sint32|sint64|fixed32|fixed64|sfixed32|sfixed64|bool|string/,
 
 	tokenizer: {
 		root: [
@@ -313,10 +310,7 @@ export const language = <languages.IMonarchLanguage>{
 					}
 				}
 			],
-			[
-				/(@identifier)(\s*)(=)/,
-				['identifier', 'white', { token: 'delimiter', next: '@pop' }]
-			],
+			[/(@identifier)(\s*)(=)/, ['identifier', 'white', { token: 'delimiter', next: '@pop' }]],
 			[
 				/@fullIdentifier|\./,
 				{

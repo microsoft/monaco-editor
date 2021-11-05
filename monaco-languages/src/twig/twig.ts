@@ -98,20 +98,11 @@ export const language = <languages.IMonarchLanguage>{
 			// HTML
 			[/<!DOCTYPE/, 'metatag.html', '@doctype'],
 			[/<!--/, 'comment.html', '@comment'],
-			[
-				/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/,
-				['delimiter.html', 'tag.html', '', 'delimiter.html']
-			],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/, ['delimiter.html', 'tag.html', '', 'delimiter.html']],
 			[/(<)(script)/, ['delimiter.html', { token: 'tag.html', next: '@script' }]],
 			[/(<)(style)/, ['delimiter.html', { token: 'tag.html', next: '@style' }]],
-			[
-				/(<)((?:[\w\-]+:)?[\w\-]+)/,
-				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
-			],
-			[
-				/(<\/)((?:[\w\-]+:)?[\w\-]+)/,
-				['delimiter.html', { token: 'tag.html', next: '@otherTag' }]
-			],
+			[/(<)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
+			[/(<\/)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
 			[/</, 'delimiter.html'],
 			[/[^<]+/] // text
 		],
@@ -145,13 +136,7 @@ export const language = <languages.IMonarchLanguage>{
 			// endverbatim
 			[
 				/({%[-~]?)(\s*)(endverbatim)(\s*)([-~]?%})/,
-				[
-					'delimiter.twig',
-					'',
-					'keyword.twig',
-					'',
-					{ token: 'delimiter.twig', next: '@popall' }
-				]
+				['delimiter.twig', '', 'keyword.twig', '', { token: 'delimiter.twig', next: '@popall' }]
 			],
 			[/./, 'string.twig']
 		],

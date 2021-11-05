@@ -128,10 +128,7 @@ export const language = <languages.IMonarchLanguage>{
 			],
 
 			// numbers
-			[
-				/((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)/,
-				'number'
-			],
+			[/((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)/, 'number'],
 
 			// delimiter: after number because of .\d floats
 			[/[;,.]/, 'delimiter'],

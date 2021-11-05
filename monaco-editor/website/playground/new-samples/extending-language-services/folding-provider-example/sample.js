@@ -1,9 +1,8 @@
 monaco.languages.register({
-    id: "foldLanguage"
+	id: 'foldLanguage'
 });
 
-var value =
-`1. Hit F1 to bring up the Command Palette
+var value = `1. Hit F1 to bring up the Command Palette
 2. Type 'fold'
 3. Choose 'Fold All Block Comments' or 'Fold All Regions'
 
@@ -31,45 +30,45 @@ var value =
 
 27. region2
 28. region2
-29. region2`
+29. region2`;
 
-monaco.editor.create(document.getElementById("container"), {
-    value: value,
-    language: "foldLanguage"
+monaco.editor.create(document.getElementById('container'), {
+	value: value,
+	language: 'foldLanguage'
 });
 
-monaco.languages.registerFoldingRangeProvider("foldLanguage", {
-    provideFoldingRanges: function(model, context, token) {
-        return [
-            // comment1
-            {
-                start: 5,
-                end: 7,
-                kind: monaco.languages.FoldingRangeKind.Comment
-            },
-            // comment2
-            {
-                start: 13,
-                end: 17,
-                kind: monaco.languages.FoldingRangeKind.Comment
-            },
-            // foldable text
-            {
-                start: 19,
-                end: 21
-            },
-            // region1
-            {
-                start: 23,
-                end: 25,
-                kind: monaco.languages.FoldingRangeKind.Region
-            },
-            // region2
-            {
-                start: 27,
-                end: 29,
-                kind: monaco.languages.FoldingRangeKind.Region
-            }
-        ];
-    }
+monaco.languages.registerFoldingRangeProvider('foldLanguage', {
+	provideFoldingRanges: function (model, context, token) {
+		return [
+			// comment1
+			{
+				start: 5,
+				end: 7,
+				kind: monaco.languages.FoldingRangeKind.Comment
+			},
+			// comment2
+			{
+				start: 13,
+				end: 17,
+				kind: monaco.languages.FoldingRangeKind.Comment
+			},
+			// foldable text
+			{
+				start: 19,
+				end: 21
+			},
+			// region1
+			{
+				start: 23,
+				end: 25,
+				kind: monaco.languages.FoldingRangeKind.Region
+			},
+			// region2
+			{
+				start: 27,
+				end: 29,
+				kind: monaco.languages.FoldingRangeKind.Region
+			}
+		];
+	}
 });

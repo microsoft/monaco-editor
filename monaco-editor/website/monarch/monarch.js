@@ -1,12 +1,12 @@
 /// <reference path="../../release/monaco.d.ts" />
 
-"use strict";
+'use strict';
 
 /*-----------------------------------------
    General helpers
 ------------------------------------------*/
 function clearInnerText(elem) {
-	elem.innerHTML = "";
+	elem.innerHTML = '';
 }
 
 function getInnerText(elem) {
@@ -35,17 +35,16 @@ function getTextFromId(id) {
 	return getInnerText(elem);
 }
 
-
 /* -----------------------------------------
    The main loader for the workbench UI
 ------------------------------------------*/
 
-var outputPane = document.getElementById("monarchConsole");
+var outputPane = document.getElementById('monarchConsole');
 
 var isDirty = false;
 window.onbeforeunload = function (ev) {
 	if (isDirty) {
-		return "If you leave this page any unsaved work will be lost.";
+		return 'If you leave this page any unsaved work will be lost.';
 	}
 };
 
@@ -53,10 +52,10 @@ function createLangModel(languageId, text) {
 	monaco.languages.register({ id: languageId });
 
 	var langModel = monaco.editor.createModel(text, 'javascript');
-	var update = function() {
+	var update = function () {
 		var def = null;
 		try {
-			def = eval("(function(){ " + langModel.getValue() + "; })()");
+			def = eval('(function(){ ' + langModel.getValue() + '; })()');
 		} catch (err) {
 			setInnerText(outputPane, err + '\n');
 			return;
@@ -64,7 +63,7 @@ function createLangModel(languageId, text) {
 		monaco.languages.setMonarchTokensProvider(languageId, def);
 		setInnerText(outputPane, 'up-to-date\n');
 	};
-	langModel.onDidChangeContent(function() {
+	langModel.onDidChangeContent(function () {
 		isDirty = true;
 		update();
 	});
@@ -84,31 +83,31 @@ function readSamples(sampleSelect) {
 
 		var languageId = 'monarch-language-' + id;
 
-		var sampleText = getTextFromId(id + "-sample");
+		var sampleText = getTextFromId(id + '-sample');
 
 		samples[id] = {
 			languageId: languageId,
 			langModel: createLangModel(languageId, getTextFromId(id)),
 			langViewState: null,
 			sampleModel: monaco.editor.createModel(sampleText, languageId),
-			sampleViewState: null,
+			sampleViewState: null
 		};
 	}
 
 	return samples;
 }
 
-require(["vs/editor/editor.main"], function () {
-	var sampleSelect = document.getElementById("sampleselect");
-	var langPane = document.getElementById("langPane");
-	var editorPane = document.getElementById("editor");
+require(['vs/editor/editor.main'], function () {
+	var sampleSelect = document.getElementById('sampleselect');
+	var langPane = document.getElementById('langPane');
+	var editorPane = document.getElementById('editor');
 
 	// Adjust height of editors
 	var screenHeight = window.innerHeight;
 	if (screenHeight) {
 		var paneHeight = 0.76 * screenHeight;
-		langPane.style.height = paneHeight + "px";
-		editorPane.style.height = (paneHeight - 112) + "px"; // 100px + margin 10px + borders 2px
+		langPane.style.height = paneHeight + 'px';
+		editorPane.style.height = paneHeight - 112 + 'px'; // 100px + margin 10px + borders 2px
 	}
 
 	var SAMPLES = readSamples(sampleSelect);
@@ -124,8 +123,8 @@ require(["vs/editor/editor.main"], function () {
 		scrollBeyondLastLine: false
 	});
 
-	var select = document.getElementById("themeselect");
-	var currentTheme = "vs";
+	var select = document.getElementById('themeselect');
+	var currentTheme = 'vs';
 	select.onchange = function () {
 		currentTheme = select.options[select.selectedIndex].value;
 		monaco.editor.setTheme(currentTheme);
@@ -135,7 +134,7 @@ require(["vs/editor/editor.main"], function () {
 	function refreshLayout() {
 		langEditor.layout();
 		sampleEditor.layout();
-	};
+	}
 	window.onresize = refreshLayout;
 
 	// Switch to another sample
@@ -170,5 +169,4 @@ require(["vs/editor/editor.main"], function () {
 	}
 	sampleSelect.onchange = refreshSample;
 	refreshSample(); // initialize initial text
-
 }); // require

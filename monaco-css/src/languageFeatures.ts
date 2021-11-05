@@ -240,7 +240,9 @@ function toTextEdit(textEdit: cssService.TextEdit): editor.ISingleEditOperation 
 }
 
 function toCommand(c: cssService.Command | undefined): languages.Command {
-	return c && c.command === 'editor.action.triggerSuggest' ? { id: c.command, title: c.title, arguments: c.arguments } : undefined
+	return c && c.command === 'editor.action.triggerSuggest'
+		? { id: c.command, title: c.title, arguments: c.arguments }
+		: undefined;
 }
 
 export class CompletionAdapter implements languages.CompletionItemProvider {

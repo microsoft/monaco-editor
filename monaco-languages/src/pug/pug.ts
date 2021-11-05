@@ -295,11 +295,7 @@ export const language = <languages.IMonarchLanguage>{
 								next: '@popall'
 							}
 						],
-						'@default': [
-							'interpolation.delimiter',
-							'interpolation',
-							'interpolation.delimiter'
-						]
+						'@default': ['interpolation.delimiter', 'interpolation', 'interpolation.delimiter']
 					}
 				}
 			],
@@ -391,10 +387,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 			// interpolation
-			[
-				/(#{)([^}]*)(})/,
-				['interpolation.delimiter', 'interpolation', 'interpolation.delimiter']
-			],
+			[/(#{)([^}]*)(})/, ['interpolation.delimiter', 'interpolation', 'interpolation.delimiter']],
 			[/#/, 'string'],
 			[
 				/["']/,

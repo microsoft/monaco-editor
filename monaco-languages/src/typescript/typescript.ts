@@ -313,10 +313,7 @@ export const language = {
 			[/[^\\\/]/, 'regexp'],
 			[/@regexpesc/, 'regexp.escape'],
 			[/\\\./, 'regexp.invalid'],
-			[
-				/(\/)([dgimsuy]*)/,
-				[{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']
-			]
+			[/(\/)([dgimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
 		],
 
 		regexrange: [

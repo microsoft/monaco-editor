@@ -1,10 +1,12 @@
 // Remember to check out the CSS too!
-var htmlCode = "<html><!--long linelong linelong linelong linelong linelong linelong linelong linelong linelong line-->\n<head>\n	<!-- HTML comment -->\n	<style type=\"text/css\">\n		/* CSS comment */\n	</style>\n	<script type=\"javascript\">\n		// JavaScript comment\n	</"+"script>\n</head>\n<body></body>\n</html>";
+var htmlCode =
+	'<html><!--long linelong linelong linelong linelong linelong linelong linelong linelong linelong line-->\n<head>\n	<!-- HTML comment -->\n	<style type="text/css">\n		/* CSS comment */\n	</style>\n	<script type="javascript">\n		// JavaScript comment\n	</' +
+	'script>\n</head>\n<body></body>\n</html>';
 
-monaco.editor.create(document.getElementById("container"), {
+monaco.editor.create(document.getElementById('container'), {
 	value: htmlCode,
-	language: "text/html",
-	theme: "vs",
+	language: 'text/html',
+	theme: 'vs',
 	scrollbar: {
 		// Subtle shadows to the left & top. Defaults to true.
 		useShadows: false,

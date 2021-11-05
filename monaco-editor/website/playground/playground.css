@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: "Segoe UI",Arial,"HelveticaNeue-Light", sans-serif;
+	font-family: 'Segoe UI', Arial, 'HelveticaNeue-Light', sans-serif;
 	font-size: 13px;
 	overflow: hidden;
 }
@@ -11,7 +11,7 @@ select {
 }
 
 .playground-page .title {
-	font-family: "Segoe UI Light","HelveticaNeue-UltraLight", sans-serif;
+	font-family: 'Segoe UI Light', 'HelveticaNeue-UltraLight', sans-serif;
 	font-weight: 100;
 	font-size: 1.8em;
 }
@@ -50,11 +50,10 @@ select {
 	padding-left: 16px;
 }
 .playground-page .action.run {
-	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAE1JREFUOE9jKCsrY6AEU6QZZPHgNeA/0Hn7gdiBUPjg8gLIABjGaxAxBuA1iBQDYAalIXuLFAOweoUYA8gOA4pigegERrRCXOlhGBgAAGmggVf7bEk0AAAAAElFTkSuQmCC') no-repeat left center;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAE1JREFUOE9jKCsrY6AEU6QZZPHgNeA/0Hn7gdiBUPjg8gLIABjGaxAxBuA1iBQDYAalIXuLFAOweoUYA8gOA4pigegERrRCXOlhGBgAAGmggVf7bEk0AAAAAElFTkSuQmCC')
+		no-repeat left center;
 }
 .playground-page .editor-container {
 	border: 1px solid #999;
 	border-top: 0;
 }
-
-

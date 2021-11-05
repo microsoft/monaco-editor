@@ -735,11 +735,7 @@ export const language = <languages.IMonarchLanguage>{
 			// AS-20160628: additional hi-lighting for variables in staload/dynload strings
 			{
 				regex: /(\{\$)(@IDENTFST@IDENTRST*)(\})/,
-				action: [
-					{ token: 'string.escape' },
-					{ token: 'identifier' },
-					{ token: 'string.escape' }
-				]
+				action: [{ token: 'string.escape' }, { token: 'identifier' }, { token: 'string.escape' }]
 			},
 			{ regex: /\\$/, action: { token: 'string.escape' } },
 			{

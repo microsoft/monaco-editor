@@ -92,10 +92,7 @@ export const language = <languages.IMonarchLanguage>{
 			['(\\.|#(?=[^{])|%|(@identifier)|:)+', 'tag'] // selector (.foo, div, ...)
 		],
 
-		selectorattribute: [
-			{ include: '@term' },
-			[']', { token: 'delimiter.bracket', next: '@pop' }]
-		],
+		selectorattribute: [{ include: '@term' }, [']', { token: 'delimiter.bracket', next: '@pop' }]],
 
 		term: [
 			{ include: '@comments' },

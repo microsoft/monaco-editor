@@ -32,10 +32,7 @@ const enum JSONParent {
 }
 
 class ParentsStack {
-	constructor(
-		public readonly parent: ParentsStack | null,
-		public readonly type: JSONParent
-	) {}
+	constructor(public readonly parent: ParentsStack | null, public readonly type: JSONParent) {}
 
 	public static pop(parents: ParentsStack | null): ParentsStack | null {
 		if (parents) {
@@ -44,17 +41,11 @@ class ParentsStack {
 		return null;
 	}
 
-	public static push(
-		parents: ParentsStack | null,
-		type: JSONParent
-	): ParentsStack {
+	public static push(parents: ParentsStack | null, type: JSONParent): ParentsStack {
 		return new ParentsStack(parents, type);
 	}
 
-	public static equals(
-		a: ParentsStack | null,
-		b: ParentsStack | null
-	): boolean {
+	public static equals(a: ParentsStack | null, b: ParentsStack | null): boolean {
 		if (!a && !b) {
 			return true;
 		}
@@ -95,12 +86,7 @@ class JSONState implements languages.IState {
 	}
 
 	public clone(): JSONState {
-		return new JSONState(
-			this._state,
-			this.scanError,
-			this.lastWasColon,
-			this.parents
-		);
+		return new JSONState(this._state, this.scanError, this.lastWasColon, this.parents);
 	}
 
 	public equals(other: languages.IState): boolean {
@@ -222,8 +208,7 @@ function tokenize(
 			case json.SyntaxKind.StringLiteral:
 				const currentParent = parents ? parents.type : JSONParent.Object;
 				const inArray = currentParent === JSONParent.Array;
-				type =
-					lastWasColon || inArray ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
+				type = lastWasColon || inArray ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
 				lastWasColon = false;
 				break;
 			case json.SyntaxKind.NumericLiteral:

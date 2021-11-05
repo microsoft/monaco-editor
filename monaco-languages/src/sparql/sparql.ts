@@ -168,10 +168,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// (prefixed) name
-			[
-				/[_\w\d]+:(\.(?=[\w_\-\\%])|[:\w_-]|\\[-\\_~.!$&'()*+,;=/?#@%]|%[a-f\d][a-f\d])*/,
-				'tag'
-			],
+			[/[_\w\d]+:(\.(?=[\w_\-\\%])|[:\w_-]|\\[-\\_~.!$&'()*+,;=/?#@%]|%[a-f\d][a-f\d])*/, 'tag'],
 			[/:(\.(?=[\w_\-\\%])|[:\w_-]|\\[-\\_~.!$&'()*+,;=/?#@%]|%[a-f\d][a-f\d])+/, 'tag'],
 
 			// identifiers, builtinFunctions and keywords
