@@ -1,0 +1,41 @@
+{
+	"name": "monaco-languages",
+	"version": "2.11.1",
+	"description": "Bundle of many languages for the Monaco Editor.",
+	"scripts": {
+		"compile": "mrmdir ./out && tsc -p ./src/tsconfig.json && tsc -p ./src/tsconfig.esm.json",
+		"watch": "tsc -p ./src --watch",
+		"watch-esm": "tsc -p ./src/tsconfig.esm.json --watch",
+		"test": "node ./test/all.js",
+		"prepublishOnly": "mrmdir ./release && npm run compile && node ./scripts/release.js && node ./scripts/bundle",
+		"prettier": "prettier --write ."
+	},
+	"author": "Microsoft Corporation",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/monaco-languages"
+	},
+	"bugs": {
+		"url": "https://github.com/Microsoft/monaco-languages/issues"
+	},
+	"devDependencies": {
+		"@types/tape": "^4.13.2",
+		"glob": "^7.2.0",
+		"husky": "^4.3.8",
+		"jsdom": "^17.0.0",
+		"monaco-editor-core": "0.30.0",
+		"monaco-plugin-helpers": "^1.0.3",
+		"prettier": "^2.4.1",
+		"pretty-quick": "^3.1.1",
+		"requirejs": "^2.3.6",
+		"tape": "^5.3.1",
+		"terser": "^5.9.0",
+		"typescript": "4.4.3"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pretty-quick --staged"
+		}
+	}
+}

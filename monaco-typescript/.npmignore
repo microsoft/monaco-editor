@@ -1,0 +1,12 @@
+/.github/
+/.vscode/
+/scripts/
+/src/
+/test/
+/gulpfile.js
+/tsconfig.json
+/.npmignore
+/.prettierrc
+/.prettierignore
+/out/
+/release/**/test/

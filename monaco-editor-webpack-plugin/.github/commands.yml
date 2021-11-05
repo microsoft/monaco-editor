@@ -1,0 +1,62 @@
+{
+    perform: true,
+    commands: [
+        {
+            type: 'comment',
+            name: 'question',
+            allowUsers: [],
+            action: 'updateLabels',
+            addLabel: '*question'
+        },
+        {
+            type: 'label',
+            name: '*question',
+            allowTriggerByBot: true,
+            action: 'close',
+            comment: "Please ask your question on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor). We have a great community over [there](https://stackoverflow.com/questions/tagged/monaco-editor). They have already answered hundreds of questions and are happy to answer yours as well. You can also try [searching through existing issues](https://github.com/microsoft/monaco-editor/issues?utf8=%E2%9C%93&q=is%3Aissue+), looking at [API usage samples](https://microsoft.github.io/monaco-editor/playground.html) or at [integration samples](https://github.com/Microsoft/monaco-editor-samples). See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
+        },
+        {
+            type: 'label',
+            name: '*out-of-scope',
+            allowTriggerByBot: true,
+            action: 'close',
+            comment: "We closed this issue because we don't plan to address it in the foreseeable future. You can find more detailed information about our decision-making process [here](https://aka.ms/vscode-out-of-scope). If you disagree and feel that this issue is crucial: We are happy to listen and to reconsider.\n\nIf you wonder what we are up to, please see our [roadmap](https://aka.ms/vscoderoadmap) and [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nThanks for your understanding and happy coding!"
+        },
+        {
+            type: 'label',
+            name: '*as-designed',
+            allowTriggerByBot: true,
+            action: 'close',
+            comment: "The described behavior is how it is expected to work. If you disagree, please explain what is expected and what is not in more detail. See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
+        },
+        {
+            type: 'label',
+            name: '*english-please',
+            allowTriggerByBot: true,
+            action: 'close',
+            comment: "This issue is being closed because its description is not in English, that makes it hard for us to work on it. Please open a new issue with an English description. You might find [Bing Translator](https://www.bing.com/translator) useful."
+        },
+        {
+            type: 'comment',
+            name: 'duplicate',
+            allowUsers: [],
+            action: 'updateLabels',
+            addLabel: '*duplicate'
+        },
+        {
+            type: 'label',
+            name: '*duplicate',
+            allowTriggerByBot: true,
+            action: 'close',
+            comment: "Thanks for creating this issue! We figured it's covering the same as another one we already have. Thus, we closed this one as a duplicate. You can search for existing issues [here](https://github.com/Microsoft/monaco-editor/issues). See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
+        },
+        {
+            type: 'comment',
+            name: 'needsMoreInfo',
+            allowUsers: [],
+            action: 'updateLabels',
+            addLabel: 'needs more info',
+            comment: "Thanks for creating this issue! We figured it's missing some basic information or in some other way doesn't follow our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines. Please take the time to review these and update the issue.\n\nHappy Coding!"
+        },
+    ]
+}

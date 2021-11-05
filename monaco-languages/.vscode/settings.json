@@ -1,0 +1,14 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/release": true,
+		"**/out": true
+	},
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"typescript.tsdk": "./node_modules/typescript/lib"
+}

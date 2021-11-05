@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"module": "amd",
+		"moduleResolution": "node",
+		"outDir": "../out/amd",
+		"target": "es5",
+		"strict": true,
+		"lib": ["dom", "es5", "es2015.collection", "es2015.iterable", "es2015.promise"]
+	}
+}
