@@ -30,9 +30,9 @@ It is recommended to develop against the `dev` version, and in production to use
 ## Documentation
 
 * Learn how to integrate the editor with these [complete samples](https://github.com/Microsoft/monaco-editor-samples/).
-    * [Integrate the AMD version](./docs/integrate-amd.md).
-    * [Integrate the AMD version cross-domain](./docs/integrate-amd-cross.md)
-    * [Integrate the ESM version](./docs/integrate-esm.md)
+    * [Integrate the AMD version](./monaco-editor/docs/integrate-amd.md).
+    * [Integrate the AMD version cross-domain](./monaco-editor/docs/integrate-amd-cross.md)
+    * [Integrate the ESM version](./monaco-editor/docs/integrate-esm.md)
 * Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
 * Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/master/website/playground/monaco.d.ts.txt).
 * Read [this guide](https://github.com/Microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
