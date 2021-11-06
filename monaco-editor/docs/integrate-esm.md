@@ -225,7 +225,7 @@ monaco.editor.create(document.getElementById('container'), {
 
 ### Using esm.sh CDN
 
-[esm.sh](https://esm.sh/) allows you import Monaco Editor in browsers with ES Module syntax, no build needed:
+[esm.sh](https://esm.sh/) allows you import Monaco Editor in browsers with ES Module syntax, no build needed.
 
 ```js
 import * as monaco from 'https://esm.sh/monaco-editor';
@@ -258,3 +258,5 @@ monaco.editor.create(document.getElementById('container'), {
 	language: 'javascript'
 });
 ```
+
+**Playground**: https://esm.sh/?playground
