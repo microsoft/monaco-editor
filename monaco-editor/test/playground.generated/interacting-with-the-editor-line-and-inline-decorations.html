@@ -23,6 +23,7 @@
 	margin-left: 3px;
 }
 
+
 /*----------------------------------------SAMPLE CSS END*/
 </style>
 <a class="loading-opts" href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>
@@ -34,7 +35,7 @@ THIS IS A GENERATED FILE VIA gulp generate-test-samples
 <div id="outer-container" style="width:800px;height:450px;border: 1px solid grey">
 <!-- ----------------------------------------SAMPLE HTML START-->
 
-<div id="container" style="height:100%;"></div>
+<div id="container" style="height: 100%"></div>
 
 
 <!-- ----------------------------------------SAMPLE HTML END-->
@@ -59,15 +60,27 @@ var jsCode = [
 	'};'
 ].join('\n');
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById('container'), {
 	value: jsCode,
-	language: "javascript"
+	language: 'javascript'
 });
 
-var decorations = editor.deltaDecorations([], [
-	{ range: new monaco.Range(3,1,5,1), options: { isWholeLine: true, linesDecorationsClassName: 'myLineDecoration' }},
-	{ range: new monaco.Range(7,1,7,24), options: { inlineClassName: 'myInlineDecoration' }},
-]);
+var decorations = editor.deltaDecorations(
+	[],
+	[
+		{
+			range: new monaco.Range(3, 1, 5, 1),
+			options: {
+				isWholeLine: true,
+				linesDecorationsClassName: 'myLineDecoration'
+			}
+		},
+		{
+			range: new monaco.Range(7, 1, 7, 24),
+			options: { inlineClassName: 'myInlineDecoration' }
+		}
+	]
+);
 
 
 /*----------------------------------------SAMPLE JS END*/

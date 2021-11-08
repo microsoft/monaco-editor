@@ -11,7 +11,6 @@
 
 
 
-
 /*----------------------------------------SAMPLE CSS END*/
 </style>
 <a class="loading-opts" href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>
@@ -23,7 +22,7 @@ THIS IS A GENERATED FILE VIA gulp generate-test-samples
 <div id="outer-container" style="width:800px;height:450px;border: 1px solid grey">
 <!-- ----------------------------------------SAMPLE HTML START-->
 
-<div id="container" style="height:100%"></div>
+<div id="container" style="height: 100%"></div>
 
 
 <!-- ----------------------------------------SAMPLE HTML END-->
@@ -36,12 +35,12 @@ THIS IS A GENERATED FILE VIA gulp generate-test-samples
 loadEditor(function() {
 /*----------------------------------------SAMPLE JS START*/
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById('container'), {
 	value: "function hello() {\n\talert('Hello world!');\n}",
-	language: "javascript"
+	language: 'javascript'
 });
 
-var myBinding = editor.addCommand(monaco.KeyCode.F9, function() {
+var myBinding = editor.addCommand(monaco.KeyCode.F9, function () {
 	alert('F9 pressed!');
 });
 

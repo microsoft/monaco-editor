@@ -13,11 +13,11 @@
 .monaco-editor .monaco-scrollable-element .scrollbar.horizontal,
 .monaco-editor .decorationsOverviewRuler,
 .monaco-editor .monaco-scrollable-element .scrollbar.vertical .arrow-background {
-	  background: rgba(230, 230, 230, 255);
+	background: rgba(230, 230, 230, 255);
 }
 /* Make vertical scrollbar transparent to allow decorations overview ruler to be visible */
 .monaco-editor .monaco-scrollable-element .scrollbar.vertical {
-	  background: rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 }
 
 
@@ -32,7 +32,7 @@ THIS IS A GENERATED FILE VIA gulp generate-test-samples
 <div id="outer-container" style="width:800px;height:450px;border: 1px solid grey">
 <!-- ----------------------------------------SAMPLE HTML START-->
 
-<div id="container" style="height:100%;"></div>
+<div id="container" style="height: 100%"></div>
 
 
 <!-- ----------------------------------------SAMPLE HTML END-->
@@ -46,12 +46,14 @@ loadEditor(function() {
 /*----------------------------------------SAMPLE JS START*/
 
 // Remember to check out the CSS too!
-var htmlCode = "<html><!--long linelong linelong linelong linelong linelong linelong linelong linelong linelong line-->\n<head>\n	<!-- HTML comment -->\n	<style type=\"text/css\">\n		/* CSS comment */\n	</style>\n	<script type=\"javascript\">\n		// JavaScript comment\n	</"+"script>\n</head>\n<body></body>\n</html>";
+var htmlCode =
+	'<html><!--long linelong linelong linelong linelong linelong linelong linelong linelong linelong line-->\n<head>\n	<!-- HTML comment -->\n	<style type="text/css">\n		/* CSS comment */\n	</style>\n	<script type="javascript">\n		// JavaScript comment\n	</' +
+	'script>\n</head>\n<body></body>\n</html>';
 
-monaco.editor.create(document.getElementById("container"), {
+monaco.editor.create(document.getElementById('container'), {
 	value: htmlCode,
-	language: "text/html",
-	theme: "vs",
+	language: 'text/html',
+	theme: 'vs',
 	scrollbar: {
 		// Subtle shadows to the left & top. Defaults to true.
 		useShadows: false,

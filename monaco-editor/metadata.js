@@ -17,13 +17,10 @@
 				modulePrefix: 'vs/language/typescript',
 				rootPath: './monaco-typescript',
 				paths: {
-					// use ./ to indicate it is relative to the repository root
-					src: './monaco-typescript/release/dev',
-					dev: './monaco-typescript/release/dev',
-					min: './monaco-typescript/release/min',
-					'npm/dev': 'node_modules/monaco-typescript/release/dev',
-					'npm/min': 'node_modules/monaco-typescript/release/min',
-					esm: './monaco-typescript/release/esm'
+					// use ./ to indicate it is relative to the `rootPath`
+					dev: './release/dev',
+					min: './release/min',
+					esm: './release/esm'
 				}
 			},
 			{
@@ -32,13 +29,10 @@
 				modulePrefix: 'vs/language/css',
 				rootPath: './monaco-css',
 				paths: {
-					// use ./ to indicate it is relative to the repository root
-					src: './monaco-css/release/dev',
-					dev: './monaco-css/release/dev',
-					min: './monaco-css/release/min',
-					'npm/dev': 'node_modules/monaco-css/release/dev',
-					'npm/min': 'node_modules/monaco-css/release/min',
-					esm: './monaco-css/release/esm'
+					// use ./ to indicate it is relative to the `rootPath`
+					dev: './release/dev',
+					min: './release/min',
+					esm: './release/esm'
 				}
 			},
 			{
@@ -47,13 +41,10 @@
 				modulePrefix: 'vs/language/json',
 				rootPath: './monaco-json',
 				paths: {
-					// use ./ to indicate it is relative to the repository root
-					src: './monaco-json/release/dev',
-					dev: './monaco-json/release/dev',
-					min: './monaco-json/release/min',
-					'npm/dev': 'node_modules/monaco-json/release/dev',
-					'npm/min': 'node_modules/monaco-json/release/min',
-					esm: './monaco-json/release/esm'
+					// use ./ to indicate it is relative to the `rootPath`
+					dev: './release/dev',
+					min: './release/min',
+					esm: './release/esm'
 				}
 			},
 			{
@@ -62,13 +53,10 @@
 				modulePrefix: 'vs/language/html',
 				rootPath: './monaco-html',
 				paths: {
-					// use ./ to indicate it is relative to the repository root
-					src: './monaco-html/release/dev',
-					dev: './monaco-html/release/dev',
-					min: './monaco-html/release/min',
-					'npm/dev': 'node_modules/monaco-html/release/dev',
-					'npm/min': 'node_modules/monaco-html/release/min',
-					esm: './monaco-html/release/esm'
+					// use ./ to indicate it is relative to the `rootPath`
+					dev: './release/dev',
+					min: './release/min',
+					esm: './release/esm'
 				}
 			},
 			{
@@ -77,13 +65,10 @@
 				modulePrefix: 'vs/basic-languages',
 				rootPath: './monaco-languages',
 				paths: {
-					// use ./ to indicate it is relative to the repository root
-					src: './monaco-languages/release/dev',
-					dev: './monaco-languages/release/dev',
-					min: './monaco-languages/release/min',
-					'npm/dev': 'node_modules/monaco-languages/release/dev',
-					'npm/min': 'node_modules/monaco-languages/release/min',
-					esm: './monaco-languages/release/esm'
+					// use ./ to indicate it is relative to the `rootPath`
+					dev: './release/dev',
+					min: './release/min',
+					esm: './release/esm'
 				}
 			}
 		]

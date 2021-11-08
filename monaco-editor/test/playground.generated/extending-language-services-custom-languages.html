@@ -22,7 +22,7 @@ THIS IS A GENERATED FILE VIA gulp generate-test-samples
 <div id="outer-container" style="width:800px;height:450px;border: 1px solid grey">
 <!-- ----------------------------------------SAMPLE HTML START-->
 
-<div id="container" style="height:100%;"></div>
+<div id="container" style="height: 100%"></div>
 
 
 <!-- ----------------------------------------SAMPLE HTML END-->
@@ -42,10 +42,10 @@ monaco.languages.register({ id: 'mySpecialLanguage' });
 monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
 	tokenizer: {
 		root: [
-			[/\[error.*/, "custom-error"],
-			[/\[notice.*/, "custom-notice"],
-			[/\[info.*/, "custom-info"],
-			[/\[[a-zA-Z 0-9:]+\]/, "custom-date"],
+			[/\[error.*/, 'custom-error'],
+			[/\[notice.*/, 'custom-notice'],
+			[/\[info.*/, 'custom-info'],
+			[/\[[a-zA-Z 0-9:]+\]/, 'custom-date']
 		]
 	}
 });
@@ -58,40 +58,38 @@ monaco.editor.defineTheme('myCoolTheme', {
 		{ token: 'custom-info', foreground: '808080' },
 		{ token: 'custom-error', foreground: 'ff0000', fontStyle: 'bold' },
 		{ token: 'custom-notice', foreground: 'FFA500' },
-		{ token: 'custom-date', foreground: '008800' },
+		{ token: 'custom-date', foreground: '008800' }
 	]
 });
 
 // Register a completion item provider for the new language
 monaco.languages.registerCompletionItemProvider('mySpecialLanguage', {
 	provideCompletionItems: () => {
-		var suggestions = [{
-			label: 'simpleText',
-			kind: monaco.languages.CompletionItemKind.Text,
-			insertText: 'simpleText'
-		}, {
-			label: 'testing',
-			kind: monaco.languages.CompletionItemKind.Keyword,
-			insertText: 'testing(${1:condition})',
-			insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
-		}, {
-			label: 'ifelse',
-			kind: monaco.languages.CompletionItemKind.Snippet,
-			insertText: [
-				'if (${1:condition}) {',
-				'\t$0',
-				'} else {',
-				'\t',
-				'}'
-			].join('\n'),
-			insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-			documentation: 'If-Else Statement'
-		}];
+		var suggestions = [
+			{
+				label: 'simpleText',
+				kind: monaco.languages.CompletionItemKind.Text,
+				insertText: 'simpleText'
+			},
+			{
+				label: 'testing',
+				kind: monaco.languages.CompletionItemKind.Keyword,
+				insertText: 'testing(${1:condition})',
+				insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+			},
+			{
+				label: 'ifelse',
+				kind: monaco.languages.CompletionItemKind.Snippet,
+				insertText: ['if (${1:condition}) {', '\t$0', '} else {', '\t', '}'].join('\n'),
+				insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+				documentation: 'If-Else Statement'
+			}
+		];
 		return { suggestions: suggestions };
 	}
 });
 
-monaco.editor.create(document.getElementById("container"), {
+monaco.editor.create(document.getElementById('container'), {
 	theme: 'myCoolTheme',
 	value: getCode(),
 	language: 'mySpecialLanguage'
@@ -107,7 +105,7 @@ function getCode() {
 		'[Sun Mar 7 17:13:50 2004] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection before send body completed',
 		'[Sun Mar 7 17:21:44 2004] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection before send body completed',
 		'[Sun Mar 7 17:23:53 2004] statistics: Use of uninitialized value in concatenation (.) or string at /home/httpd/twiki/lib/TWiki.pm line 528.',
-		'[Sun Mar 7 17:23:53 2004] statistics: Can\'t create file /home/httpd/twiki/data/Main/WebStatistics.txt - Permission denied',
+		"[Sun Mar 7 17:23:53 2004] statistics: Can't create file /home/httpd/twiki/data/Main/WebStatistics.txt - Permission denied",
 		'[Sun Mar 7 17:27:37 2004] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection before send body completed',
 		'[Sun Mar 7 17:31:39 2004] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection before send body completed',
 		'[Sun Mar 7 17:58:00 2004] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection before send body completed',
@@ -148,8 +146,8 @@ function getCode() {
 		'[Mon Mar 8 05:24:29 2004] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection before send body completed',
 		'[Mon Mar 8 05:31:47 2004] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection before send body completed',
 		'<11>httpd[31628]: [error] [client xx.xx.xx.xx] File does not exist: /usr/local/installed/apache/htdocs/squirrelmail/_vti_inf.html in 29-Mar 15:18:20.50 from xx.xx.xx.xx',
-		'<11>httpd[25859]: [error] [client xx.xx.xx.xx] File does not exist: /usr/local/installed/apache/htdocs/squirrelmail/_vti_bin/shtml.exe/_vti_rpc in 29-Mar 15:18:20.54 from xx.xx.xx.xx',
-	].join('\n');;
+		'<11>httpd[25859]: [error] [client xx.xx.xx.xx] File does not exist: /usr/local/installed/apache/htdocs/squirrelmail/_vti_bin/shtml.exe/_vti_rpc in 29-Mar 15:18:20.54 from xx.xx.xx.xx'
+	].join('\n');
 }
 
 

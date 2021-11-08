@@ -1,9 +1,9 @@
 const gulp = require('gulp');
 /**
- * @typedef { { src:string; 'npm/dev':string; 'npm/min':string; built:string; releaseDev:string; releaseMin:string; } ICorePaths }
- * @typedef { { src:string; dev:string; min:string; esm: string; } IPluginPaths }
- * @typedef { { name:string; contrib:string; modulePrefix:string; rootPath:string; paths:IPluginPaths } IPlugin }
- * @typedef { { METADATA: {CORE:ICorePaths; PLUGINS:IPlugin[];} } IMetadata }
+ * @typedef { { src:string; 'npm/dev':string; 'npm/min':string; built:string; releaseDev:string; releaseMin:string; } } ICorePaths
+ * @typedef { { src:string; dev:string; min:string; esm: string; } } IPluginPaths
+ * @typedef { { name:string; contrib:string; modulePrefix:string; rootPath:string; paths:IPluginPaths } } IPlugin
+ * @typedef { { METADATA: {CORE:{paths:ICorePaths}; PLUGINS:IPlugin[];} } } IMetadata
  * @type { IMetadata }
  */
 const metadata = require('./monaco-editor/metadata');
@@ -19,7 +19,7 @@ const uncss = require('uncss');
 const File = require('vinyl');
 const ts = require('typescript');
 
-const WEBSITE_GENERATED_PATH = path.join(__dirname, 'website/playground/new-samples');
+const WEBSITE_GENERATED_PATH = path.join(__dirname, 'monaco-editor/website/playground/new-samples');
 const MONACO_EDITOR_VERSION = (function () {
 	const packageJsonPath = path.join(__dirname, 'package.json');
 	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
@@ -156,7 +156,7 @@ function pluginStreams(type, destinationPath) {
  * @returns {NodeJS.ReadWriteStream}
  */
 function pluginStream(plugin, type, destinationPath) {
-	const pluginPath = plugin.paths[type]; // dev or min
+	const pluginPath = path.join(plugin.rootPath, plugin.paths[type]); // dev or min
 	const contribPath =
 		path.join(pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) + '.js';
 	return gulp
@@ -216,7 +216,7 @@ function addPluginContribs(type) {
 
 			metadata.METADATA.PLUGINS.forEach(function (plugin) {
 				allPluginsModuleIds.push(plugin.contrib);
-				const pluginPath = plugin.paths[type]; // dev or min
+				const pluginPath = path.join(plugin.rootPath, plugin.paths[type]); // dev or min
 				const contribPath =
 					path.join(__dirname, pluginPath, plugin.contrib.substr(plugin.modulePrefix.length)) +
 					'.js';
@@ -294,7 +294,7 @@ function ESM_pluginStreams(destinationPath) {
  */
 function ESM_pluginStream(plugin, destinationPath) {
 	const DESTINATION = path.join(__dirname, destinationPath);
-	const pluginPath = plugin.paths[`esm`];
+	const pluginPath = path.join(plugin.rootPath, plugin.paths['esm']);
 	return gulp
 		.src([pluginPath + '/**/*'])
 		.pipe(
@@ -830,9 +830,9 @@ gulp.task('prepare-website-branch', async function () {
 });
 
 const generateTestSamplesTask = function () {
-	var sampleNames = fs.readdirSync(path.join(__dirname, 'test/samples'));
+	var sampleNames = fs.readdirSync(path.join(__dirname, 'monaco-editor/test/samples'));
 	var samples = sampleNames.map(function (sampleName) {
-		var samplePath = path.join(__dirname, 'test/samples', sampleName);
+		var samplePath = path.join(__dirname, 'monaco-editor/test/samples', sampleName);
 		var sampleContent = fs.readFileSync(samplePath).toString();
 		return {
 			name: sampleName,
@@ -843,7 +843,7 @@ const generateTestSamplesTask = function () {
 		'//This is a generated file via gulp generate-test-samples\ndefine([], function() { return';
 	var suffix = '; });';
 	fs.writeFileSync(
-		path.join(__dirname, 'test/samples-all.generated.js'),
+		path.join(__dirname, 'monaco-editor/test/samples-all.generated.js'),
 		prefix + JSON.stringify(samples, null, '\t') + suffix
 	);
 
@@ -904,7 +904,7 @@ const generateTestSamplesTask = function () {
 			'</html>'
 		];
 		fs.writeFileSync(
-			path.join(__dirname, 'test/playground.generated/' + sampleId + '.html'),
+			path.join(__dirname, 'monaco-editor/test/playground.generated/' + sampleId + '.html'),
 			result.join('\n')
 		);
 		locations.push({
@@ -939,7 +939,7 @@ const generateTestSamplesTask = function () {
 		'</body>',
 		'</html>'
 	];
-	fs.writeFileSync(path.join(__dirname, 'test/playground.generated/index.html'), index.join('\n'));
+	fs.writeFileSync(path.join(__dirname, 'monaco-editor/test/playground.generated/index.html'), index.join('\n'));
 };
 
 function createSimpleServer(rootDir, port) {
@@ -962,7 +962,7 @@ gulp.task('generate-test-samples', taskSeries(generateTestSamplesTask));
 gulp.task(
 	'simpleserver',
 	taskSeries(generateTestSamplesTask, function () {
-		const SERVER_ROOT = path.normalize(path.join(__dirname, '../../'));
+		const SERVER_ROOT = path.normalize(path.join(__dirname, '../'));
 		createSimpleServer(SERVER_ROOT, 8080);
 		createSimpleServer(SERVER_ROOT, 8088);
 	})

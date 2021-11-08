@@ -35,7 +35,7 @@
 		let result = {};
 		result['editor'] = overwrites['editor'] || 'npm/dev';
 		METADATA.PLUGINS.map(function (plugin) {
-			result[plugin.name] = overwrites[plugin.name] || 'npm/dev';
+			result[plugin.name] = overwrites[plugin.name] || 'dev';
 		});
 		return result;
 	})();
@@ -55,10 +55,11 @@
 		);
 	}
 
-	function Component(name, modulePrefix, paths, contrib) {
+	function Component(name, modulePrefix, paths, rootPath, contrib) {
 		this.name = name;
 		this.modulePrefix = modulePrefix;
 		this.paths = paths;
+		this.rootPath = rootPath;
 		this.contrib = contrib;
 		this.selectedPath = LOADER_OPTS[name];
 	}
@@ -68,11 +69,11 @@
 	Component.prototype.getResolvedPath = function (PATH_PREFIX) {
 		let resolvedPath = this.paths[this.selectedPath];
 		if (/\.\//.test(resolvedPath)) {
-			// starts with ./ => treat as relative to repo root
+			// starts with ./ => treat as relative to the root path
 			if (IS_FILE_PROTOCOL) {
-				resolvedPath = DIRNAME + '/../' + resolvedPath;
+				resolvedPath = DIRNAME + '/../' + this.rootPath + '/' + resolvedPath;
 			} else {
-				resolvedPath = PATH_PREFIX + '/monaco-editor/' + resolvedPath;
+				resolvedPath = PATH_PREFIX + '/monaco-editor/' + this.rootPath + '/' + resolvedPath;
 			}
 		} else if (
 			this.selectedPath === 'npm/dev' ||
@@ -141,7 +142,7 @@
 	let RESOLVED_CORE = new Component('editor', 'vs', METADATA.CORE.paths);
 	self.RESOLVED_CORE_PATH = RESOLVED_CORE.getResolvedPath('');
 	let RESOLVED_PLUGINS = METADATA.PLUGINS.map(function (plugin) {
-		return new Component(plugin.name, plugin.modulePrefix, plugin.paths, plugin.contrib);
+		return new Component(plugin.name, plugin.modulePrefix, plugin.paths, plugin.rootPath, plugin.contrib);
 	});
 	METADATA = null;
 
