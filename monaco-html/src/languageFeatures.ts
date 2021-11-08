@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import type { HTMLWorker } from './htmlWorker';
-import * as htmlService from 'vscode-html-languageservice';
+import * as lsTypes from 'vscode-languageserver-types';
 import {
 	languages,
 	editor,
@@ -21,14 +21,14 @@ export interface WorkerAccessor {
 
 // --- completion ------
 
-function fromPosition(position: Position): htmlService.Position {
+function fromPosition(position: Position): lsTypes.Position {
 	if (!position) {
 		return void 0;
 	}
 	return { character: position.column - 1, line: position.lineNumber - 1 };
 }
 
-function fromRange(range: Range): htmlService.Range {
+function fromRange(range: Range): lsTypes.Range {
 	if (!range) {
 		return void 0;
 	}
@@ -38,7 +38,7 @@ function fromRange(range: Range): htmlService.Range {
 	};
 }
 
-function toRange(range: htmlService.Range): Range {
+function toRange(range: lsTypes.Range): Range {
 	if (!range) {
 		return void 0;
 	}
@@ -51,11 +51,11 @@ function toRange(range: htmlService.Range): Range {
 }
 
 function isInsertReplaceEdit(
-	edit: htmlService.TextEdit | htmlService.InsertReplaceEdit
-): edit is htmlService.InsertReplaceEdit {
+	edit: lsTypes.TextEdit | lsTypes.InsertReplaceEdit
+): edit is lsTypes.InsertReplaceEdit {
 	return (
-		typeof (<htmlService.InsertReplaceEdit>edit).insert !== 'undefined' &&
-		typeof (<htmlService.InsertReplaceEdit>edit).replace !== 'undefined'
+		typeof (<lsTypes.InsertReplaceEdit>edit).insert !== 'undefined' &&
+		typeof (<lsTypes.InsertReplaceEdit>edit).replace !== 'undefined'
 	);
 }
 
@@ -63,93 +63,91 @@ function toCompletionItemKind(kind: number): languages.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
-		case htmlService.CompletionItemKind.Text:
+		case lsTypes.CompletionItemKind.Text:
 			return mItemKind.Text;
-		case htmlService.CompletionItemKind.Method:
+		case lsTypes.CompletionItemKind.Method:
 			return mItemKind.Method;
-		case htmlService.CompletionItemKind.Function:
+		case lsTypes.CompletionItemKind.Function:
 			return mItemKind.Function;
-		case htmlService.CompletionItemKind.Constructor:
+		case lsTypes.CompletionItemKind.Constructor:
 			return mItemKind.Constructor;
-		case htmlService.CompletionItemKind.Field:
+		case lsTypes.CompletionItemKind.Field:
 			return mItemKind.Field;
-		case htmlService.CompletionItemKind.Variable:
+		case lsTypes.CompletionItemKind.Variable:
 			return mItemKind.Variable;
-		case htmlService.CompletionItemKind.Class:
+		case lsTypes.CompletionItemKind.Class:
 			return mItemKind.Class;
-		case htmlService.CompletionItemKind.Interface:
+		case lsTypes.CompletionItemKind.Interface:
 			return mItemKind.Interface;
-		case htmlService.CompletionItemKind.Module:
+		case lsTypes.CompletionItemKind.Module:
 			return mItemKind.Module;
-		case htmlService.CompletionItemKind.Property:
+		case lsTypes.CompletionItemKind.Property:
 			return mItemKind.Property;
-		case htmlService.CompletionItemKind.Unit:
+		case lsTypes.CompletionItemKind.Unit:
 			return mItemKind.Unit;
-		case htmlService.CompletionItemKind.Value:
+		case lsTypes.CompletionItemKind.Value:
 			return mItemKind.Value;
-		case htmlService.CompletionItemKind.Enum:
+		case lsTypes.CompletionItemKind.Enum:
 			return mItemKind.Enum;
-		case htmlService.CompletionItemKind.Keyword:
+		case lsTypes.CompletionItemKind.Keyword:
 			return mItemKind.Keyword;
-		case htmlService.CompletionItemKind.Snippet:
+		case lsTypes.CompletionItemKind.Snippet:
 			return mItemKind.Snippet;
-		case htmlService.CompletionItemKind.Color:
+		case lsTypes.CompletionItemKind.Color:
 			return mItemKind.Color;
-		case htmlService.CompletionItemKind.File:
+		case lsTypes.CompletionItemKind.File:
 			return mItemKind.File;
-		case htmlService.CompletionItemKind.Reference:
+		case lsTypes.CompletionItemKind.Reference:
 			return mItemKind.Reference;
 	}
 	return mItemKind.Property;
 }
 
-function fromCompletionItemKind(
-	kind: languages.CompletionItemKind
-): htmlService.CompletionItemKind {
+function fromCompletionItemKind(kind: languages.CompletionItemKind): lsTypes.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
 		case mItemKind.Text:
-			return htmlService.CompletionItemKind.Text;
+			return lsTypes.CompletionItemKind.Text;
 		case mItemKind.Method:
-			return htmlService.CompletionItemKind.Method;
+			return lsTypes.CompletionItemKind.Method;
 		case mItemKind.Function:
-			return htmlService.CompletionItemKind.Function;
+			return lsTypes.CompletionItemKind.Function;
 		case mItemKind.Constructor:
-			return htmlService.CompletionItemKind.Constructor;
+			return lsTypes.CompletionItemKind.Constructor;
 		case mItemKind.Field:
-			return htmlService.CompletionItemKind.Field;
+			return lsTypes.CompletionItemKind.Field;
 		case mItemKind.Variable:
-			return htmlService.CompletionItemKind.Variable;
+			return lsTypes.CompletionItemKind.Variable;
 		case mItemKind.Class:
-			return htmlService.CompletionItemKind.Class;
+			return lsTypes.CompletionItemKind.Class;
 		case mItemKind.Interface:
-			return htmlService.CompletionItemKind.Interface;
+			return lsTypes.CompletionItemKind.Interface;
 		case mItemKind.Module:
-			return htmlService.CompletionItemKind.Module;
+			return lsTypes.CompletionItemKind.Module;
 		case mItemKind.Property:
-			return htmlService.CompletionItemKind.Property;
+			return lsTypes.CompletionItemKind.Property;
 		case mItemKind.Unit:
-			return htmlService.CompletionItemKind.Unit;
+			return lsTypes.CompletionItemKind.Unit;
 		case mItemKind.Value:
-			return htmlService.CompletionItemKind.Value;
+			return lsTypes.CompletionItemKind.Value;
 		case mItemKind.Enum:
-			return htmlService.CompletionItemKind.Enum;
+			return lsTypes.CompletionItemKind.Enum;
 		case mItemKind.Keyword:
-			return htmlService.CompletionItemKind.Keyword;
+			return lsTypes.CompletionItemKind.Keyword;
 		case mItemKind.Snippet:
-			return htmlService.CompletionItemKind.Snippet;
+			return lsTypes.CompletionItemKind.Snippet;
 		case mItemKind.Color:
-			return htmlService.CompletionItemKind.Color;
+			return lsTypes.CompletionItemKind.Color;
 		case mItemKind.File:
-			return htmlService.CompletionItemKind.File;
+			return lsTypes.CompletionItemKind.File;
 		case mItemKind.Reference:
-			return htmlService.CompletionItemKind.Reference;
+			return lsTypes.CompletionItemKind.Reference;
 	}
-	return htmlService.CompletionItemKind.Property;
+	return lsTypes.CompletionItemKind.Property;
 }
 
-function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation {
+function toTextEdit(textEdit: lsTypes.TextEdit): editor.ISingleEditOperation {
 	if (!textEdit) {
 		return void 0;
 	}
@@ -159,7 +157,7 @@ function toTextEdit(textEdit: htmlService.TextEdit): editor.ISingleEditOperation
 	};
 }
 
-function toCommand(c: htmlService.Command | undefined): languages.Command {
+function toCommand(c: lsTypes.Command | undefined): languages.Command {
 	return c && c.command === 'editor.action.triggerSuggest'
 		? { id: c.command, title: c.title, arguments: c.arguments }
 		: undefined;
@@ -222,7 +220,7 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 					if (entry.additionalTextEdits) {
 						item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit);
 					}
-					if (entry.insertTextFormat === htmlService.InsertTextFormat.Snippet) {
+					if (entry.insertTextFormat === lsTypes.InsertTextFormat.Snippet) {
 						item.insertTextRules = languages.CompletionItemInsertTextRule.InsertAsSnippet;
 					}
 					return item;
@@ -238,17 +236,13 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 
 // --- hover ------
 
-function isMarkupContent(thing: any): thing is htmlService.MarkupContent {
+function isMarkupContent(thing: any): thing is lsTypes.MarkupContent {
 	return (
-		thing &&
-		typeof thing === 'object' &&
-		typeof (<htmlService.MarkupContent>thing).kind === 'string'
+		thing && typeof thing === 'object' && typeof (<lsTypes.MarkupContent>thing).kind === 'string'
 	);
 }
 
-function toMarkdownString(
-	entry: htmlService.MarkupContent | htmlService.MarkedString
-): IMarkdownString {
+function toMarkdownString(entry: lsTypes.MarkupContent | lsTypes.MarkedString): IMarkdownString {
 	if (typeof entry === 'string') {
 		return {
 			value: entry
@@ -269,7 +263,7 @@ function toMarkdownString(
 }
 
 function toMarkedStringArray(
-	contents: htmlService.MarkupContent | htmlService.MarkedString | htmlService.MarkedString[]
+	contents: lsTypes.MarkupContent | lsTypes.MarkedString | lsTypes.MarkedString[]
 ): IMarkdownString[] {
 	if (!contents) {
 		return void 0;
@@ -308,15 +302,15 @@ export class HoverAdapter implements languages.HoverProvider {
 
 // --- document highlights ------
 
-function toHighlighKind(kind: htmlService.DocumentHighlightKind): languages.DocumentHighlightKind {
+function toHighlighKind(kind: lsTypes.DocumentHighlightKind): languages.DocumentHighlightKind {
 	const mKind = languages.DocumentHighlightKind;
 
 	switch (kind) {
-		case htmlService.DocumentHighlightKind.Read:
+		case lsTypes.DocumentHighlightKind.Read:
 			return mKind.Read;
-		case htmlService.DocumentHighlightKind.Write:
+		case lsTypes.DocumentHighlightKind.Write:
 			return mKind.Write;
-		case htmlService.DocumentHighlightKind.Text:
+		case lsTypes.DocumentHighlightKind.Text:
 			return mKind.Text;
 	}
 	return mKind.Text;
@@ -348,45 +342,45 @@ export class DocumentHighlightAdapter implements languages.DocumentHighlightProv
 
 // --- document symbols ------
 
-function toSymbolKind(kind: htmlService.SymbolKind): languages.SymbolKind {
+function toSymbolKind(kind: lsTypes.SymbolKind): languages.SymbolKind {
 	let mKind = languages.SymbolKind;
 
 	switch (kind) {
-		case htmlService.SymbolKind.File:
+		case lsTypes.SymbolKind.File:
 			return mKind.Array;
-		case htmlService.SymbolKind.Module:
+		case lsTypes.SymbolKind.Module:
 			return mKind.Module;
-		case htmlService.SymbolKind.Namespace:
+		case lsTypes.SymbolKind.Namespace:
 			return mKind.Namespace;
-		case htmlService.SymbolKind.Package:
+		case lsTypes.SymbolKind.Package:
 			return mKind.Package;
-		case htmlService.SymbolKind.Class:
+		case lsTypes.SymbolKind.Class:
 			return mKind.Class;
-		case htmlService.SymbolKind.Method:
+		case lsTypes.SymbolKind.Method:
 			return mKind.Method;
-		case htmlService.SymbolKind.Property:
+		case lsTypes.SymbolKind.Property:
 			return mKind.Property;
-		case htmlService.SymbolKind.Field:
+		case lsTypes.SymbolKind.Field:
 			return mKind.Field;
-		case htmlService.SymbolKind.Constructor:
+		case lsTypes.SymbolKind.Constructor:
 			return mKind.Constructor;
-		case htmlService.SymbolKind.Enum:
+		case lsTypes.SymbolKind.Enum:
 			return mKind.Enum;
-		case htmlService.SymbolKind.Interface:
+		case lsTypes.SymbolKind.Interface:
 			return mKind.Interface;
-		case htmlService.SymbolKind.Function:
+		case lsTypes.SymbolKind.Function:
 			return mKind.Function;
-		case htmlService.SymbolKind.Variable:
+		case lsTypes.SymbolKind.Variable:
 			return mKind.Variable;
-		case htmlService.SymbolKind.Constant:
+		case lsTypes.SymbolKind.Constant:
 			return mKind.Constant;
-		case htmlService.SymbolKind.String:
+		case lsTypes.SymbolKind.String:
 			return mKind.String;
-		case htmlService.SymbolKind.Number:
+		case lsTypes.SymbolKind.Number:
 			return mKind.Number;
-		case htmlService.SymbolKind.Boolean:
+		case lsTypes.SymbolKind.Boolean:
 			return mKind.Boolean;
-		case htmlService.SymbolKind.Array:
+		case lsTypes.SymbolKind.Array:
 			return mKind.Array;
 	}
 	return mKind.Function;
@@ -445,9 +439,7 @@ export class DocumentLinkAdapter implements languages.LinkProvider {
 	}
 }
 
-function fromFormattingOptions(
-	options: languages.FormattingOptions
-): htmlService.FormattingOptions {
+function fromFormattingOptions(options: languages.FormattingOptions): lsTypes.FormattingOptions {
 	return {
 		tabSize: options.tabSize,
 		insertSpaces: options.insertSpaces
@@ -524,7 +516,7 @@ export class RenameAdapter implements languages.RenameProvider {
 	}
 }
 
-function toWorkspaceEdit(edit: htmlService.WorkspaceEdit): languages.WorkspaceEdit {
+function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit): languages.WorkspaceEdit {
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
@@ -568,7 +560,7 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 						end: range.endLine + 1
 					};
 					if (typeof range.kind !== 'undefined') {
-						result.kind = toFoldingRangeKind(<htmlService.FoldingRangeKind>range.kind);
+						result.kind = toFoldingRangeKind(<lsTypes.FoldingRangeKind>range.kind);
 					}
 					return result;
 				});
@@ -576,13 +568,13 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	}
 }
 
-function toFoldingRangeKind(kind: htmlService.FoldingRangeKind): languages.FoldingRangeKind {
+function toFoldingRangeKind(kind: lsTypes.FoldingRangeKind): languages.FoldingRangeKind {
 	switch (kind) {
-		case htmlService.FoldingRangeKind.Comment:
+		case lsTypes.FoldingRangeKind.Comment:
 			return languages.FoldingRangeKind.Comment;
-		case htmlService.FoldingRangeKind.Imports:
+		case lsTypes.FoldingRangeKind.Imports:
 			return languages.FoldingRangeKind.Imports;
-		case htmlService.FoldingRangeKind.Region:
+		case lsTypes.FoldingRangeKind.Region:
 			return languages.FoldingRangeKind.Region;
 	}
 }

@@ -142,7 +142,13 @@
 	let RESOLVED_CORE = new Component('editor', 'vs', METADATA.CORE.paths);
 	self.RESOLVED_CORE_PATH = RESOLVED_CORE.getResolvedPath('');
 	let RESOLVED_PLUGINS = METADATA.PLUGINS.map(function (plugin) {
-		return new Component(plugin.name, plugin.modulePrefix, plugin.paths, plugin.rootPath, plugin.contrib);
+		return new Component(
+			plugin.name,
+			plugin.modulePrefix,
+			plugin.paths,
+			plugin.rootPath,
+			plugin.contrib
+		);
 	});
 	METADATA = null;
 

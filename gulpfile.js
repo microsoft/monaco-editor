@@ -939,7 +939,10 @@ const generateTestSamplesTask = function () {
 		'</body>',
 		'</html>'
 	];
-	fs.writeFileSync(path.join(__dirname, 'monaco-editor/test/playground.generated/index.html'), index.join('\n'));
+	fs.writeFileSync(
+		path.join(__dirname, 'monaco-editor/test/playground.generated/index.html'),
+		index.join('\n')
+	);
 };
 
 function createSimpleServer(rootDir, port) {

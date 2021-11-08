@@ -5,7 +5,7 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { CSSWorker } from './cssWorker';
-import * as cssService from 'vscode-css-languageservice';
+import * as lsTypes from 'vscode-languageserver-types';
 import {
 	languages,
 	editor,
@@ -116,20 +116,20 @@ export class DiagnosticsAdapter {
 
 function toSeverity(lsSeverity: number): MarkerSeverity {
 	switch (lsSeverity) {
-		case cssService.DiagnosticSeverity.Error:
+		case lsTypes.DiagnosticSeverity.Error:
 			return MarkerSeverity.Error;
-		case cssService.DiagnosticSeverity.Warning:
+		case lsTypes.DiagnosticSeverity.Warning:
 			return MarkerSeverity.Warning;
-		case cssService.DiagnosticSeverity.Information:
+		case lsTypes.DiagnosticSeverity.Information:
 			return MarkerSeverity.Info;
-		case cssService.DiagnosticSeverity.Hint:
+		case lsTypes.DiagnosticSeverity.Hint:
 			return MarkerSeverity.Hint;
 		default:
 			return MarkerSeverity.Info;
 	}
 }
 
-function toDiagnostics(resource: Uri, diag: cssService.Diagnostic): editor.IMarkerData {
+function toDiagnostics(resource: Uri, diag: lsTypes.Diagnostic): editor.IMarkerData {
 	let code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
 
 	return {
@@ -146,14 +146,14 @@ function toDiagnostics(resource: Uri, diag: cssService.Diagnostic): editor.IMark
 
 // --- completion ------
 
-function fromPosition(position: Position): cssService.Position {
+function fromPosition(position: Position): lsTypes.Position {
 	if (!position) {
 		return void 0;
 	}
 	return { character: position.column - 1, line: position.lineNumber - 1 };
 }
 
-function fromRange(range: IRange): cssService.Range {
+function fromRange(range: IRange): lsTypes.Range {
 	if (!range) {
 		return void 0;
 	}
@@ -166,7 +166,7 @@ function fromRange(range: IRange): cssService.Range {
 	};
 }
 
-function toRange(range: cssService.Range): Range {
+function toRange(range: lsTypes.Range): Range {
 	if (!range) {
 		return void 0;
 	}
@@ -189,47 +189,47 @@ function toCompletionItemKind(kind: number): languages.CompletionItemKind {
 	let mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
-		case cssService.CompletionItemKind.Text:
+		case lsTypes.CompletionItemKind.Text:
 			return mItemKind.Text;
-		case cssService.CompletionItemKind.Method:
+		case lsTypes.CompletionItemKind.Method:
 			return mItemKind.Method;
-		case cssService.CompletionItemKind.Function:
+		case lsTypes.CompletionItemKind.Function:
 			return mItemKind.Function;
-		case cssService.CompletionItemKind.Constructor:
+		case lsTypes.CompletionItemKind.Constructor:
 			return mItemKind.Constructor;
-		case cssService.CompletionItemKind.Field:
+		case lsTypes.CompletionItemKind.Field:
 			return mItemKind.Field;
-		case cssService.CompletionItemKind.Variable:
+		case lsTypes.CompletionItemKind.Variable:
 			return mItemKind.Variable;
-		case cssService.CompletionItemKind.Class:
+		case lsTypes.CompletionItemKind.Class:
 			return mItemKind.Class;
-		case cssService.CompletionItemKind.Interface:
+		case lsTypes.CompletionItemKind.Interface:
 			return mItemKind.Interface;
-		case cssService.CompletionItemKind.Module:
+		case lsTypes.CompletionItemKind.Module:
 			return mItemKind.Module;
-		case cssService.CompletionItemKind.Property:
+		case lsTypes.CompletionItemKind.Property:
 			return mItemKind.Property;
-		case cssService.CompletionItemKind.Unit:
+		case lsTypes.CompletionItemKind.Unit:
 			return mItemKind.Unit;
-		case cssService.CompletionItemKind.Value:
+		case lsTypes.CompletionItemKind.Value:
 			return mItemKind.Value;
-		case cssService.CompletionItemKind.Enum:
+		case lsTypes.CompletionItemKind.Enum:
 			return mItemKind.Enum;
-		case cssService.CompletionItemKind.Keyword:
+		case lsTypes.CompletionItemKind.Keyword:
 			return mItemKind.Keyword;
-		case cssService.CompletionItemKind.Snippet:
+		case lsTypes.CompletionItemKind.Snippet:
 			return mItemKind.Snippet;
-		case cssService.CompletionItemKind.Color:
+		case lsTypes.CompletionItemKind.Color:
 			return mItemKind.Color;
-		case cssService.CompletionItemKind.File:
+		case lsTypes.CompletionItemKind.File:
 			return mItemKind.File;
-		case cssService.CompletionItemKind.Reference:
+		case lsTypes.CompletionItemKind.Reference:
 			return mItemKind.Reference;
 	}
 	return mItemKind.Property;
 }
 
-function toTextEdit(textEdit: cssService.TextEdit): editor.ISingleEditOperation {
+function toTextEdit(textEdit: lsTypes.TextEdit): editor.ISingleEditOperation {
 	if (!textEdit) {
 		return void 0;
 	}
@@ -239,7 +239,7 @@ function toTextEdit(textEdit: cssService.TextEdit): editor.ISingleEditOperation 
 	};
 }
 
-function toCommand(c: cssService.Command | undefined): languages.Command {
+function toCommand(c: lsTypes.Command | undefined): languages.Command {
 	return c && c.command === 'editor.action.triggerSuggest'
 		? { id: c.command, title: c.title, arguments: c.arguments }
 		: undefined;
@@ -302,7 +302,7 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 					if (entry.additionalTextEdits) {
 						item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit);
 					}
-					if (entry.insertTextFormat === cssService.InsertTextFormat.Snippet) {
+					if (entry.insertTextFormat === lsTypes.InsertTextFormat.Snippet) {
 						item.insertTextRules = languages.CompletionItemInsertTextRule.InsertAsSnippet;
 					}
 					return item;
@@ -316,15 +316,13 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 	}
 }
 
-function isMarkupContent(thing: any): thing is cssService.MarkupContent {
+function isMarkupContent(thing: any): thing is lsTypes.MarkupContent {
 	return (
-		thing && typeof thing === 'object' && typeof (<cssService.MarkupContent>thing).kind === 'string'
+		thing && typeof thing === 'object' && typeof (<lsTypes.MarkupContent>thing).kind === 'string'
 	);
 }
 
-function toMarkdownString(
-	entry: cssService.MarkupContent | cssService.MarkedString
-): IMarkdownString {
+function toMarkdownString(entry: lsTypes.MarkupContent | lsTypes.MarkedString): IMarkdownString {
 	if (typeof entry === 'string') {
 		return {
 			value: entry
@@ -345,7 +343,7 @@ function toMarkdownString(
 }
 
 function toMarkedStringArray(
-	contents: cssService.MarkupContent | cssService.MarkedString | cssService.MarkedString[]
+	contents: lsTypes.MarkupContent | lsTypes.MarkedString | lsTypes.MarkedString[]
 ): IMarkdownString[] {
 	if (!contents) {
 		return void 0;
@@ -388,11 +386,11 @@ export class HoverAdapter implements languages.HoverProvider {
 
 function toDocumentHighlightKind(kind: number): languages.DocumentHighlightKind {
 	switch (kind) {
-		case cssService.DocumentHighlightKind.Read:
+		case lsTypes.DocumentHighlightKind.Read:
 			return languages.DocumentHighlightKind.Read;
-		case cssService.DocumentHighlightKind.Write:
+		case lsTypes.DocumentHighlightKind.Write:
 			return languages.DocumentHighlightKind.Write;
-		case cssService.DocumentHighlightKind.Text:
+		case lsTypes.DocumentHighlightKind.Text:
 			return languages.DocumentHighlightKind.Text;
 	}
 	return languages.DocumentHighlightKind.Text;
@@ -428,7 +426,7 @@ export class DocumentHighlightAdapter implements languages.DocumentHighlightProv
 
 // --- definition ------
 
-function toLocation(location: cssService.Location): languages.Location {
+function toLocation(location: lsTypes.Location): languages.Location {
 	return {
 		uri: Uri.parse(location.uri),
 		range: toRange(location.range)
@@ -486,7 +484,7 @@ export class ReferenceAdapter implements languages.ReferenceProvider {
 
 // --- rename ------
 
-function toWorkspaceEdit(edit: cssService.WorkspaceEdit): languages.WorkspaceEdit {
+function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit): languages.WorkspaceEdit {
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
@@ -532,45 +530,45 @@ export class RenameAdapter implements languages.RenameProvider {
 
 // --- document symbols ------
 
-function toSymbolKind(kind: cssService.SymbolKind): languages.SymbolKind {
+function toSymbolKind(kind: lsTypes.SymbolKind): languages.SymbolKind {
 	let mKind = languages.SymbolKind;
 
 	switch (kind) {
-		case cssService.SymbolKind.File:
+		case lsTypes.SymbolKind.File:
 			return mKind.Array;
-		case cssService.SymbolKind.Module:
+		case lsTypes.SymbolKind.Module:
 			return mKind.Module;
-		case cssService.SymbolKind.Namespace:
+		case lsTypes.SymbolKind.Namespace:
 			return mKind.Namespace;
-		case cssService.SymbolKind.Package:
+		case lsTypes.SymbolKind.Package:
 			return mKind.Package;
-		case cssService.SymbolKind.Class:
+		case lsTypes.SymbolKind.Class:
 			return mKind.Class;
-		case cssService.SymbolKind.Method:
+		case lsTypes.SymbolKind.Method:
 			return mKind.Method;
-		case cssService.SymbolKind.Property:
+		case lsTypes.SymbolKind.Property:
 			return mKind.Property;
-		case cssService.SymbolKind.Field:
+		case lsTypes.SymbolKind.Field:
 			return mKind.Field;
-		case cssService.SymbolKind.Constructor:
+		case lsTypes.SymbolKind.Constructor:
 			return mKind.Constructor;
-		case cssService.SymbolKind.Enum:
+		case lsTypes.SymbolKind.Enum:
 			return mKind.Enum;
-		case cssService.SymbolKind.Interface:
+		case lsTypes.SymbolKind.Interface:
 			return mKind.Interface;
-		case cssService.SymbolKind.Function:
+		case lsTypes.SymbolKind.Function:
 			return mKind.Function;
-		case cssService.SymbolKind.Variable:
+		case lsTypes.SymbolKind.Variable:
 			return mKind.Variable;
-		case cssService.SymbolKind.Constant:
+		case lsTypes.SymbolKind.Constant:
 			return mKind.Constant;
-		case cssService.SymbolKind.String:
+		case lsTypes.SymbolKind.String:
 			return mKind.String;
-		case cssService.SymbolKind.Number:
+		case lsTypes.SymbolKind.Number:
 			return mKind.Number;
-		case cssService.SymbolKind.Boolean:
+		case lsTypes.SymbolKind.Boolean:
 			return mKind.Boolean;
-		case cssService.SymbolKind.Array:
+		case lsTypes.SymbolKind.Array:
 			return mKind.Array;
 	}
 	return mKind.Function;
@@ -679,7 +677,7 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 						end: range.endLine + 1
 					};
 					if (typeof range.kind !== 'undefined') {
-						result.kind = toFoldingRangeKind(<cssService.FoldingRangeKind>range.kind);
+						result.kind = toFoldingRangeKind(<lsTypes.FoldingRangeKind>range.kind);
 					}
 					return result;
 				});
@@ -687,13 +685,13 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	}
 }
 
-function toFoldingRangeKind(kind: cssService.FoldingRangeKind): languages.FoldingRangeKind {
+function toFoldingRangeKind(kind: lsTypes.FoldingRangeKind): languages.FoldingRangeKind {
 	switch (kind) {
-		case cssService.FoldingRangeKind.Comment:
+		case lsTypes.FoldingRangeKind.Comment:
 			return languages.FoldingRangeKind.Comment;
-		case cssService.FoldingRangeKind.Imports:
+		case lsTypes.FoldingRangeKind.Imports:
 			return languages.FoldingRangeKind.Imports;
-		case cssService.FoldingRangeKind.Region:
+		case lsTypes.FoldingRangeKind.Region:
 			return languages.FoldingRangeKind.Region;
 	}
 }

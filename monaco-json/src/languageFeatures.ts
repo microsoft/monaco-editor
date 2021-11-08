@@ -17,7 +17,7 @@ import {
 	MarkerSeverity,
 	IMarkdownString
 } from './fillers/monaco-editor-core';
-import * as jsonService from 'vscode-json-languageservice';
+import * as lsTypes from 'vscode-languageserver-types';
 
 export interface WorkerAccessor {
 	(...more: Uri[]): Promise<JSONWorker>;
@@ -127,20 +127,20 @@ export class DiagnosticsAdapter {
 
 function toSeverity(lsSeverity: number): MarkerSeverity {
 	switch (lsSeverity) {
-		case jsonService.DiagnosticSeverity.Error:
+		case lsTypes.DiagnosticSeverity.Error:
 			return MarkerSeverity.Error;
-		case jsonService.DiagnosticSeverity.Warning:
+		case lsTypes.DiagnosticSeverity.Warning:
 			return MarkerSeverity.Warning;
-		case jsonService.DiagnosticSeverity.Information:
+		case lsTypes.DiagnosticSeverity.Information:
 			return MarkerSeverity.Info;
-		case jsonService.DiagnosticSeverity.Hint:
+		case lsTypes.DiagnosticSeverity.Hint:
 			return MarkerSeverity.Hint;
 		default:
 			return MarkerSeverity.Info;
 	}
 }
 
-function toDiagnostics(resource: Uri, diag: jsonService.Diagnostic): editor.IMarkerData {
+function toDiagnostics(resource: Uri, diag: lsTypes.Diagnostic): editor.IMarkerData {
 	let code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
 
 	return {
@@ -157,14 +157,14 @@ function toDiagnostics(resource: Uri, diag: jsonService.Diagnostic): editor.IMar
 
 // --- completion ------
 
-function fromPosition(position: Position): jsonService.Position {
+function fromPosition(position: Position): lsTypes.Position {
 	if (!position) {
 		return void 0;
 	}
 	return { character: position.column - 1, line: position.lineNumber - 1 };
 }
 
-function fromRange(range: IRange): jsonService.Range {
+function fromRange(range: IRange): lsTypes.Range {
 	if (!range) {
 		return void 0;
 	}
@@ -176,7 +176,7 @@ function fromRange(range: IRange): jsonService.Range {
 		end: { line: range.endLineNumber - 1, character: range.endColumn - 1 }
 	};
 }
-function toRange(range: jsonService.Range): Range {
+function toRange(range: lsTypes.Range): Range {
 	if (!range) {
 		return void 0;
 	}
@@ -196,15 +196,15 @@ interface InsertReplaceEdit {
 	/**
 	 * The range if the insert is requested
 	 */
-	insert: jsonService.Range;
+	insert: lsTypes.Range;
 	/**
 	 * The range if the replace is requested.
 	 */
-	replace: jsonService.Range;
+	replace: lsTypes.Range;
 }
 
 function isInsertReplaceEdit(
-	edit: jsonService.TextEdit | InsertReplaceEdit
+	edit: lsTypes.TextEdit | InsertReplaceEdit
 ): edit is InsertReplaceEdit {
 	return (
 		typeof (<InsertReplaceEdit>edit).insert !== 'undefined' &&
@@ -216,93 +216,91 @@ function toCompletionItemKind(kind: number): languages.CompletionItemKind {
 	let mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
-		case jsonService.CompletionItemKind.Text:
+		case lsTypes.CompletionItemKind.Text:
 			return mItemKind.Text;
-		case jsonService.CompletionItemKind.Method:
+		case lsTypes.CompletionItemKind.Method:
 			return mItemKind.Method;
-		case jsonService.CompletionItemKind.Function:
+		case lsTypes.CompletionItemKind.Function:
 			return mItemKind.Function;
-		case jsonService.CompletionItemKind.Constructor:
+		case lsTypes.CompletionItemKind.Constructor:
 			return mItemKind.Constructor;
-		case jsonService.CompletionItemKind.Field:
+		case lsTypes.CompletionItemKind.Field:
 			return mItemKind.Field;
-		case jsonService.CompletionItemKind.Variable:
+		case lsTypes.CompletionItemKind.Variable:
 			return mItemKind.Variable;
-		case jsonService.CompletionItemKind.Class:
+		case lsTypes.CompletionItemKind.Class:
 			return mItemKind.Class;
-		case jsonService.CompletionItemKind.Interface:
+		case lsTypes.CompletionItemKind.Interface:
 			return mItemKind.Interface;
-		case jsonService.CompletionItemKind.Module:
+		case lsTypes.CompletionItemKind.Module:
 			return mItemKind.Module;
-		case jsonService.CompletionItemKind.Property:
+		case lsTypes.CompletionItemKind.Property:
 			return mItemKind.Property;
-		case jsonService.CompletionItemKind.Unit:
+		case lsTypes.CompletionItemKind.Unit:
 			return mItemKind.Unit;
-		case jsonService.CompletionItemKind.Value:
+		case lsTypes.CompletionItemKind.Value:
 			return mItemKind.Value;
-		case jsonService.CompletionItemKind.Enum:
+		case lsTypes.CompletionItemKind.Enum:
 			return mItemKind.Enum;
-		case jsonService.CompletionItemKind.Keyword:
+		case lsTypes.CompletionItemKind.Keyword:
 			return mItemKind.Keyword;
-		case jsonService.CompletionItemKind.Snippet:
+		case lsTypes.CompletionItemKind.Snippet:
 			return mItemKind.Snippet;
-		case jsonService.CompletionItemKind.Color:
+		case lsTypes.CompletionItemKind.Color:
 			return mItemKind.Color;
-		case jsonService.CompletionItemKind.File:
+		case lsTypes.CompletionItemKind.File:
 			return mItemKind.File;
-		case jsonService.CompletionItemKind.Reference:
+		case lsTypes.CompletionItemKind.Reference:
 			return mItemKind.Reference;
 	}
 	return mItemKind.Property;
 }
 
-function fromCompletionItemKind(
-	kind: languages.CompletionItemKind
-): jsonService.CompletionItemKind {
+function fromCompletionItemKind(kind: languages.CompletionItemKind): lsTypes.CompletionItemKind {
 	let mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
 		case mItemKind.Text:
-			return jsonService.CompletionItemKind.Text;
+			return lsTypes.CompletionItemKind.Text;
 		case mItemKind.Method:
-			return jsonService.CompletionItemKind.Method;
+			return lsTypes.CompletionItemKind.Method;
 		case mItemKind.Function:
-			return jsonService.CompletionItemKind.Function;
+			return lsTypes.CompletionItemKind.Function;
 		case mItemKind.Constructor:
-			return jsonService.CompletionItemKind.Constructor;
+			return lsTypes.CompletionItemKind.Constructor;
 		case mItemKind.Field:
-			return jsonService.CompletionItemKind.Field;
+			return lsTypes.CompletionItemKind.Field;
 		case mItemKind.Variable:
-			return jsonService.CompletionItemKind.Variable;
+			return lsTypes.CompletionItemKind.Variable;
 		case mItemKind.Class:
-			return jsonService.CompletionItemKind.Class;
+			return lsTypes.CompletionItemKind.Class;
 		case mItemKind.Interface:
-			return jsonService.CompletionItemKind.Interface;
+			return lsTypes.CompletionItemKind.Interface;
 		case mItemKind.Module:
-			return jsonService.CompletionItemKind.Module;
+			return lsTypes.CompletionItemKind.Module;
 		case mItemKind.Property:
-			return jsonService.CompletionItemKind.Property;
+			return lsTypes.CompletionItemKind.Property;
 		case mItemKind.Unit:
-			return jsonService.CompletionItemKind.Unit;
+			return lsTypes.CompletionItemKind.Unit;
 		case mItemKind.Value:
-			return jsonService.CompletionItemKind.Value;
+			return lsTypes.CompletionItemKind.Value;
 		case mItemKind.Enum:
-			return jsonService.CompletionItemKind.Enum;
+			return lsTypes.CompletionItemKind.Enum;
 		case mItemKind.Keyword:
-			return jsonService.CompletionItemKind.Keyword;
+			return lsTypes.CompletionItemKind.Keyword;
 		case mItemKind.Snippet:
-			return jsonService.CompletionItemKind.Snippet;
+			return lsTypes.CompletionItemKind.Snippet;
 		case mItemKind.Color:
-			return jsonService.CompletionItemKind.Color;
+			return lsTypes.CompletionItemKind.Color;
 		case mItemKind.File:
-			return jsonService.CompletionItemKind.File;
+			return lsTypes.CompletionItemKind.File;
 		case mItemKind.Reference:
-			return jsonService.CompletionItemKind.Reference;
+			return lsTypes.CompletionItemKind.Reference;
 	}
-	return jsonService.CompletionItemKind.Property;
+	return lsTypes.CompletionItemKind.Property;
 }
 
-function toTextEdit(textEdit: jsonService.TextEdit): editor.ISingleEditOperation {
+function toTextEdit(textEdit: lsTypes.TextEdit): editor.ISingleEditOperation {
 	if (!textEdit) {
 		return void 0;
 	}
@@ -312,7 +310,7 @@ function toTextEdit(textEdit: jsonService.TextEdit): editor.ISingleEditOperation
 	};
 }
 
-function toCommand(c: jsonService.Command | undefined): languages.Command {
+function toCommand(c: lsTypes.Command | undefined): languages.Command {
 	return c && c.command === 'editor.action.triggerSuggest'
 		? { id: c.command, title: c.title, arguments: c.arguments }
 		: undefined;
@@ -375,7 +373,7 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 					if (entry.additionalTextEdits) {
 						item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit);
 					}
-					if (entry.insertTextFormat === jsonService.InsertTextFormat.Snippet) {
+					if (entry.insertTextFormat === lsTypes.InsertTextFormat.Snippet) {
 						item.insertTextRules = languages.CompletionItemInsertTextRule.InsertAsSnippet;
 					}
 					return item;
@@ -389,17 +387,13 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 	}
 }
 
-function isMarkupContent(thing: any): thing is jsonService.MarkupContent {
+function isMarkupContent(thing: any): thing is lsTypes.MarkupContent {
 	return (
-		thing &&
-		typeof thing === 'object' &&
-		typeof (<jsonService.MarkupContent>thing).kind === 'string'
+		thing && typeof thing === 'object' && typeof (<lsTypes.MarkupContent>thing).kind === 'string'
 	);
 }
 
-function toMarkdownString(
-	entry: jsonService.MarkupContent | jsonService.MarkedString
-): IMarkdownString {
+function toMarkdownString(entry: lsTypes.MarkupContent | lsTypes.MarkedString): IMarkdownString {
 	if (typeof entry === 'string') {
 		return {
 			value: entry
@@ -420,7 +414,7 @@ function toMarkdownString(
 }
 
 function toMarkedStringArray(
-	contents: jsonService.MarkupContent | jsonService.MarkedString | jsonService.MarkedString[]
+	contents: lsTypes.MarkupContent | lsTypes.MarkedString | lsTypes.MarkedString[]
 ): IMarkdownString[] {
 	if (!contents) {
 		return void 0;
@@ -461,7 +455,7 @@ export class HoverAdapter implements languages.HoverProvider {
 
 // --- definition ------
 
-function toLocation(location: jsonService.Location): languages.Location {
+function toLocation(location: lsTypes.Location): languages.Location {
 	return {
 		uri: Uri.parse(location.uri),
 		range: toRange(location.range)
@@ -470,45 +464,45 @@ function toLocation(location: jsonService.Location): languages.Location {
 
 // --- document symbols ------
 
-function toSymbolKind(kind: jsonService.SymbolKind): languages.SymbolKind {
+function toSymbolKind(kind: lsTypes.SymbolKind): languages.SymbolKind {
 	let mKind = languages.SymbolKind;
 
 	switch (kind) {
-		case jsonService.SymbolKind.File:
+		case lsTypes.SymbolKind.File:
 			return mKind.Array;
-		case jsonService.SymbolKind.Module:
+		case lsTypes.SymbolKind.Module:
 			return mKind.Module;
-		case jsonService.SymbolKind.Namespace:
+		case lsTypes.SymbolKind.Namespace:
 			return mKind.Namespace;
-		case jsonService.SymbolKind.Package:
+		case lsTypes.SymbolKind.Package:
 			return mKind.Package;
-		case jsonService.SymbolKind.Class:
+		case lsTypes.SymbolKind.Class:
 			return mKind.Class;
-		case jsonService.SymbolKind.Method:
+		case lsTypes.SymbolKind.Method:
 			return mKind.Method;
-		case jsonService.SymbolKind.Property:
+		case lsTypes.SymbolKind.Property:
 			return mKind.Property;
-		case jsonService.SymbolKind.Field:
+		case lsTypes.SymbolKind.Field:
 			return mKind.Field;
-		case jsonService.SymbolKind.Constructor:
+		case lsTypes.SymbolKind.Constructor:
 			return mKind.Constructor;
-		case jsonService.SymbolKind.Enum:
+		case lsTypes.SymbolKind.Enum:
 			return mKind.Enum;
-		case jsonService.SymbolKind.Interface:
+		case lsTypes.SymbolKind.Interface:
 			return mKind.Interface;
-		case jsonService.SymbolKind.Function:
+		case lsTypes.SymbolKind.Function:
 			return mKind.Function;
-		case jsonService.SymbolKind.Variable:
+		case lsTypes.SymbolKind.Variable:
 			return mKind.Variable;
-		case jsonService.SymbolKind.Constant:
+		case lsTypes.SymbolKind.Constant:
 			return mKind.Constant;
-		case jsonService.SymbolKind.String:
+		case lsTypes.SymbolKind.String:
 			return mKind.String;
-		case jsonService.SymbolKind.Number:
+		case lsTypes.SymbolKind.Number:
 			return mKind.Number;
-		case jsonService.SymbolKind.Boolean:
+		case lsTypes.SymbolKind.Boolean:
 			return mKind.Boolean;
-		case jsonService.SymbolKind.Array:
+		case lsTypes.SymbolKind.Array:
 			return mKind.Array;
 	}
 	return mKind.Function;
@@ -542,9 +536,7 @@ export class DocumentSymbolAdapter implements languages.DocumentSymbolProvider {
 	}
 }
 
-function fromFormattingOptions(
-	options: languages.FormattingOptions
-): jsonService.FormattingOptions {
+function fromFormattingOptions(options: languages.FormattingOptions): lsTypes.FormattingOptions {
 	return {
 		tabSize: options.tabSize,
 		insertSpaces: options.insertSpaces
@@ -675,7 +667,7 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 						end: range.endLine + 1
 					};
 					if (typeof range.kind !== 'undefined') {
-						result.kind = toFoldingRangeKind(<jsonService.FoldingRangeKind>range.kind);
+						result.kind = toFoldingRangeKind(<lsTypes.FoldingRangeKind>range.kind);
 					}
 					return result;
 				});
@@ -683,13 +675,13 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	}
 }
 
-function toFoldingRangeKind(kind: jsonService.FoldingRangeKind): languages.FoldingRangeKind {
+function toFoldingRangeKind(kind: lsTypes.FoldingRangeKind): languages.FoldingRangeKind {
 	switch (kind) {
-		case jsonService.FoldingRangeKind.Comment:
+		case lsTypes.FoldingRangeKind.Comment:
 			return languages.FoldingRangeKind.Comment;
-		case jsonService.FoldingRangeKind.Imports:
+		case lsTypes.FoldingRangeKind.Imports:
 			return languages.FoldingRangeKind.Imports;
-		case jsonService.FoldingRangeKind.Region:
+		case lsTypes.FoldingRangeKind.Region:
 			return languages.FoldingRangeKind.Region;
 	}
 	return void 0;
