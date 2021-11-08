@@ -40,10 +40,10 @@ export class DiagnosticsAdapter {
 				return;
 			}
 
-			let handle: any;
+			let handle: number;
 			this._listener[model.uri.toString()] = model.onDidChangeContent(() => {
 				clearTimeout(handle);
-				handle = setTimeout(() => this._doValidate(model.uri, modeId), 500);
+				handle = window.setTimeout(() => this._doValidate(model.uri, modeId), 500);
 			});
 
 			this._doValidate(model.uri, modeId);

@@ -490,7 +490,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _compilerOptions!: CompilerOptions;
 	private _diagnosticsOptions!: DiagnosticsOptions;
 	private _workerOptions!: WorkerOptions;
-	private _onDidExtraLibsChangeTimeout: any;
+	private _onDidExtraLibsChangeTimeout: number;
 	private _inlayHintsOptions!: InlayHintsOptions;
 
 	constructor(
@@ -606,7 +606,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 			// already scheduled
 			return;
 		}
-		this._onDidExtraLibsChangeTimeout = setTimeout(() => {
+		this._onDidExtraLibsChangeTimeout = window.setTimeout(() => {
 			this._onDidExtraLibsChangeTimeout = -1;
 			this._onDidExtraLibsChange.fire(undefined);
 		}, 0);

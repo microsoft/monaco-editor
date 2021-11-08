@@ -206,10 +206,10 @@ export class DiagnosticsAdapter extends Adapter {
 				}
 			};
 
-			let handle: any;
+			let handle: number;
 			const changeSubscription = model.onDidChangeContent(() => {
 				clearTimeout(handle);
-				handle = setTimeout(maybeValidate, 500);
+				handle = window.setTimeout(maybeValidate, 500);
 			});
 
 			const visibleSubscription = model.onDidChangeAttached(() => {
