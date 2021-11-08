@@ -15,63 +15,75 @@
 				name: 'monaco-typescript',
 				contrib: 'vs/language/typescript/monaco.contribution',
 				modulePrefix: 'vs/language/typescript',
-				thirdPartyNotices: 'node_modules/monaco-typescript/ThirdPartyNotices.txt',
+				rootPath: './monaco-typescript',
 				paths: {
 					// use ./ to indicate it is relative to the repository root
 					src: './monaco-typescript/release/dev',
+					dev: './monaco-typescript/release/dev',
+					min: './monaco-typescript/release/min',
 					'npm/dev': 'node_modules/monaco-typescript/release/dev',
 					'npm/min': 'node_modules/monaco-typescript/release/min',
-					esm: 'node_modules/monaco-typescript/release/esm'
+					esm: './monaco-typescript/release/esm'
 				}
 			},
 			{
 				name: 'monaco-css',
 				contrib: 'vs/language/css/monaco.contribution',
 				modulePrefix: 'vs/language/css',
+				rootPath: './monaco-css',
 				paths: {
 					// use ./ to indicate it is relative to the repository root
 					src: './monaco-css/release/dev',
+					dev: './monaco-css/release/dev',
+					min: './monaco-css/release/min',
 					'npm/dev': 'node_modules/monaco-css/release/dev',
 					'npm/min': 'node_modules/monaco-css/release/min',
-					esm: 'node_modules/monaco-css/release/esm'
+					esm: './monaco-css/release/esm'
 				}
 			},
 			{
 				name: 'monaco-json',
 				contrib: 'vs/language/json/monaco.contribution',
 				modulePrefix: 'vs/language/json',
+				rootPath: './monaco-json',
 				paths: {
 					// use ./ to indicate it is relative to the repository root
 					src: './monaco-json/release/dev',
+					dev: './monaco-json/release/dev',
+					min: './monaco-json/release/min',
 					'npm/dev': 'node_modules/monaco-json/release/dev',
 					'npm/min': 'node_modules/monaco-json/release/min',
-					esm: 'node_modules/monaco-json/release/esm'
+					esm: './monaco-json/release/esm'
 				}
 			},
 			{
 				name: 'monaco-html',
 				contrib: 'vs/language/html/monaco.contribution',
 				modulePrefix: 'vs/language/html',
-				thirdPartyNotices: 'node_modules/monaco-html/ThirdPartyNotices.txt',
+				rootPath: './monaco-html',
 				paths: {
 					// use ./ to indicate it is relative to the repository root
 					src: './monaco-html/release/dev',
+					dev: './monaco-html/release/dev',
+					min: './monaco-html/release/min',
 					'npm/dev': 'node_modules/monaco-html/release/dev',
 					'npm/min': 'node_modules/monaco-html/release/min',
-					esm: 'node_modules/monaco-html/release/esm'
+					esm: './monaco-html/release/esm'
 				}
 			},
 			{
 				name: 'monaco-languages',
 				contrib: 'vs/basic-languages/monaco.contribution',
 				modulePrefix: 'vs/basic-languages',
-				thirdPartyNotices: 'node_modules/monaco-languages/ThirdPartyNotices.txt',
+				rootPath: './monaco-languages',
 				paths: {
 					// use ./ to indicate it is relative to the repository root
 					src: './monaco-languages/release/dev',
+					dev: './monaco-languages/release/dev',
+					min: './monaco-languages/release/min',
 					'npm/dev': 'node_modules/monaco-languages/release/dev',
 					'npm/min': 'node_modules/monaco-languages/release/min',
-					esm: 'node_modules/monaco-languages/release/esm'
+					esm: './monaco-languages/release/esm'
 				}
 			}
 		]
