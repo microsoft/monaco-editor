@@ -1,5 +1,0 @@
-/node_modules/
-/test/node_modules/
-/test/dist/*.js
-/test/dist/*.ttf
-/out/

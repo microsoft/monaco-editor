@@ -1,2 +1,5 @@
-/node_modules/
-/release/
+**/node_modules/
+**/out/
+**/release/
+/monaco-editor-webpack-plugin/test/dist/*.js
+/monaco-editor-webpack-plugin/test/dist/*.ttf
