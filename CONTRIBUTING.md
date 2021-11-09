@@ -2,26 +2,18 @@
 
 ## A brief explanation on the source code structure
 
-This repository contains no source code, it only contains the scripts to package everything together and ship the `monaco-editor` npm module:
+This repository contains source code only for Monaco Editor Languages, the core editor source lives in the [vscode repository](https://github.com/Microsoft/vscode).
 
-These packages are described in the root file called `metadata.js` and it is possible to create an editor distribution that contains only certain plugins by editing that file.
-
-| repository                                                          | npm module                                                             | explanation                                                               |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| [vscode](https://github.com/Microsoft/vscode)                       | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode.   |
-| [monaco-languages](https://github.com/Microsoft/monaco-languages)   | [monaco-languages](https://www.npmjs.com/package/monaco-languages)     | plugin that adds colorization and basic supports for dozens of languages. |
-| [monaco-typescript](https://github.com/Microsoft/monaco-typescript) | [monaco-typescript](https://www.npmjs.com/package/monaco-typescript)   | plugin that adds rich language support for JavaScript and TypeScript.     |
-| [monaco-css](https://github.com/Microsoft/monaco-css)               | [monaco-css](https://www.npmjs.com/package/monaco-css)                 | plugin that adds rich language support for CSS, LESS and SCSS.            |
-| [monaco-json](https://github.com/Microsoft/monaco-json)             | [monaco-json](https://www.npmjs.com/package/monaco-json)               | plugin that adds rich language support for JSON.                          |
-| [monaco-html](https://github.com/Microsoft/monaco-html)             | [monaco-html](https://www.npmjs.com/package/monaco-html)               | plugin that adds rich language support for HTML.                          |
+| repository                                                  | npm module                                                             | explanation                                                             |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [vscode](https://github.com/microsoft/vscode)               | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode. |
+| [monaco-editor](https://github.com/microsoft/monaco-editor) | [monaco-editor](https://www.npmjs.com/package/monaco-editor)           | the Monaco Editor.                                                      |
 
 ## Running the editor from source
 
 You need to have all the build setup of VS Code to be able to build the Monaco Editor.
 
-- Install all the [prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
-
-### OS X and Linux
+- Install all the [prerequisites](https://github.com/microsoft/vscode/wiki/How-to-Contribute#prerequisites)
 
 ```bash
 # clone vscode-loc repository for localized string resources
@@ -32,52 +24,30 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 # install npm deps for vscode
 /src/vscode> yarn
 # start the compiler in the background
-/src/vscode> yarn run watch
-```
-
-### Windows
-
-```cmd
-# clone vscode-loc repository for localized string resources
-/src> git clone https://github.com/microsoft/vscode-loc
-# clone VS Code repository
-/src> git clone https://github.com/microsoft/vscode
-/src> cd vscode
-# install npm deps for vscode
-/src/vscode> yarn
-# start the compiler in the background
-/src/vscode> yarn run watch
+/src/vscode> yarn watch
 ```
 
 - For the monaco editor test pages:
 
 ```bash
 # clone monaco-editor (note the folders must be siblings!)
-/src> git clone https://github.com/Microsoft/monaco-editor
+/src> git clone https://github.com/microsoft/monaco-editor
 
 # install npm deps for monaco-editor
 /src/monaco-editor> npm install .
+
+# compile all plugins
+/src/monaco-editor> npm run prepublishOnly --prefix monaco-css
+/src/monaco-editor> npm run prepublishOnly --prefix monaco-languages
+/src/monaco-editor> npm run prepublishOnly --prefix monaco-typescript
+/src/monaco-editor> npm run prepublishOnly --prefix monaco-json
+/src/monaco-editor> npm run prepublishOnly --prefix monaco-html
 
 # start a local http server in the background
 /src/monaco-editor> npm run simpleserver
 ```
 
 Open [http://localhost:8080/monaco-editor/test/?editor=src](http://localhost:8080/monaco-editor/test/?editor=src) to run.
-
-## Running a plugin from source (e.g. monaco-typescript)
-
-```bash
-# clone monaco-typescript
-/src> git clone https://github.com/Microsoft/monaco-typescript
-
-# install npm deps for monaco-typescript
-/src/monaco-typescript> npm install .
-
-# start the compiler in the background
-/src/monaco-typescript> npm run watch
-```
-
-Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src](http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src) to run.
 
 ## Running the editor tests
 
@@ -119,29 +89,17 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src&monaco-typescript=src
 
 - bump version in `/src/vscode/build/monaco/package.json`
 - **[important]** push all local changes to the remote to get a good public commit id.
-- generate npm package `/src/vscode> node_modules/.bin/gulp editor-distro`
+- generate npm package `/src/vscode> yarn gulp editor-distro`
 - publish npm package `/src/vscode/out-monaco-editor-core> npm publish`
 
-#### 2. Adopt new `monaco-editor-core` in plugins
+#### 2. Update `monaco-editor-core`
 
-- if there are breaking API changes that affect the language plugins, adopt the new API in:
-  - [repo - monaco-typescript](https://github.com/Microsoft/monaco-typescript)
-  - [repo - monaco-languages](https://github.com/Microsoft/monaco-languages)
-  - [repo - monaco-css](https://github.com/Microsoft/monaco-css)
-  - [repo - monaco-json](https://github.com/Microsoft/monaco-json)
-  - [repo - monaco-html](https://github.com/Microsoft/monaco-html)
-- publish new versions of those plugins to npm as necessary.
+- edit `/src/monaco-editor/package.json` and update the version of [`monaco-editor-core`](https://www.npmjs.com/package/monaco-editor-core)
 
-#### 3. Update package.json
-
-- edit `/src/monaco-editor/package.json` and update the version (as necessary):
-  - [npm - monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core)
-  - [npm - monaco-typescript](https://www.npmjs.com/package/monaco-typescript)
-  - [npm - monaco-languages](https://www.npmjs.com/package/monaco-languages)
-  - [npm - monaco-css](https://www.npmjs.com/package/monaco-css)
-  - [npm - monaco-json](https://www.npmjs.com/package/monaco-json)
-  - [npm - monaco-html](https://www.npmjs.com/package/monaco-html)
-- **[important]** fetch latest deps by running `/src/monaco-editor> npm install .`
+```sh
+# fetch latest deps
+/src/monaco-editor> npm install .
+```
 
 #### 4. Generate and try out the local release
 

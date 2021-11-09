@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.30.1] (09.11.2021)
+
+- Fixes [a performance regression where all languages would be loaded when loading the first language](https://github.com/microsoft/monaco-editor/issues/2750).
+
 ## [0.30.0] (04.11.2021)
 
 - adds support for rendering horizontal guides between bracket pairs and improves the vertical rendering to account for content in between brackets.
