@@ -20,6 +20,7 @@ const File = require('vinyl');
 const ts = require('typescript');
 
 const WEBSITE_GENERATED_PATH = path.join(__dirname, 'monaco-editor/website/playground/new-samples');
+/** @type {string} */
 const MONACO_EDITOR_VERSION = (function () {
 	const packageJsonPath = path.join(__dirname, 'package.json');
 	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
@@ -653,6 +654,13 @@ const cleanWebsiteTask = function (cb) {
 	rimraf('../monaco-editor-website', { maxBusyTries: 1 }, cb);
 };
 const buildWebsiteTask = taskSeries(cleanWebsiteTask, function () {
+	/**
+	 * @param {string} dataPath
+	 * @param {string} contents
+	 * @param {RegExp} regex
+	 * @param {(match:string, fileContents:Buffer)=>string} callback
+	 * @returns {string}
+	 */
 	function replaceWithRelativeResource(dataPath, contents, regex, callback) {
 		return contents.replace(regex, function (_, m0) {
 			var filePath = path.join(path.dirname(dataPath), m0);
@@ -666,15 +674,18 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function () {
 	return es
 		.merge(
 			gulp
-				.src(['website/**/*'], { dot: true })
+				.src(['monaco-editor/website/**/*'], { dot: true })
 				.pipe(
 					es.through(
+						/**
+						 * @param {File} data
+						 */
 						function (data) {
 							if (!data.contents || !/\.(html)$/.test(data.path) || /new-samples/.test(data.path)) {
 								return this.emit('data', data);
 							}
 
-							var contents = data.contents.toString();
+							let contents = data.contents.toString();
 							contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
 							contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
 							contents = contents.replace(/{{year}}/g, new Date().getFullYear());
@@ -709,8 +720,8 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function () {
 								}
 							);
 
-							var allCSS = '';
-							var tmpcontents = replaceWithRelativeResource(
+							let allCSS = '';
+							let tmpcontents = replaceWithRelativeResource(
 								data.path,
 								contents,
 								/<link data-inline="yes-please" href="([^"]+)".*/g,
@@ -734,7 +745,7 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function () {
 
 									if (!err) {
 										output = new CleanCSS().minify(output).styles;
-										var isFirst = true;
+										let isFirst = true;
 										contents = contents.replace(
 											/<link data-inline="yes-please" href="([^"]+)".*/g,
 											function (_, m0) {
@@ -779,6 +790,9 @@ const buildWebsiteTask = taskSeries(cleanWebsiteTask, function () {
 
 		.pipe(
 			es.through(
+				/**
+				 * @param {File} data
+				 */
 				function (data) {
 					this.emit('data', data);
 				},
