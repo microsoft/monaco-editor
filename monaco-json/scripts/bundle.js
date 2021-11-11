@@ -1,24 +1,17 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 const requirejs = require('requirejs');
 const path = require('path');
 const fs = require('fs');
-const Terser = require('terser');
-const helpers = require('monaco-plugin-helpers');
+const terser = require('terser');
+const { getBundledFileHeader } = require('../../build/utils');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
-const sha1 = helpers.getGitVersion(REPO_ROOT);
-const semver = require('../../package.json').version;
-const headerVersion = semver + '(' + sha1 + ')';
-
-const BUNDLED_FILE_HEADER = [
-	'/*!-----------------------------------------------------------------------------',
-	' * Copyright (c) Microsoft Corporation. All rights reserved.',
-	' * monaco-json version: ' + headerVersion,
-	' * Released under the MIT license',
-	' * https://github.com/Microsoft/monaco-json/blob/master/LICENSE.md',
-	' *-----------------------------------------------------------------------------*/',
-	''
-].join('\n');
+const BUNDLED_FILE_HEADER = getBundledFileHeader();
 
 bundleOne('monaco.contribution');
 bundleOne('jsonMode', ['vs/language/json/monaco.contribution']);
@@ -74,8 +67,9 @@ function bundleOne(moduleId, exclude) {
 			const devFilePath = path.join(REPO_ROOT, 'monaco-json/release/dev/' + moduleId + '.js');
 			const minFilePath = path.join(REPO_ROOT, 'monaco-json/release/min/' + moduleId + '.js');
 			const fileContents = fs.readFileSync(devFilePath).toString();
+			console.log();
 			console.log(`Minifying ${devFilePath}...`);
-			const result = await Terser.minify(fileContents, {
+			const result = await terser.minify(fileContents, {
 				output: {
 					comments: 'some'
 				}

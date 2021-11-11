@@ -69,13 +69,13 @@ class ParentsStack {
 class JSONState implements languages.IState {
 	private _state: languages.IState;
 
-	public scanError: json.ScanError;
+	public scanError: ScanError;
 	public lastWasColon: boolean;
 	public parents: ParentsStack | null;
 
 	constructor(
 		state: languages.IState,
-		scanError: json.ScanError,
+		scanError: ScanError,
 		lastWasColon: boolean,
 		parents: ParentsStack | null
 	) {
@@ -112,6 +112,36 @@ class JSONState implements languages.IState {
 	}
 }
 
+const enum ScanError {
+	None = 0,
+	UnexpectedEndOfComment = 1,
+	UnexpectedEndOfString = 2,
+	UnexpectedEndOfNumber = 3,
+	InvalidUnicode = 4,
+	InvalidEscapeCharacter = 5,
+	InvalidCharacter = 6
+}
+
+const enum SyntaxKind {
+	OpenBraceToken = 1,
+	CloseBraceToken = 2,
+	OpenBracketToken = 3,
+	CloseBracketToken = 4,
+	CommaToken = 5,
+	ColonToken = 6,
+	NullKeyword = 7,
+	TrueKeyword = 8,
+	FalseKeyword = 9,
+	StringLiteral = 10,
+	NumericLiteral = 11,
+	LineCommentTrivia = 12,
+	BlockCommentTrivia = 13,
+	LineBreakTrivia = 14,
+	Trivia = 15,
+	Unknown = 16,
+	EOF = 17
+}
+
 function tokenize(
 	comments: boolean,
 	line: string,
@@ -124,11 +154,11 @@ function tokenize(
 	let adjustOffset = false;
 
 	switch (state.scanError) {
-		case json.ScanError.UnexpectedEndOfString:
+		case ScanError.UnexpectedEndOfString:
 			line = '"' + line;
 			numberOfInsertedCharacters = 1;
 			break;
-		case json.ScanError.UnexpectedEndOfComment:
+		case ScanError.UnexpectedEndOfComment:
 			line = '/*' + line;
 			numberOfInsertedCharacters = 2;
 			break;
@@ -147,8 +177,8 @@ function tokenize(
 		let offset = offsetDelta + scanner.getPosition();
 		let type = '';
 
-		const kind = scanner.scan();
-		if (kind === json.SyntaxKind.EOF) {
+		const kind = <SyntaxKind><any>scanner.scan();
+		if (kind === SyntaxKind.EOF) {
 			break;
 		}
 
@@ -168,50 +198,50 @@ function tokenize(
 
 		// brackets and type
 		switch (kind) {
-			case json.SyntaxKind.OpenBraceToken:
+			case SyntaxKind.OpenBraceToken:
 				parents = ParentsStack.push(parents, JSONParent.Object);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.CloseBraceToken:
+			case SyntaxKind.CloseBraceToken:
 				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.OpenBracketToken:
+			case SyntaxKind.OpenBracketToken:
 				parents = ParentsStack.push(parents, JSONParent.Array);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.CloseBracketToken:
+			case SyntaxKind.CloseBracketToken:
 				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.ColonToken:
+			case SyntaxKind.ColonToken:
 				type = TOKEN_DELIM_COLON;
 				lastWasColon = true;
 				break;
-			case json.SyntaxKind.CommaToken:
+			case SyntaxKind.CommaToken:
 				type = TOKEN_DELIM_COMMA;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.TrueKeyword:
-			case json.SyntaxKind.FalseKeyword:
+			case SyntaxKind.TrueKeyword:
+			case SyntaxKind.FalseKeyword:
 				type = TOKEN_VALUE_BOOLEAN;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.NullKeyword:
+			case SyntaxKind.NullKeyword:
 				type = TOKEN_VALUE_NULL;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.StringLiteral:
+			case SyntaxKind.StringLiteral:
 				const currentParent = parents ? parents.type : JSONParent.Object;
 				const inArray = currentParent === JSONParent.Array;
 				type = lastWasColon || inArray ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
 				lastWasColon = false;
 				break;
-			case json.SyntaxKind.NumericLiteral:
+			case SyntaxKind.NumericLiteral:
 				type = TOKEN_VALUE_NUMBER;
 				lastWasColon = false;
 				break;
@@ -220,10 +250,10 @@ function tokenize(
 		// comments, iff enabled
 		if (comments) {
 			switch (kind) {
-				case json.SyntaxKind.LineCommentTrivia:
+				case SyntaxKind.LineCommentTrivia:
 					type = TOKEN_COMMENT_LINE;
 					break;
-				case json.SyntaxKind.BlockCommentTrivia:
+				case SyntaxKind.BlockCommentTrivia:
 					type = TOKEN_COMMENT_BLOCK;
 					break;
 			}
@@ -231,7 +261,7 @@ function tokenize(
 
 		ret.endState = new JSONState(
 			state.getStateData(),
-			scanner.getTokenError(),
+			<ScanError><any>scanner.getTokenError(),
 			lastWasColon,
 			parents
 		);
