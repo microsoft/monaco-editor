@@ -9,6 +9,11 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'app.js'
 	},
+	resolve: {
+		alias: {
+			'monaco-editor': path.resolve(__dirname, '../../release'),
+		},
+	},
 	module: {
 		rules: [
 			{
@@ -21,5 +26,7 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [new MonacoWebpackPlugin()]
+	plugins: [new MonacoWebpackPlugin({
+		monacoEditorPath: path.resolve(__dirname, '../../release')
+	})]
 };
