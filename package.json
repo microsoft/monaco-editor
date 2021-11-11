@@ -16,7 +16,8 @@
 		"website": "gulp build-website && npm run typedoc && gulp prepare-website-branch",
 		"build-website": "gulp build-website && npm run typedoc",
 		"typedoc": "cd monaco-editor/typedoc && \"../../node_modules/.bin/typedoc\" --options ./typedoc.json",
-		"prettier": "prettier --write ."
+		"prettier": "prettier --write .",
+		"gulp": "node ./node_modules/gulp/bin/gulp.js"
 	},
 	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"module": "./esm/vs/editor/editor.main.js",
@@ -29,6 +30,8 @@
 		"@types/tape": "^4.13.2",
 		"@typescript/vfs": "^1.3.5",
 		"clean-css": "^5.1.1",
+		"esbuild": "^0.13.13",
+		"esbuild-plugin-alias": "^0.2.0",
 		"event-stream": "4.0.1",
 		"glob": "^7.2.0",
 		"gulp": "^4.0.2",
