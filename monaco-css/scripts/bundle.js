@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 const requirejs = require('requirejs');
 const path = require('path');
 const fs = require('fs');
@@ -13,9 +18,9 @@ const headerVersion = semver + '(' + sha1 + ')';
 const BUNDLED_FILE_HEADER = [
 	'/*!-----------------------------------------------------------------------------',
 	' * Copyright (c) Microsoft Corporation. All rights reserved.',
-	' * monaco-css version: ' + headerVersion,
+	' * Version: ' + headerVersion,
 	' * Released under the MIT license',
-	' * https://github.com/Microsoft/monaco-css/blob/master/LICENSE.md',
+	' * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt',
 	' *-----------------------------------------------------------------------------*/',
 	''
 ].join('\n');

@@ -7,14 +7,14 @@ const esbuild = require('esbuild');
 const alias = require('esbuild-plugin-alias');
 const path = require('path');
 const cp = require('child_process');
-const { copyFile, removeDir } = require('../../build/utils');
+const { copyFile, removeDir, tsc, dts } = require('../../build/utils');
 
 removeDir(`monaco-css/release`);
 removeDir(`monaco-css/out`);
 
-cp.spawnSync(process.execPath, [path.join(__dirname, '../../node_modules/typescript/lib/tsc.js'), '-p', path.join(__dirname, '../src/tsconfig.json')], { stdio: 'inherit', stderr: 'inherit' });
+tsc(`monaco-css/src/tsconfig.json`);
 
-cp.spawnSync(process.execPath, [path.join(__dirname, './dts.js')], { stdio: 'inherit', stderr: 'inherit' });
+dts(`monaco-css/out/amd/monaco.contribution.d.ts`, `monaco-css/monaco.d.ts`, 'monaco.languages.css');
 
 cp.spawnSync(process.execPath, [path.join(__dirname, '../../node_modules/prettier/bin-prettier.js'), '--write', path.join(__dirname, '../monaco.d.ts')], { stdio: 'inherit', stderr: 'inherit' });
 
