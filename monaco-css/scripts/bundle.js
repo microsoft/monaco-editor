@@ -6,24 +6,12 @@
 const requirejs = require('requirejs');
 const path = require('path');
 const fs = require('fs');
-const Terser = require('terser');
-const helpers = require('monaco-plugin-helpers');
+const terser = require('terser');
+const { getBundledFileHeader } = require('../../build/utils');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
-const sha1 = helpers.getGitVersion(REPO_ROOT);
-const semver = require('../../package.json').version;
-const headerVersion = semver + '(' + sha1 + ')';
-
-const BUNDLED_FILE_HEADER = [
-	'/*!-----------------------------------------------------------------------------',
-	' * Copyright (c) Microsoft Corporation. All rights reserved.',
-	' * Version: ' + headerVersion,
-	' * Released under the MIT license',
-	' * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt',
-	' *-----------------------------------------------------------------------------*/',
-	''
-].join('\n');
+const BUNDLED_FILE_HEADER = getBundledFileHeader();
 
 bundleOne('monaco.contribution');
 bundleOne('cssMode', ['vs/language/css/monaco.contribution']);
@@ -76,7 +64,7 @@ function bundleOne(moduleId, exclude) {
 			const fileContents = fs.readFileSync(devFilePath).toString();
 			console.log();
 			console.log(`Minifying ${devFilePath}...`);
-			const result = await Terser.minify(fileContents, {
+			const result = await terser.minify(fileContents, {
 				output: {
 					comments: 'some'
 				}
