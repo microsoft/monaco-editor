@@ -7,7 +7,7 @@ const esbuild = require('esbuild');
 const alias = require('esbuild-plugin-alias');
 const path = require('path');
 const cp = require('child_process');
-const { copyFile, removeDir, tsc, dts } = require('../../build/utils');
+const { removeDir, tsc, dts } = require('../../build/utils');
 
 removeDir(`monaco-html/release`);
 removeDir(`monaco-html/out`);
@@ -36,8 +36,5 @@ esbuild.build({
 		console.error(result.warnings);
 	}
 });
-
-copyFile('monaco-html/out/amd/monaco.contribution.d.ts', 'monaco-html/release/esm/monaco.contribution.d.ts');
-copyFile('monaco-html/out/amd/fillers/monaco-editor-core.d.ts', 'monaco-html/release/esm/fillers/monaco-editor-core.d.ts');
 
 cp.spawnSync(process.execPath, [path.join(__dirname, './bundle.js')], { stdio: 'inherit', stderr: 'inherit' });
