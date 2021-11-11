@@ -77,7 +77,7 @@ exports.removeDir = removeDir;
 /**
  * Launch the typescript compiler synchronously over a project.
  *
- * @param {string} projectPath
+ * @param {string} _projectPath
  */
 function tsc(_projectPath) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
@@ -86,6 +86,19 @@ function tsc(_projectPath) {
 	console.log(`Compiled ${_projectPath}`);
 }
 exports.tsc = tsc;
+
+/**
+ * Launch prettier on a specific file.
+ *
+ * @param {string} _filePath
+ */
+function prettier(_filePath) {
+	const filePath = path.join(REPO_ROOT, _filePath);
+	cp.spawnSync(process.execPath, [path.join(__dirname, '../node_modules/prettier/bin-prettier.js'), '--write', filePath], { stdio: 'inherit', stderr: 'inherit' });
+
+	console.log(`Ran prettier over ${_filePath}`);
+}
+exports.prettier = prettier;
 
 /**
  * Transform an external .d.ts file to an internal .d.ts file
@@ -128,5 +141,7 @@ function dts(_source, _destination, namespace) {
 	result.push(``);
 
 	fs.writeFileSync(destination, result.join('\n'));
+
+	prettier(_destination);
 }
 exports.dts = dts;

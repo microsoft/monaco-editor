@@ -16,8 +16,6 @@ tsc(`monaco-css/src/tsconfig.json`);
 
 dts(`monaco-css/out/amd/monaco.contribution.d.ts`, `monaco-css/monaco.d.ts`, 'monaco.languages.css');
 
-cp.spawnSync(process.execPath, [path.join(__dirname, '../../node_modules/prettier/bin-prettier.js'), '--write', path.join(__dirname, '../monaco.d.ts')], { stdio: 'inherit', stderr: 'inherit' });
-
 esbuild.build({
 	entryPoints: ['src/cssMode.ts', 'src/css.worker.ts', 'src/monaco.contribution.ts'],
 	bundle: true,
