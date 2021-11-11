@@ -13,9 +13,9 @@ const headerVersion = semver + '(' + sha1 + ')';
 const BUNDLED_FILE_HEADER = [
 	'/*!-----------------------------------------------------------------------------',
 	' * Copyright (c) Microsoft Corporation. All rights reserved.',
-	' * monaco-html version: ' + headerVersion,
+	' * Version: ' + headerVersion,
 	' * Released under the MIT license',
-	' * https://github.com/Microsoft/monaco-html/blob/master/LICENSE.md',
+	' * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt',
 	' *-----------------------------------------------------------------------------*/',
 	''
 ].join('\n');

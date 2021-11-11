@@ -19,5 +19,4 @@ in [Visual Studio Code](https://github.com/microsoft/vscode) to power the CSS, L
 ## Development
 
 - watch with `npm run watch`
-- `npm run prepublishOnly`
-- open `$/monaco-css/test/index.html` in your favorite browser.
+- compile with `npm run prepublishOnly`
