@@ -9,6 +9,24 @@ This repository contains source code only for Monaco Editor Languages, the core 
 | [vscode](https://github.com/microsoft/vscode)               | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode. |
 | [monaco-editor](https://github.com/microsoft/monaco-editor) | [monaco-editor](https://www.npmjs.com/package/monaco-editor)           | the Monaco Editor.                                                      |
 
+## Contributing a new tokenizer / a new language
+
+- create `$/monaco-languages/src/myLang/myLang.contribution.ts`
+- create `$/monaco-languages/src/myLang/myLang.ts`
+- create `$/monaco-languages/src/myLang/myLang.test.ts`
+- edit `$/monaco-languages/src/monaco.contribution.ts` and register your new language
+
+```js
+import './myLang/myLang.contribution';
+```
+
+## Updating TypeScript
+
+- change typescript's version in `package.json`.
+- execute `npm install .`
+- execute `npm run import-typescript`
+- adopt new APIs
+
 ## Running the editor from source
 
 You need to have all the build setup of VS Code to be able to build the Monaco Editor.
