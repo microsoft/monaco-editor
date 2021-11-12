@@ -96,6 +96,9 @@ function buildAMD(entryPoint, banner) {
 	buildOneAMD('min', entryPoint, banner);
 }
 
-buildAMD('src/monaco.contribution.ts', 'define("vs/language/css/monaco.contribution",["vs/editor/editor.api"],()=>{');
+buildAMD(
+	'src/monaco.contribution.ts',
+	'define("vs/language/css/monaco.contribution",["vs/editor/editor.api"],()=>{'
+);
 buildAMD('src/cssMode.ts', 'define("vs/language/css/cssMode",["vs/editor/editor.api"],()=>{');
 buildAMD('src/cssWorker.ts', 'define("vs/language/css/cssWorker",[],()=>{');

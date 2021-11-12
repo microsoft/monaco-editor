@@ -11,8 +11,8 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			'monaco-editor': path.resolve(__dirname, '../../release'),
-		},
+			'monaco-editor': path.resolve(__dirname, '../../release')
+		}
 	},
 	module: {
 		rules: [
@@ -26,7 +26,9 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [new MonacoWebpackPlugin({
-		monacoEditorPath: path.resolve(__dirname, '../../release')
-	})]
+	plugins: [
+		new MonacoWebpackPlugin({
+			monacoEditorPath: path.resolve(__dirname, '../../release')
+		})
+	]
 };

@@ -223,7 +223,9 @@ declare var require: any;
 
 function getMode(): Promise<typeof mode> {
 	if (AMD) {
-		return new Promise((resolve, reject) => { require(['vs/language/css/cssMode'], resolve, reject); });
+		return new Promise((resolve, reject) => {
+			require(['vs/language/css/cssMode'], resolve, reject);
+		});
 	} else {
 		return import('./cssMode');
 	}

@@ -110,7 +110,7 @@ monaco.languages.registerDocumentSemanticTokensProvider('plaintext', {
 monaco.editor.defineTheme('myCustomTheme', {
 	base: 'vs',
 	inherit: true,
-	colors : {},
+	colors: {},
 	rules: [
 		{ token: 'comment', foreground: 'aaaaaa', fontStyle: 'italic' },
 		{ token: 'keyword', foreground: 'ce63eb' },

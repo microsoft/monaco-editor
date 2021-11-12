@@ -82,7 +82,11 @@ exports.removeDir = removeDir;
 function tsc(_projectPath) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
 	console.log(`Launching compiler at ${_projectPath}...`);
-	cp.spawnSync(process.execPath, [path.join(__dirname, '../node_modules/typescript/lib/tsc.js'), '-p', projectPath], { stdio: 'inherit', stderr: 'inherit' });
+	cp.spawnSync(
+		process.execPath,
+		[path.join(__dirname, '../node_modules/typescript/lib/tsc.js'), '-p', projectPath],
+		{ stdio: 'inherit', stderr: 'inherit' }
+	);
 	console.log(`Compiled ${_projectPath}`);
 }
 exports.tsc = tsc;
@@ -94,7 +98,11 @@ exports.tsc = tsc;
  */
 function prettier(_filePath) {
 	const filePath = path.join(REPO_ROOT, _filePath);
-	cp.spawnSync(process.execPath, [path.join(__dirname, '../node_modules/prettier/bin-prettier.js'), '--write', filePath], { stdio: 'inherit', stderr: 'inherit' });
+	cp.spawnSync(
+		process.execPath,
+		[path.join(__dirname, '../node_modules/prettier/bin-prettier.js'), '--write', filePath],
+		{ stdio: 'inherit', stderr: 'inherit' }
+	);
 
 	console.log(`Ran prettier over ${_filePath}`);
 }
@@ -189,7 +197,7 @@ function getGitVersion() {
 	let refsMatch;
 	const refs = {};
 
-	while (refsMatch = refsRegex.exec(refsRaw)) {
+	while ((refsMatch = refsRegex.exec(refsRaw))) {
 		refs[refsMatch[2]] = refsMatch[1];
 	}
 
