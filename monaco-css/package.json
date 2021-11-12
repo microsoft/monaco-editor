@@ -1,5 +1,0 @@
-{
-	"scripts": {
-		"watch": "../node_modules/.bin/tsc -p ./src --watch"
-	}
-}
