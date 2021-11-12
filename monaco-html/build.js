@@ -3,9 +3,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+//@ts-check
+
 const alias = require('esbuild-plugin-alias');
 const path = require('path');
-const { removeDir, tsc, dts, build } = require('../build/utils');
+const { removeDir, tsc, dts, build, buildESM } = require('../build/utils');
 
 removeDir(`monaco-html/release`);
 removeDir(`monaco-html/out`);
@@ -18,21 +20,9 @@ dts(
 	'monaco.languages.html'
 );
 
-build({
+buildESM({
 	entryPoints: ['src/monaco.contribution.ts', 'src/htmlMode.ts', 'src/html.worker.ts'],
-	bundle: true,
-	target: 'esnext',
-	format: 'esm',
-	define: {
-		AMD: false
-	},
 	external: ['monaco-editor-core', '*/htmlMode'],
-	outdir: 'release/esm/',
-	plugins: [
-		alias({
-			'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts')
-		})
-	]
 });
 
 /**
@@ -48,7 +38,7 @@ function buildOneAMD(type, entryPoint, banner) {
 		target: 'esnext',
 		format: 'iife',
 		define: {
-			AMD: true
+			AMD: 'true'
 		},
 		external: ['*/htmlMode'],
 		globalName: 'moduleExports',

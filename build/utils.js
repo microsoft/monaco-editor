@@ -3,10 +3,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+//@ts-check
+
 const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
 const esbuild = require('esbuild');
+const alias = require('esbuild-plugin-alias');
 
 const REPO_ROOT = path.join(__dirname, '..');
 
@@ -86,7 +89,7 @@ function tsc(_projectPath) {
 	cp.spawnSync(
 		process.execPath,
 		[path.join(__dirname, '../node_modules/typescript/lib/tsc.js'), '-p', projectPath],
-		{ stdio: 'inherit', stderr: 'inherit' }
+		{ stdio: 'inherit' }
 	);
 	console.log(`Compiled ${_projectPath}`);
 }
@@ -102,7 +105,7 @@ function prettier(_filePath) {
 	cp.spawnSync(
 		process.execPath,
 		[path.join(__dirname, '../node_modules/prettier/bin-prettier.js'), '--write', filePath],
-		{ stdio: 'inherit', stderr: 'inherit' }
+		{ stdio: 'inherit' }
 	);
 
 	console.log(`Ran prettier over ${_filePath}`);
@@ -169,6 +172,32 @@ function build(options) {
 	});
 }
 exports.build = build;
+
+/**
+ * @param {{
+ *   entryPoints: string[];
+ *   external: string[];
+ * }} options
+ */
+function buildESM(options) {
+	build({
+		entryPoints: options.entryPoints,
+		bundle: true,
+		target: 'esnext',
+		format: 'esm',
+		define: {
+			AMD: 'false'
+		},
+		external: options.external,
+		outdir: 'release/esm/',
+		plugins: [
+			alias({
+				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
+			})
+		]
+	});
+}
+exports.buildESM = buildESM;
 
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');
