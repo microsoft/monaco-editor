@@ -199,6 +199,56 @@ function buildESM(options) {
 }
 exports.buildESM = buildESM;
 
+/**
+ * @param {'dev'|'min'} type
+ * @param {{
+ *   entryPoint: string;
+ *   banner: string;
+ * }} options
+ */
+function buildOneAMD(type, options) {
+	/** @type {import('esbuild').BuildOptions} */
+	const opts = {
+		entryPoints: [options.entryPoint],
+		bundle: true,
+		target: 'esnext',
+		format: 'iife',
+		define: {
+			AMD: 'true'
+		},
+		globalName: 'moduleExports',
+		banner: {
+			js: options.banner
+		},
+		footer: {
+			js: 'return moduleExports;\n});'
+		},
+		outdir: `release/${type}/`,
+		plugins: [
+			alias({
+				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
+				'monaco-editor-core': path.join(__dirname, '../build/fillers/monaco-editor-core-amd.ts')
+			})
+		]
+	};
+	if (type === 'min') {
+		opts.minify = true;
+	}
+	build(opts);
+}
+
+/**
+ * @param {{
+ *   entryPoint: string;
+ *   banner: string;
+ * }} options
+ */
+function buildAMD(options) {
+	buildOneAMD('dev', options);
+	buildOneAMD('min', options);
+}
+exports.buildAMD = buildAMD;
+
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');
 	const headPath = path.join(git, 'HEAD');

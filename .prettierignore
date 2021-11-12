@@ -14,6 +14,7 @@
 /monaco-editor/website/lib/
 /monaco-html/out/
 /monaco-html/release/
+/monaco-editor-webpack-plugin/test/dist/*.js
 /monaco-json/out/
 /monaco-json/release/
 /monaco-languages/out/
