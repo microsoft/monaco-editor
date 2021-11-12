@@ -5,9 +5,20 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'postiats',
 	extensions: ['.dats', '.sats', '.hats'],
 	aliases: ['ATS', 'ATS/Postiats'],
-	loader: () => import('./postiats')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/postiats/postiats'], resolve, reject);
+			});
+		} else {
+			return import('./postiats');
+		}
+	}
 });

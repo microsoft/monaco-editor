@@ -5,10 +5,21 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'typescript',
 	extensions: ['.ts', '.tsx'],
 	aliases: ['TypeScript', 'ts', 'typescript'],
 	mimetypes: ['text/typescript'],
-	loader: () => <Promise<any>>import('./typescript')
+	loader: (): Promise<any> => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/typescript/typescript'], resolve, reject);
+			});
+		} else {
+			return import('./typescript');
+		}
+	}
 });

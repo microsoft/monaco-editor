@@ -189,6 +189,7 @@ function buildESM(options) {
 			AMD: 'false'
 		},
 		external: options.external,
+		outbase: 'src',
 		outdir: 'release/esm/',
 		plugins: [
 			alias({
@@ -223,6 +224,7 @@ function buildOneAMD(type, options) {
 		footer: {
 			js: 'return moduleExports;\n});'
 		},
+		outbase: 'src',
 		outdir: `release/${type}/`,
 		plugins: [
 			alias({

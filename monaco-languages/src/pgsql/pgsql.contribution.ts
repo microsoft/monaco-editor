@@ -5,9 +5,20 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'pgsql',
 	extensions: [],
 	aliases: ['PostgreSQL', 'postgres', 'pg', 'postgre'],
-	loader: () => import('./pgsql')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/pgsql/pgsql'], resolve, reject);
+			});
+		} else {
+			return import('./pgsql');
+		}
+	}
 });

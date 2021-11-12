@@ -5,9 +5,20 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'go',
 	extensions: ['.go'],
 	aliases: ['Go'],
-	loader: () => import('./go')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/go/go'], resolve, reject);
+			});
+		} else {
+			return import('./go');
+		}
+	}
 });

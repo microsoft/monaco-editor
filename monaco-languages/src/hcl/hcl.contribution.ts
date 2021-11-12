@@ -5,9 +5,20 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'hcl',
 	extensions: ['.tf', '.tfvars', '.hcl'],
 	aliases: ['Terraform', 'tf', 'HCL', 'hcl'],
-	loader: () => import('./hcl')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/hcl/hcl'], resolve, reject);
+			});
+		} else {
+			return import('./hcl');
+		}
+	}
 });

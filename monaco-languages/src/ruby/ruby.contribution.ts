@@ -5,10 +5,21 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'ruby',
 	extensions: ['.rb', '.rbx', '.rjs', '.gemspec', '.pp'],
 	filenames: ['rakefile', 'Gemfile'],
 	aliases: ['Ruby', 'rb'],
-	loader: () => import('./ruby')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/ruby/ruby'], resolve, reject);
+			});
+		} else {
+			return import('./ruby');
+		}
+	}
 });

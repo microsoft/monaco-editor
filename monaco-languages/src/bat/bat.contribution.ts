@@ -5,9 +5,20 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'bat',
 	extensions: ['.bat', '.cmd'],
 	aliases: ['Batch', 'bat'],
-	loader: () => import('./bat')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/bat/bat'], resolve, reject);
+			});
+		} else {
+			return import('./bat');
+		}
+	}
 });

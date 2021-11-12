@@ -5,10 +5,21 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'kotlin',
 	extensions: ['.kt'],
 	aliases: ['Kotlin', 'kotlin'],
 	mimetypes: ['text/x-kotlin-source', 'text/x-kotlin'],
-	loader: () => import('./kotlin')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/kotlin/kotlin'], resolve, reject);
+			});
+		} else {
+			return import('./kotlin');
+		}
+	}
 });

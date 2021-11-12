@@ -5,9 +5,20 @@
 
 import { registerLanguage } from '../_.contribution';
 
+declare var AMD: any;
+declare var require: any;
+
 registerLanguage({
 	id: 'msdax',
 	extensions: ['.dax', '.msdax'],
 	aliases: ['DAX', 'MSDAX'],
-	loader: () => import('./msdax')
+	loader: () => {
+		if (AMD) {
+			return new Promise((resolve, reject) => {
+				require(['vs/basic-languages/msdax/msdax'], resolve, reject);
+			});
+		} else {
+			return import('./msdax');
+		}
+	}
 });
