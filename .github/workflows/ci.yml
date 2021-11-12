@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: 'Builds'
+    name: CI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,11 +21,11 @@ jobs:
           key: ${{ runner.os }}-cacheNodeModules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-cacheNodeModules-
 
-      - name: Execute npm in root
+      - name: Install node modules (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm install
 
-      - name: Execute npm in monaco-editor-webpack-plugin
+      - name: Install node modules (2)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm install --prefix monaco-editor-webpack-plugin
 
