@@ -20,6 +20,7 @@
 		"release-languages": "node ./monaco-languages/build",
 		"release-typescript": "node ./monaco-typescript/build",
 		"release-plugins": "npm-run-all -lp release-css release-html release-json release-languages release-typescript",
+		"test": "node ./monaco-languages/test/all.js",
 		"gulp-release": "gulp release",
 		"release": "npm-run-all -ls release-plugins gulp-release",
 		"website": "gulp build-website && npm run typedoc && gulp prepare-website-branch",
