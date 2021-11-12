@@ -1,0 +1,36 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: 'Builds'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Cache node modules
+        id: cacheNodeModules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-cacheNodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-cacheNodeModules-
+
+      - name: Execute npm in root
+        if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
+        run: npm install
+
+      - name: Execute npm in monaco-editor-webpack-plugin
+        if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
+        run: npm install --prefix monaco-editor-webpack-plugin
+
+      - name: Build
+        run: npm run release
+
+      - name: Run unit tests
+        run: npm test
