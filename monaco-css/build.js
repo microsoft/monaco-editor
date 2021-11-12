@@ -6,8 +6,7 @@
 const esbuild = require('esbuild');
 const alias = require('esbuild-plugin-alias');
 const path = require('path');
-const cp = require('child_process');
-const { removeDir, tsc, dts } = require('../../build/utils');
+const { removeDir, tsc, dts } = require('../build/utils');
 
 removeDir(`monaco-css/release`);
 removeDir(`monaco-css/out`);
@@ -46,7 +45,7 @@ build({
 	outdir: 'release/esm/',
 	plugins: [
 		alias({
-			'vscode-nls': path.join(__dirname, '../src/fillers/vscode-nls.ts')
+			'vscode-nls': path.join(__dirname, 'src/fillers/vscode-nls.ts')
 		})
 	]
 });
@@ -77,7 +76,8 @@ function buildOneAMD(type, entryPoint, banner) {
 		outdir: `release/${type}/`,
 		plugins: [
 			alias({
-				'monaco-editor-core': path.join(__dirname, '../src/fillers/monaco-editor-core-amd.ts')
+				'vscode-nls': path.join(__dirname, 'src/fillers/vscode-nls.ts'),
+				'monaco-editor-core': path.join(__dirname, 'src/fillers/monaco-editor-core-amd.ts')
 			})
 		]
 	};
