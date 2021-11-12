@@ -218,8 +218,15 @@ export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 
 // --- Registration to monaco editor ---
 
+declare var AMD: any;
+declare var require: any;
+
 function getMode(): Promise<typeof mode> {
-	return import('./cssMode');
+	if (AMD) {
+		return new Promise((resolve, reject) => { require(['vs/language/css/cssMode'], resolve, reject); });
+	} else {
+		return import('./cssMode');
+	}
 }
 
 languages.onLanguage('less', () => {

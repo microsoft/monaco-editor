@@ -81,8 +81,8 @@ exports.removeDir = removeDir;
  */
 function tsc(_projectPath) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
+	console.log(`Launching compiler at ${_projectPath}...`);
 	cp.spawnSync(process.execPath, [path.join(__dirname, '../node_modules/typescript/lib/tsc.js'), '-p', projectPath], { stdio: 'inherit', stderr: 'inherit' });
-
 	console.log(`Compiled ${_projectPath}`);
 }
 exports.tsc = tsc;
