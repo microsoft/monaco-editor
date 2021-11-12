@@ -192,6 +192,9 @@ function buildESM(options) {
 		define: {
 			AMD: 'false'
 		},
+		banner: {
+			js: bundledFileHeader
+		},
 		external: options.external,
 		outbase: `${options.base}/src`,
 		outdir: `${options.base}/release/esm/`,
@@ -224,7 +227,7 @@ function buildOneAMD(type, options) {
 		},
 		globalName: 'moduleExports',
 		banner: {
-			js: options.banner
+			js: `${bundledFileHeader}${options.banner}`
 		},
 		footer: {
 			js: 'return moduleExports;\n});'
@@ -307,7 +310,7 @@ function getGitVersion() {
 	return refs[ref];
 }
 
-function getBundledFileHeader() {
+const bundledFileHeader = (() => {
 	const sha1 = getGitVersion();
 	const semver = require('../package.json').version;
 	const headerVersion = semver + '(' + sha1 + ')';
@@ -323,5 +326,5 @@ function getBundledFileHeader() {
 	].join('\n');
 
 	return BUNDLED_FILE_HEADER;
-}
-exports.getBundledFileHeader = getBundledFileHeader;
+})();
+exports.bundledFileHeader = bundledFileHeader;
