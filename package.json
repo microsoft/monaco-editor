@@ -7,6 +7,7 @@
 	"license": "MIT",
 	"scripts": {
 		"simpleserver": "gulp simpleserver",
+		"import-typescript": "node ./monaco-typescript/importTypescript",
 		"release-css": "node ./monaco-css/build",
 		"release-html": "node ./monaco-html/build",
 		"release-json": "node ./monaco-json/build",

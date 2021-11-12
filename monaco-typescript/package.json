@@ -1,6 +1,5 @@
 {
 	"scripts": {
-		"watch": "../node_modules/.bin/tsc -p ./src --watch",
-		"import-typescript": "node ./scripts/importTypescript"
+		"watch": "../node_modules/.bin/tsc -p ./src --watch"
 	}
 }

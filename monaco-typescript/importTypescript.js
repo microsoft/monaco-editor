@@ -12,7 +12,7 @@ const generatedNote = `//
 //
 `;
 
-const REPO_ROOT = path.join(__dirname, '../../');
+const REPO_ROOT = path.join(__dirname, '../');
 const TYPESCRIPT_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/typescript/lib');
 const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'monaco-typescript/src/lib');
 
@@ -108,6 +108,15 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices-amd.js'),
 		stripSourceMaps(tsServices_amd)
 	);
+
+	// Remove pattern that creates warnings with esbuild
+	// e.g.
+	// > monaco-typescript/src/lib/typescriptServices.js:20:21: warning: Top-level "this" will be replaced with undefined since this file is an ECMAScript module
+	// 20 │ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+	//    ╵                      ~~~~
+	//
+
+	tsServices = tsServices.replace(/\nvar ([^ ]+) = \(this && this\.([^)]+)\) \|\|/gm, '\nvar $1 =')
 
 	const tsServices_esm =
 		generatedNote +
