@@ -14,6 +14,25 @@ const alias = require('esbuild-plugin-alias');
 const REPO_ROOT = path.join(__dirname, '..');
 
 /**
+ * @param {string} dirname
+ */
+function ensureDir(dirname) {
+	/** @type {string[]} */
+	const dirs = [];
+
+	while (dirname.length > REPO_ROOT.length) {
+		dirs.push(dirname);
+		dirname = path.dirname(dirname);
+	}
+	dirs.reverse();
+	dirs.forEach(function (dir) {
+		try {
+			fs.mkdirSync(dir);
+		} catch (err) {}
+	});
+}
+
+/**
  * Copy a file.
  *
  * @param {string} _source
@@ -23,24 +42,7 @@ function copyFile(_source, _destination) {
 	const source = path.join(REPO_ROOT, _source);
 	const destination = path.join(REPO_ROOT, _destination);
 
-	// ensure target dir
-	(function () {
-		/** @type {string[]} */
-		const dirs = [];
-		/** @type {string} */
-		let dirname = path.dirname(destination);
-		while (dirname.length > REPO_ROOT.length) {
-			dirs.push(dirname);
-			dirname = path.dirname(dirname);
-		}
-		dirs.reverse();
-		dirs.forEach(function (dir) {
-			try {
-				fs.mkdirSync(dir);
-			} catch (err) {}
-		});
-	})();
-
+	ensureDir(path.dirname(destination));
 	fs.writeFileSync(destination, fs.readFileSync(source));
 
 	console.log(`Copied ${_source} to ${_destination}`);
@@ -134,8 +136,6 @@ function dts(_source, _destination, namespace) {
 		` *  Licensed under the MIT License. See License.txt in the project root for license information.`,
 		` *--------------------------------------------------------------------------------------------*/`,
 		``,
-		`/// <reference path="../node_modules/monaco-editor-core/monaco.d.ts" />`,
-		``,
 		`declare namespace ${namespace} {`
 	];
 	for (let line of lines) {
@@ -155,6 +155,7 @@ function dts(_source, _destination, namespace) {
 	result.push(`}`);
 	result.push(``);
 
+	ensureDir(path.dirname(destination));
 	fs.writeFileSync(destination, result.join('\n'));
 
 	prettier(_destination);
@@ -206,6 +207,37 @@ function buildESM(options) {
 	});
 }
 exports.buildESM = buildESM;
+
+/**
+ * @param {{
+ *   base: string;
+ *   entryPoints: string[];
+ *   external: string[];
+ * }} options
+ */
+function buildESM2(options) {
+	build({
+		entryPoints: options.entryPoints,
+		bundle: true,
+		target: 'esnext',
+		format: 'esm',
+		define: {
+			AMD: 'false'
+		},
+		banner: {
+			js: bundledFileHeader
+		},
+		external: options.external,
+		outbase: `src/${options.base}`,
+		outdir: `out/release/${options.base}/esm/`,
+		plugins: [
+			alias({
+				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
+			})
+		]
+	});
+}
+exports.buildESM2 = buildESM2;
 
 /**
  * @param {'dev'|'min'} type
@@ -261,6 +293,61 @@ function buildAMD(options) {
 	buildOneAMD('min', options);
 }
 exports.buildAMD = buildAMD;
+
+/**
+ * @param {'dev'|'min'} type
+ * @param {{
+ *   base: string;
+ *   entryPoint: string;
+ *   amdModuleId: string;
+ *   amdDependencies?: string[];
+ * }} options
+ */
+function buildOneAMD2(type, options) {
+	/** @type {import('esbuild').BuildOptions} */
+	const opts = {
+		entryPoints: [options.entryPoint],
+		bundle: true,
+		target: 'esnext',
+		format: 'iife',
+		define: {
+			AMD: 'true'
+		},
+		globalName: 'moduleExports',
+		banner: {
+			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || []).map(dep => (`"${dep}"`)).join(',')}],()=>{`
+		},
+		footer: {
+			js: 'return moduleExports;\n});'
+		},
+		outbase: `src/${options.base}`,
+		outdir: `out/release/${options.base}/${type}/`,
+		plugins: [
+			alias({
+				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
+				'monaco-editor-core': path.join(__dirname, '../build/fillers/monaco-editor-core-amd.ts')
+			})
+		]
+	};
+	if (type === 'min') {
+		opts.minify = true;
+	}
+	build(opts);
+}
+
+/**
+ * @param {{
+ *   base: string;
+ *   entryPoint: string;
+ *   amdModuleId: string;
+ *   amdDependencies?: string[];
+ * }} options
+ */
+function buildAMD2(options) {
+	buildOneAMD2('dev', options);
+	buildOneAMD2('min', options);
+}
+exports.buildAMD2 = buildAMD2;
 
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');

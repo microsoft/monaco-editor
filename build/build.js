@@ -5,37 +5,36 @@
 
 //@ts-check
 
-const { removeDir, tsc, dts, buildESM, buildAMD } = require('../build/utils');
+const { removeDir, tsc, dts, buildESM2, buildAMD2 } = require('../build/utils');
 
-removeDir(`monaco-css/release`);
-removeDir(`monaco-css/out`);
+removeDir(`out`);
 
-tsc(`monaco-css/src/tsconfig.json`);
+tsc(`src/tsconfig.json`);
 
 dts(
-	`monaco-css/out/amd/monaco.contribution.d.ts`,
-	`monaco-css/monaco.d.ts`,
+	`out/amd/css/monaco.contribution.d.ts`,
+	`out/release/css/monaco.d.ts`,
 	'monaco.languages.css'
 );
 
-buildESM({
-	base: 'monaco-css',
-	entryPoints: ['src/monaco.contribution.ts', 'src/cssMode.ts', 'src/css.worker.ts'],
+buildESM2({
+	base: 'css',
+	entryPoints: ['src/css/monaco.contribution.ts', 'src/css/cssMode.ts', 'src/css/css.worker.ts'],
 	external: ['monaco-editor-core', '*/cssMode']
 });
-buildAMD({
-	base: 'monaco-css',
-	entryPoint: 'src/monaco.contribution.ts',
+buildAMD2({
+	base: 'css',
+	entryPoint: 'src/css/monaco.contribution.ts',
 	amdModuleId: 'vs/language/css/monaco.contribution',
 	amdDependencies: ['vs/editor/editor.api']
 });
-buildAMD({
-	base: 'monaco-css',
-	entryPoint: 'src/cssMode.ts',
+buildAMD2({
+	base: 'css',
+	entryPoint: 'src/css/cssMode.ts',
 	amdModuleId: 'vs/language/css/cssMode'
 });
-buildAMD({
-	base: 'monaco-css',
-	entryPoint: 'src/cssWorker.ts',
+buildAMD2({
+	base: 'css',
+	entryPoint: 'src/css/cssWorker.ts',
 	amdModuleId: 'vs/language/css/cssWorker'
 });

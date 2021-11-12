@@ -1,5 +1,4 @@
-/monaco-css/out/
-/monaco-css/release/
+/out/
 /monaco-editor-samples/browser-esm-parcel/.cache/
 /monaco-editor-samples/browser-esm-parcel/dist/
 /monaco-editor-samples/browser-esm-webpack/dist/*.js

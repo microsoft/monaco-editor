@@ -27,12 +27,12 @@
 				name: 'monaco-css',
 				contrib: 'vs/language/css/monaco.contribution',
 				modulePrefix: 'vs/language/css',
-				rootPath: './monaco-css',
+				rootPath: './out/release/css',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{

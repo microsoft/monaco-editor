@@ -7352,7 +7352,6 @@ declare namespace monaco.languages.typescript {
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 declare namespace monaco.languages.css {
     export interface Options {
         readonly validate?: boolean;

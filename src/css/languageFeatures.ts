@@ -17,7 +17,7 @@ import {
 	CancellationToken,
 	IDisposable,
 	MarkerSeverity
-} from './fillers/monaco-editor-core';
+} from '../fillers/monaco-editor-core';
 import { TextEdit } from 'vscode-css-languageservice';
 import { InsertReplaceEdit } from 'vscode-languageserver-types';
 
