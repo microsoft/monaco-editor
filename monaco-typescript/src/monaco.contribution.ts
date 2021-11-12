@@ -693,8 +693,17 @@ export const getJavaScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeS
 
 // --- Registration to monaco editor ---
 
+declare var AMD: any;
+declare var require: any;
+
 function getMode(): Promise<typeof mode> {
-	return import('./tsMode');
+	if (AMD) {
+		return new Promise((resolve, reject) => {
+			require(['vs/language/typescript/tsMode'], resolve, reject);
+		});
+	} else {
+		return import('./tsMode');
+	}
 }
 
 languages.onLanguage('typescript', () => {

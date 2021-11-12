@@ -347,8 +347,6 @@ function ESM_pluginStream(plugin, destinationPath) {
 						}
 					}
 
-					contents = contents.replace(/\/\/# sourceMappingURL=.*((\r?\n)|$)/g, '');
-
 					data.contents = Buffer.from(contents);
 					this.emit('data', data);
 				}

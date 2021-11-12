@@ -142,6 +142,9 @@ function dts(_source, _destination, namespace) {
 		if (/^import/.test(line)) {
 			continue;
 		}
+		if (line === 'export {};') {
+			continue;
+		}
 		line = line.replace(/    /g, '\t');
 		line = line.replace(/declare /g, '');
 		if (line.length > 0) {
