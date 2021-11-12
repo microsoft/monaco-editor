@@ -5,8 +5,4 @@
 
 // Resolves with the global monaco API
 
-declare var define;
-
-define([], function () {
-	return (<any>self).monaco;
-});
+export = (<any>self).monaco;

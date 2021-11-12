@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
+const esbuild = require('esbuild');
 
 const REPO_ROOT = path.join(__dirname, '..');
 
@@ -153,6 +154,21 @@ function dts(_source, _destination, namespace) {
 	prettier(_destination);
 }
 exports.dts = dts;
+
+/**
+ * @param {import('esbuild').BuildOptions} options
+ */
+function build(options) {
+	esbuild.build(options).then((result) => {
+		if (result.errors.length > 0) {
+			console.error(result.errors);
+		}
+		if (result.warnings.length > 0) {
+			console.error(result.warnings);
+		}
+	});
+}
+exports.build = build;
 
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');

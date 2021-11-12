@@ -228,8 +228,17 @@ export const razorDefaults = razorLanguageService.defaults;
 
 // --- Registration to monaco editor ---
 
+declare var AMD: any;
+declare var require: any;
+
 function getMode(): Promise<typeof mode> {
-	return import('./htmlMode');
+	if (AMD) {
+		return new Promise((resolve, reject) => {
+			require(['vs/language/html/htmlMode'], resolve, reject);
+		});
+	} else {
+		return import('./htmlMode');
+	}
 }
 
 export interface LanguageServiceRegistration extends IDisposable {
