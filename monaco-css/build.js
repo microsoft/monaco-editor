@@ -30,7 +30,7 @@ build({
 	outdir: 'release/esm/',
 	plugins: [
 		alias({
-			'vscode-nls': path.join(__dirname, 'src/fillers/vscode-nls.ts')
+			'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts')
 		})
 	]
 });
@@ -61,8 +61,8 @@ function buildOneAMD(type, entryPoint, banner) {
 		outdir: `release/${type}/`,
 		plugins: [
 			alias({
-				'vscode-nls': path.join(__dirname, 'src/fillers/vscode-nls.ts'),
-				'monaco-editor-core': path.join(__dirname, 'src/fillers/monaco-editor-core-amd.ts')
+				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
+				'monaco-editor-core': path.join(__dirname, '../build/fillers/monaco-editor-core-amd.ts')
 			})
 		]
 	};
