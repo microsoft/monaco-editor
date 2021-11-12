@@ -44,13 +44,14 @@ glob('src/*/*.contribution.ts', { cwd: __dirname }, function (err, files) {
 		buildAMD({
 			base: 'monaco-languages',
 			entryPoint: 'src/monaco.contribution.ts',
-			banner: 'define("vs/basic-languages/monaco.contribution",["vs/editor/editor.api"],()=>{'
+			amdModuleId: 'vs/basic-languages/monaco.contribution',
+			amdDependencies: ['vs/editor/editor.api']
 		});
 		for (const language of languages) {
 			buildAMD({
 				base: 'monaco-languages',
 				entryPoint: `src/${language}/${language}.ts`,
-				banner: `define("vs/basic-languages/${language}/${language}",[],()=>{`
+				amdModuleId: `vs/basic-languages/${language}/${language}`
 			});
 		}
 	}

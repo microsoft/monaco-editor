@@ -31,15 +31,17 @@ buildESM({
 buildAMD({
 	base: 'monaco-typescript',
 	entryPoint: 'src/monaco.contribution.ts',
-	banner: 'define("vs/language/typescript/monaco.contribution",["vs/editor/editor.api"],()=>{'
+	amdModuleId: 'vs/language/typescript/monaco.contribution',
+	amdDependencies: ['vs/editor/editor.api']
 });
 buildAMD({
 	base: 'monaco-typescript',
 	entryPoint: 'src/tsMode.ts',
-	banner: 'define("vs/language/typescript/tsMode",["vs/editor/editor.api"],()=>{'
+	amdModuleId: 'vs/language/typescript/tsMode'
 });
 buildAMD({
 	base: 'monaco-typescript',
 	entryPoint: 'src/tsWorker.ts',
-	banner: 'define("vs/language/typescript/tsWorker",[],()=>{'
+	amdModuleId: 'vs/language/typescript/tsWorker',
+	amdDependencies: []
 });

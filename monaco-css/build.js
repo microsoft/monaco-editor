@@ -26,15 +26,16 @@ buildESM({
 buildAMD({
 	base: 'monaco-css',
 	entryPoint: 'src/monaco.contribution.ts',
-	banner: 'define("vs/language/css/monaco.contribution",["vs/editor/editor.api"],()=>{'
+	amdModuleId: 'vs/language/css/monaco.contribution',
+	amdDependencies: ['vs/editor/editor.api']
 });
 buildAMD({
 	base: 'monaco-css',
 	entryPoint: 'src/cssMode.ts',
-	banner: 'define("vs/language/css/cssMode",["vs/editor/editor.api"],()=>{'
+	amdModuleId: 'vs/language/css/cssMode'
 });
 buildAMD({
 	base: 'monaco-css',
 	entryPoint: 'src/cssWorker.ts',
-	banner: 'define("vs/language/css/cssWorker",[],()=>{'
+	amdModuleId: 'vs/language/css/cssWorker'
 });

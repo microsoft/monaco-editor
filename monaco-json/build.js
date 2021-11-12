@@ -26,15 +26,16 @@ buildESM({
 buildAMD({
 	base: 'monaco-json',
 	entryPoint: 'src/monaco.contribution.ts',
-	banner: 'define("vs/language/json/monaco.contribution",["vs/editor/editor.api"],()=>{'
+	amdModuleId: 'vs/language/json/monaco.contribution',
+	amdDependencies: ['vs/editor/editor.api']
 });
 buildAMD({
 	base: 'monaco-json',
 	entryPoint: 'src/jsonMode.ts',
-	banner: 'define("vs/language/json/jsonMode",["vs/editor/editor.api"],()=>{'
+	amdModuleId: 'vs/language/json/jsonMode'
 });
 buildAMD({
 	base: 'monaco-json',
 	entryPoint: 'src/jsonWorker.ts',
-	banner: 'define("vs/language/json/jsonWorker",[],()=>{'
+	amdModuleId: 'vs/language/json/jsonWorker'
 });

@@ -212,7 +212,8 @@ exports.buildESM = buildESM;
  * @param {{
  *   base: string;
  *   entryPoint: string;
- *   banner: string;
+ *   amdModuleId: string;
+ *   amdDependencies?: string[];
  * }} options
  */
 function buildOneAMD(type, options) {
@@ -227,7 +228,7 @@ function buildOneAMD(type, options) {
 		},
 		globalName: 'moduleExports',
 		banner: {
-			js: `${bundledFileHeader}${options.banner}`
+			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || []).map(dep => (`"${dep}"`)).join(',')}],()=>{`
 		},
 		footer: {
 			js: 'return moduleExports;\n});'
@@ -251,7 +252,8 @@ function buildOneAMD(type, options) {
  * @param {{
  *   base: string;
  *   entryPoint: string;
- *   banner: string;
+ *   amdModuleId: string;
+ *   amdDependencies?: string[];
  * }} options
  */
 function buildAMD(options) {
