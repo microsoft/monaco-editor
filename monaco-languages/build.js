@@ -48,7 +48,7 @@ glob('src/*/*.contribution.ts', { cwd: __dirname }, function (err, files) {
 			buildAMD({
 				entryPoint: `src/${language}/${language}.ts`,
 				banner: `define("vs/basic-languages/${language}/${language}",[],()=>{`
-			})
+			});
 		}
 	}
 });

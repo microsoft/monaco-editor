@@ -20,7 +20,7 @@ dts(
 
 buildESM({
 	entryPoints: ['src/monaco.contribution.ts', 'src/jsonMode.ts', 'src/json.worker.ts'],
-	external: ['monaco-editor-core', '*/jsonMode'],
+	external: ['monaco-editor-core', '*/jsonMode']
 });
 buildAMD({
 	entryPoint: 'src/monaco.contribution.ts',
