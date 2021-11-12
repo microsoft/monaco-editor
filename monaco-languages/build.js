@@ -33,6 +33,7 @@ glob('src/*/*.contribution.ts', { cwd: __dirname }, function (err, files) {
 			external.push(`*/${language}`);
 		}
 		buildESM({
+			base: 'monaco-languages',
 			entryPoints,
 			external
 		});
@@ -41,11 +42,13 @@ glob('src/*/*.contribution.ts', { cwd: __dirname }, function (err, files) {
 	// AMD
 	{
 		buildAMD({
+			base: 'monaco-languages',
 			entryPoint: 'src/monaco.contribution.ts',
 			banner: 'define("vs/basic-languages/monaco.contribution",["vs/editor/editor.api"],()=>{'
 		});
 		for (const language of languages) {
 			buildAMD({
+				base: 'monaco-languages',
 				entryPoint: `src/${language}/${language}.ts`,
 				banner: `define("vs/basic-languages/${language}/${language}",[],()=>{`
 			});

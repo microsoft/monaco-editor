@@ -19,18 +19,22 @@ dts(
 );
 
 buildESM({
+	base: 'monaco-json',
 	entryPoints: ['src/monaco.contribution.ts', 'src/jsonMode.ts', 'src/json.worker.ts'],
 	external: ['monaco-editor-core', '*/jsonMode']
 });
 buildAMD({
+	base: 'monaco-json',
 	entryPoint: 'src/monaco.contribution.ts',
 	banner: 'define("vs/language/json/monaco.contribution",["vs/editor/editor.api"],()=>{'
 });
 buildAMD({
+	base: 'monaco-json',
 	entryPoint: 'src/jsonMode.ts',
 	banner: 'define("vs/language/json/jsonMode",["vs/editor/editor.api"],()=>{'
 });
 buildAMD({
+	base: 'monaco-json',
 	entryPoint: 'src/jsonWorker.ts',
 	banner: 'define("vs/language/json/jsonWorker",[],()=>{'
 });

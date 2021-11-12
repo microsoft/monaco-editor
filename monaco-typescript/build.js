@@ -15,11 +15,6 @@ copyFile(
 	`monaco-typescript/out/amd/lib/typescriptServices.js`
 );
 
-copyFile(
-	`monaco-typescript/src/lib/typescriptServices.js`,
-	`monaco-typescript/out/esm/lib/typescriptServices.js`
-);
-
 tsc(`monaco-typescript/src/tsconfig.json`);
 
 dts(
@@ -29,18 +24,22 @@ dts(
 );
 
 buildESM({
+	base: 'monaco-typescript',
 	entryPoints: ['src/monaco.contribution.ts', 'src/tsMode.ts', 'src/ts.worker.ts'],
 	external: ['monaco-editor-core', '*/tsMode']
 });
 buildAMD({
+	base: 'monaco-typescript',
 	entryPoint: 'src/monaco.contribution.ts',
 	banner: 'define("vs/language/typescript/monaco.contribution",["vs/editor/editor.api"],()=>{'
 });
 buildAMD({
+	base: 'monaco-typescript',
 	entryPoint: 'src/tsMode.ts',
 	banner: 'define("vs/language/typescript/tsMode",["vs/editor/editor.api"],()=>{'
 });
 buildAMD({
+	base: 'monaco-typescript',
 	entryPoint: 'src/tsWorker.ts',
 	banner: 'define("vs/language/typescript/tsWorker",[],()=>{'
 });

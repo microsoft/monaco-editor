@@ -19,18 +19,22 @@ dts(
 );
 
 buildESM({
+	base: 'monaco-html',
 	entryPoints: ['src/monaco.contribution.ts', 'src/htmlMode.ts', 'src/html.worker.ts'],
 	external: ['monaco-editor-core', '*/htmlMode']
 });
 buildAMD({
+	base: 'monaco-html',
 	entryPoint: 'src/monaco.contribution.ts',
 	banner: 'define("vs/language/html/monaco.contribution",["vs/editor/editor.api"],()=>{'
 });
 buildAMD({
+	base: 'monaco-html',
 	entryPoint: 'src/htmlMode.ts',
 	banner: 'define("vs/language/html/htmlMode",["vs/editor/editor.api"],()=>{'
 });
 buildAMD({
+	base: 'monaco-html',
 	entryPoint: 'src/htmlWorker.ts',
 	banner: 'define("vs/language/html/htmlWorker",[],()=>{'
 });

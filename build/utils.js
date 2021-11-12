@@ -178,13 +178,14 @@ exports.build = build;
 
 /**
  * @param {{
+ *   base: string;
  *   entryPoints: string[];
  *   external: string[];
  * }} options
  */
 function buildESM(options) {
 	build({
-		entryPoints: options.entryPoints,
+		entryPoints: options.entryPoints.map(e => (`${options.base}/${e}`)),
 		bundle: true,
 		target: 'esnext',
 		format: 'esm',
@@ -192,8 +193,8 @@ function buildESM(options) {
 			AMD: 'false'
 		},
 		external: options.external,
-		outbase: 'src',
-		outdir: 'release/esm/',
+		outbase: `${options.base}/src`,
+		outdir: `${options.base}/release/esm/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
@@ -206,6 +207,7 @@ exports.buildESM = buildESM;
 /**
  * @param {'dev'|'min'} type
  * @param {{
+ *   base: string;
  *   entryPoint: string;
  *   banner: string;
  * }} options
@@ -213,7 +215,7 @@ exports.buildESM = buildESM;
 function buildOneAMD(type, options) {
 	/** @type {import('esbuild').BuildOptions} */
 	const opts = {
-		entryPoints: [options.entryPoint],
+		entryPoints: [`${options.base}/${options.entryPoint}`],
 		bundle: true,
 		target: 'esnext',
 		format: 'iife',
@@ -227,8 +229,8 @@ function buildOneAMD(type, options) {
 		footer: {
 			js: 'return moduleExports;\n});'
 		},
-		outbase: 'src',
-		outdir: `release/${type}/`,
+		outbase: `${options.base}/src`,
+		outdir: `${options.base}/release/${type}/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
@@ -244,6 +246,7 @@ function buildOneAMD(type, options) {
 
 /**
  * @param {{
+ *   base: string;
  *   entryPoint: string;
  *   banner: string;
  * }} options

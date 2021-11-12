@@ -1,6 +1,5 @@
 {
 	"scripts": {
-		"watch": "../node_modules/.bin/tsc -p ./src --watch",
-		"prepublishOnly": "node ./build"
+		"watch": "../node_modules/.bin/tsc -p ./src --watch"
 	}
 }

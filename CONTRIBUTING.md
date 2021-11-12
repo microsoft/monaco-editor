@@ -55,11 +55,7 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 /src/monaco-editor> npm install .
 
 # compile all plugins
-/src/monaco-editor> npm run prepublishOnly --prefix monaco-css
-/src/monaco-editor> npm run prepublishOnly --prefix monaco-languages
-/src/monaco-editor> npm run prepublishOnly --prefix monaco-typescript
-/src/monaco-editor> npm run prepublishOnly --prefix monaco-json
-/src/monaco-editor> npm run prepublishOnly --prefix monaco-html
+/src/monaco-editor> npm run release
 
 # start a local http server in the background
 /src/monaco-editor> npm run simpleserver

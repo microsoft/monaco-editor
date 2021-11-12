@@ -1,7 +1,6 @@
 {
 	"scripts": {
 		"watch": "../node_modules/.bin/tsc -p ./src --watch",
-		"test": "node ./test/all.js",
-		"prepublishOnly": "node ./build"
+		"test": "node ./test/all.js"
 	}
 }
