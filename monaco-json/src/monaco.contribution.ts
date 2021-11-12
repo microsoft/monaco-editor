@@ -202,8 +202,17 @@ export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 
 // --- Registration to monaco editor ---
 
+declare var AMD: any;
+declare var require: any;
+
 function getMode(): Promise<typeof mode> {
-	return import('./jsonMode');
+	if (AMD) {
+		return new Promise((resolve, reject) => {
+			require(['vs/language/json/jsonMode'], resolve, reject);
+		});
+	} else {
+		return import('./jsonMode');
+	}
 }
 
 languages.register({
