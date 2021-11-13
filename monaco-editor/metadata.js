@@ -15,12 +15,12 @@
 				name: 'monaco-typescript',
 				contrib: 'vs/language/typescript/monaco.contribution',
 				modulePrefix: 'vs/language/typescript',
-				rootPath: './monaco-typescript',
+				rootPath: './out/release/typescript',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{

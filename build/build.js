@@ -5,11 +5,13 @@
 
 //@ts-check
 
-const { removeDir, tsc, dts, buildESM2, buildAMD2 } = require('../build/utils');
+const { copyFile, removeDir, tsc, dts, buildESM2, buildAMD2 } = require('../build/utils');
 
 removeDir(`out`);
 
 tsc(`src/tsconfig.json`);
+
+//#region Type Defintion
 
 dts(`out/amd/css/monaco.contribution.d.ts`, `out/release/css/monaco.d.ts`, 'monaco.languages.css');
 dts(
@@ -22,6 +24,15 @@ dts(
 	`out/release/json/monaco.d.ts`,
 	'monaco.languages.json'
 );
+dts(
+	`out/amd/typescript/monaco.contribution.d.ts`,
+	`out/release/typescript/monaco.d.ts`,
+	'monaco.languages.typescript'
+);
+
+//#endregion
+
+//#region css
 
 buildESM2({
 	base: 'css',
@@ -44,6 +55,10 @@ buildAMD2({
 	entryPoint: 'src/css/cssWorker.ts',
 	amdModuleId: 'vs/language/css/cssWorker'
 });
+
+//#endregion
+
+//#region html
 
 buildESM2({
 	base: 'html',
@@ -71,9 +86,17 @@ buildAMD2({
 	amdModuleId: 'vs/language/html/htmlWorker'
 });
 
+//#endregion
+
+//#region json
+
 buildESM2({
 	base: 'json',
-	entryPoints: ['src/json/monaco.contribution.ts', 'src/json/jsonMode.ts', 'src/json/json.worker.ts'],
+	entryPoints: [
+		'src/json/monaco.contribution.ts',
+		'src/json/jsonMode.ts',
+		'src/json/json.worker.ts'
+	],
 	external: ['monaco-editor-core', '*/jsonMode']
 });
 buildAMD2({
@@ -92,3 +115,40 @@ buildAMD2({
 	entryPoint: 'src/json/jsonWorker.ts',
 	amdModuleId: 'vs/language/json/jsonWorker'
 });
+
+//#endregion
+
+//#region typescript
+
+copyFile(
+	`src/typescript/lib/typescriptServices-amd.js`,
+	`out/amd/typescript/lib/typescriptServices.js`
+);
+
+buildESM2({
+	base: 'typescript',
+	entryPoints: [
+		'src/typescript/monaco.contribution.ts',
+		'src/typescript/tsMode.ts',
+		'src/typescript/ts.worker.ts'
+	],
+	external: ['monaco-editor-core', '*/tsMode']
+});
+buildAMD2({
+	base: 'typescript',
+	entryPoint: 'src/typescript/monaco.contribution.ts',
+	amdModuleId: 'vs/language/typescript/monaco.contribution',
+	amdDependencies: ['vs/editor/editor.api']
+});
+buildAMD2({
+	base: 'typescript',
+	entryPoint: 'src/typescript/tsMode.ts',
+	amdModuleId: 'vs/language/typescript/tsMode'
+});
+buildAMD2({
+	base: 'typescript',
+	entryPoint: 'src/typescript/tsWorker.ts',
+	amdModuleId: 'vs/language/typescript/tsWorker'
+});
+
+//#endregion

@@ -14,7 +14,5 @@
 /monaco-editor-webpack-plugin/test/dist/*.js
 /monaco-languages/out/
 /monaco-languages/release/
-/monaco-typescript/out/
-/monaco-typescript/release/
-/monaco-typescript/src/lib/
 /release/
+/src/typescript/lib/

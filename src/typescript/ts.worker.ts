@@ -6,7 +6,7 @@
 
 import * as edworker from 'monaco-editor-core/esm/vs/editor/editor.worker';
 import { TypeScriptWorker, ICreateData } from './tsWorker';
-import { worker } from './fillers/monaco-editor-core';
+import { worker } from '../fillers/monaco-editor-core';
 
 self.onmessage = () => {
 	// ignore the first message
