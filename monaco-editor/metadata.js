@@ -39,12 +39,12 @@
 				name: 'monaco-json',
 				contrib: 'vs/language/json/monaco.contribution',
 				modulePrefix: 'vs/language/json',
-				rootPath: './monaco-json',
+				rootPath: './out/release/json',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{

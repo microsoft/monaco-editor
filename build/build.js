@@ -17,6 +17,11 @@ dts(
 	`out/release/html/monaco.d.ts`,
 	'monaco.languages.html'
 );
+dts(
+	`out/amd/json/monaco.contribution.d.ts`,
+	`out/release/json/monaco.d.ts`,
+	'monaco.languages.json'
+);
 
 buildESM2({
 	base: 'css',
@@ -64,4 +69,26 @@ buildAMD2({
 	base: 'html',
 	entryPoint: 'src/html/htmlWorker.ts',
 	amdModuleId: 'vs/language/html/htmlWorker'
+});
+
+buildESM2({
+	base: 'json',
+	entryPoints: ['src/json/monaco.contribution.ts', 'src/json/jsonMode.ts', 'src/json/json.worker.ts'],
+	external: ['monaco-editor-core', '*/jsonMode']
+});
+buildAMD2({
+	base: 'json',
+	entryPoint: 'src/json/monaco.contribution.ts',
+	amdModuleId: 'vs/language/json/monaco.contribution',
+	amdDependencies: ['vs/editor/editor.api']
+});
+buildAMD2({
+	base: 'json',
+	entryPoint: 'src/json/jsonMode.ts',
+	amdModuleId: 'vs/language/json/jsonMode'
+});
+buildAMD2({
+	base: 'json',
+	entryPoint: 'src/json/jsonWorker.ts',
+	amdModuleId: 'vs/language/json/jsonWorker'
 });

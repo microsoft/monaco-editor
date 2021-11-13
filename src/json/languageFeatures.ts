@@ -16,7 +16,7 @@ import {
 	languages,
 	MarkerSeverity,
 	IMarkdownString
-} from './fillers/monaco-editor-core';
+} from '../fillers/monaco-editor-core';
 import * as lsTypes from 'vscode-languageserver-types';
 
 export interface WorkerAccessor {

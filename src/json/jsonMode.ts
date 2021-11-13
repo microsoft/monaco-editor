@@ -8,7 +8,7 @@ import type { JSONWorker } from './jsonWorker';
 import { LanguageServiceDefaults } from './monaco.contribution';
 import * as languageFeatures from './languageFeatures';
 import { createTokenizationSupport } from './tokenization';
-import { Uri, IDisposable, languages } from './fillers/monaco-editor-core';
+import { Uri, IDisposable, languages } from '../fillers/monaco-editor-core';
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const disposables: IDisposable[] = [];
