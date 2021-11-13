@@ -8,9 +8,9 @@ import type { worker } from '../fillers/monaco-editor-core';
 import { URI } from 'vscode-uri';
 import { DiagnosticsOptions } from './monaco.contribution';
 
-let defaultSchemaRequestService;
+let defaultSchemaRequestService: ((url: string) => Promise<string>) | undefined;
 if (typeof fetch !== 'undefined') {
-	defaultSchemaRequestService = function (url) {
+	defaultSchemaRequestService = function (url: string) {
 		return fetch(url).then((response) => response.text());
 	};
 }
@@ -32,7 +32,7 @@ export class JSONWorker {
 					return resolvePath(base, relativePath);
 				}
 			},
-			schemaRequestService: createData.enableSchemaRequest && defaultSchemaRequestService
+			schemaRequestService: createData.enableSchemaRequest ? defaultSchemaRequestService : undefined
 		});
 		this._languageService.configure(this._languageSettings);
 	}
@@ -48,26 +48,35 @@ export class JSONWorker {
 	async doComplete(
 		uri: string,
 		position: jsonService.Position
-	): Promise<jsonService.CompletionList> {
+	): Promise<jsonService.CompletionList | null> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doComplete(document, position, jsonDocument);
 	}
 	async doResolve(item: jsonService.CompletionItem): Promise<jsonService.CompletionItem> {
 		return this._languageService.doResolve(item);
 	}
-	async doHover(uri: string, position: jsonService.Position): Promise<jsonService.Hover> {
+	async doHover(uri: string, position: jsonService.Position): Promise<jsonService.Hover | null> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doHover(document, position, jsonDocument);
 	}
 	async format(
 		uri: string,
-		range: jsonService.Range,
+		range: jsonService.Range | null,
 		options: jsonService.FormattingOptions
 	): Promise<jsonService.TextEdit[]> {
 		let document = this._getTextDocument(uri);
-		let textEdits = this._languageService.format(document, range, options);
+		if (!document) {
+			return [];
+		}
+		let textEdits = this._languageService.format(document, range! /* TODO */, options);
 		return Promise.resolve(textEdits);
 	}
 	async resetSchema(uri: string): Promise<boolean> {
@@ -75,12 +84,18 @@ export class JSONWorker {
 	}
 	async findDocumentSymbols(uri: string): Promise<jsonService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
 		return Promise.resolve(symbols);
 	}
 	async findDocumentColors(uri: string): Promise<jsonService.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let colorSymbols = this._languageService.findDocumentColors(document, jsonDocument);
 		return Promise.resolve(colorSymbols);
@@ -91,6 +106,9 @@ export class JSONWorker {
 		range: jsonService.Range
 	): Promise<jsonService.ColorPresentation[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let colorPresentations = this._languageService.getColorPresentations(
 			document,
@@ -105,6 +123,9 @@ export class JSONWorker {
 		context?: { rangeLimit?: number }
 	): Promise<jsonService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let ranges = this._languageService.getFoldingRanges(document, context);
 		return Promise.resolve(ranges);
 	}
@@ -113,11 +134,14 @@ export class JSONWorker {
 		positions: jsonService.Position[]
 	): Promise<jsonService.SelectionRange[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let ranges = this._languageService.getSelectionRanges(document, positions, jsonDocument);
 		return Promise.resolve(ranges);
 	}
-	private _getTextDocument(uri: string): jsonService.TextDocument {
+	private _getTextDocument(uri: string): jsonService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {

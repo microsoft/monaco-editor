@@ -126,8 +126,8 @@ export interface LanguageServiceDefaults {
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
-	private _diagnosticsOptions: DiagnosticsOptions;
-	private _modeConfiguration: ModeConfiguration;
+	private _diagnosticsOptions!: DiagnosticsOptions;
+	private _modeConfiguration!: ModeConfiguration;
 	private _languageId: string;
 
 	constructor(

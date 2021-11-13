@@ -9,8 +9,8 @@ import { languages } from '../fillers/monaco-editor-core';
 export function createTokenizationSupport(supportComments: boolean): languages.TokensProvider {
 	return {
 		getInitialState: () => new JSONState(null, null, false, null),
-		tokenize: (line, state, offsetDelta?, stopAtOffset?) =>
-			tokenize(supportComments, line, <JSONState>state, offsetDelta, stopAtOffset)
+		tokenize: (line, state?) =>
+			tokenize(supportComments, line, <JSONState>state)
 	};
 }
 
@@ -67,15 +67,15 @@ class ParentsStack {
 }
 
 class JSONState implements languages.IState {
-	private _state: languages.IState;
+	private _state: languages.IState | null;
 
-	public scanError: ScanError;
+	public scanError: ScanError | null;
 	public lastWasColon: boolean;
 	public parents: ParentsStack | null;
 
 	constructor(
-		state: languages.IState,
-		scanError: ScanError,
+		state: languages.IState | null,
+		scanError: ScanError | null,
 		lastWasColon: boolean,
 		parents: ParentsStack | null
 	) {
@@ -103,7 +103,7 @@ class JSONState implements languages.IState {
 		);
 	}
 
-	public getStateData(): languages.IState {
+	public getStateData(): languages.IState | null {
 		return this._state;
 	}
 
@@ -146,8 +146,7 @@ function tokenize(
 	comments: boolean,
 	line: string,
 	state: JSONState,
-	offsetDelta: number = 0,
-	stopAtOffset?: number
+	offsetDelta: number = 0
 ): languages.ILineTokens {
 	// handle multiline strings and block comments
 	let numberOfInsertedCharacters = 0;
