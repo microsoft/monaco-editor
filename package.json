@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"scripts": {
 		"simpleserver": "gulp simpleserver",
-		"import-typescript": "node ./monaco-typescript/importTypescript",
+		"import-typescript": "node ./build/importTypescript",
 		"watch-src": "tsc -w -p ./src",
 		"watch-languages": "tsc -w -p ./monaco-languages/src",
 		"watch": "npm-run-all -lp watch-src watch-languages",

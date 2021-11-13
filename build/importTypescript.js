@@ -14,7 +14,7 @@ const generatedNote = `//
 
 const REPO_ROOT = path.join(__dirname, '../');
 const TYPESCRIPT_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/typescript/lib');
-const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'monaco-typescript/src/lib');
+const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/typescript/lib');
 
 (function () {
 	try {
@@ -111,7 +111,7 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 
 	// Remove pattern that creates warnings with esbuild
 	// e.g.
-	// > monaco-typescript/src/lib/typescriptServices.js:20:21: warning: Top-level "this" will be replaced with undefined since this file is an ECMAScript module
+	// > /src/typescript/lib/typescriptServices.js:20:21: warning: Top-level "this" will be replaced with undefined since this file is an ECMAScript module
 	// 20 │ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 	//    ╵                      ~~~~
 	//

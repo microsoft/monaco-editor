@@ -1,5 +1,4 @@
-/// <reference path="../../node_modules/monaco-editor-core/monaco.d.ts" />
-/// <reference path="../../monaco-typescript/monaco.d.ts" />
+/// <reference path="../../release/monaco.d.ts" />
 define(['require', './samples'], function (require, SAMPLES) {
 	var domutils = require('vs/base/browser/dom');
 
