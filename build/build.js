@@ -6,7 +6,7 @@
 //@ts-check
 
 const glob = require('glob');
-const { copyFile, removeDir, tsc, dts, buildESM2, buildAMD2 } = require('../build/utils');
+const { copyFile, removeDir, tsc, dts, buildESM, buildAMD } = require('../build/utils');
 
 removeDir(`out`);
 
@@ -35,23 +35,23 @@ dts(
 
 //#region css
 
-buildESM2({
+buildESM({
 	base: 'css',
 	entryPoints: ['src/css/monaco.contribution.ts', 'src/css/cssMode.ts', 'src/css/css.worker.ts'],
 	external: ['monaco-editor-core', '*/cssMode']
 });
-buildAMD2({
+buildAMD({
 	base: 'css',
 	entryPoint: 'src/css/monaco.contribution.ts',
 	amdModuleId: 'vs/language/css/monaco.contribution',
 	amdDependencies: ['vs/editor/editor.api']
 });
-buildAMD2({
+buildAMD({
 	base: 'css',
 	entryPoint: 'src/css/cssMode.ts',
 	amdModuleId: 'vs/language/css/cssMode'
 });
-buildAMD2({
+buildAMD({
 	base: 'css',
 	entryPoint: 'src/css/cssWorker.ts',
 	amdModuleId: 'vs/language/css/cssWorker'
@@ -61,7 +61,7 @@ buildAMD2({
 
 //#region html
 
-buildESM2({
+buildESM({
 	base: 'html',
 	entryPoints: [
 		'src/html/monaco.contribution.ts',
@@ -70,18 +70,18 @@ buildESM2({
 	],
 	external: ['monaco-editor-core', '*/htmlMode']
 });
-buildAMD2({
+buildAMD({
 	base: 'html',
 	entryPoint: 'src/html/monaco.contribution.ts',
 	amdModuleId: 'vs/language/html/monaco.contribution',
 	amdDependencies: ['vs/editor/editor.api']
 });
-buildAMD2({
+buildAMD({
 	base: 'html',
 	entryPoint: 'src/html/htmlMode.ts',
 	amdModuleId: 'vs/language/html/htmlMode'
 });
-buildAMD2({
+buildAMD({
 	base: 'html',
 	entryPoint: 'src/html/htmlWorker.ts',
 	amdModuleId: 'vs/language/html/htmlWorker'
@@ -91,7 +91,7 @@ buildAMD2({
 
 //#region json
 
-buildESM2({
+buildESM({
 	base: 'json',
 	entryPoints: [
 		'src/json/monaco.contribution.ts',
@@ -100,18 +100,18 @@ buildESM2({
 	],
 	external: ['monaco-editor-core', '*/jsonMode']
 });
-buildAMD2({
+buildAMD({
 	base: 'json',
 	entryPoint: 'src/json/monaco.contribution.ts',
 	amdModuleId: 'vs/language/json/monaco.contribution',
 	amdDependencies: ['vs/editor/editor.api']
 });
-buildAMD2({
+buildAMD({
 	base: 'json',
 	entryPoint: 'src/json/jsonMode.ts',
 	amdModuleId: 'vs/language/json/jsonMode'
 });
-buildAMD2({
+buildAMD({
 	base: 'json',
 	entryPoint: 'src/json/jsonWorker.ts',
 	amdModuleId: 'vs/language/json/jsonWorker'
@@ -126,7 +126,7 @@ copyFile(
 	`out/amd/typescript/lib/typescriptServices.js`
 );
 
-buildESM2({
+buildESM({
 	base: 'typescript',
 	entryPoints: [
 		'src/typescript/monaco.contribution.ts',
@@ -135,18 +135,18 @@ buildESM2({
 	],
 	external: ['monaco-editor-core', '*/tsMode']
 });
-buildAMD2({
+buildAMD({
 	base: 'typescript',
 	entryPoint: 'src/typescript/monaco.contribution.ts',
 	amdModuleId: 'vs/language/typescript/monaco.contribution',
 	amdDependencies: ['vs/editor/editor.api']
 });
-buildAMD2({
+buildAMD({
 	base: 'typescript',
 	entryPoint: 'src/typescript/tsMode.ts',
 	amdModuleId: 'vs/language/typescript/tsMode'
 });
-buildAMD2({
+buildAMD({
 	base: 'typescript',
 	entryPoint: 'src/typescript/tsWorker.ts',
 	amdModuleId: 'vs/language/typescript/tsWorker'
@@ -175,7 +175,7 @@ glob('../src/basic-languages/*/*.contribution.ts', { cwd: __dirname }, function 
 			external.push(`*/${language}.contribution`);
 			external.push(`*/${language}`);
 		}
-		buildESM2({
+		buildESM({
 			base: 'basic-languages',
 			entryPoints,
 			external
@@ -184,14 +184,14 @@ glob('../src/basic-languages/*/*.contribution.ts', { cwd: __dirname }, function 
 
 	// AMD
 	{
-		buildAMD2({
+		buildAMD({
 			base: 'basic-languages',
 			entryPoint: 'src/basic-languages/monaco.contribution.ts',
 			amdModuleId: 'vs/basic-languages/monaco.contribution',
 			amdDependencies: ['vs/editor/editor.api']
 		});
 		for (const language of languages) {
-			buildAMD2({
+			buildAMD({
 				base: 'basic-languages',
 				entryPoint: `src/basic-languages/${language}/${language}.ts`,
 				amdModuleId: `vs/basic-languages/${language}/${language}`

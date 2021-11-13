@@ -186,37 +186,6 @@ exports.build = build;
  */
 function buildESM(options) {
 	build({
-		entryPoints: options.entryPoints.map((e) => `${options.base}/${e}`),
-		bundle: true,
-		target: 'esnext',
-		format: 'esm',
-		define: {
-			AMD: 'false'
-		},
-		banner: {
-			js: bundledFileHeader
-		},
-		external: options.external,
-		outbase: `${options.base}/src`,
-		outdir: `${options.base}/release/esm/`,
-		plugins: [
-			alias({
-				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
-			})
-		]
-	});
-}
-exports.buildESM = buildESM;
-
-/**
- * @param {{
- *   base: string;
- *   entryPoints: string[];
- *   external: string[];
- * }} options
- */
-function buildESM2(options) {
-	build({
 		entryPoints: options.entryPoints,
 		bundle: true,
 		target: 'esnext',
@@ -237,7 +206,7 @@ function buildESM2(options) {
 		]
 	});
 }
-exports.buildESM2 = buildESM2;
+exports.buildESM = buildESM;
 
 /**
  * @param {'dev'|'min'} type
@@ -249,63 +218,6 @@ exports.buildESM2 = buildESM2;
  * }} options
  */
 function buildOneAMD(type, options) {
-	/** @type {import('esbuild').BuildOptions} */
-	const opts = {
-		entryPoints: [`${options.base}/${options.entryPoint}`],
-		bundle: true,
-		target: 'esnext',
-		format: 'iife',
-		define: {
-			AMD: 'true'
-		},
-		globalName: 'moduleExports',
-		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || [])
-				.map((dep) => `"${dep}"`)
-				.join(',')}],()=>{`
-		},
-		footer: {
-			js: 'return moduleExports;\n});'
-		},
-		outbase: `${options.base}/src`,
-		outdir: `${options.base}/release/${type}/`,
-		plugins: [
-			alias({
-				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
-				'monaco-editor-core': path.join(__dirname, '../build/fillers/monaco-editor-core-amd.ts')
-			})
-		]
-	};
-	if (type === 'min') {
-		opts.minify = true;
-	}
-	build(opts);
-}
-
-/**
- * @param {{
- *   base: string;
- *   entryPoint: string;
- *   amdModuleId: string;
- *   amdDependencies?: string[];
- * }} options
- */
-function buildAMD(options) {
-	buildOneAMD('dev', options);
-	buildOneAMD('min', options);
-}
-exports.buildAMD = buildAMD;
-
-/**
- * @param {'dev'|'min'} type
- * @param {{
- *   base: string;
- *   entryPoint: string;
- *   amdModuleId: string;
- *   amdDependencies?: string[];
- * }} options
- */
-function buildOneAMD2(type, options) {
 	/** @type {import('esbuild').BuildOptions} */
 	const opts = {
 		entryPoints: [options.entryPoint],
@@ -347,11 +259,11 @@ function buildOneAMD2(type, options) {
  *   amdDependencies?: string[];
  * }} options
  */
-function buildAMD2(options) {
-	buildOneAMD2('dev', options);
-	buildOneAMD2('min', options);
+function buildAMD(options) {
+	buildOneAMD('dev', options);
+	buildOneAMD('min', options);
 }
-exports.buildAMD2 = buildAMD2;
+exports.buildAMD = buildAMD;
 
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');
