@@ -12,11 +12,6 @@
  * https://help.sap.com/doc/abapdocu_755_index_htm/7.55/en-US/index.htm?file=abenabap_words.htm
  * https://help.sap.com/doc/abapdocu_755_index_htm/7.55/en-US/index.htm?file=abenabap_index.htm
  *
- * Playground:
- * https://microsoft.github.io/monaco-editor/monarch.html
- *
- * Themes:
- * https://github.com/Microsoft/vscode/blob/master/src/vs/editor/standalone/common/themes.ts
  *--------------------------------------------------------------------------------------------*/
 
 import type { languages } from '../../fillers/monaco-editor-core';

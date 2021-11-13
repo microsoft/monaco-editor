@@ -2,7 +2,7 @@
 
 ## A brief explanation on the source code structure
 
-This repository contains source code only for Monaco Editor Languages, the core editor source lives in the [vscode repository](https://github.com/Microsoft/vscode).
+This repository contains source code only for Monaco Editor Languages, the core editor source lives in the [vscode repository](https://github.com/microsoft/vscode).
 
 | repository                                                  | npm module                                                             | explanation                                                             |
 | ----------------------------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------- |

@@ -104,7 +104,7 @@ testTokenization('python', [
 		}
 	],
 
-	// https://github.com/Microsoft/monaco-editor/issues/1170
+	// https://github.com/microsoft/monaco-editor/issues/1170
 	[
 		{
 			line: 'def f():',
