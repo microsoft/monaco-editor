@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../vscode"
+		},
+		{
+			"path": "../vscode-loc"
+		},
+		{
+			"path": "."
+		}
+	]
+}

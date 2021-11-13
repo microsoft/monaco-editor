@@ -6910,7 +6910,6 @@ declare namespace monaco.worker {
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 declare namespace monaco.languages.typescript {
     export enum ModuleKind {
         None = 0,
@@ -6953,15 +6952,7 @@ declare namespace monaco.languages.typescript {
     interface MapLike<T> {
         [index: string]: T;
     }
-    type CompilerOptionsValue =
-        | string
-        | number
-        | boolean
-        | (string | number)[]
-        | string[]
-        | MapLike<string[]>
-        | null
-        | undefined;
+    type CompilerOptionsValue = string | number | boolean | (string | number)[] | string[] | MapLike<string[]> | null | undefined;
     interface CompilerOptions {
         allowJs?: boolean;
         allowSyntheticDefaultImports?: boolean;
@@ -7099,11 +7090,9 @@ declare namespace monaco.languages.typescript {
         category: 0 | 1 | 2 | 3;
         code: number;
         /** TypeScriptWorker removes all but the `fileName` property to avoid serializing circular JSON structures. */
-        file:
-            | {
-                    fileName: string;
-              }
-            | undefined;
+        file: {
+            fileName: string;
+        } | undefined;
         start: number | undefined;
         length: number | undefined;
         messageText: string | DiagnosticMessageChain;
@@ -7149,12 +7138,10 @@ declare namespace monaco.languages.typescript {
          * files that won't be loaded as editor documents, like `jquery.d.ts`.
          * @param libs An array of entries to register.
          */
-        setExtraLibs(
-            libs: {
-                content: string;
-                filePath?: string;
-            }[]
-        ): void;
+        setExtraLibs(libs: {
+            content: string;
+            filePath?: string;
+        }[]): void;
         /**
          * Get current TypeScript compiler options for the language service.
          */
@@ -7226,20 +7213,12 @@ declare namespace monaco.languages.typescript {
          * Get code completion details for the given file, position, and entry.
          * @returns `Promise<typescript.CompletionEntryDetails | undefined>`
          */
-        getCompletionEntryDetails(
-            fileName: string,
-            position: number,
-            entry: string
-        ): Promise<any | undefined>;
+        getCompletionEntryDetails(fileName: string, position: number, entry: string): Promise<any | undefined>;
         /**
          * Get signature help items for the item at the given file and position.
          * @returns `Promise<typescript.SignatureHelpItems | undefined>`
          */
-        getSignatureHelpItems(
-            fileName: string,
-            position: number,
-            options: any
-        ): Promise<any | undefined>;
+        getSignatureHelpItems(fileName: string, position: number, options: any): Promise<any | undefined>;
         /**
          * Get quick info for the item at the given position in the file.
          * @returns `Promise<typescript.QuickInfo | undefined>`
@@ -7249,18 +7228,12 @@ declare namespace monaco.languages.typescript {
          * Get other ranges which are related to the item at the given position in the file (often used for highlighting).
          * @returns `Promise<ReadonlyArray<typescript.ReferenceEntry> | undefined>`
          */
-        getOccurrencesAtPosition(
-            fileName: string,
-            position: number
-        ): Promise<ReadonlyArray<any> | undefined>;
+        getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<any> | undefined>;
         /**
          * Get the definition of the item at the given position in the file.
          * @returns `Promise<ReadonlyArray<typescript.DefinitionInfo> | undefined>`
          */
-        getDefinitionAtPosition(
-            fileName: string,
-            position: number
-        ): Promise<ReadonlyArray<any> | undefined>;
+        getDefinitionAtPosition(fileName: string, position: number): Promise<ReadonlyArray<any> | undefined>;
         /**
          * Get references to the item at the given position in the file.
          * @returns `Promise<typescript.ReferenceEntry[] | undefined>`
@@ -7282,34 +7255,18 @@ declare namespace monaco.languages.typescript {
          * @param options `typescript.FormatCodeOptions`
          * @returns `Promise<typescript.TextChange[]>`
          */
-        getFormattingEditsForRange(
-            fileName: string,
-            start: number,
-            end: number,
-            options: any
-        ): Promise<any[]>;
+        getFormattingEditsForRange(fileName: string, start: number, end: number, options: any): Promise<any[]>;
         /**
          * Get formatting changes which should be applied after the given keystroke.
          * @param options `typescript.FormatCodeOptions`
          * @returns `Promise<typescript.TextChange[]>`
          */
-        getFormattingEditsAfterKeystroke(
-            fileName: string,
-            postion: number,
-            ch: string,
-            options: any
-        ): Promise<any[]>;
+        getFormattingEditsAfterKeystroke(fileName: string, postion: number, ch: string, options: any): Promise<any[]>;
         /**
          * Get other occurrences which should be updated when renaming the item at the given file and position.
          * @returns `Promise<readonly typescript.RenameLocation[] | undefined>`
          */
-        findRenameLocations(
-            fileName: string,
-            positon: number,
-            findInStrings: boolean,
-            findInComments: boolean,
-            providePrefixAndSuffixTextForRename: boolean
-        ): Promise<readonly any[] | undefined>;
+        findRenameLocations(fileName: string, positon: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename: boolean): Promise<readonly any[] | undefined>;
         /**
          * Get edits which should be applied to rename the item at the given file and position (or a failure reason).
          * @param options `typescript.RenameInfoOptions`
@@ -7326,13 +7283,7 @@ declare namespace monaco.languages.typescript {
          * @param formatOptions `typescript.FormatCodeOptions`
          * @returns `Promise<ReadonlyArray<typescript.CodeFixAction>>`
          */
-        getCodeFixesAtPosition(
-            fileName: string,
-            start: number,
-            end: number,
-            errorCodes: number[],
-            formatOptions: any
-        ): Promise<ReadonlyArray<any>>;
+        getCodeFixesAtPosition(fileName: string, start: number, end: number, errorCodes: number[], formatOptions: any): Promise<ReadonlyArray<any>>;
         /**
          * Get inlay hints in the range of the file.
          * @param fileName
@@ -7351,7 +7302,6 @@ declare namespace monaco.languages.typescript {
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 
 declare namespace monaco.languages.css {
     export interface Options {
@@ -7523,7 +7473,6 @@ declare namespace monaco.languages.css {
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 declare namespace monaco.languages.json {
     export interface DiagnosticsOptions {
         /**
@@ -7636,7 +7585,6 @@ declare namespace monaco.languages.json {
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 declare namespace monaco.languages.html {
     export interface HTMLFormatConfiguration {
         readonly tabSize: number;
@@ -7743,11 +7691,7 @@ declare namespace monaco.languages.html {
      * Use this method to register additional language ids with a HTML service.
      * The language server has to be registered before an editor model is opened.
      */
-    export function registerHTMLLanguageService(
-        languageId: string,
-        options?: Options,
-        modeConfiguration?: ModeConfiguration
-    ): LanguageServiceRegistration;
+    export function registerHTMLLanguageService(languageId: string, options?: Options, modeConfiguration?: ModeConfiguration): LanguageServiceRegistration;
     export interface HTMLDataConfiguration {
         /**
          * Defines whether the standard HTML tags and attributes are shown

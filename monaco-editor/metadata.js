@@ -15,60 +15,60 @@
 				name: 'monaco-typescript',
 				contrib: 'vs/language/typescript/monaco.contribution',
 				modulePrefix: 'vs/language/typescript',
-				rootPath: './monaco-typescript',
+				rootPath: './out/release/typescript',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{
 				name: 'monaco-css',
 				contrib: 'vs/language/css/monaco.contribution',
 				modulePrefix: 'vs/language/css',
-				rootPath: './monaco-css',
+				rootPath: './out/release/css',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{
 				name: 'monaco-json',
 				contrib: 'vs/language/json/monaco.contribution',
 				modulePrefix: 'vs/language/json',
-				rootPath: './monaco-json',
+				rootPath: './out/release/json',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{
 				name: 'monaco-html',
 				contrib: 'vs/language/html/monaco.contribution',
 				modulePrefix: 'vs/language/html',
-				rootPath: './monaco-html',
+				rootPath: './out/release/html',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{
 				name: 'monaco-languages',
 				contrib: 'vs/basic-languages/monaco.contribution',
 				modulePrefix: 'vs/basic-languages',
-				rootPath: './monaco-languages',
+				rootPath: './out/release/basic-languages',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			}
 		]

@@ -8,13 +8,9 @@
 			"type": "pwa-node",
 			"request": "launch",
 			"name": "Monaco Languages Unit Tests",
-			"skipFiles": [
-				"<node_internals>/**"
-			],
+			"skipFiles": ["<node_internals>/**"],
 			"program": "${workspaceFolder}\\monaco-languages\\test\\all.js",
-			"outFiles": [
-				"${workspaceFolder}/**/*.js"
-			]
+			"outFiles": ["${workspaceFolder}/**/*.js"]
 		}
 	]
 }

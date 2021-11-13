@@ -14,6 +14,25 @@ const alias = require('esbuild-plugin-alias');
 const REPO_ROOT = path.join(__dirname, '..');
 
 /**
+ * @param {string} dirname
+ */
+function ensureDir(dirname) {
+	/** @type {string[]} */
+	const dirs = [];
+
+	while (dirname.length > REPO_ROOT.length) {
+		dirs.push(dirname);
+		dirname = path.dirname(dirname);
+	}
+	dirs.reverse();
+	dirs.forEach(function (dir) {
+		try {
+			fs.mkdirSync(dir);
+		} catch (err) {}
+	});
+}
+
+/**
  * Copy a file.
  *
  * @param {string} _source
@@ -23,24 +42,7 @@ function copyFile(_source, _destination) {
 	const source = path.join(REPO_ROOT, _source);
 	const destination = path.join(REPO_ROOT, _destination);
 
-	// ensure target dir
-	(function () {
-		/** @type {string[]} */
-		const dirs = [];
-		/** @type {string} */
-		let dirname = path.dirname(destination);
-		while (dirname.length > REPO_ROOT.length) {
-			dirs.push(dirname);
-			dirname = path.dirname(dirname);
-		}
-		dirs.reverse();
-		dirs.forEach(function (dir) {
-			try {
-				fs.mkdirSync(dir);
-			} catch (err) {}
-		});
-	})();
-
+	ensureDir(path.dirname(destination));
 	fs.writeFileSync(destination, fs.readFileSync(source));
 
 	console.log(`Copied ${_source} to ${_destination}`);
@@ -134,8 +136,6 @@ function dts(_source, _destination, namespace) {
 		` *  Licensed under the MIT License. See License.txt in the project root for license information.`,
 		` *--------------------------------------------------------------------------------------------*/`,
 		``,
-		`/// <reference path="../node_modules/monaco-editor-core/monaco.d.ts" />`,
-		``,
 		`declare namespace ${namespace} {`
 	];
 	for (let line of lines) {
@@ -155,6 +155,7 @@ function dts(_source, _destination, namespace) {
 	result.push(`}`);
 	result.push(``);
 
+	ensureDir(path.dirname(destination));
 	fs.writeFileSync(destination, result.join('\n'));
 
 	prettier(_destination);
@@ -185,7 +186,7 @@ exports.build = build;
  */
 function buildESM(options) {
 	build({
-		entryPoints: options.entryPoints.map(e => (`${options.base}/${e}`)),
+		entryPoints: options.entryPoints,
 		bundle: true,
 		target: 'esnext',
 		format: 'esm',
@@ -196,8 +197,8 @@ function buildESM(options) {
 			js: bundledFileHeader
 		},
 		external: options.external,
-		outbase: `${options.base}/src`,
-		outdir: `${options.base}/release/esm/`,
+		outbase: `src/${options.base}`,
+		outdir: `out/release/${options.base}/esm/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
@@ -219,7 +220,7 @@ exports.buildESM = buildESM;
 function buildOneAMD(type, options) {
 	/** @type {import('esbuild').BuildOptions} */
 	const opts = {
-		entryPoints: [`${options.base}/${options.entryPoint}`],
+		entryPoints: [options.entryPoint],
 		bundle: true,
 		target: 'esnext',
 		format: 'iife',
@@ -228,13 +229,15 @@ function buildOneAMD(type, options) {
 		},
 		globalName: 'moduleExports',
 		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || []).map(dep => (`"${dep}"`)).join(',')}],()=>{`
+			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || [])
+				.map((dep) => `"${dep}"`)
+				.join(',')}],()=>{`
 		},
 		footer: {
 			js: 'return moduleExports;\n});'
 		},
-		outbase: `${options.base}/src`,
-		outdir: `${options.base}/release/${type}/`,
+		outbase: `src/${options.base}`,
+		outdir: `out/release/${options.base}/${type}/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
