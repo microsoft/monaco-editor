@@ -4,13 +4,11 @@ const glob = require('glob');
 const path = require('path');
 
 requirejs.config({
-	baseUrl: 'monaco-languages',
+	baseUrl: '',
 	paths: {
-		'vs/css': 'test/css.mock',
-		'vs/nls': 'test/nls.mock',
-		'vs/basic-languages/fillers/monaco-editor-core': 'out/amd/fillers/monaco-editor-core-amd',
-		'vs/basic-languages': 'out/amd',
-		vs: '../node_modules/monaco-editor-core/dev/vs'
+		'vs/fillers/monaco-editor-core': 'out/amd/fillers/monaco-editor-core-amd',
+		'vs/basic-languages': 'out/amd/basic-languages',
+		vs: './node_modules/monaco-editor-core/dev/vs'
 	},
 	nodeRequire: require
 });
@@ -35,15 +33,15 @@ global.window = {
 };
 
 requirejs(
-	['test/setup'],
+	['test/unit/setup'],
 	function () {
-		glob('out/amd/*/*.test.js', { cwd: path.dirname(__dirname) }, function (err, files) {
+		glob('out/amd/basic-languages/*/*.test.js', { cwd: path.join(__dirname, '../../') }, function (err, files) {
 			if (err) {
 				console.log(err);
 				return;
 			}
 			requirejs(
-				files.map((f) => f.replace(/^out\/amd/, 'vs/basic-languages').replace(/\.js$/, '')),
+				files.map((f) => f.replace(/^out\/amd/, 'vs').replace(/\.js$/, '')),
 				function () {
 					// We can launch the tests!
 				},

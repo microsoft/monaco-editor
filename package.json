@@ -10,7 +10,7 @@
 		"import-typescript": "node ./build/importTypescript",
 		"watch": "tsc -w -p ./src",
 		"release-plugins": "node ./build/build",
-		"test": "node ./monaco-languages/test/all.js",
+		"test": "node ./test/unit/all.js",
 		"gulp-release": "gulp release",
 		"release": "npm-run-all -ls release-plugins gulp-release",
 		"website": "gulp build-website && npm run typedoc && gulp prepare-website-branch",
