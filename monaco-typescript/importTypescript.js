@@ -116,7 +116,7 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 	//    ╵                      ~~~~
 	//
 
-	tsServices = tsServices.replace(/\nvar ([^ ]+) = \(this && this\.([^)]+)\) \|\|/gm, '\nvar $1 =')
+	tsServices = tsServices.replace(/\nvar ([^ ]+) = \(this && this\.([^)]+)\) \|\|/gm, '\nvar $1 =');
 
 	const tsServices_esm =
 		generatedNote +

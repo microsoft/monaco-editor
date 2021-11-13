@@ -13,7 +13,7 @@ import {
 	Range,
 	CancellationToken,
 	IMarkdownString
-} from './fillers/monaco-editor-core';
+} from '../fillers/monaco-editor-core';
 
 export interface WorkerAccessor {
 	(...more: Uri[]): Promise<HTMLWorker>;

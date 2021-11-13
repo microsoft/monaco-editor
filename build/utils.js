@@ -186,7 +186,7 @@ exports.build = build;
  */
 function buildESM(options) {
 	build({
-		entryPoints: options.entryPoints.map(e => (`${options.base}/${e}`)),
+		entryPoints: options.entryPoints.map((e) => `${options.base}/${e}`),
 		bundle: true,
 		target: 'esnext',
 		format: 'esm',
@@ -260,7 +260,9 @@ function buildOneAMD(type, options) {
 		},
 		globalName: 'moduleExports',
 		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || []).map(dep => (`"${dep}"`)).join(',')}],()=>{`
+			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || [])
+				.map((dep) => `"${dep}"`)
+				.join(',')}],()=>{`
 		},
 		footer: {
 			js: 'return moduleExports;\n});'
@@ -315,7 +317,9 @@ function buildOneAMD2(type, options) {
 		},
 		globalName: 'moduleExports',
 		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || []).map(dep => (`"${dep}"`)).join(',')}],()=>{`
+			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || [])
+				.map((dep) => `"${dep}"`)
+				.join(',')}],()=>{`
 		},
 		footer: {
 			js: 'return moduleExports;\n});'

@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './htmlMode';
-import { languages, Emitter, IEvent, IDisposable } from './fillers/monaco-editor-core';
+import { languages, Emitter, IEvent, IDisposable } from '../fillers/monaco-editor-core';
 
 export interface HTMLFormatConfiguration {
 	readonly tabSize: number;

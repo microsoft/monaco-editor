@@ -6910,7 +6910,6 @@ declare namespace monaco.worker {
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 declare namespace monaco.languages.typescript {
     export enum ModuleKind {
         None = 0,
@@ -7522,7 +7521,6 @@ declare namespace monaco.languages.css {
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 declare namespace monaco.languages.json {
     export interface DiagnosticsOptions {
         /**
@@ -7635,7 +7633,6 @@ declare namespace monaco.languages.json {
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 declare namespace monaco.languages.html {
     export interface HTMLFormatConfiguration {
         readonly tabSize: number;
@@ -7742,11 +7739,7 @@ declare namespace monaco.languages.html {
      * Use this method to register additional language ids with a HTML service.
      * The language server has to be registered before an editor model is opened.
      */
-    export function registerHTMLLanguageService(
-        languageId: string,
-        options?: Options,
-        modeConfiguration?: ModeConfiguration
-    ): LanguageServiceRegistration;
+    export function registerHTMLLanguageService(languageId: string, options?: Options, modeConfiguration?: ModeConfiguration): LanguageServiceRegistration;
     export interface HTMLDataConfiguration {
         /**
          * Defines whether the standard HTML tags and attributes are shown

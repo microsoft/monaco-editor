@@ -51,12 +51,12 @@
 				name: 'monaco-html',
 				contrib: 'vs/language/html/monaco.contribution',
 				modulePrefix: 'vs/language/html',
-				rootPath: './monaco-html',
+				rootPath: './out/release/html',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			},
 			{
