@@ -11,10 +11,10 @@ This repository contains source code only for Monaco Editor Languages, the core 
 
 ## Contributing a new tokenizer / a new language
 
-- create `$/monaco-languages/src/myLang/myLang.contribution.ts`
-- create `$/monaco-languages/src/myLang/myLang.ts`
-- create `$/monaco-languages/src/myLang/myLang.test.ts`
-- edit `$/monaco-languages/src/monaco.contribution.ts` and register your new language
+- create `$/src/basic-languages/myLang/myLang.contribution.ts`
+- create `$/src/basic-languages/myLang/myLang.ts`
+- create `$/src/basic-languages/myLang/myLang.test.ts`
+- edit `$/src/basic-languages/monaco.contribution.ts` and register your new language
 
 ```js
 import './myLang/myLang.contribution';

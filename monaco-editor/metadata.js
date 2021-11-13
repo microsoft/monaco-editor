@@ -63,12 +63,12 @@
 				name: 'monaco-languages',
 				contrib: 'vs/basic-languages/monaco.contribution',
 				modulePrefix: 'vs/basic-languages',
-				rootPath: './monaco-languages',
+				rootPath: './out/release/basic-languages',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					dev: './release/dev',
-					min: './release/min',
-					esm: './release/esm'
+					dev: './dev',
+					min: './min',
+					esm: './esm'
 				}
 			}
 		]

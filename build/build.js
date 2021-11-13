@@ -5,6 +5,7 @@
 
 //@ts-check
 
+const glob = require('glob');
 const { copyFile, removeDir, tsc, dts, buildESM2, buildAMD2 } = require('../build/utils');
 
 removeDir(`out`);
@@ -149,6 +150,54 @@ buildAMD2({
 	base: 'typescript',
 	entryPoint: 'src/typescript/tsWorker.ts',
 	amdModuleId: 'vs/language/typescript/tsWorker'
+});
+
+//#endregion
+
+//#region basic-languages
+
+glob('../src/basic-languages/*/*.contribution.ts', { cwd: __dirname }, function (err, files) {
+	if (err) {
+		console.error(err);
+		return;
+	}
+
+	const languages = files.map((file) => file.split('/')[3]);
+
+	// ESM
+	{
+		/** @type {string[]} */
+		const entryPoints = ['src/basic-languages/monaco.contribution.ts', 'src/basic-languages/_.contribution.ts'];
+		const external = ['monaco-editor-core', '*/_.contribution'];
+		for (const language of languages) {
+			entryPoints.push(`src/basic-languages/${language}/${language}.contribution.ts`);
+			entryPoints.push(`src/basic-languages/${language}/${language}.ts`);
+			external.push(`*/${language}.contribution`);
+			external.push(`*/${language}`);
+		}
+		buildESM2({
+			base: 'basic-languages',
+			entryPoints,
+			external
+		});
+	}
+
+	// AMD
+	{
+		buildAMD2({
+			base: 'basic-languages',
+			entryPoint: 'src/basic-languages/monaco.contribution.ts',
+			amdModuleId: 'vs/basic-languages/monaco.contribution',
+			amdDependencies: ['vs/editor/editor.api']
+		});
+		for (const language of languages) {
+			buildAMD2({
+				base: 'basic-languages',
+				entryPoint: `src/basic-languages/${language}/${language}.ts`,
+				amdModuleId: `vs/basic-languages/${language}/${language}`
+			});
+		}
+	}
 });
 
 //#endregion

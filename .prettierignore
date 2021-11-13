@@ -12,7 +12,5 @@
 /monaco-editor/typedoc/monaco.d.ts
 /monaco-editor/website/lib/
 /monaco-editor-webpack-plugin/test/dist/*.js
-/monaco-languages/out/
-/monaco-languages/release/
 /release/
 /src/typescript/lib/
