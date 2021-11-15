@@ -15,6 +15,7 @@
 		"build-website": "gulp build-website && npm run typedoc",
 		"typedoc": "cd monaco-editor/typedoc && \"../../node_modules/.bin/typedoc\" --options ./typedoc.json",
 		"prettier": "prettier --write .",
+		"prettier-check": "prettier --check .",
 		"pretty-quick": "pretty-quick --staged",
 		"gulp": "node ./node_modules/gulp/bin/gulp.js",
 		"postinstall": "node build/postinstall.js"

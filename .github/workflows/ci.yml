@@ -29,6 +29,9 @@ jobs:
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm install --prefix monaco-editor-webpack-plugin
 
+      - name: Check prettier
+        run: npm run prettier-check
+
       - name: Build
         run: npm run release
 
