@@ -29,6 +29,15 @@
 			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
 			"args": ["website"],
 			"cwd": "${workspaceFolder}"
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "webpack plugin test",
+			"skipFiles": ["<node_internals>/**"],
+			"program": "${workspaceFolder}/webpack-plugin/node_modules/.bin/webpack",
+			"args": ["--config", "test/webpack.config.js"],
+			"cwd": "${workspaceFolder}/webpack-plugin/"
 		}
 	]
 }
