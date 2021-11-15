@@ -9,6 +9,7 @@
 		"build-website": "gulp build-website && npm run typedoc",
 		"gulp": "node ./node_modules/gulp/bin/gulp.js",
 		"import-typescript": "node ./build/importTypescript.js",
+		"import-editor-webpack-plugin": "node ./build/importEditorWebpackPlugin.js",
 		"playwright-install": "node ./node_modules/playwright/install.js",
 		"playwright-install-deps": "playwright install-deps",
 		"postinstall": "node build/postinstall.js",
