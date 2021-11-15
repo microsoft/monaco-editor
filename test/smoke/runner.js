@@ -37,7 +37,7 @@ yaserver
 async function runTests() {
 	await runTest('chromium');
 	await runTest('firefox');
-	await runTest('webkit');
+	// await runTest('webkit');
 }
 
 function runTest(browser) {
