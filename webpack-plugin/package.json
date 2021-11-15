@@ -6,7 +6,7 @@
 	"typings": "./out/index.d.ts",
 	"scripts": {
 		"smoketest": "node ./node_modules/webpack/bin/webpack.js --config smoketest/webpack.config.js --progress",
-		"test-cross-origin": "node ./node_modules/webpack/bin/webpack.js --config test/webpack-cross-origin.config.js --progress",
+		"smoketest-cross-origin": "node ./node_modules/webpack/bin/webpack.js --config smoketest/webpack-cross-origin.config.js --progress",
 		"watch": "tsc -w -p tsconfig.json",
 		"compile": "tsc -p tsconfig.json",
 		"import-editor": "node ./scripts/import-editor.js",
