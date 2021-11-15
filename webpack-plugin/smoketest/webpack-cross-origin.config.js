@@ -1,7 +1,7 @@
 const MonacoWebpackPlugin = require('../out/index.js');
 const path = require('path');
 
-const ASSET_PATH = 'http://localhost:8088/monaco-editor-webpack-plugin/test/dist/';
+const ASSET_PATH = 'http://localhost:8088/monaco-editor/test/smoke/webpack/out/';
 
 const REPO_ROOT = path.join(__dirname, '../../');
 
