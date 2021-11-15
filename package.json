@@ -17,7 +17,9 @@
 		"build-website": "gulp build-website && npm run typedoc",
 		"typedoc": "cd monaco-editor/typedoc && \"../../node_modules/.bin/typedoc\" --options ./typedoc.json",
 		"prettier": "prettier --write .",
-		"gulp": "node ./node_modules/gulp/bin/gulp.js"
+		"pretty-quick": "pretty-quick --staged",
+		"gulp": "node ./node_modules/gulp/bin/gulp.js",
+		"postinstall": "node build/postinstall.js"
 	},
 	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"module": "./esm/vs/editor/editor.main.js",
@@ -35,10 +37,12 @@
 		"event-stream": "4.0.1",
 		"glob": "^7.2.0",
 		"gulp": "^4.0.2",
+		"husky": "^7.0.4",
 		"jsdom": "^17.0.0",
 		"jsonc-parser": "^3.0.0",
 		"monaco-editor-core": "0.30.1",
 		"prettier": "^2.4.1",
+		"pretty-quick": "^3.1.1",
 		"requirejs": "^2.3.6",
 		"rimraf": "^3.0.2",
 		"tape": "^5.3.1",

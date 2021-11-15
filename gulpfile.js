@@ -94,6 +94,7 @@ gulp.task(
 						var json = JSON.parse(data.contents.toString());
 						json.private = false;
 						data.contents = Buffer.from(JSON.stringify(json, null, '  '));
+						delete json.scripts['postinstall'];
 						this.emit('data', data);
 					})
 				)
