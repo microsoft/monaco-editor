@@ -9,8 +9,7 @@ import { languages } from '../fillers/monaco-editor-core';
 export function createTokenizationSupport(supportComments: boolean): languages.TokensProvider {
 	return {
 		getInitialState: () => new JSONState(null, null, false, null),
-		tokenize: (line, state?) =>
-			tokenize(supportComments, line, <JSONState>state)
+		tokenize: (line, state?) => tokenize(supportComments, line, <JSONState>state)
 	};
 }
 

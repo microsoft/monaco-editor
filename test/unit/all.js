@@ -35,21 +35,25 @@ global.window = {
 requirejs(
 	['test/unit/setup'],
 	function () {
-		glob('out/amd/basic-languages/*/*.test.js', { cwd: path.join(__dirname, '../../') }, function (err, files) {
-			if (err) {
-				console.log(err);
-				return;
-			}
-			requirejs(
-				files.map((f) => f.replace(/^out\/amd/, 'vs').replace(/\.js$/, '')),
-				function () {
-					// We can launch the tests!
-				},
-				function (err) {
+		glob(
+			'out/amd/basic-languages/*/*.test.js',
+			{ cwd: path.join(__dirname, '../../') },
+			function (err, files) {
+				if (err) {
 					console.log(err);
+					return;
 				}
-			);
-		});
+				requirejs(
+					files.map((f) => f.replace(/^out\/amd/, 'vs').replace(/\.js$/, '')),
+					function () {
+						// We can launch the tests!
+					},
+					function (err) {
+						console.log(err);
+					}
+				);
+			}
+		);
 	},
 	function (err) {
 		console.log(err);

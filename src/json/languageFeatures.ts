@@ -383,7 +383,8 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 						item.insertText = entry.textEdit.newText;
 					}
 					if (entry.additionalTextEdits) {
-						item.additionalTextEdits = entry.additionalTextEdits.map<languages.TextEdit>(toTextEdit);
+						item.additionalTextEdits =
+							entry.additionalTextEdits.map<languages.TextEdit>(toTextEdit);
 					}
 					if (entry.insertTextFormat === lsTypes.InsertTextFormat.Snippet) {
 						item.insertTextRules = languages.CompletionItemInsertTextRule.InsertAsSnippet;
@@ -649,7 +650,8 @@ export class DocumentColorAdapter implements languages.DocumentColorProvider {
 						item.textEdit = toTextEdit(presentation.textEdit);
 					}
 					if (presentation.additionalTextEdits) {
-						item.additionalTextEdits = presentation.additionalTextEdits.map<languages.TextEdit>(toTextEdit);
+						item.additionalTextEdits =
+							presentation.additionalTextEdits.map<languages.TextEdit>(toTextEdit);
 					}
 					return item;
 				});
@@ -687,7 +689,9 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	}
 }
 
-function toFoldingRangeKind(kind: lsTypes.FoldingRangeKind): languages.FoldingRangeKind | undefined {
+function toFoldingRangeKind(
+	kind: lsTypes.FoldingRangeKind
+): languages.FoldingRangeKind | undefined {
 	switch (kind) {
 		case lsTypes.FoldingRangeKind.Comment:
 			return languages.FoldingRangeKind.Comment;
@@ -710,7 +714,12 @@ export class SelectionRangeAdapter implements languages.SelectionRangeProvider {
 		const resource = model.uri;
 
 		return this._worker(resource)
-			.then((worker) => worker.getSelectionRanges(resource.toString(), positions.map<lsTypes.Position>(fromPosition)))
+			.then((worker) =>
+				worker.getSelectionRanges(
+					resource.toString(),
+					positions.map<lsTypes.Position>(fromPosition)
+				)
+			)
 			.then((selectionRanges) => {
 				if (!selectionRanges) {
 					return;

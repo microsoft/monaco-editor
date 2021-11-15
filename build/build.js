@@ -167,7 +167,10 @@ glob('../src/basic-languages/*/*.contribution.ts', { cwd: __dirname }, function 
 	// ESM
 	{
 		/** @type {string[]} */
-		const entryPoints = ['src/basic-languages/monaco.contribution.ts', 'src/basic-languages/_.contribution.ts'];
+		const entryPoints = [
+			'src/basic-languages/monaco.contribution.ts',
+			'src/basic-languages/_.contribution.ts'
+		];
 		const external = ['monaco-editor-core', '*/_.contribution'];
 		for (const language of languages) {
 			entryPoints.push(`src/basic-languages/${language}/${language}.contribution.ts`);
