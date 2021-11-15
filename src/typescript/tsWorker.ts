@@ -494,3 +494,6 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 
 	return new TSWorkerClass(ctx, createData);
 }
+
+/** Allows for clients to have access to the same version of TypeScript that the worker uses */
+export const typescript = ts;
