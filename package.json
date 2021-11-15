@@ -10,6 +10,7 @@
 		"gulp": "node ./node_modules/gulp/bin/gulp.js",
 		"import-typescript": "node ./build/importTypescript.js",
 		"playwright-install": "node ./node_modules/playwright/install.js",
+		"playwright-install-deps": "playwright install-deps",
 		"postinstall": "node build/postinstall.js",
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",

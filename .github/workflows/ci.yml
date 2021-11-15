@@ -32,6 +32,9 @@ jobs:
       - name: Install Playwright
         run: npm run playwright-install
 
+      - name: Install OS Dependencies for Playwright
+        run: sudo npm run playwright-install-deps
+
       - name: Check prettier
         run: npm run prettier-check
 

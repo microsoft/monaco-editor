@@ -38,7 +38,7 @@ async function runTests() {
 	for (const type of ['amd', 'webpack']) {
 		await runTest(type, 'chromium');
 		await runTest(type, 'firefox');
-		// await runTest(type, 'webkit');
+		await runTest(type, 'webkit');
 	}
 }
 

@@ -63,7 +63,7 @@ afterEach(async () => {
 	await page.close();
 });
 
-describe('Smoke Test', () => {
+describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 	it('`monacoAPI` is exposed as global', async () => {
 		assert.strictEqual(await page.evaluate(`typeof monacoAPI`), 'object');
 	});
