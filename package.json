@@ -16,7 +16,7 @@
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",
 		"pretty-quick": "pretty-quick --staged",
-		"release": "node ./build/build.js && gulp release",
+		"release": "node ./build/build.js && gulp release && npm run import-editor-webpack-plugin",
 		"simpleserver": "gulp simpleserver",
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
 		"smoketest": "node ./test/smoke/runner.js",
