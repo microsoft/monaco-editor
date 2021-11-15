@@ -11,6 +11,24 @@
 			"skipFiles": ["<node_internals>/**"],
 			"program": "${workspaceFolder}/test/unit/all.js",
 			"outFiles": ["${workspaceFolder}/**/*.js"]
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "gulp release",
+			"skipFiles": ["<node_internals>/**"],
+			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+			"args": ["release"],
+			"cwd": "${workspaceFolder}"
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "gulp website",
+			"skipFiles": ["<node_internals>/**"],
+			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+			"args": ["website"],
+			"cwd": "${workspaceFolder}"
 		}
 	]
 }
