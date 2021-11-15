@@ -6,7 +6,7 @@ const gulp = require('gulp');
  * @typedef { { METADATA: {CORE:{paths:ICorePaths}; PLUGINS:IPlugin[];} } } IMetadata
  * @type { IMetadata }
  */
-const metadata = require('./monaco-editor/metadata');
+const metadata = require('./metadata.js');
 const es = require('event-stream');
 const path = require('path');
 const fs = require('fs');
@@ -902,7 +902,7 @@ const generateTestSamplesTask = function () {
 			'</div>',
 			'<div style="clear:both"></div>',
 			'',
-			'<script src="../metadata.js"></script>',
+			'<script src="../../metadata.js"></script>',
 			'<script src="dev-setup.js"></script>',
 			'<script>',
 			'loadEditor(function() {',
@@ -947,7 +947,7 @@ const generateTestSamplesTask = function () {
 				);
 			})
 			.join('<br/>\n'),
-		'<script src="../metadata.js"></script>',
+		'<script src="../../metadata.js"></script>',
 		'<script src="dev-setup.js"></script>',
 		'</body>',
 		'</html>'
