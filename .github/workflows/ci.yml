@@ -52,3 +52,6 @@ jobs:
 
       - name: Run smoke test
         run: npm run smoketest
+
+      - name: Build website
+        run: npm run build-website
