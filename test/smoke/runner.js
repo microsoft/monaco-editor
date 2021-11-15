@@ -35,14 +35,21 @@ yaserver
 	});
 
 async function runTests() {
-	await runTest('chromium');
-	await runTest('firefox');
-	// await runTest('webkit');
+	for (const type of ['amd', 'webpack']) {
+		await runTest(type, 'chromium');
+		await runTest(type, 'firefox');
+		// await runTest(type, 'webkit');
+	}
 }
 
-function runTest(browser) {
+/**
+ * @param {string} type
+ * @param {'chromium'|'firefox'|'webkit'} browser
+ * @returns
+ */
+function runTest(type, browser) {
 	return new Promise((resolve, reject) => {
-		const env = { BROWSER: browser, ...process.env };
+		const env = { BROWSER: browser, TESTS_TYPE: type, ...process.env };
 		if (DEBUG_TESTS) {
 			env['DEBUG_TESTS'] = 'true';
 		}

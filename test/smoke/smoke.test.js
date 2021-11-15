@@ -11,7 +11,12 @@ const { PORT } = require('./common');
 
 const browserType = process.env.BROWSER || 'chromium';
 const DEBUG_TESTS = Boolean(process.env.DEBUG_TESTS || false);
-const URL = `http://127.0.0.1:${PORT}/test/smoke/amd.html`;
+const TESTS_TYPE = process.env.TESTS_TYPE || 'amd';
+
+const URL =
+	TESTS_TYPE === 'amd'
+		? `http://127.0.0.1:${PORT}/test/smoke/amd.html`
+		: `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`;
 
 /** @type {playwright.Browser} */
 let browser;
@@ -59,8 +64,8 @@ afterEach(async () => {
 });
 
 describe('Smoke Test', () => {
-	it('`monaco` is exposed as global', async () => {
-		assert.strictEqual(await page.evaluate(`typeof monaco`), 'object');
+	it('`monacoAPI` is exposed as global', async () => {
+		assert.strictEqual(await page.evaluate(`typeof monacoAPI`), 'object');
 	});
 
 	/**
@@ -70,7 +75,7 @@ describe('Smoke Test', () => {
 	 */
 	async function createEditor(text, language) {
 		return await page.evaluate(
-			`window.ed = monaco.editor.create(document.getElementById('editor-container'), { value: '${text}', language: '${language}' })`
+			`window.ed = monacoAPI.editor.create(document.getElementById('editor-container'), { value: '${text}', language: '${language}' })`
 		);
 	}
 

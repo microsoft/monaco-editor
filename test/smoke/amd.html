@@ -12,7 +12,9 @@
 					vs: '../../release/dev/vs'
 				}
 			});
-			require(['vs/editor/editor.main'], () => {});
+			require(['vs/editor/editor.main'], () => {
+				window.monacoAPI = monaco;
+			});
 		</script>
 	</body>
 </html>

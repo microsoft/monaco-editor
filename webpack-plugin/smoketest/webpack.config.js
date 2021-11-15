@@ -1,17 +1,19 @@
 const MonacoWebpackPlugin = require('../out/index.js');
 const path = require('path');
 
+const REPO_ROOT = path.join(__dirname, '../../');
+
 module.exports = {
 	mode: 'development',
 	entry: './index.js',
 	context: __dirname,
 	output: {
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve(REPO_ROOT, 'test/smoke/webpack/out'),
 		filename: 'app.js'
 	},
 	resolve: {
 		alias: {
-			'monaco-editor': path.resolve(__dirname, '../../release')
+			'monaco-editor': path.resolve(REPO_ROOT, 'release')
 		}
 	},
 	module: {
@@ -28,7 +30,7 @@ module.exports = {
 	},
 	plugins: [
 		new MonacoWebpackPlugin({
-			monacoEditorPath: path.resolve(__dirname, '../../release')
+			monacoEditorPath: path.resolve(REPO_ROOT, 'release')
 		})
 	]
 };

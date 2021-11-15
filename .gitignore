@@ -1,5 +1,3 @@
 **/node_modules/
 **/out/
 **/release/
-/webpack-plugin/test/dist/*.js
-/webpack-plugin/test/dist/*.ttf

@@ -1,4 +1,6 @@
-/out/
+**/node_modules/
+**/out/
+**/release/
 /monaco-editor-samples/browser-esm-parcel/.cache/
 /monaco-editor-samples/browser-esm-parcel/dist/
 /monaco-editor-samples/browser-esm-vite-react/dist/**/*.js
@@ -12,7 +14,4 @@
 /monaco-editor/typedoc/theme/
 /monaco-editor/typedoc/monaco.d.ts
 /monaco-editor/website/lib/
-/webpack-plugin/test/dist/*.js
-/webpack-plugin/out/
-/release/
 /src/typescript/lib/
