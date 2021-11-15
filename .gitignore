@@ -1,5 +1,5 @@
 **/node_modules/
 **/out/
 **/release/
-/monaco-editor-webpack-plugin/test/dist/*.js
-/monaco-editor-webpack-plugin/test/dist/*.ttf
+/webpack-plugin/test/dist/*.js
+/webpack-plugin/test/dist/*.ttf

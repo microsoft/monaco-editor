@@ -12,7 +12,7 @@
 /monaco-editor/typedoc/theme/
 /monaco-editor/typedoc/monaco.d.ts
 /monaco-editor/website/lib/
-/monaco-editor-webpack-plugin/test/dist/*.js
-/monaco-editor-webpack-plugin/out/
+/webpack-plugin/test/dist/*.js
+/webpack-plugin/out/
 /release/
 /src/typescript/lib/
