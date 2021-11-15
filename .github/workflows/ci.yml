@@ -29,6 +29,10 @@ jobs:
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm install --prefix webpack-plugin
 
+      - name: Download Playwright
+        if: ${{ steps.cacheNodeModules.outputs.cache-hit == 'true' }}
+        run: npm run playwright-install
+
       - name: Check prettier
         run: npm run prettier-check
 
