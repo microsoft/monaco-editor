@@ -6,6 +6,7 @@ import { AddWorkerEntryPointPlugin } from './plugins/AddWorkerEntryPointPlugin';
 import { languagesArr, EditorLanguage } from './languages';
 import { featuresArr, EditorFeature, NegatedEditorFeature } from './features';
 import { IFeatureDefinition } from './types';
+import { ILoaderOptions } from './loaders/include';
 
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
 
@@ -282,17 +283,18 @@ function createLoaderRules(
       };
     })(${JSON.stringify(workerPaths, null, 2)})`
 	};
+	const options: ILoaderOptions = {
+		globals,
+		pre: featurePaths.map((importPath) => resolveMonacoPath(importPath, monacoEditorPath)),
+		post: languagePaths.map((importPath) => resolveMonacoPath(importPath, monacoEditorPath))
+	};
 	return [
 		{
 			test: /esm[/\\]vs[/\\]editor[/\\]editor.(api|main).js/,
 			use: [
 				{
 					loader: INCLUDE_LOADER_PATH,
-					options: {
-						globals,
-						pre: featurePaths.map((importPath) => resolveMonacoPath(importPath, monacoEditorPath)),
-						post: languagePaths.map((importPath) => resolveMonacoPath(importPath, monacoEditorPath))
-					}
+					options
 				}
 			]
 		}

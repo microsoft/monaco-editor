@@ -33,15 +33,15 @@
 		"monaco-editor": "0.30.x"
 	},
 	"devDependencies": {
-		"css-loader": "^5.1.1",
+		"css-loader": "^6.5.1",
 		"file-loader": "^6.2.0",
-		"glob": "^7.1.6",
-		"style-loader": "^2.0.0",
-		"typescript": "^4.2.3",
-		"webpack": "^5.24.3",
-		"webpack-cli": "^4.5.0"
+		"glob": "^7.2.0",
+		"style-loader": "^3.3.1",
+		"typescript": "^4.4.4",
+		"webpack": "^5.64.1",
+		"webpack-cli": "^4.9.1"
 	},
 	"dependencies": {
-		"loader-utils": "^2.0.0"
+		"loader-utils": "^3.2.0"
 	}
 }
