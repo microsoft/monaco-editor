@@ -10,8 +10,7 @@ const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-
-const REPO_ROOT = path.join(__dirname, '../../');
+const { REPO_ROOT } = require('../utils');
 
 const files = glob.sync('**/package.json', {
 	cwd: REPO_ROOT,

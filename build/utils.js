@@ -9,9 +9,11 @@ const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
 const esbuild = require('esbuild');
+/** @type {any} */
 const alias = require('esbuild-plugin-alias');
 
-const REPO_ROOT = path.join(__dirname, '..');
+const REPO_ROOT = path.join(__dirname, '../');
+exports.REPO_ROOT = REPO_ROOT;
 
 /**
  * @param {string} dirname

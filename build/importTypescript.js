@@ -3,16 +3,18 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+//@ts-check
+
 const path = require('path');
 const fs = require('fs');
 const child_process = require('child_process');
+const { REPO_ROOT } = require('./utils');
 
 const generatedNote = `//
 // **NOTE**: Do not edit directly! This file is generated using \`npm run import-typescript\`
 //
 `;
 
-const REPO_ROOT = path.join(__dirname, '../');
 const TYPESCRIPT_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/typescript/lib');
 const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/typescript/lib');
 

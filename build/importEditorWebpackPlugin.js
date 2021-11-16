@@ -3,11 +3,12 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+//@ts-check
+
 const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
-
-const REPO_ROOT = path.join(__dirname, '..');
+const { REPO_ROOT } = require('./utils');
 
 const customFeatureLabels = {
 	'vs/editor/browser/controller/coreCommands': 'coreCommands',
@@ -187,6 +188,10 @@ export type EditorLanguage = ${result.map((el) => `'${el.label}'`).join(' | ')};
 	);
 }
 
+/**
+ * @tyoe {string} a
+ * @tyoe {string} b
+ */
 function strcmp(a, b) {
 	if (a < b) {
 		return -1;
@@ -197,9 +202,6 @@ function strcmp(a, b) {
 	return 0;
 }
 
-/**
- * @returns { string[] }
- */
 function generateFeatures() {
 	const skipImports = [
 		'vs/editor/browser/widget/codeEditorWidget',
@@ -212,6 +214,7 @@ function generateFeatures() {
 		'vs/editor/contrib/gotoSymbol/documentSymbols'
 	];
 
+	/** @type {string[]} */
 	let features = [];
 	const files =
 		fs.readFileSync(path.join(REPO_ROOT, 'release/esm/vs/editor/edcore.main.js')).toString() +
@@ -226,6 +229,7 @@ function generateFeatures() {
 		}
 	});
 
+	/** @type {{label:string;entry:any;}[]} */
 	let result = features.map((feature) => {
 		return {
 			label: customFeatureLabels[feature] || path.basename(path.dirname(feature)),

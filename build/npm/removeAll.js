@@ -8,8 +8,7 @@
 const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
-
-const REPO_ROOT = path.join(__dirname, '../../');
+const { REPO_ROOT } = require('../utils');
 
 const files = glob.sync('**/package-lock.json', {
 	cwd: REPO_ROOT,
