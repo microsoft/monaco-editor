@@ -1,4 +1,4 @@
-//This is a generated file via gulp generate-test-samples
+//This is a generated file via `npm run simpleserver`
 define([], function() { return[
 	{
 		"name": "run-editor-failing-js.txt",
