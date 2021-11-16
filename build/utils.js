@@ -15,6 +15,7 @@ const alias = require('esbuild-plugin-alias');
 const REPO_ROOT = path.join(__dirname, '../');
 exports.REPO_ROOT = REPO_ROOT;
 
+const existingDirCache = new Set();
 /**
  * @param {string} dirname
  */
@@ -27,12 +28,16 @@ function ensureDir(dirname) {
 		dirname = path.dirname(dirname);
 	}
 	dirs.reverse();
-	dirs.forEach(function (dir) {
-		try {
-			fs.mkdirSync(dir);
-		} catch (err) {}
+	dirs.forEach((dir) => {
+		if (!existingDirCache.has(dir)) {
+			try {
+				fs.mkdirSync(dir);
+			} catch (err) {}
+			existingDirCache.add(dir);
+		}
 	});
 }
+exports.ensureDir = ensureDir;
 
 /**
  * Copy a file.

@@ -15,10 +15,10 @@
 		{
 			"type": "pwa-node",
 			"request": "launch",
-			"name": "gulp release",
+			"name": "release",
 			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
-			"args": ["release"],
+			"program": "${workspaceFolder}/build/release.js",
+			"args": [],
 			"cwd": "${workspaceFolder}"
 		},
 		{
