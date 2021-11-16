@@ -48,6 +48,5 @@ editor.addAction({
 	// @param editor The editor instance is passed in as a convenience
 	run: function (ed) {
 		alert("i'm running => " + ed.getPosition());
-		return null;
 	}
 });
