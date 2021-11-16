@@ -1,8 +1,6 @@
 **/node_modules/
 **/out/
 **/release/
-/monaco-editor/test/samples-all.generated.js
-/monaco-editor/test/playground.generated/
 /monaco-editor/typedoc/theme/
 /monaco-editor/typedoc/monaco.d.ts
 /monaco-editor/website/lib/
@@ -15,3 +13,5 @@
 /samples/browser-esm-webpack-typescript/dist/*.js
 /samples/browser-esm-webpack-typescript-react/dist/*.js
 /src/typescript/lib/
+/test/manual/samples-all.generated.js
+/test/manual/playground.generated/

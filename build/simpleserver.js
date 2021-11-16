@@ -20,9 +20,9 @@ createSimpleServer(SERVER_ROOT, 8080);
 createSimpleServer(SERVER_ROOT, 8088);
 
 function generateTestSamplesTask() {
-	const sampleNames = fs.readdirSync(path.join(REPO_ROOT, 'monaco-editor/test/samples'));
+	const sampleNames = fs.readdirSync(path.join(REPO_ROOT, 'test/manual/samples'));
 	const samples = sampleNames.map((sampleName) => {
-		const samplePath = path.join(REPO_ROOT, 'monaco-editor/test/samples', sampleName);
+		const samplePath = path.join(REPO_ROOT, 'test/manual/samples', sampleName);
 		const sampleContent = fs.readFileSync(samplePath).toString();
 		return {
 			name: sampleName,
@@ -33,7 +33,7 @@ function generateTestSamplesTask() {
 		'//This is a generated file via `npm run simpleserver`\ndefine([], function() { return';
 	const suffix = '; });';
 	fs.writeFileSync(
-		path.join(REPO_ROOT, 'monaco-editor/test/samples-all.generated.js'),
+		path.join(REPO_ROOT, 'test/manual/samples-all.generated.js'),
 		prefix + JSON.stringify(samples, null, '\t') + suffix
 	);
 
@@ -96,7 +96,7 @@ function generateTestSamplesTask() {
 			'</html>'
 		];
 		fs.writeFileSync(
-			path.join(REPO_ROOT, 'monaco-editor/test/playground.generated/' + sampleId + '.html'),
+			path.join(REPO_ROOT, 'test/manual/playground.generated/' + sampleId + '.html'),
 			result.join('\n')
 		);
 		locations.push({
@@ -132,7 +132,7 @@ function generateTestSamplesTask() {
 		'</html>'
 	];
 	fs.writeFileSync(
-		path.join(REPO_ROOT, 'monaco-editor/test/playground.generated/index.html'),
+		path.join(REPO_ROOT, 'test/manual/playground.generated/index.html'),
 		index.join('\n')
 	);
 }
