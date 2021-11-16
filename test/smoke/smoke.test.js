@@ -18,7 +18,7 @@ const URL =
 		? `http://127.0.0.1:${PORT}/test/smoke/amd.html`
 		: `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`;
 
-suite(`Smoke Test '${TESTS_TYPE}'`, () => {
+suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 	/** @type {playwright.Browser} */
 	let browser;
 
