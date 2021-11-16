@@ -38,14 +38,14 @@ generateWebsite();
  */
 function replaceWithRelativeResource(dataPath, contents, regex, callback) {
 	return contents.replace(regex, function (_, m0) {
-		const filePath = path.join(REPO_ROOT, 'monaco-editor/website', path.dirname(dataPath), m0);
+		const filePath = path.join(REPO_ROOT, 'website', path.dirname(dataPath), m0);
 		return callback(m0, fs.readFileSync(filePath));
 	});
 }
 
 function generateWebsite() {
-	const files = readFiles('monaco-editor/website/**/*', {
-		base: 'monaco-editor/website',
+	const files = readFiles('website/**/*', {
+		base: 'website',
 		dot: true
 	});
 

@@ -368,7 +368,7 @@ function releaseDTS() {
 
 	writeFiles([monacodts, editorapidts], `release`);
 
-	fs.writeFileSync('monaco-editor/website/playground/monaco.d.ts.txt', contents);
+	fs.writeFileSync('website/playground/monaco.d.ts.txt', contents);
 	fs.writeFileSync('monaco-editor/typedoc/monaco.d.ts', contents);
 }
 

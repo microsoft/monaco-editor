@@ -3,7 +3,6 @@
 **/release/
 /monaco-editor/typedoc/theme/
 /monaco-editor/typedoc/monaco.d.ts
-/monaco-editor/website/lib/
 /samples/browser-esm-parcel/.parcel-cache/
 /samples/browser-esm-parcel/dist/
 /samples/browser-esm-vite-react/dist/**/*.js
@@ -15,3 +14,4 @@
 /src/typescript/lib/
 /test/manual/samples-all.generated.js
 /test/manual/playground.generated/
+/website/lib/

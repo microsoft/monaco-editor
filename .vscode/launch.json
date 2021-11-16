@@ -24,10 +24,10 @@
 		{
 			"type": "pwa-node",
 			"request": "launch",
-			"name": "gulp website",
+			"name": "website",
 			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
-			"args": ["website"],
+			"program": "${workspaceFolder}/build/website.js",
+			"args": [],
 			"cwd": "${workspaceFolder}"
 		},
 		{

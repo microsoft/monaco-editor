@@ -11,7 +11,7 @@ const http = require('http');
 const yaserver = require('yaserver');
 const { REPO_ROOT } = require('./utils');
 
-const WEBSITE_GENERATED_PATH = path.join(REPO_ROOT, 'monaco-editor/website/playground/new-samples');
+const WEBSITE_GENERATED_PATH = path.join(REPO_ROOT, 'website/playground/new-samples');
 
 generateTestSamplesTask();
 
