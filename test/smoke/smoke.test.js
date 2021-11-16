@@ -64,10 +64,6 @@ afterEach(async () => {
 });
 
 describe(`Smoke Test '${TESTS_TYPE}'`, () => {
-	it('`monacoAPI` is exposed as global', async () => {
-		assert.strictEqual(await page.evaluate(`typeof monacoAPI`), 'object');
-	});
-
 	/**
 	 * @param {string} text
 	 * @param {string} language
@@ -104,6 +100,10 @@ describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 	async function focusEditor() {
 		await page.evaluate(`window.ed.focus();`);
 	}
+
+	it('`monacoAPI` is exposed as global', async () => {
+		assert.strictEqual(await page.evaluate(`typeof monacoAPI`), 'object');
+	});
 
 	it('should be able to create plaintext editor', async () => {
 		await createEditor('hello world', 'plaintext');
@@ -162,6 +162,16 @@ describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 
 		// check that a suggestion item for `addEventListener` appears, which indicates that the language service is up and running
 		await page.waitForSelector(`text=addEventListener`);
+
+		// find the TypeScript worker
+		const tsWorker = page.workers().find((worker) => {
+			const url = worker.url();
+			return /ts\.worker\.js$/.test(url) || /workerMain.js#typescript$/.test(url);
+		});
+		assert.ok(!!tsWorker);
+
+		// check that the TypeScript worker exposes `ts` as a global
+		assert.strictEqual(await tsWorker.evaluate(`typeof ts`), 'object');
 	});
 });
 
