@@ -8,7 +8,7 @@
 const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
-const { REPO_ROOT } = require('./utils');
+const { REPO_ROOT, prettier } = require('./utils');
 
 const customFeatureLabels = {
 	'vs/editor/browser/controller/coreCommands': 'coreCommands',
@@ -175,6 +175,8 @@ export type EditorLanguage = ${result.map((el) => `'${el.label}'`).join(' | ')};
 				code.replace(/\r\n/g, '\n')
 			);
 
+			prettier('webpack-plugin/src/languages.ts');
+
 			const readmeLanguages = JSON.stringify(result.map((r) => r.label))
 				.replace(/"/g, "'")
 				.replace(/','/g, "', '");
@@ -274,6 +276,8 @@ export type NegatedEditorFeature = ${result.map((el) => `'!${el.label}'`).join('
 		path.join(REPO_ROOT, 'webpack-plugin/src/features.ts'),
 		code.replace(/\r\n/g, '\n')
 	);
+
+	prettier('webpack-plugin/src/features.ts');
 
 	const readmeFeatures = JSON.stringify(result.map((r) => r.label))
 		.replace(/"/g, "'")
