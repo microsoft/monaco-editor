@@ -1,6 +1,6 @@
 # Monaco Editor Webpack Loader Plugin
 
-A plugin to simplify loading the [Monaco Editor](https://github.com/Microsoft/monaco-editor) with [webpack](https://webpack.js.org/).
+A plugin to simplify loading the [Monaco Editor](https://github.com/microsoft/monaco-editor) with [webpack](https://webpack.js.org/).
 
 ## Installing
 

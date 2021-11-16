@@ -2,7 +2,7 @@
 
 Here is the most basic HTML page that embeds the editor using AMD.
 
-More self-contained samples are available at [monaco-editor-samples](https://github.com/Microsoft/monaco-editor-samples).
+More self-contained samples are available in the [samples folder](../samples/).
 
 ```html
 <!DOCTYPE html>

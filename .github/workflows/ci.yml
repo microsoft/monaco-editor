@@ -44,7 +44,7 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-      - name: Build webpack plugin
+      - name: Compile webpack plugin
         run: npm run compile --prefix webpack-plugin
 
       - name: Package using webpack plugin

@@ -10,13 +10,13 @@
 
 Here is the most basic script that imports the editor using ESM with webpack.
 
-More self-contained samples are available at [monaco-editor-samples](https://github.com/Microsoft/monaco-editor-samples).
+More self-contained samples are available in the [samples folder](../samples/).
 
 ---
 
 ### Option 1: Using the Monaco Editor WebPack Plugin
 
-This is the easiest method, and it allows for options to be passed into the plugin in order to select only a subset of editor features or editor languages. Read more about the [Monaco Editor WebPack Plugin](https://github.com/Microsoft/monaco-editor-webpack-plugin), which is a community authored plugin.
+This is the easiest method, and it allows for options to be passed into the plugin in order to select only a subset of editor features or editor languages. Read more about the [Monaco Editor WebPack Plugin](../webpack-plugin/), which is a community authored plugin.
 
 - `index.js`
 
@@ -61,7 +61,7 @@ module.exports = {
 
 ### Option 2: Using plain webpack
 
-Full working samples are available at https://github.com/Microsoft/monaco-editor-samples/tree/master/browser-esm-webpack or https://github.com/Microsoft/monaco-editor-samples/tree/master/browser-esm-webpack-small
+Full working samples are available at https://github.com/microsoft/monaco-editor/tree/main/samples/browser-esm-webpack or https://github.com/microsoft/monaco-editor/tree/main/samples/browser-esm-webpack-small
 
 - `index.js`
 
@@ -134,7 +134,7 @@ module.exports = {
 
 ### Using parcel
 
-A full working sample is available at https://github.com/Microsoft/monaco-editor-samples/tree/master/browser-esm-parcel
+A full working sample is available at https://github.com/microsoft/monaco-editor/tree/main/samples/browser-esm-parcel
 
 When using parcel, we need to use the `getWorkerUrl` function and build the workers seperately from our main source. To simplify things, we can write a tiny bash script to build the workers for us.
 

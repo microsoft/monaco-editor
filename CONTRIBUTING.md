@@ -54,20 +54,32 @@ You need to have all the build setup of VS Code to be able to build the Monaco E
 # install npm deps for monaco-editor
 /src/monaco-editor> npm install .
 
-# compile all plugins
+# compile and bundle all plugins
 /src/monaco-editor> npm run release
 
 # start a local http server in the background
 /src/monaco-editor> npm run simpleserver
 ```
 
-Open [http://localhost:8080/monaco-editor/test/?editor=src](http://localhost:8080/monaco-editor/test/?editor=src) to run.
+Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localhost:8080/monaco-editor/test/manual/?editor=src) to run.
 
 ## Running the editor tests
 
 ```bash
-/src/vscode> npm run monaco-editor-test
-# or run a test page http://localhost:8080/monaco-editor/test/?editor=src
+# create a local release
+/src/monaco-editor> npm run release
+
+# run unit tests
+/src/monaco-editor> npm run test
+
+# compile the webpack plugin
+/src/monaco-editor> npm run compile --prefix webpack-plugin
+
+# package using the webpack plugin
+/src/monaco-editor> npm run smoketest --prefix webpack-plugin
+
+# run the smoketest
+/src/monaco-editor> npm run smoketest-debug
 ```
 
 > Tip: All folders must be cloned as siblings.
@@ -106,7 +118,7 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src](http://localhost:808
 - generate npm package `/src/vscode> yarn gulp editor-distro`
 - publish npm package `/src/vscode/out-monaco-editor-core> npm publish`
 
-#### 2. Update `monaco-editor-core`
+#### 2. Adopt new `monaco-editor-core` version
 
 - edit `/src/monaco-editor/package.json` and update the version of [`monaco-editor-core`](https://www.npmjs.com/package/monaco-editor-core)
 
@@ -117,16 +129,11 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src](http://localhost:808
 
 #### 4. Generate and try out the local release
 
-- `/src/monaco-editor> npm run release`
-- try as many test pages as you think are relevant. e.g.:
-  - open `http://localhost:8080/monaco-editor/test/?editor=releaseDev`
-  - open `http://localhost:8080/monaco-editor/test/?editor=releaseMin`
-  - open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseDev`
-  - open `http://localhost:8080/monaco-editor/test/smoketest.html?editor=releaseMin`
+- run the editor smoketest via CI or [manually](#running-the-editor-tests).
 
 #### 5. Update release note.
 
-- API Change/Breaking Change/New and noteworthy
+- API Changes / Breaking Changes / New and noteworthy
 - Thank you ([use this tool](https://vscode-tools.azurewebsites.net/))
 
 #### 6. Publish
@@ -134,7 +141,7 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src](http://localhost:808
 - `/src/monaco-editor> npm version minor`
 - `/src/monaco-editor> npm run release`
 - `/src/monaco-editor/release> npm publish`
-- `/src/monaco-editor> git push --tags`
+- `/src/monaco-editor> git push origin v0.50.0`
 
 #### 7. Update Website
 
@@ -142,8 +149,8 @@ Open [http://localhost:8080/monaco-editor/test/?editor=src](http://localhost:808
 
 #### 8. Publish new webpack plugin
 
-- https://github.com/microsoft/monaco-editor-webpack-plugin
-- update to latest `monaco-editor`
+- **TBD**
+- https://github.com/microsoft/monaco-editor/tree/main/webpack-plugin
 - `npm install .`
 - `npm run import-editor`
 - if there are no changes generated after the script:
