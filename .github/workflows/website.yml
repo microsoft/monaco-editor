@@ -29,10 +29,9 @@ jobs:
         run: npm install
 
       - name: Build website
-        run: npm run build-website-ci
+        run: npm run build-website
 
       - name: Deploy to GitHub Pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: git push origin gh-pages --force
-        working-directory: ../monaco-editor-website
+        run: ./.github/workflows/publish-website.sh
