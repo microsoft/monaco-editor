@@ -496,4 +496,5 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 }
 
 /** Allows for clients to have access to the same version of TypeScript that the worker uses */
-globalThis.ts = ts;
+// @ts-ignore
+globalThis.ts = ts.typescript;
