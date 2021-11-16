@@ -46,7 +46,7 @@ requirejs(
 				requirejs(
 					files.map((f) => f.replace(/^out\/amd/, 'vs').replace(/\.js$/, '')),
 					function () {
-						// We can launch the tests!
+						run(); // We can launch the tests!
 					},
 					function (err) {
 						console.log(err);
