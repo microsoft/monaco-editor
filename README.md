@@ -32,7 +32,6 @@ It is recommended to develop against the `dev` version, and in production to use
 
 - Learn how to integrate the editor with these [complete samples](./samples/).
   - [Integrate the AMD version](./monaco-editor/docs/integrate-amd.md).
-  - [Integrate the AMD version cross-domain](./monaco-editor/docs/integrate-amd-cross.md)
   - [Integrate the ESM version](./monaco-editor/docs/integrate-esm.md)
 - Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
 - Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/Microsoft/monaco-editor/blob/gh-pages/playground/monaco.d.ts.txt).
@@ -70,7 +69,7 @@ It is an AMD loader that we use in VS Code. Yes.
 
 ❓ **I see the warning "Could not create web worker". What should I do?**
 
-HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes. Please also see the cross-domain case above.
+HTML5 does not allow pages loaded on `file://` to create web workers. Please load the editor with a web server on `http://` or `https://` schemes.
 
 ❓ **Is the editor supported in mobile browsers or mobile web app frameworks?**
 
