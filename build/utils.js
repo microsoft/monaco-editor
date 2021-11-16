@@ -11,6 +11,7 @@ const cp = require('child_process');
 const esbuild = require('esbuild');
 /** @type {any} */
 const alias = require('esbuild-plugin-alias');
+const glob = require('glob');
 
 const REPO_ROOT = path.join(__dirname, '../');
 exports.REPO_ROOT = REPO_ROOT;
@@ -340,3 +341,46 @@ const bundledFileHeader = (() => {
 	return BUNDLED_FILE_HEADER;
 })();
 exports.bundledFileHeader = bundledFileHeader;
+
+/** @typedef {{ path:string; contents:Buffer;}} IFile */
+
+/**
+ * @param {string} pattern
+ * @param {{ base:string; ignore?:string[]; dot?:boolean; }} options
+ * @returns {IFile[]}
+ */
+function readFiles(pattern, options) {
+	let files = glob.sync(pattern, { cwd: REPO_ROOT, ignore: options.ignore, dot: options.dot });
+	// remove dirs
+	files = files.filter((file) => {
+		const fullPath = path.join(REPO_ROOT, file);
+		const stats = fs.statSync(fullPath);
+		return stats.isFile();
+	});
+
+	const base = options.base;
+	const baseLength = base === '' ? 0 : base.endsWith('/') ? base.length : base.length + 1;
+	return files.map((file) => {
+		const fullPath = path.join(REPO_ROOT, file);
+		const contents = fs.readFileSync(fullPath);
+		const relativePath = file.substring(baseLength);
+		return {
+			path: relativePath,
+			contents
+		};
+	});
+}
+exports.readFiles = readFiles;
+
+/**
+ * @param {IFile[]} files
+ * @param {string} dest
+ */
+function writeFiles(files, dest) {
+	for (const file of files) {
+		const fullPath = path.join(REPO_ROOT, dest, file.path);
+		ensureDir(path.dirname(fullPath));
+		fs.writeFileSync(fullPath, file.contents);
+	}
+}
+exports.writeFiles = writeFiles;
