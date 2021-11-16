@@ -5,17 +5,13 @@ Standalone HTML samples showing how to integrate the Monaco Editor.
 ## Running
 
 ```bash
-git clone https://github.com/Microsoft/monaco-editor-samples.git
-cd monaco-editor-samples
+git clone https://github.com/microsoft/monaco-editor.git
+cd samples
 npm install .
 npm run simpleserver
 ```
 
 Go to <a href="http://localhost:8888">localhost:8888</a> and explore the samples!
-
-## Issues
-
-Please file issues concering `monaco-editor-samples` in the [`monaco-editor` repository](https://github.com/Microsoft/monaco-editor/issues).
 
 ## Loading variations
 

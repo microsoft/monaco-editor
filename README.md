@@ -30,7 +30,7 @@ It is recommended to develop against the `dev` version, and in production to use
 
 ## Documentation
 
-- Learn how to integrate the editor with these [complete samples](https://github.com/Microsoft/monaco-editor-samples/).
+- Learn how to integrate the editor with these [complete samples](./samples/).
   - [Integrate the AMD version](./monaco-editor/docs/integrate-amd.md).
   - [Integrate the AMD version cross-domain](./monaco-editor/docs/integrate-amd-cross.md)
   - [Integrate the ESM version](./monaco-editor/docs/integrate-esm.md)
