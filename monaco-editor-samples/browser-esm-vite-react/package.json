@@ -9,10 +9,10 @@
 	"devDependencies": {
 		"monaco-editor": "^0.30.1",
 		"react": "^17.0.2",
-		"react-dom": "^17.0.0",
-		"@types/react": "^17.0.0",
-		"@types/react-dom": "^17.0.0",
-		"@vitejs/plugin-react": "^1.0.0",
+		"react-dom": "^17.0.2",
+		"@types/react": "^17.0.35",
+		"@types/react-dom": "^17.0.11",
+		"@vitejs/plugin-react": "^1.0.9",
 		"typescript": "^4.4.4",
 		"vite": "^2.6.14"
 	}
