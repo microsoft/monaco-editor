@@ -46,6 +46,7 @@ function replaceWithRelativeResource(dataPath, contents, regex, callback) {
 function generateWebsite() {
 	const files = readFiles('website/**/*', {
 		base: 'website',
+		ignore: ['website/typedoc/**/*'],
 		dot: true
 	});
 

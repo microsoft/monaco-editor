@@ -19,7 +19,7 @@
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
 		"smoketest": "node ./test/smoke/runner.js",
 		"test": "node ./test/unit/all.js",
-		"typedoc": "cd monaco-editor/typedoc && \"../../node_modules/.bin/typedoc\" --options ./typedoc.json",
+		"typedoc": "cd website/typedoc && \"../../node_modules/.bin/typedoc\" --options ./typedoc.json",
 		"watch": "tsc -w -p ./src",
 		"website": "node ./build/website.js && npm run typedoc && node ./build/prepare-website-branch.js"
 	},
