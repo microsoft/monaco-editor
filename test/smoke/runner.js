@@ -61,6 +61,7 @@ function runTest(type, browser) {
 			[
 				path.join(REPO_ROOT, 'node_modules/mocha/bin/mocha'),
 				'test/smoke/*.test.js',
+				'--no-delay',
 				'--headless',
 				'--timeout',
 				'20000'

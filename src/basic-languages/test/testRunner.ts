@@ -5,7 +5,7 @@
 
 import '../monaco.contribution';
 import { loadLanguage } from '../_.contribution';
-import * as test from 'tape';
+import * as assert from 'assert';
 import { editor } from '../../fillers/monaco-editor-core';
 
 export interface IRelaxedToken {
@@ -33,18 +33,18 @@ export function testTokenization(_language: string | string[], tests: ITestItem[
 	}
 	let mainLanguage = languages[0];
 
-	test(mainLanguage + ' tokenization', async (t: test.Test) => {
+	test(mainLanguage + ' tokenization', async () => {
 		await Promise.all(languages.map((l) => loadLanguage(l)));
 		await timeout(0);
-		runTests(t, mainLanguage, tests);
+		runTests(mainLanguage, tests);
 	});
 }
 
-function runTests(t: test.Test, languageId: string, tests: ITestItem[][]): void {
-	tests.forEach((test) => runTest(t, languageId, test));
+function runTests(languageId: string, tests: ITestItem[][]): void {
+	tests.forEach((test) => runTest(languageId, test));
 }
 
-function runTest(t: test.Test, languageId: string, test: ITestItem[]): void {
+function runTest(languageId: string, test: ITestItem[]): void {
 	let text = test.map((t) => t.line).join('\n');
 	let actualTokens = editor.tokenize(text, languageId);
 	let actual = actualTokens.map((lineTokens, index) => {
@@ -59,5 +59,5 @@ function runTest(t: test.Test, languageId: string, test: ITestItem[]): void {
 		};
 	});
 
-	t.deepEqual(actual, test);
+	assert.deepStrictEqual(actual, test);
 }
