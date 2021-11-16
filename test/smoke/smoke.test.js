@@ -172,6 +172,9 @@ describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 
 		// check that the TypeScript worker exposes `ts` as a global
 		assert.strictEqual(await tsWorker.evaluate(`typeof ts`), 'object');
+
+		// check that the TypeScript worker exposes the full `ts` as a global
+		assert.strictEqual(await tsWorker.evaluate(`typeof ts.optionDeclarations`), 'object');
 	});
 });
 

@@ -134,6 +134,7 @@ export var IndentStyle = ts.IndentStyle;
 export var ScriptKind = ts.ScriptKind;
 export var ScriptTarget = ts.ScriptTarget;
 export var TokenClass = ts.TokenClass;
+export var typescript = ts;
 // END MONACOCHANGE
 `;
 	fs.writeFileSync(
