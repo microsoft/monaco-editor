@@ -1,0 +1,38 @@
+name: Publish Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-website:
+    name: Publish Website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Cache node modules
+        id: cacheNodeModules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-cacheNodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-cacheNodeModules-
+
+      - name: Install node modules (1)
+        if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
+        run: npm install
+
+      - name: Build website
+        run: npm run build-website-ci
+
+      - name: Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push origin gh-pages --force
+        working-directory: ../monaco-editor-website
