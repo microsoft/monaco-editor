@@ -18,52 +18,51 @@ const URL =
 		? `http://127.0.0.1:${PORT}/test/smoke/amd.html`
 		: `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`;
 
-/** @type {playwright.Browser} */
-let browser;
+suite(`Smoke Test '${TESTS_TYPE}'`, () => {
+	/** @type {playwright.Browser} */
+	let browser;
 
-/** @type {playwright.Page} */
-let page;
+	/** @type {playwright.Page} */
+	let page;
 
-before(async () => {
-	console.log(`Starting browser: ${browserType}`);
-	browser = await playwright[browserType].launch({
-		headless: !DEBUG_TESTS,
-		devtools: DEBUG_TESTS
-		// slowMo: DEBUG_TESTS ? 2000 : 0
+	suiteSetup(async () => {
+		browser = await playwright[browserType].launch({
+			headless: !DEBUG_TESTS,
+			devtools: DEBUG_TESTS && browserType === 'chromium'
+			// slowMo: DEBUG_TESTS ? 2000 : 0
+		});
 	});
-});
 
-after(async () => {
-	await browser.close();
-});
+	suiteTeardown(async () => {
+		await browser.close();
+	});
 
-let pageErrors = [];
+	let pageErrors = [];
 
-beforeEach(async () => {
-	pageErrors = [];
-	page = await browser.newPage({
-		viewport: {
-			width: 800,
-			height: 600
+	setup(async () => {
+		pageErrors = [];
+		page = await browser.newPage({
+			viewport: {
+				width: 800,
+				height: 600
+			}
+		});
+		page.on('pageerror', (e) => {
+			console.log(e);
+			pageErrors.push(e);
+		});
+		const response = await page.goto(URL);
+		assert.ok(!!response);
+		assert.strictEqual(response.status(), 200);
+	});
+
+	teardown(async () => {
+		for (const e of pageErrors) {
+			throw e;
 		}
+		await page.close();
 	});
-	page.on('pageerror', (e) => {
-		console.log(e);
-		pageErrors.push(e);
-	});
-	const response = await page.goto(URL);
-	assert.ok(!!response);
-	assert.strictEqual(response.status(), 200);
-});
 
-afterEach(async () => {
-	for (const e of pageErrors) {
-		throw e;
-	}
-	await page.close();
-});
-
-describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 	/**
 	 * @param {string} text
 	 * @param {string} language
@@ -101,11 +100,11 @@ describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 		await page.evaluate(`window.ed.focus();`);
 	}
 
-	it('`monacoAPI` is exposed as global', async () => {
+	test('`monacoAPI` is exposed as global', async () => {
 		assert.strictEqual(await page.evaluate(`typeof monacoAPI`), 'object');
 	});
 
-	it('should be able to create plaintext editor', async () => {
+	test('should be able to create plaintext editor', async () => {
 		await createEditor('hello world', 'plaintext');
 
 		// type a link in it
@@ -116,14 +115,14 @@ describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 		await page.waitForSelector('.detected-link');
 	});
 
-	it('css smoke test', async () => {
+	test('css smoke test', async () => {
 		await createEditor('.sel1 { background: red; }\\n.sel2 {}', 'css');
 
 		// check that a squiggle appears, which indicates that the language service is up and running
 		await page.waitForSelector('.squiggly-warning');
 	});
 
-	it('html smoke test', async () => {
+	test('html smoke test', async () => {
 		await createEditor('<title>hi</title>', 'html');
 
 		// trigger hover
@@ -137,7 +136,7 @@ describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 		await page.waitForSelector(`text=The title element represents the document's title or name`);
 	});
 
-	it('json smoke test', async () => {
+	test('json smoke test', async () => {
 		await createEditor('{}', 'json');
 
 		// trigger suggestions
@@ -149,7 +148,7 @@ describe(`Smoke Test '${TESTS_TYPE}'`, () => {
 		await page.waitForSelector(`text=$schema`);
 	});
 
-	it('typescript smoke test', async () => {
+	test('typescript smoke test', async () => {
 		await createEditor('window.add', 'typescript');
 
 		// check that a squiggle appears, which indicates that the language service is up and running

@@ -19,7 +19,7 @@
 		"simpleserver": "node ./build/simpleserver",
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
 		"smoketest": "node ./test/smoke/runner.js",
-		"test": "mocha",
+		"test": "mocha test/unit/all.js",
 		"typedoc": "cd website/typedoc && \"../../node_modules/.bin/typedoc\" --options ./typedoc.json",
 		"watch": "tsc -w -p ./src"
 	},
