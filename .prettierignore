@@ -11,6 +11,6 @@
 /samples/browser-esm-webpack-typescript-react/dist/*.js
 /src/typescript/lib/
 /test/manual/samples-all.generated.js
-/test/manual/playground.generated/
+/test/manual/generated/
 /website/lib/
 /website/typedoc/monaco.d.ts

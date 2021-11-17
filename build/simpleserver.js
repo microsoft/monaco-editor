@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const yaserver = require('yaserver');
-const { REPO_ROOT } = require('./utils');
+const { REPO_ROOT, ensureDir } = require('./utils');
 
 const WEBSITE_GENERATED_PATH = path.join(REPO_ROOT, 'website/playground/new-samples');
 
@@ -73,7 +73,7 @@ function generateTestSamplesTask() {
 			'<!-- THIS IS A GENERATED FILE VIA `npm run simpleserver` -->',
 			'<html>',
 			'<head>',
-			'	<base href="..">',
+			'	<base href="../..">',
 			'	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />',
 			'</head>',
 			'<body>',
@@ -84,7 +84,7 @@ function generateTestSamplesTask() {
 			'',
 			'/*----------------------------------------SAMPLE CSS END*/',
 			'</style>',
-			'<a class="loading-opts" href="playground.generated/index.html">[&lt;&lt; BACK]</a> <br/>',
+			'<a class="loading-opts" href="generated/playground/index.html">[&lt;&lt; BACK]</a> <br/>',
 			'THIS IS A GENERATED FILE VIA `npm run simpleserver`',
 			'',
 			'<div id="bar" style="margin-bottom: 6px;"></div>',
@@ -113,10 +113,13 @@ function generateTestSamplesTask() {
 			'</body>',
 			'</html>'
 		];
-		fs.writeFileSync(
-			path.join(REPO_ROOT, 'test/manual/playground.generated/' + sampleId + '.html'),
-			result.join('\n')
+
+		const destination = path.join(
+			REPO_ROOT,
+			'test/manual/generated/playground/' + sampleId + '.html'
 		);
+		ensureDir(path.dirname(destination));
+		fs.writeFileSync(destination, result.join('\n'));
 		locations.push({
 			path: sampleId + '.html',
 			name: sample.chapter + ' &gt; ' + sample.name
@@ -128,7 +131,7 @@ function generateTestSamplesTask() {
 		'<!-- THIS IS A GENERATED FILE VIA `npm run simpleserver` -->',
 		'<html>',
 		'<head>',
-		'	<base href="..">',
+		'	<base href="../..">',
 		'</head>',
 		'<body>',
 		'<a class="loading-opts" href="index.html">[&lt;&lt; BACK]</a><br/>',
@@ -136,7 +139,7 @@ function generateTestSamplesTask() {
 		locations
 			.map(function (location) {
 				return (
-					'<a class="loading-opts" href="playground.generated/' +
+					'<a class="loading-opts" href="generated/playground/' +
 					location.path +
 					'">' +
 					location.name +
@@ -150,7 +153,7 @@ function generateTestSamplesTask() {
 		'</html>'
 	];
 	fs.writeFileSync(
-		path.join(REPO_ROOT, 'test/manual/playground.generated/index.html'),
+		path.join(REPO_ROOT, 'test/manual/generated/playground/index.html'),
 		index.join('\n')
 	);
 }
