@@ -94,7 +94,7 @@ define([], function() { return[
 	},
 	{
 		"name": "sample.csharp.txt",
-		"content": "/*\r\n* C# Program to Display All the Prime Numbers Between 1 to 100\r\n*/\r\n\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing System.Text;\r\n\r\nnamespace VS\r\n{\r\n\tclass Program\r\n\t{\r\n\t\tstatic void Main(string[] args)\r\n    \t\t{\r\n\t\t\tbool isPrime = true;\r\n\t\t\tConsole.WriteLine(\"Prime Numbers : \");\r\n\t\t\tfor (int i = 2; i <= 100; i++)\r\n\t\t\t{\r\n\t\t\t\tfor (int j = 2; j <= 100; j++)\r\n\t\t\t\t{\r\n\t\t\t\t\tif (i != j && i % j == 0)\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\tisPrime = false;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t\r\n\t\t\t\tif (isPrime)\r\n\t\t\t\t{\r\n\t\t\t\t\tConsole.Write(\"\\t\" +i);\r\n\t\t\t\t}\r\n\t\t\t\tisPrime = true;\r\n\t\t\t}\r\n\t\t\tConsole.ReadKey();\r\n\t\t}\r\n\t}\r\n}\r\n"
+		"content": "/*\r\n* C# Program to Display All the Prime Numbers Between 1 to 100\r\n*/\r\n\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing System.Text;\r\n\r\nnamespace VS\r\n{\r\n\tclass Program\r\n\t{\r\n\t\tstatic void Main(string[] args)\r\n\t\t{\r\n\t\t\tbool isPrime = true;\r\n\t\t\tConsole.WriteLine(\"Prime Numbers : \");\r\n\t\t\tfor (int i = 2; i <= 100; i++)\r\n\t\t\t{\r\n\t\t\t\tfor (int j = 2; j <= 100; j++)\r\n\t\t\t\t{\r\n\t\t\t\t\tif (i != j && i % j == 0)\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\tisPrime = false;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t\r\n\t\t\t\tif (isPrime)\r\n\t\t\t\t{\r\n\t\t\t\t\tConsole.Write(\"\\t\" +i);\r\n\t\t\t\t}\r\n\t\t\t\tisPrime = true;\r\n\t\t\t}\r\n\t\t\tConsole.ReadKey();\r\n\t\t}\r\n\t}\r\n}\r\n"
 	},
 	{
 		"name": "sample.csp.txt",

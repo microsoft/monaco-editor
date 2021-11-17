@@ -21,7 +21,7 @@ createSimpleServer(SERVER_ROOT, 8088);
 
 function generateTestSamplesTask() {
 	const sampleNames = fs.readdirSync(path.join(REPO_ROOT, 'test/manual/samples'));
-	const samples = sampleNames.map((sampleName) => {
+	let samples = sampleNames.map((sampleName) => {
 		const samplePath = path.join(REPO_ROOT, 'test/manual/samples', sampleName);
 		const sampleContent = fs.readFileSync(samplePath).toString();
 		return {
@@ -29,6 +29,24 @@ function generateTestSamplesTask() {
 			content: sampleContent
 		};
 	});
+
+	// Add samples from website
+	{
+		let sampleNames = fs.readdirSync(path.join(REPO_ROOT, 'website/index/samples'));
+		sampleNames = sampleNames.filter((name) => /^sample/.test(name));
+
+		samples = samples.concat(
+			sampleNames.map((sampleName) => {
+				const samplePath = path.join(REPO_ROOT, 'website/index/samples', sampleName);
+				const sampleContent = fs.readFileSync(samplePath).toString();
+				return {
+					name: sampleName,
+					content: sampleContent
+				};
+			})
+		);
+	}
+
 	const prefix =
 		'//This is a generated file via `npm run simpleserver`\ndefine([], function() { return';
 	const suffix = '; });';
