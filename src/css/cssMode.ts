@@ -29,7 +29,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerCompletionItemProvider(
 					languageId,
-					new languageFeatures.CompletionAdapter(worker)
+					new languageFeatures.CSSCompletionAdapter(worker)
 				)
 			);
 		}

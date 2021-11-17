@@ -21,7 +21,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 	// all modes
 	languages.registerCompletionItemProvider(
 		languageId,
-		new languageFeatures.CompletionAdapter(worker)
+		new languageFeatures.HTMLCompletionAdapter(worker)
 	);
 	languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker));
 
@@ -77,7 +77,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerCompletionItemProvider(
 					languageId,
-					new languageFeatures.CompletionAdapter(worker)
+					new languageFeatures.HTMLCompletionAdapter(worker)
 				)
 			);
 		}
