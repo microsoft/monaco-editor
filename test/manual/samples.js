@@ -1,6 +1,6 @@
 /// <reference path="../../node_modules/monaco-editor-core/monaco.d.ts" />
 
-define(['./samples-all.generated'], function (ALL_SAMPLES) {
+define(['./generated/all-samples'], function (ALL_SAMPLES) {
 	var XHR_SAMPLES = {};
 	ALL_SAMPLES.forEach(function (sample) {
 		XHR_SAMPLES[sample.name] = sample.content;

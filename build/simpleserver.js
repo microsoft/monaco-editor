@@ -51,7 +51,7 @@ function generateTestSamplesTask() {
 		'//This is a generated file via `npm run simpleserver`\ndefine([], function() { return';
 	const suffix = '; });';
 	fs.writeFileSync(
-		path.join(REPO_ROOT, 'test/manual/samples-all.generated.js'),
+		path.join(REPO_ROOT, 'test/manual/generated/all-samples.js'),
 		prefix + JSON.stringify(samples, null, '\t') + suffix
 	);
 
