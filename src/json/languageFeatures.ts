@@ -5,19 +5,19 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { JSONWorker } from './jsonWorker';
+import * as lsTypes from 'vscode-languageserver-types';
 import {
+	languages,
+	editor,
+	IMarkdownString,
 	Uri,
 	Position,
-	Range,
 	IRange,
+	Range,
 	CancellationToken,
 	IDisposable,
-	editor,
-	languages,
-	MarkerSeverity,
-	IMarkdownString
+	MarkerSeverity
 } from '../fillers/monaco-editor-core';
-import * as lsTypes from 'vscode-languageserver-types';
 
 export interface WorkerAccessor {
 	(...more: Uri[]): Promise<JSONWorker>;
@@ -42,7 +42,7 @@ export class DiagnosticsAdapter {
 
 			let handle: number;
 			this._listener[model.uri.toString()] = model.onDidChangeContent(() => {
-				clearTimeout(handle);
+				window.clearTimeout(handle);
 				handle = window.setTimeout(() => this._doValidate(model.uri, modeId), 500);
 			});
 
@@ -51,6 +51,7 @@ export class DiagnosticsAdapter {
 
 		const onModelRemoved = (model: editor.IModel): void => {
 			editor.setModelMarkers(model, this._languageId, []);
+
 			let uriStr = model.uri.toString();
 			let listener = this._listener[uriStr];
 			if (listener) {
@@ -111,13 +112,14 @@ export class DiagnosticsAdapter {
 	private _doValidate(resource: Uri, languageId: string): void {
 		this._worker(resource)
 			.then((worker) => {
-				return worker.doValidation(resource.toString()).then((diagnostics) => {
-					const markers = diagnostics.map((d) => toDiagnostics(resource, d));
-					let model = editor.getModel(resource);
-					if (model && model.getLanguageId() === languageId) {
-						editor.setModelMarkers(model, languageId, markers);
-					}
-				});
+				return worker.doValidation(resource.toString());
+			})
+			.then((diagnostics) => {
+				const markers = diagnostics.map((d) => toDiagnostics(resource, d));
+				let model = editor.getModel(resource);
+				if (model && model.getLanguageId() === languageId) {
+					editor.setModelMarkers(model, languageId, markers);
+				}
 			})
 			.then(undefined, (err) => {
 				console.error(err);
@@ -197,32 +199,17 @@ function toRange(range: lsTypes.Range | undefined): Range | undefined {
 	);
 }
 
-interface InsertReplaceEdit {
-	/**
-	 * The string to be inserted.
-	 */
-	newText: string;
-	/**
-	 * The range if the insert is requested
-	 */
-	insert: lsTypes.Range;
-	/**
-	 * The range if the replace is requested.
-	 */
-	replace: lsTypes.Range;
-}
-
 function isInsertReplaceEdit(
-	edit: lsTypes.TextEdit | InsertReplaceEdit
-): edit is InsertReplaceEdit {
+	edit: lsTypes.TextEdit | lsTypes.InsertReplaceEdit
+): edit is lsTypes.InsertReplaceEdit {
 	return (
-		typeof (<InsertReplaceEdit>edit).insert !== 'undefined' &&
-		typeof (<InsertReplaceEdit>edit).replace !== 'undefined'
+		typeof (<lsTypes.InsertReplaceEdit>edit).insert !== 'undefined' &&
+		typeof (<lsTypes.InsertReplaceEdit>edit).replace !== 'undefined'
 	);
 }
 
 function toCompletionItemKind(kind: number | undefined): languages.CompletionItemKind {
-	let mItemKind = languages.CompletionItemKind;
+	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
 		case lsTypes.CompletionItemKind.Text:
@@ -266,7 +253,7 @@ function toCompletionItemKind(kind: number | undefined): languages.CompletionIte
 }
 
 function fromCompletionItemKind(kind: languages.CompletionItemKind): lsTypes.CompletionItemKind {
-	let mItemKind = languages.CompletionItemKind;
+	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
 		case mItemKind.Text:
@@ -359,8 +346,8 @@ export class CompletionAdapter implements languages.CompletionItemProvider {
 					wordInfo.endColumn
 				);
 
-				let items: languages.CompletionItem[] = info.items.map((entry) => {
-					let item: languages.CompletionItem = {
+				const items: languages.CompletionItem[] = info.items.map((entry) => {
+					const item: languages.CompletionItem = {
 						label: entry.label,
 						insertText: entry.insertText || entry.label,
 						sortText: entry.sortText,
@@ -676,7 +663,7 @@ export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 					return;
 				}
 				return ranges.map((range) => {
-					let result: languages.FoldingRange = {
+					const result: languages.FoldingRange = {
 						start: range.startLine + 1,
 						end: range.endLine + 1
 					};
