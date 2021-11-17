@@ -70,7 +70,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerColorProvider(
 					languageId,
-					new languageFeatures.DocumentColorAdapter(worker)
+					new languageFeatures.JSONDocumentColorAdapter(worker)
 				)
 			);
 		}

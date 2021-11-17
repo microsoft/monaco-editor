@@ -5,19 +5,10 @@
 
 import type { HTMLWorker } from './htmlWorker';
 import * as lsTypes from 'vscode-languageserver-types';
-import {
-	languages,
-	editor,
-	Uri,
-	Position,
-	Range,
-	CancellationToken
-} from '../fillers/monaco-editor-core';
+import { languages, editor, Uri, Position, CancellationToken } from '../fillers/monaco-editor-core';
 import {
 	fromPosition,
 	toRange,
-	toTextEdit,
-	fromRange,
 	CompletionAdapter,
 	HoverAdapter,
 	DocumentHighlightAdapter,

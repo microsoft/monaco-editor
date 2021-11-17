@@ -6,25 +6,17 @@
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { JSONWorker } from './jsonWorker';
 import * as lsTypes from 'vscode-languageserver-types';
-import {
-	languages,
-	editor,
-	Uri,
-	Position,
-	Range,
-	CancellationToken
-} from '../fillers/monaco-editor-core';
+import { languages, editor, Uri, Position, CancellationToken } from '../fillers/monaco-editor-core';
 import {
 	DiagnosticsAdapter,
 	fromPosition,
 	toRange,
-	toTextEdit,
-	fromRange,
 	CompletionAdapter,
 	HoverAdapter,
 	DocumentSymbolAdapter,
 	DocumentFormattingEditProvider,
-	DocumentRangeFormattingEditProvider
+	DocumentRangeFormattingEditProvider,
+	DocumentColorAdapter
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -68,59 +60,7 @@ export class JSONDocumentFormattingEditProvider extends DocumentFormattingEditPr
 
 export class JSONDocumentRangeFormattingEditProvider extends DocumentRangeFormattingEditProvider<JSONWorker> {}
 
-export class DocumentColorAdapter implements languages.DocumentColorProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideDocumentColors(
-		model: editor.IReadOnlyModel,
-		token: CancellationToken
-	): Promise<languages.IColorInformation[] | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) => worker.findDocumentColors(resource.toString()))
-			.then((infos) => {
-				if (!infos) {
-					return;
-				}
-				return infos.map((item) => ({
-					color: item.color,
-					range: toRange(item.range)
-				}));
-			});
-	}
-
-	public provideColorPresentations(
-		model: editor.IReadOnlyModel,
-		info: languages.IColorInformation,
-		token: CancellationToken
-	): Promise<languages.IColorPresentation[] | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) =>
-				worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range))
-			)
-			.then((presentations) => {
-				if (!presentations) {
-					return;
-				}
-				return presentations.map((presentation) => {
-					let item: languages.IColorPresentation = {
-						label: presentation.label
-					};
-					if (presentation.textEdit) {
-						item.textEdit = toTextEdit(presentation.textEdit);
-					}
-					if (presentation.additionalTextEdits) {
-						item.additionalTextEdits =
-							presentation.additionalTextEdits.map<languages.TextEdit>(toTextEdit);
-					}
-					return item;
-				});
-			});
-	}
-}
+export class JSONDocumentColorAdapter extends DocumentColorAdapter<JSONWorker> {}
 
 export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	constructor(private _worker: WorkerAccessor) {}
