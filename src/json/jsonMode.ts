@@ -59,7 +59,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					languageId,
-					new languageFeatures.DocumentSymbolAdapter(worker)
+					new languageFeatures.JSONDocumentSymbolAdapter(worker)
 				)
 			);
 		}

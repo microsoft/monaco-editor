@@ -36,7 +36,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 	);
 	languages.registerDocumentSymbolProvider(
 		languageId,
-		new languageFeatures.DocumentSymbolAdapter(worker)
+		new languageFeatures.HTMLDocumentSymbolAdapter(worker)
 	);
 	languages.registerSelectionRangeProvider(
 		languageId,
@@ -103,7 +103,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					languageId,
-					new languageFeatures.DocumentSymbolAdapter(worker)
+					new languageFeatures.HTMLDocumentSymbolAdapter(worker)
 				)
 			);
 		}
