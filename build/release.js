@@ -13,10 +13,9 @@
  */
 /** @typedef {import('../build/utils').IFile} IFile */
 
-const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
-const { REPO_ROOT, removeDir, ensureDir, readFiles, writeFiles } = require('../build/utils');
+const { REPO_ROOT, removeDir, readFiles, writeFiles } = require('../build/utils');
 const ts = require('typescript');
 /**@type { IMetadata } */
 const metadata = require('../metadata.js');

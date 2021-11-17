@@ -7,6 +7,7 @@
 
 /** @typedef {import('../build/utils').IFile} IFile */
 
+const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
@@ -26,8 +27,50 @@ const MONACO_EDITOR_VERSION = (() => {
 })();
 
 removeDir(`../monaco-editor-website`);
-
+checkSamples();
 generateWebsite();
+
+/**
+ * Check that there are samples for all available languages
+ */
+function checkSamples() {
+	let languages = glob
+		.sync('src/basic-languages/*/*.contribution.ts', { cwd: REPO_ROOT })
+		.map((f) => path.dirname(f))
+		.map((f) => f.substring('src/basic-languages/'.length));
+	languages.push('css');
+	languages.push('html');
+	languages.push('json');
+	languages.push('typescript');
+
+	// some languages have a different id than their folder
+	languages = languages.map((l) => {
+		switch (l) {
+			case 'coffee':
+				return 'coffeescript';
+			case 'protobuf':
+				return 'proto';
+			case 'solidity':
+				return 'sol';
+			case 'sophia':
+				return 'aes';
+			default:
+				return l;
+		}
+	});
+
+	let fail = false;
+	for (const language of languages) {
+		const expectedSamplePath = path.join(REPO_ROOT, `website/index/samples/sample.${language}.txt`);
+		if (!fs.existsSync(expectedSamplePath)) {
+			console.error(`Missing sample for ${language} at ${expectedSamplePath}`);
+			fail = true;
+		}
+	}
+	if (fail) {
+		process.exit(1);
+	}
+}
 
 /**
  * @param {string} dataPath
