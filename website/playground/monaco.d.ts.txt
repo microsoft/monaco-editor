@@ -7594,7 +7594,7 @@ declare namespace monaco.languages.html {
         readonly contentUnformatted: string;
         readonly indentInnerHtml: boolean;
         readonly preserveNewLines: boolean;
-        readonly maxPreserveNewLines: number;
+        readonly maxPreserveNewLines: number | undefined;
         readonly indentHandlebars: boolean;
         readonly endWithNewline: boolean;
         readonly extraLiners: string;

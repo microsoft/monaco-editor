@@ -113,8 +113,8 @@ export type DiagnosticsOptions = Options;
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
-	private _options: Options;
-	private _modeConfiguration: ModeConfiguration;
+	private _options!: Options;
+	private _modeConfiguration!: ModeConfiguration;
 	private _languageId: string;
 
 	constructor(languageId: string, options: Options, modeConfiguration: ModeConfiguration) {

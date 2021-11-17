@@ -15,12 +15,13 @@ export class WorkerManager {
 	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
 
-	private _worker: editor.MonacoWebWorker<CSSWorker>;
-	private _client: Promise<CSSWorker>;
+	private _worker: editor.MonacoWebWorker<CSSWorker> | null;
+	private _client: Promise<CSSWorker> | null;
 
 	constructor(defaults: LanguageServiceDefaults) {
 		this._defaults = defaults;
 		this._worker = null;
+		this._client = null;
 		this._idleCheckInterval = window.setInterval(() => this._checkIfIdle(), 30 * 1000);
 		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
@@ -80,7 +81,9 @@ export class WorkerManager {
 				_client = client;
 			})
 			.then((_) => {
-				return this._worker.withSyncedResources(resources);
+				if (this._worker) {
+					return this._worker.withSyncedResources(resources);
+				}
 			})
 			.then((_) => _client);
 	}

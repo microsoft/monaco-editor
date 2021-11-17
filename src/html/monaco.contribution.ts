@@ -14,7 +14,7 @@ export interface HTMLFormatConfiguration {
 	readonly contentUnformatted: string;
 	readonly indentInnerHtml: boolean;
 	readonly preserveNewLines: boolean;
-	readonly maxPreserveNewLines: number;
+	readonly maxPreserveNewLines: number | undefined;
 	readonly indentHandlebars: boolean;
 	readonly endWithNewline: boolean;
 	readonly extraLiners: string;
@@ -114,8 +114,8 @@ export interface LanguageServiceDefaults {
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
-	private _options: Options;
-	private _modeConfiguration: ModeConfiguration;
+	private _options!: Options;
+	private _modeConfiguration!: ModeConfiguration;
 	private _languageId: string;
 
 	constructor(languageId: string, options: Options, modeConfiguration: ModeConfiguration) {
@@ -160,7 +160,7 @@ const formatDefaults: Required<HTMLFormatConfiguration> = {
 	contentUnformatted: 'pre',
 	indentInnerHtml: false,
 	preserveNewLines: true,
-	maxPreserveNewLines: null,
+	maxPreserveNewLines: undefined,
 	indentHandlebars: false,
 	endWithNewline: false,
 	extraLiners: 'head, body, /html',

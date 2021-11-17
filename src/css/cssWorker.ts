@@ -61,26 +61,44 @@ export class CSSWorker {
 		}
 		return Promise.resolve([]);
 	}
-	async doComplete(uri: string, position: cssService.Position): Promise<cssService.CompletionList> {
+	async doComplete(
+		uri: string,
+		position: cssService.Position
+	): Promise<cssService.CompletionList | null> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let completions = this._languageService.doComplete(document, position, stylesheet);
 		return Promise.resolve(completions);
 	}
-	async doHover(uri: string, position: cssService.Position): Promise<cssService.Hover> {
+	async doHover(uri: string, position: cssService.Position): Promise<cssService.Hover | null> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let hover = this._languageService.doHover(document, position, stylesheet);
 		return Promise.resolve(hover);
 	}
-	async findDefinition(uri: string, position: cssService.Position): Promise<cssService.Location> {
+	async findDefinition(
+		uri: string,
+		position: cssService.Position
+	): Promise<cssService.Location | null> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let definition = this._languageService.findDefinition(document, position, stylesheet);
 		return Promise.resolve(definition);
 	}
 	async findReferences(uri: string, position: cssService.Position): Promise<cssService.Location[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let references = this._languageService.findReferences(document, position, stylesheet);
 		return Promise.resolve(references);
@@ -90,12 +108,18 @@ export class CSSWorker {
 		position: cssService.Position
 	): Promise<cssService.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let highlights = this._languageService.findDocumentHighlights(document, position, stylesheet);
 		return Promise.resolve(highlights);
 	}
 	async findDocumentSymbols(uri: string): Promise<cssService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let symbols = this._languageService.findDocumentSymbols(document, stylesheet);
 		return Promise.resolve(symbols);
@@ -106,12 +130,18 @@ export class CSSWorker {
 		context: cssService.CodeActionContext
 	): Promise<cssService.Command[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let actions = this._languageService.doCodeActions(document, range, context, stylesheet);
 		return Promise.resolve(actions);
 	}
 	async findDocumentColors(uri: string): Promise<cssService.ColorInformation[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let colorSymbols = this._languageService.findDocumentColors(document, stylesheet);
 		return Promise.resolve(colorSymbols);
@@ -122,6 +152,9 @@ export class CSSWorker {
 		range: cssService.Range
 	): Promise<cssService.ColorPresentation[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let colorPresentations = this._languageService.getColorPresentations(
 			document,
@@ -136,6 +169,9 @@ export class CSSWorker {
 		context?: { rangeLimit?: number }
 	): Promise<cssService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let ranges = this._languageService.getFoldingRanges(document, context);
 		return Promise.resolve(ranges);
 	}
@@ -144,6 +180,9 @@ export class CSSWorker {
 		positions: cssService.Position[]
 	): Promise<cssService.SelectionRange[]> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let ranges = this._languageService.getSelectionRanges(document, positions, stylesheet);
 		return Promise.resolve(ranges);
@@ -152,13 +191,16 @@ export class CSSWorker {
 		uri: string,
 		position: cssService.Position,
 		newName: string
-	): Promise<cssService.WorkspaceEdit> {
+	): Promise<cssService.WorkspaceEdit | null> {
 		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
 		let stylesheet = this._languageService.parseStylesheet(document);
 		let renames = this._languageService.doRename(document, position, newName, stylesheet);
 		return Promise.resolve(renames);
 	}
-	private _getTextDocument(uri: string): cssService.TextDocument {
+	private _getTextDocument(uri: string): cssService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {

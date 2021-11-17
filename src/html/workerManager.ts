@@ -15,12 +15,13 @@ export class WorkerManager {
 	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
 
-	private _worker: editor.MonacoWebWorker<HTMLWorker>;
-	private _client: Promise<HTMLWorker>;
+	private _worker: editor.MonacoWebWorker<HTMLWorker> | null;
+	private _client: Promise<HTMLWorker> | null;
 
 	constructor(defaults: LanguageServiceDefaults) {
 		this._defaults = defaults;
 		this._worker = null;
+		this._client = null;
 		this._idleCheckInterval = window.setInterval(() => this._checkIfIdle(), 30 * 1000);
 		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());

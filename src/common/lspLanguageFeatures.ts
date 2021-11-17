@@ -153,7 +153,7 @@ function toDiagnostics(resource: Uri, diag: lsTypes.Diagnostic): editor.IMarkerD
 //#region CompletionAdapter
 
 export interface ILanguageWorkerWithCompletions {
-	doComplete(uri: string, position: lsTypes.Position): Promise<lsTypes.CompletionList>;
+	doComplete(uri: string, position: lsTypes.Position): Promise<lsTypes.CompletionList | null>;
 }
 
 export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
@@ -481,7 +481,7 @@ export class DocumentHighlightAdapter<T extends ILanguageWorkerWithDocumentHighl
 		model: editor.IReadOnlyModel,
 		position: Position,
 		token: CancellationToken
-	): Promise<languages.DocumentHighlight[]> {
+	): Promise<languages.DocumentHighlight[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -501,7 +501,7 @@ export class DocumentHighlightAdapter<T extends ILanguageWorkerWithDocumentHighl
 }
 
 function toDocumentHighlightKind(
-	kind: lsTypes.DocumentHighlightKind
+	kind: lsTypes.DocumentHighlightKind | undefined
 ): languages.DocumentHighlightKind {
 	switch (kind) {
 		case lsTypes.DocumentHighlightKind.Read:
@@ -519,7 +519,7 @@ function toDocumentHighlightKind(
 //#region DefinitionAdapter
 
 export interface ILanguageWorkerWithDefinitions {
-	findDefinition(uri: string, position: lsTypes.Position): Promise<lsTypes.Location>;
+	findDefinition(uri: string, position: lsTypes.Position): Promise<lsTypes.Location | null>;
 }
 
 export class DefinitionAdapter<T extends ILanguageWorkerWithDefinitions>
@@ -531,7 +531,7 @@ export class DefinitionAdapter<T extends ILanguageWorkerWithDefinitions>
 		model: editor.IReadOnlyModel,
 		position: Position,
 		token: CancellationToken
-	): Promise<languages.Definition> {
+	): Promise<languages.Definition | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -572,7 +572,7 @@ export class ReferenceAdapter<T extends ILanguageWorkerWithReferences>
 		position: Position,
 		context: languages.ReferenceContext,
 		token: CancellationToken
-	): Promise<languages.Location[]> {
+	): Promise<languages.Location[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -597,7 +597,7 @@ export interface ILanguageWorkerWithRename {
 		uri: string,
 		position: lsTypes.Position,
 		newName: string
-	): Promise<lsTypes.WorkspaceEdit>;
+	): Promise<lsTypes.WorkspaceEdit | null>;
 }
 
 export class RenameAdapter<T extends ILanguageWorkerWithRename>
@@ -610,7 +610,7 @@ export class RenameAdapter<T extends ILanguageWorkerWithRename>
 		position: Position,
 		newName: string,
 		token: CancellationToken
-	): Promise<languages.WorkspaceEdit> {
+	): Promise<languages.WorkspaceEdit | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
@@ -623,7 +623,7 @@ export class RenameAdapter<T extends ILanguageWorkerWithRename>
 	}
 }
 
-function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit): languages.WorkspaceEdit {
+function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit | null): languages.WorkspaceEdit | undefined {
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
@@ -743,7 +743,7 @@ export class DocumentLinkAdapter<T extends ILanguageWorkerWithDocumentLinks>
 	public provideLinks(
 		model: editor.IReadOnlyModel,
 		token: CancellationToken
-	): Promise<languages.ILinksList> {
+	): Promise<languages.ILinksList | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
