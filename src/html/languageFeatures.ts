@@ -22,7 +22,8 @@ import {
 	HoverAdapter,
 	DocumentHighlightAdapter,
 	RenameAdapter,
-	DocumentSymbolAdapter
+	DocumentSymbolAdapter,
+	DocumentLinkAdapter
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -43,30 +44,7 @@ export class HTMLRenameAdapter extends RenameAdapter<HTMLWorker> {}
 
 export class HTMLDocumentSymbolAdapter extends DocumentSymbolAdapter<HTMLWorker> {}
 
-export class DocumentLinkAdapter implements languages.LinkProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideLinks(
-		model: editor.IReadOnlyModel,
-		token: CancellationToken
-	): Promise<languages.ILinksList> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) => worker.findDocumentLinks(resource.toString()))
-			.then((items) => {
-				if (!items) {
-					return;
-				}
-				return {
-					links: items.map((item) => ({
-						range: toRange(item.range),
-						url: item.target
-					}))
-				};
-			});
-	}
-}
+export class HTMLDocumentLinkAdapter extends DocumentLinkAdapter<HTMLWorker> {}
 
 function fromFormattingOptions(options: languages.FormattingOptions): lsTypes.FormattingOptions {
 	return {

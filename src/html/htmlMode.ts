@@ -29,7 +29,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new languageFeatures.HTMLDocumentHighlightAdapter(worker)
 	);
-	languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
+	languages.registerLinkProvider(languageId, new languageFeatures.HTMLDocumentLinkAdapter(worker));
 	languages.registerFoldingRangeProvider(
 		languageId,
 		new languageFeatures.FoldingRangeAdapter(worker)
@@ -96,7 +96,10 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.links) {
 			providers.push(
-				languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker))
+				languages.registerLinkProvider(
+					languageId,
+					new languageFeatures.HTMLDocumentLinkAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
