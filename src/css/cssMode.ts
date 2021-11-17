@@ -92,7 +92,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults));
+			providers.push(new languageFeatures.CSSDiagnosticsAdapter(languageId, worker, defaults));
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
