@@ -72,7 +72,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
+				languages.registerRenameProvider(languageId, new languageFeatures.CSSRenameAdapter(worker))
 			);
 		}
 		if (modeConfiguration.colors) {

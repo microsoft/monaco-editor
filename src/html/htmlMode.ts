@@ -42,7 +42,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new languageFeatures.SelectionRangeAdapter(worker)
 	);
-	languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker));
+	languages.registerRenameProvider(languageId, new languageFeatures.HTMLRenameAdapter(worker));
 
 	// only html
 	if (languageId === 'html') {
@@ -109,7 +109,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
+				languages.registerRenameProvider(languageId, new languageFeatures.HTMLRenameAdapter(worker))
 			);
 		}
 		if (modeConfiguration.foldingRanges) {

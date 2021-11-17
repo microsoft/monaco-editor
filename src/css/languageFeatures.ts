@@ -17,7 +17,8 @@ import {
 	HoverAdapter,
 	DocumentHighlightAdapter,
 	DefinitionAdapter,
-	ReferenceAdapter
+	ReferenceAdapter,
+	RenameAdapter
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -44,50 +45,7 @@ export class CSSDefinitionAdapter extends DefinitionAdapter<CSSWorker> {}
 
 export class CSSReferenceAdapter extends ReferenceAdapter<CSSWorker> {}
 
-// --- rename ------
-
-function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit): languages.WorkspaceEdit {
-	if (!edit || !edit.changes) {
-		return void 0;
-	}
-	let resourceEdits: languages.WorkspaceTextEdit[] = [];
-	for (let uri in edit.changes) {
-		const _uri = Uri.parse(uri);
-		for (let e of edit.changes[uri]) {
-			resourceEdits.push({
-				resource: _uri,
-				edit: {
-					range: toRange(e.range),
-					text: e.newText
-				}
-			});
-		}
-	}
-	return {
-		edits: resourceEdits
-	};
-}
-
-export class RenameAdapter implements languages.RenameProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	provideRenameEdits(
-		model: editor.IReadOnlyModel,
-		position: Position,
-		newName: string,
-		token: CancellationToken
-	): Promise<languages.WorkspaceEdit> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) => {
-				return worker.doRename(resource.toString(), fromPosition(position), newName);
-			})
-			.then((edit) => {
-				return toWorkspaceEdit(edit);
-			});
-	}
-}
+export class CSSRenameAdapter extends RenameAdapter<CSSWorker> {}
 
 // --- document symbols ------
 
