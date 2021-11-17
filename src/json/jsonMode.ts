@@ -78,7 +78,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerFoldingRangeProvider(
 					languageId,
-					new languageFeatures.FoldingRangeAdapter(worker)
+					new languageFeatures.JSONFoldingRangeAdapter(worker)
 				)
 			);
 		}

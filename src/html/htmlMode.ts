@@ -32,7 +32,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 	languages.registerLinkProvider(languageId, new languageFeatures.HTMLDocumentLinkAdapter(worker));
 	languages.registerFoldingRangeProvider(
 		languageId,
-		new languageFeatures.FoldingRangeAdapter(worker)
+		new languageFeatures.HTMLFoldingRangeAdapter(worker)
 	);
 	languages.registerDocumentSymbolProvider(
 		languageId,
@@ -119,7 +119,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerFoldingRangeProvider(
 					languageId,
-					new languageFeatures.FoldingRangeAdapter(worker)
+					new languageFeatures.HTMLFoldingRangeAdapter(worker)
 				)
 			);
 		}
