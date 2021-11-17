@@ -42,7 +42,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					languageId,
-					new languageFeatures.DocumentHighlightAdapter(worker)
+					new languageFeatures.CSSDocumentHighlightAdapter(worker)
 				)
 			);
 		}

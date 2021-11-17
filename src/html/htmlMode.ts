@@ -27,7 +27,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 
 	languages.registerDocumentHighlightProvider(
 		languageId,
-		new languageFeatures.DocumentHighlightAdapter(worker)
+		new languageFeatures.HTMLDocumentHighlightAdapter(worker)
 	);
 	languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
 	languages.registerFoldingRangeProvider(
@@ -90,7 +90,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					languageId,
-					new languageFeatures.DocumentHighlightAdapter(worker)
+					new languageFeatures.HTMLDocumentHighlightAdapter(worker)
 				)
 			);
 		}

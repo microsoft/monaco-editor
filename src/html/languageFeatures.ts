@@ -19,7 +19,8 @@ import {
 	toTextEdit,
 	fromRange,
 	CompletionAdapter,
-	HoverAdapter
+	HoverAdapter,
+	DocumentHighlightAdapter
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -36,45 +37,7 @@ export class HTMLHoverAdapter extends HoverAdapter<HTMLWorker> {}
 
 // --- document highlights ------
 
-function toDocumentHighlightKind(
-	kind: lsTypes.DocumentHighlightKind
-): languages.DocumentHighlightKind {
-	switch (kind) {
-		case lsTypes.DocumentHighlightKind.Read:
-			return languages.DocumentHighlightKind.Read;
-		case lsTypes.DocumentHighlightKind.Write:
-			return languages.DocumentHighlightKind.Write;
-		case lsTypes.DocumentHighlightKind.Text:
-			return languages.DocumentHighlightKind.Text;
-	}
-	return languages.DocumentHighlightKind.Text;
-}
-
-export class DocumentHighlightAdapter implements languages.DocumentHighlightProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideDocumentHighlights(
-		model: editor.IReadOnlyModel,
-		position: Position,
-		token: CancellationToken
-	): Promise<languages.DocumentHighlight[]> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) => worker.findDocumentHighlights(resource.toString(), fromPosition(position)))
-			.then((entries) => {
-				if (!entries) {
-					return;
-				}
-				return entries.map((entry) => {
-					return <languages.DocumentHighlight>{
-						range: toRange(entry.range),
-						kind: toDocumentHighlightKind(entry.kind)
-					};
-				});
-			});
-	}
-}
+export class HTMLDocumentHighlightAdapter extends DocumentHighlightAdapter<HTMLWorker> {}
 
 function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit): languages.WorkspaceEdit {
 	if (!edit || !edit.changes) {
