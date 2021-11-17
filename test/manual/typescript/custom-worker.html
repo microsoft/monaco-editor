@@ -9,13 +9,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-		<link
-			rel="stylesheet"
-			data-name="vs/editor/editor.main"
-			href="../node_modules/monaco-editor-core/dev/vs/editor/editor.main.css"
-		/>
 	</head>
 	<body>
 		<h2>Monaco Editor TypeScript test page</h2>
@@ -25,29 +19,8 @@
 		<button id="logDTS">Log DTS</button>
 		<button id="getAST">Print AST to console</button>
 
-		<script>
-			const paths = {
-				'vs/basic-languages': '../node_modules/monaco-languages/release/dev',
-				'vs/language/typescript/fillers/monaco-editor-core':
-					'../out/amd/fillers/monaco-editor-core-amd',
-				'vs/language/typescript': '../out/amd',
-				vs: '../node_modules/monaco-editor-core/dev/vs'
-			};
-			if (document.location.protocol === 'http:') {
-				// Add support for running local http server
-				let testIndex = document.location.pathname.indexOf('/test/');
-				if (testIndex !== -1) {
-					let prefix = document.location.pathname.substr(0, testIndex);
-					paths['vs/language/typescript'] = prefix + '/out/amd';
-				}
-			}
-			self.require = {
-				paths: paths
-			};
-		</script>
-		<script src="../node_modules/monaco-editor-core/dev/vs/loader.js"></script>
-		<script src="../node_modules/monaco-editor-core/dev/vs/editor/editor.main.nls.js"></script>
-		<script src="../node_modules/monaco-editor-core/dev/vs/editor/editor.main.js"></script>
+		<script src="../../../metadata.js"></script>
+		<script src="../dev-setup.js"></script>
 
 		<script>
 			function getDefaultCode() {
@@ -182,10 +155,7 @@
 			function getDefaultComplierOpts() {
 				return { target: 99, jsx: 1, allowNonTsExtensions: true };
 			}
-			require([
-				'vs/basic-languages/monaco.contribution',
-				'vs/language/typescript/monaco.contribution'
-			], () => {
+			loadEditor(() => {
 				const dirname = (path) => {
 					const slashIndex = path.lastIndexOf('/');
 					if (slashIndex >= 0) {
