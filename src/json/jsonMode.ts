@@ -52,7 +52,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
+				languages.registerHoverProvider(languageId, new languageFeatures.JSONHoverAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentSymbols) {

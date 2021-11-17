@@ -23,7 +23,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new languageFeatures.HTMLCompletionAdapter(worker)
 	);
-	languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker));
+	languages.registerHoverProvider(languageId, new languageFeatures.HTMLHoverAdapter(worker));
 
 	languages.registerDocumentHighlightProvider(
 		languageId,
@@ -83,7 +83,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
+				languages.registerHoverProvider(languageId, new languageFeatures.HTMLHoverAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
