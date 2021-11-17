@@ -6,53 +6,58 @@
 import { WorkerManager } from './workerManager';
 import type { HTMLWorker } from './htmlWorker';
 import { LanguageServiceDefaults } from './monaco.contribution';
-import * as languageFeatures from './languageFeatures';
+import * as languageFeatures from '../common/lspLanguageFeatures';
 import { Uri, IDisposable, languages } from '../fillers/monaco-editor-core';
+
+class HTMLCompletionAdapter extends languageFeatures.CompletionAdapter<HTMLWorker> {
+	constructor(worker: languageFeatures.WorkerAccessor<HTMLWorker>) {
+		super(worker, ['.', ':', '<', '"', '=', '/']);
+	}
+}
 
 export function setupMode1(defaults: LanguageServiceDefaults): void {
 	const client = new WorkerManager(defaults);
 
-	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<HTMLWorker> => {
+	const worker: languageFeatures.WorkerAccessor<HTMLWorker> = (
+		...uris: Uri[]
+	): Promise<HTMLWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
 	let languageId = defaults.languageId;
 
 	// all modes
-	languages.registerCompletionItemProvider(
-		languageId,
-		new languageFeatures.HTMLCompletionAdapter(worker)
-	);
-	languages.registerHoverProvider(languageId, new languageFeatures.HTMLHoverAdapter(worker));
+	languages.registerCompletionItemProvider(languageId, new HTMLCompletionAdapter(worker));
+	languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker));
 
 	languages.registerDocumentHighlightProvider(
 		languageId,
-		new languageFeatures.HTMLDocumentHighlightAdapter(worker)
+		new languageFeatures.DocumentHighlightAdapter(worker)
 	);
-	languages.registerLinkProvider(languageId, new languageFeatures.HTMLDocumentLinkAdapter(worker));
+	languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
 	languages.registerFoldingRangeProvider(
 		languageId,
-		new languageFeatures.HTMLFoldingRangeAdapter(worker)
+		new languageFeatures.FoldingRangeAdapter(worker)
 	);
 	languages.registerDocumentSymbolProvider(
 		languageId,
-		new languageFeatures.HTMLDocumentSymbolAdapter(worker)
+		new languageFeatures.DocumentSymbolAdapter(worker)
 	);
 	languages.registerSelectionRangeProvider(
 		languageId,
-		new languageFeatures.HTMLSelectionRangeAdapter(worker)
+		new languageFeatures.SelectionRangeAdapter(worker)
 	);
-	languages.registerRenameProvider(languageId, new languageFeatures.HTMLRenameAdapter(worker));
+	languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker));
 
 	// only html
 	if (languageId === 'html') {
 		languages.registerDocumentFormattingEditProvider(
 			languageId,
-			new languageFeatures.HTMLDocumentFormattingEditProvider(worker)
+			new languageFeatures.DocumentFormattingEditProvider(worker)
 		);
 		languages.registerDocumentRangeFormattingEditProvider(
 			languageId,
-			new languageFeatures.HTMLDocumentRangeFormattingEditProvider(worker)
+			new languageFeatures.DocumentRangeFormattingEditProvider(worker)
 		);
 	}
 }
@@ -64,7 +69,9 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<HTMLWorker> => {
+	const worker: languageFeatures.WorkerAccessor<HTMLWorker> = (
+		...uris: Uri[]
+	): Promise<HTMLWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
@@ -75,51 +82,45 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 
 		if (modeConfiguration.completionItems) {
 			providers.push(
-				languages.registerCompletionItemProvider(
-					languageId,
-					new languageFeatures.HTMLCompletionAdapter(worker)
-				)
+				languages.registerCompletionItemProvider(languageId, new HTMLCompletionAdapter(worker))
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(languageId, new languageFeatures.HTMLHoverAdapter(worker))
+				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					languageId,
-					new languageFeatures.HTMLDocumentHighlightAdapter(worker)
+					new languageFeatures.DocumentHighlightAdapter(worker)
 				)
 			);
 		}
 		if (modeConfiguration.links) {
 			providers.push(
-				languages.registerLinkProvider(
-					languageId,
-					new languageFeatures.HTMLDocumentLinkAdapter(worker)
-				)
+				languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					languageId,
-					new languageFeatures.HTMLDocumentSymbolAdapter(worker)
+					new languageFeatures.DocumentSymbolAdapter(worker)
 				)
 			);
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(languageId, new languageFeatures.HTMLRenameAdapter(worker))
+				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
 			);
 		}
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
 				languages.registerFoldingRangeProvider(
 					languageId,
-					new languageFeatures.HTMLFoldingRangeAdapter(worker)
+					new languageFeatures.FoldingRangeAdapter(worker)
 				)
 			);
 		}
@@ -127,7 +128,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerSelectionRangeProvider(
 					languageId,
-					new languageFeatures.HTMLSelectionRangeAdapter(worker)
+					new languageFeatures.SelectionRangeAdapter(worker)
 				)
 			);
 		}
@@ -135,7 +136,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
 					languageId,
-					new languageFeatures.HTMLDocumentFormattingEditProvider(worker)
+					new languageFeatures.DocumentFormattingEditProvider(worker)
 				)
 			);
 		}
@@ -143,7 +144,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
-					new languageFeatures.HTMLDocumentRangeFormattingEditProvider(worker)
+					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
 				)
 			);
 		}

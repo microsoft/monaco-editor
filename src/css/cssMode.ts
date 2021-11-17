@@ -6,7 +6,7 @@
 import { WorkerManager } from './workerManager';
 import type { CSSWorker } from './cssWorker';
 import { LanguageServiceDefaults } from './monaco.contribution';
-import * as languageFeatures from './languageFeatures';
+import * as languageFeatures from '../common/lspLanguageFeatures';
 import { Uri, IDisposable, languages } from '../fillers/monaco-editor-core';
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
@@ -16,7 +16,9 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<CSSWorker> => {
+	const worker: languageFeatures.WorkerAccessor<CSSWorker> = (
+		...uris: Uri[]
+	): Promise<CSSWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
@@ -29,20 +31,20 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerCompletionItemProvider(
 					languageId,
-					new languageFeatures.CSSCompletionAdapter(worker)
+					new languageFeatures.CompletionAdapter(worker, ['/', '-', ':'])
 				)
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(languageId, new languageFeatures.CSSHoverAdapter(worker))
+				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					languageId,
-					new languageFeatures.CSSDocumentHighlightAdapter(worker)
+					new languageFeatures.DocumentHighlightAdapter(worker)
 				)
 			);
 		}
@@ -50,7 +52,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDefinitionProvider(
 					languageId,
-					new languageFeatures.CSSDefinitionAdapter(worker)
+					new languageFeatures.DefinitionAdapter(worker)
 				)
 			);
 		}
@@ -58,7 +60,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerReferenceProvider(
 					languageId,
-					new languageFeatures.CSSReferenceAdapter(worker)
+					new languageFeatures.ReferenceAdapter(worker)
 				)
 			);
 		}
@@ -66,20 +68,20 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					languageId,
-					new languageFeatures.CSSDocumentSymbolAdapter(worker)
+					new languageFeatures.DocumentSymbolAdapter(worker)
 				)
 			);
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(languageId, new languageFeatures.CSSRenameAdapter(worker))
+				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
 			);
 		}
 		if (modeConfiguration.colors) {
 			providers.push(
 				languages.registerColorProvider(
 					languageId,
-					new languageFeatures.CSSDocumentColorAdapter(worker)
+					new languageFeatures.DocumentColorAdapter(worker)
 				)
 			);
 		}
@@ -87,18 +89,20 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerFoldingRangeProvider(
 					languageId,
-					new languageFeatures.CSSFoldingRangeAdapter(worker)
+					new languageFeatures.FoldingRangeAdapter(worker)
 				)
 			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(new languageFeatures.CSSDiagnosticsAdapter(languageId, worker, defaults));
+			providers.push(
+				new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults.onDidChange)
+			);
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
 				languages.registerSelectionRangeProvider(
 					languageId,
-					new languageFeatures.CSSSelectionRangeAdapter(worker)
+					new languageFeatures.SelectionRangeAdapter(worker)
 				)
 			);
 		}
