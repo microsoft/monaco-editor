@@ -30,7 +30,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentFormattingEditProvider(worker)
+					new languageFeatures.JSONDocumentFormattingEditProvider(worker)
 				)
 			);
 		}
@@ -38,7 +38,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
+					new languageFeatures.JSONDocumentRangeFormattingEditProvider(worker)
 				)
 			);
 		}

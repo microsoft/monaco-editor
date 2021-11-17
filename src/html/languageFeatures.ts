@@ -23,7 +23,9 @@ import {
 	DocumentHighlightAdapter,
 	RenameAdapter,
 	DocumentSymbolAdapter,
-	DocumentLinkAdapter
+	DocumentLinkAdapter,
+	DocumentFormattingEditProvider,
+	DocumentRangeFormattingEditProvider
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -46,61 +48,9 @@ export class HTMLDocumentSymbolAdapter extends DocumentSymbolAdapter<HTMLWorker>
 
 export class HTMLDocumentLinkAdapter extends DocumentLinkAdapter<HTMLWorker> {}
 
-function fromFormattingOptions(options: languages.FormattingOptions): lsTypes.FormattingOptions {
-	return {
-		tabSize: options.tabSize,
-		insertSpaces: options.insertSpaces
-	};
-}
+export class HTMLDocumentFormattingEditProvider extends DocumentFormattingEditProvider<HTMLWorker> {}
 
-export class DocumentFormattingEditProvider implements languages.DocumentFormattingEditProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideDocumentFormattingEdits(
-		model: editor.IReadOnlyModel,
-		options: languages.FormattingOptions,
-		token: CancellationToken
-	): Promise<languages.TextEdit[] | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource).then((worker) => {
-			return worker
-				.format(resource.toString(), null, fromFormattingOptions(options))
-				.then((edits) => {
-					if (!edits || edits.length === 0) {
-						return;
-					}
-					return edits.map<languages.TextEdit>(toTextEdit);
-				});
-		});
-	}
-}
-
-export class DocumentRangeFormattingEditProvider
-	implements languages.DocumentRangeFormattingEditProvider
-{
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideDocumentRangeFormattingEdits(
-		model: editor.IReadOnlyModel,
-		range: Range,
-		options: languages.FormattingOptions,
-		token: CancellationToken
-	): Promise<languages.TextEdit[] | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource).then((worker) => {
-			return worker
-				.format(resource.toString(), fromRange(range), fromFormattingOptions(options))
-				.then((edits) => {
-					if (!edits || edits.length === 0) {
-						return;
-					}
-					return edits.map<languages.TextEdit>(toTextEdit);
-				});
-		});
-	}
-}
+export class HTMLDocumentRangeFormattingEditProvider extends DocumentRangeFormattingEditProvider<HTMLWorker> {}
 
 export class FoldingRangeAdapter implements languages.FoldingRangeProvider {
 	constructor(private _worker: WorkerAccessor) {}

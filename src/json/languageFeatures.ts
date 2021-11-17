@@ -22,7 +22,9 @@ import {
 	fromRange,
 	CompletionAdapter,
 	HoverAdapter,
-	DocumentSymbolAdapter
+	DocumentSymbolAdapter,
+	DocumentFormattingEditProvider,
+	DocumentRangeFormattingEditProvider
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -62,61 +64,9 @@ export class JSONHoverAdapter extends HoverAdapter<JSONWorker> {}
 
 export class JSONDocumentSymbolAdapter extends DocumentSymbolAdapter<JSONWorker> {}
 
-function fromFormattingOptions(options: languages.FormattingOptions): lsTypes.FormattingOptions {
-	return {
-		tabSize: options.tabSize,
-		insertSpaces: options.insertSpaces
-	};
-}
+export class JSONDocumentFormattingEditProvider extends DocumentFormattingEditProvider<JSONWorker> {}
 
-export class DocumentFormattingEditProvider implements languages.DocumentFormattingEditProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideDocumentFormattingEdits(
-		model: editor.IReadOnlyModel,
-		options: languages.FormattingOptions,
-		token: CancellationToken
-	): Promise<languages.TextEdit[] | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource).then((worker) => {
-			return worker
-				.format(resource.toString(), null, fromFormattingOptions(options))
-				.then((edits) => {
-					if (!edits || edits.length === 0) {
-						return;
-					}
-					return edits.map<languages.TextEdit>(toTextEdit);
-				});
-		});
-	}
-}
-
-export class DocumentRangeFormattingEditProvider
-	implements languages.DocumentRangeFormattingEditProvider
-{
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideDocumentRangeFormattingEdits(
-		model: editor.IReadOnlyModel,
-		range: Range,
-		options: languages.FormattingOptions,
-		token: CancellationToken
-	): Promise<languages.TextEdit[] | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource).then((worker) => {
-			return worker
-				.format(resource.toString(), fromRange(range), fromFormattingOptions(options))
-				.then((edits) => {
-					if (!edits || edits.length === 0) {
-						return;
-					}
-					return edits.map<languages.TextEdit>(toTextEdit);
-				});
-		});
-	}
-}
+export class JSONDocumentRangeFormattingEditProvider extends DocumentRangeFormattingEditProvider<JSONWorker> {}
 
 export class DocumentColorAdapter implements languages.DocumentColorProvider {
 	constructor(private _worker: WorkerAccessor) {}

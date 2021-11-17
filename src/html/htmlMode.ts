@@ -48,11 +48,11 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 	if (languageId === 'html') {
 		languages.registerDocumentFormattingEditProvider(
 			languageId,
-			new languageFeatures.DocumentFormattingEditProvider(worker)
+			new languageFeatures.HTMLDocumentFormattingEditProvider(worker)
 		);
 		languages.registerDocumentRangeFormattingEditProvider(
 			languageId,
-			new languageFeatures.DocumentRangeFormattingEditProvider(worker)
+			new languageFeatures.HTMLDocumentRangeFormattingEditProvider(worker)
 		);
 	}
 }
@@ -135,7 +135,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentFormattingEditProvider(worker)
+					new languageFeatures.HTMLDocumentFormattingEditProvider(worker)
 				)
 			);
 		}
@@ -143,7 +143,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
+					new languageFeatures.HTMLDocumentRangeFormattingEditProvider(worker)
 				)
 			);
 		}
