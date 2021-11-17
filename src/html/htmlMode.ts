@@ -40,7 +40,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 	);
 	languages.registerSelectionRangeProvider(
 		languageId,
-		new languageFeatures.SelectionRangeAdapter(worker)
+		new languageFeatures.HTMLSelectionRangeAdapter(worker)
 	);
 	languages.registerRenameProvider(languageId, new languageFeatures.HTMLRenameAdapter(worker));
 
@@ -127,7 +127,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerSelectionRangeProvider(
 					languageId,
-					new languageFeatures.SelectionRangeAdapter(worker)
+					new languageFeatures.HTMLSelectionRangeAdapter(worker)
 				)
 			);
 		}

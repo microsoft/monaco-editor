@@ -5,12 +5,9 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { CSSWorker } from './cssWorker';
-import * as lsTypes from 'vscode-languageserver-types';
-import { languages, editor, Uri, Position, CancellationToken } from '../fillers/monaco-editor-core';
+import { Uri } from '../fillers/monaco-editor-core';
 import {
 	DiagnosticsAdapter,
-	fromPosition,
-	toRange,
 	CompletionAdapter,
 	HoverAdapter,
 	DocumentHighlightAdapter,
@@ -19,7 +16,8 @@ import {
 	RenameAdapter,
 	DocumentSymbolAdapter,
 	DocumentColorAdapter,
-	FoldingRangeAdapter
+	FoldingRangeAdapter,
+	SelectionRangeAdapter
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -54,35 +52,4 @@ export class CSSDocumentColorAdapter extends DocumentColorAdapter<CSSWorker> {}
 
 export class CSSFoldingRangeAdapter extends FoldingRangeAdapter<CSSWorker> {}
 
-export class SelectionRangeAdapter implements languages.SelectionRangeProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideSelectionRanges(
-		model: editor.IReadOnlyModel,
-		positions: Position[],
-		token: CancellationToken
-	): Promise<languages.SelectionRange[][] | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) =>
-				worker.getSelectionRanges(
-					resource.toString(),
-					positions.map<lsTypes.Position>(fromPosition)
-				)
-			)
-			.then((selectionRanges) => {
-				if (!selectionRanges) {
-					return;
-				}
-				return selectionRanges.map((selectionRange: lsTypes.SelectionRange | undefined) => {
-					const result: languages.SelectionRange[] = [];
-					while (selectionRange) {
-						result.push({ range: toRange(selectionRange.range) });
-						selectionRange = selectionRange.parent;
-					}
-					return result;
-				});
-			});
-	}
-}
+export class CSSSelectionRangeAdapter extends SelectionRangeAdapter<CSSWorker> {}

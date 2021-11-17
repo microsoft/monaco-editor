@@ -98,7 +98,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerSelectionRangeProvider(
 					languageId,
-					new languageFeatures.SelectionRangeAdapter(worker)
+					new languageFeatures.CSSSelectionRangeAdapter(worker)
 				)
 			);
 		}
