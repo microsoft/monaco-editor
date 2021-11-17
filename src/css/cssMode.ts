@@ -50,7 +50,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDefinitionProvider(
 					languageId,
-					new languageFeatures.DefinitionAdapter(worker)
+					new languageFeatures.CSSDefinitionAdapter(worker)
 				)
 			);
 		}
@@ -58,7 +58,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerReferenceProvider(
 					languageId,
-					new languageFeatures.ReferenceAdapter(worker)
+					new languageFeatures.CSSReferenceAdapter(worker)
 				)
 			);
 		}

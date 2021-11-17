@@ -15,7 +15,9 @@ import {
 	fromRange,
 	CompletionAdapter,
 	HoverAdapter,
-	DocumentHighlightAdapter
+	DocumentHighlightAdapter,
+	DefinitionAdapter,
+	ReferenceAdapter
 } from '../common/lspLanguageFeatures';
 
 export interface WorkerAccessor {
@@ -38,63 +40,9 @@ export class CSSHoverAdapter extends HoverAdapter<CSSWorker> {}
 
 export class CSSDocumentHighlightAdapter extends DocumentHighlightAdapter<CSSWorker> {}
 
-// --- definition ------
+export class CSSDefinitionAdapter extends DefinitionAdapter<CSSWorker> {}
 
-function toLocation(location: lsTypes.Location): languages.Location {
-	return {
-		uri: Uri.parse(location.uri),
-		range: toRange(location.range)
-	};
-}
-
-export class DefinitionAdapter {
-	constructor(private _worker: WorkerAccessor) {}
-
-	public provideDefinition(
-		model: editor.IReadOnlyModel,
-		position: Position,
-		token: CancellationToken
-	): Promise<languages.Definition> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) => {
-				return worker.findDefinition(resource.toString(), fromPosition(position));
-			})
-			.then((definition) => {
-				if (!definition) {
-					return;
-				}
-				return [toLocation(definition)];
-			});
-	}
-}
-
-// --- references ------
-
-export class ReferenceAdapter implements languages.ReferenceProvider {
-	constructor(private _worker: WorkerAccessor) {}
-
-	provideReferences(
-		model: editor.IReadOnlyModel,
-		position: Position,
-		context: languages.ReferenceContext,
-		token: CancellationToken
-	): Promise<languages.Location[]> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) => {
-				return worker.findReferences(resource.toString(), fromPosition(position));
-			})
-			.then((entries) => {
-				if (!entries) {
-					return;
-				}
-				return entries.map(toLocation);
-			});
-	}
-}
+export class CSSReferenceAdapter extends ReferenceAdapter<CSSWorker> {}
 
 // --- rename ------
 

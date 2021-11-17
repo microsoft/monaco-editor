@@ -398,7 +398,7 @@ export interface ILanguageWorkerWithHover {
 }
 
 export class HoverAdapter<T extends ILanguageWorkerWithHover> implements languages.HoverProvider {
-	constructor(private _worker: WorkerAccessor<T>) {}
+	constructor(private readonly _worker: WorkerAccessor<T>) {}
 
 	provideHover(
 		model: editor.IReadOnlyModel,
@@ -475,7 +475,7 @@ export interface ILanguageWorkerWithDocumentHighlights {
 export class DocumentHighlightAdapter<T extends ILanguageWorkerWithDocumentHighlights>
 	implements languages.DocumentHighlightProvider
 {
-	constructor(private _worker: WorkerAccessor<T>) {}
+	constructor(private readonly _worker: WorkerAccessor<T>) {}
 
 	public provideDocumentHighlights(
 		model: editor.IReadOnlyModel,
@@ -512,6 +512,80 @@ function toDocumentHighlightKind(
 			return languages.DocumentHighlightKind.Text;
 	}
 	return languages.DocumentHighlightKind.Text;
+}
+
+//#endregion
+
+//#region DefinitionAdapter
+
+export interface ILanguageWorkerWithDefinitions {
+	findDefinition(uri: string, position: lsTypes.Position): Promise<lsTypes.Location>;
+}
+
+export class DefinitionAdapter<T extends ILanguageWorkerWithDefinitions>
+	implements languages.DefinitionProvider
+{
+	constructor(private readonly _worker: WorkerAccessor<T>) {}
+
+	public provideDefinition(
+		model: editor.IReadOnlyModel,
+		position: Position,
+		token: CancellationToken
+	): Promise<languages.Definition> {
+		const resource = model.uri;
+
+		return this._worker(resource)
+			.then((worker) => {
+				return worker.findDefinition(resource.toString(), fromPosition(position));
+			})
+			.then((definition) => {
+				if (!definition) {
+					return;
+				}
+				return [toLocation(definition)];
+			});
+	}
+}
+
+function toLocation(location: lsTypes.Location): languages.Location {
+	return {
+		uri: Uri.parse(location.uri),
+		range: toRange(location.range)
+	};
+}
+
+//#endregion
+
+//#region ReferenceAdapter
+
+export interface ILanguageWorkerWithReferences {
+	findReferences(uri: string, position: lsTypes.Position): Promise<lsTypes.Location[]>;
+}
+
+export class ReferenceAdapter<T extends ILanguageWorkerWithReferences>
+	implements languages.ReferenceProvider
+{
+	constructor(private readonly _worker: WorkerAccessor<T>) {}
+
+	provideReferences(
+		model: editor.IReadOnlyModel,
+		position: Position,
+		context: languages.ReferenceContext,
+		token: CancellationToken
+	): Promise<languages.Location[]> {
+		const resource = model.uri;
+
+		return this._worker(resource)
+			.then((worker) => {
+				return worker.findReferences(resource.toString(), fromPosition(position));
+			})
+			.then((entries) => {
+				if (!entries) {
+					return;
+				}
+				return entries.map(toLocation);
+			});
+	}
 }
 
 //#endregion
