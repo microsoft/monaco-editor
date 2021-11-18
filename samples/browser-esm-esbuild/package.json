@@ -1,0 +1,6 @@
+{
+	"name": "helloworld",
+	"scripts": {
+		"build": "node ./build.js"
+	}
+}
