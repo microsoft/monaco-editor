@@ -22,7 +22,10 @@ monaco.editor.defineTheme('myCoolTheme', {
 		{ token: 'custom-error', foreground: 'ff0000', fontStyle: 'bold' },
 		{ token: 'custom-notice', foreground: 'FFA500' },
 		{ token: 'custom-date', foreground: '008800' }
-	]
+	],
+	colors: {
+		'editor.foreground': '#000000'
+	}
 });
 
 // Register a completion item provider for the new language

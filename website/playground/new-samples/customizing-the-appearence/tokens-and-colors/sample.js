@@ -16,7 +16,10 @@ monaco.editor.defineTheme('myCustomTheme', {
 		{ token: 'comment', foreground: 'ffa500', fontStyle: 'italic underline' },
 		{ token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
 		{ token: 'comment.css', foreground: '0000ff' } // will inherit fontStyle from `comment` above
-	]
+	],
+	colors: {
+		'editor.foreground': '#000000'
+	}
 });
 
 monaco.editor.create(document.getElementById('container'), {
