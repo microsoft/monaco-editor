@@ -20,6 +20,7 @@ jobs:
           path: './monaco-editor'
 
       - name: Install node modules (1)
+        working-directory: './monaco-editor'
         run: npm ci
 
       - name: \[vscode\] checkout
