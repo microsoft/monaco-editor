@@ -10,72 +10,66 @@ jobs:
     name: Publish Nightly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
       - uses: actions/setup-node@v2
         with:
           node-version: 14
 
-      - name: Cache node modules
-        id: cacheNodeModules
-        uses: actions/cache@v2
+      - uses: actions/checkout@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-cacheNodeModules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-cacheNodeModules-
+          repository: 'microsoft/monaco-editor'
+          path: './monaco-editor'
 
       - name: Install node modules (1)
-        if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci
 
       - name: \[vscode\] checkout
         uses: actions/checkout@v2
         with:
           repository: 'microsoft/vscode'
-          path: '../vscode'
+          path: './vscode'
 
       - name: \[vscode\] execute `yarn`
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn --frozen-lockfile --network-timeout 180000
 
       - name: \[vscode\] Run Hygiene Checks
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn gulp hygiene
 
       - name: \[vscode\] Run Valid Layers Checks
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn valid-layers-check
 
       - name: \[vscode\] Compile /build/
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn --cwd build compile
 
       - name: \[vscode\] Run eslint
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn eslint
 
       - name: \[vscode\] Run Monaco Editor Checks
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn monaco-compile-check
 
       - name: \[vscode\] Compile
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn --max_old_space_size=4095 compile
 
       - name: \[vscode\] Run Unit Tests (Browser)
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: DISPLAY=:10 yarn test-browser --browser chromium
 
       - name: \[vscode\] Editor Distro & ESM Bundle
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: yarn gulp editor-esm-bundle
 
       - name: \[vscode\] Typings validation prep
-        working-directory: '../vscode'
+        working-directory: './vscode'
         run: mkdir typings-test
 
       - name: \[vscode\] Typings validation
-        working-directory: ../vscode/typings-test
+        working-directory: ./vscode/typings-test
         run: |
           yarn init -yp
           ../node_modules/.bin/tsc --init
@@ -83,18 +77,18 @@ jobs:
           ../node_modules/.bin/tsc --noEmit
 
       - name: \[vscode\] Webpack Editor
-        working-directory: ../vscode/test/monaco
+        working-directory: ./vscode/test/monaco
         run: yarn run bundle
 
       - name: \[vscode\] Compile Editor Tests
-        working-directory: ../vscode/test/monaco
+        working-directory: ./vscode/test/monaco
         run: yarn run compile
 
       - name: \[vscode\] Download Playwright
-        working-directory: ../vscode
+        working-directory: ./vscode
         run: yarn playwright-install
 
       - name: \[vscode\] Run Editor Tests
         timeout-minutes: 5
-        working-directory: ../vscode/test/monaco
+        working-directory: ./vscode/test/monaco
         run: yarn test
