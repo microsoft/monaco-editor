@@ -26,7 +26,7 @@ jobs:
 
       - name: Install node modules (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
-        run: npm install
+        run: npm ci
 
       - name: Build website
         run: npm run build-website

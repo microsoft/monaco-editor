@@ -23,11 +23,11 @@ jobs:
 
       - name: Install node modules (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
-        run: npm install
+        run: npm ci
 
       - name: Install node modules (2)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
-        run: npm install --prefix webpack-plugin
+        run: npm ci --prefix webpack-plugin
 
       - name: Install Playwright
         run: npm run playwright-install
