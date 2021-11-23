@@ -21,11 +21,11 @@ jobs:
           key: ${{ runner.os }}-cacheNodeModules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-cacheNodeModules-
 
-      - name: Install node modules (1)
+      - name: execute `npm ci` (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci
 
-      - name: Install node modules (2)
+      - name: execute `npm ci` (2)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci --prefix webpack-plugin
 

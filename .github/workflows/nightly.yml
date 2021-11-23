@@ -14,15 +14,6 @@ jobs:
         with:
           node-version: 14
 
-      - uses: actions/checkout@v2
-        with:
-          repository: 'microsoft/monaco-editor'
-          path: './monaco-editor'
-
-      - name: Install node modules (1)
-        working-directory: './monaco-editor'
-        run: npm ci
-
       - name: (vscode) checkout
         uses: actions/checkout@v2
         with:
@@ -61,6 +52,9 @@ jobs:
         working-directory: './vscode'
         run: yarn test-browser --browser chromium
 
+      - name: (vscode) Patch package.json version
+        run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./vscode/build/monaco/package.json
+
       - name: (vscode) Editor Distro & ESM Bundle
         working-directory: './vscode'
         run: yarn gulp editor-esm-bundle
@@ -93,3 +87,55 @@ jobs:
         timeout-minutes: 5
         working-directory: ./vscode/test/monaco
         run: yarn test
+
+      - name: (monaco-editor) checkout
+        uses: actions/checkout@v2
+        with:
+          repository: 'microsoft/monaco-editor'
+          path: './monaco-editor'
+
+      - name: (monaco-editor) Patch package.json version
+        run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./monaco-editor/package.json
+
+      - name: (monaco-editor) Use local monaco-editor-core
+        run: node ./monaco-editor/.github/workflows/nightly/useLocalMonacoEditorCore.js
+
+      - name: (monaco-editor) execute `npm ci` (1)
+        working-directory: './monaco-editor'
+        run: npm ci
+
+      - name: (monaco-editor) execute `npm ci` (2)
+        working-directory: './monaco-editor/webpack-plugin'
+        run: npm ci
+
+      - name: (monaco-editor) Install OS Dependencies for Playwright
+        working-directory: './monaco-editor'
+        run: sudo npm run playwright-install-deps
+
+      - name: (monaco-editor) Check prettier
+        working-directory: './monaco-editor'
+        run: npm run prettier-check
+
+      - name: (monaco-editor) Build
+        working-directory: './monaco-editor'
+        run: npm run release
+
+      - name: (monaco-editor) Run unit tests
+        working-directory: './monaco-editor'
+        run: npm test
+
+      - name: (monaco-editor) Compile webpack plugin
+        working-directory: './monaco-editor'
+        run: npm run compile --prefix webpack-plugin
+
+      - name: (monaco-editor) Package using webpack plugin
+        working-directory: './monaco-editor'
+        run: npm run smoketest --prefix webpack-plugin
+
+      - name: (monaco-editor) Run smoke test
+        working-directory: './monaco-editor'
+        run: npm run smoketest
+
+      - name: (monaco-editor) Build website
+        working-directory: './monaco-editor'
+        run: npm run build-website
