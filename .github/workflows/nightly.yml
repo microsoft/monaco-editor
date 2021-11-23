@@ -1,9 +1,10 @@
 name: Publish Nightly
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 7 * * *'
+  # enable users to manually trigger with workflow_dispatch
+  workflow_dispatch: {}
 
 jobs:
   nightly:
@@ -97,14 +98,18 @@ jobs:
       - name: (monaco-editor) Patch package.json version
         run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./monaco-editor/package.json
 
+      - name: (monaco-editor) execute `npm ci` (1)
+        working-directory: './monaco-editor'
+        run: npm ci
+
+      - name: (monaco-editor) execute `npm ci` (2)
+        working-directory: './monaco-editor/webpack-plugin'
+        run: npm ci
+
       - name: (monaco-editor) Use local monaco-editor-core
         run: node ./monaco-editor/.github/workflows/nightly/useLocalMonacoEditorCore.js
 
-      - name: (monaco-editor) execute `npm install` (1)
-        working-directory: './monaco-editor'
-        run: npm install
-
-      - name: (monaco-editor) execute `npm install` (2)
+      - name: (monaco-editor) execute `npm install` to pick up local monaco-editor-core
         working-directory: './monaco-editor/webpack-plugin'
         run: npm install
 
@@ -139,3 +144,16 @@ jobs:
       - name: (monaco-editor) Build website
         working-directory: './monaco-editor'
         run: npm run build-website
+
+      - name: Configure `npm`
+        run: npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish `monaco-editor-core`
+        working-directory: './vscode/out-monaco-editor-core'
+        run: npm publish --tag next
+
+      - name: Publish `monaco-editor`
+        working-directory: './monaco-editor/release'
+        run: npm publish --tag next
