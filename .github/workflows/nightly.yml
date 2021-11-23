@@ -61,9 +61,9 @@ jobs:
       - name: (vscode) Patch package.json version
         run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./vscode/build/monaco/package.json
 
-      - name: (vscode) Editor Distro & ESM Bundle
+      - name: (vscode) Editor Distro
         working-directory: './vscode'
-        run: yarn gulp editor-esm-bundle
+        run: yarn gulp editor-distro
 
       - name: (vscode) Typings validation prep
         working-directory: './vscode'
