@@ -9,5 +9,10 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"extensions": {
+		"recommendations": [
+			"aslamanver.node-js-dependency-manager"
+		]
+	}
 }
