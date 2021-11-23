@@ -95,6 +95,18 @@ jobs:
         working-directory: ./vscode/test/monaco
         run: yarn test
 
+      - name: Set `npm` config
+        run: npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish `monaco-editor-core`
+        working-directory: './vscode/out-monaco-editor-core'
+        run: npm publish --tag next
+
+      - name: Delete `npm` config
+        run: npm config delete //registry.npmjs.org/:_authToken
+
       - name: (monaco-editor) Patch package.json version
         run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./monaco-editor/package.json
 
@@ -145,14 +157,10 @@ jobs:
         working-directory: './monaco-editor'
         run: npm run build-website
 
-      - name: Configure `npm`
+      - name: Set `npm` config
         run: npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish `monaco-editor-core`
-        working-directory: './vscode/out-monaco-editor-core'
-        run: npm publish --tag next
 
       - name: Publish `monaco-editor`
         working-directory: './monaco-editor/release'
