@@ -100,13 +100,13 @@ jobs:
       - name: (monaco-editor) Use local monaco-editor-core
         run: node ./monaco-editor/.github/workflows/nightly/useLocalMonacoEditorCore.js
 
-      - name: (monaco-editor) execute `npm ci` (1)
+      - name: (monaco-editor) execute `npm install` (1)
         working-directory: './monaco-editor'
-        run: npm ci
+        run: npm install
 
-      - name: (monaco-editor) execute `npm ci` (2)
+      - name: (monaco-editor) execute `npm install` (2)
         working-directory: './monaco-editor/webpack-plugin'
-        run: npm ci
+        run: npm install
 
       - name: (monaco-editor) Install OS Dependencies for Playwright
         working-directory: './monaco-editor'
