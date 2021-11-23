@@ -14,6 +14,12 @@ jobs:
         with:
           node-version: 14
 
+      - name: (monaco-editor) checkout
+        uses: actions/checkout@v2
+        with:
+          repository: 'microsoft/monaco-editor'
+          path: './monaco-editor'
+
       - name: (vscode) checkout
         uses: actions/checkout@v2
         with:
@@ -87,12 +93,6 @@ jobs:
         timeout-minutes: 5
         working-directory: ./vscode/test/monaco
         run: yarn test
-
-      - name: (monaco-editor) checkout
-        uses: actions/checkout@v2
-        with:
-          repository: 'microsoft/monaco-editor'
-          path: './monaco-editor'
 
       - name: (monaco-editor) Patch package.json version
         run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./monaco-editor/package.json
