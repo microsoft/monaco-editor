@@ -16,9 +16,8 @@ const { REPO_ROOT, removeDir, readFiles, writeFiles } = require('./utils');
 
 /** @type {string} */
 const MONACO_EDITOR_VERSION = (() => {
-	const packageJsonPath = path.join(REPO_ROOT, 'package.json');
-	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
-	const version = packageJson.version;
+	const output = cp.execSync(`npm show monaco-editor version`).toString();
+	const version = output.split(/\r\n|\r|\n/g)[0];
 	if (!/\d+\.\d+\.\d+/.test(version)) {
 		console.log('unrecognized package.json version: ' + version);
 		process.exit(1);
