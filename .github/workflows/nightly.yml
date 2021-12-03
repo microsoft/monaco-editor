@@ -27,6 +27,12 @@ jobs:
           repository: 'microsoft/vscode'
           path: './vscode'
 
+      - name: (vscode-loc) checkout
+        uses: actions/checkout@v2
+        with:
+          repository: 'microsoft/vscode-loc'
+          path: './vscode-loc'
+
       - name: (vscode) execute `yarn`
         working-directory: './vscode'
         run: yarn --frozen-lockfile --network-timeout 180000
