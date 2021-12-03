@@ -18,8 +18,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-cacheNodeModules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-cacheNodeModules-
+          key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-cacheNodeModules2-
 
       - name: execute `npm ci` (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
