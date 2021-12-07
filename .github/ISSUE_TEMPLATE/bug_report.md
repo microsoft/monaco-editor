@@ -1,33 +1,46 @@
----
-name: Bug report
-about: Create a report to help us improve
----
+name: Bug Report
+description: File a bug report
+title: ""
+body:
+  - type: markdown
+    attributes:
+      value: |
+        To help us processing your bug report, please fill out this form.
+  - type: checkboxes
+    id: reproducible-in-vscode
+    attributes:
+      label: Reproducible in vscode.dev or in VS Code Desktop?
+      description: Can you reproduce the bug in [vscode.dev](https://vscode.dev) or in VS Code Desktop? If so, please create [an issue in the VS Code repository](https://github.com/microsoft/vscode/issues). **VS Code issues are usually looked at within a couple of days.**
+      options:
+        - label: Not reproducible on [vscode.dev](https://vscode.dev) or VS Code Desktop
+          required: true
+  - type: checkboxes
+    id: reproducible-in-monaco-playground
+    attributes:
+      label: Reproducible in the monaco editor playground?
+      description: Can you reproduce the bug in [the monaco editor playground](https://microsoft.github.io/monaco-editor/playground.html)?
+      options:
+        - label: Not reproducible on [the monaco editor playground](https://microsoft.github.io/monaco-editor/playground.html)
+  - type: textarea
+    id: playgroundSourceCode
+    attributes:
+      label: Monaco Editor Playground Code
+      description: Please provide the code to reproduce in the [monaco editor playground](https://microsoft.github.io/monaco-editor/playground.html)
+      render: typescript
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: Please describe the actual behavior, as observed in the playground
+      
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Please describe the expected behavior
 
-<!--
-
-🛑 STOP 🛑 STOP 🛑 STOP 🛑
-
-1. Try to reproduce in VS Code and file issue directly at:
- -- https://github.com/microsoft/vscode/issues
-
-2. Otherwise, provide steps that reproduce the problem in VS Code web at:
- -- https://vscode-web-test-playground.azurewebsites.net/
-
-3. Otherwise, provide steps that reproduce the problem at the Monaco Editor homepage
- -- https://microsoft.github.io/monaco-editor/
-
-4. Otherwise, provide a Playground code snippet
- -- https://microsoft.github.io/monaco-editor/playground.html
-
-5. Otherwise, provide a self-contained git repository / HTML page
-
--->
-
-**monaco-editor version:** 0.X.Y
-**Browser:**
-**OS:**
-**Playground code that reproduces the issue:**
-
-```js
-
-```
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Please provide additional context
