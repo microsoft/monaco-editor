@@ -1,6 +1,6 @@
 name: Bug Report
 description: File a bug report
-title: "[Bug] "
+title: '[Bug] '
 body:
   - type: markdown
     attributes:
@@ -32,7 +32,7 @@ body:
     attributes:
       label: Actual Behavior
       description: Please describe the actual behavior, as observed in the playground.
-      
+
   - type: textarea
     id: expected-behavior
     attributes:
