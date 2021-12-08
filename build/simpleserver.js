@@ -50,10 +50,10 @@ function generateTestSamplesTask() {
 	const prefix =
 		'//This is a generated file via `npm run simpleserver`\ndefine([], function() { return';
 	const suffix = '; });';
-	fs.writeFileSync(
-		path.join(REPO_ROOT, 'test/manual/generated/all-samples.js'),
-		prefix + JSON.stringify(samples, null, '\t') + suffix
-	);
+
+	const destination = path.join(REPO_ROOT, 'test/manual/generated/all-samples.js');
+	ensureDir(path.dirname(destination));
+	fs.writeFileSync(destination, prefix + JSON.stringify(samples, null, '\t') + suffix);
 
 	/** @type {{ chapter: string; name: string; id: string; path: string; }[]} */
 	const PLAY_SAMPLES = require(path.join(WEBSITE_GENERATED_PATH, 'all.js')).PLAY_SAMPLES;
