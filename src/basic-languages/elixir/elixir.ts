@@ -125,6 +125,7 @@ export const language = <languages.IMonarchLanguage>{
 	sigilSymmetricDelimiter: /"""|'''|"|'|\/|\|/,
 	sigilStartDelimiter: /@sigilSymmetricDelimiter|<|\{|\[|\(/,
 	sigilEndDelimiter: /@sigilSymmetricDelimiter|>|\}|\]|\)/,
+	sigilModifiers: /[a-zA-Z0-9]*/,
 
 	decimal: /\d(?:_?\d)*/,
 	hex: /[0-9a-fA-F](_?[0-9a-fA-F])*/,
@@ -387,7 +388,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		'sigilContinue.interpol.s': [
 			[
-				/(@sigilEndDelimiter)[a-zA-Z]*/,
+				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
 						'$1==$S5': { token: 'string.delimiter', next: '@pop' },
@@ -412,7 +413,7 @@ export const language = <languages.IMonarchLanguage>{
 			// Ignore escaped sigil end
 			[/(^|[^\\])\\@sigilEndDelimiter/, 'string'],
 			[
-				/(@sigilEndDelimiter)[a-zA-Z]*/,
+				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
 						'$1==$S5': { token: 'string.delimiter', next: '@pop' },
@@ -435,7 +436,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		'sigilContinue.interpol.r': [
 			[
-				/(@sigilEndDelimiter)[a-zA-Z]*/,
+				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
 						'$1==$S5': { token: 'regexp.delimiter', next: '@pop' },
@@ -460,7 +461,7 @@ export const language = <languages.IMonarchLanguage>{
 			// Ignore escaped sigil end
 			[/(^|[^\\])\\@sigilEndDelimiter/, 'regexp'],
 			[
-				/(@sigilEndDelimiter)[a-zA-Z]*/,
+				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
 						'$1==$S5': { token: 'regexp.delimiter', next: '@pop' },
@@ -484,7 +485,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		'sigilContinue.interpol': [
 			[
-				/(@sigilEndDelimiter)[a-zA-Z]*/,
+				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
 						'$1==$S5': { token: 'sigil.delimiter', next: '@pop' },
@@ -509,7 +510,7 @@ export const language = <languages.IMonarchLanguage>{
 			// Ignore escaped sigil end
 			[/(^|[^\\])\\@sigilEndDelimiter/, 'sigil'],
 			[
-				/(@sigilEndDelimiter)[a-zA-Z]*/,
+				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
 						'$1==$S5': { token: 'sigil.delimiter', next: '@pop' },

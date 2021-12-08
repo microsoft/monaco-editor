@@ -314,6 +314,17 @@ testTokenization('elixir', [
 			]
 		}
 	],
+	// Sigils (modifiers)
+	[
+		{
+			line: '~X/custom/az09',
+			tokens: [
+				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
+				{ startIndex: 3, type: 'sigil.elixir' },
+				{ startIndex: 9, type: 'sigil.delimiter.elixir' }
+			]
+		}
+	],
 	// Module attributes
 	[
 		{
