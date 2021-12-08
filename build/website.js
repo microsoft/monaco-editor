@@ -98,7 +98,7 @@ function generateWebsite() {
 		}
 
 		let contents = file.contents.toString();
-		contents = contents.replace(/\.\.\/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
+		contents = contents.replace(/\.\.\/release\/dev/g, 'node_modules/monaco-editor/min');
 		// contents = contents.replace(/\.\.\/\.\.\/release\/dev/g, '../monaco-editor/release/dev');
 		contents = contents.replace(/{{version}}/g, MONACO_EDITOR_VERSION);
 		contents = contents.replace(/{{year}}/g, String(new Date().getFullYear()));
