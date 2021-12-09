@@ -1,4 +1,4 @@
-name: Publish Nightly
+name: Publish to npm
 
 on:
   schedule:
@@ -7,8 +7,8 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  nightly:
-    name: Publish Nightly
+  publish:
+    name: Publish to npm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v2
