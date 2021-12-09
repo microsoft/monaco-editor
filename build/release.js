@@ -19,6 +19,7 @@ const { REPO_ROOT, removeDir, readFiles, writeFiles } = require('../build/utils'
 const ts = require('typescript');
 /**@type { IMetadata } */
 const metadata = require('../metadata.js');
+const { generateMetadata } = require('./releaseMetadata');
 
 removeDir(`release`);
 
@@ -36,6 +37,9 @@ releaseDTS();
 
 // ThirdPartyNotices.txt
 releaseThirdPartyNotices();
+
+// esm/metadata.d.ts, esm/metadata.js
+generateMetadata();
 
 // package.json
 (() => {

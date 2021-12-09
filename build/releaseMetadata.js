@@ -8,7 +8,7 @@
 const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
-const { REPO_ROOT, prettier } = require('./utils');
+const { REPO_ROOT, prettier, ensureDir } = require('./utils');
 
 const customFeatureLabels = {
 	'vs/editor/browser/controller/coreCommands': 'coreCommands',
@@ -23,9 +23,6 @@ const customFeatureLabels = {
 	'vs/editor/standalone/browser/quickAccess/standaloneGotoSymbolQuickAccess': 'quickOutline',
 	'vs/editor/standalone/browser/quickAccess/standaloneHelpQuickAccess': 'quickHelp'
 };
-
-generateLanguages();
-generateFeatures();
 
 /**
  * @returns { Promise<{ label: string; entry: string; }[]> }
@@ -114,7 +111,7 @@ function getAdvancedLanguages() {
 	}
 }
 
-function generateLanguages() {
+function generateMetadata() {
 	return Promise.all([getBasicLanguages(), getAdvancedLanguages()]).then(
 		([basicLanguages, advancedLanguages]) => {
 			basicLanguages.sort(strcmp);
@@ -124,14 +121,14 @@ function generateLanguages() {
 				len = basicLanguages.length;
 			let j = 0,
 				lenJ = advancedLanguages.length;
-			let result = [];
+			let languages = [];
 			while (i < len || j < lenJ) {
 				if (i < len && j < lenJ) {
 					if (basicLanguages[i].label === advancedLanguages[j].label) {
 						let entry = [];
 						entry.push(basicLanguages[i].entry);
 						entry.push(advancedLanguages[j].entry);
-						result.push({
+						languages.push({
 							label: basicLanguages[i].label,
 							entry: entry,
 							worker: advancedLanguages[j].worker
@@ -139,56 +136,67 @@ function generateLanguages() {
 						i++;
 						j++;
 					} else if (basicLanguages[i].label < advancedLanguages[j].label) {
-						result.push(basicLanguages[i]);
+						languages.push(basicLanguages[i]);
 						i++;
 					} else {
-						result.push(advancedLanguages[j]);
+						languages.push(advancedLanguages[j]);
 						j++;
 					}
 				} else if (i < len) {
-					result.push(basicLanguages[i]);
+					languages.push(basicLanguages[i]);
 					i++;
 				} else {
-					result.push(advancedLanguages[j]);
+					languages.push(advancedLanguages[j]);
 					j++;
 				}
 			}
 
-			const code = `//
-// THIS IS A GENERATED FILE. PLEASE DO NOT EDIT DIRECTLY.
-// GENERATED USING node scripts/import-editor.js
-//
-import { IFeatureDefinition } from "./types";
+			const features = getFeatures();
 
-export const languagesArr: IFeatureDefinition[] = ${JSON.stringify(result, null, '  ')
-				.replace(/"label":/g, 'label:')
-				.replace(/"entry":/g, 'entry:')
-				.replace(/"worker":/g, 'worker:')
-				.replace(/"id":/g, 'id:')
-				.replace(/"/g, "'")};
+			const dtsContents = `
+/*!----------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Released under the MIT license
+ * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
+ *----------------------------------------------------------------*/
 
-export type EditorLanguage = ${result.map((el) => `'${el.label}'`).join(' | ')};
+export interface IWorkerDefinition {
+	id: string;
+	entry: string;
+}
+
+export interface IFeatureDefinition {
+	label: string;
+	entry: string | string[] | undefined;
+	worker?: IWorkerDefinition;
+}
+
+export const features: IFeatureDefinition[];
+
+export const languages: IFeatureDefinition[];
+
+export type EditorLanguage = ${languages.map((el) => `'${el.label}'`).join(' | ')};
+
+export type EditorFeature = ${features.map((el) => `'${el.label}'`).join(' | ')};
+
+export type NegatedEditorFeature = ${features.map((el) => `'!${el.label}'`).join(' | ')};
 
 `;
-			fs.writeFileSync(
-				path.join(REPO_ROOT, 'webpack-plugin/src/languages.ts'),
-				code.replace(/\r\n/g, '\n')
-			);
+			const dtsDestination = path.join(REPO_ROOT, 'release/esm/metadata.d.ts');
+			ensureDir(path.dirname(dtsDestination));
+			fs.writeFileSync(dtsDestination, dtsContents.replace(/\r\n/g, '\n'));
 
-			prettier('webpack-plugin/src/languages.ts');
-
-			const readmeLanguages = JSON.stringify(result.map((r) => r.label))
-				.replace(/"/g, "'")
-				.replace(/','/g, "', '");
-			let readme = fs.readFileSync(path.join(REPO_ROOT, 'webpack-plugin/README.md')).toString();
-			readme = readme.replace(
-				/<!-- LANGUAGES_BEGIN -->([^<]+)<!-- LANGUAGES_END -->/,
-				`<!-- LANGUAGES_BEGIN -->\`${readmeLanguages}\`<!-- LANGUAGES_END -->`
-			);
-			fs.writeFileSync(path.join(REPO_ROOT, 'webpack-plugin/README.md'), readme);
+			const jsContents = `
+exports.features = ${JSON.stringify(features, null, '  ')};
+exports.languages = ${JSON.stringify(languages, null, '  ')};
+`;
+			const jsDestination = path.join(REPO_ROOT, 'release/esm/metadata.js');
+			ensureDir(path.dirname(jsDestination));
+			fs.writeFileSync(jsDestination, jsContents.replace(/\r\n/g, '\n'));
 		}
 	);
 }
+exports.generateMetadata = generateMetadata;
 
 /**
  * @tyoe {string} a
@@ -204,7 +212,10 @@ function strcmp(a, b) {
 	return 0;
 }
 
-function generateFeatures() {
+/**
+ * @returns {{label:string;entry:string|string[];}[]}
+ */
+function getFeatures() {
 	const skipImports = [
 		'vs/editor/browser/widget/codeEditorWidget',
 		'vs/editor/browser/widget/diffEditorWidget',
@@ -257,35 +268,5 @@ function generateFeatures() {
 		}
 	}
 
-	const code = `//
-// THIS IS A GENERATED FILE. PLEASE DO NOT EDIT DIRECTLY.
-// GENERATED USING node scripts/import-editor.js
-//
-import { IFeatureDefinition } from "./types";
-
-export const featuresArr: IFeatureDefinition[] = ${JSON.stringify(result, null, '  ')
-		.replace(/"label":/g, 'label:')
-		.replace(/"entry":/g, 'entry:')
-		.replace(/"/g, "'")};
-
-export type EditorFeature = ${result.map((el) => `'${el.label}'`).join(' | ')};
-
-export type NegatedEditorFeature = ${result.map((el) => `'!${el.label}'`).join(' | ')};
-`;
-	fs.writeFileSync(
-		path.join(REPO_ROOT, 'webpack-plugin/src/features.ts'),
-		code.replace(/\r\n/g, '\n')
-	);
-
-	prettier('webpack-plugin/src/features.ts');
-
-	const readmeFeatures = JSON.stringify(result.map((r) => r.label))
-		.replace(/"/g, "'")
-		.replace(/','/g, "', '");
-	let readme = fs.readFileSync(path.join(REPO_ROOT, 'webpack-plugin/README.md')).toString();
-	readme = readme.replace(
-		/<!-- FEATURES_BEGIN -->([^<]+)<!-- FEATURES_END -->/,
-		`<!-- FEATURES_BEGIN -->\`${readmeFeatures}\`<!-- FEATURES_END -->`
-	);
-	fs.writeFileSync(path.join(REPO_ROOT, 'webpack-plugin/README.md'), readme);
+	return result;
 }
