@@ -3,7 +3,8 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"serve": "vite preview"
+		"serve": "vite preview",
+		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999"
 	},
 	"dependencies": {},
 	"devDependencies": {
