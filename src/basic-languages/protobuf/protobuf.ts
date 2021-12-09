@@ -132,6 +132,11 @@ export const language = <languages.IMonarchLanguage>{
 			[
 				/(")(proto2)(")/,
 				['string.quote', 'string', { token: 'string.quote', switchTo: '@topLevel.proto2' }]
+			],
+			[
+				// If no `syntax` provided, regarded as proto2
+				/.*?/,
+				{ token: '', switchTo: '@topLevel.proto2' }
 			]
 		],
 
