@@ -136,7 +136,7 @@ jobs:
         run: node ./monaco-editor/.github/workflows/nightly/useLocalMonacoEditorCore.js
 
       - name: (monaco-editor) execute `npm install` to pick up local monaco-editor-core
-        working-directory: './monaco-editor/webpack-plugin'
+        working-directory: './monaco-editor'
         run: npm install
 
       - name: (monaco-editor) Install OS Dependencies for Playwright
