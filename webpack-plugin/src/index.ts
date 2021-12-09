@@ -3,10 +3,12 @@ import * as path from 'path';
 import * as loaderUtils from 'loader-utils';
 import * as fs from 'fs';
 import { AddWorkerEntryPointPlugin } from './plugins/AddWorkerEntryPointPlugin';
-import { languagesArr, EditorLanguage } from './languages';
-import { featuresArr, EditorFeature, NegatedEditorFeature } from './features';
 import { IFeatureDefinition } from './types';
 import { ILoaderOptions } from './loaders/include';
+
+// TODO: replace once a new monaco-editor version is published
+// import { EditorLanguage, EditorFeature, NegatedEditorFeature } from 'monaco-editor/esm/metadata';
+import { EditorLanguage, EditorFeature, NegatedEditorFeature } from './metadata';
 
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
 
@@ -18,12 +20,6 @@ const EDITOR_MODULE: IFeatureDefinition = {
 		entry: 'vs/editor/editor.worker'
 	}
 };
-
-const languagesById: { [language: string]: IFeatureDefinition } = {};
-languagesArr.forEach((language) => (languagesById[language.label] = language));
-
-const featuresById: { [feature: string]: IFeatureDefinition } = {};
-featuresArr.forEach((feature) => (featuresById[feature.label] = feature));
 
 /**
  * Return a resolved path for a given Monaco file.
@@ -57,14 +53,30 @@ function getWorkerFilename(
 	});
 }
 
-function getFeaturesIds(userFeatures: string[]): string[] {
+interface EditorMetadata {
+	features: IFeatureDefinition[];
+	languages: IFeatureDefinition[];
+}
+
+function getEditorMetadata(monacoEditorPath: string | undefined): EditorMetadata {
+	const metadataPath = resolveMonacoPath('metadata.js', monacoEditorPath);
+	return require(metadataPath);
+}
+
+function resolveDesiredFeatures(
+	metadata: EditorMetadata,
+	userFeatures: (EditorFeature | NegatedEditorFeature)[] | undefined
+): IFeatureDefinition[] {
+	const featuresById: { [feature: string]: IFeatureDefinition } = {};
+	metadata.features.forEach((feature) => (featuresById[feature.label] = feature));
+
 	function notContainedIn(arr: string[]) {
 		return (element: string) => arr.indexOf(element) === -1;
 	}
 
 	let featuresIds: string[];
 
-	if (userFeatures.length) {
+	if (userFeatures && userFeatures.length) {
 		const excludedFeatures = userFeatures.filter((f) => f[0] === '!').map((f) => f.slice(1));
 		if (excludedFeatures.length) {
 			featuresIds = Object.keys(featuresById).filter(notContainedIn(excludedFeatures));
@@ -75,7 +87,19 @@ function getFeaturesIds(userFeatures: string[]): string[] {
 		featuresIds = Object.keys(featuresById);
 	}
 
-	return featuresIds;
+	return coalesce(featuresIds.map((id) => featuresById[id]));
+}
+
+function resolveDesiredLanguages(
+	metadata: EditorMetadata,
+	userLanguages: EditorLanguage[] | undefined,
+	userCustomLanguages: IFeatureDefinition[] | undefined
+): IFeatureDefinition[] {
+	const languagesById: { [language: string]: IFeatureDefinition } = {};
+	metadata.languages.forEach((language) => (languagesById[language.label] = language));
+
+	const languages = userLanguages || Object.keys(languagesById);
+	return coalesce(languages.map((id) => languagesById[id])).concat(userCustomLanguages || []);
 }
 
 interface IMonacoEditorWebpackPluginOpts {
@@ -138,14 +162,15 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 	private readonly options: IInternalMonacoEditorWebpackPluginOpts;
 
 	constructor(options: IMonacoEditorWebpackPluginOpts = {}) {
-		const languages = options.languages || Object.keys(languagesById);
-		const customLanguages = options.customLanguages || [];
-		const features = getFeaturesIds(options.features || []);
+		const monacoEditorPath = options.monacoEditorPath;
+		const metadata = getEditorMetadata(monacoEditorPath);
+		const languages = resolveDesiredLanguages(metadata, options.languages, options.customLanguages);
+		const features = resolveDesiredFeatures(metadata, options.features);
 		this.options = {
-			languages: coalesce(languages.map((id) => languagesById[id])).concat(customLanguages),
-			features: coalesce(features.map((id) => featuresById[id])),
+			languages,
+			features,
 			filename: options.filename || '[name].worker.js',
-			monacoEditorPath: options.monacoEditorPath,
+			monacoEditorPath,
 			publicPath: options.publicPath || '',
 			globalAPI: options.globalAPI || false
 		};
