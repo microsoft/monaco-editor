@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: 'microsoft/vscode'
-          ref: ${{ steps.state.outputs.vscode_branch }}"
+          ref: ${{ steps.state.outputs.vscode_branch }}
           path: './vscode'
 
       # TODO
