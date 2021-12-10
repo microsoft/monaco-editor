@@ -32,6 +32,10 @@ jobs:
           node ./monaco-editor/.github/workflows/publish/computeState.js "${{github.event_name}}" "${{github.event.inputs.nightly}}"
         # outputs: version, vscode_branch, skip_monaco_editor_core, skip_monaco_editor
 
+      - name: Print state
+        run: |
+          echo ${{ steps.state.outputs.vscode_branch }}
+
       - name: (vscode) checkout
         uses: actions/checkout@v2
         with:
