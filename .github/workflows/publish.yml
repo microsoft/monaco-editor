@@ -30,11 +30,7 @@ jobs:
         run: |
           echo '::echo::on'
           node ./monaco-editor/.github/workflows/publish/computeState.js "${{github.event_name}}" "${{github.event.inputs.nightly}}"
-        # outputs: version, vscode_branch, skip_monaco_editor_core, skip_monaco_editor
-
-      # TODO
-      - name: Early stop
-        run: exit 1
+        # outputs: dist_tag, version, vscode_branch, skip_monaco_editor_core, skip_monaco_editor
 
       - name: (vscode) checkout
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
@@ -144,8 +140,7 @@ jobs:
       - name: Publish `monaco-editor-core`
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode/out-monaco-editor-core'
-        run: npm publish --tag next
-        #TODO
+        run: npm publish --tag ${{ steps.state.outputs.dist_tag }}
 
       - name: Delete `npm` config
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
@@ -223,5 +218,4 @@ jobs:
       - name: Publish `monaco-editor`
         if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor/release'
-        run: npm publish --tag next
-        #TODO
+        run: npm publish --tag ${{ steps.state.outputs.dist_tag }}
