@@ -479,7 +479,7 @@
   dependencies:
     "@types/node" "*"
 
-"@vitejs/plugin-react@^1.0.9":
+"@vitejs/plugin-react@1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-1.1.1.tgz#5a242c64fa0a588e5b203938e5bd6d05fa25edf2"
   integrity sha512-IJSRD4culdwQ6cRK0D1mstV1vdvYSb2HK1JQ1FDo6Hr7j5ppWJEwBC2v/Gy0h/A1lMmi4AnXACY/d10EgbQNEA==
@@ -961,7 +961,7 @@ graphql-language-service-utils@^2.7.1:
     graphql-language-service-types "^1.8.7"
     nullthrows "^1.0.0"
 
-graphql-language-service@^4.1.4:
+graphql-language-service@^4.1.3:
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/graphql-language-service/-/graphql-language-service-4.1.4.tgz#9be998e94c6c2950d4cde5ab07bcd63969afc176"
   integrity sha512-LJk1vwwWwh8onewIzjbXXfa7C5mI6tNN67yztFbmQmfDQv1naZfqKLitudQWaDwJgLqAlpKIefRaeU3cNYHRFQ==
@@ -1129,17 +1129,17 @@ minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-monaco-editor@^0.30.1:
-  version "0.30.1"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.30.1.tgz#47f8d18a0aa2264fc5654581741ab8d7bec01689"
-  integrity sha512-B/y4+b2O5G2gjuxIFtCE2EkM17R2NM7/3F8x0qcPsqy4V83bitJTIO4TIeZpYlzu/xy6INiY/+84BEm6+7Cmzg==
+monaco-editor@0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.27.0.tgz#4b69108bb1dc1f60174c5dcdf51bc5306ab5ba26"
+  integrity sha512-UhwP78Wb8w0ZSYoKXQNTV/0CHObp6NS3nCt51QfKE6sKyBo5PBsvuDOHoI2ooBakc6uIwByRLHVeT7+yXQe2fQ==
 
-monaco-graphql@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/monaco-graphql/-/monaco-graphql-1.0.7.tgz#ce6d3d7b739df6cc388c26c3014f3298da7fcdeb"
-  integrity sha512-IT+tROKbyU++I2rzm2kYKWtTQQCMZC8AkCmg3GsEXed80Zq9O9tFTQGIk6Zzpwe0S2ph5+QUCte2NZQ+d5qj9Q==
+monaco-graphql@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/monaco-graphql/-/monaco-graphql-1.0.6.tgz#9b934d780538fb14f7895a93cffee6ac407923bf"
+  integrity sha512-4gxRolupboGrgkjUsgNTQ/Bx9Q8ufHSHYW5ZxC0a8LYS4RcPkd1PuO+VyjyNky4jLT0SHVhmxqk361RCgb5Mww==
   dependencies:
-    graphql-language-service "^4.1.4"
+    graphql-language-service "^4.1.3"
     graphql-language-service-utils "^2.7.1"
     picomatch-browser "^2.2.5"
 
