@@ -103,10 +103,8 @@ export const Editor: VFC = () => {
 						[operationUri]: [variablesModel.uri.toString()]
 					},
 					jsonDiagnosticSettings: {
-						// jsonc tip!
 						allowComments: true,
 						schemaValidation: 'error',
-						// this is nice too
 						trailingCommas: 'warning'
 					}
 				});
