@@ -9,7 +9,7 @@ const fs = require('fs');
 const cp = require('child_process');
 
 if (process.argv.length !== 3) {
-	console.error(`usage: node updateVersion.js <PATH_TO_PACKAGE_JSON_FILE>`);
+	console.error(`usage: node setNightlyVersion.js <PATH_TO_PACKAGE_JSON_FILE>`);
 	process.exit(1);
 }
 

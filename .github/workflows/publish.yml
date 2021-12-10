@@ -25,11 +25,21 @@ jobs:
           repository: 'microsoft/monaco-editor'
           path: './monaco-editor'
 
+      - name: Compute state
+        id: state
+        run: node ./monaco-editor/.github/workflows/publish/computeState.js "${{github.event_name}}" "${{github.event.inputs.nightly}}"
+        # outputs: version, vscode_branch, skip_monaco_editor_core, skip_monaco_editor
+
       - name: (vscode) checkout
         uses: actions/checkout@v2
         with:
           repository: 'microsoft/vscode'
+          ref: ${{ steps.state.outputs.vscode_branch }}"
           path: './vscode'
+
+      # TODO
+      - name: Early stop
+        run: exit 1
 
       - name: (vscode-loc) checkout
         uses: actions/checkout@v2
