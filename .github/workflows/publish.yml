@@ -2,7 +2,7 @@ name: Publish to npm
 
 on:
   schedule:
-    - cron: '16 8 * * *'
+    - cron: '0 7 * * *'
   # enable users to manually trigger with workflow_dispatch
   workflow_dispatch:
     inputs:
@@ -10,16 +10,11 @@ on:
         description: 'is nightly?'
         required: true
         default: 'true'
-
 jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo ${{github.event_name}}
-          echo ${{github.event.inputs.nightly}}
-
       - uses: actions/setup-node@v2
         with:
           node-version: 14
@@ -75,7 +70,7 @@ jobs:
         run: yarn test-browser --browser chromium
 
       - name: (vscode) Patch package.json version
-        if: ${{ github.event.inputs.nightly == 'true' }}
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
         run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./vscode/build/monaco/package.json
 
       - name: (vscode) Editor Distro
@@ -117,7 +112,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish `monaco-editor-core`
-        if: ${{ github.event.inputs.nightly == 'true' }}
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
         working-directory: './vscode/out-monaco-editor-core'
         run: npm publish --tag next
 
@@ -125,7 +120,7 @@ jobs:
         run: npm config delete //registry.npmjs.org/:_authToken
 
       - name: (monaco-editor) Patch package.json version
-        if: ${{ github.event.inputs.nightly == 'true' }}
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
         run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./monaco-editor/package.json
 
       - name: (monaco-editor) execute `npm ci` (1)
@@ -181,6 +176,6 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish `monaco-editor`
-        if: ${{ github.event.inputs.nightly == 'true' }}
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
         working-directory: './monaco-editor/release'
         run: npm publish --tag next
