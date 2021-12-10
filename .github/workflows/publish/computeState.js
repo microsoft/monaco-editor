@@ -29,6 +29,8 @@ if (!/^((true)|(false)|())$/.test(STR_NIGHTLY)) {
 
 const NIGHTLY = EVENT_NAME === 'schedule' || STR_NIGHTLY === 'true';
 
+const distTag = NIGHTLY ? 'next' : 'latest';
+
 const latestMonacoEditorVersion = npmGetLatestVersion('monaco-editor');
 const version = (() => {
 	if (NIGHTLY) {
@@ -57,10 +59,11 @@ const skipMonacoEditorCore = (() => {
 })();
 
 const skipMonacoEditor = (() => {
-	return /** @type {'true'|'false'} */ (String(npmExists('monaco-editor-core', version)));
+	return /** @type {'true'|'false'} */ (String(npmExists('monaco-editor', version)));
 })();
 
 console.log(`
+::set-output name=dist_tag::${distTag}
 ::set-output name=version::${version}
 ::set-output name=vscode_branch::${vscodeBranch}
 ::set-output name=skip_monaco_editor_core::${skipMonacoEditorCore}

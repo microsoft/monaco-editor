@@ -32,9 +32,9 @@ jobs:
           node ./monaco-editor/.github/workflows/publish/computeState.js "${{github.event_name}}" "${{github.event.inputs.nightly}}"
         # outputs: version, vscode_branch, skip_monaco_editor_core, skip_monaco_editor
 
-      # - name: Print state
-      #   run: |
-      #     echo ${{ steps.state.outputs.vscode_branch }}
+      # TODO
+      - name: Early stop
+        run: exit 1
 
       - name: (vscode) checkout
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
@@ -145,72 +145,83 @@ jobs:
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode/out-monaco-editor-core'
         run: npm publish --tag next
+        #TODO
 
       - name: Delete `npm` config
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         run: npm config delete //registry.npmjs.org/:_authToken
 
-      # TODO
-      - name: Early stop
-        run: exit 1
-
       - name: (monaco-editor) Patch package.json version
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
-        run: node ./monaco-editor/.github/workflows/publish/setNightlyVersion.js ./monaco-editor/package.json
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
+        run: node ./monaco-editor/.github/workflows/publish/setVersion.js ./monaco-editor/package.json ${{ steps.state.outputs.version }}
 
       - name: (monaco-editor) execute `npm ci` (1)
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm ci
 
       - name: (monaco-editor) execute `npm ci` (2)
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor/webpack-plugin'
         run: npm ci
 
-      - name: (monaco-editor) Use local monaco-editor-core
-        run: node ./monaco-editor/.github/workflows/publish/useLocalMonacoEditorCore.js
+      - name: (monaco-editor) Patch package.json monaco-editor-core dev dependency version
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
+        run: node ./monaco-editor/.github/workflows/publish/setDevDependencyVersion.js ./monaco-editor/package.json monaco-editor-core ${{ steps.state.outputs.version }}
 
       - name: (monaco-editor) execute `npm install` to pick up local monaco-editor-core
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm install
 
       - name: (monaco-editor) Install OS Dependencies for Playwright
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: sudo npm run playwright-install-deps
 
       - name: (monaco-editor) Check prettier
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm run prettier-check
 
       - name: (monaco-editor) Build
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm run release
 
       - name: (monaco-editor) Run unit tests
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm test
 
       - name: (monaco-editor) Compile webpack plugin
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm run compile --prefix webpack-plugin
 
       - name: (monaco-editor) Package using webpack plugin
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm run smoketest --prefix webpack-plugin
 
       - name: (monaco-editor) Run smoke test
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm run smoketest
 
       - name: (monaco-editor) Build website
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
         run: npm run build-website
 
       - name: Set `npm` config
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         run: npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish `monaco-editor`
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor/release'
         run: npm publish --tag next
+        #TODO
