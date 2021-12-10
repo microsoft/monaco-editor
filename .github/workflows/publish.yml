@@ -71,7 +71,7 @@ jobs:
 
       - name: (vscode) Patch package.json version
         if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
-        run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./vscode/build/monaco/package.json
+        run: node ./monaco-editor/.github/workflows/publish/setNightlyVersion.js ./vscode/build/monaco/package.json
 
       - name: (vscode) Editor Distro
         working-directory: './vscode'
@@ -121,7 +121,7 @@ jobs:
 
       - name: (monaco-editor) Patch package.json version
         if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
-        run: node ./monaco-editor/.github/workflows/nightly/setNightlyVersion.js ./monaco-editor/package.json
+        run: node ./monaco-editor/.github/workflows/publish/setNightlyVersion.js ./monaco-editor/package.json
 
       - name: (monaco-editor) execute `npm ci` (1)
         working-directory: './monaco-editor'
@@ -132,7 +132,7 @@ jobs:
         run: npm ci
 
       - name: (monaco-editor) Use local monaco-editor-core
-        run: node ./monaco-editor/.github/workflows/nightly/useLocalMonacoEditorCore.js
+        run: node ./monaco-editor/.github/workflows/publish/useLocalMonacoEditorCore.js
 
       - name: (monaco-editor) execute `npm install` to pick up local monaco-editor-core
         working-directory: './monaco-editor'
