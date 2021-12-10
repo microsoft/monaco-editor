@@ -1,5 +1,26 @@
 # Monaco Editor Changelog
 
+## [0.31.0] (10.12.2021)
+
+- adds support for [highlighting non basic ASCII, invisible or ambiguous unicode characters](https://code.visualstudio.com/updates/v1_63#_unicode-highlighting).
+- adds support for setting an editor banner
+- streaming hover results in case of multiple hover providers
+- fixes multiple IME issues
+
+### Thank you
+
+- [@activeguild (j1ngzoue)](https://github.com/activeguild): Add 'browser-ems-vite-react' sample [PR #2767](https://github.com/microsoft/monaco-editor/pull/2767)
+- [@emojiiii (C.Y.Kun)](https://github.com/emojiiii): Fix some errors on the website playground [PR #2779](https://github.com/microsoft/monaco-editor/pull/2779)
+- [@gitpaladin (Chen Minglong)](https://github.com/gitpaladin): Fix token while missing `syntax=` directive [PR #2809](https://github.com/microsoft/monaco-editor/pull/2809)
+- [@jonatanklosko (Jonatan Kłosko)](https://github.com/jonatanklosko): Update Elixir tokenization of sigil modifiers [PR #2806](https://github.com/microsoft/monaco-editor/pull/2806)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin)
+  - Update builtin functions for mysql [PR #2749](https://github.com/microsoft/monaco-editor/pull/2749)
+  - Update list of keywords for redshift [PR #2757](https://github.com/microsoft/monaco-editor/pull/2757)
+  - Remove return from example addAction [PR #2772](https://github.com/microsoft/monaco-editor/pull/2772)
+- [@milahu](https://github.com/milahu): fix link to monaco.d.ts [PR #2769](https://github.com/microsoft/monaco-editor/pull/2769)
+- [@Pranomvignesh (Pranom Vignesh)](https://github.com/Pranomvignesh): Semantic Tokens Provider Sample is broken in docs [PR #2764](https://github.com/microsoft/monaco-editor/pull/2764)
+- [@rramo012 (Rafael Ramos)](https://github.com/rramo012): Fixing the documentation links [PR #2748](https://github.com/microsoft/monaco-editor/pull/2748)
+
 ## [0.30.1] (09.11.2021)
 
 - Fixes [a performance regression where all languages would be loaded when loading the first language](https://github.com/microsoft/monaco-editor/issues/2750).

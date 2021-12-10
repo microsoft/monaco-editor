@@ -11,45 +11,16 @@
 
 ## Shipping a new monaco-editor npm module
 
-#### 0.
-
-- make sure you have `https://github.com/microsoft/vscode-loc` checked out next to the `vscode` folder.
-
-#### 1. Ship a new `monaco-editor-core` npm module
-
-- bump version in `/src/vscode/build/monaco/package.json`
-- **[important]** push all local changes to the remote to get a good public commit id.
-- generate npm package `/src/vscode> yarn gulp editor-distro`
-- publish npm package `/src/vscode/out-monaco-editor-core> npm publish`
-
-#### 2. Adopt new `monaco-editor-core` version
-
-- edit `/src/monaco-editor/package.json` and update the version of [`monaco-editor-core`](https://www.npmjs.com/package/monaco-editor-core)
-
-```sh
-# fetch latest deps
-/src/monaco-editor> npm install .
-```
-
-#### 4. Generate and try out the local release
-
-- run the editor smoketest via CI or [manually](#running-the-editor-tests).
-
-#### 5. Update release note.
-
-- API Changes / Breaking Changes / New and noteworthy
-- Thank you ([use this tool](https://vscode-tools.azurewebsites.net/))
-
-#### 6. Publish
-
-- `/src/monaco-editor> npm version minor`
-- `/src/monaco-editor> npm run release`
-- `/src/monaco-editor/release> npm publish`
-- `/src/monaco-editor> git push origin v0.50.0`
-
-#### 7. Update Website
-
-- `/src/monaco-editor> npm run website`
+- update `package.json` and bump `"version"` as necessary
+- update `package.json` and edit `"vscode"` to point to the vscode repo commit that should be shipped at `monaco-editor-core` (both `monaco-editor-core` and `monaco-editor` will be published under the same version defined in `package.json`).
+- trigger a build using [`Publish to npm`](https://github.com/microsoft/monaco-editor/actions/workflows/publish.yml) and type false when asked "is nightly?"
+- if the publish succeeded, run `git tag 0.x.y` and `git push origin 0.x.y`
+- edit `package.json` and update the `"monaco-editor-core"` dev dependency.
+- run `npm install`
+- run `npm run release`
+- write entry in `CHANGELOG.md`
+  - API Changes / Breaking Changes / New and noteworthy
+  - Thank you ([use this tool](https://vscode-tools.azurewebsites.net/acknowledgement/))
 
 #### 8. Publish new webpack plugin
 
