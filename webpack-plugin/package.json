@@ -30,13 +30,13 @@
 	"homepage": "https://github.com/microsoft/monaco-editor#readme",
 	"peerDependencies": {
 		"webpack": "^4.5.0 || 5.x",
-		"monaco-editor": "0.30.x"
+		"monaco-editor": ">= 0.31.0"
 	},
 	"devDependencies": {
 		"css-loader": "^6.5.1",
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
-		"monaco-editor": "^0.30.1",
+		"monaco-editor": "^0.31.0",
 		"style-loader": "^3.3.1",
 		"typescript": "^4.4.4",
 		"webpack": "^5.64.1",

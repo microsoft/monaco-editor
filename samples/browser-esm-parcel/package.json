@@ -11,7 +11,7 @@
 		"build-worker": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps --no-optimize"
 	},
 	"devDependencies": {
-		"monaco-editor": "^0.30.1",
+		"monaco-editor": "^0.31.0",
 		"parcel": "^2.0.1"
 	}
 }

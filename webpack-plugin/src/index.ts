@@ -5,10 +5,7 @@ import * as fs from 'fs';
 import { AddWorkerEntryPointPlugin } from './plugins/AddWorkerEntryPointPlugin';
 import { IFeatureDefinition } from './types';
 import { ILoaderOptions } from './loaders/include';
-
-// TODO: replace once a new monaco-editor version is published
-// import { EditorLanguage, EditorFeature, NegatedEditorFeature } from 'monaco-editor/esm/metadata';
-import { EditorLanguage, EditorFeature, NegatedEditorFeature } from './metadata';
+import { EditorLanguage, EditorFeature, NegatedEditorFeature } from 'monaco-editor/esm/metadata';
 
 const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
 
