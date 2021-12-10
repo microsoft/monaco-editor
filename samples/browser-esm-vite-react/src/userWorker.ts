@@ -6,12 +6,12 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import gqlWorker from 'monaco-graphql/esm/graphql.worker?worker';
 
+console.log('setitup');
 // @ts-ignore
 self.MonacoEnvironment = {
 	getWorker(_: any, label: string) {
 		console.log(label);
 		if (label === 'graphql') {
-			console.log('getem');
 			return new gqlWorker();
 		}
 		if (label === 'json') {
