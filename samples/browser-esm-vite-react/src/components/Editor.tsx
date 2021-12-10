@@ -4,10 +4,6 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { schemaFetcher } from '../schema';
 
-// import 'monaco-editor/esm/vs/basic-languages/css/css.contribution'
-// import 'monaco-editor/esm/vs/basic-languages/xml/xml.contribution'
-// import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution'
-
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
@@ -20,7 +16,6 @@ self.MonacoEnvironment = {
 	getWorker(_: any, label: string) {
 		console.log(label);
 		if (label === 'graphql') {
-			console.log('comen', new gqlWorker());
 			return new gqlWorker();
 		}
 		if (label === 'json') {
@@ -48,7 +43,6 @@ const operationString = `query {
 }`;
 
 export const Editor: VFC = () => {
-	// const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
 	const monacoEl = useRef(null);
 	const monacoVarEl = useRef(null);
 	const monacoResEl = useRef(null);
@@ -120,7 +114,6 @@ export const Editor: VFC = () => {
 		};
 
 		run();
-		// return () => editor?.dispose();
 	}, [monacoEl.current]);
 	const style = { height: '100px', width: '100vw' };
 
