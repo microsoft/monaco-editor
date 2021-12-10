@@ -32,72 +32,81 @@ jobs:
           node ./monaco-editor/.github/workflows/publish/computeState.js "${{github.event_name}}" "${{github.event.inputs.nightly}}"
         # outputs: version, vscode_branch, skip_monaco_editor_core, skip_monaco_editor
 
-      - name: Print state
-        run: |
-          echo ${{ steps.state.outputs.vscode_branch }}
+      # - name: Print state
+      #   run: |
+      #     echo ${{ steps.state.outputs.vscode_branch }}
 
       - name: (vscode) checkout
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         uses: actions/checkout@v2
         with:
           repository: 'microsoft/vscode'
           ref: ${{ steps.state.outputs.vscode_branch }}
           path: './vscode'
 
-      # TODO
-      - name: Early stop
-        run: exit 1
-
       - name: (vscode-loc) checkout
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         uses: actions/checkout@v2
         with:
           repository: 'microsoft/vscode-loc'
           path: './vscode-loc'
 
       - name: (vscode) execute `yarn`
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn --frozen-lockfile --network-timeout 180000
 
       - name: (vscode) Run Hygiene Checks
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn gulp hygiene
 
       - name: (vscode) Run Valid Layers Checks
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn valid-layers-check
 
       - name: (vscode) Compile /build/
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn --cwd build compile
 
       - name: (vscode) Run eslint
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn eslint
 
       - name: (vscode) Run Monaco Editor Checks
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn monaco-compile-check
 
       - name: (vscode) Compile
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn --max_old_space_size=4095 compile
 
       - name: (vscode) Run Unit Tests (Browser)
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn test-browser --browser chromium
 
       - name: (vscode) Patch package.json version
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
-        run: node ./monaco-editor/.github/workflows/publish/setNightlyVersion.js ./vscode/build/monaco/package.json
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
+        run: node ./monaco-editor/.github/workflows/publish/setVersion.js ./vscode/build/monaco/package.json ${{ steps.state.outputs.version }}
 
       - name: (vscode) Editor Distro
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: yarn gulp editor-distro
 
       - name: (vscode) Typings validation prep
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
         run: mkdir typings-test
 
       - name: (vscode) Typings validation
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: ./vscode/typings-test
         run: |
           yarn init -yp
@@ -106,34 +115,44 @@ jobs:
           ../node_modules/.bin/tsc --noEmit
 
       - name: (vscode) Webpack Editor
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: ./vscode/test/monaco
         run: yarn run bundle
 
       - name: (vscode) Compile Editor Tests
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: ./vscode/test/monaco
         run: yarn run compile
 
       - name: (vscode) Download Playwright
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: ./vscode
         run: yarn playwright-install
 
       - name: (vscode) Run Editor Tests
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         timeout-minutes: 5
         working-directory: ./vscode/test/monaco
         run: yarn test
 
       - name: Set `npm` config
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         run: npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish `monaco-editor-core`
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode/out-monaco-editor-core'
         run: npm publish --tag next
 
       - name: Delete `npm` config
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         run: npm config delete //registry.npmjs.org/:_authToken
+
+      # TODO
+      - name: Early stop
+        run: exit 1
 
       - name: (monaco-editor) Patch package.json version
         if: ${{ github.event_name == 'schedule' || github.event.inputs.nightly == 'true' }}
