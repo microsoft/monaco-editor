@@ -6,7 +6,11 @@
 		"serve": "vite preview",
 		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"graphql": "^16.1.0",
+		"monaco-graphql": "^1.0.7",
+		"prettier": "^2.5.1"
+	},
 	"devDependencies": {
 		"monaco-editor": "^0.30.1",
 		"react": "^17.0.2",

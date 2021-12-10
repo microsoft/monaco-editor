@@ -4,10 +4,16 @@ import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+import gqlWorker from 'monaco-graphql/esm/graphql.worker?worker';
 
 // @ts-ignore
 self.MonacoEnvironment = {
 	getWorker(_: any, label: string) {
+		console.log(label);
+		if (label === 'graphql') {
+			console.log('getem');
+			return new gqlWorker();
+		}
 		if (label === 'json') {
 			return new jsonWorker();
 		}
