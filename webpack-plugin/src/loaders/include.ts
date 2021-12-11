@@ -1,4 +1,5 @@
 import type { PitchLoaderDefinitionFunction } from 'webpack';
+import * as loaderUtils from 'loader-utils';
 
 export interface ILoaderOptions {
 	globals?: { [key: string]: string };
@@ -9,7 +10,7 @@ export interface ILoaderOptions {
 export const pitch: PitchLoaderDefinitionFunction<ILoaderOptions> = function pitch(
 	remainingRequest
 ) {
-	const { globals = undefined, pre = [], post = [] } = this.getOptions() || {};
+	const { globals = undefined, pre = [], post = [] } = (this.query as ILoaderOptions) || {};
 
 	// HACK: NamedModulesPlugin overwrites existing modules when requesting the same module via
 	// different loaders, so we need to circumvent this by appending a suffix to make the name unique
@@ -19,7 +20,10 @@ export const pitch: PitchLoaderDefinitionFunction<ILoaderOptions> = function pit
 	}
 
 	const stringifyRequest = (request: string) => {
-		return JSON.stringify(this.utils.contextify(this.context || this.rootContext, request));
+		if (this.utils) {
+			return JSON.stringify(this.utils.contextify(this.context || this.rootContext, request));
+		}
+		return loaderUtils.stringifyRequest(this, request);
 	};
 
 	return [
