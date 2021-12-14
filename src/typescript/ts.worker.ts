@@ -13,3 +13,5 @@ self.onmessage = () => {
 		return create(ctx, createData);
 	});
 };
+
+export { create } from './tsWorker';
