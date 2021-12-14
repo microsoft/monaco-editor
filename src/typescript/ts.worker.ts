@@ -4,12 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as edworker from 'monaco-editor-core/esm/vs/editor/editor.worker';
-import { TypeScriptWorker, ICreateData } from './tsWorker';
+import { ICreateData, create } from './tsWorker';
 import { worker } from '../fillers/monaco-editor-core';
 
 self.onmessage = () => {
 	// ignore the first message
 	edworker.initialize((ctx: worker.IWorkerContext, createData: ICreateData) => {
-		return new TypeScriptWorker(ctx, createData);
+		return create(ctx, createData);
 	});
 };
