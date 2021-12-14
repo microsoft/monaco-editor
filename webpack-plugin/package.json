@@ -43,6 +43,6 @@
 		"webpack-cli": "^4.9.1"
 	},
 	"dependencies": {
-		"loader-utils": "^3.2.0"
+		"loader-utils": "^2.0.2"
 	}
 }
