@@ -1,5 +1,11 @@
 # Monaco Editor Changelog
 
+## [0.31.1] (14.12.2021)
+
+- Fixes [a problem with missing colors](https://github.com/microsoft/monaco-editor/issues/2822)
+- Fixes [a problem with scheduling background tokenization](https://github.com/microsoft/vscode/issues/138887)
+- Improves TypeScript's ESM worker.
+
 ## [0.31.0] (10.12.2021)
 
 - adds support for [highlighting non basic ASCII, invisible or ambiguous unicode characters](https://code.visualstudio.com/updates/v1_63#_unicode-highlighting).
