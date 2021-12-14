@@ -27,7 +27,8 @@ export const pitch: PitchLoaderDefinitionFunction<ILoaderOptions> = function pit
 			? Object.keys(globals).map((key) => `self[${JSON.stringify(key)}] = ${globals[key]};`)
 			: []),
 		...pre.map((include: any) => `require(${stringifyRequest(include)});`),
-		`module.exports = require(${stringifyRequest(`!!${remainingRequest}`)});`,
+		`require('./editor.all.js');`,
+		`module.exports = require('./editor.api.js');`,
 		...post.map((include: any) => `require(${stringifyRequest(include)});`)
 	].join('\n');
 };
