@@ -166,3 +166,6 @@ function disposeAll(disposables: IDisposable[]) {
 		disposables.pop()!.dispose();
 	}
 }
+
+export { WorkerManager } from './workerManager';
+export * from '../common/lspLanguageFeatures';

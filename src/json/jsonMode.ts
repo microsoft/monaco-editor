@@ -170,3 +170,6 @@ const richEditConfiguration: languages.LanguageConfiguration = {
 		{ open: '"', close: '"', notIn: ['string'] }
 	]
 };
+
+export { WorkerManager } from './workerManager';
+export * from '../common/lspLanguageFeatures';

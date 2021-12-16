@@ -84,3 +84,6 @@ function setupMode(
 	new languageFeatures.DiagnosticsAdapter(libFiles, defaults, modeId, worker);
 	return worker;
 }
+
+export { WorkerManager } from './workerManager';
+export * from './languageFeatures';
