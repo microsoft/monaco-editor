@@ -13,6 +13,10 @@
 - streaming hover results in case of multiple hover providers
 - fixes multiple IME issues
 
+### Breaking Changes
+
+- the generated code is now bundled with ESBuild and the generated code makes use of newer browser features, e.g. [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining). These features should be available in all browsers, but they might not be parsed correctly by older JS parsers, specifically parcel v1 might have problems parsing the JS.
+
 ### Thank you
 
 - [@activeguild (j1ngzoue)](https://github.com/activeguild): Add 'browser-ems-vite-react' sample [PR #2767](https://github.com/microsoft/monaco-editor/pull/2767)
