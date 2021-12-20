@@ -12,81 +12,10 @@ const esbuild = require('esbuild');
 /** @type {any} */
 const alias = require('esbuild-plugin-alias');
 const glob = require('glob');
+const { ensureDir } = require('./fs');
 
 const REPO_ROOT = path.join(__dirname, '../');
 exports.REPO_ROOT = REPO_ROOT;
-
-const existingDirCache = new Set();
-/**
- * @param {string} dirname
- */
-function ensureDir(dirname) {
-	/** @type {string[]} */
-	const dirs = [];
-
-	while (dirname.length > REPO_ROOT.length) {
-		dirs.push(dirname);
-		dirname = path.dirname(dirname);
-	}
-	dirs.reverse();
-	dirs.forEach((dir) => {
-		if (!existingDirCache.has(dir)) {
-			try {
-				fs.mkdirSync(dir);
-			} catch (err) {}
-			existingDirCache.add(dir);
-		}
-	});
-}
-exports.ensureDir = ensureDir;
-
-/**
- * Copy a file.
- *
- * @param {string} _source
- * @param {string} _destination
- */
-function copyFile(_source, _destination) {
-	const source = path.join(REPO_ROOT, _source);
-	const destination = path.join(REPO_ROOT, _destination);
-
-	ensureDir(path.dirname(destination));
-	fs.writeFileSync(destination, fs.readFileSync(source));
-
-	console.log(`Copied ${_source} to ${_destination}`);
-}
-exports.copyFile = copyFile;
-
-/**
- * Remove a directory and all its contents.
- *
- * @param {string} _dirPath
- */
-function removeDir(_dirPath) {
-	const dirPath = path.join(REPO_ROOT, _dirPath);
-	if (!fs.existsSync(dirPath)) {
-		return;
-	}
-	rmDir(dirPath);
-	console.log(`Deleted ${_dirPath}`);
-
-	/**
-	 * @param {string} dirPath
-	 */
-	function rmDir(dirPath) {
-		const entries = fs.readdirSync(dirPath);
-		for (const entry of entries) {
-			const filePath = path.join(dirPath, entry);
-			if (fs.statSync(filePath).isFile()) {
-				fs.unlinkSync(filePath);
-			} else {
-				rmDir(filePath);
-			}
-		}
-		fs.rmdirSync(dirPath);
-	}
-}
-exports.removeDir = removeDir;
 
 /**
  * Launch the typescript compiler synchronously over a project.

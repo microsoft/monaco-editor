@@ -6,7 +6,8 @@
 //@ts-check
 
 const glob = require('glob');
-const { copyFile, removeDir, tsc, dts, buildESM, buildAMD } = require('../build/utils');
+const { tsc, dts, buildESM, buildAMD } = require('../build/utils');
+const { copyFile, removeDir } = require('../build/fs');
 
 removeDir(`out`);
 

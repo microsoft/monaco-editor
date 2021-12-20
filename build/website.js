@@ -12,7 +12,8 @@ const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
 const CleanCSS = require('clean-css');
-const { REPO_ROOT, removeDir, readFiles, writeFiles } = require('./utils');
+const { REPO_ROOT, readFiles, writeFiles } = require('./utils');
+const { removeDir } = require('./fs');
 
 /** @type {string} */
 const MONACO_EDITOR_VERSION = (() => {
