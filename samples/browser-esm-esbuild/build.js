@@ -1,8 +1,15 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+//@ts-check
+
 const esbuild = require('esbuild');
 const path = require('path');
-const { removeDir } = require('../../build/utils');
+const { removeDir } = require('../../build/fs');
 
-removeDir(path.join(__dirname, 'dist'));
+removeDir('samples/browser-esm-esbuild/dist', (entry) => /index.html$/.test(entry));
 
 const workerEntryPoints = [
 	'vs/language/json/json.worker.js',

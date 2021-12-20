@@ -9,7 +9,8 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const yaserver = require('yaserver');
-const { REPO_ROOT, ensureDir } = require('./utils');
+const { REPO_ROOT } = require('./utils');
+const { ensureDir } = require('./fs');
 
 const WEBSITE_GENERATED_PATH = path.join(REPO_ROOT, 'website/playground/new-samples');
 

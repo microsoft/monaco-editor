@@ -8,7 +8,8 @@
 const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
-const { REPO_ROOT, prettier, ensureDir } = require('./utils');
+const { REPO_ROOT } = require('./utils');
+const { ensureDir } = require('./fs');
 
 const customFeatureLabels = {
 	'vs/editor/browser/controller/coreCommands': 'coreCommands',

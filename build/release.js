@@ -15,7 +15,8 @@
 
 const path = require('path');
 const fs = require('fs');
-const { REPO_ROOT, removeDir, readFiles, writeFiles } = require('../build/utils');
+const { REPO_ROOT, readFiles, writeFiles } = require('../build/utils');
+const { removeDir } = require('../build/fs');
 const ts = require('typescript');
 /**@type { IMetadata } */
 const metadata = require('../metadata.js');
