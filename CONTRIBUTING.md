@@ -13,6 +13,8 @@ This repository contains source code only for Monaco Editor Languages, the core 
 
 ## Contributing a new tokenizer / a new language
 
+Please understand that we only bundle languages with the monaco editor that have a significant relevance (for example, those that have an article in Wikipedia).
+
 - create `$/src/basic-languages/{myLang}/{myLang}.contribution.ts`
 - create `$/src/basic-languages/{myLang}/{myLang}.ts`
 - create `$/src/basic-languages/{myLang}/{myLang}.test.ts`
