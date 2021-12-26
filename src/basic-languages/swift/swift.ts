@@ -57,6 +57,8 @@ export const language = <languages.IMonarchLanguage>{
 		'@asyncHandler',
 		'@available',
 		'@convention',
+		'@derivative', // Swift for TensorFlow
+		'@differentiable', // Swift for TensorFlow
 		'@discardableResult',
 		'@dynamicCallable',
 		'@dynamicMemberLookup',
