@@ -57,7 +57,7 @@ export const language = <languages.IMonarchLanguage>{
 	],
 	accessmodifiers: ['open', 'public', 'internal', 'fileprivate', 'private'],
 	keywords: [
-		'#available',
+                '#available',
                 '#colorLiteral',
                 '#column',
                 '#dsohandle',
