@@ -55,7 +55,7 @@ export const language = <languages.IMonarchLanguage>{
 		'@IBInspectable',
 		'@IBOutlet'
 	],
-	accessmodifiers: ['public', 'private', 'fileprivate', 'internal'],
+	accessmodifiers: ['open', 'public', 'internal', 'fileprivate', 'private'],
 	keywords: [
 		'#available',
                 '#colorLiteral',
