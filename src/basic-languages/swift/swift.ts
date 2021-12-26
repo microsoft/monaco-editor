@@ -76,13 +76,9 @@ export const language = <languages.IMonarchLanguage>{
                 '#line',
                 '#selector',
                 '#sourceLocation',
-                '#warning',
-		
-		'Any',
-                'Protocol',
+                '#warning','Any','Protocol',
                 'Self',
                 'Type',
-		
                 'actor',
                 'as',
                 'assignment',
