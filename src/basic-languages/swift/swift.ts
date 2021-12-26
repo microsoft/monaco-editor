@@ -38,7 +38,7 @@ export const language = <languages.IMonarchLanguage>{
 
 	// TODO(owensd): Support the full range of unicode valid identifiers.
 	identifier: /[a-zA-Z_][\w$]*/,
-	// TODO(owensd): Support the @availability macro properly.
+	
 	attributes: [
 		'@GKInspectable',
 		'@IBAction',
