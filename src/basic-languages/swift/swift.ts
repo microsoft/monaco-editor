@@ -170,7 +170,10 @@ export const language = <languages.IMonarchLanguage>{
                 'weak',
                 'where',
                 'while',
-                'willSet'
+                'willSet',
+		
+                '__consuming',
+                '__owned'
 	],
 
 	symbols: /[=(){}\[\].,:;@#\_&\-<>`?!+*\\\/]/,
