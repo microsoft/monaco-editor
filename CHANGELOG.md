@@ -1,5 +1,11 @@
 # Monaco Editor Changelog
 
+## [0.32.0] (TBD)
+
+### Breaking Changes
+
+- The binary format for `IEncodedLineTokens` has changed to support strikethrough text.
+
 ## [0.31.1] (14.12.2021)
 
 - Fixes [a problem with missing colors](https://github.com/microsoft/monaco-editor/issues/2822)

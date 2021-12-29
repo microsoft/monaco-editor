@@ -97,25 +97,25 @@ declare namespace monaco {
     export class Uri implements UriComponents {
         static isUri(thing: any): thing is Uri;
         /**
-         * scheme is the 'http' part of 'http://www.msft.com/some/path?query#fragment'.
+         * scheme is the 'http' part of 'http://www.example.com/some/path?query#fragment'.
          * The part before the first colon.
          */
         readonly scheme: string;
         /**
-         * authority is the 'www.msft.com' part of 'http://www.msft.com/some/path?query#fragment'.
+         * authority is the 'www.example.com' part of 'http://www.example.com/some/path?query#fragment'.
          * The part between the first double slashes and the next slash.
          */
         readonly authority: string;
         /**
-         * path is the '/some/path' part of 'http://www.msft.com/some/path?query#fragment'.
+         * path is the '/some/path' part of 'http://www.example.com/some/path?query#fragment'.
          */
         readonly path: string;
         /**
-         * query is the 'query' part of 'http://www.msft.com/some/path?query#fragment'.
+         * query is the 'query' part of 'http://www.example.com/some/path?query#fragment'.
          */
         readonly query: string;
         /**
-         * fragment is the 'fragment' part of 'http://www.msft.com/some/path?query#fragment'.
+         * fragment is the 'fragment' part of 'http://www.example.com/some/path?query#fragment'.
          */
         readonly fragment: string;
         /**
@@ -151,7 +151,7 @@ declare namespace monaco {
             fragment?: string | null;
         }): Uri;
         /**
-         * Creates a new Uri from a string, e.g. `http://www.msft.com/some/path`,
+         * Creates a new Uri from a string, e.g. `http://www.example.com/some/path`,
          * `file:///usr/home`, or `scheme:with/path`.
          *
          * @param value A string which represents an Uri (see `Uri#toString`).
@@ -2041,32 +2041,32 @@ declare namespace monaco.editor {
          * An event emitted when decorations of the model have changed.
          * @event
          */
-        onDidChangeDecorations(listener: (e: IModelDecorationsChangedEvent) => void): IDisposable;
+        readonly onDidChangeDecorations: IEvent<IModelDecorationsChangedEvent>;
         /**
          * An event emitted when the model options have changed.
          * @event
          */
-        onDidChangeOptions(listener: (e: IModelOptionsChangedEvent) => void): IDisposable;
+        readonly onDidChangeOptions: IEvent<IModelOptionsChangedEvent>;
         /**
          * An event emitted when the language associated with the model has changed.
          * @event
          */
-        onDidChangeLanguage(listener: (e: IModelLanguageChangedEvent) => void): IDisposable;
+        readonly onDidChangeLanguage: IEvent<IModelLanguageChangedEvent>;
         /**
          * An event emitted when the language configuration associated with the model has changed.
          * @event
          */
-        onDidChangeLanguageConfiguration(listener: (e: IModelLanguageConfigurationChangedEvent) => void): IDisposable;
+        readonly onDidChangeLanguageConfiguration: IEvent<IModelLanguageConfigurationChangedEvent>;
         /**
          * An event emitted when the model has been attached to the first editor or detached from the last editor.
          * @event
          */
-        onDidChangeAttached(listener: () => void): IDisposable;
+        readonly onDidChangeAttached: IEvent<void>;
         /**
          * An event emitted right before disposing the model.
          * @event
          */
-        onWillDispose(listener: () => void): IDisposable;
+        readonly onWillDispose: IEvent<void>;
         /**
          * Destroy this model.
          */
@@ -3888,10 +3888,12 @@ declare namespace monaco.editor {
         invisibleCharacters?: boolean;
         ambiguousCharacters?: boolean;
         includeComments?: boolean | InUntrustedWorkspace;
+        includeStrings?: boolean | InUntrustedWorkspace;
         /**
          * A map of allowed characters (true: allowed).
         */
         allowedCharacters?: Record<string, true>;
+        allowedLocales?: Record<string | '_os' | '_vscode', true>;
     }
 
     export interface IInlineSuggestOptions {
@@ -4772,140 +4774,140 @@ declare namespace monaco.editor {
          * An event emitted when the content of the current model has changed.
          * @event
          */
-        onDidChangeModelContent: IEvent<IModelContentChangedEvent>;
+        readonly onDidChangeModelContent: IEvent<IModelContentChangedEvent>;
         /**
          * An event emitted when the language of the current model has changed.
          * @event
          */
-        onDidChangeModelLanguage: IEvent<IModelLanguageChangedEvent>;
+        readonly onDidChangeModelLanguage: IEvent<IModelLanguageChangedEvent>;
         /**
          * An event emitted when the language configuration of the current model has changed.
          * @event
          */
-        onDidChangeModelLanguageConfiguration: IEvent<IModelLanguageConfigurationChangedEvent>;
+        readonly onDidChangeModelLanguageConfiguration: IEvent<IModelLanguageConfigurationChangedEvent>;
         /**
          * An event emitted when the options of the current model has changed.
          * @event
          */
-        onDidChangeModelOptions: IEvent<IModelOptionsChangedEvent>;
+        readonly onDidChangeModelOptions: IEvent<IModelOptionsChangedEvent>;
         /**
          * An event emitted when the configuration of the editor has changed. (e.g. `editor.updateOptions()`)
          * @event
          */
-        onDidChangeConfiguration: IEvent<ConfigurationChangedEvent>;
+        readonly onDidChangeConfiguration: IEvent<ConfigurationChangedEvent>;
         /**
          * An event emitted when the cursor position has changed.
          * @event
          */
-        onDidChangeCursorPosition: IEvent<ICursorPositionChangedEvent>;
+        readonly onDidChangeCursorPosition: IEvent<ICursorPositionChangedEvent>;
         /**
          * An event emitted when the cursor selection has changed.
          * @event
          */
-        onDidChangeCursorSelection: IEvent<ICursorSelectionChangedEvent>;
+        readonly onDidChangeCursorSelection: IEvent<ICursorSelectionChangedEvent>;
         /**
          * An event emitted when the model of this editor has changed (e.g. `editor.setModel()`).
          * @event
          */
-        onDidChangeModel: IEvent<IModelChangedEvent>;
+        readonly onDidChangeModel: IEvent<IModelChangedEvent>;
         /**
          * An event emitted when the decorations of the current model have changed.
          * @event
          */
-        onDidChangeModelDecorations: IEvent<IModelDecorationsChangedEvent>;
+        readonly onDidChangeModelDecorations: IEvent<IModelDecorationsChangedEvent>;
         /**
          * An event emitted when the text inside this editor gained focus (i.e. cursor starts blinking).
          * @event
          */
-        onDidFocusEditorText(listener: () => void): IDisposable;
+        readonly onDidFocusEditorText: IEvent<void>;
         /**
          * An event emitted when the text inside this editor lost focus (i.e. cursor stops blinking).
          * @event
          */
-        onDidBlurEditorText(listener: () => void): IDisposable;
+        readonly onDidBlurEditorText: IEvent<void>;
         /**
          * An event emitted when the text inside this editor or an editor widget gained focus.
          * @event
          */
-        onDidFocusEditorWidget(listener: () => void): IDisposable;
+        readonly onDidFocusEditorWidget: IEvent<void>;
         /**
          * An event emitted when the text inside this editor or an editor widget lost focus.
          * @event
          */
-        onDidBlurEditorWidget(listener: () => void): IDisposable;
+        readonly onDidBlurEditorWidget: IEvent<void>;
         /**
          * An event emitted after composition has started.
          */
-        onDidCompositionStart(listener: () => void): IDisposable;
+        readonly onDidCompositionStart: IEvent<void>;
         /**
          * An event emitted after composition has ended.
          */
-        onDidCompositionEnd(listener: () => void): IDisposable;
+        readonly onDidCompositionEnd: IEvent<void>;
         /**
          * An event emitted when editing failed because the editor is read-only.
          * @event
          */
-        onDidAttemptReadOnlyEdit(listener: () => void): IDisposable;
+        readonly onDidAttemptReadOnlyEdit: IEvent<void>;
         /**
          * An event emitted when users paste text in the editor.
          * @event
          */
-        onDidPaste: IEvent<IPasteEvent>;
+        readonly onDidPaste: IEvent<IPasteEvent>;
         /**
          * An event emitted on a "mouseup".
          * @event
          */
-        onMouseUp: IEvent<IEditorMouseEvent>;
+        readonly onMouseUp: IEvent<IEditorMouseEvent>;
         /**
          * An event emitted on a "mousedown".
          * @event
          */
-        onMouseDown: IEvent<IEditorMouseEvent>;
+        readonly onMouseDown: IEvent<IEditorMouseEvent>;
         /**
          * An event emitted on a "contextmenu".
          * @event
          */
-        onContextMenu: IEvent<IEditorMouseEvent>;
+        readonly onContextMenu: IEvent<IEditorMouseEvent>;
         /**
          * An event emitted on a "mousemove".
          * @event
          */
-        onMouseMove: IEvent<IEditorMouseEvent>;
+        readonly onMouseMove: IEvent<IEditorMouseEvent>;
         /**
          * An event emitted on a "mouseleave".
          * @event
          */
-        onMouseLeave: IEvent<IPartialEditorMouseEvent>;
+        readonly onMouseLeave: IEvent<IPartialEditorMouseEvent>;
         /**
          * An event emitted on a "keyup".
          * @event
          */
-        onKeyUp: IEvent<IKeyboardEvent>;
+        readonly onKeyUp: IEvent<IKeyboardEvent>;
         /**
          * An event emitted on a "keydown".
          * @event
          */
-        onKeyDown: IEvent<IKeyboardEvent>;
+        readonly onKeyDown: IEvent<IKeyboardEvent>;
         /**
          * An event emitted when the layout of the editor has changed.
          * @event
          */
-        onDidLayoutChange: IEvent<EditorLayoutInfo>;
+        readonly onDidLayoutChange: IEvent<EditorLayoutInfo>;
         /**
          * An event emitted when the content width or content height in the editor has changed.
          * @event
          */
-        onDidContentSizeChange: IEvent<IContentSizeChangedEvent>;
+        readonly onDidContentSizeChange: IEvent<IContentSizeChangedEvent>;
         /**
          * An event emitted when the scroll in the editor has changed.
          * @event
          */
-        onDidScrollChange: IEvent<IScrollEvent>;
+        readonly onDidScrollChange: IEvent<IScrollEvent>;
         /**
          * An event emitted when hidden areas change in the editor (e.g. due to folding).
          * @event
          */
-        onDidChangeHiddenAreas: IEvent<void>;
+        readonly onDidChangeHiddenAreas: IEvent<void>;
         /**
          * Saves current view state of the editor in a serializable object.
          */
@@ -4923,7 +4925,7 @@ declare namespace monaco.editor {
          * @id Unique identifier of the contribution.
          * @return The contribution or null if contribution not found.
          */
-        getContribution<T extends IEditorContribution>(id: string): T;
+        getContribution<T extends IEditorContribution>(id: string): T | null;
         /**
          * Type the getModel() of IEditor.
          */
@@ -5154,7 +5156,7 @@ declare namespace monaco.editor {
          * An event emitted when the diff information computed by this diff editor has been updated.
          * @event
          */
-        onDidUpdateDiff(listener: () => void): IDisposable;
+        readonly onDidUpdateDiff: IEvent<void>;
         /**
          * Saves current view state of the editor in a serializable object.
          */
@@ -5297,11 +5299,11 @@ declare namespace monaco.languages {
          *     3322 2222 2222 1111 1111 1100 0000 0000
          *     1098 7654 3210 9876 5432 1098 7654 3210
          * - -------------------------------------------
-         *     bbbb bbbb bfff ffff ffFF FTTT LLLL LLLL
+         *     bbbb bbbb bfff ffff ffFF FFTT LLLL LLLL
          * - -------------------------------------------
          *  - L = EncodedLanguageId (8 bits): Use `getEncodedLanguageId` to get the encoded ID of a language.
-         *  - T = StandardTokenType (3 bits): Other = 0, Comment = 1, String = 2, RegEx = 4.
-         *  - F = FontStyle (3 bits): None = 0, Italic = 1, Bold = 2, Underline = 4.
+         *  - T = StandardTokenType (2 bits): Other = 0, Comment = 1, String = 2, RegEx = 3.
+         *  - F = FontStyle (4 bits): None = 0, Italic = 1, Bold = 2, Underline = 4, Strikethrough = 8.
          *  - f = foreground ColorId (9 bits)
          *  - b = background ColorId (9 bits)
          *  - The color value for each colorId is defined in IStandaloneThemeData.customTokenColors:
@@ -5314,6 +5316,13 @@ declare namespace monaco.languages {
          * A pointer will be held to this and the object should not be modified by the tokenizer after the pointer is returned.
          */
         endState: IState;
+    }
+
+    /**
+     * A factory for token providers.
+     */
+    export interface TokensProviderFactory {
+        create(): ProviderResult<TokensProvider | EncodedTokensProvider | IMonarchLanguage>;
     }
 
     /**
@@ -5355,12 +5364,25 @@ declare namespace monaco.languages {
     export function setColorMap(colorMap: string[] | null): void;
 
     /**
-     * Set the tokens provider for a language (manual implementation).
+     * Register a tokens provider factory for a language. This tokenizer will be exclusive with a tokenizer
+     * set using `setTokensProvider` or one created using `setMonarchTokensProvider`, but will work together
+     * with a tokens provider set using `registerDocumentSemanticTokensProvider` or `registerDocumentRangeSemanticTokensProvider`.
+     */
+    export function registerTokensProviderFactory(languageId: string, factory: TokensProviderFactory): IDisposable;
+
+    /**
+     * Set the tokens provider for a language (manual implementation). This tokenizer will be exclusive
+     * with a tokenizer created using `setMonarchTokensProvider`, or with `registerTokensProviderFactory`,
+     * but will work together with a tokens provider set using `registerDocumentSemanticTokensProvider`
+     * or `registerDocumentRangeSemanticTokensProvider`.
      */
     export function setTokensProvider(languageId: string, provider: TokensProvider | EncodedTokensProvider | Thenable<TokensProvider | EncodedTokensProvider>): IDisposable;
 
     /**
-     * Set the tokens provider for a language (monarch implementation).
+     * Set the tokens provider for a language (monarch implementation). This tokenizer will be exclusive
+     * with a tokenizer set using `setTokensProvider`, or with `registerTokensProviderFactory`, but will
+     * work together with a tokens provider set using `registerDocumentSemanticTokensProvider` or
+     * `registerDocumentRangeSemanticTokensProvider`.
      */
     export function setMonarchTokensProvider(languageId: string, languageDef: IMonarchLanguage | Thenable<IMonarchLanguage>): IDisposable;
 
@@ -5470,12 +5492,20 @@ declare namespace monaco.languages {
     export function registerSelectionRangeProvider(languageId: string, provider: SelectionRangeProvider): IDisposable;
 
     /**
-     * Register a document semantic tokens provider
+     * Register a document semantic tokens provider. A semantic tokens provider will complement and enhance a
+     * simple top-down tokenizer. Simple top-down tokenizers can be set either via `setMonarchTokensProvider`
+     * or `setTokensProvider`.
+     *
+     * For the best user experience, register both a semantic tokens provider and a top-down tokenizer.
      */
     export function registerDocumentSemanticTokensProvider(languageId: string, provider: DocumentSemanticTokensProvider): IDisposable;
 
     /**
-     * Register a document range semantic tokens provider
+     * Register a document range semantic tokens provider. A semantic tokens provider will complement and enhance a
+     * simple top-down tokenizer. Simple top-down tokenizers can be set either via `setMonarchTokensProvider`
+     * or `setTokensProvider`.
+     *
+     * For the best user experience, register both a semantic tokens provider and a top-down tokenizer.
      */
     export function registerDocumentRangeSemanticTokensProvider(languageId: string, provider: DocumentRangeSemanticTokensProvider): IDisposable;
 

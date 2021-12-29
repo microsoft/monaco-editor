@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { languages } from '../fillers/monaco-editor-core';
+import { languages, editor } from '../fillers/monaco-editor-core';
 
 interface ILang extends languages.ILanguageExtensionPoint {
 	loader: () => Promise<ILangImpl>;
@@ -40,10 +40,6 @@ class LazyLanguageLoader {
 		});
 	}
 
-	public whenLoaded(): Promise<ILangImpl> {
-		return this._lazyLoadPromise;
-	}
-
 	public load(): Promise<ILangImpl> {
 		if (!this._loadingTriggered) {
 			this._loadingTriggered = true;
@@ -56,8 +52,12 @@ class LazyLanguageLoader {
 	}
 }
 
-export function loadLanguage(languageId: string): Promise<ILangImpl> {
-	return LazyLanguageLoader.getOrCreate(languageId).load();
+export async function loadLanguage(languageId: string): Promise<void> {
+	await LazyLanguageLoader.getOrCreate(languageId).load();
+
+	// trigger tokenizer creation by instantiating a model
+	const model = editor.createModel('', languageId);
+	model.dispose();
 }
 
 export function registerLanguage(def: ILang): void {
@@ -67,13 +67,14 @@ export function registerLanguage(def: ILang): void {
 	languages.register(def);
 
 	const lazyLanguageLoader = LazyLanguageLoader.getOrCreate(languageId);
-	languages.setMonarchTokensProvider(
-		languageId,
-		lazyLanguageLoader.whenLoaded().then((mod) => mod.language)
-	);
-	languages.onLanguage(languageId, () => {
-		lazyLanguageLoader.load().then((mod) => {
-			languages.setLanguageConfiguration(languageId, mod.conf);
-		});
+	languages.registerTokensProviderFactory(languageId, {
+		create: async (): Promise<languages.IMonarchLanguage> => {
+			const mod = await lazyLanguageLoader.load();
+			return mod.language;
+		}
+	});
+	languages.onLanguage(languageId, async () => {
+		const mod = await lazyLanguageLoader.load();
+		languages.setLanguageConfiguration(languageId, mod.conf);
 	});
 }
