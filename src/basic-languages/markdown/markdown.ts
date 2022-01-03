@@ -166,7 +166,7 @@ export const language = <languages.IMonarchLanguage>{
 			// html tags
 			[/<(\w+)\/>/, 'tag'],
 			[
-				/<(\w+)/,
+				/<(\w+)(\-|\w)*/,
 				{
 					cases: {
 						'@empty': { token: 'tag', next: '@tag.$1' },
@@ -174,7 +174,7 @@ export const language = <languages.IMonarchLanguage>{
 					}
 				}
 			],
-			[/<\/(\w+)\s*>/, { token: 'tag' }],
+			[/<\/(\w+)(\-|\w)*\s*>/, { token: 'tag' }],
 
 			[/<!--/, 'comment', '@comment']
 		],

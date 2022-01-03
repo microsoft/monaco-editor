@@ -43,5 +43,53 @@ testTokenization('markdown', [
 				{ startIndex: 11, type: 'string.link.md' }
 			]
 		}
+	],
+
+	// simple HTML content
+	[
+		{
+			line: '<div>content</div>',
+			tokens: [
+				{ startIndex: 0, type: 'tag.md' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 12, type: 'tag.md' }
+			]
+		}
+	],
+
+	// hyphenated HTML tag
+	[
+		{
+			line: '<custom-component>content</custom-component>',
+			tokens: [
+				{ startIndex: 0, type: 'tag.md' },
+				{ startIndex: 18, type: '' },
+				{ startIndex: 25, type: 'tag.md' }
+			]
+		}
+	],
+
+	// unclosed HTML tag without hyphens and a trailing character
+	[
+		{
+			line: '<div',
+			tokens: [{ startIndex: 0, type: 'tag.md' }]
+		}
+	],
+
+	// unclosed HTML tag with trailing hyphen
+	[
+		{
+			line: '<custom-',
+			tokens: [{ startIndex: 0, type: 'tag.md' }]
+		}
+	],
+
+	// unclosed HTML tag with hyphen and a trailing characer
+	[
+		{
+			line: '<custom-component',
+			tokens: [{ startIndex: 0, type: 'tag.md' }]
+		}
 	]
 ]);
