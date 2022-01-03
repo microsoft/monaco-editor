@@ -38,7 +38,7 @@ export const language = <languages.IMonarchLanguage>{
 
 	// TODO(owensd): Support the full range of unicode valid identifiers.
 	identifier: /[a-zA-Z_][\w$]*/,
-	
+
 	attributes: [
 		'@GKInspectable',
 		'@IBAction',
@@ -51,7 +51,7 @@ export const language = <languages.IMonarchLanguage>{
 		'@NSManaged',
 		'@Sendable',
 		'@UIApplicationMain',
-		
+
 		'@autoclosure',
 		'@actorIndependent',
 		'@asyncHandler',
@@ -79,7 +79,7 @@ export const language = <languages.IMonarchLanguage>{
 		'@unchecked',
 		'@unknown',
 		'@usableFromInline',
-		'@warn_unqualified_access',
+		'@warn_unqualified_access'
 	],
 	accessmodifiers: ['open', 'public', 'internal', 'fileprivate', 'private'],
 	keywords: [
@@ -103,12 +103,12 @@ export const language = <languages.IMonarchLanguage>{
 		'#selector',
 		'#sourceLocation',
 		'#warning',
-		
+
 		'Any',
 		'Protocol',
 		'Self',
 		'Type',
-		
+
 		'actor',
 		'as',
 		'assignment',
@@ -197,7 +197,7 @@ export const language = <languages.IMonarchLanguage>{
 		'where',
 		'while',
 		'willSet',
-		
+
 		'__consuming',
 		'__owned'
 	],
