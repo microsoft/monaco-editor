@@ -9,12 +9,12 @@ testTokenization('swift', [
 	// Attributes
 	[
 		{
-			line: '@noescape',
+			line: '@escaping',
 			tokens: [
 				{
 					startIndex: 0,
 					type: 'keyword.control.swift'
-				} /* '@noescape' */
+				} /* '@escaping' */
 			]
 		}
 	],
