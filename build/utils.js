@@ -25,12 +25,15 @@ exports.REPO_ROOT = REPO_ROOT;
 function tsc(_projectPath) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
 	console.log(`Launching compiler at ${_projectPath}...`);
-	cp.spawnSync(
+	const res = cp.spawnSync(
 		process.execPath,
 		[path.join(__dirname, '../node_modules/typescript/lib/tsc.js'), '-p', projectPath],
 		{ stdio: 'inherit' }
 	);
 	console.log(`Compiled ${_projectPath}`);
+	if (res.status !== 0) {
+		process.exit(res.status);
+	}
 }
 exports.tsc = tsc;
 
