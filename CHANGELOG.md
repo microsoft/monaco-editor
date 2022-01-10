@@ -5,6 +5,8 @@
 ### Breaking Changes
 
 - The binary format for `IEncodedLineTokens` has changed to support strikethrough text.
+- `IDiffEditor.getDomNode()` has been renamed to `IDiffEditor.getContainerDomNode()`.
+- `InlayHint.text` has been replaced by `InlayHint.label` and `InlayHintsProvider.provideInlayHints` now returns an `InlayHintList`.
 
 ## [0.31.1] (14.12.2021)
 

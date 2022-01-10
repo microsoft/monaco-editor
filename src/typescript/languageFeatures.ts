@@ -1224,7 +1224,7 @@ export class InlayHintsAdapter extends Adapter implements languages.InlayHintsPr
 		model: editor.ITextModel,
 		range: Range,
 		token: CancellationToken
-	): Promise<languages.InlayHint[]> {
+	): Promise<languages.InlayHintList | null> {
 		const resource = model.uri;
 		const fileName = resource.toString();
 		const start = model.getOffsetAt({
@@ -1237,18 +1237,19 @@ export class InlayHintsAdapter extends Adapter implements languages.InlayHintsPr
 		});
 		const worker = await this._worker(resource);
 		if (model.isDisposed()) {
-			return [];
+			return null;
 		}
 
-		const hints = await worker.provideInlayHints(fileName, start, end);
-
-		return hints.map((hint) => {
+		const tsHints = await worker.provideInlayHints(fileName, start, end);
+		const hints: languages.InlayHint[] = tsHints.map((hint) => {
 			return {
 				...hint,
+				label: hint.text,
 				position: model.getPositionAt(hint.position),
 				kind: this._convertHintKind(hint.kind)
 			};
 		});
+		return { hints, dispose: () => {} };
 	}
 
 	private _convertHintKind(kind?: ts.InlayHintKind) {
