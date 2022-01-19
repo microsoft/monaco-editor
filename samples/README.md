@@ -6,6 +6,7 @@ Standalone HTML samples showing how to integrate the Monaco Editor.
 
 ```bash
 git clone https://github.com/microsoft/monaco-editor.git
+cd monaco-editor
 cd samples
 npm install .
 npm run simpleserver
