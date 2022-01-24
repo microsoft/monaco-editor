@@ -73,7 +73,7 @@ Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localh
 /src/monaco-editor> npm run compile --prefix webpack-plugin
 
 # package using the webpack plugin
-/src/monaco-editor> npm run smoketest --prefix webpack-plugin
+/src/monaco-editor> npm run package-for-smoketest --prefix webpack-plugin
 
 # run the smoketest
 /src/monaco-editor> npm run smoketest-debug

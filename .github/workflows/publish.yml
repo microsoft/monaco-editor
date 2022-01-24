@@ -197,7 +197,7 @@ jobs:
       - name: (monaco-editor) Package using webpack plugin
         if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
-        run: npm run smoketest --prefix webpack-plugin
+        run: npm run package-for-smoketest --prefix webpack-plugin
 
       - name: (monaco-editor) Run smoke test
         if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}

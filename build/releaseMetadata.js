@@ -245,8 +245,21 @@ function getFeatures() {
 
 	/** @type {{label:string;entry:any;}[]} */
 	let result = features.map((feature) => {
+		/** @type {string} */ let label;
+		if (customFeatureLabels[feature]) {
+			label = customFeatureLabels[feature];
+		} else {
+			const m1 = feature.match(/^vs\/editor\/contrib\/([^\/]+)/);
+			if (m1) {
+				// for editor/contrib features, use the first segment
+				label = m1[1];
+			} else {
+				// for everything else, use the last segment folder
+				label = path.basename(path.dirname(feature));
+			}
+		}
 		return {
-			label: customFeatureLabels[feature] || path.basename(path.dirname(feature)),
+			label: label,
 			entry: feature
 		};
 	});
