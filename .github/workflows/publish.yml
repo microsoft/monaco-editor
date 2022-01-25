@@ -52,6 +52,11 @@ jobs:
         working-directory: './vscode'
         run: yarn --frozen-lockfile --network-timeout 180000
 
+      - name: (vscode) Download Playwright
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
+        working-directory: ./vscode
+        run: yarn playwright-install
+
       - name: (vscode) Run Hygiene Checks
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
@@ -96,6 +101,11 @@ jobs:
         working-directory: './vscode'
         run: yarn gulp editor-distro
 
+      - name: Editor ESM sources check
+        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
+        working-directory: './vscode/test/monaco'
+        run: yarn run esm-check
+
       - name: (vscode) Typings validation prep
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: './vscode'
@@ -110,20 +120,15 @@ jobs:
           echo "import '../out-monaco-editor-core';" > a.ts
           ../node_modules/.bin/tsc --noEmit
 
-      - name: (vscode) Webpack Editor
+      - name: (vscode) Package Editor with Webpack
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: ./vscode/test/monaco
-        run: yarn run bundle
+        run: yarn run bundle-webpack
 
       - name: (vscode) Compile Editor Tests
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
         working-directory: ./vscode/test/monaco
         run: yarn run compile
-
-      - name: (vscode) Download Playwright
-        if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
-        working-directory: ./vscode
-        run: yarn playwright-install
 
       - name: (vscode) Run Editor Tests
         if: ${{ steps.state.outputs.skip_monaco_editor_core == 'false' }}
