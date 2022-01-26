@@ -272,7 +272,8 @@ function ESM_addImportSuffix(files) {
 			const pos = info.importedFiles[i].pos;
 			const end = info.importedFiles[i].end;
 
-			if (/\.css$/.test(importText)) {
+			if (/(\.css)|(\.js)$/.test(importText)) {
+				// A CSS import or an import already using .js
 				continue;
 			}
 
