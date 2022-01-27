@@ -207,6 +207,18 @@
 
 		loadScript(RESOLVED_CORE.getResolvedPath(PATH_PREFIX) + '/loader.js', function () {
 			let loaderPathsConfig = {};
+			window.AMD = true;
+			if (IS_FILE_PROTOCOL) {
+				loaderPathsConfig['vs/language/fillers/monaco-editor-core'] =
+					DIRNAME + '/.././out/amd/fillers/monaco-editor-core-amd';
+				loaderPathsConfig['vs/fillers/monaco-editor-core'] =
+					DIRNAME + '/.././out/amd/fillers/monaco-editor-core-amd';
+			} else {
+				loaderPathsConfig['vs/language/fillers/monaco-editor-core'] =
+					PATH_PREFIX + '/monaco-editor/./out/amd/fillers/monaco-editor-core-amd';
+				loaderPathsConfig['vs/fillers/monaco-editor-core'] =
+					PATH_PREFIX + '/monaco-editor/./out/amd/fillers/monaco-editor-core-amd';
+			}
 			if (!RESOLVED_CORE.isRelease()) {
 				RESOLVED_PLUGINS.forEach(function (plugin) {
 					plugin.generateLoaderConfig(loaderPathsConfig, PATH_PREFIX);

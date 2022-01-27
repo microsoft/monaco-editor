@@ -18,6 +18,7 @@
 				rootPath: './out/release/typescript',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
+					src: './../../amd/typescript',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
@@ -30,6 +31,7 @@
 				rootPath: './out/release/css',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
+					src: './../../amd/css',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
@@ -42,6 +44,7 @@
 				rootPath: './out/release/json',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
+					src: './../../amd/json',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
@@ -54,6 +57,7 @@
 				rootPath: './out/release/html',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
+					src: './../../amd/html',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
@@ -66,6 +70,7 @@
 				rootPath: './out/release/basic-languages',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
+					src: './../../amd/basic-languages',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
