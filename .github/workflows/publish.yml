@@ -231,4 +231,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          filename: .github/publish-failure-issue-template.md
+          filename: ./monaco-editor/.github/publish-failure-issue-template.md
