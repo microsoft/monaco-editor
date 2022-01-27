@@ -71,7 +71,7 @@
 		if (/\.\//.test(resolvedPath)) {
 			// starts with ./ => treat as relative to the root path
 			if (IS_FILE_PROTOCOL) {
-				resolvedPath = DIRNAME + '/../' + this.rootPath + '/' + resolvedPath;
+				resolvedPath = DIRNAME + '/../../' + this.rootPath + '/' + resolvedPath;
 			} else {
 				resolvedPath = PATH_PREFIX + '/monaco-editor/' + this.rootPath + '/' + resolvedPath;
 			}
@@ -81,13 +81,13 @@
 			this.isRelease()
 		) {
 			if (IS_FILE_PROTOCOL) {
-				resolvedPath = DIRNAME + '/../' + resolvedPath;
+				resolvedPath = DIRNAME + '/../../' + resolvedPath;
 			} else {
 				resolvedPath = PATH_PREFIX + '/monaco-editor/' + resolvedPath;
 			}
 		} else {
 			if (IS_FILE_PROTOCOL) {
-				resolvedPath = DIRNAME + '/../..' + resolvedPath;
+				resolvedPath = DIRNAME + '/../../../' + resolvedPath;
 			} else {
 				resolvedPath = PATH_PREFIX + resolvedPath;
 			}
@@ -210,9 +210,9 @@
 			window.AMD = true;
 			if (IS_FILE_PROTOCOL) {
 				loaderPathsConfig['vs/language/fillers/monaco-editor-core'] =
-					DIRNAME + '/.././out/amd/fillers/monaco-editor-core-amd';
+					DIRNAME + '/../.././out/amd/fillers/monaco-editor-core-amd';
 				loaderPathsConfig['vs/fillers/monaco-editor-core'] =
-					DIRNAME + '/.././out/amd/fillers/monaco-editor-core-amd';
+					DIRNAME + '/../.././out/amd/fillers/monaco-editor-core-amd';
 			} else {
 				loaderPathsConfig['vs/language/fillers/monaco-editor-core'] =
 					PATH_PREFIX + '/monaco-editor/./out/amd/fillers/monaco-editor-core-amd';
