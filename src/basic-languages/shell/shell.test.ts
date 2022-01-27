@@ -33,6 +33,40 @@ testTokenization('shell', [
 				{ startIndex: 14, type: 'white.shell' },
 				{ startIndex: 15, type: '' }
 			]
+		},
+		// Tests for case reported in bug #2851, do not confuse identifier(with dashes) with attribute
+		{
+			line: 'foo-bar --baz gorp -123 --abc-123',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 7, type: 'white.shell' },
+				{ startIndex: 8, type: 'attribute.name.shell' },
+				{ startIndex: 13, type: 'white.shell' },
+				{ startIndex: 14, type: '' },
+				{ startIndex: 18, type: 'white.shell' },
+				{ startIndex: 19, type: 'attribute.name.shell' },
+				{ startIndex: 23, type: 'white.shell' },
+				{ startIndex: 24, type: 'attribute.name.shell' }
+			]
+		},
+		// Bug #2851 add new definition 'Identifiers with dashes', here one test
+		{
+			line: 'foo | foo-bar | foo-bar-1 | foo-bar-2021-1',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 3, type: 'white.shell' },
+				{ startIndex: 4, type: 'delimiter.shell' },
+				{ startIndex: 5, type: 'white.shell' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 13, type: 'white.shell' },
+				{ startIndex: 14, type: 'delimiter.shell' },
+				{ startIndex: 15, type: 'white.shell' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 25, type: 'white.shell' },
+				{ startIndex: 26, type: 'delimiter.shell' },
+				{ startIndex: 27, type: 'white.shell' },
+				{ startIndex: 28, type: '' }
+			]
 		}
 	],
 
