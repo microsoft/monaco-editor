@@ -224,3 +224,11 @@ jobs:
         if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor/release'
         run: npm publish --tag ${{ steps.state.outputs.dist_tag }}
+
+      - name: Create Issue On Failure
+        if: failure()
+        uses: JasonEtco/create-an-issue@c796bdce77b0eebb39e2f4cb359893d764d4aa91
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/publish-failure-issue-template.md
