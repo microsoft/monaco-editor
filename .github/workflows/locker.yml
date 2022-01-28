@@ -4,8 +4,7 @@ on:
     - cron: 21 23 * * * # 5:20pm Redmond
   repository_dispatch:
     types: [trigger-locker]
-  # enable users to manually trigger with workflow_dispatch
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 jobs:
   main:
