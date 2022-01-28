@@ -180,7 +180,7 @@ function ESM_release() {
 		ESM_releasePlugin(plugin, `release/esm`);
 	}
 
-	fs.writeFileSync('release/esm/package.json', `{"type":"module"}`);
+	fs.writeFileSync('release/esm/vs/package.json', `{"type":"module"}`);
 }
 
 /**
