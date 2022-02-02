@@ -15,10 +15,10 @@
 				name: 'monaco-typescript',
 				contrib: 'vs/language/typescript/monaco.contribution',
 				modulePrefix: 'vs/language/typescript',
-				rootPath: './out/release/typescript',
+				rootPath: './out/release/language/typescript',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					src: './../../amd/typescript',
+					src: './../../../amd/language/typescript',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
@@ -28,10 +28,10 @@
 				name: 'monaco-css',
 				contrib: 'vs/language/css/monaco.contribution',
 				modulePrefix: 'vs/language/css',
-				rootPath: './out/release/css',
+				rootPath: './out/release/language/css',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					src: './../../amd/css',
+					src: './../../../amd/language/css',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
@@ -41,10 +41,10 @@
 				name: 'monaco-json',
 				contrib: 'vs/language/json/monaco.contribution',
 				modulePrefix: 'vs/language/json',
-				rootPath: './out/release/json',
+				rootPath: './out/release/language/json',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					src: './../../amd/json',
+					src: './../../../amd/language/json',
 					dev: './dev',
 					min: './min',
 					esm: './esm'
@@ -54,10 +54,10 @@
 				name: 'monaco-html',
 				contrib: 'vs/language/html/monaco.contribution',
 				modulePrefix: 'vs/language/html',
-				rootPath: './out/release/html',
+				rootPath: './out/release/language/html',
 				paths: {
 					// use ./ to indicate it is relative to the `rootPath`
-					src: './../../amd/html',
+					src: './../../../amd/language/html',
 					dev: './dev',
 					min: './min',
 					esm: './esm'

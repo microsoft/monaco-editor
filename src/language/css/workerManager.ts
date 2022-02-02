@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { LanguageServiceDefaults } from './monaco.contribution';
-import type { HTMLWorker } from './htmlWorker';
-import { Uri, IDisposable, editor } from '../fillers/monaco-editor-core';
+import type { CSSWorker } from './cssWorker';
+import { editor, IDisposable, Uri } from '../../fillers/monaco-editor-core';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
@@ -15,8 +15,8 @@ export class WorkerManager {
 	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
 
-	private _worker: editor.MonacoWebWorker<HTMLWorker> | null;
-	private _client: Promise<HTMLWorker> | null;
+	private _worker: editor.MonacoWebWorker<CSSWorker> | null;
+	private _client: Promise<CSSWorker> | null;
 
 	constructor(defaults: LanguageServiceDefaults) {
 		this._defaults = defaults;
@@ -51,31 +51,31 @@ export class WorkerManager {
 		}
 	}
 
-	private _getClient(): Promise<HTMLWorker> {
+	private _getClient(): Promise<CSSWorker> {
 		this._lastUsedTime = Date.now();
 
 		if (!this._client) {
-			this._worker = editor.createWebWorker<HTMLWorker>({
-				// module that exports the create() method and returns a `HTMLWorker` instance
-				moduleId: 'vs/language/html/htmlWorker',
+			this._worker = editor.createWebWorker<CSSWorker>({
+				// module that exports the create() method and returns a `CSSWorker` instance
+				moduleId: 'vs/language/css/cssWorker',
+
+				label: this._defaults.languageId,
 
 				// passed in to the create() method
 				createData: {
-					languageSettings: this._defaults.options,
+					options: this._defaults.options,
 					languageId: this._defaults.languageId
-				},
-
-				label: this._defaults.languageId
+				}
 			});
 
-			this._client = <Promise<HTMLWorker>>this._worker.getProxy();
+			this._client = <Promise<CSSWorker>>(<any>this._worker.getProxy());
 		}
 
 		return this._client;
 	}
 
-	getLanguageServiceWorker(...resources: Uri[]): Promise<HTMLWorker> {
-		let _client: HTMLWorker;
+	getLanguageServiceWorker(...resources: Uri[]): Promise<CSSWorker> {
+		let _client: CSSWorker;
 		return this._getClient()
 			.then((client) => {
 				_client = client;

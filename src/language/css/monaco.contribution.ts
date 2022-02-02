@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './cssMode';
-import { languages, Emitter, IEvent } from '../fillers/monaco-editor-core';
+import { languages, Emitter, IEvent } from '../../fillers/monaco-editor-core';
 
 export interface Options {
 	readonly validate?: boolean;

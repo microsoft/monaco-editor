@@ -5,7 +5,7 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { TypeScriptWorker } from './tsWorker';
-import { editor, Uri, IDisposable } from '../fillers/monaco-editor-core';
+import { editor, Uri, IDisposable } from '../../fillers/monaco-editor-core';
 
 export class WorkerManager {
 	private _modeId: string;
