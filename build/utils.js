@@ -155,9 +155,15 @@ exports.buildESM = buildESM;
  *   entryPoint: string;
  *   amdModuleId: string;
  *   amdDependencies?: string[];
+ *   external?: string[];
  * }} options
  */
 function buildOneAMD(type, options) {
+	if (!options.amdDependencies) {
+		options.amdDependencies = [];
+	}
+	options.amdDependencies.unshift('require');
+
 	/** @type {import('esbuild').BuildOptions} */
 	const opts = {
 		entryPoints: [options.entryPoint],
@@ -169,9 +175,9 @@ function buildOneAMD(type, options) {
 		},
 		globalName: 'moduleExports',
 		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}",[${(options.amdDependencies || [])
+			js: `${bundledFileHeader}define("${options.amdModuleId}", [${(options.amdDependencies || [])
 				.map((dep) => `"${dep}"`)
-				.join(',')}],()=>{`
+				.join(',')}],(require)=>{`
 		},
 		footer: {
 			js: 'return moduleExports;\n});'
@@ -184,7 +190,7 @@ function buildOneAMD(type, options) {
 				'monaco-editor-core': path.join(__dirname, '../src/fillers/monaco-editor-core-amd.ts')
 			})
 		],
-		external: ['vs/editor/editor.api']
+		external: ['vs/editor/editor.api', ...(options.external || [])]
 	};
 	if (type === 'min') {
 		opts.minify = true;
@@ -198,6 +204,7 @@ function buildOneAMD(type, options) {
  *   entryPoint: string;
  *   amdModuleId: string;
  *   amdDependencies?: string[];
+ *   external?: string[];
  * }} options
  */
 function buildAMD(options) {

@@ -47,7 +47,7 @@ buildESM({
 		'src/language/css/cssMode.ts',
 		'src/language/css/css.worker.ts'
 	],
-	external: ['monaco-editor-core', '*/cssMode']
+	external: ['monaco-editor-core', '*/cssMode', '*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/css',
@@ -58,7 +58,8 @@ buildAMD({
 buildAMD({
 	base: 'language/css',
 	entryPoint: 'src/language/css/cssMode.ts',
-	amdModuleId: 'vs/language/css/cssMode'
+	amdModuleId: 'vs/language/css/cssMode',
+	external: ['*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/css',
@@ -77,7 +78,7 @@ buildESM({
 		'src/language/html/htmlMode.ts',
 		'src/language/html/html.worker.ts'
 	],
-	external: ['monaco-editor-core', '*/htmlMode']
+	external: ['monaco-editor-core', '*/htmlMode', '*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/html',
@@ -88,7 +89,8 @@ buildAMD({
 buildAMD({
 	base: 'language/html',
 	entryPoint: 'src/language/html/htmlMode.ts',
-	amdModuleId: 'vs/language/html/htmlMode'
+	amdModuleId: 'vs/language/html/htmlMode',
+	external: ['*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/html',
@@ -107,7 +109,7 @@ buildESM({
 		'src/language/json/jsonMode.ts',
 		'src/language/json/json.worker.ts'
 	],
-	external: ['monaco-editor-core', '*/jsonMode']
+	external: ['monaco-editor-core', '*/jsonMode', '*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/json',
@@ -118,7 +120,8 @@ buildAMD({
 buildAMD({
 	base: 'language/json',
 	entryPoint: 'src/language/json/jsonMode.ts',
-	amdModuleId: 'vs/language/json/jsonMode'
+	amdModuleId: 'vs/language/json/jsonMode',
+	external: ['*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/json',
@@ -142,7 +145,7 @@ buildESM({
 		'src/language/typescript/tsMode.ts',
 		'src/language/typescript/ts.worker.ts'
 	],
-	external: ['monaco-editor-core', '*/tsMode']
+	external: ['monaco-editor-core', '*/tsMode', '*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/typescript',
@@ -153,7 +156,8 @@ buildAMD({
 buildAMD({
 	base: 'language/typescript',
 	entryPoint: 'src/language/typescript/tsMode.ts',
-	amdModuleId: 'vs/language/typescript/tsMode'
+	amdModuleId: 'vs/language/typescript/tsMode',
+	external: ['*/monaco.contribution']
 });
 buildAMD({
 	base: 'language/typescript',
