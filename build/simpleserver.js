@@ -100,7 +100,6 @@ function generateTestSamplesTask() {
 			'</div>',
 			'<div style="clear:both"></div>',
 			'',
-			'<script src="../../metadata.js"></script>',
 			'<script src="dev-setup.js"></script>',
 			'<script>',
 			'loadEditor(function() {',
@@ -148,7 +147,6 @@ function generateTestSamplesTask() {
 				);
 			})
 			.join('<br/>\n'),
-		'<script src="../../metadata.js"></script>',
 		'<script src="dev-setup.js"></script>',
 		'</body>',
 		'</html>'

@@ -1,4 +1,64 @@
 (function () {
+	const METADATA = {
+		CORE: {
+			paths: {
+				src: '/vscode/out/vs',
+				'npm/dev': 'node_modules/monaco-editor-core/dev/vs',
+				'npm/min': 'node_modules/monaco-editor-core/min/vs',
+				built: '/vscode/out-monaco-editor-core/min/vs',
+				releaseDev: 'release/dev/vs',
+				releaseMin: 'release/min/vs'
+			}
+		},
+		PLUGINS: [
+			{
+				name: 'monaco-typescript',
+				modulePrefix: 'vs/language/typescript',
+				paths: {
+					src: './out/amd/language/typescript',
+					dev: './out/release/dev/vs/language/typescript',
+					min: './out/release/min/vs/language/typescript'
+				}
+			},
+			{
+				name: 'monaco-css',
+				modulePrefix: 'vs/language/css',
+				paths: {
+					src: './out/amd/language/css',
+					dev: './out/release/dev/vs/language/css',
+					min: './out/release/min/vs/language/css'
+				}
+			},
+			{
+				name: 'monaco-json',
+				modulePrefix: 'vs/language/json',
+				paths: {
+					src: './out/amd/language/json',
+					dev: './out/release/dev/vs/language/json',
+					min: './out/release/min/vs/language/json'
+				}
+			},
+			{
+				name: 'monaco-html',
+				modulePrefix: 'vs/language/html',
+				paths: {
+					src: './out/amd/language/html',
+					dev: './out/release/dev/vs/language/html',
+					min: './out/release/min/vs/language/html'
+				}
+			},
+			{
+				name: 'monaco-languages',
+				modulePrefix: 'vs/basic-languages',
+				paths: {
+					src: './out/amd/basic-languages',
+					dev: './out/release/dev/vs/basic-languages',
+					min: './out/release/min/vs/basic-languages'
+				}
+			}
+		]
+	};
+
 	let LOADER_OPTS = (function () {
 		function parseQueryString() {
 			let str = window.location.search;
@@ -35,12 +95,10 @@
 		);
 	}
 
-	function Component(name, modulePrefix, paths, rootPath, contrib) {
+	function Component(name, modulePrefix, paths) {
 		this.name = name;
 		this.modulePrefix = modulePrefix;
 		this.paths = paths;
-		this.rootPath = rootPath;
-		this.contrib = contrib;
 		this.selectedPath = LOADER_OPTS[name];
 	}
 	Component.prototype.isRelease = function () {
@@ -48,17 +106,8 @@
 	};
 	Component.prototype.getResolvedPath = function (PATH_PREFIX) {
 		let resolvedPath = this.paths[this.selectedPath];
-		if (/\.\//.test(resolvedPath)) {
-			// starts with ./ => treat as relative to the root path
-			resolvedPath = PATH_PREFIX + '/monaco-editor/' + this.rootPath + '/' + resolvedPath;
-		} else if (
-			this.selectedPath === 'npm/dev' ||
-			this.selectedPath === 'npm/min' ||
-			this.isRelease()
-		) {
+		if (!/^\//.test(resolvedPath)) {
 			resolvedPath = PATH_PREFIX + '/monaco-editor/' + resolvedPath;
-		} else {
-			resolvedPath = PATH_PREFIX + resolvedPath;
 		}
 		return resolvedPath;
 	};
@@ -110,15 +159,8 @@
 	let RESOLVED_CORE = new Component('editor', 'vs', METADATA.CORE.paths);
 	self.RESOLVED_CORE_PATH = RESOLVED_CORE.getResolvedPath('');
 	let RESOLVED_PLUGINS = METADATA.PLUGINS.map(function (plugin) {
-		return new Component(
-			plugin.name,
-			plugin.modulePrefix,
-			plugin.paths,
-			plugin.rootPath,
-			plugin.contrib
-		);
+		return new Component(plugin.name, plugin.modulePrefix, plugin.paths);
 	});
-	METADATA = null;
 
 	function loadScript(path, callback) {
 		let script = document.createElement('script');
@@ -200,9 +242,13 @@
 			require(['vs/editor/editor.main'], function () {
 				if (!RESOLVED_CORE.isRelease()) {
 					// At this point we've loaded the monaco-editor-core
-					require(RESOLVED_PLUGINS.map(function (plugin) {
-						return plugin.contrib;
-					}), function () {
+					require([
+						'vs/basic-languages/monaco.contribution',
+						'vs/language/css/monaco.contribution',
+						'vs/language/html/monaco.contribution',
+						'vs/language/json/monaco.contribution',
+						'vs/language/typescript/monaco.contribution'
+					], function () {
 						// At this point we've loaded all the plugins
 						callback();
 					});
