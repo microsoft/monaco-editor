@@ -5,12 +5,6 @@
 
 //@ts-check
 
-/**
- * @typedef { { src:string; built:string; releaseDev:string; releaseMin:string; } } ICorePaths
- * @typedef { { dev:string; min:string; esm: string; } } IPluginPaths
- * @typedef { { name:string; contrib:string; modulePrefix:string; rootPath:string; paths:IPluginPaths } } IPlugin
- * @typedef { { METADATA: {CORE:{paths:ICorePaths}; PLUGINS:IPlugin[];} } } IMetadata
- */
 /** @typedef {import('../build/utils').IFile} IFile */
 
 const path = require('path');
@@ -18,8 +12,6 @@ const fs = require('fs');
 const { REPO_ROOT, readFiles, writeFiles } = require('../build/utils');
 const { removeDir } = require('../build/fs');
 const ts = require('typescript');
-/**@type { IMetadata } */
-const metadata = require('../metadata.js');
 const { generateMetadata } = require('./releaseMetadata');
 
 removeDir(`release`);
@@ -85,24 +77,11 @@ function AMD_releaseOne(type) {
 	AMD_addPluginContribs(type, coreFiles);
 	writeFiles(coreFiles, `release/${type}`);
 
-	for (const plugin of metadata.METADATA.PLUGINS) {
-		AMD_releasePlugin(plugin, type, `release/${type}`);
-	}
-}
-
-/**
- * Release a plugin to `dev` or `min`.
- * @param {IPlugin} plugin
- * @param {'dev'|'min'} type
- * @param {string} destinationPath
- */
-function AMD_releasePlugin(plugin, type, destinationPath) {
-	const pluginPath = path.join(plugin.rootPath, plugin.paths[type]); // dev or min
-	const contribPath =
-		path.join(pluginPath, plugin.contrib.substring(plugin.modulePrefix.length)) + '.js';
-
-	const files = readFiles(`${pluginPath}/**/*`, { base: pluginPath, ignore: [contribPath] });
-	writeFiles(files, path.join(destinationPath, plugin.modulePrefix));
+	const pluginFiles = readFiles(`out/release/${type}/**/*`, {
+		base: `out/release/${type}`,
+		ignore: ['**/monaco.contribution.js']
+	});
+	writeFiles(pluginFiles, `release/${type}`);
 }
 
 /**
@@ -125,25 +104,21 @@ function AMD_addPluginContribs(type, files) {
 		// Rename the AMD module 'vs/editor/editor.main' to 'vs/editor/edcore.main'
 		contents = contents.replace(/"vs\/editor\/editor\.main\"/, '"vs/editor/edcore.main"');
 
-		/** @type {string[]} */
-		let extraContent = [];
-		/** @type {string[]} */
-		let allPluginsModuleIds = [];
+		const pluginFiles = readFiles(`out/release/${type}/**/monaco.contribution.js`, {
+			base: `out/release/${type}`
+		});
 
-		metadata.METADATA.PLUGINS.forEach(function (plugin) {
-			allPluginsModuleIds.push(plugin.contrib);
-			const pluginPath = path.join(plugin.rootPath, plugin.paths[type]); // dev or min
-			const contribPath =
-				path.join(REPO_ROOT, pluginPath, plugin.contrib.substring(plugin.modulePrefix.length)) +
-				'.js';
-			let contribContents = fs.readFileSync(contribPath).toString();
+		const extraContent = pluginFiles.map((file) => {
+			return file.contents
+				.toString()
+				.replace(
+					/define\((['"][a-z\/\-]+\/fillers\/monaco-editor-core['"]),\[\],/,
+					"define($1,['vs/editor/editor.api'],"
+				);
+		});
 
-			contribContents = contribContents.replace(
-				/define\((['"][a-z\/\-]+\/fillers\/monaco-editor-core['"]),\[\],/,
-				"define($1,['vs/editor/editor.api'],"
-			);
-
-			extraContent.push(contribContents);
+		const allPluginsModuleIds = pluginFiles.map((file) => {
+			return file.path.replace(/\.js$/, '');
 		});
 
 		extraContent.push(
@@ -176,22 +151,16 @@ function ESM_release() {
 	ESM_addPluginContribs(coreFiles);
 	writeFiles(coreFiles, `release/esm`);
 
-	for (const plugin of metadata.METADATA.PLUGINS) {
-		ESM_releasePlugin(plugin, `release/esm`);
-	}
+	ESM_releasePlugins();
 }
 
 /**
  * Release a plugin to `esm`.
  * Adds a dependency to 'vs/editor/editor.api' in contrib files in order for `monaco` to be defined.
  * Rewrites imports for 'monaco-editor-core/**'
- * @param {IPlugin} plugin
- * @param {string} destinationPath
  */
-function ESM_releasePlugin(plugin, destinationPath) {
-	const pluginPath = path.join(plugin.rootPath, plugin.paths['esm']);
-
-	const files = readFiles(`${pluginPath}/**/*`, { base: pluginPath });
+function ESM_releasePlugins() {
+	const files = readFiles(`out/release/esm/**/*`, { base: 'out/release/esm/' });
 
 	for (const file of files) {
 		if (!/(\.js$)|(\.ts$)/.test(file.path)) {
@@ -217,10 +186,9 @@ function ESM_releasePlugin(plugin, destinationPath) {
 					importText = 'monaco-editor-core/esm/vs/editor/editor.api';
 				}
 
-				const myFileDestPath = path.join(plugin.modulePrefix, file.path);
 				const importFilePath = importText.substring('monaco-editor-core/esm/'.length);
 				let relativePath = path
-					.relative(path.dirname(myFileDestPath), importFilePath)
+					.relative(path.dirname(file.path), importFilePath)
 					.replace(/\\/g, '/');
 				if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 					relativePath = './' + relativePath;
@@ -238,9 +206,8 @@ function ESM_releasePlugin(plugin, destinationPath) {
 			continue;
 		}
 
-		const myFileDestPath = path.join(plugin.modulePrefix, file.path);
 		const apiFilePath = 'vs/editor/editor.api';
-		let relativePath = path.relative(path.dirname(myFileDestPath), apiFilePath).replace(/\\/g, '/');
+		let relativePath = path.relative(path.dirname(file.path), apiFilePath).replace(/\\/g, '/');
 		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 			relativePath = './' + relativePath;
 		}
@@ -251,7 +218,7 @@ function ESM_releasePlugin(plugin, destinationPath) {
 	}
 
 	ESM_addImportSuffix(files);
-	writeFiles(files, path.join(destinationPath, plugin.modulePrefix));
+	writeFiles(files, `release/esm`);
 }
 
 /**
@@ -299,20 +266,20 @@ function ESM_addPluginContribs(files) {
 
 	const mainFileDestPath = 'vs/editor/editor.main.js';
 
-	/** @type {string[]} */
-	let mainFileImports = [];
-	for (const plugin of metadata.METADATA.PLUGINS) {
-		const contribDestPath = plugin.contrib;
-
+	const mainFileImports = readFiles(`out/release/esm/**/monaco.contribution.js`, {
+		base: `out/release/esm`
+	}).map((file) => {
 		let relativePath = path
-			.relative(path.dirname(mainFileDestPath), contribDestPath)
-			.replace(/\\/g, '/');
+			.relative(path.dirname(mainFileDestPath), file.path)
+			.replace(/\\/g, '/')
+			.replace(/\.js$/, '');
+
 		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 			relativePath = './' + relativePath;
 		}
 
-		mainFileImports.push(relativePath);
-	}
+		return relativePath;
+	});
 
 	const mainFileContents =
 		mainFileImports.map((name) => `import '${name}';`).join('\n') +
@@ -335,17 +302,10 @@ function releaseDTS() {
 
 	let contents = monacodts.contents.toString();
 
-	/** @type {string[]} */
-	const extraContent = [];
-	metadata.METADATA.PLUGINS.forEach(function (plugin) {
-		const dtsPath = path.join(plugin.rootPath, './monaco.d.ts');
-		try {
-			let plugindts = fs.readFileSync(dtsPath).toString();
-			plugindts = plugindts.replace(/\/\/\/ <reference.*\n/m, '');
-			extraContent.push(plugindts);
-		} catch (err) {
-			return;
-		}
+	const extraContent = readFiles('out/release/*.d.ts', {
+		base: 'out/release/'
+	}).map((file) => {
+		return file.contents.toString().replace(/\/\/\/ <reference.*\n/m, '');
 	});
 
 	contents =

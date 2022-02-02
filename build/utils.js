@@ -138,7 +138,7 @@ function buildESM(options) {
 		},
 		external: options.external,
 		outbase: `src/${options.base}`,
-		outdir: `out/release/${options.base}/esm/`,
+		outdir: `out/release/esm/vs/${options.base}/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
@@ -183,7 +183,7 @@ function buildOneAMD(type, options) {
 			js: 'return moduleExports;\n});'
 		},
 		outbase: `src/${options.base}`,
-		outdir: `out/release/${options.base}/${type}/`,
+		outdir: `out/release/${type}/vs/${options.base}/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),

@@ -17,22 +17,22 @@ tsc(`src/tsconfig.json`);
 
 dts(
 	`out/amd/language/css/monaco.contribution.d.ts`,
-	`out/release/language/css/monaco.d.ts`,
+	`out/release/css.d.ts`,
 	'monaco.languages.css'
 );
 dts(
 	`out/amd/language/html/monaco.contribution.d.ts`,
-	`out/release/language/html/monaco.d.ts`,
+	`out/release/html.d.ts`,
 	'monaco.languages.html'
 );
 dts(
 	`out/amd/language/json/monaco.contribution.d.ts`,
-	`out/release/language/json/monaco.d.ts`,
+	`out/release/json.d.ts`,
 	'monaco.languages.json'
 );
 dts(
 	`out/amd/language/typescript/monaco.contribution.d.ts`,
-	`out/release/language/typescript/monaco.d.ts`,
+	`out/release/typescript.d.ts`,
 	'monaco.languages.typescript'
 );
 
