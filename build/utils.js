@@ -181,9 +181,10 @@ function buildOneAMD(type, options) {
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
-				'monaco-editor-core': path.join(__dirname, '../build/fillers/monaco-editor-core-amd.ts')
+				'monaco-editor-core': path.join(__dirname, '../src/fillers/monaco-editor-core-amd.ts')
 			})
-		]
+		],
+		external: ['vs/editor/editor.api']
 	};
 	if (type === 'min') {
 		opts.minify = true;
