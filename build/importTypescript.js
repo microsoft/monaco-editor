@@ -16,7 +16,7 @@ const generatedNote = `//
 `;
 
 const TYPESCRIPT_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/typescript/lib');
-const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/typescript/lib');
+const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/language/typescript/lib');
 
 (function () {
 	try {

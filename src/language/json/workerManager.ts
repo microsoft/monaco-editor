@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { LanguageServiceDefaults } from './monaco.contribution';
-import type { CSSWorker } from './cssWorker';
-import { editor, IDisposable, Uri } from '../fillers/monaco-editor-core';
+import type { JSONWorker } from './jsonWorker';
+import { IDisposable, Uri, editor } from '../../fillers/monaco-editor-core';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
@@ -15,8 +15,8 @@ export class WorkerManager {
 	private _lastUsedTime: number;
 	private _configChangeListener: IDisposable;
 
-	private _worker: editor.MonacoWebWorker<CSSWorker> | null;
-	private _client: Promise<CSSWorker> | null;
+	private _worker: editor.MonacoWebWorker<JSONWorker> | null;
+	private _client: Promise<JSONWorker> | null;
 
 	constructor(defaults: LanguageServiceDefaults) {
 		this._defaults = defaults;
@@ -51,31 +51,32 @@ export class WorkerManager {
 		}
 	}
 
-	private _getClient(): Promise<CSSWorker> {
+	private _getClient(): Promise<JSONWorker> {
 		this._lastUsedTime = Date.now();
 
 		if (!this._client) {
-			this._worker = editor.createWebWorker<CSSWorker>({
-				// module that exports the create() method and returns a `CSSWorker` instance
-				moduleId: 'vs/language/css/cssWorker',
+			this._worker = editor.createWebWorker<JSONWorker>({
+				// module that exports the create() method and returns a `JSONWorker` instance
+				moduleId: 'vs/language/json/jsonWorker',
 
 				label: this._defaults.languageId,
 
 				// passed in to the create() method
 				createData: {
-					options: this._defaults.options,
-					languageId: this._defaults.languageId
+					languageSettings: this._defaults.diagnosticsOptions,
+					languageId: this._defaults.languageId,
+					enableSchemaRequest: this._defaults.diagnosticsOptions.enableSchemaRequest
 				}
 			});
 
-			this._client = <Promise<CSSWorker>>(<any>this._worker.getProxy());
+			this._client = <Promise<JSONWorker>>(<any>this._worker.getProxy());
 		}
 
 		return this._client;
 	}
 
-	getLanguageServiceWorker(...resources: Uri[]): Promise<CSSWorker> {
-		let _client: CSSWorker;
+	getLanguageServiceWorker(...resources: Uri[]): Promise<JSONWorker> {
+		let _client: JSONWorker;
 		return this._getClient()
 			.then((client) => {
 				_client = client;

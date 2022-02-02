@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './jsonMode';
-import { Emitter, IEvent, languages } from '../fillers/monaco-editor-core';
+import { Emitter, IEvent, languages } from '../../fillers/monaco-editor-core';
 
 // --- JSON configuration and defaults ---------
 

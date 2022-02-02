@@ -11,7 +11,7 @@ import {
 	IExtraLibs,
 	TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
-import { Uri, worker } from '../fillers/monaco-editor-core';
+import { Uri, worker } from '../../fillers/monaco-editor-core';
 
 /**
  * Loading a default lib as a source file will mess up TS completely.
