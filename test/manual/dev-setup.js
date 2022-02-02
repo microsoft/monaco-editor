@@ -1,24 +1,4 @@
 (function () {
-	let IS_FILE_PROTOCOL = window.location.protocol === 'file:';
-	let DIRNAME = null;
-	if (IS_FILE_PROTOCOL) {
-		let port = window.location.port;
-		if (port.length > 0) {
-			port = ':' + port;
-		}
-		DIRNAME =
-			window.location.protocol +
-			'//' +
-			window.location.hostname +
-			port +
-			window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/'));
-
-		let bases = document.getElementsByTagName('base');
-		if (bases.length > 0) {
-			DIRNAME = DIRNAME + '/' + bases[0].getAttribute('href');
-		}
-	}
-
 	let LOADER_OPTS = (function () {
 		function parseQueryString() {
 			let str = window.location.search;
@@ -70,27 +50,15 @@
 		let resolvedPath = this.paths[this.selectedPath];
 		if (/\.\//.test(resolvedPath)) {
 			// starts with ./ => treat as relative to the root path
-			if (IS_FILE_PROTOCOL) {
-				resolvedPath = DIRNAME + '/../../' + this.rootPath + '/' + resolvedPath;
-			} else {
-				resolvedPath = PATH_PREFIX + '/monaco-editor/' + this.rootPath + '/' + resolvedPath;
-			}
+			resolvedPath = PATH_PREFIX + '/monaco-editor/' + this.rootPath + '/' + resolvedPath;
 		} else if (
 			this.selectedPath === 'npm/dev' ||
 			this.selectedPath === 'npm/min' ||
 			this.isRelease()
 		) {
-			if (IS_FILE_PROTOCOL) {
-				resolvedPath = DIRNAME + '/../../' + resolvedPath;
-			} else {
-				resolvedPath = PATH_PREFIX + '/monaco-editor/' + resolvedPath;
-			}
+			resolvedPath = PATH_PREFIX + '/monaco-editor/' + resolvedPath;
 		} else {
-			if (IS_FILE_PROTOCOL) {
-				resolvedPath = DIRNAME + '/../../../' + resolvedPath;
-			} else {
-				resolvedPath = PATH_PREFIX + resolvedPath;
-			}
+			resolvedPath = PATH_PREFIX + resolvedPath;
 		}
 		return resolvedPath;
 	};
@@ -208,13 +176,8 @@
 		loadScript(RESOLVED_CORE.getResolvedPath(PATH_PREFIX) + '/loader.js', function () {
 			let loaderPathsConfig = {};
 			window.AMD = true;
-			if (IS_FILE_PROTOCOL) {
-				loaderPathsConfig['vs/fillers/monaco-editor-core'] =
-					DIRNAME + '/../.././out/amd/fillers/monaco-editor-core-amd';
-			} else {
-				loaderPathsConfig['vs/fillers/monaco-editor-core'] =
-					PATH_PREFIX + '/monaco-editor/./out/amd/fillers/monaco-editor-core-amd';
-			}
+			loaderPathsConfig['vs/fillers/monaco-editor-core'] =
+				PATH_PREFIX + '/monaco-editor/./out/amd/fillers/monaco-editor-core-amd';
 			if (!RESOLVED_CORE.isRelease()) {
 				RESOLVED_PLUGINS.forEach(function (plugin) {
 					plugin.generateLoaderConfig(loaderPathsConfig, PATH_PREFIX);

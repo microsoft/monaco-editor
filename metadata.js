@@ -1,5 +1,5 @@
 (function () {
-	var METADATA = {
+	const METADATA = {
 		CORE: {
 			paths: {
 				src: '/vscode/out/vs',
