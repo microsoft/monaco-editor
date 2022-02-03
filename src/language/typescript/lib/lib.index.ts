@@ -55,6 +55,7 @@ libFileSet['lib.es2020.string.d.ts'] = true;
 libFileSet['lib.es2020.symbol.wellknown.d.ts'] = true;
 libFileSet['lib.es2021.d.ts'] = true;
 libFileSet['lib.es2021.full.d.ts'] = true;
+libFileSet['lib.es2021.intl.d.ts'] = true;
 libFileSet['lib.es2021.promise.d.ts'] = true;
 libFileSet['lib.es2021.string.d.ts'] = true;
 libFileSet['lib.es2021.weakref.d.ts'] = true;
