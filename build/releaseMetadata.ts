@@ -3,13 +3,11 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
-
-const glob = require('glob');
-const path = require('path');
-const fs = require('fs');
-const { REPO_ROOT } = require('./utils');
-const { ensureDir } = require('./fs');
+import glob = require('glob');
+import path = require('path');
+import fs = require('fs');
+import { REPO_ROOT } from './utils';
+import { ensureDir } from './fs';
 
 const customFeatureLabels = {
 	'vs/editor/browser/controller/coreCommands': 'coreCommands',
@@ -25,10 +23,7 @@ const customFeatureLabels = {
 	'vs/editor/standalone/browser/quickAccess/standaloneHelpQuickAccess': 'quickHelp'
 };
 
-/**
- * @returns { Promise<{ label: string; entry: string; }[]> }
- */
-function getBasicLanguages() {
+function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 	return new Promise((resolve, reject) => {
 		glob(
 			'./release/esm/vs/basic-languages/*/*.contribution.js',
@@ -54,10 +49,7 @@ function getBasicLanguages() {
 	});
 }
 
-/**
- * @returns { Promise<string[]> }
- */
-function readAdvancedLanguages() {
+function readAdvancedLanguages(): Promise<string[]> {
 	return new Promise((resolve, reject) => {
 		glob(
 			'./release/esm/vs/language/*/monaco.contribution.js',
@@ -78,10 +70,9 @@ function readAdvancedLanguages() {
 	});
 }
 
-/**
- * @returns { Promise<{ label: string; entry: string; worker: { id: string; entry: string; }; }[]> }
- */
-function getAdvancedLanguages() {
+function getAdvancedLanguages(): Promise<
+	{ label: string; entry: string; worker: { id: string; entry: string } }[]
+> {
 	return readAdvancedLanguages().then((languages) => {
 		let result = [];
 		for (const lang of languages) {
@@ -112,11 +103,11 @@ function getAdvancedLanguages() {
 	}
 }
 
-function generateMetadata() {
+export function generateMetadata() {
 	return Promise.all([getBasicLanguages(), getAdvancedLanguages()]).then(
 		([basicLanguages, advancedLanguages]) => {
-			basicLanguages.sort(strcmp);
-			advancedLanguages.sort(strcmp);
+			basicLanguages.sort((a, b) => strcmp(a.entry, b.entry));
+			advancedLanguages.sort((a, b) => strcmp(a.entry, b.entry));
 
 			let i = 0,
 				len = basicLanguages.length;
@@ -197,13 +188,8 @@ exports.languages = ${JSON.stringify(languages, null, '  ')};
 		}
 	);
 }
-exports.generateMetadata = generateMetadata;
 
-/**
- * @tyoe {string} a
- * @tyoe {string} b
- */
-function strcmp(a, b) {
+function strcmp(a: string, b: string) {
 	if (a < b) {
 		return -1;
 	}
@@ -213,10 +199,7 @@ function strcmp(a, b) {
 	return 0;
 }
 
-/**
- * @returns {{label:string;entry:string|string[];}[]}
- */
-function getFeatures() {
+function getFeatures(): { label: string; entry: string | string[] }[] {
 	const skipImports = [
 		'vs/editor/browser/widget/codeEditorWidget',
 		'vs/editor/browser/widget/diffEditorWidget',
@@ -228,8 +211,7 @@ function getFeatures() {
 		'vs/editor/contrib/gotoSymbol/documentSymbols'
 	];
 
-	/** @type {string[]} */
-	let features = [];
+	let features: string[] = [];
 	const files =
 		fs.readFileSync(path.join(REPO_ROOT, 'release/esm/vs/editor/edcore.main.js')).toString() +
 		fs.readFileSync(path.join(REPO_ROOT, 'release/esm/vs/editor/editor.all.js')).toString();
@@ -243,8 +225,7 @@ function getFeatures() {
 		}
 	});
 
-	/** @type {{label:string;entry:any;}[]} */
-	let result = features.map((feature) => {
+	let result: { label: string; entry: any }[] = features.map((feature) => {
 		/** @type {string} */ let label;
 		if (customFeatureLabels[feature]) {
 			label = customFeatureLabels[feature];

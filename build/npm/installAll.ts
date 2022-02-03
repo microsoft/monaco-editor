@@ -3,14 +3,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
-
-const glob = require('glob');
-const path = require('path');
-const fs = require('fs');
-const cp = require('child_process');
+import glob = require('glob');
+import path = require('path');
+import fs = require('fs');
+import cp = require('child_process');
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-const { REPO_ROOT } = require('../utils');
+import { REPO_ROOT } from '../utils';
 
 const files = glob.sync('**/package.json', {
 	cwd: REPO_ROOT,
@@ -29,18 +27,16 @@ for (const file of files) {
 }
 
 function npmInstall(location) {
-	/** @type {'inherit'} */
 	const stdio = 'inherit';
-	const opts = {
-		env: process.env,
-		cwd: location,
-		stdio
-	};
 	const args = ['install'];
 
 	console.log(`Installing dependencies in ${location}...`);
 	console.log(`$ npm ${args.join(' ')}`);
-	const result = cp.spawnSync(npm, args, opts);
+	const result = cp.spawnSync(npm, args, {
+		env: process.env,
+		cwd: location,
+		stdio
+	});
 
 	if (result.error || result.status !== 0) {
 		process.exit(1);

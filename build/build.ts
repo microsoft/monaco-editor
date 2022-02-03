@@ -3,11 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
-
-const glob = require('glob');
-const { tsc, dts, buildESM, buildAMD } = require('../build/utils');
-const { copyFile, removeDir } = require('../build/fs');
+import glob from 'glob';
+import { tsc, dts, buildESM, buildAMD } from './utils';
+import { copyFile, removeDir } from './fs';
 
 removeDir(`out`);
 

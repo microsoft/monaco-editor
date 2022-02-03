@@ -3,16 +3,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
-
-/** @typedef {import('../build/utils').IFile} IFile */
-
-const path = require('path');
-const fs = require('fs');
-const { REPO_ROOT, readFiles, writeFiles } = require('../build/utils');
-const { removeDir } = require('../build/fs');
-const ts = require('typescript');
-const { generateMetadata } = require('./releaseMetadata');
+import path = require('path');
+import fs = require('fs');
+import { REPO_ROOT, readFiles, writeFiles, IFile } from '../build/utils';
+import { removeDir } from '../build/fs';
+import ts = require('typescript');
+import { generateMetadata } from './releaseMetadata';
 
 removeDir(`release`);
 
@@ -89,11 +85,8 @@ function AMD_releaseOne(type) {
  * - rename the AMD module 'vs/editor/editor.main' to 'vs/editor/edcore.main'
  * - append monaco.contribution modules from plugins
  * - append new AMD module 'vs/editor/editor.main' that stiches things together
- *
- * @param {'dev'|'min'} type
- * @param {IFile[]} files
  */
-function AMD_addPluginContribs(type, files) {
+function AMD_addPluginContribs(type: 'dev' | 'min', files: IFile[]) {
 	for (const file of files) {
 		if (!/editor\.main\.js$/.test(file.path)) {
 			continue;
@@ -223,9 +216,8 @@ function ESM_releasePlugins() {
 
 /**
  * Adds `.js` to all import statements.
- * @param {IFile[]} files
  */
-function ESM_addImportSuffix(files) {
+function ESM_addImportSuffix(files: IFile[]) {
 	for (const file of files) {
 		if (!/\.js$/.test(file.path)) {
 			continue;
@@ -254,9 +246,8 @@ function ESM_addImportSuffix(files) {
 /**
  * - Rename esm/vs/editor/editor.main.js to esm/vs/editor/edcore.main.js
  * - Create esm/vs/editor/editor.main.js that that stiches things together
- * @param {IFile[]} files
  */
-function ESM_addPluginContribs(files) {
+function ESM_addPluginContribs(files: IFile[]) {
 	for (const file of files) {
 		if (!/editor\.main\.js$/.test(file.path)) {
 			continue;
@@ -340,10 +331,8 @@ function releaseDTS() {
 /**
  * Transforms a .d.ts which uses internal modules (namespaces) to one which is usable with external modules
  * This function is duplicated in the `vscode` repo.
- * @param {string} contents
- * @returns string
  */
-function toExternalDTS(contents) {
+function toExternalDTS(contents: string): string {
 	let lines = contents.split(/\r\n|\r|\n/);
 	let killNextCloseCurlyBrace = false;
 	for (let i = 0; i < lines.length; i++) {
@@ -387,10 +376,8 @@ function toExternalDTS(contents) {
 
 /**
  * Normalize line endings and ensure consistent 4 spaces indentation
- * @param {string} contents
- * @returns {string}
  */
-function cleanFile(contents) {
+function cleanFile(contents: string): string {
 	return contents
 		.split(/\r\n|\r|\n/)
 		.map(function (line) {

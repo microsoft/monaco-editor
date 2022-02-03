@@ -7,16 +7,16 @@
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"scripts": {
-		"build-website": "node ./build/website.js && npm run typedoc",
-		"import-typescript": "node ./build/importTypescript.js",
+		"build-website": "ts-node ./build/website && npm run typedoc",
+		"import-typescript": "ts-node ./build/importTypescript",
 		"playwright-install": "node ./node_modules/playwright/install.js",
 		"playwright-install-deps": "playwright install-deps",
-		"postinstall": "node ./build/postinstall.js",
+		"postinstall": "ts-node ./build/postinstall",
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",
 		"pretty-quick": "pretty-quick --staged",
-		"release": "node ./build/build.js && node ./build/release.js",
-		"simpleserver": "node ./build/simpleserver",
+		"release": "ts-node ./build/build && ts-node ./build/release",
+		"simpleserver": "ts-node ./build/simpleserver",
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
 		"smoketest": "node ./test/smoke/runner.js",
 		"test": "mocha test/unit/all.js",
@@ -55,6 +55,7 @@
 		"vscode-languageserver-textdocument": "^1.0.2",
 		"vscode-languageserver-types": "3.16.0",
 		"vscode-uri": "3.0.2",
-		"yaserver": "^0.4.0"
+		"yaserver": "^0.4.0",
+		"ts-node": "^10.4.0"
 	}
 }

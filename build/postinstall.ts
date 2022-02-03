@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const cp = require('child_process');
-const path = require('path');
+import cp = require('child_process');
+import path = require('path');
 
 function huskyInstall() {
 	console.log(`Installing husky hooks...`);
