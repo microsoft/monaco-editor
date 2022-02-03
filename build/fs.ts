@@ -3,18 +3,14 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
-
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
 
 const REPO_ROOT = path.join(__dirname, '../');
 
 const existingDirCache = new Set();
-/**
- * @param {string} dirname
- */
-function ensureDir(dirname) {
+
+export function ensureDir(dirname: string) {
 	/** @type {string[]} */
 	const dirs = [];
 
@@ -32,15 +28,11 @@ function ensureDir(dirname) {
 		}
 	});
 }
-exports.ensureDir = ensureDir;
 
 /**
  * Copy a file.
- *
- * @param {string} _source
- * @param {string} _destination
  */
-function copyFile(_source, _destination) {
+export function copyFile(_source: string, _destination: string) {
 	const source = path.join(REPO_ROOT, _source);
 	const destination = path.join(REPO_ROOT, _destination);
 
@@ -49,15 +41,11 @@ function copyFile(_source, _destination) {
 
 	console.log(`Copied ${_source} to ${_destination}`);
 }
-exports.copyFile = copyFile;
 
 /**
  * Remove a directory and all its contents.
- *
- * @param {string} _dirPath
- * @param {((filename:string)=>boolean)} [keep]
  */
-function removeDir(_dirPath, keep) {
+export function removeDir(_dirPath: string, keep?: (filename: string) => boolean) {
 	if (typeof keep === 'undefined') {
 		keep = () => false;
 	}
@@ -95,4 +83,3 @@ function removeDir(_dirPath, keep) {
 		return keepsFiles;
 	}
 }
-exports.removeDir = removeDir;

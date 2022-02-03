@@ -3,20 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
+import glob = require('glob');
+import path = require('path');
+import fs = require('fs');
+import cp = require('child_process');
+import CleanCSS from 'clean-css';
+import { REPO_ROOT, readFiles, writeFiles } from './utils';
+import { removeDir } from './fs';
 
-/** @typedef {import('../build/utils').IFile} IFile */
-
-const glob = require('glob');
-const path = require('path');
-const fs = require('fs');
-const cp = require('child_process');
-const CleanCSS = require('clean-css');
-const { REPO_ROOT, readFiles, writeFiles } = require('./utils');
-const { removeDir } = require('./fs');
-
-/** @type {string} */
-const MONACO_EDITOR_VERSION = (() => {
+const MONACO_EDITOR_VERSION: string = (() => {
 	const output = cp.execSync(`npm show monaco-editor version`).toString();
 	const version = output.split(/\r\n|\r|\n/g)[0];
 	if (!/\d+\.\d+\.\d+/.test(version)) {
@@ -72,14 +67,12 @@ function checkSamples() {
 	}
 }
 
-/**
- * @param {string} dataPath
- * @param {string} contents
- * @param {RegExp} regex
- * @param {(match:string, fileContents:Buffer)=>string} callback
- * @returns {string}
- */
-function replaceWithRelativeResource(dataPath, contents, regex, callback) {
+function replaceWithRelativeResource(
+	dataPath: string,
+	contents: string,
+	regex: RegExp,
+	callback: (match: string, fileContents: Buffer) => string
+): string {
 	return contents.replace(regex, function (_, m0) {
 		const filePath = path.join(REPO_ROOT, 'website', path.dirname(dataPath), m0);
 		return callback(m0, fs.readFileSync(filePath));
@@ -140,7 +133,7 @@ function generateWebsite() {
 			contents,
 			/<link data-inline="yes-please" href="([^"]+)".*/g,
 			function (m0, fileContents) {
-				const minifiedCSS = new CleanCSS().minify(fileContents.toString('utf8')).styles;
+				const minifiedCSS = (new CleanCSS() as any).minify(fileContents.toString('utf8')).styles;
 				return `<style>${minifiedCSS}</style>`;
 			}
 		);

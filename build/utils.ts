@@ -3,26 +3,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
+import * as fs from 'fs';
+import * as path from 'path';
+import * as cp from 'child_process';
+import * as esbuild from 'esbuild';
+import alias from 'esbuild-plugin-alias';
+import * as glob from 'glob';
+import { ensureDir } from './fs';
 
-const fs = require('fs');
-const path = require('path');
-const cp = require('child_process');
-const esbuild = require('esbuild');
-/** @type {any} */
-const alias = require('esbuild-plugin-alias');
-const glob = require('glob');
-const { ensureDir } = require('./fs');
-
-const REPO_ROOT = path.join(__dirname, '../');
-exports.REPO_ROOT = REPO_ROOT;
+export const REPO_ROOT = path.join(__dirname, '../');
 
 /**
  * Launch the typescript compiler synchronously over a project.
- *
- * @param {string} _projectPath
  */
-function tsc(_projectPath) {
+export function tsc(_projectPath: string) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
 	console.log(`Launching compiler at ${_projectPath}...`);
 	const res = cp.spawnSync(
@@ -35,14 +29,11 @@ function tsc(_projectPath) {
 		process.exit(res.status);
 	}
 }
-exports.tsc = tsc;
 
 /**
  * Launch prettier on a specific file.
- *
- * @param {string} _filePath
  */
-function prettier(_filePath) {
+export function prettier(_filePath: string) {
 	const filePath = path.join(REPO_ROOT, _filePath);
 	cp.spawnSync(
 		process.execPath,
@@ -52,16 +43,11 @@ function prettier(_filePath) {
 
 	console.log(`Ran prettier over ${_filePath}`);
 }
-exports.prettier = prettier;
 
 /**
  * Transform an external .d.ts file to an internal .d.ts file
- *
- * @param {string} _source
- * @param {string} _destination
- * @param {string} namespace
  */
-function dts(_source, _destination, namespace) {
+export function dts(_source: string, _destination: string, namespace: string) {
 	const source = path.join(REPO_ROOT, _source);
 	const destination = path.join(REPO_ROOT, _destination);
 
@@ -100,12 +86,8 @@ function dts(_source, _destination, namespace) {
 
 	prettier(_destination);
 }
-exports.dts = dts;
 
-/**
- * @param {import('esbuild').BuildOptions} options
- */
-function build(options) {
+export function build(options: import('esbuild').BuildOptions) {
 	esbuild.build(options).then((result) => {
 		if (result.errors.length > 0) {
 			console.error(result.errors);
@@ -115,16 +97,8 @@ function build(options) {
 		}
 	});
 }
-exports.build = build;
 
-/**
- * @param {{
- *   base: string;
- *   entryPoints: string[];
- *   external: string[];
- * }} options
- */
-function buildESM(options) {
+export function buildESM(options: { base: string; entryPoints: string[]; external: string[] }) {
 	build({
 		entryPoints: options.entryPoints,
 		bundle: true,
@@ -146,26 +120,23 @@ function buildESM(options) {
 		]
 	});
 }
-exports.buildESM = buildESM;
 
-/**
- * @param {'dev'|'min'} type
- * @param {{
- *   base: string;
- *   entryPoint: string;
- *   amdModuleId: string;
- *   amdDependencies?: string[];
- *   external?: string[];
- * }} options
- */
-function buildOneAMD(type, options) {
+function buildOneAMD(
+	type: 'dev' | 'min',
+	options: {
+		base: string;
+		entryPoint: string;
+		amdModuleId: string;
+		amdDependencies?: string[];
+		external?: string[];
+	}
+) {
 	if (!options.amdDependencies) {
 		options.amdDependencies = [];
 	}
 	options.amdDependencies.unshift('require');
 
-	/** @type {import('esbuild').BuildOptions} */
-	const opts = {
+	const opts: esbuild.BuildOptions = {
 		entryPoints: [options.entryPoint],
 		bundle: true,
 		target: 'esnext',
@@ -198,20 +169,16 @@ function buildOneAMD(type, options) {
 	build(opts);
 }
 
-/**
- * @param {{
- *   base: string;
- *   entryPoint: string;
- *   amdModuleId: string;
- *   amdDependencies?: string[];
- *   external?: string[];
- * }} options
- */
-function buildAMD(options) {
+export function buildAMD(options: {
+	base: string;
+	entryPoint: string;
+	amdModuleId: string;
+	amdDependencies?: string[];
+	external?: string[];
+}) {
 	buildOneAMD('dev', options);
 	buildOneAMD('min', options);
 }
-exports.buildAMD = buildAMD;
 
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');
@@ -263,7 +230,7 @@ function getGitVersion() {
 	return refs[ref];
 }
 
-const bundledFileHeader = (() => {
+export const bundledFileHeader = (() => {
 	const sha1 = getGitVersion();
 	const semver = require('../package.json').version;
 	const headerVersion = semver + '(' + sha1 + ')';
@@ -280,16 +247,16 @@ const bundledFileHeader = (() => {
 
 	return BUNDLED_FILE_HEADER;
 })();
-exports.bundledFileHeader = bundledFileHeader;
 
-/** @typedef {{ path:string; contents:Buffer;}} IFile */
+export interface IFile {
+	path: string;
+	contents: Buffer;
+}
 
-/**
- * @param {string} pattern
- * @param {{ base:string; ignore?:string[]; dot?:boolean; }} options
- * @returns {IFile[]}
- */
-function readFiles(pattern, options) {
+export function readFiles(
+	pattern: string,
+	options: { base: string; ignore?: string[]; dot?: boolean }
+): IFile[] {
 	let files = glob.sync(pattern, { cwd: REPO_ROOT, ignore: options.ignore, dot: options.dot });
 	// remove dirs
 	files = files.filter((file) => {
@@ -310,17 +277,11 @@ function readFiles(pattern, options) {
 		};
 	});
 }
-exports.readFiles = readFiles;
 
-/**
- * @param {IFile[]} files
- * @param {string} dest
- */
-function writeFiles(files, dest) {
+export function writeFiles(files: IFile[], dest: string) {
 	for (const file of files) {
 		const fullPath = path.join(REPO_ROOT, dest, file.path);
 		ensureDir(path.dirname(fullPath));
 		fs.writeFileSync(fullPath, file.contents);
 	}
 }
-exports.writeFiles = writeFiles;

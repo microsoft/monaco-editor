@@ -3,14 +3,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
-
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
-const yaserver = require('yaserver');
-const { REPO_ROOT } = require('./utils');
-const { ensureDir } = require('./fs');
+import fs = require('fs');
+import path = require('path');
+import http = require('http');
+import yaserver = require('yaserver');
+import { REPO_ROOT } from './utils';
+import { ensureDir } from './fs';
 
 const WEBSITE_GENERATED_PATH = path.join(REPO_ROOT, 'website/playground/new-samples');
 
@@ -157,11 +155,7 @@ function generateTestSamplesTask() {
 	);
 }
 
-/**
- * @param {string} rootDir
- * @param {number} port
- */
-function createSimpleServer(rootDir, port) {
+function createSimpleServer(rootDir: string, port: number) {
 	yaserver
 		.createServer({
 			rootDir: rootDir

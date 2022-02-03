@@ -3,12 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-//@ts-check
-
-const path = require('path');
-const fs = require('fs');
-const child_process = require('child_process');
-const { REPO_ROOT } = require('./utils');
+import path = require('path');
+import fs = require('fs');
+import child_process = require('child_process');
+import { REPO_ROOT } from './utils';
 
 const generatedNote = `//
 // **NOTE**: Do not edit directly! This file is generated using \`npm run import-typescript\`
