@@ -12,7 +12,7 @@ on:
         default: 'true'
 jobs:
   publish:
-    if: github.repository == "microsoft/monaco-editor"
+    if: ${{ github.repository == 'microsoft/monaco-editor' }}
     name: Publish to npm
     runs-on: ubuntu-latest
     steps:
