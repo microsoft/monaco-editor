@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.32.1] (04.02.2022)
+
+- fixes [an issue with service initialization](https://github.com/microsoft/monaco-editor/issues/2941).
+
 ## [0.32.0] (03.02.2022)
 
 ### Breaking Changes
