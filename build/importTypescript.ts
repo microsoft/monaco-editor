@@ -72,6 +72,11 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		'/* MONACOCHANGE */false/* END MONACOCHANGE */'
 	);
 
+	tsServices = tsServices.replace(
+		/module.exports = ts;/m,
+		'/* MONACOCHANGE */ /*module.exports = ts;*/ /* END MONACOCHANGE */'
+	);
+
 	// Flag any new require calls (outside comments) so they can be corrected preemptively.
 	// To avoid missing cases (or using an even more complex regex), temporarily remove comments
 	// about require() and then check for lines actually calling require().
