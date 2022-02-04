@@ -64,9 +64,8 @@ generateMetadata();
 
 /**
  * Release to `dev` or `min`.
- * @param {'dev'|'min'} type
  */
-function AMD_releaseOne(type) {
+function AMD_releaseOne(type: 'dev' | 'min') {
 	const coreFiles = readFiles(`node_modules/monaco-editor-core/${type}/**/*`, {
 		base: `node_modules/monaco-editor-core/${type}`
 	});
