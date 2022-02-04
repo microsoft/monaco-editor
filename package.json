@@ -9,6 +9,7 @@
 	"scripts": {
 		"build-website": "ts-node ./build/website && npm run typedoc",
 		"import-typescript": "ts-node ./build/importTypescript",
+		"package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
 		"playwright-install": "node ./node_modules/playwright/install.js",
 		"playwright-install-deps": "playwright install-deps",
 		"postinstall": "ts-node ./build/postinstall",
