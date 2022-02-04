@@ -50,6 +50,9 @@ jobs:
       - name: Package using webpack plugin
         run: npm run package-for-smoketest --prefix webpack-plugin
 
+      - name: Package using esbuild
+        run: npm run package-for-smoketest-esbuild
+
       - name: Run smoke test
         run: npm run smoketest
 
