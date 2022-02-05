@@ -8,13 +8,13 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"monaco-editor": "^0.31.0",
+		"monaco-editor": "^0.32.0",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
-		"@types/react": "^17.0.35",
+		"@types/react": "^17.0.39",
 		"@types/react-dom": "^17.0.11",
-		"@vitejs/plugin-react": "^1.0.9",
-		"typescript": "^4.4.4",
-		"vite": "^2.6.14"
+		"@vitejs/plugin-react": "^1.1.4",
+		"typescript": "^4.5.5",
+		"vite": "^2.7.13"
 	}
 }
