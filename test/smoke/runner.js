@@ -38,7 +38,7 @@ async function runTests() {
 	// uncomment to shortcircuit and run a specific combo
 	// await runTest('webpack', 'chromium'); return;
 
-	for (const type of ['amd', 'webpack', 'esbuild']) {
+	for (const type of ['amd', 'webpack' /*, 'esbuild'*/]) {
 		await runTest(type, 'chromium');
 		await runTest(type, 'firefox');
 		// await runTest(type, 'webkit');
