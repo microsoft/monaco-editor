@@ -1,5 +1,11 @@
 # Monaco Editor Changelog
 
+## [0.33.0] (TBD)
+
+### Breaking Changes
+
+- `InlayHintKind.Other` is removed.
+
 ## [0.32.1] (04.02.2022)
 
 - fixes [an issue with service initialization](https://github.com/microsoft/monaco-editor/issues/2941).

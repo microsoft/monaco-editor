@@ -42,7 +42,7 @@
 		"jsdom": "^19.0.0",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^9.2.0",
-		"monaco-editor-core": "0.32.1",
+		"monaco-editor-core": "0.33.0-dev.20220214",
 		"playwright": "^1.18.1",
 		"prettier": "^2.5.1",
 		"pretty-quick": "^3.1.3",
