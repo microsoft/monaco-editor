@@ -13,6 +13,19 @@ import {
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
 
+declare module './lib/typescriptServices' {
+	// Removed in TS 4.7 and merged into UserPreferences
+	export interface InlayHintsOptions extends ts.UserPreferences {
+		readonly includeInlayParameterNameHints?: 'none' | 'literals' | 'all';
+		readonly includeInlayParameterNameHintsWhenArgumentMatchesName?: boolean;
+		readonly includeInlayFunctionParameterTypeHints?: boolean;
+		readonly includeInlayVariableTypeHints?: boolean;
+		readonly includeInlayPropertyDeclarationTypeHints?: boolean;
+		readonly includeInlayFunctionLikeReturnTypeHints?: boolean;
+		readonly includeInlayEnumMemberValueHints?: boolean;
+	}
+}
+
 /**
  * Loading a default lib as a source file will mess up TS completely.
  * So our strategy is to hide such a text model from TS.
