@@ -1,6 +1,6 @@
 # Monaco Editor Changelog
 
-## [0.33.0] (TBD)
+## [0.33.0]
 
 ### Breaking Changes
 
