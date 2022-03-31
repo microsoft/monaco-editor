@@ -106,6 +106,22 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				)
 			);
 		}
+		if (modeConfiguration.documentFormattingEdits) {
+			providers.push(
+				languages.registerDocumentFormattingEditProvider(
+					languageId,
+					new languageFeatures.DocumentFormattingEditProvider(worker)
+				)
+			);
+		}
+		if (modeConfiguration.documentRangeFormattingEdits) {
+			providers.push(
+				languages.registerDocumentRangeFormattingEditProvider(
+					languageId,
+					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
+				)
+			);
+		}
 	}
 
 	registerProviders();

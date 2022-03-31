@@ -7157,6 +7157,14 @@ declare namespace monaco.worker {
  *--------------------------------------------------------------------------------------------*/
 
 declare namespace monaco.languages.css {
+    export interface CSSFormatConfiguration {
+        /** separate selectors with newline (e.g. "a,\nbr" or "a, br"): Default: true */
+        newlineBetweenSelectors?: boolean;
+        /** add a new line after every css rule: Default: true */
+        newlineBetweenRules?: boolean;
+        /** ensure space around selector separators:  '>', '+', '~' (e.g. "a>b" -> "a > b"): Default: false */
+        spaceAroundSelectorSeparator?: boolean;
+    }
     export interface Options {
         readonly validate?: boolean;
         readonly lint?: {
@@ -7183,6 +7191,10 @@ declare namespace monaco.languages.css {
          * Configures the CSS data types known by the langauge service.
          */
         readonly data?: CSSDataConfiguration;
+        /**
+         * Settings for the CSS formatter.
+         */
+        readonly format?: CSSFormatConfiguration;
     }
     export interface ModeConfiguration {
         /**
@@ -7229,6 +7241,14 @@ declare namespace monaco.languages.css {
          * Defines whether the built-in selection range provider is enabled.
          */
         readonly selectionRanges?: boolean;
+        /**
+         * Defines whether the built-in document formatting edit provider is enabled.
+         */
+        readonly documentFormattingEdits?: boolean;
+        /**
+         * Defines whether the built-in document formatting range edit provider is enabled.
+         */
+        readonly documentRangeFormattingEdits?: boolean;
     }
     export interface LanguageServiceDefaults {
         readonly languageId: string;
@@ -7346,11 +7366,11 @@ declare namespace monaco.languages.html {
     }
     export interface Options {
         /**
-         * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
+         * Settings for the HTML formatter.
          */
         readonly format?: HTMLFormatConfiguration;
         /**
-         * A list of known schemas and/or associations of schemas to file names.
+         * Conde completion settings.
          */
         readonly suggest?: CompletionConfiguration;
         /**

@@ -6,6 +6,15 @@
 import * as mode from './cssMode';
 import { languages, Emitter, IEvent } from '../../fillers/monaco-editor-core';
 
+export interface CSSFormatConfiguration {
+	/** separate selectors with newline (e.g. "a,\nbr" or "a, br"): Default: true */
+	newlineBetweenSelectors?: boolean;
+	/** add a new line after every css rule: Default: true */
+	newlineBetweenRules?: boolean;
+	/** ensure space around selector separators:  '>', '+', '~' (e.g. "a>b" -> "a > b"): Default: false */
+	spaceAroundSelectorSeparator?: boolean;
+}
+
 export interface Options {
 	readonly validate?: boolean;
 	readonly lint?: {
@@ -32,6 +41,11 @@ export interface Options {
 	 * Configures the CSS data types known by the langauge service.
 	 */
 	readonly data?: CSSDataConfiguration;
+
+	/**
+	 * Settings for the CSS formatter.
+	 */
+	readonly format?: CSSFormatConfiguration;
 }
 
 export interface ModeConfiguration {
@@ -89,6 +103,16 @@ export interface ModeConfiguration {
 	 * Defines whether the built-in selection range provider is enabled.
 	 */
 	readonly selectionRanges?: boolean;
+
+	/**
+	 * Defines whether the built-in document formatting edit provider is enabled.
+	 */
+	readonly documentFormattingEdits?: boolean;
+
+	/**
+	 * Defines whether the built-in document formatting range edit provider is enabled.
+	 */
+	readonly documentRangeFormattingEdits?: boolean;
 }
 
 export interface LanguageServiceDefaults {
@@ -180,7 +204,12 @@ const optionsDefault: Required<Options> = {
 		float: 'ignore',
 		idSelector: 'ignore'
 	},
-	data: { useDefaultDataProvider: true }
+	data: { useDefaultDataProvider: true },
+	format: {
+		newlineBetweenSelectors: true,
+		newlineBetweenRules: true,
+		spaceAroundSelectorSeparator: false
+	}
 };
 
 const modeConfigurationDefault: Required<ModeConfiguration> = {
@@ -194,7 +223,9 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 	colors: true,
 	foldingRanges: true,
 	diagnostics: true,
-	selectionRanges: true
+	selectionRanges: true,
+	documentFormattingEdits: true,
+	documentRangeFormattingEdits: true
 };
 
 export const cssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
