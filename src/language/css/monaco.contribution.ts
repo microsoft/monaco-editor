@@ -13,6 +13,12 @@ export interface CSSFormatConfiguration {
 	newlineBetweenRules?: boolean;
 	/** ensure space around selector separators:  '>', '+', '~' (e.g. "a>b" -> "a > b"): Default: false */
 	spaceAroundSelectorSeparator?: boolean;
+	/** put braces on the same line as rules (`collapse`), or put braces on own line, Allman / ANSI style (`expand`). Default `collapse` */
+	braceStyle?: 'collapse' | 'expand';
+	/** whether existing line breaks before elements should be preserved. Default: true */
+	preserveNewLines?: boolean;
+	/** maximum number of line breaks to be preserved in one chunk. Default: unlimited */
+	maxPreserveNewLines?: number;
 }
 
 export interface Options {
@@ -208,7 +214,10 @@ const optionsDefault: Required<Options> = {
 	format: {
 		newlineBetweenSelectors: true,
 		newlineBetweenRules: true,
-		spaceAroundSelectorSeparator: false
+		spaceAroundSelectorSeparator: false,
+		braceStyle: 'collapse',
+		maxPreserveNewLines: undefined,
+		preserveNewLines: true
 	}
 };
 

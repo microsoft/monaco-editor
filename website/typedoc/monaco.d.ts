@@ -7164,6 +7164,12 @@ declare namespace monaco.languages.css {
         newlineBetweenRules?: boolean;
         /** ensure space around selector separators:  '>', '+', '~' (e.g. "a>b" -> "a > b"): Default: false */
         spaceAroundSelectorSeparator?: boolean;
+        /** put braces on the same line as rules (`collapse`), or put braces on own line, Allman / ANSI style (`expand`). Default `collapse` */
+        braceStyle?: 'collapse' | 'expand';
+        /** whether existing line breaks before elements should be preserved. Default: true */
+        preserveNewLines?: boolean;
+        /** maximum number of line breaks to be preserved in one chunk. Default: unlimited */
+        maxPreserveNewLines?: number;
     }
     export interface Options {
         readonly validate?: boolean;
@@ -7370,7 +7376,7 @@ declare namespace monaco.languages.html {
          */
         readonly format?: HTMLFormatConfiguration;
         /**
-         * Conde completion settings.
+         * Code completion settings.
          */
         readonly suggest?: CompletionConfiguration;
         /**
