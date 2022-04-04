@@ -63,14 +63,15 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	getScriptFileNames(): string[] {
 		const allModels = this._ctx.getMirrorModels().map((model) => model.uri);
-		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString());
+		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString(true));
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
 	private _getModel(fileName: string): worker.IMirrorModel | null {
 		let models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
-			if (models[i].uri.toString() === fileName) {
+			const uri = models[i].uri;
+			if (uri.toString() === fileName || uri.toString(true) === fileName) {
 				return models[i];
 			}
 		}
