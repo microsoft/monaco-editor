@@ -2,6 +2,9 @@
 
 ## [0.33.0]
 
+- The first parameter of all `monaco.languages.register*Provider` functions has changed to take a `DocumentSelector` instead of a single `languageId`
+- The `Environment.getWorker` function can now return a `Promise`
+
 ### Breaking Changes
 
 - `InlayHintKind.Other` is removed.
