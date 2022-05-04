@@ -2,7 +2,7 @@
 define(['require', './samples'], function (require, SAMPLES) {
 	const domutils = require('vs/base/browser/dom');
 
-	var model = monaco.editor.createModel('', 'plaintext');
+	let model = monaco.editor.createModel('', 'plaintext');
 
 	monaco.languages.typescript.typescriptDefaults.setInlayHintsOptions({
 		includeInlayParameterNameHints: 'all',
