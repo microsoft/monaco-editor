@@ -1,6 +1,6 @@
 /// <reference path="../../release/monaco.d.ts" />
 define(['require', './samples'], function (require, SAMPLES) {
-	var domutils = require('vs/base/browser/dom');
+	const domutils = require('vs/base/browser/dom');
 
 	var model = monaco.editor.createModel('', 'plaintext');
 
