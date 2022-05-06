@@ -8,58 +8,111 @@ import type { languages } from '../../fillers/monaco-editor-core';
 export const conf: languages.LanguageConfiguration = {
 	comments: {
 		blockComment: ['{/*', '*/}']
-	}
+	},
+	brackets: [['{', '}']]
 };
 
 export const language = <languages.IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.mdx',
-	escapes: /\\(?:["'\\abfnrtv]|x[\dA-Fa-f]{1,4}|u[\dA-Fa-f]{4}|U[\dA-Fa-f]{8})/,
-	bracket_open: ['{'],
-	single_quote: ["'"],
-	double_quote: ['"'],
+	control: /[!#()*+.[\\\]_`{}\-]/,
+	escapes: /\\@control/,
+
 	tokenizer: {
 		root: [
+			[/^---$/, { token: 'meta.content', next: '@frontmatter', nextEmbedded: 'yaml' }],
+			[/^\s{4}.*$/, { token: 'variable.source' }],
 			[/^\s*import/, { token: 'keyword', next: '@import', nextEmbedded: 'js' }],
-			[/<\w+/, { token: 'keyword', next: '@jsx' }],
-			[/<\/?\w+>/, { token: 'keyword' }],
-			[/\*\*.+\*\*/, 'strong'],
-			[/{/, { token: 'delimiter.bracket', nextEmbedded: 'js' }],
-			{ include: 'expression' }
+			[/^\s*export/, { token: 'keyword', next: '@export', nextEmbedded: 'js' }],
+			[/<\w+/, { token: 'type.identifier', next: '@jsx' }],
+			[/<\/?\w+>/, 'type.identifier'],
+			[
+				/^(\s*)(>*\s*)(#{1,6}\s)/,
+				[{ token: 'white' }, { token: 'comment' }, { token: 'keyword', next: '@header' }]
+			],
+			[/^(\s*)(>*\s*)([*+-])(\s+)/, ['white', 'comment', 'keyword', 'white']],
+			[/^(\s*)(>*\s*)(\d{1,9}\.)(\s+)/, ['white', 'comment', 'number', 'white']],
+			[/^(\s*)(>*\s*)(\d{1,9}\.)(\s+)/, ['white', 'comment', 'number', 'white']],
+			[/^(\s*)(>*\s*)(-{3,}|\*{3,}|_{3,})$/, ['white', 'comment', 'keyword']],
+			[/`{3,}(\s.*)?$/, { token: 'string', next: '@codeblock_backtick' }],
+			[/~{3,}(\s.*)?$/, { token: 'string', next: '@codeblock_tilde' }],
+			[
+				/`{3,}(\S+).*$/,
+				{ token: 'string', next: '@codeblock_highlight_backtick', nextEmbedded: '$1' }
+			],
+			[
+				/~{3,}(\S+).*$/,
+				{ token: 'string', next: '@codeblock_highlight_tilde', nextEmbedded: '$1' }
+			],
+			[/^(\s*)(-{4,})$/, ['white', 'comment']],
+			[/^(\s*)(>+)/, ['white', 'comment']],
+			{ include: 'content' }
+		],
+		content: [
+			[
+				/(\[)(.+)(]\()(.+)(\s+".*")(\))/,
+				['', 'string.link', '', 'type.identifier', 'string.link', '']
+			],
+			[/(\[)(.+)(]\()(.+)(\))/, ['', 'type.identifier', '', 'string.link', '']],
+			[/(\[)(.+)(]\[)(.+)(])/, ['', 'type.identifier', '', 'type.identifier', '']],
+			[/(\[)(.+)(]:\s+)(\S*)/, ['', 'type.identifier', '', 'string.link']],
+			[/(\[)(.+)(])/, ['', 'type.identifier', '']],
+			[/`.*`/, 'variable.source'],
+			[/_/, { token: 'emphasis', next: '@emphasis_underscore' }],
+			[/\*(?!\*)/, { token: 'emphasis', next: '@emphasis_asterisk' }],
+			[/\*\*/, { token: 'strong', next: '@strong' }],
+			[/{/, { token: 'delimiter.bracket', next: '@expression', nextEmbedded: 'js' }]
 		],
 		import: [[/'\s*(;|$)/, { token: 'string', next: '@pop', nextEmbedded: '@pop' }]],
-		expression: [[/}/, { token: 'delimiter.bracket', nextEmbedded: '@pop' }]],
+		expression: [
+			[/{/, { token: 'delimiter.bracket', next: '@expression' }],
+			[/}/, { token: 'delimiter.bracket', next: '@pop', nextEmbedded: '@pop' }]
+		],
+		export: [[/^\s*$/, { token: 'delimiter.bracket', next: '@pop', nextEmbedded: '@pop' }]],
 		jsx: [
-			[/\w+=/, { token: 'delimiter.bracket', next: '@jsx_expression' }],
-			[/\/?>/, { token: 'keyword', next: '@pop' }]
+			[/\s+/, ''],
+			[/(\w+)(=)("(?:[^"\\]|\\.)*")/, ['attribute.name', 'operator', 'string']],
+			[/(\w+)(=)('(?:[^'\\]|\\.)*')/, ['attribute.name', 'operator', 'string']],
+			[/(\w+(?=\s|>|={|$))/, ['attribute.name']],
+			[/={/, { token: 'delimiter.bracket', next: '@expression', nextEmbedded: 'js' }],
+			[/>/, { token: 'type.identifier', next: '@pop' }]
 		],
-		jsx_expression: [
-			[
-				/["'{]/,
-				{
-					cases: {
-						'@bracket_open': {
-							token: 'delimiter.bracket',
-							next: '@expression',
-							nextEmbedded: 'js'
-						},
-						'@double_quote': { token: 'string', next: '@string_double' },
-						'@single_quote': { token: 'string', next: '@string_single' }
-					}
-				}
-			]
+		header: [
+			[/.$/, { token: 'keyword', next: '@pop' }],
+			{ include: 'content' },
+			[/./, { token: 'keyword' }]
 		],
-		string_double: [
-			[/[^"\\]+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/"/, 'string', '@pop']
+		strong: [
+			[/\*\*/, { token: 'strong', next: '@pop' }],
+			{ include: 'content' },
+			[/./, { token: 'strong' }]
 		],
-		string_single: [
-			[/[^'\\]+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/'/, 'string', '@pop']
+		emphasis_underscore: [
+			[/_/, { token: 'emphasis', next: '@pop' }],
+			{ include: 'content' },
+			[/./, { token: 'emphasis' }]
+		],
+		emphasis_asterisk: [
+			[/\*(?!\*)/, { token: 'emphasis', next: '@pop' }],
+			{ include: 'content' },
+			[/./, { token: 'emphasis' }]
+		],
+		frontmatter: [[/^---$/, { token: 'meta.content', nextEmbedded: '@pop', next: '@pop' }]],
+		codeblock_highlight_backtick: [
+			[/\s*`{3,}\s*$/, { token: 'string', next: '@pop', nextEmbedded: '@pop' }],
+			[/.*$/, 'variable.source']
+		],
+		codeblock_highlight_tilde: [
+			[/\s*~{3,}\s*$/, { token: 'string', next: '@pop', nextEmbedded: '@pop' }],
+			[/.*$/, 'variable.source']
+		],
+		codeblock_backtick: [
+			[/\s*`{3,}\s*$/, { token: 'string', next: '@pop' }],
+			[/.*$/, 'variable.source']
+		],
+		codeblock_tilde: [
+			[/\s*~{3,}\s*$/, { token: 'string', next: '@pop' }],
+			[/.*$/, 'variable.source']
 		]
 	}
 };
