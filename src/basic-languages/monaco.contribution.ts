@@ -38,6 +38,7 @@ import './lua/lua.contribution';
 import './liquid/liquid.contribution';
 import './m3/m3.contribution';
 import './markdown/markdown.contribution';
+import './mdx/mdx.contribution';
 import './mips/mips.contribution';
 import './msdax/msdax.contribution';
 import './mysql/mysql.contribution';
