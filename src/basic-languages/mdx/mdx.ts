@@ -21,7 +21,6 @@ export const language = <languages.IMonarchLanguage>{
 	tokenizer: {
 		root: [
 			[/^---$/, { token: 'meta.content', next: '@frontmatter', nextEmbedded: 'yaml' }],
-			[/^\s{4}.*$/, { token: 'variable.source' }],
 			[/^\s*import/, { token: 'keyword', next: '@import', nextEmbedded: 'js' }],
 			[/^\s*export/, { token: 'keyword', next: '@export', nextEmbedded: 'js' }],
 			[/<\w+/, { token: 'type.identifier', next: '@jsx' }],
