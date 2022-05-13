@@ -3,13 +3,57 @@
  *	Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from '../../fillers/monaco-editor-core';
+import { languages } from '../../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
 		blockComment: ['{/*', '*/}']
 	},
-	brackets: [['{', '}']]
+	brackets: [['{', '}']],
+	autoClosingPairs: [
+		{ open: '"', close: '"' },
+		{ open: "'", close: "'" },
+		{ open: '“', close: '”' },
+		{ open: '‘', close: '’' },
+		{ open: '`', close: '`' },
+		{ open: '{', close: '}' },
+		{ open: '_', close: '_' },
+		{ open: '**', close: '**' }
+	],
+	onEnterRules: [
+		{
+			beforeText: /^\s*- .+/,
+			action: { indentAction: languages.IndentAction.None, appendText: '- ' }
+		},
+		{
+			beforeText: /^\s*\+ .+/,
+			action: { indentAction: languages.IndentAction.None, appendText: '+ ' }
+		},
+		{
+			beforeText: /^\s*\* .+/,
+			action: { indentAction: languages.IndentAction.None, appendText: '* ' }
+		},
+		{
+			beforeText: /^> /,
+			action: { indentAction: languages.IndentAction.None, appendText: '> ' }
+		},
+		{
+			beforeText: /<\w+/,
+			action: { indentAction: languages.IndentAction.Indent }
+		},
+		{
+			beforeText: /\s+>\s*$/,
+			action: { indentAction: languages.IndentAction.Indent }
+		},
+		{
+			beforeText: /<\/\w+>/,
+			action: { indentAction: languages.IndentAction.Outdent }
+		},
+		...Array.from({ length: 100 }, (_, index) => ({
+			beforeText: new RegExp(`^${index}\\. .+`),
+			action: { indentAction: languages.IndentAction.None, appendText: `${index + 1}. ` }
+		}))
+	]
 };
 
 export const language = <languages.IMonarchLanguage>{
