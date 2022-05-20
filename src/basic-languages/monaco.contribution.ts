@@ -9,6 +9,7 @@ import './azcli/azcli.contribution';
 import './bat/bat.contribution';
 import './bicep/bicep.contribution';
 import './cameligo/cameligo.contribution';
+import './clickhouse/clickhouse.contribution';
 import './clojure/clojure.contribution';
 import './coffee/coffee.contribution';
 import './cpp/cpp.contribution';
