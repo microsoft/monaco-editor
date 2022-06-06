@@ -9,7 +9,7 @@
 /samples/browser-esm-webpack-small/dist/*.js
 /samples/browser-esm-webpack-typescript/dist/*.js
 /samples/browser-esm-webpack-typescript-react/dist/*.js
-/src/typescript/lib/
+/src/language/typescript/lib/
 /test/manual/generated/
 /website/lib/
 /website/typedoc/monaco.d.ts

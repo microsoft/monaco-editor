@@ -428,6 +428,7 @@ declare namespace monaco {
         readonly isTrusted?: boolean;
         readonly supportThemeIcons?: boolean;
         readonly supportHtml?: boolean;
+        readonly baseUri?: UriComponents;
         uris?: {
             [href: string]: UriComponents;
         };
@@ -710,6 +711,7 @@ declare namespace monaco {
          */
         static lift(range: undefined | null): null;
         static lift(range: IRange): Range;
+        static lift(range: IRange | undefined | null): Range | null;
         /**
          * Test if `obj` is an `IRange`.
          */
@@ -736,6 +738,7 @@ declare namespace monaco {
          * Test if the range spans multiple lines.
          */
         static spansMultipleLines(range: IRange): boolean;
+        toJSON(): IRange;
     }
 
     /**
@@ -1648,20 +1651,7 @@ declare namespace monaco.editor {
     /**
      * A single edit operation, that has an identifier.
      */
-    export interface IIdentifiedSingleEditOperation {
-        /**
-         * The range to replace. This can be empty to emulate a simple insert.
-         */
-        range: IRange;
-        /**
-         * The text to replace with. This can be null to emulate a simple delete.
-         */
-        text: string | null;
-        /**
-         * This indicates that this operation has "insert" semantics.
-         * i.e. forceMoveMarkers = true => if `range` is collapsed, all markers at the position will be moved.
-         */
-        forceMoveMarkers?: boolean;
+    export interface IIdentifiedSingleEditOperation extends ISingleEditOperation {
     }
 
     export interface IValidEditOperation {
@@ -2369,8 +2359,9 @@ declare namespace monaco.editor {
         /**
          * Set the primary position of the cursor. This will remove any secondary cursors.
          * @param position New primary cursor's position
+         * @param source Source of the call that caused the position
          */
-        setPosition(position: IPosition): void;
+        setPosition(position: IPosition, source?: string): void;
         /**
          * Scroll vertically as necessary and reveal a line.
          */
@@ -2416,28 +2407,34 @@ declare namespace monaco.editor {
         /**
          * Set the primary selection of the editor. This will remove any secondary cursors.
          * @param selection The new selection
+         * @param source Source of the call that caused the selection
          */
-        setSelection(selection: IRange): void;
+        setSelection(selection: IRange, source?: string): void;
         /**
          * Set the primary selection of the editor. This will remove any secondary cursors.
          * @param selection The new selection
+         * @param source Source of the call that caused the selection
          */
-        setSelection(selection: Range): void;
+        setSelection(selection: Range, source?: string): void;
         /**
          * Set the primary selection of the editor. This will remove any secondary cursors.
          * @param selection The new selection
+         * @param source Source of the call that caused the selection
          */
-        setSelection(selection: ISelection): void;
+        setSelection(selection: ISelection, source?: string): void;
         /**
          * Set the primary selection of the editor. This will remove any secondary cursors.
          * @param selection The new selection
+         * @param source Source of the call that caused the selection
          */
-        setSelection(selection: Selection): void;
+        setSelection(selection: Selection, source?: string): void;
         /**
          * Set the selections for all the cursors of the editor.
          * Cursors will be removed or added, as necessary.
+         * @param selections The new selection
+         * @param source Source of the call that caused the selection
          */
-        setSelections(selections: readonly ISelection[]): void;
+        setSelections(selections: readonly ISelection[], source?: string): void;
         /**
          * Scroll vertically as necessary and reveal lines.
          */
@@ -3340,7 +3337,14 @@ declare namespace monaco.editor {
          * Controls the behavior of editor guides.
         */
         guides?: IGuidesOptions;
+        /**
+         * Controls the behavior of the unicode highlight feature
+         * (by default, ambiguous and invisible characters are highlighted).
+         */
         unicodeHighlight?: IUnicodeHighlightOptions;
+        /**
+         * Configures bracket pair colorization (disabled by default).
+        */
         bracketPairColorization?: IBracketPairColorizationOptions;
     }
 
@@ -3921,15 +3925,33 @@ declare namespace monaco.editor {
      * Configuration options for unicode highlighting.
      */
     export interface IUnicodeHighlightOptions {
+        /**
+         * Controls whether all non-basic ASCII characters are highlighted. Only characters between U+0020 and U+007E, tab, line-feed and carriage-return are considered basic ASCII.
+         */
         nonBasicASCII?: boolean | InUntrustedWorkspace;
+        /**
+         * Controls whether characters that just reserve space or have no width at all are highlighted.
+         */
         invisibleCharacters?: boolean;
+        /**
+         * Controls whether characters are highlighted that can be confused with basic ASCII characters, except those that are common in the current user locale.
+         */
         ambiguousCharacters?: boolean;
+        /**
+         * Controls whether characters in comments should also be subject to unicode highlighting.
+         */
         includeComments?: boolean | InUntrustedWorkspace;
+        /**
+         * Controls whether characters in strings should also be subject to unicode highlighting.
+         */
         includeStrings?: boolean | InUntrustedWorkspace;
         /**
-         * A map of allowed characters (true: allowed).
-        */
+         * Defines allowed characters that are not being highlighted.
+         */
         allowedCharacters?: Record<string, true>;
+        /**
+         * Unicode characters that are common in allowed locales are not being highlighted.
+         */
         allowedLocales?: Record<string | '_os' | '_vscode', true>;
     }
 
@@ -6886,7 +6908,6 @@ declare namespace monaco.languages {
     }
 
     export enum InlayHintKind {
-        Other = 0,
         Type = 1,
         Parameter = 2
     }
@@ -6901,8 +6922,9 @@ declare namespace monaco.languages {
     export interface InlayHint {
         label: string | InlayHintLabelPart[];
         tooltip?: string | IMarkdownString;
+        command?: Command;
         position: IPosition;
-        kind: InlayHintKind;
+        kind?: InlayHintKind;
         paddingLeft?: boolean;
         paddingRight?: boolean;
     }
@@ -6913,6 +6935,7 @@ declare namespace monaco.languages {
     }
 
     export interface InlayHintsProvider {
+        displayName?: string;
         onDidChangeInlayHints?: IEvent<void>;
         provideInlayHints(model: editor.ITextModel, range: Range, token: CancellationToken): ProviderResult<InlayHintList>;
         resolveInlayHint?(hint: InlayHint, token: CancellationToken): ProviderResult<InlayHint>;
@@ -7127,6 +7150,481 @@ declare namespace monaco.worker {
 }
 
 //dtsv=3
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+declare namespace monaco.languages.css {
+    export interface CSSFormatConfiguration {
+        /** separate selectors with newline (e.g. "a,\nbr" or "a, br"): Default: true */
+        newlineBetweenSelectors?: boolean;
+        /** add a new line after every css rule: Default: true */
+        newlineBetweenRules?: boolean;
+        /** ensure space around selector separators:  '>', '+', '~' (e.g. "a>b" -> "a > b"): Default: false */
+        spaceAroundSelectorSeparator?: boolean;
+        /** put braces on the same line as rules (`collapse`), or put braces on own line, Allman / ANSI style (`expand`). Default `collapse` */
+        braceStyle?: 'collapse' | 'expand';
+        /** whether existing line breaks before elements should be preserved. Default: true */
+        preserveNewLines?: boolean;
+        /** maximum number of line breaks to be preserved in one chunk. Default: unlimited */
+        maxPreserveNewLines?: number;
+    }
+    export interface Options {
+        readonly validate?: boolean;
+        readonly lint?: {
+            readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error';
+            readonly vendorPrefix?: 'ignore' | 'warning' | 'error';
+            readonly duplicateProperties?: 'ignore' | 'warning' | 'error';
+            readonly emptyRules?: 'ignore' | 'warning' | 'error';
+            readonly importStatement?: 'ignore' | 'warning' | 'error';
+            readonly boxModel?: 'ignore' | 'warning' | 'error';
+            readonly universalSelector?: 'ignore' | 'warning' | 'error';
+            readonly zeroUnits?: 'ignore' | 'warning' | 'error';
+            readonly fontFaceProperties?: 'ignore' | 'warning' | 'error';
+            readonly hexColorLength?: 'ignore' | 'warning' | 'error';
+            readonly argumentsInColorFunction?: 'ignore' | 'warning' | 'error';
+            readonly unknownProperties?: 'ignore' | 'warning' | 'error';
+            readonly ieHack?: 'ignore' | 'warning' | 'error';
+            readonly unknownVendorSpecificProperties?: 'ignore' | 'warning' | 'error';
+            readonly propertyIgnoredDueToDisplay?: 'ignore' | 'warning' | 'error';
+            readonly important?: 'ignore' | 'warning' | 'error';
+            readonly float?: 'ignore' | 'warning' | 'error';
+            readonly idSelector?: 'ignore' | 'warning' | 'error';
+        };
+        /**
+         * Configures the CSS data types known by the langauge service.
+         */
+        readonly data?: CSSDataConfiguration;
+        /**
+         * Settings for the CSS formatter.
+         */
+        readonly format?: CSSFormatConfiguration;
+    }
+    export interface ModeConfiguration {
+        /**
+         * Defines whether the built-in completionItemProvider is enabled.
+         */
+        readonly completionItems?: boolean;
+        /**
+         * Defines whether the built-in hoverProvider is enabled.
+         */
+        readonly hovers?: boolean;
+        /**
+         * Defines whether the built-in documentSymbolProvider is enabled.
+         */
+        readonly documentSymbols?: boolean;
+        /**
+         * Defines whether the built-in definitions provider is enabled.
+         */
+        readonly definitions?: boolean;
+        /**
+         * Defines whether the built-in references provider is enabled.
+         */
+        readonly references?: boolean;
+        /**
+         * Defines whether the built-in references provider is enabled.
+         */
+        readonly documentHighlights?: boolean;
+        /**
+         * Defines whether the built-in rename provider is enabled.
+         */
+        readonly rename?: boolean;
+        /**
+         * Defines whether the built-in color provider is enabled.
+         */
+        readonly colors?: boolean;
+        /**
+         * Defines whether the built-in foldingRange provider is enabled.
+         */
+        readonly foldingRanges?: boolean;
+        /**
+         * Defines whether the built-in diagnostic provider is enabled.
+         */
+        readonly diagnostics?: boolean;
+        /**
+         * Defines whether the built-in selection range provider is enabled.
+         */
+        readonly selectionRanges?: boolean;
+        /**
+         * Defines whether the built-in document formatting edit provider is enabled.
+         */
+        readonly documentFormattingEdits?: boolean;
+        /**
+         * Defines whether the built-in document formatting range edit provider is enabled.
+         */
+        readonly documentRangeFormattingEdits?: boolean;
+    }
+    export interface LanguageServiceDefaults {
+        readonly languageId: string;
+        readonly onDidChange: IEvent<LanguageServiceDefaults>;
+        readonly modeConfiguration: ModeConfiguration;
+        readonly options: Options;
+        setOptions(options: Options): void;
+        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
+        /** @deprecated Use options instead */
+        readonly diagnosticsOptions: DiagnosticsOptions;
+        /** @deprecated Use setOptions instead */
+        setDiagnosticsOptions(options: DiagnosticsOptions): void;
+    }
+    /** @deprecated Use Options instead */
+    export type DiagnosticsOptions = Options;
+    export const cssDefaults: LanguageServiceDefaults;
+    export const scssDefaults: LanguageServiceDefaults;
+    export const lessDefaults: LanguageServiceDefaults;
+    export interface CSSDataConfiguration {
+        /**
+         * Defines whether the standard CSS properties, at-directives, pseudoClasses and pseudoElements are shown.
+         */
+        useDefaultDataProvider?: boolean;
+        /**
+         * Provides a set of custom data providers.
+         */
+        dataProviders?: {
+            [providerId: string]: CSSDataV1;
+        };
+    }
+    /**
+     * Custom CSS properties, at-directives, pseudoClasses and pseudoElements
+     * https://github.com/microsoft/vscode-css-languageservice/blob/main/docs/customData.md
+     */
+    export interface CSSDataV1 {
+        version: 1 | 1.1;
+        properties?: IPropertyData[];
+        atDirectives?: IAtDirectiveData[];
+        pseudoClasses?: IPseudoClassData[];
+        pseudoElements?: IPseudoElementData[];
+    }
+    export type EntryStatus = 'standard' | 'experimental' | 'nonstandard' | 'obsolete';
+    export interface IReference {
+        name: string;
+        url: string;
+    }
+    export interface IPropertyData {
+        name: string;
+        description?: string | MarkupContent;
+        browsers?: string[];
+        restrictions?: string[];
+        status?: EntryStatus;
+        syntax?: string;
+        values?: IValueData[];
+        references?: IReference[];
+        relevance?: number;
+    }
+    export interface IAtDirectiveData {
+        name: string;
+        description?: string | MarkupContent;
+        browsers?: string[];
+        status?: EntryStatus;
+        references?: IReference[];
+    }
+    export interface IPseudoClassData {
+        name: string;
+        description?: string | MarkupContent;
+        browsers?: string[];
+        status?: EntryStatus;
+        references?: IReference[];
+    }
+    export interface IPseudoElementData {
+        name: string;
+        description?: string | MarkupContent;
+        browsers?: string[];
+        status?: EntryStatus;
+        references?: IReference[];
+    }
+    export interface IValueData {
+        name: string;
+        description?: string | MarkupContent;
+        browsers?: string[];
+        status?: EntryStatus;
+        references?: IReference[];
+    }
+    export interface MarkupContent {
+        kind: MarkupKind;
+        value: string;
+    }
+    export type MarkupKind = 'plaintext' | 'markdown';
+}
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+declare namespace monaco.languages.html {
+    export interface HTMLFormatConfiguration {
+        readonly tabSize: number;
+        readonly insertSpaces: boolean;
+        readonly wrapLineLength: number;
+        readonly unformatted: string;
+        readonly contentUnformatted: string;
+        readonly indentInnerHtml: boolean;
+        readonly preserveNewLines: boolean;
+        readonly maxPreserveNewLines: number | undefined;
+        readonly indentHandlebars: boolean;
+        readonly endWithNewline: boolean;
+        readonly extraLiners: string;
+        readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
+    }
+    export interface CompletionConfiguration {
+        readonly [providerId: string]: boolean;
+    }
+    export interface Options {
+        /**
+         * Settings for the HTML formatter.
+         */
+        readonly format?: HTMLFormatConfiguration;
+        /**
+         * Code completion settings.
+         */
+        readonly suggest?: CompletionConfiguration;
+        /**
+         * Configures the HTML data types known by the HTML langauge service.
+         */
+        readonly data?: HTMLDataConfiguration;
+    }
+    export interface ModeConfiguration {
+        /**
+         * Defines whether the built-in completionItemProvider is enabled.
+         */
+        readonly completionItems?: boolean;
+        /**
+         * Defines whether the built-in hoverProvider is enabled.
+         */
+        readonly hovers?: boolean;
+        /**
+         * Defines whether the built-in documentSymbolProvider is enabled.
+         */
+        readonly documentSymbols?: boolean;
+        /**
+         * Defines whether the built-in definitions provider is enabled.
+         */
+        readonly links?: boolean;
+        /**
+         * Defines whether the built-in references provider is enabled.
+         */
+        readonly documentHighlights?: boolean;
+        /**
+         * Defines whether the built-in rename provider is enabled.
+         */
+        readonly rename?: boolean;
+        /**
+         * Defines whether the built-in color provider is enabled.
+         */
+        readonly colors?: boolean;
+        /**
+         * Defines whether the built-in foldingRange provider is enabled.
+         */
+        readonly foldingRanges?: boolean;
+        /**
+         * Defines whether the built-in diagnostic provider is enabled.
+         */
+        readonly diagnostics?: boolean;
+        /**
+         * Defines whether the built-in selection range provider is enabled.
+         */
+        readonly selectionRanges?: boolean;
+        /**
+         * Defines whether the built-in documentFormattingEdit provider is enabled.
+         */
+        readonly documentFormattingEdits?: boolean;
+        /**
+         * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
+         */
+        readonly documentRangeFormattingEdits?: boolean;
+    }
+    export interface LanguageServiceDefaults {
+        readonly languageId: string;
+        readonly modeConfiguration: ModeConfiguration;
+        readonly onDidChange: IEvent<LanguageServiceDefaults>;
+        readonly options: Options;
+        setOptions(options: Options): void;
+        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
+    }
+    export const htmlLanguageService: LanguageServiceRegistration;
+    export const htmlDefaults: LanguageServiceDefaults;
+    export const handlebarLanguageService: LanguageServiceRegistration;
+    export const handlebarDefaults: LanguageServiceDefaults;
+    export const razorLanguageService: LanguageServiceRegistration;
+    export const razorDefaults: LanguageServiceDefaults;
+    export interface LanguageServiceRegistration extends IDisposable {
+        readonly defaults: LanguageServiceDefaults;
+    }
+    /**
+     * Registers a new HTML language service for the languageId.
+     * Note: 'html', 'handlebar' and 'razor' are registered by default.
+     *
+     * Use this method to register additional language ids with a HTML service.
+     * The language server has to be registered before an editor model is opened.
+     */
+    export function registerHTMLLanguageService(languageId: string, options?: Options, modeConfiguration?: ModeConfiguration): LanguageServiceRegistration;
+    export interface HTMLDataConfiguration {
+        /**
+         * Defines whether the standard HTML tags and attributes are shown
+         */
+        readonly useDefaultDataProvider?: boolean;
+        /**
+         * Provides a set of custom data providers.
+         */
+        readonly dataProviders?: {
+            [providerId: string]: HTMLDataV1;
+        };
+    }
+    /**
+     * Custom HTML tags attributes and attribute values
+     * https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md
+     */
+    export interface HTMLDataV1 {
+        readonly version: 1 | 1.1;
+        readonly tags?: ITagData[];
+        readonly globalAttributes?: IAttributeData[];
+        readonly valueSets?: IValueSet[];
+    }
+    export interface IReference {
+        readonly name: string;
+        readonly url: string;
+    }
+    export interface ITagData {
+        readonly name: string;
+        readonly description?: string | MarkupContent;
+        readonly attributes: IAttributeData[];
+        readonly references?: IReference[];
+    }
+    export interface IAttributeData {
+        readonly name: string;
+        readonly description?: string | MarkupContent;
+        readonly valueSet?: string;
+        readonly values?: IValueData[];
+        readonly references?: IReference[];
+    }
+    export interface IValueData {
+        readonly name: string;
+        readonly description?: string | MarkupContent;
+        readonly references?: IReference[];
+    }
+    export interface IValueSet {
+        readonly name: string;
+        readonly values: IValueData[];
+    }
+    export interface MarkupContent {
+        readonly kind: MarkupKind;
+        readonly value: string;
+    }
+    export type MarkupKind = 'plaintext' | 'markdown';
+}
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+declare namespace monaco.languages.json {
+    export interface DiagnosticsOptions {
+        /**
+         * If set, the validator will be enabled and perform syntax and schema based validation,
+         * unless `DiagnosticsOptions.schemaValidation` is set to `ignore`.
+         */
+        readonly validate?: boolean;
+        /**
+         * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
+         * `DiagnosticsOptions.allowComments` will override this setting.
+         */
+        readonly allowComments?: boolean;
+        /**
+         * A list of known schemas and/or associations of schemas to file names.
+         */
+        readonly schemas?: {
+            /**
+             * The URI of the schema, which is also the identifier of the schema.
+             */
+            readonly uri: string;
+            /**
+             * A list of glob patterns that describe for which file URIs the JSON schema will be used.
+             * '*' and '**' wildcards are supported. Exclusion patterns start with '!'.
+             * For example '*.schema.json', 'package.json', '!foo*.schema.json', 'foo/**\/BADRESP.json'.
+             * A match succeeds when there is at least one pattern matching and last matching pattern does not start with '!'.
+             */
+            readonly fileMatch?: string[];
+            /**
+             * The schema for the given URI.
+             */
+            readonly schema?: any;
+        }[];
+        /**
+         *  If set, the schema service would load schema content on-demand with 'fetch' if available
+         */
+        readonly enableSchemaRequest?: boolean;
+        /**
+         * The severity of problems from schema validation. If set to 'ignore', schema validation will be skipped. If not set, 'warning' is used.
+         */
+        readonly schemaValidation?: SeverityLevel;
+        /**
+         * The severity of problems that occurred when resolving and loading schemas. If set to 'ignore', schema resolving problems are not reported. If not set, 'warning' is used.
+         */
+        readonly schemaRequest?: SeverityLevel;
+        /**
+         * The severity of reported trailing commas. If not set, trailing commas will be reported as errors.
+         */
+        readonly trailingCommas?: SeverityLevel;
+        /**
+         * The severity of reported comments. If not set, 'DiagnosticsOptions.allowComments' defines whether comments are ignored or reported as errors.
+         */
+        readonly comments?: SeverityLevel;
+    }
+    export type SeverityLevel = 'error' | 'warning' | 'ignore';
+    export interface ModeConfiguration {
+        /**
+         * Defines whether the built-in documentFormattingEdit provider is enabled.
+         */
+        readonly documentFormattingEdits?: boolean;
+        /**
+         * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
+         */
+        readonly documentRangeFormattingEdits?: boolean;
+        /**
+         * Defines whether the built-in completionItemProvider is enabled.
+         */
+        readonly completionItems?: boolean;
+        /**
+         * Defines whether the built-in hoverProvider is enabled.
+         */
+        readonly hovers?: boolean;
+        /**
+         * Defines whether the built-in documentSymbolProvider is enabled.
+         */
+        readonly documentSymbols?: boolean;
+        /**
+         * Defines whether the built-in tokens provider is enabled.
+         */
+        readonly tokens?: boolean;
+        /**
+         * Defines whether the built-in color provider is enabled.
+         */
+        readonly colors?: boolean;
+        /**
+         * Defines whether the built-in foldingRange provider is enabled.
+         */
+        readonly foldingRanges?: boolean;
+        /**
+         * Defines whether the built-in diagnostic provider is enabled.
+         */
+        readonly diagnostics?: boolean;
+        /**
+         * Defines whether the built-in selection range provider is enabled.
+         */
+        readonly selectionRanges?: boolean;
+    }
+    export interface LanguageServiceDefaults {
+        readonly languageId: string;
+        readonly onDidChange: IEvent<LanguageServiceDefaults>;
+        readonly diagnosticsOptions: DiagnosticsOptions;
+        readonly modeConfiguration: ModeConfiguration;
+        setDiagnosticsOptions(options: DiagnosticsOptions): void;
+        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
+    }
+    export const jsonDefaults: LanguageServiceDefaults;
+}
 
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7519,453 +8017,4 @@ declare namespace monaco.languages.typescript {
     export const javascriptDefaults: LanguageServiceDefaults;
     export const getTypeScriptWorker: () => Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>>;
     export const getJavaScriptWorker: () => Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>>;
-}
-
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-declare namespace monaco.languages.css {
-    export interface Options {
-        readonly validate?: boolean;
-        readonly lint?: {
-            readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error';
-            readonly vendorPrefix?: 'ignore' | 'warning' | 'error';
-            readonly duplicateProperties?: 'ignore' | 'warning' | 'error';
-            readonly emptyRules?: 'ignore' | 'warning' | 'error';
-            readonly importStatement?: 'ignore' | 'warning' | 'error';
-            readonly boxModel?: 'ignore' | 'warning' | 'error';
-            readonly universalSelector?: 'ignore' | 'warning' | 'error';
-            readonly zeroUnits?: 'ignore' | 'warning' | 'error';
-            readonly fontFaceProperties?: 'ignore' | 'warning' | 'error';
-            readonly hexColorLength?: 'ignore' | 'warning' | 'error';
-            readonly argumentsInColorFunction?: 'ignore' | 'warning' | 'error';
-            readonly unknownProperties?: 'ignore' | 'warning' | 'error';
-            readonly ieHack?: 'ignore' | 'warning' | 'error';
-            readonly unknownVendorSpecificProperties?: 'ignore' | 'warning' | 'error';
-            readonly propertyIgnoredDueToDisplay?: 'ignore' | 'warning' | 'error';
-            readonly important?: 'ignore' | 'warning' | 'error';
-            readonly float?: 'ignore' | 'warning' | 'error';
-            readonly idSelector?: 'ignore' | 'warning' | 'error';
-        };
-        /**
-         * Configures the CSS data types known by the langauge service.
-         */
-        readonly data?: CSSDataConfiguration;
-    }
-    export interface ModeConfiguration {
-        /**
-         * Defines whether the built-in completionItemProvider is enabled.
-         */
-        readonly completionItems?: boolean;
-        /**
-         * Defines whether the built-in hoverProvider is enabled.
-         */
-        readonly hovers?: boolean;
-        /**
-         * Defines whether the built-in documentSymbolProvider is enabled.
-         */
-        readonly documentSymbols?: boolean;
-        /**
-         * Defines whether the built-in definitions provider is enabled.
-         */
-        readonly definitions?: boolean;
-        /**
-         * Defines whether the built-in references provider is enabled.
-         */
-        readonly references?: boolean;
-        /**
-         * Defines whether the built-in references provider is enabled.
-         */
-        readonly documentHighlights?: boolean;
-        /**
-         * Defines whether the built-in rename provider is enabled.
-         */
-        readonly rename?: boolean;
-        /**
-         * Defines whether the built-in color provider is enabled.
-         */
-        readonly colors?: boolean;
-        /**
-         * Defines whether the built-in foldingRange provider is enabled.
-         */
-        readonly foldingRanges?: boolean;
-        /**
-         * Defines whether the built-in diagnostic provider is enabled.
-         */
-        readonly diagnostics?: boolean;
-        /**
-         * Defines whether the built-in selection range provider is enabled.
-         */
-        readonly selectionRanges?: boolean;
-    }
-    export interface LanguageServiceDefaults {
-        readonly languageId: string;
-        readonly onDidChange: IEvent<LanguageServiceDefaults>;
-        readonly modeConfiguration: ModeConfiguration;
-        readonly options: Options;
-        setOptions(options: Options): void;
-        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
-        /** @deprecated Use options instead */
-        readonly diagnosticsOptions: DiagnosticsOptions;
-        /** @deprecated Use setOptions instead */
-        setDiagnosticsOptions(options: DiagnosticsOptions): void;
-    }
-    /** @deprecated Use Options instead */
-    export type DiagnosticsOptions = Options;
-    export const cssDefaults: LanguageServiceDefaults;
-    export const scssDefaults: LanguageServiceDefaults;
-    export const lessDefaults: LanguageServiceDefaults;
-    export interface CSSDataConfiguration {
-        /**
-         * Defines whether the standard CSS properties, at-directives, pseudoClasses and pseudoElements are shown.
-         */
-        useDefaultDataProvider?: boolean;
-        /**
-         * Provides a set of custom data providers.
-         */
-        dataProviders?: {
-            [providerId: string]: CSSDataV1;
-        };
-    }
-    /**
-     * Custom CSS properties, at-directives, pseudoClasses and pseudoElements
-     * https://github.com/microsoft/vscode-css-languageservice/blob/main/docs/customData.md
-     */
-    export interface CSSDataV1 {
-        version: 1 | 1.1;
-        properties?: IPropertyData[];
-        atDirectives?: IAtDirectiveData[];
-        pseudoClasses?: IPseudoClassData[];
-        pseudoElements?: IPseudoElementData[];
-    }
-    export type EntryStatus = 'standard' | 'experimental' | 'nonstandard' | 'obsolete';
-    export interface IReference {
-        name: string;
-        url: string;
-    }
-    export interface IPropertyData {
-        name: string;
-        description?: string | MarkupContent;
-        browsers?: string[];
-        restrictions?: string[];
-        status?: EntryStatus;
-        syntax?: string;
-        values?: IValueData[];
-        references?: IReference[];
-        relevance?: number;
-    }
-    export interface IAtDirectiveData {
-        name: string;
-        description?: string | MarkupContent;
-        browsers?: string[];
-        status?: EntryStatus;
-        references?: IReference[];
-    }
-    export interface IPseudoClassData {
-        name: string;
-        description?: string | MarkupContent;
-        browsers?: string[];
-        status?: EntryStatus;
-        references?: IReference[];
-    }
-    export interface IPseudoElementData {
-        name: string;
-        description?: string | MarkupContent;
-        browsers?: string[];
-        status?: EntryStatus;
-        references?: IReference[];
-    }
-    export interface IValueData {
-        name: string;
-        description?: string | MarkupContent;
-        browsers?: string[];
-        status?: EntryStatus;
-        references?: IReference[];
-    }
-    export interface MarkupContent {
-        kind: MarkupKind;
-        value: string;
-    }
-    export type MarkupKind = 'plaintext' | 'markdown';
-}
-
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-declare namespace monaco.languages.json {
-    export interface DiagnosticsOptions {
-        /**
-         * If set, the validator will be enabled and perform syntax and schema based validation,
-         * unless `DiagnosticsOptions.schemaValidation` is set to `ignore`.
-         */
-        readonly validate?: boolean;
-        /**
-         * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
-         * `DiagnosticsOptions.allowComments` will override this setting.
-         */
-        readonly allowComments?: boolean;
-        /**
-         * A list of known schemas and/or associations of schemas to file names.
-         */
-        readonly schemas?: {
-            /**
-             * The URI of the schema, which is also the identifier of the schema.
-             */
-            readonly uri: string;
-            /**
-             * A list of glob patterns that describe for which file URIs the JSON schema will be used.
-             * '*' and '**' wildcards are supported. Exclusion patterns start with '!'.
-             * For example '*.schema.json', 'package.json', '!foo*.schema.json', 'foo/**\/BADRESP.json'.
-             * A match succeeds when there is at least one pattern matching and last matching pattern does not start with '!'.
-             */
-            readonly fileMatch?: string[];
-            /**
-             * The schema for the given URI.
-             */
-            readonly schema?: any;
-        }[];
-        /**
-         *  If set, the schema service would load schema content on-demand with 'fetch' if available
-         */
-        readonly enableSchemaRequest?: boolean;
-        /**
-         * The severity of problems from schema validation. If set to 'ignore', schema validation will be skipped. If not set, 'warning' is used.
-         */
-        readonly schemaValidation?: SeverityLevel;
-        /**
-         * The severity of problems that occurred when resolving and loading schemas. If set to 'ignore', schema resolving problems are not reported. If not set, 'warning' is used.
-         */
-        readonly schemaRequest?: SeverityLevel;
-        /**
-         * The severity of reported trailing commas. If not set, trailing commas will be reported as errors.
-         */
-        readonly trailingCommas?: SeverityLevel;
-        /**
-         * The severity of reported comments. If not set, 'DiagnosticsOptions.allowComments' defines whether comments are ignored or reported as errors.
-         */
-        readonly comments?: SeverityLevel;
-    }
-    export type SeverityLevel = 'error' | 'warning' | 'ignore';
-    export interface ModeConfiguration {
-        /**
-         * Defines whether the built-in documentFormattingEdit provider is enabled.
-         */
-        readonly documentFormattingEdits?: boolean;
-        /**
-         * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
-         */
-        readonly documentRangeFormattingEdits?: boolean;
-        /**
-         * Defines whether the built-in completionItemProvider is enabled.
-         */
-        readonly completionItems?: boolean;
-        /**
-         * Defines whether the built-in hoverProvider is enabled.
-         */
-        readonly hovers?: boolean;
-        /**
-         * Defines whether the built-in documentSymbolProvider is enabled.
-         */
-        readonly documentSymbols?: boolean;
-        /**
-         * Defines whether the built-in tokens provider is enabled.
-         */
-        readonly tokens?: boolean;
-        /**
-         * Defines whether the built-in color provider is enabled.
-         */
-        readonly colors?: boolean;
-        /**
-         * Defines whether the built-in foldingRange provider is enabled.
-         */
-        readonly foldingRanges?: boolean;
-        /**
-         * Defines whether the built-in diagnostic provider is enabled.
-         */
-        readonly diagnostics?: boolean;
-        /**
-         * Defines whether the built-in selection range provider is enabled.
-         */
-        readonly selectionRanges?: boolean;
-    }
-    export interface LanguageServiceDefaults {
-        readonly languageId: string;
-        readonly onDidChange: IEvent<LanguageServiceDefaults>;
-        readonly diagnosticsOptions: DiagnosticsOptions;
-        readonly modeConfiguration: ModeConfiguration;
-        setDiagnosticsOptions(options: DiagnosticsOptions): void;
-        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
-    }
-    export const jsonDefaults: LanguageServiceDefaults;
-}
-
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-declare namespace monaco.languages.html {
-    export interface HTMLFormatConfiguration {
-        readonly tabSize: number;
-        readonly insertSpaces: boolean;
-        readonly wrapLineLength: number;
-        readonly unformatted: string;
-        readonly contentUnformatted: string;
-        readonly indentInnerHtml: boolean;
-        readonly preserveNewLines: boolean;
-        readonly maxPreserveNewLines: number | undefined;
-        readonly indentHandlebars: boolean;
-        readonly endWithNewline: boolean;
-        readonly extraLiners: string;
-        readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
-    }
-    export interface CompletionConfiguration {
-        readonly [providerId: string]: boolean;
-    }
-    export interface Options {
-        /**
-         * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
-         */
-        readonly format?: HTMLFormatConfiguration;
-        /**
-         * A list of known schemas and/or associations of schemas to file names.
-         */
-        readonly suggest?: CompletionConfiguration;
-        /**
-         * Configures the HTML data types known by the HTML langauge service.
-         */
-        readonly data?: HTMLDataConfiguration;
-    }
-    export interface ModeConfiguration {
-        /**
-         * Defines whether the built-in completionItemProvider is enabled.
-         */
-        readonly completionItems?: boolean;
-        /**
-         * Defines whether the built-in hoverProvider is enabled.
-         */
-        readonly hovers?: boolean;
-        /**
-         * Defines whether the built-in documentSymbolProvider is enabled.
-         */
-        readonly documentSymbols?: boolean;
-        /**
-         * Defines whether the built-in definitions provider is enabled.
-         */
-        readonly links?: boolean;
-        /**
-         * Defines whether the built-in references provider is enabled.
-         */
-        readonly documentHighlights?: boolean;
-        /**
-         * Defines whether the built-in rename provider is enabled.
-         */
-        readonly rename?: boolean;
-        /**
-         * Defines whether the built-in color provider is enabled.
-         */
-        readonly colors?: boolean;
-        /**
-         * Defines whether the built-in foldingRange provider is enabled.
-         */
-        readonly foldingRanges?: boolean;
-        /**
-         * Defines whether the built-in diagnostic provider is enabled.
-         */
-        readonly diagnostics?: boolean;
-        /**
-         * Defines whether the built-in selection range provider is enabled.
-         */
-        readonly selectionRanges?: boolean;
-        /**
-         * Defines whether the built-in documentFormattingEdit provider is enabled.
-         */
-        readonly documentFormattingEdits?: boolean;
-        /**
-         * Defines whether the built-in documentRangeFormattingEdit provider is enabled.
-         */
-        readonly documentRangeFormattingEdits?: boolean;
-    }
-    export interface LanguageServiceDefaults {
-        readonly languageId: string;
-        readonly modeConfiguration: ModeConfiguration;
-        readonly onDidChange: IEvent<LanguageServiceDefaults>;
-        readonly options: Options;
-        setOptions(options: Options): void;
-        setModeConfiguration(modeConfiguration: ModeConfiguration): void;
-    }
-    export const htmlLanguageService: LanguageServiceRegistration;
-    export const htmlDefaults: LanguageServiceDefaults;
-    export const handlebarLanguageService: LanguageServiceRegistration;
-    export const handlebarDefaults: LanguageServiceDefaults;
-    export const razorLanguageService: LanguageServiceRegistration;
-    export const razorDefaults: LanguageServiceDefaults;
-    export interface LanguageServiceRegistration extends IDisposable {
-        readonly defaults: LanguageServiceDefaults;
-    }
-    /**
-     * Registers a new HTML language service for the languageId.
-     * Note: 'html', 'handlebar' and 'razor' are registered by default.
-     *
-     * Use this method to register additional language ids with a HTML service.
-     * The language server has to be registered before an editor model is opened.
-     */
-    export function registerHTMLLanguageService(languageId: string, options?: Options, modeConfiguration?: ModeConfiguration): LanguageServiceRegistration;
-    export interface HTMLDataConfiguration {
-        /**
-         * Defines whether the standard HTML tags and attributes are shown
-         */
-        readonly useDefaultDataProvider?: boolean;
-        /**
-         * Provides a set of custom data providers.
-         */
-        readonly dataProviders?: {
-            [providerId: string]: HTMLDataV1;
-        };
-    }
-    /**
-     * Custom HTML tags attributes and attribute values
-     * https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md
-     */
-    export interface HTMLDataV1 {
-        readonly version: 1 | 1.1;
-        readonly tags?: ITagData[];
-        readonly globalAttributes?: IAttributeData[];
-        readonly valueSets?: IValueSet[];
-    }
-    export interface IReference {
-        readonly name: string;
-        readonly url: string;
-    }
-    export interface ITagData {
-        readonly name: string;
-        readonly description?: string | MarkupContent;
-        readonly attributes: IAttributeData[];
-        readonly references?: IReference[];
-    }
-    export interface IAttributeData {
-        readonly name: string;
-        readonly description?: string | MarkupContent;
-        readonly valueSet?: string;
-        readonly values?: IValueData[];
-        readonly references?: IReference[];
-    }
-    export interface IValueData {
-        readonly name: string;
-        readonly description?: string | MarkupContent;
-        readonly references?: IReference[];
-    }
-    export interface IValueSet {
-        readonly name: string;
-        readonly values: IValueData[];
-    }
-    export interface MarkupContent {
-        readonly kind: MarkupKind;
-        readonly value: string;
-    }
-    export type MarkupKind = 'plaintext' | 'markdown';
 }

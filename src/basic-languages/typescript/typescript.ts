@@ -127,6 +127,7 @@ export const language = {
 		'null',
 		'number',
 		'object',
+		'out',
 		'package',
 		'private',
 		'protected',

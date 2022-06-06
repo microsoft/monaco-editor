@@ -1,8 +1,8 @@
 /// <reference path="../../release/monaco.d.ts" />
 define(['require', './samples'], function (require, SAMPLES) {
-	var domutils = require('vs/base/browser/dom');
+	const domutils = require('vs/base/browser/dom');
 
-	var model = monaco.editor.createModel('', 'plaintext');
+	let model = monaco.editor.createModel('', 'plaintext');
 
 	monaco.languages.typescript.typescriptDefaults.setInlayHintsOptions({
 		includeInlayParameterNameHints: 'all',

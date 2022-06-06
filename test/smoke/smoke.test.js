@@ -16,7 +16,9 @@ const TESTS_TYPE = process.env.TESTS_TYPE || 'amd';
 const URL =
 	TESTS_TYPE === 'amd'
 		? `http://127.0.0.1:${PORT}/test/smoke/amd.html`
-		: `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`;
+		: TESTS_TYPE === 'webpack'
+		? `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`
+		: `http://127.0.0.1:${PORT}/test/smoke/esbuild/esbuild.html`;
 
 suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 	/** @type {playwright.Browser} */

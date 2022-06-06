@@ -1,4 +1,4 @@
-import type { languages } from '../../fillers/monaco-editor-core';
+import { languages } from '../../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
@@ -25,7 +25,15 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	folding: {
 		offSide: true
-	}
+	},
+	onEnterRules: [
+		{
+			beforeText: /:\s*$/,
+			action: {
+				indentAction: languages.IndentAction.Indent
+			}
+		}
+	]
 };
 
 export const language = <languages.IMonarchLanguage>{

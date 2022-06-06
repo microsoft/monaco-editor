@@ -68,6 +68,7 @@ export const language = <languages.IMonarchLanguage>{
 		'@inlinable',
 		'@inline',
 		'@main',
+		'@noDerivative',
 		'@nonobjc',
 		'@noreturn',
 		'@objc',
