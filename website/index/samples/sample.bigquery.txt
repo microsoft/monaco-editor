@@ -1,0 +1,25 @@
+CREATE TABLE mydataset.newtable
+(
+  x INT64 OPTIONS(description="An optional INTEGER field"),
+  y STRUCT<
+    a ARRAY<STRING> OPTIONS(description="A repeated STRING field"),
+    b BOOL
+  >
+)
+PARTITION BY _PARTITIONDATE
+OPTIONS(
+  expiration_timestamp=TIMESTAMP "2025-01-01 00:00:00 UTC",
+  partition_expiration_days=1,
+  description="a table that expires in 2025, with each partition living for 24 hours",
+  labels=[("org_unit", "development")]
+)
+
+-- comment
+
+/*
+a multiline
+comment
+*/
+
+SELECT APPROX_COUNT_DISTINCT(x) as approx_distinct
+FROM UNNEST([0, 1, 1, 2, 3, 5]) as x;
