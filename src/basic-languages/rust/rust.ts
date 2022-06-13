@@ -272,7 +272,7 @@ export const language = <languages.IMonarchLanguage>{
 			// Raw string literals
 			[/r(#*)"/, { token: 'string.quote', bracket: '@open', next: '@stringraw.$1' }],
 			[
-				/[a-zA-Z][a-zA-Z0-9_]*!?|_[a-zA-Z0-9_]+/,
+				/(?:[a-zA-Z][a-zA-Z0-9_]*!?|_[a-zA-Z0-9_]+)(?!\()(?![\S]+)/,
 				{
 					cases: {
 						'@typeKeywords': 'keyword.type',
