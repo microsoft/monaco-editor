@@ -30,12 +30,21 @@ module.exports = {
 			},
 			{
 				test: /\.ttf$/,
-				use: ['file-loader']
+				type: 'asset/resource'
 			}
 		]
 	},
 	plugins: [new MonacoWebpackPlugin()]
 };
+```
+
+If using Webpack 4 or lower, it is necessary to use the file-loader instead of Asset Modules like the code below:
+
+```js
+{
+	test: /\.ttf$/,
+	use: ['file-loader']
+}
 ```
 
 - `index.js`:

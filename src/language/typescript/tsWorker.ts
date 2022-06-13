@@ -181,6 +181,14 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return fileName === this.getDefaultLibFileName(this._compilerOptions);
 	}
 
+	readFile(path: string): string | undefined {
+		return this._getScriptText(path);
+	}
+
+	fileExists(path: string): boolean {
+		return this._getScriptText(path) !== undefined;
+	}
+
 	async getLibFiles(): Promise<Record<string, string>> {
 		return libFileMap;
 	}

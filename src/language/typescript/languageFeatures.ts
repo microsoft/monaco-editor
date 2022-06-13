@@ -1259,7 +1259,7 @@ export class InlayHintsAdapter extends Adapter implements languages.InlayHintsPr
 			case 'Type':
 				return languages.InlayHintKind.Type;
 			default:
-				return languages.InlayHintKind.Other;
+				return languages.InlayHintKind.Type;
 		}
 	}
 }

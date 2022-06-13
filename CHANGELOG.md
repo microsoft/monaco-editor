@@ -1,5 +1,21 @@
 # Monaco Editor Changelog
 
+## [0.33.0]
+
+- The first parameter of all `monaco.languages.register*Provider` functions has changed to take a `DocumentSelector` instead of a single `languageId`
+- The `Environment.getWorker` function can now return a `Promise`
+
+### Breaking Changes
+
+- `InlayHintKind.Other` is removed.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+- [@Dan1ve (Daniel Veihelmann)](https://github.com/Dan1ve): Make Vite sample code Firefox compatible [PR #2991](https://github.com/microsoft/monaco-editor/pull/2991)
+- [@philipturner (Philip Turner)](https://github.com/philipturner): Add `@noDerivative` modifier to Swift [PR #2957](https://github.com/microsoft/monaco-editor/pull/2957)
+
 ## [0.32.1] (04.02.2022)
 
 - fixes [an issue with service initialization](https://github.com/microsoft/monaco-editor/issues/2941).
