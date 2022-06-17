@@ -13,12 +13,23 @@ import {
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
 
+export {
+	Uri,
+	worker,
+	libFileMap,
+	ts,
+	type Diagnostic,
+	type DiagnosticRelatedInformation,
+	type IExtraLibs,
+	type TypeScriptWorker as ITypeScriptWorker
+};
+
 /**
  * Loading a default lib as a source file will mess up TS completely.
  * So our strategy is to hide such a text model from TS.
  * See https://github.com/microsoft/monaco-editor/issues/2182
  */
-function fileNameIsLib(resource: Uri | string): boolean {
+export function fileNameIsLib(resource: Uri | string): boolean {
 	if (typeof resource === 'string') {
 		if (/^file:\/\/\//.test(resource)) {
 			return !!libFileMap[resource.substr(8)];

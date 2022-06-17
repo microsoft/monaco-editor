@@ -14,4 +14,4 @@ self.onmessage = () => {
 	});
 };
 
-export { create } from './tsWorker';
+export * from './tsWorker';
