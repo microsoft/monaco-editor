@@ -387,41 +387,6 @@ testTokenization('mysql', [
 
 	[
 		{
-			line: 'declare `abc 321`;',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.sql' },
-				{ startIndex: 7, type: 'white.sql' },
-				{ startIndex: 8, type: 'identifier.quote.sql' },
-				{ startIndex: 9, type: 'identifier.sql' },
-				{ startIndex: 16, type: 'identifier.quote.sql' },
-				{ startIndex: 17, type: 'delimiter.sql' }
-			]
-		}
-	],
-
-	[
-		{
-			line: '`abc`` 321 `` xyz`',
-			tokens: [
-				{ startIndex: 0, type: 'identifier.quote.sql' },
-				{ startIndex: 1, type: 'identifier.sql' },
-				{ startIndex: 17, type: 'identifier.quote.sql' }
-			]
-		}
-	],
-
-	[
-		{
-			line: '`abc',
-			tokens: [
-				{ startIndex: 0, type: 'identifier.quote.sql' },
-				{ startIndex: 1, type: 'identifier.sql' }
-			]
-		}
-	],
-
-	[
-		{
 			line: 'int',
 			tokens: [{ startIndex: 0, type: 'keyword.sql' }]
 		}
