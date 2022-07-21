@@ -134,13 +134,19 @@ export const language = <languages.IMonarchLanguage>{
 		'zsh'
 	],
 
+	startingWithDash: /\-+\w+/,
+
+	identifiersWithDashes: /[a-zA-Z]\w+(?:@startingWithDash)+/,
+
 	// we include these common regular expressions
 	symbols: /[=><!~?&|+\-*\/\^;\.,]+/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
 		root: [
-			{ include: '@whitespace' },
+			[/@identifiersWithDashes/, ''],
+
+			[/(\s)((?:@startingWithDash)+)/, ['white', 'attribute.name']],
 
 			[
 				/[a-zA-Z]\w*/,
@@ -153,13 +159,13 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
+			{ include: '@whitespace' },
+
 			{ include: '@strings' },
 			{ include: '@parameters' },
 			{ include: '@heredoc' },
 
 			[/[{}\[\]()]/, '@brackets'],
-
-			[/-+\w+/, 'attribute.name'],
 
 			[/@symbols/, 'delimiter'],
 

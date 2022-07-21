@@ -5,7 +5,7 @@
 	"main": "out/index.js",
 	"typings": "./out/index.d.ts",
 	"scripts": {
-		"smoketest": "node ./node_modules/webpack/bin/webpack.js --config smoketest/webpack.config.js --progress",
+		"package-for-smoketest": "node ./node_modules/webpack/bin/webpack.js --config smoketest/webpack.config.js --progress",
 		"smoketest-cross-origin": "node ./node_modules/webpack/bin/webpack.js --config smoketest/webpack-cross-origin.config.js --progress",
 		"watch": "tsc -w -p tsconfig.json",
 		"compile": "tsc -p tsconfig.json",
@@ -33,14 +33,14 @@
 		"monaco-editor": ">= 0.31.0"
 	},
 	"devDependencies": {
-		"css-loader": "^6.5.1",
+		"css-loader": "^6.6.0",
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
-		"monaco-editor": "^0.31.0",
+		"monaco-editor": "^0.32.0",
 		"style-loader": "^3.3.1",
-		"typescript": "^4.4.4",
-		"webpack": "^5.64.1",
-		"webpack-cli": "^4.9.1"
+		"typescript": "^4.5.5",
+		"webpack": "^5.68.0",
+		"webpack-cli": "^4.9.2"
 	},
 	"dependencies": {
 		"loader-utils": "^2.0.2"

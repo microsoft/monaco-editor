@@ -1,12 +1,76 @@
 # Monaco Editor Changelog
 
-## [0.32.0] (TBD)
+## [0.34.0] (Unreleased)
+
+- Introduction of `IEditor.createDecorationsCollection` API
+- New function `removeAllMarkers` to remove all markers
+- Support for light high contrast theme
+- Introduction of `BracketPairColorizationOptions.independentColorPoolPerBracketType`
+- Introduction of `PositionAffinity.LeftOfInjectedText` and `PositionAffinity.RightOfInjectedText`
+- Introduction of `IEditorOptions.showFoldingControls: 'never'`
+- Introduction of `IDiffEditorBaseOptions.renderMarginRevertIcon: boolean`
+- Inline Quick Suggestions
+- Introduction of `IContentWidgetPosition.positionAffinity`
+- Provider can now be registered for a `LanguageSelector`
+
+### Breaking Changes
+
+- `IEditorInlayHintsOptions` tweaks
+- Iteration on `InlineCompletion` API
+- `WorkspaceFileEdit` -> `IWorkspaceFileEdit`
+  - `oldUri` -> `oldResource`
+  - `newUri` -> `newResource`
+- `WorkspaceTextEdit` -> `IWorkspaceTextEdit`
+  - `edit` -> `textEdit` (now supports `insertAsSnippet`)
+  - `modelVersionId?: number` -> `versionId: number | undefined`
+- `InlayHint` API tweaks
+- Soft deprecation of `ICodeEditor.deltaDecorations`, no adoption required. `IEditor.createDecorationsCollection` API should be used instead.
+
+## [0.33.0]
+
+- The first parameter of all `monaco.languages.register*Provider` functions has changed to take a `DocumentSelector` instead of a single `languageId`
+- The `Environment.getWorker` function can now return a `Promise`
+
+### Breaking Changes
+
+- `InlayHintKind.Other` is removed.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+- [@Dan1ve (Daniel Veihelmann)](https://github.com/Dan1ve): Make Vite sample code Firefox compatible [PR #2991](https://github.com/microsoft/monaco-editor/pull/2991)
+- [@philipturner (Philip Turner)](https://github.com/philipturner): Add `@noDerivative` modifier to Swift [PR #2957](https://github.com/microsoft/monaco-editor/pull/2957)
+
+## [0.32.1] (04.02.2022)
+
+- fixes [an issue with service initialization](https://github.com/microsoft/monaco-editor/issues/2941).
+
+## [0.32.0] (03.02.2022)
 
 ### Breaking Changes
 
 - The binary format for `IEncodedLineTokens` has changed to support strikethrough text.
 - `IDiffEditor.getDomNode()` has been renamed to `IDiffEditor.getContainerDomNode()`.
 - `InlayHint.text` has been replaced by `InlayHint.label` and `InlayHintsProvider.provideInlayHints` now returns an `InlayHintList`.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+- [@blutorange (Andre Wachsmuth)](https://github.com/blutorange): Implements #2383 Add syntax modes for FreeMarker template language [PR #2847](https://github.com/microsoft/monaco-editor/pull/2847)
+- [@forensicmike (forensicmike1)](https://github.com/forensicmike): Add "cd monaco-editor" to the step by step commandline instructions for cloning and running the samples [PR #2894](https://github.com/microsoft/monaco-editor/pull/2894)
+- [@juan-carlos-diaz](https://github.com/juan-carlos-diaz): Fix #2851 Highlight correctly the attributes and identifiers (with dashes) for Shell language [PR #2871](https://github.com/microsoft/monaco-editor/pull/2871)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin): Only run publish workflow on main monaco-editor repo [PR #2926](https://github.com/microsoft/monaco-editor/pull/2926)
+- [@philipturner (Philip Turner)](https://github.com/philipturner)
+  - Update Swift language specification to version 5.5 [PR #2855](https://github.com/microsoft/monaco-editor/pull/2855)
+  - Add @preconcurrency to Swift declaration attributes [PR #2924](https://github.com/microsoft/monaco-editor/pull/2924)
+- [@rcjsuen (Remy Suen)](https://github.com/rcjsuen): Support hyphenated HTML tags in Markdown syntax [PR #2864](https://github.com/microsoft/monaco-editor/pull/2864)
+- [@resistdesign (Ryan Graff)](https://github.com/resistdesign): doc: (samples) Simplify Browser ESM Parcel build [PR #2832](https://github.com/microsoft/monaco-editor/pull/2832)
+- [@ValeraS (Valeriy)](https://github.com/ValeraS)
+  - fix(monaco-editor-webpack-plugin): load monaco-editor with webpack 4 [PR #2818](https://github.com/microsoft/monaco-editor/pull/2818)
+  - tune(monaco-editor-webpack-plugin): expose plugin options type [PR #2853](https://github.com/microsoft/monaco-editor/pull/2853)
+- [@ZusorCode (Tobias Messner)](https://github.com/ZusorCode): Add .cjs extension for javascript files [PR #2929](https://github.com/microsoft/monaco-editor/pull/2929)
 
 ## [0.31.1] (14.12.2021)
 

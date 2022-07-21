@@ -21,13 +21,14 @@ global.self = global;
 global.document.queryCommandSupported = function () {
 	return false;
 };
+
 global.window = {
 	location: {},
 	navigator: tmp.window.navigator,
 	matchMedia: function () {
 		return {
 			matches: false,
-			addListener: function () {}
+			addEventListener: function () {}
 		};
 	}
 };

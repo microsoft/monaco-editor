@@ -5,8 +5,7 @@
 
 // Resolves with the global monaco API
 
-declare var define: any;
+/// <reference path="./editor.api.d.ts" />
+import * as api from 'vs/editor/editor.api';
 
-define([], function () {
-	return (<any>self).monaco;
-});
+export = api;

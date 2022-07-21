@@ -57,8 +57,8 @@ export const language = <languages.IMonarchLanguage>{
 		'@asyncHandler',
 		'@available',
 		'@convention',
-		'@derivative', // Swift for TensorFlow
-		'@differentiable', // Swift for TensorFlow
+		'@derivative',
+		'@differentiable',
 		'@discardableResult',
 		'@dynamicCallable',
 		'@dynamicMemberLookup',
@@ -68,10 +68,12 @@ export const language = <languages.IMonarchLanguage>{
 		'@inlinable',
 		'@inline',
 		'@main',
+		'@noDerivative',
 		'@nonobjc',
 		'@noreturn',
 		'@objc',
 		'@objcMembers',
+		'@preconcurrency',
 		'@propertyWrapper',
 		'@requires_stored_property_inits',
 		'@resultBuilder',
@@ -317,11 +319,6 @@ export const language = <languages.IMonarchLanguage>{
 			[/`/, { token: 'operator', next: '@pop' }],
 			[/./, 'identifier']
 		],
-
-		//		symbol: [
-		//			[ /@symbols/, 'operator' ],
-		//			[ /@operators/, 'operator' ]
-		//		],
 
 		invokedmethod: [
 			[
