@@ -27,11 +27,11 @@ export interface CompletionConfiguration {
 
 export interface Options {
 	/**
-	 * If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
+	 * Settings for the HTML formatter.
 	 */
 	readonly format?: HTMLFormatConfiguration;
 	/**
-	 * A list of known schemas and/or associations of schemas to file names.
+	 * Code completion settings.
 	 */
 	readonly suggest?: CompletionConfiguration;
 	/**

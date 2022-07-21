@@ -1,5 +1,47 @@
 # Monaco Editor Changelog
 
+## [0.34.0] (Unreleased)
+
+- Introduction of `IEditor.createDecorationsCollection` API
+- New function `removeAllMarkers` to remove all markers
+- Support for light high contrast theme
+- Introduction of `BracketPairColorizationOptions.independentColorPoolPerBracketType`
+- Introduction of `PositionAffinity.LeftOfInjectedText` and `PositionAffinity.RightOfInjectedText`
+- Introduction of `IEditorOptions.showFoldingControls: 'never'`
+- Introduction of `IDiffEditorBaseOptions.renderMarginRevertIcon: boolean`
+- Inline Quick Suggestions
+- Introduction of `IContentWidgetPosition.positionAffinity`
+- Provider can now be registered for a `LanguageSelector`
+
+### Breaking Changes
+
+- `IEditorInlayHintsOptions` tweaks
+- Iteration on `InlineCompletion` API
+- `WorkspaceFileEdit` -> `IWorkspaceFileEdit`
+  - `oldUri` -> `oldResource`
+  - `newUri` -> `newResource`
+- `WorkspaceTextEdit` -> `IWorkspaceTextEdit`
+  - `edit` -> `textEdit` (now supports `insertAsSnippet`)
+  - `modelVersionId?: number` -> `versionId: number | undefined`
+- `InlayHint` API tweaks
+- Soft deprecation of `ICodeEditor.deltaDecorations`, no adoption required. `IEditor.createDecorationsCollection` API should be used instead.
+
+## [0.33.0]
+
+- The first parameter of all `monaco.languages.register*Provider` functions has changed to take a `DocumentSelector` instead of a single `languageId`
+- The `Environment.getWorker` function can now return a `Promise`
+
+### Breaking Changes
+
+- `InlayHintKind.Other` is removed.
+
+### Thank you
+
+Contributions to `monaco-editor`:
+
+- [@Dan1ve (Daniel Veihelmann)](https://github.com/Dan1ve): Make Vite sample code Firefox compatible [PR #2991](https://github.com/microsoft/monaco-editor/pull/2991)
+- [@philipturner (Philip Turner)](https://github.com/philipturner): Add `@noDerivative` modifier to Swift [PR #2957](https://github.com/microsoft/monaco-editor/pull/2957)
+
 ## [0.32.1] (04.02.2022)
 
 - fixes [an issue with service initialization](https://github.com/microsoft/monaco-editor/issues/2941).
