@@ -1,5 +1,31 @@
 # Monaco Editor Changelog
 
+## [0.34.0] (Unreleased)
+
+- Introduction of `IEditor.createDecorationsCollection` API
+- New function `removeAllMarkers` to remove all markers
+- Support for light high contrast theme
+- Introduction of `BracketPairColorizationOptions.independentColorPoolPerBracketType`
+- Introduction of `PositionAffinity.LeftOfInjectedText` and `PositionAffinity.RightOfInjectedText`
+- Introduction of `IEditorOptions.showFoldingControls: 'never'`
+- Introduction of `IDiffEditorBaseOptions.renderMarginRevertIcon: boolean`
+- Inline Quick Suggestions
+- Introduction of `IContentWidgetPosition.positionAffinity`
+- Provider can now be registered for a `LanguageSelector`
+
+### Breaking Changes
+
+- `IEditorInlayHintsOptions` tweaks
+- Iteration on `InlineCompletion` API
+- `WorkspaceFileEdit` -> `IWorkspaceFileEdit`
+  - `oldUri` -> `oldResource`
+  - `newUri` -> `newResource`
+- `WorkspaceTextEdit` -> `IWorkspaceTextEdit`
+  - `edit` -> `textEdit` (now supports `insertAsSnippet`)
+  - `modelVersionId?: number` -> `versionId: number | undefined`
+- `InlayHint` API tweaks
+- Soft deprecation of `ICodeEditor.deltaDecorations`, no adoption required. `IEditor.createDecorationsCollection` API should be used instead.
+
 ## [0.33.0]
 
 - The first parameter of all `monaco.languages.register*Provider` functions has changed to take a `DocumentSelector` instead of a single `languageId`
