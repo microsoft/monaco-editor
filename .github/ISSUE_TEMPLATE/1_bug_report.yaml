@@ -28,10 +28,15 @@ body:
       description: Please provide the code to reproduce in the [monaco editor playground](https://microsoft.github.io/monaco-editor/playground.html)
       render: typescript
   - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction Steps
+      description: Please describe the steps (in the playground) that lead to the problematic behavior
+  - type: textarea
     id: actual-behavior
     attributes:
-      label: Actual Behavior
-      description: Please describe the actual behavior, as observed in the playground.
+      label: Actual (Problematic) Behavior
+      description: Please describe the actual (problematic) behavior, as observed in the playground.
 
   - type: textarea
     id: expected-behavior
