@@ -10,7 +10,7 @@
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"devDependencies": {
-		"css-loader": "^6.6.0",
+		"css-loader": "^5.2.7",
 		"electron": "^17.2.0",
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
