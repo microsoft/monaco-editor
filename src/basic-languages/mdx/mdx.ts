@@ -17,6 +17,7 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: '‘', close: '’' },
 		{ open: '`', close: '`' },
 		{ open: '{', close: '}' },
+		{ open: '(', close: ')' },
 		{ open: '_', close: '_' },
 		{ open: '**', close: '**' },
 		{ open: '<', close: '>' }
