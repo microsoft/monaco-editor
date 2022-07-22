@@ -15,6 +15,7 @@ import './cpp/cpp.contribution';
 import './csharp/csharp.contribution';
 import './csp/csp.contribution';
 import './css/css.contribution';
+import './cypher/cypher.contribution';
 import './dart/dart.contribution';
 import './dockerfile/dockerfile.contribution';
 import './ecl/ecl.contribution';
