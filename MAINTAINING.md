@@ -2,6 +2,8 @@
 
 (For maintainers)
 
+- [Inbox Queue](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+is%3Aopen+no%3Aassignee+-label%3Afeature-request+-label%3Aquestion+-label%3Aupstream+-label%3A%22help+wanted%22+-label%3A%22needs+more+info%22+-label%3A%22as-designed%22)
+
 ## Updating TypeScript
 
 - change typescript's version in `package.json`.
