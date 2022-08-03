@@ -161,6 +161,20 @@ export const language = <languages.IMonarchLanguage>{
 		// After <script ... type =
 		scriptAfterTypeEquals: [
 			[
+				/"module"/,
+				{
+					token: 'attribute.value',
+					switchTo: '@scriptWithCustomType.text/javascript'
+				}
+			],
+			[
+				/'module'/,
+				{
+					token: 'attribute.value',
+					switchTo: '@scriptWithCustomType.text/javascript'
+				}
+			],
+			[
 				/"([^"]*)"/,
 				{
 					token: 'attribute.value',
