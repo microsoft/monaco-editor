@@ -19,6 +19,7 @@ Please understand that we only bundle languages with the monaco editor that have
 - create `$/src/basic-languages/{myLang}/{myLang}.ts`
 - create `$/src/basic-languages/{myLang}/{myLang}.test.ts`
 - edit `$/src/basic-languages/monaco.contribution.ts` and register your new language
+- create `$/website/index/samples/sample.{myLang}.txt`
 
 ```js
 import './{myLang}/{myLang}.contribution';

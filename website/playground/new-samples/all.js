@@ -158,6 +158,12 @@
 		},
 		{
 			chapter: 'Extending Language Services',
+			name: 'Model markers example',
+			id: 'extending-language-services-model-markers-example',
+			path: 'extending-language-services/model-markers-example'
+		},
+		{
+			chapter: 'Extending Language Services',
 			name: 'Semantic tokens provider example',
 			id: 'extending-language-services-semantic-tokens-provider-example',
 			path: 'extending-language-services/semantic-tokens-provider-example'
