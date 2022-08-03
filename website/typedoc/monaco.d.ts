@@ -3025,7 +3025,7 @@ declare namespace monaco.editor {
          */
         smoothScrolling?: boolean;
         /**
-         * Enable that the editor will install an interval to check if its container dom node size has changed.
+         * Enable that the editor will install a ResizeObserver to check if its container dom node size has changed.
          * Enabling this might have a severe performance impact.
          * Defaults to false.
          */

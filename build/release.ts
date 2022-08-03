@@ -364,7 +364,16 @@ function toExternalDTS(contents: string): string {
 		}
 
 		if (line.indexOf('declare let MonacoEnvironment') === 0) {
-			lines[i] = `declare global {\n    let MonacoEnvironment: Environment | undefined;\n}`;
+			lines[i] = [
+				'declare global {',
+				'    let MonacoEnvironment: Environment | undefined;',
+				'',
+				'    interface Window {',
+				'        MonacoEnvironment?: Environment | undefined;',
+				'    }',
+				'}',
+				''
+			].join('\n');
 		}
 		if (line.indexOf('    MonacoEnvironment?') === 0) {
 			lines[i] = `    MonacoEnvironment?: Environment | undefined;`;
