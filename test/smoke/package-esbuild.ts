@@ -23,7 +23,10 @@ build({
 	format: 'iife',
 	logLevel: 'silent',
 	outbase: path.join(__dirname, '../../release/esm/'),
-	outdir: path.join(__dirname, 'esbuild/out')
+	outdir: path.join(__dirname, 'esbuild/out'),
+	loader: {
+		'.ttf': 'file'
+	}
 });
 
 build({
