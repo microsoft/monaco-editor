@@ -1,6 +1,6 @@
 # Monaco Editor Changelog
 
-## [0.34.0] (Unreleased)
+## [0.34.0]
 
 - Introduction of `IEditor.createDecorationsCollection` API
 - New function `removeAllMarkers` to remove all markers
@@ -25,6 +25,16 @@
   - `modelVersionId?: number` -> `versionId: number | undefined`
 - `InlayHint` API tweaks
 - Soft deprecation of `ICodeEditor.deltaDecorations`, no adoption required. `IEditor.createDecorationsCollection` API should be used instead.
+
+Contributions to `monaco-editor`:
+
+- [@alexander-zw (Alexander Wu)](https://github.com/alexander-zw): [webpack readme] Add how to get languages/features [PR #3171](https://github.com/microsoft/monaco-editor/pull/3171)
+- [@anjbur (Angela Burton)](https://github.com/anjbur): Update Q# keywords [PR #3222](https://github.com/microsoft/monaco-editor/pull/3222)
+- [@bsorrentino (bsorrentino)](https://github.com/bsorrentino): Fix issue #2295 - Models with "@" in their name do not resolve as dependencies [PR #3057](https://github.com/microsoft/monaco-editor/pull/3057)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin): Remove duplicate testcases for mysql [PR #3138](https://github.com/microsoft/monaco-editor/pull/3138)
+- [@mhsdesign (Marc Henry Schultz)](https://github.com/mhsdesign): [DOCS] IEditorOptions.automaticLayout uses ResizeObserver 3051 [PR #3052](https://github.com/microsoft/monaco-editor/pull/3052)
+- [@supersonictw (SuperSonic)](https://github.com/supersonictw): Fix menu link in integrate-esm.md [PR #3214](https://github.com/microsoft/monaco-editor/pull/3214)
+- [@tonilastre (Toni)](https://github.com/tonilastre): Add config and tokenizer for query language Cypher [PR #3102](https://github.com/microsoft/monaco-editor/pull/3102)
 
 ## [0.33.0]
 
