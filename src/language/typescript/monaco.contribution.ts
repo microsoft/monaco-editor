@@ -6,6 +6,7 @@
 import type * as mode from './tsMode';
 import { typescriptVersion as tsversion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
 import { languages, Emitter, IEvent, IDisposable, Uri } from '../../fillers/monaco-editor-core';
+export { CustomTSWebWorkerFactory } from './tsWorker';
 
 //#region enums copied from typescript to prevent loading the entire typescriptServices ---
 
