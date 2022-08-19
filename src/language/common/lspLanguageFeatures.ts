@@ -284,45 +284,13 @@ function isInsertReplaceEdit(
 
 function toCompletionItemKind(kind: number | undefined): languages.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
-
-	switch (kind) {
-		case lsTypes.CompletionItemKind.Text:
-			return mItemKind.Text;
-		case lsTypes.CompletionItemKind.Method:
-			return mItemKind.Method;
-		case lsTypes.CompletionItemKind.Function:
-			return mItemKind.Function;
-		case lsTypes.CompletionItemKind.Constructor:
-			return mItemKind.Constructor;
-		case lsTypes.CompletionItemKind.Field:
-			return mItemKind.Field;
-		case lsTypes.CompletionItemKind.Variable:
-			return mItemKind.Variable;
-		case lsTypes.CompletionItemKind.Class:
-			return mItemKind.Class;
-		case lsTypes.CompletionItemKind.Interface:
-			return mItemKind.Interface;
-		case lsTypes.CompletionItemKind.Module:
-			return mItemKind.Module;
-		case lsTypes.CompletionItemKind.Property:
-			return mItemKind.Property;
-		case lsTypes.CompletionItemKind.Unit:
-			return mItemKind.Unit;
-		case lsTypes.CompletionItemKind.Value:
-			return mItemKind.Value;
-		case lsTypes.CompletionItemKind.Enum:
-			return mItemKind.Enum;
-		case lsTypes.CompletionItemKind.Keyword:
-			return mItemKind.Keyword;
-		case lsTypes.CompletionItemKind.Snippet:
-			return mItemKind.Snippet;
-		case lsTypes.CompletionItemKind.Color:
-			return mItemKind.Color;
-		case lsTypes.CompletionItemKind.File:
-			return mItemKind.File;
-		case lsTypes.CompletionItemKind.Reference:
-			return mItemKind.Reference;
+	const completionItemKindKeys = Object.keys(lsTypes.CompletionItemKind);
+	for (const key of completionItemKindKeys) {
+		if(lsTypes.CompletionItemKind[key] === kind) {
+			return mItemKind[key];
+		}
 	}
+
 	return mItemKind.Property;
 }
 
