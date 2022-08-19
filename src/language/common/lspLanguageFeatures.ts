@@ -286,7 +286,7 @@ function toCompletionItemKind(kind: number | undefined): languages.CompletionIte
 	const mItemKind = languages.CompletionItemKind;
 	const completionItemKindKeys = Object.keys(lsTypes.CompletionItemKind);
 	for (const key of completionItemKindKeys) {
-		if(lsTypes.CompletionItemKind[key] === kind) {
+		if (lsTypes.CompletionItemKind[key] === kind) {
 			return mItemKind[key];
 		}
 	}
