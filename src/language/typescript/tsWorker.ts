@@ -232,7 +232,27 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
-		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
+		const diagnostics: ts.Diagnostic[] = [];
+
+		diagnostics.push(...this._languageService.getSemanticDiagnostics(fileName));
+		const program = this._languageService.getProgram();
+		if (program !== undefined) {
+			diagnostics.push(
+				...generateAbsoluteTimeStringDiagnostics(
+					fileName,
+					program,
+					this._languageService.findReferences
+				)
+			);
+			diagnostics.push(
+				...generateRelativeTimeStringDiagnostics(
+					fileName,
+					program,
+					this._languageService.findReferences
+				)
+			);
+		}
+
 		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
@@ -503,6 +523,163 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 	return new TSWorkerClass(ctx, createData);
 }
 
+function getDescendentAtLocation(node: ts.Node, start: number, end: number): ts.Node | null {
+	if (node.getStart() === start && node.getEnd() === end) {
+		return node;
+	}
+	for (const child1 of node.getChildren()) {
+		if (child1.getStart() <= start && end <= child1.getEnd()) {
+			return getDescendentAtLocation(child1, start, end);
+		}
+	}
+	return null;
+}
+
+const DOY_REGEX = /(\d{4})-(\d{3})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{3}))?/;
+const HMS_REGEX = /(\d{2}):(\d{2}):(\d{2})(?:\.(\d{3}))?/;
+
+function generateRelativeTimeStringDiagnostics(
+	fileName: string,
+	program: ts.Program,
+	findReferences: ts.LanguageService['findReferences']
+): ts.Diagnostic[] {
+	const diagnostics: ts.Diagnostic[] = [];
+
+	const typechecker = program.getTypeChecker();
+	const sourceFile = program.getSourceFile(fileName)!;
+	const sourceFileSymbol = typechecker
+		.getSymbolAtLocation(sourceFile)
+		?.getDeclarations()?.[0]! as ts.SourceFile;
+
+	const functionDeclarations = sourceFileSymbol.statements!.filter(ts.isFunctionDeclaration);
+
+	const epochIdentifier = functionDeclarations.find(
+		(functionDeclaration) => functionDeclaration.name?.text === 'E'
+	)!.name!;
+	const relativeIdentifier = functionDeclarations.find(
+		(functionDeclaration) => functionDeclaration.name?.text === 'R'
+	)!.name!;
+
+	const epochReferences = findReferences(fileName, epochIdentifier.getStart(sourceFile)) ?? [];
+	const relativeReferences =
+		findReferences(fileName, relativeIdentifier.getStart(sourceFile)) ?? [];
+	for (const reference of [...epochReferences, ...relativeReferences]) {
+		for (const actualReference of reference.references) {
+			if (!actualReference.isDefinition) {
+				const referenceNode = getDescendentAtLocation(
+					sourceFile,
+					actualReference.textSpan.start,
+					actualReference.textSpan.start + actualReference.textSpan.length
+				);
+				if (referenceNode !== null) {
+					const absoluteTimeCall = referenceNode.parent;
+
+					if (ts.isTaggedTemplateExpression(absoluteTimeCall)) {
+						if (absoluteTimeCall.template.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral) {
+							if (!HMS_REGEX.test(absoluteTimeCall.template.text)) {
+								diagnostics.push({
+									category: ts.DiagnosticCategory.Error,
+									code: -2,
+									file: sourceFile,
+									start: absoluteTimeCall.template.getStart(sourceFile),
+									length:
+										absoluteTimeCall.template.getEnd() -
+										absoluteTimeCall.template.getStart(sourceFile),
+									messageText: `Incorrectly formatted relative time string. Expected format: hh:mm:ss[.sss]`
+								});
+							}
+						}
+					} else if (ts.isCallExpression(absoluteTimeCall)) {
+						const firstArg = absoluteTimeCall.arguments[0];
+						if (ts.isStringLiteral(firstArg)) {
+							if (!HMS_REGEX.test(firstArg.text)) {
+								diagnostics.push({
+									category: ts.DiagnosticCategory.Error,
+									code: -2,
+									file: sourceFile,
+									start: firstArg.getStart(sourceFile),
+									length: firstArg.getEnd() - firstArg.getStart(sourceFile),
+									messageText: `Incorrectly formatted relative time string. Expected format: hh:mm:ss[.sss]`
+								});
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return diagnostics;
+}
+
+function generateAbsoluteTimeStringDiagnostics(
+	fileName: string,
+	program: ts.Program,
+	findReferences: ts.LanguageService['findReferences']
+): ts.Diagnostic[] {
+	const diagnostics: ts.Diagnostic[] = [];
+
+	const typechecker = program.getTypeChecker();
+	const sourceFile = program.getSourceFile(fileName)!;
+	const sourceFileSymbol = typechecker
+		.getSymbolAtLocation(sourceFile)
+		?.getDeclarations()?.[0]! as ts.SourceFile;
+
+	const functionDeclarations = sourceFileSymbol.statements!.filter(ts.isFunctionDeclaration);
+
+	const identifier = functionDeclarations.find(
+		(functionDeclaration) => functionDeclaration.name?.text === 'A'
+	)!.name!;
+
+	const references = findReferences(fileName, identifier.getStart(sourceFile)) ?? [];
+	for (const reference of references) {
+		for (const actualReference of reference.references) {
+			if (!actualReference.isDefinition) {
+				const referenceNode = getDescendentAtLocation(
+					sourceFile,
+					actualReference.textSpan.start,
+					actualReference.textSpan.start + actualReference.textSpan.length
+				);
+				if (referenceNode !== null) {
+					const absoluteTimeCall = referenceNode.parent;
+
+					if (ts.isTaggedTemplateExpression(absoluteTimeCall)) {
+						if (absoluteTimeCall.template.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral) {
+							if (!DOY_REGEX.test(absoluteTimeCall.template.text)) {
+								diagnostics.push({
+									category: ts.DiagnosticCategory.Error,
+									code: -1,
+									file: sourceFile,
+									start: absoluteTimeCall.template.getStart(sourceFile),
+									length:
+										absoluteTimeCall.template.getEnd() -
+										absoluteTimeCall.template.getStart(sourceFile),
+									messageText: `Incorrectly formatted absolute time string. Expected format: YYYY-DOYThh:mm:ss[.sss]`
+								});
+							}
+						}
+					} else if (ts.isCallExpression(absoluteTimeCall)) {
+						const firstArg = absoluteTimeCall.arguments[0];
+						if (ts.isStringLiteral(firstArg)) {
+							if (!DOY_REGEX.test(firstArg.text)) {
+								diagnostics.push({
+									category: ts.DiagnosticCategory.Error,
+									code: -1,
+									file: sourceFile,
+									start: firstArg.getStart(sourceFile),
+									length: firstArg.getEnd() - firstArg.getStart(sourceFile),
+									messageText: `Incorrectly formatted absolute time string. Expected format: YYYY-DOYThh:mm:ss[.sss]`
+								});
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return diagnostics;
+}
 /** Allows for clients to have access to the same version of TypeScript that the worker uses */
 // @ts-ignore
 globalThis.ts = ts.typescript;
