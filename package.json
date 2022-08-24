@@ -1,10 +1,10 @@
 {
-	"name": "monaco-editor",
-	"version": "0.34.0",
+	"name": "@nasa-jpl/aerie-monaco-editor-customizations",
+	"version": "0.1.0",
 	"vscode": "4b8a47f3570a4a05ace9d00ae0df044b55befcd5",
 	"private": true,
-	"description": "A browser based code editor",
-	"author": "Microsoft Corporation",
+	"description": "Customizations to the monaco editor for EDSL diagnostics",
+	"author": "JPL Aerie Development Team",
 	"license": "MIT",
 	"scripts": {
 		"build-website": "ts-node ./build/website && npm run typedoc",
@@ -30,7 +30,7 @@
 	"module": "./esm/vs/editor/editor.main.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microsoft/monaco-editor"
+		"url": "https://github.com/NASA-AMMOS/aerie-monaco-editor-customizations"
 	},
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",
