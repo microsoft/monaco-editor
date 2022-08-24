@@ -12,6 +12,7 @@ import {
 	TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
+import { generateEdslDiagnostics } from './edslDiagnostics';
 
 /**
  * Loading a default lib as a source file will mess up TS completely.
@@ -232,7 +233,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
-		const diagnostics = this._languageService.getSemanticDiagnostics(fileName);
+		const diagnostics: ts.Diagnostic[] = [];
+
+		diagnostics.push(...this._languageService.getSemanticDiagnostics(fileName));
+		diagnostics.push(...generateEdslDiagnostics(fileName, this._languageService));
+
 		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
