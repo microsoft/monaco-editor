@@ -2,3 +2,4 @@
 **/out/
 **/release/
 /test/manual/generated/**
+.idea/**

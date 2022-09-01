@@ -1,7 +1,0 @@
-{
-	"compilerOptions": {
-		"module": "CommonJS"
-	},
-	"include": ["monaco.d.ts"],
-	"exclude": ["theme"]
-}

@@ -30,62 +30,6 @@ export function tsc(_projectPath: string) {
 	}
 }
 
-/**
- * Launch prettier on a specific file.
- */
-export function prettier(_filePath: string) {
-	const filePath = path.join(REPO_ROOT, _filePath);
-	cp.spawnSync(
-		process.execPath,
-		[path.join(__dirname, '../node_modules/prettier/bin-prettier.js'), '--write', filePath],
-		{ stdio: 'inherit' }
-	);
-
-	console.log(`Ran prettier over ${_filePath}`);
-}
-
-/**
- * Transform an external .d.ts file to an internal .d.ts file
- */
-export function dts(_source: string, _destination: string, namespace: string) {
-	const source = path.join(REPO_ROOT, _source);
-	const destination = path.join(REPO_ROOT, _destination);
-
-	const lines = fs
-		.readFileSync(source)
-		.toString()
-		.split(/\r\n|\r|\n/);
-
-	let result = [
-		`/*---------------------------------------------------------------------------------------------`,
-		` *  Copyright (c) Microsoft Corporation. All rights reserved.`,
-		` *  Licensed under the MIT License. See License.txt in the project root for license information.`,
-		` *--------------------------------------------------------------------------------------------*/`,
-		``,
-		`declare namespace ${namespace} {`
-	];
-	for (let line of lines) {
-		if (/^import/.test(line)) {
-			continue;
-		}
-		if (line === 'export {};') {
-			continue;
-		}
-		line = line.replace(/    /g, '\t');
-		line = line.replace(/declare /g, '');
-		if (line.length > 0) {
-			line = `\t${line}`;
-			result.push(line);
-		}
-	}
-	result.push(`}`);
-	result.push(``);
-
-	ensureDir(path.dirname(destination));
-	fs.writeFileSync(destination, result.join('\n'));
-
-	prettier(_destination);
-}
 
 export function build(options: import('esbuild').BuildOptions) {
 	esbuild.build(options).then((result) => {
@@ -112,72 +56,13 @@ export function buildESM(options: { base: string; entryPoints: string[]; externa
 		},
 		external: options.external,
 		outbase: `src/${options.base}`,
-		outdir: `out/release/esm/vs/${options.base}/`,
+		outdir: `out/esm/vs/${options.base}/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
 			})
 		]
 	});
-}
-
-function buildOneAMD(
-	type: 'dev' | 'min',
-	options: {
-		base: string;
-		entryPoint: string;
-		amdModuleId: string;
-		amdDependencies?: string[];
-		external?: string[];
-	}
-) {
-	if (!options.amdDependencies) {
-		options.amdDependencies = [];
-	}
-	options.amdDependencies.unshift('require');
-
-	const opts: esbuild.BuildOptions = {
-		entryPoints: [options.entryPoint],
-		bundle: true,
-		target: 'esnext',
-		format: 'iife',
-		define: {
-			AMD: 'true'
-		},
-		globalName: 'moduleExports',
-		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}", [${(options.amdDependencies || [])
-				.map((dep) => `"${dep}"`)
-				.join(',')}],(require)=>{`
-		},
-		footer: {
-			js: 'return moduleExports;\n});'
-		},
-		outbase: `src/${options.base}`,
-		outdir: `out/release/${type}/vs/${options.base}/`,
-		plugins: [
-			alias({
-				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
-				'monaco-editor-core': path.join(__dirname, '../src/fillers/monaco-editor-core-amd.ts')
-			})
-		],
-		external: ['vs/editor/editor.api', ...(options.external || [])]
-	};
-	if (type === 'min') {
-		opts.minify = true;
-	}
-	build(opts);
-}
-
-export function buildAMD(options: {
-	base: string;
-	entryPoint: string;
-	amdModuleId: string;
-	amdDependencies?: string[];
-	external?: string[];
-}) {
-	buildOneAMD('dev', options);
-	buildOneAMD('min', options);
 }
 
 function getGitVersion() {
@@ -247,41 +132,3 @@ export const bundledFileHeader = (() => {
 
 	return BUNDLED_FILE_HEADER;
 })();
-
-export interface IFile {
-	path: string;
-	contents: Buffer;
-}
-
-export function readFiles(
-	pattern: string,
-	options: { base: string; ignore?: string[]; dot?: boolean }
-): IFile[] {
-	let files = glob.sync(pattern, { cwd: REPO_ROOT, ignore: options.ignore, dot: options.dot });
-	// remove dirs
-	files = files.filter((file) => {
-		const fullPath = path.join(REPO_ROOT, file);
-		const stats = fs.statSync(fullPath);
-		return stats.isFile();
-	});
-
-	const base = options.base;
-	const baseLength = base === '' ? 0 : base.endsWith('/') ? base.length : base.length + 1;
-	return files.map((file) => {
-		const fullPath = path.join(REPO_ROOT, file);
-		const contents = fs.readFileSync(fullPath);
-		const relativePath = file.substring(baseLength);
-		return {
-			path: relativePath,
-			contents
-		};
-	});
-}
-
-export function writeFiles(files: IFile[], dest: string) {
-	for (const file of files) {
-		const fullPath = path.join(REPO_ROOT, dest, file.path);
-		ensureDir(path.dirname(fullPath));
-		fs.writeFileSync(fullPath, file.contents);
-	}
-}

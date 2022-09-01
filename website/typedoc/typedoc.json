@@ -1,8 +1,0 @@
-{
-	"entryPoints": ["monaco.d.ts"],
-	"out": "../../../monaco-editor-website/api",
-	"theme": "default",
-	"name": "Monaco Editor API",
-	"readme": "none",
-	"hideGenerator": true
-}

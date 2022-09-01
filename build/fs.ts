@@ -30,19 +30,6 @@ export function ensureDir(dirname: string) {
 }
 
 /**
- * Copy a file.
- */
-export function copyFile(_source: string, _destination: string) {
-	const source = path.join(REPO_ROOT, _source);
-	const destination = path.join(REPO_ROOT, _destination);
-
-	ensureDir(path.dirname(destination));
-	fs.writeFileSync(destination, fs.readFileSync(source));
-
-	console.log(`Copied ${_source} to ${_destination}`);
-}
-
-/**
  * Remove a directory and all its contents.
  */
 export function removeDir(_dirPath: string, keep?: (filename: string) => boolean) {
