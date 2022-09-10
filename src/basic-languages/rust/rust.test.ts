@@ -180,8 +180,8 @@ testTokenization('rust', [
 				{ startIndex: 18, type: 'white.rust' },
 				{ startIndex: 19, type: 'brackets.rust' },
 				{ startIndex: 20, type: 'white.rust' },
-				{ startIndex: 21, type: 'brackets.rust' },
-				]
+				{ startIndex: 21, type: 'brackets.rust' }
+			]
 		}
 		
 	],
