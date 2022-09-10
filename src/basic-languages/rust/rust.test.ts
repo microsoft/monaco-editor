@@ -162,8 +162,8 @@ testTokenization('rust', [
 			]
 		}
 	],
-	// Type Keyword Functions 
-		[
+	// Type Keyword Functions
+	[
 		{
 			line: 'fn int() {} fn int () {}',
 			tokens: [
