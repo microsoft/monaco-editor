@@ -163,7 +163,7 @@ testTokenization('rust', [
 		}
 	],
 	// Type Keyword Functions 
-	[
+		[
 		{
 			line: 'fn int() {} fn int () {}',
 			tokens: [
@@ -183,7 +183,6 @@ testTokenization('rust', [
 				{ startIndex: 21, type: 'brackets.rust' }
 			]
 		}
-		
 	],
 	// Numbers
 	// Integer
