@@ -1124,12 +1124,13 @@ export class CodeActionAdaptor extends FormatHelper implements languages.CodeAct
 		context: languages.CodeActionContext,
 		codeFix: ts.CodeFixAction
 	): languages.CodeAction {
-		const edits: languages.WorkspaceTextEdit[] = [];
+		const edits: languages.IWorkspaceTextEdit[] = [];
 		for (const change of codeFix.changes) {
 			for (const textChange of change.textChanges) {
 				edits.push({
 					resource: model.uri,
-					edit: {
+					versionId: undefined,
+					textEdit: {
 						range: this._textSpanToRange(model, textChange.span),
 						text: textChange.newText
 					}
@@ -1197,13 +1198,14 @@ export class RenameAdapter extends Adapter implements languages.RenameProvider {
 			return;
 		}
 
-		const edits: languages.WorkspaceTextEdit[] = [];
+		const edits: languages.IWorkspaceTextEdit[] = [];
 		for (const renameLocation of renameLocations) {
 			const model = this._libFiles.getOrCreateModel(renameLocation.fileName);
 			if (model) {
 				edits.push({
 					resource: model.uri,
-					edit: {
+					versionId: undefined,
+					textEdit: {
 						range: this._textSpanToRange(model, renameLocation.textSpan),
 						text: newName
 					}

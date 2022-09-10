@@ -1,7 +1,7 @@
 ## Integrating the ESM version of the Monaco Editor
 
 - [Webpack](#using-webpack)
-  - [Option 1: Using the Monaco Editor Loader Plugin](#option-1-using-the-monaco-editor-loader-plugin)
+  - [Option 1: Using the Monaco Editor WebPack Plugin](#option-1-using-the-monaco-editor-webpack-plugin)
   - [Option 2: Using plain webpack](#option-2-using-plain-webpack)
 - [Parcel](#using-parcel)
 - [Vite](#using-vite)
