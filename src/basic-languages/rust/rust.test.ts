@@ -162,6 +162,29 @@ testTokenization('rust', [
 			]
 		}
 	],
+	// Type Keyword Functions 
+	[
+		{
+			line: 'fn int() {} fn int () {}',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.rust' },
+				{ startIndex: 2, type: 'white.rust' },
+				{ startIndex: 3, type: 'identifier.rust' },
+				{ startIndex: 6, type: 'brackets.rust' },
+				{ startIndex: 8, type: 'white.rust' },
+				{ startIndex: 9, type: 'brackets.rust' },
+				{ startIndex: 11, type: 'white.rust' },
+				{ startIndex: 12, type: 'keyword.rust' },
+				{ startIndex: 14, type: 'white.rust' },
+				{ startIndex: 15, type: 'identifier.rust' },
+				{ startIndex: 18, type: 'white.rust' },
+				{ startIndex: 19, type: 'brackets.rust' },
+				{ startIndex: 20, type: 'white.rust' },
+				{ startIndex: 21, type: 'brackets.rust' },
+				]
+		}
+		
+	],
 	// Numbers
 	// Integer
 	[
