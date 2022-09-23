@@ -7,11 +7,29 @@ import * as edworker from 'monaco-editor-core/esm/vs/editor/editor.worker';
 import { ICreateData, create } from './tsWorker';
 import { worker } from '../../fillers/monaco-editor-core';
 
+import * as ts from './lib/typescriptServices';
+import { libFileMap } from './lib/lib';
+import type {
+	Diagnostic,
+	DiagnosticRelatedInformation,
+	IExtraLibs,
+	TypeScriptWorker as ITypeScriptWorker
+} from './monaco.contribution';
+
 self.onmessage = () => {
 	// ignore the first message
 	edworker.initialize((ctx: worker.IWorkerContext, createData: ICreateData) => {
 		return create(ctx, createData);
 	});
+};
+
+// Uri,
+export { worker, libFileMap, ts };
+export {
+	type Diagnostic,
+	type DiagnosticRelatedInformation,
+	type IExtraLibs,
+	type ITypeScriptWorker
 };
 
 // fileNameIsLib, libFileMap, ts, , TypeScriptWorker
