@@ -14,14 +14,14 @@ import {
 import { Uri, worker } from '../../fillers/monaco-editor-core';
 
 // Uri,
-export { worker, libFileMap, ts };
+// export { worker, libFileMap, ts };
 
-export {
-	type Diagnostic,
-	type DiagnosticRelatedInformation,
-	type IExtraLibs,
-	type ITypeScriptWorker
-};
+// export {
+// 	type Diagnostic,
+// 	type DiagnosticRelatedInformation,
+// 	type IExtraLibs,
+// 	type ITypeScriptWorker
+// };
 
 /**
  * Loading a default lib as a source file will mess up TS completely.
