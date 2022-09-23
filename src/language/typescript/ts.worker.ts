@@ -14,7 +14,8 @@ self.onmessage = () => {
 	});
 };
 
-export { create, fileNameIsLib, libFileMap, ts, TypeScriptWorker } from './tsWorker';
+// fileNameIsLib, libFileMap, ts,
+export { create, TypeScriptWorker } from './tsWorker';
 // export * from './tsWorker';
 
 // Uri,
