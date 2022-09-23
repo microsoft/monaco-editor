@@ -14,7 +14,7 @@ import {
 import { Uri, worker } from '../../fillers/monaco-editor-core';
 
 // Uri,
-export { worker, libFileMap, ts };
+// export { worker, libFileMap, ts };
 // export {
 // 	type Diagnostic,
 // 	type DiagnosticRelatedInformation,
