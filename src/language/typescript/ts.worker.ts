@@ -14,4 +14,13 @@ self.onmessage = () => {
 	});
 };
 
-export * from './tsWorker';
+// export * from './tsWorker';
+// Uri,
+export { worker, libFileMap, ts } from './tsWorker';
+
+export {
+	type Diagnostic,
+	type DiagnosticRelatedInformation,
+	type IExtraLibs,
+	type ITypeScriptWorker
+} from './tsWorker';

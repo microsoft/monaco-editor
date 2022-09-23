@@ -13,15 +13,14 @@ import {
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
 
+// Uri,
+export { worker, libFileMap, ts };
+
 export {
-	Uri,
-	worker,
-	libFileMap,
-	ts,
 	type Diagnostic,
 	type DiagnosticRelatedInformation,
 	type IExtraLibs,
-	type TypeScriptWorker as ITypeScriptWorker
+	type ITypeScriptWorker
 };
 
 /**
