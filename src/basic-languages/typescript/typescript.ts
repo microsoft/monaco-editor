@@ -137,6 +137,7 @@ export const language = {
 		'require',
 		'global',
 		'return',
+		'satisfies',
 		'set',
 		'static',
 		'string',
