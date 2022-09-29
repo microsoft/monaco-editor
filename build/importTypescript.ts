@@ -35,9 +35,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/language/typescript
 export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 	);
 
-	let tsServices = fs
-		.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.js'))
-		.toString();
+	let tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.js')).toString();
 
 	// Ensure we never run into the node system...
 	// (this also removes require calls that trick webpack into shimming those modules...)
@@ -149,14 +147,8 @@ export var typescript = ts;
 		stripSourceMaps(tsServices_esm)
 	);
 
-	let dtsServices = fs
-		.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescriptServices.d.ts'))
-		.toString();
-	dtsServices += `
-// MONACOCHANGE
-export = ts;
-// END MONACOCHANGE
-`;
+	let dtsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.d.ts')).toString();
+
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.d.ts'),
 		generatedNote + dtsServices
