@@ -54,7 +54,9 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 			pageErrors.push(e);
 		});
 		const response = await page.goto(URL);
-		assert.ok(!!response);
+		if (!response) {
+			assert.fail('Failed to load page');
+		}
 		assert.strictEqual(response.status(), 200);
 	});
 
@@ -89,7 +91,7 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 
 	/**
 	 * @param {string} commandId
-	 * @param {any} args
+	 * @param {any} [args]
 	 * @returns Promise<void>
 	 */
 	async function triggerEditorCommand(commandId, args) {
@@ -127,27 +129,40 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 	test('html smoke test', async () => {
 		await createEditor('<title>hi</title>', 'html');
 
-		// trigger hover
-		await focusEditor();
-		await setEditorPosition(1, 3);
-		await page.keyboard.press('F1');
-		await page.keyboard.type('Show Hover');
-		await page.keyboard.press('Enter');
+		// we need to try this a couple of times because the web worker might not be ready yet
+		for (let attempt = 1; attempt <= 2; attempt++) {
+			// trigger hover
+			await focusEditor();
+			await setEditorPosition(1, 3);
+			await page.keyboard.press('F1');
+			await page.keyboard.type('Show Hover');
+			await page.keyboard.press('Enter');
 
-		// check that a hover explaining the `<title>` element appears, which indicates that the language service is up and running
-		await page.waitForSelector(`text=The title element represents the document's title or name`);
+			// check that a hover explaining the `<title>` element appears, which indicates that the language service is up and running
+			try {
+				await page.waitForSelector(
+					`text=The title element represents the document's title or name`,
+					{ timeout: 5000 }
+				);
+			} catch (err) {}
+		}
 	});
 
 	test('json smoke test', async () => {
 		await createEditor('{}', 'json');
 
-		// trigger suggestions
-		await focusEditor();
-		await setEditorPosition(1, 2);
-		await triggerEditorCommand('editor.action.triggerSuggest');
+		// we need to try this a couple of times because the web worker might not be ready yet
+		for (let attempt = 1; attempt <= 2; attempt++) {
+			// trigger suggestions
+			await focusEditor();
+			await setEditorPosition(1, 2);
+			await triggerEditorCommand('editor.action.triggerSuggest');
 
-		// check that a suggestion item for `$schema` appears, which indicates that the language service is up and running
-		await page.waitForSelector(`text=$schema`);
+			// check that a suggestion item for `$schema` appears, which indicates that the language service is up and running
+			try {
+				await page.waitForSelector(`text=$schema`, { timeout: 5000 });
+			} catch (err) {}
+		}
 	});
 
 	test('typescript smoke test', async () => {
@@ -155,6 +170,8 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 
 		// check that a squiggle appears, which indicates that the language service is up and running
 		await page.waitForSelector('.squiggly-error');
+
+		// at this point we know that the web worker is healthy, so we can trigger suggestions
 
 		// trigger suggestions
 		await focusEditor();
@@ -169,7 +186,9 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 			const url = worker.url();
 			return /ts\.worker\.js$/.test(url) || /workerMain.js#typescript$/.test(url);
 		});
-		assert.ok(!!tsWorker);
+		if (!tsWorker) {
+			assert.fail('Could not find TypeScript worker');
+		}
 
 		// check that the TypeScript worker exposes `ts` as a global
 		assert.strictEqual(await tsWorker.evaluate(`typeof ts`), 'object');
