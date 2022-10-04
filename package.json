@@ -51,7 +51,7 @@
 		"requirejs": "^2.3.6",
 		"terser": "^5.14.2",
 		"ts-node": "^10.6.0",
-		"typedoc": "^0.22.11",
+		"typedoc": "^0.23.15",
 		"typescript": "4.8.4",
 		"vscode-css-languageservice": "5.4.1",
 		"vscode-html-languageservice": "4.2.4",
