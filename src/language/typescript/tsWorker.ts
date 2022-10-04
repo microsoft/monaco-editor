@@ -38,7 +38,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	private _extraLibs: IExtraLibs = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
-	private _inlayHintsOptions?: ts.InlayHintsOptions;
+	private _inlayHintsOptions?: ts.UserPreferences;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
@@ -444,7 +444,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
-		const preferences: ts.InlayHintsOptions = this._inlayHintsOptions ?? {};
+		const preferences: ts.UserPreferences = this._inlayHintsOptions ?? {};
 		const span: ts.TextSpan = {
 			start,
 			length: end - start
@@ -462,7 +462,7 @@ export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
 	extraLibs: IExtraLibs;
 	customWorkerPath?: string;
-	inlayHintsOptions?: ts.InlayHintsOptions;
+	inlayHintsOptions?: ts.UserPreferences;
 }
 
 /** The shape of the factory */
