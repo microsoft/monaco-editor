@@ -43,6 +43,11 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		/\n    ts\.sys =([^]*)\n    \}\)\(\);/m,
 		`\n    // MONACOCHANGE\n    ts.sys = undefined;\n    // END MONACOCHANGE`
 	);
+	tsServices = tsServices.replace(
+		// module'd TS
+		/^  var sys =([^]*)\n  function setSys\(/m,
+		`  // MONACOCHANGE\n  var sys = undefined;\n  // END MONACOCHANGE\n  function setSys(`
+	);
 
 	// Eliminate more require() calls...
 	tsServices = tsServices.replace(
@@ -50,8 +55,14 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 		'$1// MONACOCHANGE\n$1etwModule = undefined;\n$1// END MONACOCHANGE'
 	);
 	tsServices = tsServices.replace(
+		// module'd TS
 		/^( +)var result = ts\.sys\.require\(.*$/m,
 		'$1// MONACOCHANGE\n$1var result = undefined;\n$1// END MONACOCHANGE'
+	);
+	tsServices = tsServices.replace(
+		// module'd TS
+		/^( +)(var|const|let) result = sys\.require\(.*$/m,
+		'$1// MONACOCHANGE\n$1$2 result = undefined;\n$1// END MONACOCHANGE'
 	);
 	tsServices = tsServices.replace(
 		/^( +)fs = require\("fs"\);$/m,
@@ -89,7 +100,12 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 	// Allow error messages to include references to require() in their strings
 	const runtimeRequires =
 		linesWithRequire &&
-		linesWithRequire.filter((l) => !l.includes(': diag(') && !l.includes('ts.DiagnosticCategory'));
+		linesWithRequire.filter(
+			(l) =>
+				!l.includes(': diag(') &&
+				!l.includes('ts.DiagnosticCategory') &&
+				!/`[^`]*require[^`]+`/.test(l)
+		);
 
 	if (runtimeRequires && runtimeRequires.length && linesWithRequire) {
 		console.error(
