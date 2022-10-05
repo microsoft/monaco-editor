@@ -114,20 +114,20 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 	tsServices = transformed.outputText;
 
 	tsServices = tsServices.replace(
-		/^( +)debugger;$/m,
+		/^( +)debugger;$/gm,
 		'$1// MONACOCHANGE\n$1// debugger;\n$1// END MONACOCHANGE'
 	);
 	tsServices = tsServices.replace(
-		/typeof require === "function"/m,
+		/typeof require === "function"/g,
 		'/* MONACOCHANGE */ false /* END MONACOCHANGE */'
 	);
 	tsServices = tsServices.replace(
-		/typeof require !== "undefined"/m,
+		/typeof require !== "undefined"/g,
 		'/* MONACOCHANGE */ false /* END MONACOCHANGE */'
 	);
 
 	tsServices = tsServices.replace(
-		/module.exports = ts;/m,
+		/module.exports = ts;/g,
 		'/* MONACOCHANGE */ /*module.exports = ts;*/ /* END MONACOCHANGE */'
 	);
 
