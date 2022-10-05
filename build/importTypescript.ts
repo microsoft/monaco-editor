@@ -37,69 +37,16 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 
 	let tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.js')).toString();
 
-	// Ensure we never run into the node system...
-	// (this also removes require calls that trick webpack into shimming those modules...)
-	tsServices = tsServices.replace(
-		/\n    ts\.sys =([^]*)\n    \}\)\(\);/m,
-		`\n    // MONACOCHANGE\n    ts.sys = undefined;\n    // END MONACOCHANGE`
-	);
-
-	// Eliminate more require() calls...
-	tsServices = tsServices.replace(
-		/^( +)etwModule = require\(.*$/m,
-		'$1// MONACOCHANGE\n$1etwModule = undefined;\n$1// END MONACOCHANGE'
-	);
-	tsServices = tsServices.replace(
-		/^( +)var result = ts\.sys\.require\(.*$/m,
-		'$1// MONACOCHANGE\n$1var result = undefined;\n$1// END MONACOCHANGE'
-	);
-	tsServices = tsServices.replace(
-		/^( +)fs = require\("fs"\);$/m,
-		'$1// MONACOCHANGE\n$1fs = undefined;\n$1// END MONACOCHANGE'
-	);
-	tsServices = tsServices.replace(
-		/^( +)debugger;$/m,
-		'$1// MONACOCHANGE\n$1// debugger;\n$1// END MONACOCHANGE'
-	);
-	tsServices = tsServices.replace(
-		/= require\("perf_hooks"\)/m,
-		'/* MONACOCHANGE */= {}/* END MONACOCHANGE */'
-	);
-	tsServices = tsServices.replace(
-		/typeof require === "function"/m,
-		'/* MONACOCHANGE */false/* END MONACOCHANGE */'
-	);
-
-	tsServices = tsServices.replace(
-		/module.exports = ts;/m,
-		'/* MONACOCHANGE */ /*module.exports = ts;*/ /* END MONACOCHANGE */'
-	);
-
-	// Flag any new require calls (outside comments) so they can be corrected preemptively.
-	// To avoid missing cases (or using an even more complex regex), temporarily remove comments
-	// about require() and then check for lines actually calling require().
-	// \/[*/] matches the start of a comment (single or multi-line).
-	// ^\s+\*[^/] matches (presumably) a later line of a multi-line comment.
-	const tsServicesNoCommentedRequire = tsServices.replace(
-		/(\/[*/]|^\s+\*[^/]).*\brequire\(.*/gm,
-		''
-	);
-	const linesWithRequire = tsServicesNoCommentedRequire.match(/^.*?\brequire\(.*$/gm);
-
-	// Allow error messages to include references to require() in their strings
-	const runtimeRequires =
-		linesWithRequire &&
-		linesWithRequire.filter((l) => !l.includes(': diag(') && !l.includes('ts.DiagnosticCategory'));
-
-	if (runtimeRequires && runtimeRequires.length && linesWithRequire) {
-		console.error(
-			'Found new require() calls on the following lines. These should be removed to avoid breaking webpack builds.\n'
-		);
-		console.error(
-			runtimeRequires.map((r) => `${r} (${tsServicesNoCommentedRequire.indexOf(r)})`).join('\n')
-		);
-		process.exit(1);
-	}
+	// The output from this build will only be accessible via AMD or ESM; rather than removing
+	// references to require/module, define them as dummy variables that bundlers will ignore.
+	// The TS code can figure out that it's not running under Node even with these defined.
+	tsServices =
+		`
+/* MONACOCHANGE */
+var require = undefined;
+var module = { exports: {} };
+/* END MONACOCHANGE */
+` + tsServices;
 
 	const tsServices_amd =
 		generatedNote +
