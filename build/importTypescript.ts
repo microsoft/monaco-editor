@@ -6,6 +6,7 @@
 import path = require('path');
 import fs = require('fs');
 import child_process = require('child_process');
+import ts = require('typescript');
 import { REPO_ROOT } from './utils';
 
 const generatedNote = `//
@@ -37,86 +38,98 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 
 	let tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.js')).toString();
 
-	// Ensure we never run into the node system...
-	// (this also removes require calls that trick webpack into shimming those modules...)
-	tsServices = tsServices.replace(
-		/\n    ts\.sys =([^]*)\n    \}\)\(\);/m,
-		`\n    // MONACOCHANGE\n    ts.sys = undefined;\n    // END MONACOCHANGE`
-	);
-	tsServices = tsServices.replace(
-		// module'd TS
-		/^  var sys =([^]*)\n  function setSys\(/m,
-		`  // MONACOCHANGE\n  var sys = undefined;\n  // END MONACOCHANGE\n  function setSys(`
-	);
+	const transformed = ts.transpileModule(tsServices, {
+		compilerOptions: {
+			target: ts.ScriptTarget.Latest
+		},
+		transformers: {
+			after: [
+				(context) => {
+					function isRequireCall(node: ts.Node): node is ts.CallExpression {
+						return (ts as any).isRequireCall(node);
+					}
 
-	// Eliminate more require() calls...
-	tsServices = tsServices.replace(
-		/^( +)etwModule = require\(.*$/m,
-		'$1// MONACOCHANGE\n$1etwModule = undefined;\n$1// END MONACOCHANGE'
-	);
-	tsServices = tsServices.replace(
-		// module'd TS
-		/^( +)var result = ts\.sys\.require\(.*$/m,
-		'$1// MONACOCHANGE\n$1var result = undefined;\n$1// END MONACOCHANGE'
-	);
-	tsServices = tsServices.replace(
-		// module'd TS
-		/^( +)(var|const|let) result = sys\.require\(.*$/m,
-		'$1// MONACOCHANGE\n$1$2 result = undefined;\n$1// END MONACOCHANGE'
-	);
-	tsServices = tsServices.replace(
-		/^( +)fs = require\("fs"\);$/m,
-		'$1// MONACOCHANGE\n$1fs = undefined;\n$1// END MONACOCHANGE'
-	);
+					return (sourceFile) => {
+						return ts.visitEachChild(
+							sourceFile,
+							function visit(node) {
+								// Replace require calls with functions that return undefined.
+								if (isRequireCall(node)) {
+									return context.factory.updateCallExpression(
+										node,
+										context.factory.createParenthesizedExpression(
+											context.factory.createFunctionExpression(
+												/*modifiers*/ undefined,
+												/*asteriskToken*/ undefined,
+												context.factory.createIdentifier('MONACOCHANGE_require'),
+												/*typeParameters*/ undefined,
+												/*parameters*/ undefined,
+												/*type*/ undefined,
+												context.factory.createBlock([])
+											)
+										),
+										node.typeArguments,
+										node.arguments
+									);
+								}
+
+								// Ensure we never run into the node system...
+								if (ts.isFunctionDeclaration(node) && node.name?.escapedText === 'getNodeSystem') {
+									// HACK: don't call the deprecated method when the new one is available.
+									if (parseFloat(ts.versionMajorMinor) < 4.8) {
+										return context.factory.updateFunctionDeclaration(
+											node,
+											node.decorators,
+											node.modifiers,
+											node.asteriskToken,
+											node.name,
+											node.typeParameters,
+											node.parameters,
+											node.type,
+											context.factory.createBlock([])
+										);
+									} else {
+										return (context.factory.updateFunctionDeclaration as any)(
+											node,
+											node.modifiers,
+											node.asteriskToken,
+											node.name,
+											node.typeParameters,
+											node.parameters,
+											node.type,
+											context.factory.createBlock([])
+										);
+									}
+								}
+								return ts.visitEachChild(node, visit, context);
+							},
+							context
+						);
+					};
+				}
+			]
+		}
+	});
+
+	tsServices = transformed.outputText;
+
 	tsServices = tsServices.replace(
 		/^( +)debugger;$/m,
 		'$1// MONACOCHANGE\n$1// debugger;\n$1// END MONACOCHANGE'
 	);
 	tsServices = tsServices.replace(
-		/= require\("perf_hooks"\)/m,
-		'/* MONACOCHANGE */= {}/* END MONACOCHANGE */'
+		/typeof require === "function"/m,
+		'/* MONACOCHANGE */ false /* END MONACOCHANGE */'
 	);
 	tsServices = tsServices.replace(
-		/typeof require === "function"/m,
-		'/* MONACOCHANGE */false/* END MONACOCHANGE */'
+		/typeof require !== "undefined"/m,
+		'/* MONACOCHANGE */ false /* END MONACOCHANGE */'
 	);
 
 	tsServices = tsServices.replace(
 		/module.exports = ts;/m,
 		'/* MONACOCHANGE */ /*module.exports = ts;*/ /* END MONACOCHANGE */'
 	);
-
-	// Flag any new require calls (outside comments) so they can be corrected preemptively.
-	// To avoid missing cases (or using an even more complex regex), temporarily remove comments
-	// about require() and then check for lines actually calling require().
-	// \/[*/] matches the start of a comment (single or multi-line).
-	// ^\s+\*[^/] matches (presumably) a later line of a multi-line comment.
-	const tsServicesNoCommentedRequire = tsServices.replace(
-		/(\/[*/]|^\s+\*[^/]).*\brequire\(.*/gm,
-		''
-	);
-	const linesWithRequire = tsServicesNoCommentedRequire.match(/^.*?\brequire\(.*$/gm);
-
-	// Allow error messages to include references to require() in their strings
-	const runtimeRequires =
-		linesWithRequire &&
-		linesWithRequire.filter(
-			(l) =>
-				!l.includes(': diag(') &&
-				!l.includes('ts.DiagnosticCategory') &&
-				!/`[^`]*require[^`]+`/.test(l) &&
- 				!/"[^"]*require[^"]+"/.test(l) // hack
-		);
-
-	if (runtimeRequires && runtimeRequires.length && linesWithRequire) {
-		console.error(
-			'Found new require() calls on the following lines. These should be removed to avoid breaking webpack builds.\n'
-		);
-		console.error(
-			runtimeRequires.map((r) => `${r} (${tsServicesNoCommentedRequire.indexOf(r)})`).join('\n')
-		);
-		process.exit(1);
-	}
 
 	const tsServices_amd =
 		generatedNote +
