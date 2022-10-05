@@ -104,7 +104,8 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 			(l) =>
 				!l.includes(': diag(') &&
 				!l.includes('ts.DiagnosticCategory') &&
-				!/`[^`]*require[^`]+`/.test(l)
+				!/`[^`]*require[^`]+`/.test(l) &&
+                                !/"[^"]*require[^"]+"/.test(l) // hack
 		);
 
 	if (runtimeRequires && runtimeRequires.length && linesWithRequire) {
