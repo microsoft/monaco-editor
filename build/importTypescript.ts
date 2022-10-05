@@ -40,7 +40,8 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 
 	const transformed = ts.transpileModule(tsServices, {
 		compilerOptions: {
-			target: ts.ScriptTarget.Latest
+			target: ts.ScriptTarget.Latest,
+			removeComments: false
 		},
 		transformers: {
 			after: [
@@ -75,7 +76,23 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 
 								// Ensure we never run into the node system...
 								if (ts.isFunctionDeclaration(node) && node.name?.escapedText === 'getNodeSystem') {
-									// HACK: don't call the deprecated method when the new one is available.
+									const returnStatement = context.factory.createReturnStatement(
+										context.factory.createIdentifier('undefined')
+									);
+									ts.addSyntheticLeadingComment(
+										returnStatement,
+										ts.SyntaxKind.MultiLineCommentTrivia,
+										' MONACOCHANGE '
+									);
+									ts.addSyntheticTrailingComment(
+										returnStatement,
+										ts.SyntaxKind.MultiLineCommentTrivia,
+										' END MONACOCHANGE '
+									);
+
+									const block = context.factory.createBlock([returnStatement]);
+
+									// Don't call the deprecated method when the new one is available.
 									if (parseFloat(ts.versionMajorMinor) < 4.8) {
 										return context.factory.updateFunctionDeclaration(
 											node,
@@ -86,7 +103,7 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 											node.typeParameters,
 											node.parameters,
 											node.type,
-											context.factory.createBlock([])
+											block
 										);
 									} else {
 										return (context.factory.updateFunctionDeclaration as any)(
@@ -97,7 +114,7 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 											node.typeParameters,
 											node.parameters,
 											node.type,
-											context.factory.createBlock([])
+											block
 										);
 									}
 								}
