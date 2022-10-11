@@ -63,15 +63,6 @@ define("vs/language/typescript/lib/typescriptServices", [], function() { return 
 		stripSourceMaps(tsServices_amd)
 	);
 
-	// Remove pattern that creates warnings with esbuild
-	// e.g.
-	// > /src/typescript/lib/typescriptServices.js:20:21: warning: Top-level "this" will be replaced with undefined since this file is an ECMAScript module
-	// 20 │ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-	//    ╵                      ~~~~
-	//
-
-	tsServices = tsServices.replace(/\nvar ([^ ]+) = \(this && this\.([^)]+)\) \|\|/gm, '\nvar $1 =');
-
 	const tsServices_esm =
 		generatedNote +
 		tsServices +
