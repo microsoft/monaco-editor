@@ -74,7 +74,7 @@ function runTest(type, browser) {
 		proc.on('error', reject);
 		proc.on('exit', (code) => {
 			if (code === 0) {
-				resolve();
+				resolve(undefined);
 			} else {
 				reject(code);
 			}
