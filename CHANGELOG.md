@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.34.1]
+
+- Adds API to register global actions, commands, or keybinding rules
+
 ## [0.34.0]
 
 - Introduction of `IEditor.createDecorationsCollection` API
