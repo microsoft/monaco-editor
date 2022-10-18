@@ -48,7 +48,7 @@ jobs:
         run: npm run compile --prefix webpack-plugin
 
       - name: Package using webpack plugin
-        run: npm run package-for-smoketest --prefix webpack-plugin
+        run: npm run package-for-smoketest-webpack
 
       - name: Package using esbuild
         run: npm run package-for-smoketest-esbuild

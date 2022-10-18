@@ -7,21 +7,23 @@
 
 const playwright = require('playwright');
 const { assert } = require('chai');
-const { PORT } = require('./common');
 
-const browserType = process.env.BROWSER || 'chromium';
-const DEBUG_TESTS = Boolean(process.env.DEBUG_TESTS || false);
-const TESTS_TYPE = process.env.TESTS_TYPE || 'amd';
+/** @typedef {import('./common').BrowserKind} BrowserKind */
+/** @typedef {import('./common').PackagerKind} PackagerKind */
+/** @typedef {import('./common').TestInfo} TestInfo */
+
+/** @type TestInfo */
+const testInfo = JSON.parse(process.env.MONACO_TEST_INFO || '');
 
 const URLS = {
-	amd: `http://127.0.0.1:${PORT}/test/smoke/amd.html`,
-	webpack: `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`,
-	esbuild: `http://127.0.0.1:${PORT}/test/smoke/esbuild/esbuild.html`,
-	vite: `http://127.0.0.1:${PORT}/test/smoke/vite/dist/index.html`
+	amd: `http://127.0.0.1:${testInfo.port}/test/smoke/amd/index.html`,
+	webpack: `http://127.0.0.1:${testInfo.port}/test/smoke/webpack/index.html`,
+	esbuild: `http://127.0.0.1:${testInfo.port}/test/smoke/esbuild/index.html`,
+	vite: `http://127.0.0.1:${testInfo.port}/test/smoke/vite/dist/index.html`
 };
-const URL = URLS[TESTS_TYPE];
+const URL = URLS[testInfo.packager];
 
-suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
+suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 	/** @type {playwright.Browser} */
 	let browser;
 
@@ -29,10 +31,10 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 	let page;
 
 	suiteSetup(async () => {
-		browser = await playwright[browserType].launch({
-			headless: !DEBUG_TESTS,
-			devtools: DEBUG_TESTS && browserType === 'chromium'
-			// slowMo: DEBUG_TESTS ? 2000 : 0
+		browser = await playwright[testInfo.browser].launch({
+			headless: !testInfo.debugTests,
+			devtools: testInfo.debugTests && testInfo.browser === 'chromium'
+			// slowMo: testInfo.debugTests ? 2000 : 0
 		});
 	});
 
