@@ -53,6 +53,9 @@ jobs:
       - name: Package using esbuild
         run: npm run package-for-smoketest-esbuild
 
+      - name: Package using vite
+        run: npm run package-for-smoketest-vite
+
       - name: Run smoke test
         run: npm run smoketest
 

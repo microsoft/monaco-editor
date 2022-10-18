@@ -13,12 +13,13 @@ const browserType = process.env.BROWSER || 'chromium';
 const DEBUG_TESTS = Boolean(process.env.DEBUG_TESTS || false);
 const TESTS_TYPE = process.env.TESTS_TYPE || 'amd';
 
-const URL =
-	TESTS_TYPE === 'amd'
-		? `http://127.0.0.1:${PORT}/test/smoke/amd.html`
-		: TESTS_TYPE === 'webpack'
-		? `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`
-		: `http://127.0.0.1:${PORT}/test/smoke/esbuild/esbuild.html`;
+const URLS = {
+	amd: `http://127.0.0.1:${PORT}/test/smoke/amd.html`,
+	webpack: `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`,
+	esbuild: `http://127.0.0.1:${PORT}/test/smoke/esbuild/esbuild.html`,
+	vite: `http://127.0.0.1:${PORT}/test/smoke/vite/dist/index.html`
+};
+const URL = URLS[TESTS_TYPE];
 
 suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 	/** @type {playwright.Browser} */
@@ -184,7 +185,7 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 		// find the TypeScript worker
 		const tsWorker = page.workers().find((worker) => {
 			const url = worker.url();
-			return /ts\.worker\.js$/.test(url) || /workerMain.js#typescript$/.test(url);
+			return /ts\.worker(\.[a-f0-9]+)?\.js$/.test(url) || /workerMain.js#typescript$/.test(url);
 		});
 		if (!tsWorker) {
 			assert.fail('Could not find TypeScript worker');

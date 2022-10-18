@@ -2,3 +2,4 @@
 **/out/
 **/release/
 /test/manual/generated/**
+/test/smoke/vite/dist/**
