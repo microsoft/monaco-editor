@@ -1,5 +1,10 @@
 # Monaco Editor Changelog
 
+## [0.35.1]
+
+- Adds sticky scrolling
+- Renamed the option `enableDropIntoEditor` to `dropIntoEditor`
+
 ## [0.34.1]
 
 - Adds API to register global actions, commands, or keybinding rules

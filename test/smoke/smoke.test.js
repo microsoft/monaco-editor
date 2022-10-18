@@ -19,7 +19,8 @@ const URLS = {
 	amd: `http://127.0.0.1:${testInfo.port}/test/smoke/amd/index.html`,
 	webpack: `http://127.0.0.1:${testInfo.port}/test/smoke/webpack/index.html`,
 	esbuild: `http://127.0.0.1:${testInfo.port}/test/smoke/esbuild/index.html`,
-	vite: `http://127.0.0.1:${testInfo.port}/test/smoke/vite/dist/index.html`
+	vite: `http://127.0.0.1:${testInfo.port}/test/smoke/vite/dist/index.html`,
+	parcel: `http://127.0.0.1:${testInfo.port}/test/smoke/parcel/dist/index.html`
 };
 const URL = URLS[testInfo.packager];
 
@@ -107,11 +108,11 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 		await page.evaluate(`window.ed.focus();`);
 	}
 
-	test('`monacoAPI` is exposed as global', async () => {
+	test('`monacoAPI` is exposed as global', async function () {
 		assert.strictEqual(await page.evaluate(`typeof monacoAPI`), 'object');
 	});
 
-	test('should be able to create plaintext editor', async () => {
+	test('should be able to create plaintext editor', async function () {
 		await createEditor('hello world', 'plaintext');
 
 		// type a link in it
@@ -122,14 +123,14 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 		await page.waitForSelector('.detected-link');
 	});
 
-	test('css smoke test', async () => {
+	test('css smoke test', async function () {
 		await createEditor('.sel1 { background: red; }\\n.sel2 {}', 'css');
 
 		// check that a squiggle appears, which indicates that the language service is up and running
 		await page.waitForSelector('.squiggly-warning');
 	});
 
-	test('html smoke test', async () => {
+	test('html smoke test', async function () {
 		await createEditor('<title>hi</title>', 'html');
 
 		// we need to try this a couple of times because the web worker might not be ready yet
@@ -151,7 +152,7 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 		}
 	});
 
-	test('json smoke test', async () => {
+	test('json smoke test', async function () {
 		await createEditor('{}', 'json');
 
 		// we need to try this a couple of times because the web worker might not be ready yet
@@ -168,7 +169,7 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 		}
 	});
 
-	test('typescript smoke test', async () => {
+	test('typescript smoke test', async function () {
 		await createEditor('window.add', 'typescript');
 
 		// check that a squiggle appears, which indicates that the language service is up and running
