@@ -69,5 +69,9 @@
 		"vscode-uri": "3.0.3",
 		"webpack": "^5.74.0",
 		"yaserver": "^0.4.0"
+	},
+	"alias": {
+		"process": false,
+		"buffer": false
 	}
 }
