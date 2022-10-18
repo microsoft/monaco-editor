@@ -7,5 +7,5 @@
 exports.__nothing = undefined;
 
 /** @typedef {'chromium'|'firefox'|'webkit'} BrowserKind */
-/** @typedef {'amd'|'webpack'|'esbuild'|'vite'} PackagerKind */
+/** @typedef {'amd'|'webpack'|'esbuild'|'vite'|'parcel'} PackagerKind */
 /** @typedef {{browser:BrowserKind; packager:PackagerKind; debugTests:boolean; port:number;}} TestInfo */
