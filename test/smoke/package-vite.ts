@@ -3,9 +3,17 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-/* keeping TS happy */
-exports.__nothing = undefined;
+import * as vite from 'vite';
+import * as path from 'path';
 
-/** @typedef {'chromium'|'firefox'|'webkit'} BrowserKind */
-/** @typedef {'amd'|'webpack'|'esbuild'|'vite'|'parcel'} PackagerKind */
-/** @typedef {{browser:BrowserKind; packager:PackagerKind; debugTests:boolean; port:number;}} TestInfo */
+async function main() {
+	await vite.build({
+		root: path.resolve(__dirname, './vite/'),
+		base: '/test/smoke/vite/dist/',
+		build: {
+			minify: false
+		}
+	});
+}
+
+main();

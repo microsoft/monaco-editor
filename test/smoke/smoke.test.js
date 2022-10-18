@@ -7,20 +7,24 @@
 
 const playwright = require('playwright');
 const { assert } = require('chai');
-const { PORT } = require('./common');
 
-const browserType = process.env.BROWSER || 'chromium';
-const DEBUG_TESTS = Boolean(process.env.DEBUG_TESTS || false);
-const TESTS_TYPE = process.env.TESTS_TYPE || 'amd';
+/** @typedef {import('./common').BrowserKind} BrowserKind */
+/** @typedef {import('./common').PackagerKind} PackagerKind */
+/** @typedef {import('./common').TestInfo} TestInfo */
 
-const URL =
-	TESTS_TYPE === 'amd'
-		? `http://127.0.0.1:${PORT}/test/smoke/amd.html`
-		: TESTS_TYPE === 'webpack'
-		? `http://127.0.0.1:${PORT}/test/smoke/webpack/webpack.html`
-		: `http://127.0.0.1:${PORT}/test/smoke/esbuild/esbuild.html`;
+/** @type TestInfo */
+const testInfo = JSON.parse(process.env.MONACO_TEST_INFO || '');
 
-suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
+const URLS = {
+	amd: `http://127.0.0.1:${testInfo.port}/test/smoke/amd/index.html`,
+	webpack: `http://127.0.0.1:${testInfo.port}/test/smoke/webpack/index.html`,
+	esbuild: `http://127.0.0.1:${testInfo.port}/test/smoke/esbuild/index.html`,
+	vite: `http://127.0.0.1:${testInfo.port}/test/smoke/vite/dist/index.html`,
+	parcel: `http://127.0.0.1:${testInfo.port}/test/smoke/parcel/dist/index.html`
+};
+const URL = URLS[testInfo.packager];
+
+suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 	/** @type {playwright.Browser} */
 	let browser;
 
@@ -28,10 +32,10 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 	let page;
 
 	suiteSetup(async () => {
-		browser = await playwright[browserType].launch({
-			headless: !DEBUG_TESTS,
-			devtools: DEBUG_TESTS && browserType === 'chromium'
-			// slowMo: DEBUG_TESTS ? 2000 : 0
+		browser = await playwright[testInfo.browser].launch({
+			headless: !testInfo.debugTests,
+			devtools: testInfo.debugTests && testInfo.browser === 'chromium'
+			// slowMo: testInfo.debugTests ? 2000 : 0
 		});
 	});
 
@@ -104,11 +108,11 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 		await page.evaluate(`window.ed.focus();`);
 	}
 
-	test('`monacoAPI` is exposed as global', async () => {
+	test('`monacoAPI` is exposed as global', async function () {
 		assert.strictEqual(await page.evaluate(`typeof monacoAPI`), 'object');
 	});
 
-	test('should be able to create plaintext editor', async () => {
+	test('should be able to create plaintext editor', async function () {
 		await createEditor('hello world', 'plaintext');
 
 		// type a link in it
@@ -119,14 +123,14 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 		await page.waitForSelector('.detected-link');
 	});
 
-	test('css smoke test', async () => {
+	test('css smoke test', async function () {
 		await createEditor('.sel1 { background: red; }\\n.sel2 {}', 'css');
 
 		// check that a squiggle appears, which indicates that the language service is up and running
 		await page.waitForSelector('.squiggly-warning');
 	});
 
-	test('html smoke test', async () => {
+	test('html smoke test', async function () {
 		await createEditor('<title>hi</title>', 'html');
 
 		// we need to try this a couple of times because the web worker might not be ready yet
@@ -148,7 +152,7 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 		}
 	});
 
-	test('json smoke test', async () => {
+	test('json smoke test', async function () {
 		await createEditor('{}', 'json');
 
 		// we need to try this a couple of times because the web worker might not be ready yet
@@ -165,7 +169,7 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 		}
 	});
 
-	test('typescript smoke test', async () => {
+	test('typescript smoke test', async function () {
 		await createEditor('window.add', 'typescript');
 
 		// check that a squiggle appears, which indicates that the language service is up and running
@@ -184,7 +188,7 @@ suite(`Smoke Test '${TESTS_TYPE}' on '${browserType}'`, () => {
 		// find the TypeScript worker
 		const tsWorker = page.workers().find((worker) => {
 			const url = worker.url();
-			return /ts\.worker\.js$/.test(url) || /workerMain.js#typescript$/.test(url);
+			return /ts\.worker(\.[a-f0-9]+)?\.js$/.test(url) || /workerMain.js#typescript$/.test(url);
 		});
 		if (!tsWorker) {
 			assert.fail('Could not find TypeScript worker');
