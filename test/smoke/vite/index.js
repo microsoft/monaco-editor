@@ -3,23 +3,28 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as monaco from '../../../release/esm/vs/editor/editor.main.js';
+import * as monaco from '../../../release/esm/vs/editor/editor.main';
+import editorWorker from '../../../release/esm/vs/editor/editor.worker?worker';
+import jsonWorker from '../../../release/esm/vs/language/json/json.worker?worker';
+import cssWorker from '../../../release/esm/vs/language/css/css.worker?worker';
+import htmlWorker from '../../../release/esm/vs/language/html/html.worker?worker';
+import tsWorker from '../../../release/esm/vs/language/typescript/ts.worker?worker';
 
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
+	getWorker(moduleId, label) {
 		if (label === 'json') {
-			return './out/vs/language/json/json.worker.js';
+			return new jsonWorker();
 		}
 		if (label === 'css' || label === 'scss' || label === 'less') {
-			return './out/vs/language/css/css.worker.js';
+			return new cssWorker();
 		}
 		if (label === 'html' || label === 'handlebars' || label === 'razor') {
-			return './out/vs/language/html/html.worker.js';
+			return new htmlWorker();
 		}
 		if (label === 'typescript' || label === 'javascript') {
-			return './out/vs/language/typescript/ts.worker.js';
+			return new tsWorker();
 		}
-		return './out/vs/editor/editor.worker.js';
+		return new editorWorker();
 	}
 };
 

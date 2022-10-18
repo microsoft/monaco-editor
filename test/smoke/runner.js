@@ -37,16 +37,18 @@ yaserver
 async function runTests() {
 	// uncomment to shortcircuit and run a specific combo
 	// await runTest('webpack', 'chromium'); return;
+	/** @type {('amd'|'webpack'|'esbuild'|'vite')[]} */
+	const testTypes = ['amd', 'webpack', 'esbuild', 'vite'];
 
-	for (const type of ['amd', 'webpack' /*, 'esbuild'*/]) {
+	for (const type of testTypes) {
 		await runTest(type, 'chromium');
 		await runTest(type, 'firefox');
-		// await runTest(type, 'webkit');
+		await runTest(type, 'webkit');
 	}
 }
 
 /**
- * @param {string} type
+ * @param {'amd'|'webpack'|'esbuild'|'vite'} type
  * @param {'chromium'|'firefox'|'webkit'} browser
  * @returns
  */
