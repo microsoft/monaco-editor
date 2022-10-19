@@ -203,7 +203,22 @@ jobs:
       - name: (monaco-editor) Package using webpack plugin
         if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
         working-directory: './monaco-editor'
-        run: npm run package-for-smoketest --prefix webpack-plugin
+        run: npm run package-for-smoketest-webpack
+
+      - name: (monaco-editor) Package using esbuild
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
+        working-directory: './monaco-editor'
+        run: npm run package-for-smoketest-esbuild
+
+      - name: (monaco-editor) Package using vite
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
+        working-directory: './monaco-editor'
+        run: npm run package-for-smoketest-vite
+
+      - name: (monaco-editor) Package using parcel
+        if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
+        working-directory: './monaco-editor'
+        run: npm run package-for-smoketest-parcel --prefix test/smoke/parcel
 
       - name: (monaco-editor) Run smoke test
         if: ${{ steps.state.outputs.skip_monaco_editor == 'false' }}
