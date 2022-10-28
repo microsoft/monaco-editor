@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>browser-amd-editor</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+
+<style>
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 100px;
+  }
+
+  ::-webkit-scrollbar:hover {
+    background-color: rgba(0, 0, 0, 0.09);
+  }
+
+  ::-webkit-scrollbar-thumb:vertical {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 100px;
+  }
+
+  ::-webkit-scrollbar-thumb:vertical:active {
+    background: rgba(0, 0, 0, 0.61);
+  }
+
+  .dropdown {
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+
+  .dropbtn {
+    background-color: rgb(45, 45, 45);
+    border-radius: 5px;
+    height: 45px;
+    min-width: 320px;
+    color: white;
+    transition-duration: 100ms;
+  }
+
+  .dropdown-content {
+    background-color: rgb(45, 45, 45);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 320px;
+    max-height: 220px;
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: monospace;
+    overflow-y: scroll;
+    display: none;
+  }
+
+  .dropdown-content a {
+    border-top: 1px;
+    border-top-color: black;
+    border-top-style: solid;
+    color: white;
+    padding: 16px 16px;
+    text-decoration: none;
+    display: block;
+    transition-duration: 200ms;
+
+  }
+
+  .dropdown-content a:hover {
+    background-color: rgb(70, 70, 70);
+  }
+
+  .dropbtn:hover {
+    background-color: rgb(70, 70, 70);
+  }
+
+  .show {
+    display: block;
+  }
+
+  #configinput {
+    background-color: rgb(45, 45, 45);
+    color: white;
+    height: 20px;
+    width: auto;
+    min-width: 30px;
+    overflow-x: scroll;
+    padding: 10px;
+    border-radius: 5px;
+    border-color: white;
+  }
+
+  #configset {
+    background-color: rgb(45, 45, 45);
+    border-radius: 5px;
+    color: white;
+    height: 40px;
+    width: 50px;
+  }
+
+  #configinfo {
+    background-color: rgb(45, 45, 45);
+    border-radius: 5px;
+    color: white;
+    height: 40px;
+    width: 50px;
+  }
+
+</style>
+
+<body>
+  <button id="reload">Reload</button> <button id="Save">Save</button>
+  <div id="con"></div>
+
+  <div class="dropdown">
+    <button class="dropbtn" id="configdrop">[select]</button>
+    <div id="configli" class="dropdown-content">
+      <a onclick="setconfig('acceptSuggestionOnCommitCharacter')">acceptSuggestionOnCommitCharacter</a>
+      <a onclick="setconfig('acceptSuggestionOnEnter')">acceptSuggestionOnEnter</a>
+      <a onclick="setconfig('accessibilityPageSize')">accessibilityPageSize</a>
+      <a onclick="setconfig('cursorSmoothCaretAnimation')">cursorSmoothCaretAnimation</a>
+      <a onclick="setconfig('fontFamily')">fontFamily</a>
+      <a onclick="setconfig('language')">language</a>
+      <a onclick="setconfig('theme')">theme</a>
+
+    </div>
+  </div>
+
+  <input type="text" id="configinput" placeholder="[type config here]" value="undefined">
+
+  <button id="configinfo">i</button>
+
+  <button id="configset">set</button>
+
+
+  <!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
+  <script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+  <script>
+
+    var con = document.getElementById("con");
+    var configdropdown = document.getElementById("dropdownbutton");
+    var d;
+    var editor;
+    var temp;
+    var monacoconfigs = {
+      "acceptSuggestionOnCommitCharacter": undefined,
+      "acceptSuggestionOnEnter": undefined,
+      "accessibilityPageSize": undefined,
+      "cursorSmoothCaretAnimation": undefined,
+      "fontFamily": undefined,
+      "language": "javascript",
+      "theme": undefined,
+      "value": "console.log('Hello World!')",
+    };
+
+    // console.log(JSON.stringify(monacoconfigs))
+
+    var configdescs = {
+      "[select]": "none",
+      "acceptSuggestionOnCommitCharacter": "<Input: bool: true, false> Toggles suggestion acceptance on commit character",
+      "acceptSuggestionOnEnter": "<Input: string: on, off, smart> Toggles or automates suggestion acceptance when enter key pressed",
+      "accessibilityPageSize": "<Input: number: [any]> set accessibility page size",
+      "cusorSmoothCaretAnimation": "<Input: bool: true, false> Toggles smooth caret movement",
+      "fontFamily": "<Input: string: [any]> css annotation font family",
+      "language": "<Input: string: lorem ipsum> changes suggestions and styles accordingly to language",
+      "theme": "<Input: string: vs, vs-dark, hc-black, hc-light> sets editor theme",
+    }
+
+    function setconfig(c) {
+      // alert(document.getElementById("configdrop").innerHTML)
+      document.getElementById("configdrop").innerHTML = c;
+      document.getElementById("configinput").value = monacoconfigs[c];
+    }
+
+    function setCookie(name, value, days) {
+      var expires = "";
+      if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+
+    function eraseCookie(name) {
+      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
+
+    require(['vs/editor/editor.main'], function () {
+
+
+
+      function reload() {
+        monaco.editor.getModels().forEach(model => model.dispose());
+        d = document.createElement("div");
+        d.setAttribute("id", "container");
+        d.setAttribute("style", "width: 600px; height: 40vh; min-height: 15px; border: 2px solid grey;");
+        con.innerHTML = "";
+        con.appendChild(d);
+
+        editor = monaco.editor.create(d, monacoconfigs);
+
+        monaco.editor.setTheme(monacoconfigs["theme"])
+
+      }
+
+      function change(a, v) {
+        monacoconfigs[a] = v;
+      }
+
+
+      reload()
+
+
+
+
+      function Dropdown(main, els) {
+        if (document.getElementById(main).style.webkitBorderBottomLeftRadius == "5px") {
+          document.getElementById(main).style.webkitBorderBottomLeftRadius = "0px";
+          document.getElementById(main).style.webkitBorderBottomRightRadius = "0px";
+        }
+        else {
+          document.getElementById(main).style.webkitBorderBottomLeftRadius = "5px";
+          document.getElementById(main).style.webkitBorderBottomRightRadius = "5px";
+        }
+
+        document.getElementById(els).classList.toggle("show");
+
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var mdropdowns = document.getElementsByClassName("dropbtn");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown != document.getElementById(els) && openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+            mdropdowns[i].style.webkitBorderBottomLeftRadius = "5px";
+            mdropdowns[i].style.webkitBorderBottomRightRadius = "5px";
+          }
+        }
+      }
+
+      window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+
+          var mdropdowns = document.getElementsByClassName("dropbtn");
+          for (i = 0; i < dropdowns.length; i++) {
+            mdropdowns[i].style.webkitBorderBottomLeftRadius = "5px";
+            mdropdowns[i].style.webkitBorderBottomRightRadius = "5px";
+          };
+        }
+      }
+
+      document.getElementById("configdrop").addEventListener("mousedown", function () {
+        Dropdown("configdrop", "configli");
+      });
+
+      document.getElementById("configinfo").addEventListener("mousedown", function () {
+        alert(configdescs[document.getElementById('configdrop').innerHTML])
+      });
+
+      document.getElementById("configset").addEventListener("mousedown", function () {
+        monacoconfigs[document.getElementById("configdrop").innerHTML] = document.getElementById("configinput").value;
+        monacoconfigs["value"] = editor.getValue();
+        reload();
+        alert("configs successfully reloaded");
+      })
+
+      document.getElementById("configinput").addEventListener("keydown", function(e){
+        if (e.key == "Enter"){
+          monacoconfigs[document.getElementById("configdrop").innerHTML] = document.getElementById("configinput").value;
+          monacoconfigs["value"] = editor.getValue();
+          reload();
+          alert("configs successfully reloaded");
+        }
+
+      })
+
+      window.addEventListener("resize", function () {
+        monacoconfigs["value"] = editor.getValue();
+        reload();
+
+      })
+
+      document.getElementById("reload").addEventListener("mouseup", function () {
+        monacoconfigs["value"] = editor.getValue();
+        reload();
+      })
+
+      document.getElementById("Save").addEventListener("mousedown", function () {
+
+
+      });
+
+
+    });
+
+  </script>
+</body>
+
+</html>
