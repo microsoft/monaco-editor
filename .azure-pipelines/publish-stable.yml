@@ -16,13 +16,6 @@ resources:
       endpoint: Monaco
 
 parameters:
-  - name: quality
-    displayName: Quality
-    type: string
-    default: latest
-    values:
-      - latest
-      - next
   - name: publishMonacoEditorCore
     displayName: 🚀 Publish Monaco Editor Core
     type: boolean
@@ -43,10 +36,10 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor-core-stable
+          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor-core stable
             displayName: Setup, Build & Test monaco-editor-core
 
-        tag: ${{ parameters.quality }}
+        tag: latest
         publishPackage: ${{ parameters.publishMonacoEditorCore }}
         publishRequiresApproval: false
 
@@ -57,9 +50,9 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor-stable
+          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor stable
             displayName: Setup, Build & Test monaco-editor
 
-        tag: ${{ parameters.quality }}
+        tag: latest
         publishPackage: ${{ parameters.publishMonacoEditor }}
         publishRequiresApproval: false
