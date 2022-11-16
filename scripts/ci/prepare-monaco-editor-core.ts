@@ -56,7 +56,7 @@ async function prepareMonacoEditorCoreRelease(version: string, vscodeRef: string
 		);
 		const packageJson = require(monacoEditorCorePackageJsonSourcePath) as { version: string };
 		packageJson.version = version;
-		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
+		await writeJsonFile(monacoEditorCorePackageJsonSourcePath, packageJson);
 	});
 
 	await group('Building & Testing', async () => {
