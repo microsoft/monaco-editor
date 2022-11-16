@@ -37,7 +37,7 @@ async function prepareMonacoEditorRelease(version: string) {
 			await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
 		) as { version: string; devDependencies: Record<string, string> };
 		packageJson.version = version;
-		// TODO packageJson.devDependencies['monaco-editor-core'] = version;
+		packageJson.devDependencies['monaco-editor-core'] = version;
 
 		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
 	});
