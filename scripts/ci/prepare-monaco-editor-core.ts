@@ -1,6 +1,6 @@
 import { mkdir, rm } from 'fs/promises';
 import { join, resolve } from 'path';
-import { group, gitShallowClone, run, writeJsonFile } from '../lib';
+import { group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
@@ -8,15 +8,26 @@ const dependenciesPath = join(rootPath, 'dependencies');
 const vscodePath = resolve(dependenciesPath, 'vscode');
 const monacoEditorPackageJsonPath = resolve(rootPath, 'package.json');
 
-async function prepareMonacoEditorCoreReleaseStable() {
+async function prepareMonacoEditorCoreReleaseStableOrNightly() {
 	const monacoEditorPackageJson = require(monacoEditorPackageJsonPath) as {
 		version: string;
 		vscodeRef: string;
 	};
-	await prepareMonacoEditorCoreRelease(
-		monacoEditorPackageJson.version,
-		monacoEditorPackageJson.vscodeRef
-	);
+	let version: string;
+	let ref: string;
+
+	const arg = process.argv[2];
+	if (arg === 'stable') {
+		version = monacoEditorPackageJson.version;
+		ref = monacoEditorPackageJson.vscodeRef;
+	} else if (arg === 'nightly') {
+		version = getNightlyVersion(monacoEditorPackageJson.version);
+		ref = 'main';
+	} else {
+		throw new Error('Invalid argument');
+	}
+
+	await prepareMonacoEditorCoreRelease(version, ref);
 
 	// npm package is now in dependencies/vscode/out-monaco-editor-core, ready to be published
 }
@@ -53,4 +64,4 @@ async function prepareMonacoEditorCoreRelease(version: string, vscodeRef: string
 	});
 }
 
-prepareMonacoEditorCoreReleaseStable();
+prepareMonacoEditorCoreReleaseStableOrNightly();

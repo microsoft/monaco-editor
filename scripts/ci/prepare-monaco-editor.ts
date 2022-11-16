@@ -1,16 +1,28 @@
 import { readFile } from 'fs/promises';
 import { join, resolve } from 'path';
-import { group, run, writeJsonFile } from '../lib';
+import { getNightlyVersion, group, run, writeJsonFile } from '../lib';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
 const monacoEditorPackageJsonPath = resolve(rootPath, 'package.json');
 
-async function prepareMonacoEditorReleaseStable() {
+async function prepareMonacoEditorReleaseStableOrNightly() {
 	const monacoEditorPackageJson = JSON.parse(
 		await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
 	) as { version: string };
-	await prepareMonacoEditorRelease(monacoEditorPackageJson.version);
+
+	let version: string;
+
+	const arg = process.argv[2];
+	if (arg === 'stable') {
+		version = monacoEditorPackageJson.version;
+	} else if (arg === 'nightly') {
+		version = getNightlyVersion(monacoEditorPackageJson.version);
+	} else {
+		throw new Error('Invalid argument');
+	}
+
+	await prepareMonacoEditorRelease(version);
 
 	// npm package is now in ./release, ready to be published
 }
@@ -35,4 +47,4 @@ async function prepareMonacoEditorRelease(version: string) {
 	});
 }
 
-prepareMonacoEditorReleaseStable();
+prepareMonacoEditorReleaseStableOrNightly();
