@@ -167,7 +167,7 @@ export const language = <languages.IMonarchLanguage>{
 		// Keyword list shorthand
 
 		keywordsShorthand: [
-			[/(@atomName)(:)/, ['constant', 'constant.punctuation']],
+			[/(@atomName)(:)(\s+)/, ['constant', 'constant.punctuation', 'white']],
 			// Use positive look-ahead to ensure the string is followed by :
 			// and should be considered a keyword.
 			[
