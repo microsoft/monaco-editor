@@ -19,6 +19,7 @@ Please understand that we only bundle languages with the monaco editor that have
 - create `$/src/basic-languages/{myLang}/{myLang}.ts`
 - create `$/src/basic-languages/{myLang}/{myLang}.test.ts`
 - edit `$/src/basic-languages/monaco.contribution.ts` and register your new language
+- create `$/website/index/samples/sample.{myLang}.txt`
 
 ```js
 import './{myLang}/{myLang}.contribution';
@@ -73,7 +74,16 @@ Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localh
 /src/monaco-editor> npm run compile --prefix webpack-plugin
 
 # package using the webpack plugin
-/src/monaco-editor> npm run package-for-smoketest --prefix webpack-plugin
+/src/monaco-editor> npm run package-for-smoketest-webpack
+
+# package using esbuild
+/src/monaco-editor> npm run package-for-smoketest-esbuild
+
+# package using vite
+/src/monaco-editor> npm run package-for-smoketest-vite
+
+# package using parcel
+/src/monaco-editor> npm run package-for-smoketest-parcel --prefix test/smoke/parcel
 
 # run the smoketest
 /src/monaco-editor> npm run smoketest-debug

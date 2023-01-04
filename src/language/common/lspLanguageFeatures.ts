@@ -627,13 +627,14 @@ function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit | null): languages.Workspac
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
-	let resourceEdits: languages.WorkspaceTextEdit[] = [];
+	let resourceEdits: languages.IWorkspaceTextEdit[] = [];
 	for (let uri in edit.changes) {
 		const _uri = Uri.parse(uri);
 		for (let e of edit.changes[uri]) {
 			resourceEdits.push({
 				resource: _uri,
-				edit: {
+				versionId: undefined,
+				textEdit: {
 					range: toRange(e.range),
 					text: e.newText
 				}

@@ -7594,6 +7594,4 @@ declare namespace ts {
     const isIdentifierOrPrivateIdentifier: (node: Node) => node is MemberName;
 }
 
-// MONACOCHANGE
 export = ts;
-// END MONACOCHANGE

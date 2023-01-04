@@ -7,7 +7,7 @@ import * as esbuild from 'esbuild';
 import * as path from 'path';
 import { removeDir } from '../../build/fs';
 
-removeDir('test/smoke/esbuild/out', (entry) => /esbuild.html$/.test(entry));
+removeDir('test/smoke/esbuild/out');
 
 const workerEntryPoints = [
 	'vs/language/json/json.worker.js',

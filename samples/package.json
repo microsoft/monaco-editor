@@ -10,8 +10,8 @@
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"devDependencies": {
-		"css-loader": "^6.6.0",
-		"electron": "^17.0.0",
+		"css-loader": "^5.2.7",
+		"electron": "^19.1.8",
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
 		"html-webpack-plugin": "^5.5.0",
@@ -25,5 +25,8 @@
 		"webpack-dev-server": "^4.7.4",
 		"webpack": "^5.68.0",
 		"yaserver": "^0.4.0"
+	},
+	"overrides": {
+		"@electron/get": "2.0.0"
 	}
 }

@@ -9,5 +9,8 @@
 		"**/release": true,
 		"**/out": true
 	},
-	"typescript.tsdk": "./node_modules/typescript/lib"
+	"typescript.tsdk": "./node_modules/typescript/lib",
+	"git.branchProtection": ["main", "release/*"],
+	"git.branchProtectionPrompt": "alwaysCommitToNewBranch",
+	"git.branchRandomName.enable": true
 }
