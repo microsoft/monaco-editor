@@ -4,6 +4,7 @@
 	"vscodeRef": "0316a754aa4c25208bef91937efbce2ab1e3ce37",
 	"private": true,
 	"description": "A browser based code editor",
+	"homepage": "https://github.com/microsoft/monaco-editor",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"scripts": {
