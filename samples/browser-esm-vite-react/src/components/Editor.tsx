@@ -8,16 +8,13 @@ export const Editor: VFC = () => {
 
 	useEffect(() => {
 		if (monacoEl) {
-			setEditor(editor => {
-				
-				if(editor)
-					return;
-				
+			setEditor((editor) => {
+				if (editor) return;
+
 				return monaco.editor.create(monacoEl.current!, {
 					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 					language: 'typescript'
-				})
-			
+				});
 			});
 		}
 
