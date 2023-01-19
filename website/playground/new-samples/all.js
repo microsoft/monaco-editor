@@ -158,6 +158,12 @@
 		},
 		{
 			chapter: 'Extending Language Services',
+			name: 'Inlay hints provider example',
+			id: 'extending-language-services-inlay-hints-provider-example',
+			path: 'extending-language-services/inlay-hints-provider-example'
+		},
+		{
+			chapter: 'Extending Language Services',
 			name: 'Model markers example',
 			id: 'extending-language-services-model-markers-example',
 			path: 'extending-language-services/model-markers-example'
