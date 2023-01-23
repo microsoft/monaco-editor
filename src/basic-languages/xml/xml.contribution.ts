@@ -16,6 +16,7 @@ registerLanguage({
 		'.ascx',
 		'.csproj',
 		'.config',
+		'.props',
 		'.wxi',
 		'.wxl',
 		'.wxs',
