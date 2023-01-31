@@ -67,6 +67,6 @@ extends:
               git config user.email "vscode@microsoft.com"
               git config user.name "VSCode"
 
-              git tag -a $(SetPackageSpec.PACKAGE_VERSION) -m $(SetPackageSpec.PACKAGE_VERSION)
-              git push origin test
+              git tag -a v$(SetPackageSpec.PACKAGE_VERSION) -m v$(SetPackageSpec.PACKAGE_VERSION)
+              git push origin v$(SetPackageSpec.PACKAGE_VERSION)
             workingDirectory: $(Build.SourcesDirectory)
