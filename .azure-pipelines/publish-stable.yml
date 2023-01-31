@@ -56,3 +56,17 @@ extends:
         tag: latest
         publishPackage: ${{ parameters.publishMonacoEditor }}
         publishRequiresApproval: false
+
+        postPublishSteps:
+          - checkout: self
+            persistCredentials: true
+
+          - script: |
+              set -e
+
+              git config user.email "vscode@microsoft.com"
+              git config user.name "VSCode"
+
+              git tag -a $(SetPackageSpec.PACKAGE_VERSION) -m $(SetPackageSpec.PACKAGE_VERSION)
+              git push origin test
+            workingDirectory: $(Build.SourcesDirectory)
