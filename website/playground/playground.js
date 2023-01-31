@@ -65,6 +65,7 @@
 
 			playgroundContainer.style.width = WIDTH + 'px';
 			playgroundContainer.style.height = HEIGHT - FOOTER_HEIGHT + 'px';
+			playgroundContainer.style.position = 'relative';
 
 			sampleSwitcher.style.position = 'absolute';
 			sampleSwitcher.style.top = TITLE_HEIGHT + 'px';
