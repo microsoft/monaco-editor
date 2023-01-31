@@ -13,3 +13,5 @@
 /test/manual/generated/
 /website/lib/
 /website/typedoc/monaco.d.ts
+/test/smoke/vite/dist
+/test/smoke/parcel/dist

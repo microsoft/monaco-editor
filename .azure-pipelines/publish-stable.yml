@@ -1,0 +1,58 @@
+###############################################################################################
+#  Copyright (c) Microsoft Corporation. All rights reserved.
+#  Licensed under the MIT License. See License.txt in the project root for license information.
+###############################################################################################
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger: none
+pr: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: microsoft/vscode-engineering
+      ref: main
+      endpoint: Monaco
+
+parameters:
+  - name: publishMonacoEditorCore
+    displayName: 🚀 Publish Monaco Editor Core
+    type: boolean
+    default: false
+  - name: publishMonacoEditor
+    displayName: 🚀 Publish Editor Core
+    type: boolean
+    default: false
+
+extends:
+  template: azure-pipelines/npm-package/pipeline.yml@templates
+  parameters:
+    npmPackages:
+      - name: monaco-editor-core
+        workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
+        testPlatforms: []
+        buildSteps:
+          - script: npm ci
+            displayName: Install NPM dependencies
+
+          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor-core stable
+            displayName: Setup, Build & Test monaco-editor-core
+
+        tag: latest
+        publishPackage: ${{ parameters.publishMonacoEditorCore }}
+        publishRequiresApproval: false
+
+      - name: monaco-editor
+        workingDirectory: $(Build.SourcesDirectory)/release
+        testPlatforms: []
+        buildSteps:
+          - script: npm ci
+            displayName: Install NPM dependencies
+
+          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor stable
+            displayName: Setup, Build & Test monaco-editor
+
+        tag: latest
+        publishPackage: ${{ parameters.publishMonacoEditor }}
+        publishRequiresApproval: false
