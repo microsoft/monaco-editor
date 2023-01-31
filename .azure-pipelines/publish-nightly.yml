@@ -54,3 +54,17 @@ extends:
         tag: next
         publishPackage: true
         publishRequiresApproval: false
+
+        postPublishSteps:
+          - checkout: self
+            persistCredentials: true
+
+          - script: |
+              set -e
+
+              git config user.email "vscode@microsoft.com"
+              git config user.name "VSCode"
+
+              git tag -a v$(SetPackageSpec.PACKAGE_VERSION) -m v$(SetPackageSpec.PACKAGE_VERSION)
+              git push origin v$(SetPackageSpec.PACKAGE_VERSION)
+            workingDirectory: $(Build.SourcesDirectory)
