@@ -167,7 +167,7 @@ export const language = <languages.IMonarchLanguage>{
 		// Keyword list shorthand
 
 		keywordsShorthand: [
-			[/(@atomName)(:)/, ['constant', 'constant.punctuation']],
+			[/(@atomName)(:)(\s+)/, ['constant', 'constant.punctuation', 'white']],
 			// Use positive look-ahead to ensure the string is followed by :
 			// and should be considered a keyword.
 			[
@@ -533,10 +533,24 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 			[
+				/\@(module|type)?doc (~[sS])?'''/,
+				{
+					token: 'comment.block.documentation',
+					next: '@singleQuotedHeredocDocstring'
+				}
+			],
+			[
 				/\@(module|type)?doc (~[sS])?"/,
 				{
 					token: 'comment.block.documentation',
 					next: '@doubleQuotedStringDocstring'
+				}
+			],
+			[
+				/\@(module|type)?doc (~[sS])?'/,
+				{
+					token: 'comment.block.documentation',
+					next: '@singleQuotedStringDocstring'
 				}
 			],
 			[/\@(module|type)?doc false/, 'comment.block.documentation'],
@@ -549,8 +563,18 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@docstringContent' }
 		],
 
+		singleQuotedHeredocDocstring: [
+			[/'''/, { token: 'comment.block.documentation', next: '@pop' }],
+			{ include: '@docstringContent' }
+		],
+
 		doubleQuotedStringDocstring: [
 			[/"/, { token: 'comment.block.documentation', next: '@pop' }],
+			{ include: '@docstringContent' }
+		],
+
+		singleQuotedStringDocstring: [
+			[/'/, { token: 'comment.block.documentation', next: '@pop' }],
 			{ include: '@docstringContent' }
 		],
 
