@@ -1,9 +1,37 @@
 # Monaco Editor Changelog
 
-## [0.35.1]
+## [0.35.0]
 
 - Adds sticky scrolling
+- Support for custom diff algorithms
+
+### Breaking Changes
+
 - Renamed the option `enableDropIntoEditor` to `dropIntoEditor`
+- Changed `IContentWidgetPosition.range: Range` to `IContentWidgetPosition.secondaryPosition: Position`
+- `renderFinalNewline` config: is now of type `'on' | 'off' | 'dimmed'` (was `boolean`).
+- `cursorSmoothCaretAnimation` config: is now of type `'off' | 'explicit' | 'on'` (was `boolean`)
+
+Contributions to `monaco-editor`:
+
+- [@andrewimcclement](https://github.com/andrewimcclement): Add .props & .targets as XML extensions [PR #3510](https://github.com/microsoft/monaco-editor/pull/3510)
+- [@DetachHead](https://github.com/DetachHead): add `satisfies` keyword to typescript [PR #3337](https://github.com/microsoft/monaco-editor/pull/3337)
+- [@jeremy-rifkin (Jeremy Rifkin)](https://github.com/jeremy-rifkin): Add AVX 512 types to C++ syntax highlighting [PR #3286](https://github.com/microsoft/monaco-editor/pull/3286)
+- [@joecarl (José Carlos)](https://github.com/joecarl): Add setModeConfiguration for monaco.languages.typescript.[typescript|javascript]Defaults [PR #3489](https://github.com/microsoft/monaco-editor/pull/3489)
+- [@jonatanklosko (Jonatan Kłosko)](https://github.com/jonatanklosko): Update Elixir tokenizer [PR #3453](https://github.com/microsoft/monaco-editor/pull/3453)
+- [@JoyceZhu (Joyce Zhu)](https://github.com/JoyceZhu): Update import path for `browser-esm-webpack-small` [PR #3402](https://github.com/microsoft/monaco-editor/pull/3402)
+- [@Jozebel11 (Joseph Hardwicke)](https://github.com/Jozebel11): Add position styling to playground container to equal 'relative' [PR #3446](https://github.com/microsoft/monaco-editor/pull/3446)
+- [@kirjs (Kirill Cherkashin)](https://github.com/kirjs): Fix broken link in the changelog [PR #3382](https://github.com/microsoft/monaco-editor/pull/3382)
+- [@LeoDog896 (Tristan F.)](https://github.com/LeoDog896)
+  - Ignore dist from vite/parcel in prettier [PR #3466](https://github.com/microsoft/monaco-editor/pull/3466)
+  - Add .kts as a file extension [PR #3467](https://github.com/microsoft/monaco-editor/pull/3467)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin): Add new pgsql 15 functions [PR #3363](https://github.com/microsoft/monaco-editor/pull/3363)
+- [@mofux (Thomas Zilz)](https://github.com/mofux): Resolve URIs with special characters correctly [PR #3392](https://github.com/microsoft/monaco-editor/pull/3392)
+- [@nnnnoel (Noel Kim (김민혁))](https://github.com/nnnnoel): fix(mysql/tokenizer): Fix single quoted string escape [PR #3232](https://github.com/microsoft/monaco-editor/pull/3232)
+- [@rcjsuen (Remy Suen)](https://github.com/rcjsuen): Fix the color provider's columns [PR #3348](https://github.com/microsoft/monaco-editor/pull/3348)
+- [@RubenRBS (Rubén Rincón Blanco)](https://github.com/RubenRBS): Recognize \0 as an escape sequence [PR #3443](https://github.com/microsoft/monaco-editor/pull/3443)
+- [@sekedus (Sekedus)](https://github.com/sekedus): add homepage url [PR #3497](https://github.com/microsoft/monaco-editor/pull/3497)
+- [@tr3ysmith (Trey Smith)](https://github.com/tr3ysmith): Fix possible duplicate of editors in vite sample [PR #3390](https://github.com/microsoft/monaco-editor/pull/3390)
 
 ## [0.34.1]
 
