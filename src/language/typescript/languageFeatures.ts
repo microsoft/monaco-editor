@@ -474,7 +474,7 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 			}
 
 			const tags: languages.CompletionItemTag[] = [];
-			if (entry.kindModifiers?.indexOf('deprecated') !== -1) {
+			if (entry.kindModifiers !== undefined && entry.kindModifiers.indexOf('deprecated') !== -1) {
 				tags.push(languages.CompletionItemTag.Deprecated);
 			}
 
