@@ -1,5 +1,14 @@
 # Monaco Editor Changelog
 
+## [0.35.1]
+
+- Adds sticky scrolling
+- Renamed the option `enableDropIntoEditor` to `dropIntoEditor`
+
+## [0.34.1]
+
+- Adds API to register global actions, commands, or keybinding rules
+
 ## [0.34.0]
 
 - Introduction of `IEditor.createDecorationsCollection` API
@@ -492,7 +501,7 @@ Contributions to `monaco-typescript`:
 - Many improvements in `monaco-typescript`: support for "deprecated" tags, API to participate in the web worker, improved lib.d.ts resolving.
 - New tokenization support for: Julia, Scala, Lexon, Terraform HCL, Dart, Systemverilog.
 - New semantic tokens provider [sample on the playground](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-semantic-tokens-provider-example).
-- New [shadow dom sample](https://github.com/microsoft/monaco-editor-samples/tree/master/browser-amd-shadow-dom)
+- New [shadow dom sample](https://github.com/microsoft/monaco-editor/tree/main/samples/browser-amd-shadow-dom)
 - New `overflowWidgetsDomNode` constructor option to pass in a parent for overflowing widgets.
 - New `minimap.size` option: `proportional`, `fill`, `fit`.
 - New `OnTypeRename` provider and option `renameOnType`.

@@ -9,10 +9,14 @@ const yaserver = require('yaserver');
 const http = require('http');
 const cp = require('child_process');
 const path = require('path');
-const { PORT } = require('./common');
-const DEBUG_TESTS = process.argv.includes('--debug-tests');
 
+/** @typedef {import('./common').BrowserKind} BrowserKind */
+/** @typedef {import('./common').PackagerKind} PackagerKind */
+/** @typedef {import('./common').TestInfo} TestInfo */
+
+const DEBUG_TESTS = process.argv.includes('--debug-tests');
 const REPO_ROOT = path.join(__dirname, '../../');
+const PORT = 8563;
 
 yaserver
 	.createServer({
@@ -37,25 +41,31 @@ yaserver
 async function runTests() {
 	// uncomment to shortcircuit and run a specific combo
 	// await runTest('webpack', 'chromium'); return;
+	/** @type {PackagerKind[]} */
+	const testTypes = ['amd', 'webpack', 'esbuild', 'vite', 'parcel'];
 
-	for (const type of ['amd', 'webpack' /*, 'esbuild'*/]) {
+	for (const type of testTypes) {
 		await runTest(type, 'chromium');
 		await runTest(type, 'firefox');
-		// await runTest(type, 'webkit');
+		await runTest(type, 'webkit');
 	}
 }
 
 /**
- * @param {string} type
- * @param {'chromium'|'firefox'|'webkit'} browser
+ * @param {PackagerKind} packager
+ * @param {BrowserKind} browser
  * @returns
  */
-function runTest(type, browser) {
+function runTest(packager, browser) {
 	return new Promise((resolve, reject) => {
-		const env = { BROWSER: browser, TESTS_TYPE: type, ...process.env };
-		if (DEBUG_TESTS) {
-			env['DEBUG_TESTS'] = 'true';
-		}
+		/** @type TestInfo */
+		const testInfo = {
+			browser,
+			packager,
+			debugTests: DEBUG_TESTS,
+			port: PORT
+		};
+		const env = { MONACO_TEST_INFO: JSON.stringify(testInfo), ...process.env };
 		const proc = cp.spawn(
 			'node',
 			[
@@ -74,7 +84,7 @@ function runTest(type, browser) {
 		proc.on('error', reject);
 		proc.on('exit', (code) => {
 			if (code === 0) {
-				resolve();
+				resolve(undefined);
 			} else {
 				reject(code);
 			}

@@ -63,7 +63,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	getScriptFileNames(): string[] {
 		const allModels = this._ctx.getMirrorModels().map((model) => model.uri);
-		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString(true));
+		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString());
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
@@ -487,7 +487,7 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 				'Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag'
 			);
 		} else {
-			importScripts(createData.customWorkerPath);
+			self.importScripts(createData.customWorkerPath);
 
 			const workerFactoryFunc: CustomTSWebWorkerFactory | undefined = self.customTSWorkerFactory;
 			if (!workerFactoryFunc) {

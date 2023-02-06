@@ -17,7 +17,7 @@ import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js';
 // import 'monaco-editor/esm/vs/editor/contrib/cursorUndo/cursorUndo.js';
 // import 'monaco-editor/esm/vs/editor/contrib/dnd/dnd.js';
 // import 'monaco-editor/esm/vs/editor/contrib/documentSymbols/documentSymbols.js';
-import 'monaco-editor/esm/vs/editor/contrib/find/findController.js';
+import 'monaco-editor/esm/vs/editor/contrib/find/browser/findController.js';
 // import 'monaco-editor/esm/vs/editor/contrib/folding/folding.js';
 // import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom.js';
 // import 'monaco-editor/esm/vs/editor/contrib/format/formatActions.js';

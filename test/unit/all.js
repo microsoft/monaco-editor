@@ -21,6 +21,7 @@ global.self = global;
 global.document.queryCommandSupported = function () {
 	return false;
 };
+global.UIEvent = tmp.window.UIEvent;
 
 global.window = {
 	location: {},
@@ -58,5 +59,6 @@ requirejs(
 	},
 	function (err) {
 		console.log(err);
+		process.exit(1);
 	}
 );

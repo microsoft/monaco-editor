@@ -2,6 +2,7 @@
 
 (For maintainers)
 
+- [P1 Inbox Queue](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+is%3Aopen+-label%3Afeature-request+-label%3Aquestion+-label%3Aupstream+-label%3A%22help+wanted%22+-label%3A%22info-needed%22+-label%3A%22as-designed%22+-label%3Abug+-label%3A*question+)
 - [Inbox Queue](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+is%3Aopen+no%3Aassignee+-label%3Afeature-request+-label%3Aquestion+-label%3Aupstream+-label%3A%22help+wanted%22+-label%3A%22info-needed%22+-label%3A%22as-designed%22+)
 
 ## Updating TypeScript
