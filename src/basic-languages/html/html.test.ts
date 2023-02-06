@@ -396,6 +396,32 @@ testTokenization(
 			}
 		],
 
+		// Embedded Content #10
+		[
+			{
+				line: '<script type="module">var i= 10;</script>',
+				tokens: [
+					{ startIndex: 0, type: 'delimiter.html' },
+					{ startIndex: 1, type: 'tag.html' },
+					{ startIndex: 7, type: '' },
+					{ startIndex: 8, type: 'attribute.name.html' },
+					{ startIndex: 12, type: 'delimiter.html' },
+					{ startIndex: 13, type: 'attribute.value.html' },
+					{ startIndex: 21, type: 'delimiter.html' },
+					{ startIndex: 22, type: 'keyword.js' },
+					{ startIndex: 25, type: '' },
+					{ startIndex: 26, type: 'identifier.js' },
+					{ startIndex: 27, type: 'delimiter.js' },
+					{ startIndex: 28, type: '' },
+					{ startIndex: 29, type: 'number.js' },
+					{ startIndex: 31, type: 'delimiter.js' },
+					{ startIndex: 32, type: 'delimiter.html' },
+					{ startIndex: 34, type: 'tag.html' },
+					{ startIndex: 40, type: 'delimiter.html' }
+				]
+			}
+		],
+
 		// Tag with Attribute
 		[
 			{

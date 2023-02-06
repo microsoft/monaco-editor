@@ -1,6 +1,15 @@
 # Monaco Editor Changelog
 
-## [0.34.0] (Unreleased)
+## [0.35.1]
+
+- Adds sticky scrolling
+- Renamed the option `enableDropIntoEditor` to `dropIntoEditor`
+
+## [0.34.1]
+
+- Adds API to register global actions, commands, or keybinding rules
+
+## [0.34.0]
 
 - Introduction of `IEditor.createDecorationsCollection` API
 - New function `removeAllMarkers` to remove all markers
@@ -25,6 +34,16 @@
   - `modelVersionId?: number` -> `versionId: number | undefined`
 - `InlayHint` API tweaks
 - Soft deprecation of `ICodeEditor.deltaDecorations`, no adoption required. `IEditor.createDecorationsCollection` API should be used instead.
+
+Contributions to `monaco-editor`:
+
+- [@alexander-zw (Alexander Wu)](https://github.com/alexander-zw): [webpack readme] Add how to get languages/features [PR #3171](https://github.com/microsoft/monaco-editor/pull/3171)
+- [@anjbur (Angela Burton)](https://github.com/anjbur): Update Q# keywords [PR #3222](https://github.com/microsoft/monaco-editor/pull/3222)
+- [@bsorrentino (bsorrentino)](https://github.com/bsorrentino): Fix issue #2295 - Models with "@" in their name do not resolve as dependencies [PR #3057](https://github.com/microsoft/monaco-editor/pull/3057)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin): Remove duplicate testcases for mysql [PR #3138](https://github.com/microsoft/monaco-editor/pull/3138)
+- [@mhsdesign (Marc Henry Schultz)](https://github.com/mhsdesign): [DOCS] IEditorOptions.automaticLayout uses ResizeObserver 3051 [PR #3052](https://github.com/microsoft/monaco-editor/pull/3052)
+- [@supersonictw (SuperSonic)](https://github.com/supersonictw): Fix menu link in integrate-esm.md [PR #3214](https://github.com/microsoft/monaco-editor/pull/3214)
+- [@tonilastre (Toni)](https://github.com/tonilastre): Add config and tokenizer for query language Cypher [PR #3102](https://github.com/microsoft/monaco-editor/pull/3102)
 
 ## [0.33.0]
 
@@ -482,7 +501,7 @@ Contributions to `monaco-typescript`:
 - Many improvements in `monaco-typescript`: support for "deprecated" tags, API to participate in the web worker, improved lib.d.ts resolving.
 - New tokenization support for: Julia, Scala, Lexon, Terraform HCL, Dart, Systemverilog.
 - New semantic tokens provider [sample on the playground](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-semantic-tokens-provider-example).
-- New [shadow dom sample](https://github.com/microsoft/monaco-editor-samples/tree/master/browser-amd-shadow-dom)
+- New [shadow dom sample](https://github.com/microsoft/monaco-editor/tree/main/samples/browser-amd-shadow-dom)
 - New `overflowWidgetsDomNode` constructor option to pass in a parent for overflowing widgets.
 - New `minimap.size` option: `proportional`, `fill`, `fit`.
 - New `OnTypeRename` provider and option `renameOnType`.

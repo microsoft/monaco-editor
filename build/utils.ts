@@ -104,6 +104,7 @@ export function buildESM(options: { base: string; entryPoints: string[]; externa
 		bundle: true,
 		target: 'esnext',
 		format: 'esm',
+		drop: ['debugger'],
 		define: {
 			AMD: 'false'
 		},
@@ -141,6 +142,7 @@ function buildOneAMD(
 		bundle: true,
 		target: 'esnext',
 		format: 'iife',
+		drop: ['debugger'],
 		define: {
 			AMD: 'true'
 		},
