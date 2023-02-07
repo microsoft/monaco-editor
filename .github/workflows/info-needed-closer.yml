@@ -1,4 +1,4 @@
-name: Needs More Info Closer
+name: Info Needed Closer
 on:
   schedule:
     - cron: 20 12 * * * # 5:20am Redmond
@@ -18,11 +18,10 @@ jobs:
           ref: stable
       - name: Install Actions
         run: npm install --production --prefix ./actions
-      - name: Run Needs More Info Closer
+      - name: Run Info Needed Closer
         uses: ./actions/needs-more-info-closer
         with:
-          appInsightsKey: ${{secrets.TRIAGE_ACTIONS_APP_INSIGHTS}}
-          label: needs more info
+          label: info-needed
           closeDays: 7
           additionalTeam: 'spahnke|rcjsuen'
           closeComment: "This issue has been closed automatically because it needs more information and has not had recent activity. See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!"
