@@ -1,7 +1,6 @@
 import { mkdir, rm } from 'fs/promises';
 import { join, resolve } from 'path';
-import { group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
-import { PackageJson } from './types';
+import { PackageJson, group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
