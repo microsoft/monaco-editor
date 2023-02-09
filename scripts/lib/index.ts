@@ -37,6 +37,11 @@ export async function runGetOutput(command: string, options: RunOptions): Promis
 	});
 }
 
+export async function gitCommitId(repositoryPath: string): Promise<string> {
+	const commitId = (await runGetOutput('git rev-parse HEAD', { cwd: repositoryPath })).trim();
+	return commitId;
+}
+
 export async function gitShallowClone(
 	targetPath: string,
 	repositoryUrl: string,
@@ -48,7 +53,7 @@ export async function gitShallowClone(
 	await run(`git remote add origin ${repositoryUrl}`, options);
 	await run(`git fetch --depth 1 origin ${ref}`, options);
 	await run(`git checkout ${ref}`, options);
-	const commitId = (await runGetOutput('git rev-parse HEAD', options)).trim();
+	const commitId = await gitCommitId(targetPath);
 	return { commitId };
 }
 
@@ -82,5 +87,6 @@ export interface PackageJson {
 	version: string;
 	vscodeRef?: string;
 	vscodeCommitId?: string;
+	monacoCommitId?: string;
 	devDependencies: Record<string, string>;
 }
