@@ -1,6 +1,7 @@
 import { mkdir, rm } from 'fs/promises';
 import { join, resolve } from 'path';
 import { group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
+import { PackageJson } from './types';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
@@ -37,9 +38,17 @@ async function prepareMonacoEditorCoreRelease(version: string, vscodeRef: string
 
 	await rm(dependenciesPath, { force: true, recursive: true });
 
+	let vscodeCommitId: string;
+
 	await group('Checkout vscode', async () => {
-		await gitShallowClone(vscodePath, 'https://github.com/microsoft/vscode.git', vscodeRef);
+		const result = await gitShallowClone(
+			vscodePath,
+			'https://github.com/microsoft/vscode.git',
+			vscodeRef
+		);
+		vscodeCommitId = result.commitId;
 	});
+
 	await group('Checkout vscode-loc', async () => {
 		await gitShallowClone(
 			// Must be a sibling to the vscode repository
@@ -54,8 +63,10 @@ async function prepareMonacoEditorCoreRelease(version: string, vscodeRef: string
 			vscodePath,
 			'./build/monaco/package.json'
 		);
-		const packageJson = require(monacoEditorCorePackageJsonSourcePath) as { version: string };
+		const packageJson = require(monacoEditorCorePackageJsonSourcePath) as PackageJson;
 		packageJson.version = version;
+		// This ensures we can always figure out which commit monaco-editor-core was built from
+		packageJson.vscodeCommitId = vscodeCommitId;
 		await writeJsonFile(monacoEditorCorePackageJsonSourcePath, packageJson);
 	});
 

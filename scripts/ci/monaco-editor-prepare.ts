@@ -1,15 +1,22 @@
 import { readFile } from 'fs/promises';
 import { join, resolve } from 'path';
 import { getNightlyVersion, group, run, writeJsonFile } from '../lib';
+import { PackageJson } from './types';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
 const monacoEditorPackageJsonPath = resolve(rootPath, 'package.json');
+const monacoEditorCorePackageJsonPath = resolve(
+	rootPath,
+	'node_modules',
+	'monaco-editor-core',
+	'package.json'
+);
 
 async function prepareMonacoEditorReleaseStableOrNightly() {
 	const monacoEditorPackageJson = JSON.parse(
 		await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
-	) as { version: string };
+	) as PackageJson;
 
 	let version: string;
 
@@ -27,18 +34,32 @@ async function prepareMonacoEditorReleaseStableOrNightly() {
 	// npm package is now in ./release, ready to be published
 }
 
-async function prepareMonacoEditorRelease(version: string) {
+async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 	await group('npm ci', async () => {
 		await run('npm ci', { cwd: resolve(rootPath, 'webpack-plugin') });
 	});
 
-	await group('Set Version', async () => {
+	await group('Set Version & Update monaco-editor-core Version', async () => {
 		const packageJson = JSON.parse(
 			await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
-		) as { version: string; devDependencies: Record<string, string> };
-		packageJson.version = version;
-		packageJson.devDependencies['monaco-editor-core'] = version;
+		) as PackageJson;
+		packageJson.version = monacoEditorCoreVersion;
+		packageJson.devDependencies['monaco-editor-core'] = monacoEditorCoreVersion;
+		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
+	});
 
+	await group('npm install to pick up monaco-editor-core', async () => {
+		await run('npm install', { cwd: rootPath });
+	});
+
+	await group('Setting vscode commitId from monaco-editor-core', async () => {
+		const monacoEditorCorePackageJson = JSON.parse(
+			await readFile(monacoEditorCorePackageJsonPath, { encoding: 'utf-8' })
+		) as PackageJson;
+		const packageJson = JSON.parse(
+			await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
+		) as PackageJson;
+		packageJson.vscodeCommitId = monacoEditorCorePackageJson.vscodeCommitId;
 		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
 	});
 
