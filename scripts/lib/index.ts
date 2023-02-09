@@ -19,13 +19,37 @@ export async function run(command: string, options: RunOptions) {
 	});
 }
 
-export async function gitShallowClone(targetPath: string, repositoryUrl: string, ref: string) {
+export async function runGetOutput(command: string, options: RunOptions): Promise<string> {
+	console.log(`Running ${command} in ${options.cwd}`);
+	return new Promise<string>((resolve, reject) => {
+		const process = spawn(command, { shell: true, cwd: options.cwd, stdio: 'pipe' });
+		let output = '';
+		process.stdout.on('data', (data) => {
+			output += data;
+		});
+		process.on('exit', (code) => {
+			if (code !== 0) {
+				reject(new Error(`Command ${command} exited with code ${code}`));
+			} else {
+				resolve(output);
+			}
+		});
+	});
+}
+
+export async function gitShallowClone(
+	targetPath: string,
+	repositoryUrl: string,
+	ref: string
+): Promise<{ commitId: string }> {
 	await mkdir(targetPath, { recursive: true });
 	const options: RunOptions = { cwd: targetPath };
 	await run('git init', options);
 	await run(`git remote add origin ${repositoryUrl}`, options);
 	await run(`git fetch --depth 1 origin ${ref}`, options);
 	await run(`git checkout ${ref}`, options);
+	const commitId = await runGetOutput('git rev-parse HEAD', options);
+	return { commitId };
 }
 
 export async function group(name: string, body: () => Promise<void>): Promise<void> {
