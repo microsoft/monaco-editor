@@ -48,7 +48,7 @@ export async function gitShallowClone(
 	await run(`git remote add origin ${repositoryUrl}`, options);
 	await run(`git fetch --depth 1 origin ${ref}`, options);
 	await run(`git checkout ${ref}`, options);
-	const commitId = await runGetOutput('git rev-parse HEAD', options);
+	const commitId = (await runGetOutput('git rev-parse HEAD', options)).trim();
 	return { commitId };
 }
 
@@ -76,4 +76,11 @@ export function getNightlyVersion(version: string): string {
 	const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
 	const dd = String(date.getUTCDate()).padStart(2, '0');
 	return `0.${minor + 1}.0-dev.${yyyy}${mm}${dd}`;
+}
+
+export interface PackageJson {
+	version: string;
+	vscodeRef?: string;
+	vscodeCommitId?: string;
+	devDependencies: Record<string, string>;
 }

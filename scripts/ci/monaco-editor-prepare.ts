@@ -1,7 +1,6 @@
 import { readFile } from 'fs/promises';
 import { join, resolve } from 'path';
-import { getNightlyVersion, group, run, writeJsonFile } from '../lib';
-import { PackageJson } from './types';
+import { PackageJson, getNightlyVersion, group, run, writeJsonFile } from '../lib';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
