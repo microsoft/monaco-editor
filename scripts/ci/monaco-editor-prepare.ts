@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises';
 import { join, resolve } from 'path';
-import { PackageJson, getNightlyVersion, group, run, writeJsonFile } from '../lib';
+import { PackageJson, getNightlyVersion, group, run, writeJsonFile, gitCommitId } from '../lib';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
@@ -59,6 +59,7 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 			await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
 		) as PackageJson;
 		packageJson.vscodeCommitId = monacoEditorCorePackageJson.vscodeCommitId;
+		packageJson.monacoCommitId = await gitCommitId(rootPath);
 		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
 	});
 
