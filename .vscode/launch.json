@@ -5,6 +5,13 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "Launch Chrome",
+			"request": "launch",
+			"type": "chrome",
+			"url": "http://localhost:8081",
+			"webRoot": "${workspaceFolder}"
+		},
+		{
 			"type": "pwa-node",
 			"request": "launch",
 			"name": "Monaco Languages Unit Tests",

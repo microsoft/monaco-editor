@@ -8,7 +8,6 @@
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"scripts": {
-		"build-website": "ts-node ./build/website && npm run typedoc",
 		"import-typescript": "ts-node ./build/importTypescript",
 		"playwright-install": "node ./node_modules/playwright/install.js",
 		"playwright-install-deps": "playwright install-deps",
@@ -24,11 +23,11 @@
 		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
 		"smoketest": "node ./test/smoke/runner.js",
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
-		"test": "mocha test/unit/all.js",
+		"test": "mocha test/unit/all.js && ts-node ./build/check-samples",
 		"deps-all-remove": "ts-node ./build/npm/removeAll",
 		"deps-all-install": "ts-node ./build/npm/installAll",
-		"typedoc": "cd website/typedoc && \"../../node_modules/.bin/typedoc\" --options ./typedoc.json",
-		"watch": "tsc -w -p ./src"
+		"watch": "tsc -w -p ./src",
+		"update-actions": "pin-github-action ./.github/workflows/website.yml"
 	},
 	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"module": "./esm/vs/editor/editor.main.js",
@@ -59,8 +58,8 @@
 		"style-loader": "^3.3.1",
 		"terser": "^5.14.2",
 		"ts-node": "^10.6.0",
-		"typedoc": "^0.22.11",
-		"typescript": "4.5.5",
+		"typedoc": "^0.23.10",
+		"typescript": "^4.7.4",
 		"vite": "^3.1.8",
 		"vscode-css-languageservice": "5.4.1",
 		"vscode-html-languageservice": "4.2.4",
@@ -74,5 +73,10 @@
 	"alias": {
 		"process": false,
 		"buffer": false
+	},
+	"dependencies": {
+		"@types/shelljs": "^0.8.11",
+		"pin-github-action": "^1.8.0",
+		"shelljs": "^0.8.5"
 	}
 }

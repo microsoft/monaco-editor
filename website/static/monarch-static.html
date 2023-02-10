@@ -1,0 +1,5346 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+
+		<title>Monaco Editor Monarch</title>
+
+		<link
+			data-inline="yes-please"
+			href="./monarch/monarch.css"
+			rel="stylesheet"
+		/>
+
+		<link
+			data-name="vs/editor/editor.main"
+			rel="stylesheet"
+			href="./node_modules/monaco-editor/dev/vs/editor/editor.main.css"
+		/>
+	</head>
+	<body>
+		<section id="monarch">
+			<!--******************************************
+    Main elements
+**********************************************-->
+
+			<div id="main">
+				<div id="header">
+					<img
+						src="monarch/monarch-34px.png"
+						id="logo"
+						alt="Monarch-Logo"
+					/>Monarch Documentation
+				</div>
+
+				<div id="leftPane">
+					<div class="paneheader">
+						Language syntax definition
+						<span class="selectbox">
+							Sample:
+							<select id="sampleselect">
+								<option>mylang</option>
+								<option>java</option>
+								<option>javascript</option>
+								<option>python</option>
+								<option>csharp</option>
+								<option>xdot</option>
+								<option>koka</option>
+								<option disabled label=" "></option>
+								<option>boogie</option>
+								<option>chalice</option>
+								<option>dafny</option>
+								<option>formula</option>
+								<option>smt2</option>
+								<option>specsharp</option>
+								<option>z3python</option>
+								<option disabled label=" "></option>
+								<option>html</option>
+								<option>markdown</option>
+								<option>ruby</option>
+							</select>
+						</span>
+					</div>
+					<div id="langPane"></div>
+					<div id="commandbar">Generate:</div>
+				</div>
+
+				<div id="rightPane">
+					<div class="paneheader">
+						Language editor
+						<span class="arrowdown" style="display: none"
+							>&#x25BC;</span
+						>
+						<span class="selectbox">
+							Theme:
+							<select id="themeselect">
+								<option>vs</option>
+								<option>vs-dark</option>
+								<option>hc-black</option>
+							</select>
+						</span>
+					</div>
+					<div id="editor"></div>
+					<div id="monarchConsole"></div>
+				</div>
+
+				<!--******************************************
+  Documentation
+**********************************************-->
+				<!--  <div id="footer">
+    Documentation <span class="arrowdown">&#x25BC;</span>
+  </div>-->
+				<div id="documentation">
+					<h2>
+						Monarch: create declarative syntax highlighters using
+						JSON
+					</h2>
+					<p>
+						This document describes how to create a syntax
+						highlighter using the Monarch library. This library
+						allows you to specify an efficient syntax highlighter,
+						using a declarative lexical specification (written as a
+						JSON value). The specification is expressive enough to
+						specify sophisticated highlighters with complex state
+						transitions, dynamic brace matching, auto-completion,
+						other language embeddings, etc. as shown in the
+						'advanced' topic sections of this document. On a first
+						read, it is safe to skip any section or paragraph marked
+						as
+						<span class="adv">(Advanced)</span> since many of the
+						advanced features are rarely used in most language
+						definitions.<br />
+						&nbsp;&nbsp;&nbsp; &ndash; Daan Leijen.
+					</p>
+
+					<h2>Creating a language definition</h2>
+
+					<p>
+						A language definition is basically just a JSON value
+						describing various properties of your language.
+						Recognized attributes are:
+					</p>
+
+					<dl>
+						<dt>ignoreCase</dt>
+						<dd>
+							(optional=<code>false</code>, boolean) Is the
+							language case insensitive?. The regular expressions
+							in the tokenizer use this to do case (in)sensitive
+							matching, as well as tests in the
+							<code>cases</code> construct.
+						</dd>
+
+						<dt>defaultToken</dt>
+						<dd>
+							(optional=<code>"source"</code>, string) The default
+							token returned if nothing matches in the tokenizer.
+							It can be convenient to set this to
+							<code>"invalid"</code> during development of your
+							colorizer to easily spot what is not matched yet.
+						</dd>
+						<dt id="brackets">brackets</dt>
+						<dd>
+							(optional, array of bracket definitions) This is
+							used by the tokenizer to easily define matching
+							braces. See
+							<a href="#@brackets"
+								><code class="dt">@brackets</code></a
+							>
+							and
+							<a href="#bracket"
+								><code class="dt">bracket</code></a
+							>
+							for more information. Each bracket definition is an
+							array of 3 elements, or object, describing the
+							<code>open</code> brace, the
+							<code>close</code> brace, and the
+							<code>token</code> class. The default definition is:
+							<pre class="highlight">
+    [ ['{','}','delimiter.curly'],
+      ['[',']','delimiter.square'],
+      ['(',')','delimiter.parenthesis'],
+      ['&lt;','>','delimiter.angle'] ]</pre
+							>
+						</dd>
+						<dt>tokenizer</dt>
+						<dd>
+							(required, object with states) This defines the
+							tokenization rules &ndash; see the next section for
+							a detailed description.
+						</dd>
+					</dl>
+
+					<p>
+						There are more attributes that can be specified which
+						are described in the
+						<a href="#moreattr">advanced attributes</a> section
+						later in this document.
+					</p>
+
+					<h2>Creating a tokenizer</h2>
+
+					<p>
+						The <code>tokenizer</code> attribute describes how
+						lexical analysis takes place, and how the input is
+						divided into tokens. Each token is given a CSS class
+						name which is used to render each token in the editor.
+						Standard CSS token classes include:
+					</p>
+					<pre class="highlight">
+identifier         entity           constructor
+operators          tag              namespace
+keyword            info-token       type
+string             warn-token       predefined
+string.escape      error-token      invalid
+comment            debug-token
+comment.doc        regexp
+constant           attribute
+
+delimiter .[curly,square,parenthesis,angle,array,bracket]
+number    .[hex,octal,binary,float]
+variable  .[name,value]
+meta      .[content]</pre
+					>
+
+					<h3>States</h3>
+					<p>
+						A tokenizer consists of an object that defines states.
+						The initial state of the tokenizer is the first state
+						defined in the tokenizer. When a tokenizer is in a
+						certain state, only the rules in that state will be
+						applied. All rules are matched in order and when the
+						first one matches its action is used to determine the
+						token class. No further rules are tried. Therefore, it
+						can be important to order the rules in a way that is
+						most efficient, i.e. whitespace and identifiers first.
+					</p>
+
+					<p>
+						<span class="adv">(Advanced)</span> A state is
+						interpreted as dot (<code>.</code>) separated
+						sub-states. When looking up the rules for a state, the
+						tokenizer first tries the entire state name, and then
+						looks at its parent until it finds a definition. For
+						example, in our example, the states
+						<code>"comment.block"</code> and
+						<code>"comment.foo"</code> would both be handled by the
+						<code>comment</code> rules. Hierarchical state names can
+						be used to maintain complex lexer states, as shown for
+						example in the section on
+						<a href="#htmlembed">complex embeddings</a>.
+					</p>
+
+					<h3>Rules</h3>
+					<p>
+						Each state is defined as an array of rules which are
+						used to match the input. Rules can have the following
+						form:
+					</p>
+					<dl>
+						<dt>[<em>regex</em>, <em>action</em>]</dt>
+						<dd>
+							Shorthand for
+							<code
+								>{ regex: <em>regex</em>, action:
+								<em>action</em> }</code
+							>
+						</dd>
+
+						<dt>
+							[<em>regex</em>, <em>action</em>, <em>next</em>]
+						</dt>
+						<dd>
+							Shorthand for
+							<code
+								>{ regex: <em>regex</em>, action:
+								<em>action</em>{next: <em>next</em>} }</code
+							>
+						</dd>
+
+						<dt>
+							{regex: <em>regex</em>, action: <em>action</em> }
+						</dt>
+						<dd>
+							When <code><em>regex</em></code> matches against the
+							current input, then <code><em>action</em></code> is
+							applied to set the token class. The regular
+							expression <code><em>regex</em></code> can be either
+							a regular expression (using
+							<code>/<em>regex</em>/</code>), or a string
+							representing a regular expression. If it starts with
+							a <code>^</code> character, the expression only
+							matches at the start of a source line. The
+							<code>$</code> can be used to match against the end
+							of a source line. Note that the tokenizer is not
+							called when the end of the line is already reached,
+							and the empty pattern <code>/$/</code> will
+							therefore never match (but see
+							<a href="#@eos"><code class="dt">'@eos'</code></a>
+							too). Inside a regular expression, you can reference
+							a string attribute named
+							<code><em>attr</em></code> as
+							<code>@<em>attr</em></code
+							>, which is automatically expanded. This is used in
+							the standard example to share the regular expression
+							for escape sequences using
+							<code>'@escapes'</code> inside the regular
+							expression for characters and strings.
+
+							<p>
+								Regular expression primer: common regular
+								expression escapes we use are
+								<code>\d</code> for <code>[0-9]</code>,
+								<code>\w</code> for <code>[a-zA-Z0-9_]</code>,
+								and <code>\s</code> for <code>[ \t\r\n]</code>.
+								The notation
+								<code><em>regex</em>{<em>n</em>}</code> stands
+								for <code><em>n</em></code> occurrences of
+								<code><em>regex</em></code
+								>. Also, we use
+								<code>(?=<em>regex</em>)</code> for
+								non-consuming `followed by
+								<code><em>regex</em></code
+								>', <code>(?!<em>regex</em>)</code> for `not
+								followed by', and
+								<code>(?:<em>regex</em>)</code> for a
+								non-capturing group (i.e. cannot use
+								<code>$<em>n</em></code> to refer to it).
+							</p>
+						</dd>
+						<dt>{ include: <em>state</em> }</dt>
+						<dd>
+							Used for nice organization of your rules and expands
+							to all the rules defined in
+							<code><em>state</em></code
+							>. This is pre-expanded and has no influence on
+							performance. Many samples include the
+							<code>'@whitespace'</code> state for example.
+						</dd>
+					</dl>
+
+					<h3>Actions</h3>
+					<p>
+						An action determines the resulting token class. An
+						action can have the following forms:
+					</p>
+					<dl>
+						<dt><em>string</em></dt>
+						<dd>
+							Shorthand for
+							<code>{ token: <em>string</em> }</code>.
+						</dd>
+						<dt>[<em>action1</em>,...,<em>actionN</em>]</dt>
+						<dd>
+							An array of N actions. This is only allowed when the
+							regular expression consists of exactly N groups (ie.
+							parenthesized parts). Due to the way the tokenizer
+							works, you must define the groups in such a way that
+							all groups appear at top-level and encompass the
+							entire input, for example, we could define
+							characters with an ascii code escape sequence as:
+							<pre class="highlight">
+/(')(\\(?:[abnfrt]|[xX][0-9]{2}))(')/, ['string','string.escape','string']]</pre
+							>
+							<p>
+								Note how we used a non-capturing group using
+								<code>(?: )</code> in the inner group
+							</p>
+						</dd>
+
+						<dt id="token">{ token: <em>tokenclass</em> }</dt>
+						<dd>
+							An object that defines the token class used with CSS
+							rendering. Common token classes are for example
+							<code>&apos;keyword&apos;</code>,
+							<code>&apos;comment&apos;</code> or
+							<code>&apos;identifier&apos;</code>. You can use a
+							dot to use hierarchical CSS names, like
+							<code>&apos;type.identifier&apos;</code> or
+							<code>&apos;string.escape&apos;</code>. You can also
+							include <code>$</code> patterns that are substituted
+							with a captured group from the matched input or the
+							tokenizer state. The patterns are described in the
+							<a href="#pattern">guard section</a> of this
+							document. There are some special token classes:
+							<dl>
+								<dt id="@brackets">"@brackets"</dt>
+								<dd>or</dd>
+								<dt>"@brackets.<em>tokenclass</em></dt>
+								<dd>
+									Signifies that brackets were tokenized. The
+									token class for CSS is determined by the
+									token class defined in the
+									<a href="#brackets"
+										><code>brackets</code></a
+									>
+									attribute (together with
+									<code><em>tokenclass</em></code> if
+									present). Moreover,
+									<a href="#bracket"
+										><code class="dt">bracket</code></a
+									>
+									attribute is set such that the editor is
+									matches the braces (and does auto
+									indentation). For example:
+									<pre class="highlight">
+[/[{}()\[\]]/, '@brackets']</pre
+									>
+								</dd>
+
+								<dt id="@rematch">"@rematch"</dt>
+								<dd>
+									<span class="adv">(Advanced)</span> Backs up
+									the input and re-invokes the tokenizer. This
+									of course only works when a state change
+									happens too (or we go into an infinite
+									recursion), so this is usually used in
+									combination with the
+									<code class="dt">next</code> attribute. This
+									can be used for example when you are in a
+									certain tokenizer state and want to get out
+									when seeing certain end markers but don't
+									want to consume them while being in that
+									state. See also
+									<a href="#nextEmbedded"
+										><code class="dt">nextEmbedded</code></a
+									>.
+								</dd>
+							</dl>
+							<p>
+								An action object can contain more fields that
+								influence the state of a lexer. The following
+								attributes are recognized:
+							</p>
+							<dl>
+								<dt id="next">next: <em>state</em></dt>
+								<dd>
+									(string) If defined it pushes the current
+									state onto the tokenizer stack and makes
+									<code><em>state</em></code> the current
+									state. This can be used for example to start
+									tokenizing a block comment:
+									<pre class="highlight">
+['/\\*', 'comment', '@comment' ]</pre
+									>
+									<p>Note that this is a shorthand for</p>
+									<pre class="highlight">
+{ regex: '/\\*', action: { token: 'comment', next: '@comment' } }</pre
+									>
+									<p>
+										Here the matched <code>/*</code> is
+										given the <code>"comment"</code> token
+										class, and the tokenizer proceeds with
+										matching the input using the rules in
+										state <code>@comment</code>.
+									</p>
+									<p>
+										There are a few special states that can
+										be used for the
+										<code>next</code> attribute:
+									</p>
+									<dl>
+										<dt>"@pop"</dt>
+										<dd>
+											Pops the tokenizer stack to return
+											to the previous state. This is used
+											for example to return from block
+											comment tokenizing after seeing the
+											end marker:
+											<pre class="highlight">
+['\\*/', 'comment', '@pop']</pre
+											>
+										</dd>
+
+										<dt>"@push"</dt>
+										<dd>
+											Pushes the current state and
+											continues in the current state. Nice
+											for doing nested block comments when
+											seeing a comment begin marker, i.e.
+											in the
+											<code>@comment</code> state, we can
+											do:
+											<pre class="highlight">
+['/\\*', 'comment', '@push']</pre
+											>
+										</dd>
+
+										<dt id="popall">"@popall"</dt>
+										<dd>
+											Pops everything from tokenizer stack
+											and returns to the top state. This
+											can be used during recovery to
+											'jump' back to the initial state
+											from a deep nesting level.
+										</dd>
+									</dl>
+								</dd>
+
+								<dt id="switchTo">switchTo: <em>state</em></dt>
+								<dd>
+									<span class="adv">(Advanced)</span> Switch
+									to <code><em>state</em></code> without
+									changing the stack.
+								</dd>
+
+								<dt id="goBack">goBack: <em>number</em></dt>
+								<dd>
+									<span class="adv">(Advanced)</span> Back up
+									the input by
+									<code><em>number</em></code> characters.
+								</dd>
+
+								<dt id="bracket">bracket: <em>kind</em></dt>
+								<dd>
+									<span class="adv">(Advanced)</span> The
+									<code><em>kind</em></code> can be either
+									<code>'@open'</code> or
+									<code>'@close'</code>. This signifies that a
+									token is either an open or close brace. This
+									attribute is set automatically if the token
+									class is
+									<a href="#@brackets"
+										><code class="dt">@brackets</code></a
+									>. The editor uses the bracket information
+									to show matching braces (where an open
+									bracket matches with a close bracket if
+									their token classes are the same). Moreover,
+									when a user opens a new line the editor will
+									do auto indentation on open braces.
+									Normally, this attribute does not need to be
+									set if you are using the
+									<a href="#brackets"
+										><code class="dt">brackets</code></a
+									>
+									attribute and it is only used for complex
+									brace matching. This is discussed further in
+									the next section on
+									<a href="#complexmatch"
+										>advanced brace matching</a
+									>.
+								</dd>
+
+								<dt id="nextEmbedded">
+									nextEmbedded: <em>langId</em>
+									<span>or</span> '@pop'
+								</dt>
+								<dd>
+									<span class="adv">(Advanced)</span>
+									Signifies to the editor that this token is
+									followed by code in another language
+									specified by the <code><em>langId</em></code
+									>, i.e. for example <code>javascript</code>.
+									Internally, our syntax highlighter keeps
+									tokenizing the source until it finds an an
+									ending sequence. At that point, you can use
+									<code class="dt">nextEmbedded</code> with a
+									<code class="dt">'@pop'</code> value to pop
+									out of the embedded mode again.
+									<code class="dt">nextEmbedded</code> usually
+									needs a
+									<code class="dt">next</code> attribute to
+									switch to a state where we can tokenize the
+									foreign code. As an example, here is how we
+									could support CSS fragments in our language:
+									<pre class="highlight">
+root: [
+  [/&lt;style\s*>/,   { token: 'keyword', bracket: '@open'
+                   , next: '@css_block', nextEmbedded: 'text/css' }],
+
+  [/&lt;\/style\s*>/, { token: 'keyword', bracket: '@close' }],
+  ...
+],
+
+css_block: [
+  [/[^"&lt;]+/, ''],
+  [/&lt;\/style\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+  [/"/, 'string', '@string' ],
+  [/&lt;/, '']
+],</pre
+									>
+									<p>
+										Note how we switch to the
+										<code>css_block</code> state for
+										tokenizing the CSS source. Also inside
+										the CSS we use the
+										<code>@string</code> state to tokenize
+										CSS strings such that we do not stop the
+										CSS block when we find
+										<code>&lt;/style&gt;</code> inside a
+										string. When we find the closing tag, we
+										also
+										<a href="#@pop"
+											><code class="dt">"@pop"</code></a
+										>
+										the state to get back to normal
+										tokenization. Finally, we need to
+										<a href="#@rematch"
+											><code class="dt"
+												>"@rematch"</code
+											></a
+										>
+										the token (in the
+										<code>root</code> state) since the
+										editor ignores our token classes until
+										we actually exit the embedded mode. See
+										also a later section on
+										<a href="#htmlembed"
+											>complex dynamic embeddings</a
+										>. (Bug: you can only start an embedded
+										section if the you consume characters at
+										the start of the embedded block (like
+										consuming the
+										<code>&lt;style&gt;</code> tag) (Aug
+										2012))
+									</p>
+								</dd>
+
+								<dt id="log">log: <em>message</em></dt>
+								<dd>
+									Used for debugging. Logs
+									<code><em>message</em></code> to the console
+									window in the browser (press F12 to see it).
+									This can be useful to see if a certain
+									action is executing. For example:
+									<pre class="highlight">
+[/\d+/, { token: 'number', log: 'found number $0 in state $S0' } ]</pre
+									>
+								</dd>
+								<dd>&nbsp;</dd>
+								<!--
+        <dt>bracketType: <em>bracketType</em></dt><dd>If <code>token</code> is <code>"@brackets"</code>, this attribute can specify for an arbitrary matched input (like <code>"end"</code>), which is not present in the <code>brackets</code> attribute, what kind of bracket this is: <code>"@open"</code>, <code>"@close"</code>, or <code>"@none"</code>.</dd>
+      -->
+							</dl>
+						</dd>
+
+						<dt id="cases">
+							{ cases: { <em>guard1</em>: <em>action1</em>, ...,
+							<em>guardN</em>: <em>actionN</em> } }
+						</dt>
+						<dd>
+							The final kind of action object is a cases
+							statement. A cases object contains an object where
+							each field functions as a guard. Each guard is
+							applied to the matched input and as soon as one of
+							them matches, the corresponding action is applied.
+							Note that since these are actions themselves, cases
+							can be nested. Cases are used for efficiency: for
+							example, we match for identifiers and then test
+							whether the identifier is possibly a keyword or
+							builtin function:
+							<pre class="highlight">
+[/[a-z_\$][a-zA-Z0-9_\$]*/,
+  { cases: { '@typeKeywords': 'keyword.type'
+           , '@keywords': 'keyword'
+           , '@default': 'identifier' }
+  }
+]</pre
+							>
+							<p>The guards can consist of:</p>
+							<dl>
+								<dt>"@<em>keywords</em>"</dt>
+								<dd>
+									The attribute
+									<code><em>keywords</em></code> must be
+									defined in the language object and consist
+									of an array of strings. The guard succeeds
+									if the matched input matches any of the
+									strings. (Note: all cases are pre-compiled
+									and the list is tested using efficient hash
+									maps). <span class="adv">Advanced</span>: if
+									the attribute refers to a single string
+									(instead of an array) it is compiled to a
+									regular expression which is tested against
+									the matched input.
+								</dd>
+								<dt>"@default"</dt>
+								<dd>
+									(or <code>"@"</code> or <code>""</code>) The
+									default guard that always succeeds.
+								</dd>
+								<dt id="@eos">"@eos"</dt>
+								<dd>
+									Succeeds if the matched input has reached
+									the end of the line.
+								</dd>
+								<dt>"<em>regex</em>"</dt>
+								<dd>
+									If the guard does not start with a
+									<code>@</code> (or <code>$</code>) character
+									it is interpreted as a regular expression
+									that is tested against the matched input.
+									Note: the <code><em>regex</em></code> is
+									prefixed with <code>^</code> and postfixed
+									with <code>$</code> so it must match the
+									matched input entirely. This can be used for
+									example to test for specific inputs, here is
+									an example from the Koka language which uses
+									this to enter various tokenizer states based
+									on the declaration:
+									<pre class="highlight">
+[/[a-z](\w|\-[a-zA-Z])*/,
+  { cases:{ '@keywords': {
+               cases: { 'alias'              : { token: 'keyword', next: '@alias-type' }
+                      , 'struct'             : { token: 'keyword', next: '@struct-type' }
+                      , 'type|cotype|rectype': { token: 'keyword', next: '@type' }
+                      , 'module|as|import'   : { token: 'keyword', next: '@module' }
+                      , '@default'           : 'keyword' }
+            }
+          , '@builtins': 'predefined'
+          , '@default' : 'identifier' }
+  }
+]
+</pre
+									>
+									<p>
+										Note the use of nested cases to improve
+										efficiency. Also, the library recognizes
+										simple regular expressions like the ones
+										above and compiles them efficiently. For
+										example, the list of words
+										<code>type|cotype|rectype</code> is
+										tested using a Javascript
+										hashmap/object.
+									</p>
+								</dd>
+							</dl>
+							<p id="pattern">
+								<span class="adv">(Advanced)</span> In general,
+								a guard has the form
+								<code class="dt"
+									>[<em>pat</em>][<em>op</em>]<em
+										>match</em
+									></code
+								>, with an optional pattern, and operator (which
+								are <code>$#</code> and <code>~</code> by
+								default). The pattern can be any of:
+							</p>
+							<dl>
+								<dt>$#</dt>
+								<dd>
+									(default) The matched input (or the group
+									that matched when the action is an array).
+								</dd>
+								<dt>$<em>n</em></dt>
+								<dd>
+									The <em>n</em>th group of the matched input,
+									or the entire matched input for
+									<code>$0</code>.
+								</dd>
+								<dt>$S<em>n</em></dt>
+								<dd>
+									The <em>n</em>th part of the state, i.e.
+									<code>$S2</code> returns <code>foo</code> in
+									a state <code>@tag.foo</code>. Use
+									<code>$S0</code> for the full state name.
+								</dd>
+							</dl>
+							<p>
+								The above patterns can actually occur in many
+								attributes and are automatically expanded.
+								Attributes where these patterns expand are
+								<a href="#token"
+									><code class="dt">token</code></a
+								>,
+								<a href="#next"><code class="dt">next</code></a
+								>,
+								<a href="#nextEmbedded"
+									><code class="dt">nextEmbedded</code></a
+								>,
+								<a href="#switchTo"
+									><code class="dt">switchTo</code></a
+								>, and
+								<a href="#log"><code class="dt">log</code></a
+								>. Also, these patterns are expanded in the
+								<code class="dt"><em>match</em></code> part of a
+								guard.
+							</p>
+
+							<p>
+								The guard operator <code><em>op</em></code> and
+								<code><em>match</em></code> can be any of:
+							</p>
+							<dl>
+								<dt>
+									~<em>regex</em>
+									<span style="color: black">or</span> !~<em
+										>regex</em
+									>
+								</dt>
+								<dd>
+									(default for <code><em>op</em></code> is
+									<code>~</code>) Tests
+									<code><em>pat</em></code> against the
+									regular expression or its negation.
+								</dd>
+								<dt>
+									@<em>attribute</em>
+									<span style="color: black">or</span> !@<em
+										>attribute</em
+									>
+								</dt>
+								<dd>
+									Tests whether <code><em>pat</em></code> is
+									an element (<code>@</code>), or not an
+									element (<code>!@</code>), of an array of
+									strings defined by
+									<code><em>attribute</em></code
+									>.
+								</dd>
+								<dt>
+									==<em>str</em>
+									<span style="color: black">or</span> !=<em
+										>str</em
+									>
+								</dt>
+								<dd>
+									Tests if <code><em>pat</em></code> is equal
+									or unequal to the given string
+									<code><em>str</em></code
+									>.
+								</dd>
+							</dl>
+							<p>
+								For example, here is how to check if the second
+								group is not equal to
+								<code>foo</code> or <code>bar</code>:
+								<code>$2!~foo|bar</code>, or if the first
+								captured group equals the name of the current
+								lexer state: <code>$1==$S0</code>.
+							</p>
+							<p>
+								If both <code><em>op</em></code> and
+								<code><em>match</em></code> are empty and there
+								is just a pattern, then the guard succeeds if
+								the pattern is non-empty. This can be used for
+								example to improve efficiency. In the Koka
+								language, an upper case identifier followed by a
+								dot is module name, but without the following
+								dot it is a constructor. This can be matched for
+								in one go using:
+							</p>
+							<pre class="highlight">
+[/([A-Z](?:[a-zA-Z0-9_]|\-[a-zA-Z])*)(\.?)/,
+  { cases: { '$2'      : ['identifier.namespace','keyword.dot']
+           , '@default': 'identifier.constructor' }}
+]</pre
+							>
+						</dd>
+					</dl>
+
+					<p>&nbsp;</p>
+					<h2 id="complexmatch">Advanced: complex brace matching</h2>
+
+					<p>
+						This section gives some advanced examples of brace
+						matching using the
+						<a href="#bracket"><code class="dt">bracket</code></a>
+						attribute in an action. Usually, we can match braces
+						just using the
+						<a href="#brackets"><code>brackets</code></a> attribute
+						in combination with the
+						<a href="#@brackets"><code>@brackets</code></a> token
+						class. But sometimes we need more fine grained control.
+						For example, in Ruby many declarations like
+						<code class="token keyword">class</code> or
+						<code class="token keyword">def</code> are ended with
+						the <code class="token keyword">end</code> keyword. To
+						make them match, we all give them the same token class
+						(<code>keyword.decl</code>) and use bracket
+						<code>@close</code> for
+						<code class="token keyword">end</code> and
+						<code>@open</code> for all declarations:
+					</p>
+					<pre class="highlight">
+declarations: ['class','def','module', ... ]
+
+tokenizer: {
+  root: {
+    [/[a-zA-Z]\w*/,
+      { cases: { 'end'          : { token: 'keyword.decl', bracket: '@close' }
+               , '@declarations': { token: 'keyword.decl', bracket: '@open' }
+               , '@keywords'    : 'keyword'
+               , '@default'     : 'identifier' }
+      }
+    ],</pre
+					>
+					<p>
+						Note that to make <em>outdentation</em> work on the
+						<code>end</code> keyword, you would also need to include
+						the <code>'d'</code> character in the
+						<a href="#outdentTriggers"
+							><code class="dt">outdentTriggers</code></a
+						>
+						string.
+					</p>
+
+					<p>
+						Another example of complex matching is HTML where we
+						would like to match starting tags, like
+						<code>&lt;div&gt;</code> with an ending tag
+						<code>&lt;/div&gt;</code>. To make an end tag only match
+						its specific open tag, we need to dynamically generate
+						token classes that make the braces match correctly. This
+						can be done using <code>$</code> expansion in the token
+						class:
+					</p>
+					<pre class="highlight">
+tokenizer: {
+  root: {
+     [/&lt;(\w+)(>?)/,   { token: 'tag-$1', bracket: '@open'  }],
+     [/&lt;\/(\w+)\s*>/, { token: 'tag-$1', bracket: '@close' }],</pre
+					>
+					<p>
+						Note how we captured the actual tag name as a group and
+						used that to generate the right token class. Again, to
+						make outdentation work on the closing tag, you would
+						also need to include the
+						<code>'>'</code> character in the
+						<a href="#outdentTriggers"
+							><code class="dt">outdentTriggers</code></a
+						>
+						string.
+					</p>
+
+					<p>
+						A final advanced example of brace matching is Visual
+						Basic where declarations like
+						<code class="token keyword">Structure</code> are matched
+						with end declarations as
+						<code class="token keyword">End Structure</code>. Just
+						like HTML we need to dynamically set token classes so
+						that an <code class="token keyword">End Enum</code> does
+						not match with a
+						<code class="token keyword">Structure</code>. A tricky
+						part is that we now need to match multiple tokens at
+						once, and we match a construct like
+						<code class="token keyword">End Enum</code> as one
+						closing token, but non declaration endings, like
+						<code class="token keyword">End</code>
+						<code class="token constructor"> Foo</code>, as three
+						tokens:
+					</p>
+					<pre class="highlight">
+decls: ["Structure","Class","Enum","Function",...],
+
+tokenizer: {
+  root: {
+     [/(End)(\s+)([A-Z]\w*)/, { cases: { '$3@decls': { token: 'keyword.decl-$3', bracket: '@close'},
+                                         '@default': ['keyword','white','identifier.invalid'] }}],
+     [/[A-Z]\w*/, { cases: { '@decls'  : { token: 'keyword.decl-$0', bracket: '@open' },
+                             '@default': 'constructor' } }],</pre
+					>
+					<p>
+						Note how we used <code>$3</code> to first test if the
+						third group is a declaration, and then use
+						<code>$3</code> in the <code>token</code> attribute to
+						generate a declaration specific token class (so we match
+						correctly). Also, to make outdentation work correctly,
+						we would need to include all the ending characters of
+						the declarations in the
+						<a href="#outdentTriggers"
+							><code class="dt">outdentTriggers</code></a
+						>
+						string.
+					</p>
+
+					<p>&nbsp;</p>
+					<h2 id="moreattr">
+						Advanced: more attributes on the language definition
+					</h2>
+					<p>
+						Here are more advanced attributes that can be defined in
+						the language definition:
+					</p>
+					<dl>
+						<dt>tokenPostfix</dt>
+						<dd>
+							(optional=<code>"." + name</code>, string) Optional
+							postfix attached to all returned tokens. By default
+							this attaches the language name so in the CSS you
+							can refer to your specific language. For example,
+							for the Java language, we could use
+							<code>.identifier.java</code> to target all Java
+							identifiers specifically in CSS.
+						</dd>
+
+						<dt>start</dt>
+						<dd>
+							(optional, string) The start state of the tokenizer.
+							By default, this is the first entry in the tokenizer
+							attribute.
+						</dd>
+
+						<dt id="outdentTriggers">outdentTriggers</dt>
+						<dd>
+							(optional, string) Optional string that defines
+							characters that when typed could cause
+							<em>outdentation</em>. This attribute is only used
+							when using advanced brace matching in combination
+							with the
+							<a href="#bracket"
+								><code class="dt">bracket</code></a
+							>
+							attribute. By default it always includes the last
+							characters of the closing brackets in the
+							<a href="#brackets"
+								><code class="dt">brackets</code></a
+							>
+							list. Outdentation happens when the user types a
+							closing bracket word on an line that starts with
+							only white space. If the closing bracket matches a
+							open bracket it is indented to the same amount of
+							that bracket. Usually, this causes the bracket to
+							outdent. For example, in the Ruby language, the
+							<code class="token keyword">end</code> keyword would
+							match with an open declaration like
+							<code class="token keyword">def</code> or
+							<code class="token keyword">class</code>. To make
+							outdentation happen though, we would need to include
+							the <code>d</code> character in the
+							<a href="#outdentTriggers"
+								><code class="dt">outdentTriggers</code></a
+							>
+							attribute so it is checked when the users type
+							<code class="token keyword">end</code>:
+							<pre class="highlight">outdentTriggers: 'd',</pre>
+						</dd>
+					</dl>
+
+					<p>&nbsp;</p>
+					<h2 id="htmlembed">
+						&Uuml;ber Advanced: complex embeddings with dynamic end
+						tags
+					</h2>
+
+					<p>
+						Many times, embedding other language fragments is easy
+						as shown in the earlier CSS example, but sometimes it is
+						more dynamic. For example, in HTML we would like to
+						start embeddings on a
+						<code class="token tag html">script</code> tag and
+						<code class="token tag html">style</code> tag. By
+						default, the script language is
+						<code>javascript</code> but if the
+						<code class="token key js">type</code> attribute is set,
+						that defines the script language mime type. First, we
+						define general tag open and close rules:
+					</p>
+					<pre class="highlight">
+[/&lt;(\w+)/,       { token: 'tag.tag-$1', bracket: '@open', next: '@tag.$1' }],
+[/&lt;\/(\w+)\s*>/, { token: 'tag.tag-$1', bracket: '@close' } ],</pre
+					>
+					<p>
+						Here, we use the <code>$1</code> to capture the open tag
+						name in both the token class and the next state. By
+						putting the tag name in the token class, the brace
+						matching will match and auto indent corresponding tags
+						automatically. Next we define the
+						<code>@tag</code> state that matches content within an
+						HTML tag. Because the open tag rule will set the next
+						state to <code>@tag.<em>tagname</em></code
+						>, this will match the <code>@tag</code> state due to
+						dot seperation.
+					</p>
+					<pre class="highlight">
+tag: [
+  [/[ \t\r\n]+/, 'white'],
+  [/(type)(\s*=\s*)(['"])([^'"]+)(['"])/, [ 'attribute', 'delimiter', 'string', // todo: should match up quotes properly
+                                            {token: 'string', switchTo: '@tag.$S2.$4' },
+                                            'string'] ],
+  [/(\w+)(\s*=\s*)(['"][^'"]+['"])/, ['keyword', 'delimiter', 'string' ]],
+  [/>/, { cases: { '$S2==style' : { token: 'delimiter', switchTo: '@embedded.$S2', nextEmbedded: 'text/css'}
+                 , '$S2==script': { cases: { '$S3'     : { token: 'delimiter', switchTo: '@embedded.$S2', nextEmbedded: '$S3' },
+                                             '@default': { token: 'delimiter', switchTo: '@embedded.$S2', nextEmbedded: 'javascript' } }
+                 , '@default'   : { token: 'delimiter', next: '@pop' } } }]
+  [/[^>]/,'']  // catch all
+],</pre
+					>
+					<p>
+						Inside the <code>@tag.<em>tagname</em></code> state, we
+						access the <code><em>tagname</em></code> through
+						<code>$S2</code>. This is used to test if the tag name
+						matches a script of style tag, in which case we start an
+						embedded mode. We also need
+						<a href="#switchTo"><code class="dt">switchTo</code></a>
+						here since we do not want to get back to the
+						<code>@tag</code> state at that point. Also, on a
+						<code class="token key js">type</code> attribute we
+						extend the state to
+						<code>@tag.<em>tagname</em>.<em>mimetype</em></code>
+						which allows us to access the mime type as
+						<code>$S3</code> if it was set. This is used to
+						determine the script language (or default to
+						<code>javascript</code>). Finally, the script and style
+						start an embedded mode and switch to a state
+						<code>@embedded.<em>tagname</em></code
+						>. The tag name is included in the state so we can scan
+						for exactly a matching end tag:
+					</p>
+					<pre class="highlight">
+embedded: [
+  [/[^"&lt;]+/, ''],
+  [/&lt;\/(\w+)\s*>/, { cases: { '$1==$S2' : { token: '@rematch', next: '@pop', nextEmbedded: '@pop' },
+                              '@default': '' } }],
+  [/"/, 'string', '@string' ],
+  [/&lt;/, '']
+],</pre
+					>
+					<p>
+						Only when we find a matching end tag (outside a string),
+						<code>$1==$S2</code>, we pop the state and exit the
+						embedded mode. Note that we need
+						<a href="#@rematch"><code class="dt">@rematch</code></a>
+						since the editor is ignoring our token classes until we
+						actually exit the embedded mode (and we handle the close
+						tag again in the <code>@root</code> state).
+					</p>
+
+					<p>&nbsp;</p>
+					<h2 id="inspectingtokens">Inspecting Tokens</h2>
+
+					<p>
+						Monaco provides an <code>Inspect Tokens</code> tool in
+						browsers to help identify the tokens parsed from source
+						code.
+					</p>
+					<p>To activate:</p>
+					<ol>
+						<li>
+							Press <kbd>F1</kbd> while focused on a Monaco
+							instance
+						</li>
+						<li>
+							Trigger the
+							<code>Developer: Inspect Tokens</code> option
+						</li>
+					</ol>
+
+					<p>
+						This will show a display over the currently selected
+						token for its language, token type, basic font style and
+						colors, and selector you can target in your editor
+						themes.
+					</p>
+
+					<p>&nbsp;</p>
+					<h2>Additional Examples</h2>
+
+					<p>
+						Additional examples can be found in the
+						<code class="dt">src/basic-languages</code> folder of
+						the
+						<a href="https://github.com/microsoft/monaco-editor"
+							>monaco-editor</a
+						>
+						repo.
+					</p>
+				</div>
+				<!-- documentation -->
+			</div>
+			<!-- main -->
+
+			<!--******************************************
+    Samples are included as PRE elements
+**********************************************-->
+			<div id="samples" style="display: none">
+				<pre id="mylang-sample">
+// Type source code in your language here...
+class MyClass {
+  @attribute
+  void main() {
+    Console.writeln( "Hello Monarch world\n");
+  }
+}
+</pre
+				>
+				<pre id="mylang">
+// Create your own language definition here
+// You can safely look at other samples without losing modifications.
+// Modifications are not saved on browser refresh/close though -- copy often!
+return {
+  // Set defaultToken to invalid to see what you do not tokenize yet
+  // defaultToken: 'invalid',
+
+  keywords: [
+    'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'goto', 'do',
+    'if', 'private', 'this', 'break', 'protected', 'throw', 'else', 'public',
+    'enum', 'return', 'catch', 'try', 'interface', 'static', 'class',
+    'finally', 'const', 'super', 'while', 'true', 'false'
+  ],
+
+  typeKeywords: [
+    'boolean', 'double', 'byte', 'int', 'short', 'char', 'void', 'long', 'float'
+  ],
+
+  operators: [
+    '=', '&gt;', '&lt;', '!', '~', '?', ':', '==', '&lt;=', '&gt;=', '!=',
+    '&amp;&amp;', '||', '++', '--', '+', '-', '*', '/', '&amp;', '|', '^', '%',
+    '&lt;&lt;', '&gt;&gt;', '&gt;&gt;&gt;', '+=', '-=', '*=', '/=', '&amp;=', '|=', '^=',
+    '%=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;&gt;='
+  ],
+
+  // we include these common regular expressions
+  symbols:  /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+
+  // C# style strings
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+  // The main tokenizer for our languages
+  tokenizer: {
+    root: [
+      // identifiers and keywords
+      [/[a-z_$][\w$]*/, { cases: { '@typeKeywords': 'keyword',
+                                   '@keywords': 'keyword',
+                                   '@default': 'identifier' } }],
+      [/[A-Z][\w\$]*/, 'type.identifier' ],  // to show class names nicely
+
+      // whitespace
+      { include: '@whitespace' },
+
+      // delimiters and operators
+      [/[{}()\[\]]/, '@brackets'],
+      [/[&lt;&gt;](?!@symbols)/, '@brackets'],
+      [/@symbols/, { cases: { '@operators': 'operator',
+                              '@default'  : '' } } ],
+
+      // @ annotations.
+      // As an example, we emit a debugging log message on these tokens.
+      // Note: message are supressed during the first load -- change some lines to see them.
+      [/@\s*[a-zA-Z_\$][\w\$]*/, { token: 'annotation', log: 'annotation token: $0' }],
+
+      // numbers
+      [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+      [/0[xX][0-9a-fA-F]+/, 'number.hex'],
+      [/\d+/, 'number'],
+
+      // delimiter: after number because of .\d floats
+      [/[;,.]/, 'delimiter'],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+
+      // characters
+      [/'[^\\']'/, 'string'],
+      [/(')(@escapes)(')/, ['string','string.escape','string']],
+      [/'/, 'string.invalid']
+    ],
+
+    comment: [
+      [/[^\/*]+/, 'comment' ],
+      [/\/\*/,    'comment', '@push' ],    // nested comment
+      ["\\*/",    'comment', '@pop'  ],
+      [/[\/*]/,   'comment' ]
+    ],
+
+    string: [
+      [/[^\\"]+/,  'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./,      'string.escape.invalid'],
+      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+    ],
+
+    whitespace: [
+      [/[ \t\r\n]+/, 'white'],
+      [/\/\*/,       'comment', '@comment' ],
+      [/\/\/.*$/,    'comment'],
+    ],
+  },
+};
+</pre
+				>
+
+				<pre id="java-sample">
+// Type source code in your Java here...
+public class HelloWorld {
+   public static void main(String[] args) {
+      System.out.println("Hello, World");
+   }
+}
+</pre
+				>
+				<pre id="java">
+// Difficulty: "Easy"
+// Language definition for Java
+return {
+	defaultToken: '',
+	tokenPostfix: '.java',
+
+	keywords: [
+		'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
+		'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',
+		'this', 'break', 'double', 'implements', 'protected', 'throw', 'byte',
+		'else', 'import', 'public', 'throws', 'case', 'enum', 'instanceof', 'return',
+		'transient', 'catch', 'extends', 'int', 'short', 'try', 'char', 'final',
+		'interface', 'static', 'void', 'class', 'finally', 'long', 'strictfp',
+		'volatile', 'const', 'float', 'native', 'super', 'while', 'true', 'false'
+	],
+
+	operators: [
+		'=', '&gt;', '&lt;', '!', '~', '?', ':',
+		'==', '&lt;=', '&gt;=', '!=', '&amp;&amp;', '||', '++', '--',
+		'+', '-', '*', '/', '&amp;', '|', '^', '%', '&lt;&lt;',
+		'&gt;&gt;', '&gt;&gt;&gt;', '+=', '-=', '*=', '/=', '&amp;=', '|=',
+		'^=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;&gt;='
+	],
+
+	// we include these common regular expressions
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	digits: /\d+(_+\d+)*/,
+	octaldigits: /[0-7]+(_+[0-7]+)*/,
+	binarydigits: /[0-1]+(_+[0-1]+)*/,
+	hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
+
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+			// identifiers and keywords
+			[/[a-zA-Z_$][\w$]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
+			}],
+
+			// whitespace
+			{ include: '@whitespace' },
+
+			// delimiters and operators
+			[/[{}()\[\]]/, '@brackets'],
+			[/[&lt;&gt;](?!@symbols)/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
+
+			// @ annotations.
+			[/@\s*[a-zA-Z_\$][\w\$]*/, 'annotation'],
+
+			// numbers
+			[/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
+			[/0[xX](@hexdigits)[Ll]?/, 'number.hex'],
+			[/0(@octaldigits)[Ll]?/, 'number.octal'],
+			[/0[bB](@binarydigits)[Ll]?/, 'number.binary'],
+			[/(@digits)[fFdD]/, 'number.float'],
+			[/(@digits)[lL]?/, 'number'],
+
+			// delimiter: after number because of .\d floats
+			[/[;,.]/, 'delimiter'],
+
+			// strings
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, 'string', '@string'],
+
+			// characters
+			[/'[^\\']'/, 'string'],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
+			[/'/, 'string.invalid']
+		],
+
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
+		],
+
+		comment: [
+			[/[^\/*]+/, 'comment'],
+			// [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
+			// [/\/\*/,    'comment.invalid' ],    // this breaks block comments in the shape of /* //*/
+			[/\*\//, 'comment', '@pop'],
+			[/[\/*]/, 'comment']
+		],
+		//Identical copy of comment above, except for the addition of .doc
+		javadoc: [
+			[/[^\/*]+/, 'comment.doc'],
+			// [/\/\*/, 'comment.doc', '@push' ],    // nested comment not allowed :-(
+			[/\/\*/, 'comment.doc.invalid'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
+		],
+
+		string: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, 'string', '@pop']
+		],
+	},
+};
+</pre
+				>
+
+				<!--******************************************
+    Javascript
+**********************************************-->
+				<pre id="javascript-sample">
+// Type source code in JavaScript here...
+define('module',[],function()
+{
+  function test(s) {
+    return s.replace(/[a-z$]oo\noo$/, 'bar');
+  }
+
+  return {
+    main: alert(test("hello monarch world\n"))
+  }
+});</pre
+				>
+				<pre id="javascript">
+// Difficulty: "Moderate"
+// This is the JavaScript tokenizer that is actually used to highlight
+// all code in the syntax definition editor and the documentation!
+//
+// This definition takes special care to highlight regular
+// expressions correctly, which is convenient when writing
+// syntax highlighter specifications.
+return {
+	// Set defaultToken to invalid to see what you do not tokenize yet
+	defaultToken: 'invalid',
+	tokenPostfix: '.js',
+
+	keywords: [
+		'break', 'case', 'catch', 'class', 'continue', 'const',
+		'constructor', 'debugger', 'default', 'delete', 'do', 'else',
+		'export', 'extends', 'false', 'finally', 'for', 'from', 'function',
+		'get', 'if', 'import', 'in', 'instanceof', 'let', 'new', 'null',
+		'return', 'set', 'super', 'switch', 'symbol', 'this', 'throw', 'true',
+		'try', 'typeof', 'undefined', 'var', 'void', 'while', 'with', 'yield',
+		'async', 'await', 'of'
+	],
+
+	typeKeywords: [
+		'any', 'boolean', 'number', 'object', 'string', 'undefined'
+	],
+
+	operators: [
+		'&lt;=', '&gt;=', '==', '!=', '===', '!==', '=&gt;', '+', '-', '**',
+		'*', '/', '%', '++', '--', '&lt;&lt;', '&lt;/', '&gt;&gt;', '&gt;&gt;&gt;', '&amp;',
+		'|', '^', '!', '~', '&amp;&amp;', '||', '?', ':', '=', '+=', '-=',
+		'*=', '**=', '/=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;&gt;=', '&amp;=', '|=',
+		'^=', '@',
+	],
+
+	// we include these common regular expressions
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	digits: /\d+(_+\d+)*/,
+	octaldigits: /[0-7]+(_+[0-7]+)*/,
+	binarydigits: /[0-1]+(_+[0-1]+)*/,
+	hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
+
+	regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
+	regexpesc: /\\(?:[bBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/,
+
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+			[/[{}]/, 'delimiter.bracket'],
+			{ include: 'common' }
+		],
+
+		common: [
+			// identifiers and keywords
+			[/[a-z_$][\w$]*/, {
+				cases: {
+					'@typeKeywords': 'keyword',
+					'@keywords': 'keyword',
+					'@default': 'identifier'
+				}
+			}],
+			[/[A-Z][\w\$]*/, 'type.identifier'],  // to show class names nicely
+			// [/[A-Z][\w\$]*/, 'identifier'],
+
+			// whitespace
+			{ include: '@whitespace' },
+
+			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
+			[/\/(?=([^\\\/]|\\.)+\/([gimsuy]*)(\s*)(\.|;|\/|,|\)|\]|\}|$))/, { token: 'regexp', bracket: '@open', next: '@regexp' }],
+
+			// delimiters and operators
+			[/[()\[\]]/, '@brackets'],
+			[/[&lt;&gt;](?!@symbols)/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
+
+			// numbers
+			[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
+			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
+			[/0[xX](@hexdigits)/, 'number.hex'],
+			[/0[oO]?(@octaldigits)/, 'number.octal'],
+			[/0[bB](@binarydigits)/, 'number.binary'],
+			[/(@digits)/, 'number'],
+
+			// delimiter: after number because of .\d floats
+			[/[;,.]/, 'delimiter'],
+
+			// strings
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/'([^'\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, 'string', '@string_double'],
+			[/'/, 'string', '@string_single'],
+			[/`/, 'string', '@string_backtick'],
+		],
+
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/\/\*\*(?!\/)/, 'comment.doc', '@jsdoc'],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
+		],
+
+		comment: [
+			[/[^\/*]+/, 'comment'],
+			[/\*\//, 'comment', '@pop'],
+			[/[\/*]/, 'comment']
+		],
+
+		jsdoc: [
+			[/[^\/*]+/, 'comment.doc'],
+			[/\*\//, 'comment.doc', '@pop'],
+			[/[\/*]/, 'comment.doc']
+		],
+
+		// We match regular expression quite precisely
+		regexp: [
+			[/(\{)(\d+(?:,\d*)?)(\})/, ['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']],
+			[/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/, ['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]],
+			[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
+			[/[()]/, 'regexp.escape.control'],
+			[/@regexpctl/, 'regexp.escape.control'],
+			[/[^\\\/]/, 'regexp'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/\\\./, 'regexp.invalid'],
+			[/(\/)([gimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']],
+		],
+
+		regexrange: [
+			[/-/, 'regexp.escape.control'],
+			[/\^/, 'regexp.invalid'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/[^\]]/, 'regexp'],
+			[/\]/, { token: 'regexp.escape.control', next: '@pop', bracket: '@close' }],
+		],
+
+		string_double: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, 'string', '@pop']
+		],
+
+		string_single: [
+			[/[^\\']+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/'/, 'string', '@pop']
+		],
+
+		string_backtick: [
+			[/\$\{/, { token: 'delimiter.bracket', next: '@bracketCounting' }],
+			[/[^\\`$]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/`/, 'string', '@pop']
+		],
+
+		bracketCounting: [
+			[/\{/, 'delimiter.bracket', '@bracketCounting'],
+			[/\}/, 'delimiter.bracket', '@pop'],
+			{ include: 'common' }
+		],
+	},
+};
+</pre
+				>
+
+				<!--******************************************
+    Dafny
+**********************************************-->
+				<pre id="dafny-sample">
+// This method computes the sum and max of a given array of
+// integers.  The method's postcondition only promises that
+// 'sum' will be no greater than 'max'.  Can you write a
+// different method body that also achieves this postcondition?
+// Hint: Your program does not have to compute the sum and
+// max of the array, despite the suggestive names of the
+// out-parameters.
+method M(N: int, a: array&lt;int&gt;) returns (sum: int, max: int)
+  requires 0 &lt;= N &amp; a != null &amp; a.Length == N;
+  ensures sum &lt;= N * max;
+{
+  sum := 0;
+  max := 0;
+  var i := 0;
+  while (i &lt; N)
+    invariant i &lt;= N &amp; sum &lt;= i * max;
+  {
+    if (max &lt; a[i]) {
+      max := a[i];
+    }
+    sum := sum + a[i];
+    i := i + 1;
+  }
+}
+</pre
+				>
+				<pre id="dafny">
+// Difficulty: "Easy"
+// Language definition sample for the Dafny language.
+// See 'http://rise4fun.com/Dafny'.
+return {
+  keywords: [
+    'class','datatype','codatatype','type','function',
+    'ghost','var','method','constructor',
+    'module','import','default','as','opened','static','refines',
+    'returns','break','then','else','if','label','return','while','print','where',
+    'new','parallel', 'in','this','fresh','choose',
+    'match','case','assert','assume', 'predicate','copredicate',
+    'forall','exists', 'false','true','null','old',
+    'calc','iterator','yields','yield'
+  ],
+
+  verifyKeywords: [
+    'requires','ensures','modifies','reads','free', 'invariant','decreases',
+  ],
+
+  types: [
+    'bool','multiset','map','nat','int','object','set','seq', 'array'
+  ],
+
+  brackets: [
+    ['{','}','delimiter.curly'],
+    ['[',']','delimiter.square'],
+    ['(',')','delimiter.parenthesis']
+  ],
+
+  // Dafny uses C# style strings
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+  tokenizer: {
+    root: [
+      // identifiers
+      [/array([2-9]\d*|1\d+)/, 'type.keyword' ],
+      [/[a-zA-Z'_\?\\][\w'\?\\]*/, { cases: {'@keywords': 'keyword',
+                                             '@verifyKeywords': 'constructor.identifier',
+                                             '@types'   : 'type.keyword',
+                                             '@default' : 'identifier' }}],
+      [':=','keyword'],
+
+      // whitespace
+      { include: '@whitespace' },
+
+      [/[{}()\[\]]/, '@brackets'],
+      [/[;,]/, 'delimiter'],
+
+      // literals
+      [/[0-9]+/, 'number'],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  'string', '@string' ],
+    ],
+
+    whitespace: [
+      [/[ \t\r\n]+/, 'white'],
+      [/\/\*/,       'comment', '@comment' ],
+      [/\/\/.*$/,    'comment'],
+    ],
+
+    comment: [
+      [/[^\/*]+/, 'comment' ],
+      [/\/\*/, 'comment', '@push' ],    // nested comment
+      ["\\*/",    'comment', '@pop'  ],
+      [/[\/*]/,   'comment' ]
+    ],
+
+    string: [
+      [/[^\\"]+/,  'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./,      'string.escape.invalid'],
+      [/"/,        'string', '@pop' ]
+    ],
+  }
+};</pre
+				>
+
+				<!--******************************************
+    Koka
+**********************************************-->
+				<pre id="koka-sample">
+// This module implements the Garcia-Wachs algorithm.
+// It is an adaptation of the algorithm in ML as described by Jean-Christophe Filliï¿½tre:
+// in ''A functional implementation of the Garsia-Wachs algorithm. (functional pearl). ML workshop 2008, pages 91--96''.
+// See: http://www.lri.fr/~filliatr/publis/gw-wml08.pdf
+//
+// The algorithm is interesting since it uses mutable references shared between a list and tree but the
+// side-effects are not observable from outside. Koka automatically infers that final algorithm is pure.
+module garcia-wachs
+
+//----------------------------------------------------
+// Trees
+//----------------------------------------------------
+public type tree&lt;a> {
+  con Leaf(value :a)
+  con Node(left :tree&lt;a>, right :tree&lt;a>)
+}
+
+fun show( t : tree&lt;char> ) : string
+{
+  match(t) {
+    Leaf(c) -> Core.show(c)
+    Node(l,r) -> "Node(" + show(l) + "," + show(r) + ")"
+  }
+}
+
+
+//----------------------------------------------------
+// Non empty lists
+//----------------------------------------------------
+public type list1&lt;a> {
+  Cons1( head : a, tail : list&lt;a> )
+}
+
+
+fun map( xs, f ) {
+  val Cons1(y,ys) = xs
+  return Cons1(f(y), Core.map(ys,f))
+}
+
+fun zip( xs :list1&lt;a>, ys :list1&lt;b> ) : list1&lt;(a,b)> {
+  Cons1( (xs.head, ys.head), Core.zip(xs.tail, ys.tail))
+}
+
+
+
+//----------------------------------------------------
+// Phase 1
+// note: koka cannot yet prove that the mutual recursive
+// functions "insert" and "extract" always terminate :-(
+//----------------------------------------------------
+
+fun insert( after : list&lt;(tree&lt;a>,int)>, t : (tree&lt;a>,int), before : list&lt;(tree&lt;a>,int)> ) : div tree&lt;a>
+{
+  match(before) {
+    Nil -> extract( [], Cons1(t,after) )
+    Cons(x,xs) -> {
+      if (x.snd &lt; t.snd) then return insert( Cons(x,after), t, xs )
+      match(xs) {
+        Nil        -> extract( [], Cons1(x,Cons(t,after)) )
+        Cons(y,ys) -> extract( ys, Cons1(y,Cons(x,Cons(t,after))) )
+      }
+    }
+  }
+}
+
+fun extract( before : list&lt;(tree&lt;a>,int)>, after : list1&lt;(tree&lt;a>,int)> ) : div tree&lt;a>
+{
+  val Cons1((t1,w1) as x, xs ) = after
+  match(xs) {
+    Nil -> t1
+    Cons((t2,w2) as y, ys) -> match(ys) {
+      Nil -> insert( [], (Node(t1,t2), w1+w2), before )
+      Cons((_,w3),_zs) ->
+        if (w1 &lt;= w3)
+         then insert(ys, (Node(t1,t2), w1+w2), before)
+         else extract(Cons(x,before), Cons1(y,ys))
+    }
+  }
+}
+
+
+
+fun balance( xs : list1&lt;(tree&lt;a>,int)> ) : div tree&lt;a>
+{
+  extract( [], xs )
+}
+
+fun mark( depth :int, t :tree&lt;(a,ref&lt;h,int>)> ) : &lt;write&lt;h>> ()
+{
+  match(t) {
+    Leaf((_,d)) -> d := depth
+    Node(l,r)   -> { mark(depth+1,l); mark(depth+1,r) }
+  }
+}
+
+
+fun build( depth :int, xs :list1&lt;(a,ref&lt;h,int>)> ) : &lt;read&lt;h>,div> (tree&lt;a>,list&lt;(a,ref&lt;h,int>)>)
+{
+  if (!xs.head.snd == depth) return (Leaf(xs.head.fst), xs.tail)
+
+  l = build(depth+1, xs)
+  match(l.snd) {
+    Nil -> (l.fst, Nil)
+    Cons(y,ys) -> {
+      r = build(depth+1, Cons1(y,ys))
+      (Node(l.fst,r.fst), r.snd)
+    }
+  }
+}
+
+public function garciawachs( xs : list1&lt;(a,int)> ) : div tree&lt;a>
+{
+  refs   = xs.map(fst).map( fun(x) { (x, ref(0)) } )
+  wleafs = zip( refs.map(Leaf), xs.map(snd) )
+
+  tree = balance(wleafs)
+  mark(0,tree)
+  build(0,refs).fst
+}
+
+public function main() {
+  wlist = Cons1(('a',3), [('b',2),('c',1),('d',4),('e',5)])
+  tree  = wlist.garciawachs()
+  tree.show.print()
+}
+</pre
+				>
+				<pre id="koka">
+// Difficulty: "Moderate"
+// Language definition for the Koka language
+// See 'rise4fun.com/Koka' for more information.
+// This definition uses states extensively to color types correctly
+// where it matches up brackets inside nested types.
+return {
+  keywords: [
+    'infix', 'infixr', 'infixl', 'prefix', 'postfix',
+    'type', 'cotype', 'rectype', 'alias', 'struct', 'enum', 'con',
+    'fun', 'function', 'val', 'var', 'external',
+    'if', 'then', 'else', 'elif', 'return', 'match',
+    'forall', 'exists', 'some', 'with',
+    'private', 'public', 'private',
+    'module', 'import', 'as',
+    '=', '.', ':', ':=', '-&gt;',
+    'include', 'inline','rec','try', 'yield',
+    'interface', 'instance'
+  ],
+
+  builtins: [
+    'for', 'while', 'repeat',
+    'foreach', 'foreach-indexed',
+    'error', 'catch', 'finally',
+    'cs', 'js', 'file', 'ref', 'assigned'
+  ],
+
+  typeKeywords: [
+    'forall', 'exists', 'some', 'with'
+  ],
+
+  typeStart: [
+    'type','cotype','rectype','alias','struct','enum'
+  ],
+
+  moduleKeywords: [
+    'module','import','as'
+  ],
+
+  kindConstants: [
+    'E','P','H','V','X'
+  ],
+
+  escapes :  /\\(?:[nrt\\"'\?]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{6})/,
+  symbols0: /[\$%&amp;\*\+@!\/\\\^~=\.:\-\?]/,
+  symbols : /(?:@symbols0|[\|&lt;&gt;])+/,
+  idchars : /(?:\w|\-[a-zA-Z])*/,
+
+  tokenizer: {
+    root: [
+      // identifiers and operators
+      [/[a-z]@idchars/,
+        { cases:{ '@keywords': {
+                    cases: { 'alias'  : { token: 'keyword', next: '@alias_type' },
+                             'struct' : { token: 'keyword', next: '@struct_type' },
+                             'type|cotype|rectype': { token: 'keyword', next: '@type' },
+                             'module|as|import': { token: 'keyword', next: '@module' },
+                             '@default': 'keyword' }
+                  },
+                  '@builtins': 'identifier.predefined',
+                  '@default' : 'identifier' }
+        }
+      ],
+
+      [/([A-Z]@idchars)(\.?)/,
+        { cases: { '$2': ['identifier.namespace','keyword.dot'],
+                   '@default': 'identifier.constructor' }}
+      ],
+
+      [/_@idchars/, 'identifier.wildcard'],
+
+
+      // whitespace
+      { include: '@whitespace' },
+
+      [/[{}()\[\]]/, '@brackets'],
+      [/[;,`]/, 'delimiter'],
+
+      // do not scan these as operators
+      [/[&lt;&gt;](?![&lt;&gt;|]*@symbols0)/, '@brackets' ],
+      [/-&gt;(?!@symbols0|[&gt;\|])/, 'keyword' ],
+      [/::?(?!@symbols0)/, 'type.operator', '@type'],
+      [/::?(?=\?)/, 'type.operator', '@type'],
+
+      // literal string
+      [/@"/, { token: 'string.quote', bracket: '@open', next: '@litstring' } ],
+
+      // operators
+      [/@symbols/, { cases: { '\\-': 'operator.minus',
+                              '@keywords': 'keyword.operator',
+                              '@default': 'operator' }}
+      ],
+
+      // numbers
+      [/[0-9]+\.[0-9]+([eE][\-+]?[0-9]+)?/, 'number.float'],
+      [/0[xX][0-9a-fA-F]+/, 'number.hex'],
+      [/[0-9]+/, 'number'],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+
+      // characters
+      [/'[^\\']'/, 'string'],
+      [/(')(@escapes)(')/, ['string','string.escape','string']],
+      [/'/, 'string.invalid'],
+
+      // meta
+      [/^[ ]*#.*/, 'namespace']
+    ],
+
+    whitespace: [
+      [/[ \r\n]+/, 'white'],
+      ['/\\*', 'comment', '@comment' ],
+      ['//$',  'comment'],
+      ['//',   'comment', '@line_comment']
+    ],
+
+    comment: [
+      [/^\s*["|]\s*$/, 'comment', '@comment_docblock'],
+      [/[^\/*"|]+/, 'comment' ],
+      ['/\\*',  'comment', '@push' ],
+      ['\\*/',  'comment', '@pop'  ],
+      [/(")((?:[^"]|"")*)(")/, ['comment','comment.doc','comment']],
+      [/(\|)((?:[^|]|\|\|)*)(\|)/, ['comment','comment.doc','comment']],
+      [/[\/*"|]/, 'comment']
+    ],
+
+    comment_docblock: [
+      [/\*\/|\/\*/,  '@rematch', '@pop'], // recover: back to comment mode
+      [/^\s*"\s*$/,  'comment', '@pop'],
+      [/^\s*\|\s*$/, 'comment', '@pop'],
+      [/[^*\/]+/, 'comment.doc'],
+      [/./, 'comment.doc'] // catch all
+    ],
+
+    line_comment: [
+      [/[^"|]*$/, 'comment', '@pop' ],
+      [/[^"|]+/,  'comment' ],
+      [/(")((?:[^"]|"")*)(")/,
+        ['comment','comment.doc', { cases: { '@eos':  { token: 'comment', next: '@pop' },
+                                             '@default': 'comment' }}]
+      ],
+      [/(\|)((?:[^|]|\|\|)*)(\|)/,
+        ['comment','comment.doc', { cases: { '@eos':  { token: 'comment', next: '@pop' },
+                                             '@default': 'comment' }}]
+      ],
+      [/.*$/, 'comment', '@pop'] // catch all
+    ],
+
+    string: [
+      [/[^\\"]+/,  'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./,      'string.escape.invalid'],
+      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+    ],
+
+    litstring: [
+      [/[^"]+/,    'string'],
+      [/""/,       'string.escape'],
+      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+    ],
+
+    // Module mode: color names as module names
+    module: [
+      { include: '@whitespace' },
+      [/[a-z]@idchars/,
+        { cases: { '@moduleKeywords': 'keyword',
+                   '@keywords': { token: '@rematch', next: '@pop' },
+                   '@default': 'identifier.namespace' }}
+      ],
+      [/[A-Z]@idchars/, 'identifier.namespace'],
+      [/\.(?!@symbols)/, 'keyword.operator.dot'],
+      ['','','@pop'] // catch all
+    ],
+
+    // Koka type coloring is a bit involved but looks cool :-)
+    alias_type: [
+      ['=', 'keyword.operator'],                // allow equal sign
+      { include: '@type' }
+    ],
+
+    struct_type: [
+      [ /\((?!,*\))/, '@brackets', '@pop'],    // allow for tuple struct definition
+      { include: '@type' }
+    ],
+
+    type: [
+      [ /[(\[&lt;]/, { token: '@brackets.type' }, '@type_nested'],
+      { include: '@type_content' }
+    ],
+
+    type_nested: [
+      [/[)\]&gt;]/, { token: '@brackets.type' }, '@pop' ],
+      [/[(\[&lt;]/, { token: '@brackets.type' }, '@push'],
+      [/,/, 'delimiter.type'],
+      [/([a-z]@idchars)(\s*)(:)(?!:)/,['type.identifier.typeparam','white','type.operator']],
+      { include: '@type_content' }
+    ],
+
+    type_content: [
+      { include: '@whitespace' },
+
+      // type identifiers
+      [/[*!](?!@symbols)/, 'type.kind.identifier'],
+      [/[a-z][0-9]*(?![a-zA-Z_\-])/, 'type.identifier.typevar'],
+      [/_@idchars/, 'type.identifier.typevar'],
+      [/[a-z]@idchars/,
+        { cases: { '@typeKeywords': 'type.keyword',
+                   '@keywords': { token: '@rematch', next: '@pop' },
+                   '@builtins': 'type.predefined',
+                   '@default': 'type.identifier'
+        }}
+      ],
+      [/[A-Z]@idchars(\.?)/,
+        { cases: { '$2': ['identifier.namespace','keyword.dot'],
+                   '@kindConstants': 'type.kind.identifier',
+                   '@default': 'type.identifier'
+        }}
+      ],
+
+      [/::|-&gt;|[\.:|]/, 'type.operator'],
+      ['','','@pop']  // catch all
+    ]
+  }
+};
+</pre
+				>
+
+				<!--******************************************
+    HTML
+**********************************************-->
+				<pre id="html-sample">
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Monarch Workbench&lt;/title>
+
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  &lt;!-- a comment
+  -->
+  &lt;style>
+    body { font-family: Consolas; } /* nice */
+  &lt;/style>
+&lt;/head>
+&lt;body>
+  &lt;div class="test">
+    &lt;script>
+      function() {
+        alert("hi &lt;/script>"); // javascript
+      };
+    &lt;/script>
+    &lt;script type="text/x-dafny">
+      class Foo {
+        x : int;
+        invariant x > 0;
+      };
+    &lt;/script>
+  &lt;/div>
+&lt;/body>
+&lt;/html>
+</pre
+				>
+				<pre id="html">
+// Difficulty: "Hurt me plenty"
+// Language definition for HTML
+// This definition uses states extensively to
+// - match up tags.
+// - and to embed scripts dynamically
+// See also the documentation for an explanation of these techniques
+return {
+	defaultToken: '',
+	tokenPostfix: '.html',
+	ignoreCase: true,
+
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+			[/&lt;!DOCTYPE/, 'metatag', '@doctype'],
+			[/&lt;!--/, 'comment', '@comment'],
+			[/(&lt;)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/&gt;)/, ['delimiter', 'tag', '', 'delimiter']],
+			[/(&lt;)(script)/, ['delimiter', { token: 'tag', next: '@script' }]],
+			[/(&lt;)(style)/, ['delimiter', { token: 'tag', next: '@style' }]],
+			[/(&lt;)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
+			[/(&lt;\/)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter', { token: 'tag', next: '@otherTag' }]],
+			[/&lt;/, 'delimiter'],
+			[/[^&lt;]+/], // text
+		],
+
+		doctype: [
+			[/[^&gt;]+/, 'metatag.content'],
+			[/&gt;/, 'metatag', '@pop'],
+		],
+
+		comment: [
+			[/--&gt;/, 'comment', '@pop'],
+			[/[^-]+/, 'comment.content'],
+			[/./, 'comment.content']
+		],
+
+		otherTag: [
+			[/\/?&gt;/, 'delimiter', '@pop'],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/[ \t\r\n]+/], // whitespace
+		],
+
+		// -- BEGIN &lt;script&gt; tags handling
+
+		// After &lt;script
+		script: [
+			[/type/, 'attribute.name', '@scriptAfterType'],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }],
+			[/[ \t\r\n]+/], // whitespace
+			[/(&lt;\/)(script\s*)(&gt;)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
+		],
+
+		// After &lt;script ... type
+		scriptAfterType: [
+			[/=/, 'delimiter', '@scriptAfterTypeEquals'],
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }], // cover invalid e.g. &lt;script type&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;script ... type =
+		scriptAfterTypeEquals: [
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@scriptWithCustomType.$1' }],
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded', nextEmbedded: 'text/javascript' }], // cover invalid e.g. &lt;script type=&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;script ... type = $S2
+		scriptWithCustomType: [
+			[/&gt;/, { token: 'delimiter', next: '@scriptEmbedded.$S2', nextEmbedded: '$S2' }],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		scriptEmbedded: [
+			[/&lt;\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^&lt;]+/, '']
+		],
+
+		// -- END &lt;script&gt; tags handling
+
+
+		// -- BEGIN &lt;style&gt; tags handling
+
+		// After &lt;style
+		style: [
+			[/type/, 'attribute.name', '@styleAfterType'],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded', nextEmbedded: 'text/css' }],
+			[/[ \t\r\n]+/], // whitespace
+			[/(&lt;\/)(style\s*)(&gt;)/, ['delimiter', 'tag', { token: 'delimiter', next: '@pop' }]]
+		],
+
+		// After &lt;style ... type
+		styleAfterType: [
+			[/=/, 'delimiter', '@styleAfterTypeEquals'],
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded', nextEmbedded: 'text/css' }], // cover invalid e.g. &lt;style type&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;style ... type =
+		styleAfterTypeEquals: [
+			[/"([^"]*)"/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
+			[/'([^']*)'/, { token: 'attribute.value', switchTo: '@styleWithCustomType.$1' }],
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded', nextEmbedded: 'text/css' }], // cover invalid e.g. &lt;style type=&gt;
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		// After &lt;style ... type = $S2
+		styleWithCustomType: [
+			[/&gt;/, { token: 'delimiter', next: '@styleEmbedded.$S2', nextEmbedded: '$S2' }],
+			[/"([^"]*)"/, 'attribute.value'],
+			[/'([^']*)'/, 'attribute.value'],
+			[/[\w\-]+/, 'attribute.name'],
+			[/=/, 'delimiter'],
+			[/[ \t\r\n]+/], // whitespace
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop' }]
+		],
+
+		styleEmbedded: [
+			[/&lt;\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^&lt;]+/, '']
+		],
+
+		// -- END &lt;style&gt; tags handling
+	},
+};
+</pre
+				>
+
+				<!--******************************************
+    Markdown
+**********************************************-->
+				<pre id="markdown-sample">
+# Header 1 #
+## Header 2 ##
+### Header 3 ###             (Hashes on right are optional)
+## Markdown plus h2 with a custom ID ##   {#id-goes-here}
+[Link back to H2](#id-goes-here)
+
+&lt;!-- html madness -->
+&lt;div class="custom-class" markdown="1">
+  &lt;div>
+    nested div
+  &lt;/div>
+  &lt;script type='text/x-koka'>
+    function( x: int ) { return x*x; }
+  &lt;/script>
+  This is a div _with_ underscores
+  and a &amp; &lt;b class="bold">bold&lt;/b> element.
+  &lt;style>
+    body { font: "Consolas" }
+  &lt;/style>
+&lt;/div>
+
+* Bullet lists are easy too
+- Another one
++ Another one
+
+This is a paragraph, which is text surrounded by
+whitespace. Paragraphs can be on one
+line (or many), and can drone on for hours.
+
+Now some inline markup like _italics_,  **bold**,
+and `code()`. Note that underscores
+in_words_are ignored.
+
+
+
+````dafny
+  method Foo() {
+    requires "github style code blocks"
+  }
+````
+
+````application/json
+  { value: ["or with a mime type"] }
+````
+
+> Blockquotes are like quoted text in email replies
+>> And, they can be nested
+
+1. A numbered list
+2. Which is numbered
+3. With periods and a space
+
+And now some code:
+
+    // Code is just text indented a bit
+    which(is_easy) to_remember();
+
+And a block
+
+~~~
+// Markdown extra adds un-indented code blocks too
+
+if (this_is_more_code == true &amp;&amp; !indented) {
+    // tild wrapped code blocks, also not indented
+}
+~~~
+
+Text with
+two trailing spaces
+(on the right)
+can be used
+for things like poems
+
+### Horizontal rules
+
+* * * *
+****
+--------------------------
+
+![picture alt](/images/photo.jpeg "Title is optional")
+
+## Markdown plus tables ##
+
+| Header | Header | Right  |
+| ------ | ------ | -----: |
+|  Cell  |  Cell  |   $10  |
+|  Cell  |  Cell  |   $20  |
+
+* Outer pipes on tables are optional
+* Colon used for alignment (right versus left)
+
+## Markdown plus definition lists ##
+
+Bottled water
+: $ 1.25
+: $ 1.55 (Large)
+
+Milk
+Pop
+: $ 1.75
+
+* Multiple definitions and terms are possible
+* Definitions can include multiple paragraphs too
+
+*[ABBR]: Markdown plus abbreviations (produces an &lt;abbr> tag)
+</pre
+				>
+
+				<pre id="markdown">
+// Difficulty: "Ultra-Violence"
+// Language definition for Markdown
+// Quite complex definition mostly due to almost full inclusion
+// of the HTML mode (so we can properly match nested HTML tag definitions)
+return {
+	defaultToken: '',
+	tokenPostfix: '.md',
+
+	// escape codes
+	control: /[\\`*_\[\]{}()#+\-\.!]/,
+	noncontrol: /[^\\`*_\[\]{}()#+\-\.!]/,
+	escapes: /\\(?:@control)/,
+
+	// escape codes for javascript/CSS strings
+	jsescapes: /\\(?:[btnfr\\"']|[0-7][0-7]?|[0-3][0-7]{2})/,
+
+	// non matched elements
+	empty: [
+		'area', 'base', 'basefont', 'br', 'col', 'frame',
+		'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param'
+	],
+
+	tokenizer: {
+		root: [
+
+			// headers (with #)
+			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', 'keyword', 'keyword', 'keyword']],
+
+			// headers (with =)
+			[/^\s*(=+|\-+)\s*$/, 'keyword'],
+
+			// headers (with ***)
+			[/^\s*((\*[ ]?)+)\s*$/, 'meta.separator'],
+
+			// quote
+			[/^\s*&gt;+/, 'comment'],
+
+			// list (starting with * or number)
+			[/^\s*([\*\-+:]|\d+\.)\s/, 'keyword'],
+
+			// code block (4 spaces indent)
+			[/^(\t|[ ]{4})[^ ].*$/, 'string'],
+
+			// code block (3 tilde)
+			[/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: 'string', next: '@codeblock' }],
+
+			// github style code blocks (with backticks and language)
+			[/^\s*```\s*((?:\w|[\/\-#])+)\s*$/, { token: 'string', next: '@codeblockgh', nextEmbedded: '$1' }],
+
+			// github style code blocks (with backticks but no language)
+			[/^\s*```\s*$/, { token: 'string', next: '@codeblock' }],
+
+			// markup within lines
+			{ include: '@linecontent' },
+		],
+
+		codeblock: [
+			[/^\s*~~~\s*$/, { token: 'string', next: '@pop' }],
+			[/^\s*```\s*$/, { token: 'string', next: '@pop' }],
+			[/.*$/, 'variable.source'],
+		],
+
+		// github style code blocks
+		codeblockgh: [
+			[/```\s*$/, { token: 'variable.source', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^`]+/, 'variable.source'],
+		],
+
+		linecontent: [
+
+			// escapes
+			[/&amp;\w+;/, 'string.escape'],
+			[/@escapes/, 'escape'],
+
+			// various markup
+			[/\b__([^\\_]|@escapes|_(?!_))+__\b/, 'strong'],
+			[/\*\*([^\\*]|@escapes|\*(?!\*))+\*\*/, 'strong'],
+			[/\b_[^_]+_\b/, 'emphasis'],
+			[/\*([^\\*]|@escapes)+\*/, 'emphasis'],
+			[/`([^\\`]|@escapes)+`/, 'variable'],
+
+			// links
+			[/\{+[^}]+\}+/, 'string.target'],
+			[/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/, ['string.link', '', 'string.link']],
+			[/(!?\[)((?:[^\]\\]|@escapes)*)(\])/, 'string.link'],
+
+			// or html
+			{ include: 'html' },
+		],
+
+		// Note: it is tempting to rather switch to the real HTML mode instead of building our own here
+		// but currently there is a limitation in Monarch that prevents us from doing it: The opening
+		// '&lt;' would start the HTML mode, however there is no way to jump 1 character back to let the
+		// HTML mode also tokenize the opening angle bracket. Thus, even though we could jump to HTML,
+		// we cannot correctly tokenize it in that mode yet.
+		html: [
+			// html tags
+			[/&lt;(\w+)\/&gt;/, 'tag'],
+			[/&lt;(\w+)/, {
+				cases: {
+					'@empty': { token: 'tag', next: '@tag.$1' },
+					'@default': { token: 'tag', next: '@tag.$1' }
+				}
+			}],
+			[/&lt;\/(\w+)\s*&gt;/, { token: 'tag' }],
+
+			[/&lt;!--/, 'comment', '@comment']
+		],
+
+		comment: [
+			[/[^&lt;\-]+/, 'comment.content'],
+			[/--&gt;/, 'comment', '@pop'],
+			[/&lt;!--/, 'comment.content.invalid'],
+			[/[&lt;\-]/, 'comment.content']
+		],
+
+		// Almost full HTML tag matching, complete with embedded scripts &amp; styles
+		tag: [
+			[/[ \t\r\n]+/, 'white'],
+			[/(type)(\s*=\s*)(")([^"]+)(")/, ['attribute.name.html', 'delimiter.html', 'string.html',
+				{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+				'string.html']],
+			[/(type)(\s*=\s*)(')([^']+)(')/, ['attribute.name.html', 'delimiter.html', 'string.html',
+				{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+				'string.html']],
+			[/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name.html', 'delimiter.html', 'string.html']],
+			[/\w+/, 'attribute.name.html'],
+			[/\/&gt;/, 'tag', '@pop'],
+			[/&gt;/, {
+				cases: {
+					'$S2==style': { token: 'tag', switchTo: 'embeddedStyle', nextEmbedded: 'text/css' },
+					'$S2==script': {
+						cases: {
+							'$S3': { token: 'tag', switchTo: 'embeddedScript', nextEmbedded: '$S3' },
+							'@default': { token: 'tag', switchTo: 'embeddedScript', nextEmbedded: 'text/javascript' }
+						}
+					},
+					'@default': { token: 'tag', next: '@pop' }
+				}
+			}],
+		],
+
+		embeddedStyle: [
+			[/[^&lt;]+/, ''],
+			[/&lt;\/style\s*&gt;/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/&lt;/, '']
+		],
+
+		embeddedScript: [
+			[/[^&lt;]+/, ''],
+			[/&lt;\/script\s*&gt;/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/&lt;/, '']
+		],
+	}
+};
+</pre
+				>
+
+				<pre id="ruby-sample">
+#
+# This program evaluates polynomials.  It first asks for the coefficients
+# of a polynomial, which must be entered on one line, highest-order first.
+# It then requests values of x and will compute the value of the poly for
+# each x.  It will repeatly ask for x values, unless you the user enters
+# a blank line.  It that case, it will ask for another polynomial.  If the
+# user types quit for either input, the program immediately exits.
+#
+
+#
+# Function to evaluate a polynomial at x.  The polynomial is given
+# as a list of coefficients, from the greatest to the least.
+def polyval(x, coef)
+    sum = 0
+    coef = coef.clone           # Don't want to destroy the original
+    while true
+        sum += coef.shift       # Add and remove the next coef
+        break if coef.empty?    # If no more, done entirely.
+        sum *= x                # This happens the right number of times.
+    end
+    return sum
+end
+
+#
+# Function to read a line containing a list of integers and return
+# them as an array of integers.  If the string conversion fails, it
+# throws TypeError.  If the input line is the word 'quit', then it
+# converts it to an end-of-file exception
+def readints(prompt)
+    # Read a line
+    print prompt
+    line = readline.chomp
+    raise EOFError.new if line == 'quit' # You can also use a real EOF.
+
+    # Go through each item on the line, converting each one and adding it
+    # to retval.
+    retval = [ ]
+    for str in line.split(/\s+/)
+        if str =~ /^\-?\d+$/
+            retval.push(str.to_i)
+        else
+            raise TypeError.new
+        end
+    end
+
+    return retval
+end
+
+#
+# Take a coeff and an exponent and return the string representation, ignoring
+# the sign of the coefficient.
+def term_to_str(coef, exp)
+    ret = ""
+
+    # Show coeff, unless it's 1 or at the right
+    coef = coef.abs
+    ret = coef.to_s     unless coef == 1 &amp;&amp; exp > 0
+    ret += "x" if exp > 0                               # x if exponent not 0
+    ret += "^" + exp.to_s if exp > 1                    # ^exponent, if > 1.
+
+    return ret
+end
+
+#
+# Create a string of the polynomial in sort-of-readable form.
+def polystr(p)
+    # Get the exponent of first coefficient, plus 1.
+    exp = p.length
+
+    # Assign exponents to each term, making pairs of coeff and exponent,
+    # Then get rid of the zero terms.
+    p = (p.map { |c| exp -= 1; [ c, exp ] }).select { |p| p[0] != 0 }
+
+    # If there's nothing left, it's a zero
+    return "0" if p.empty?
+
+    # *** Now p is a non-empty list of [ coef, exponent ] pairs. ***
+
+    # Convert the first term, preceded by a "-" if it's negative.
+    result = (if p[0][0] &lt; 0 then "-" else "" end) + term_to_str(*p[0])
+
+    # Convert the rest of the terms, in each case adding the appropriate
+    # + or - separating them.
+    for term in p[1...p.length]
+        # Add the separator then the rep. of the term.
+        result += (if term[0] &lt; 0 then " - " else " + " end) +
+                term_to_str(*term)
+    end
+
+    return result
+end
+
+#
+# Run until some kind of endfile.
+begin
+    # Repeat until an exception or quit gets us out.
+    while true
+        # Read a poly until it works.  An EOF will except out of the
+        # program.
+        print "\n"
+        begin
+            poly = readints("Enter a polynomial coefficients: ")
+        rescue TypeError
+            print "Try again.\n"
+            retry
+        end
+        break if poly.empty?
+
+        # Read and evaluate x values until the user types a blank line.
+        # Again, an EOF will except out of the pgm.
+        while true
+            # Request an integer.
+            print "Enter x value or blank line: "
+            x = readline.chomp
+            break if x == ''
+            raise EOFError.new if x == 'quit'
+
+            # If it looks bad, let's try again.
+            if x !~ /^\-?\d+$/
+                print "That doesn't look like an integer.  Please try again.\n"
+                next
+            end
+
+            # Convert to an integer and print the result.
+            x = x.to_i
+            print "p(x) = ", polystr(poly), "\n"
+            print "p(", x, ") = ", polyval(x, poly), "\n"
+        end
+    end
+rescue EOFError
+    print "\n=== EOF ===\n"
+rescue Interrupt, SignalException
+    print "\n=== Interrupted ===\n"
+else
+    print "--- Bye ---\n"
+end
+</pre
+				>
+				<pre id="ruby">
+// Difficulty: "Nightmare!"
+/*
+Ruby language definition
+
+Quite a complex language due to elaborate escape sequences
+and quoting of literate strings/regular expressions, and
+an 'end' keyword that does not always apply to modifiers like until and while,
+and a 'do' keyword that sometimes starts a block, but sometimes is part of
+another statement (like 'while').
+
+(1) end blocks:
+'end' may end declarations like if or until, but sometimes 'if' or 'until'
+are modifiers where there is no 'end'. Also, 'do' sometimes starts a block
+that is ended by 'end', but sometimes it is part of a 'while', 'for', or 'until'
+To do proper brace matching we do some elaborate state manipulation.
+some examples:
+
+  until bla do
+    work until tired
+    list.each do
+      foo if test
+    end
+  end
+
+or
+
+if test
+ foo (if test then x end)
+ bar if bla
+end
+
+or, how about using class as a property..
+
+class Foo
+  def endpoint
+    self.class.endpoint || routes
+  end
+end
+
+(2) quoting:
+there are many kinds of strings and escape sequences. But also, one can
+start many string-like things as '%qx' where q specifies the kind of string
+(like a command, escape expanded, regular expression, symbol etc.), and x is
+some character and only another 'x' ends the sequence. Except for brackets
+where the closing bracket ends the sequence.. and except for a nested bracket
+inside the string like entity. Also, such strings can contain interpolated
+ruby expressions again (and span multiple lines). Moreover, expanded
+regular expression can also contain comments.
+*/
+return {
+	tokenPostfix: '.ruby',
+
+	keywords: [
+		'__LINE__', '__ENCODING__', '__FILE__', 'BEGIN', 'END', 'alias', 'and', 'begin',
+		'break', 'case', 'class', 'def', 'defined?', 'do', 'else', 'elsif', 'end',
+		'ensure', 'for', 'false', 'if', 'in', 'module', 'next', 'nil', 'not', 'or', 'redo',
+		'rescue', 'retry', 'return', 'self', 'super', 'then', 'true', 'undef', 'unless',
+		'until', 'when', 'while', 'yield',
+	],
+
+	keywordops: [
+		'::', '..', '...', '?', ':', '=&gt;'
+	],
+
+	builtins: [
+		'require', 'public', 'private', 'include', 'extend', 'attr_reader',
+		'protected', 'private_class_method', 'protected_class_method', 'new'
+	],
+
+	// these are closed by 'end' (if, while and until are handled separately)
+	declarations: [
+		'module', 'class', 'def', 'case', 'do', 'begin', 'for', 'if', 'while', 'until', 'unless'
+	],
+
+	linedecls: [
+		'def', 'case', 'do', 'begin', 'for', 'if', 'while', 'until', 'unless'
+	],
+
+	operators: [
+		'^', '&amp;', '|', '&lt;=&gt;', '==', '===', '!~', '=~', '&gt;', '&gt;=', '&lt;', '&lt;=', '&lt;&lt;', '&gt;&gt;', '+',
+		'-', '*', '/', '%', '**', '~', '+@', '-@', '[]', '[]=', '`',
+		'+=', '-=', '*=', '**=', '/=', '^=', '%=', '&lt;&lt;=', '&gt;&gt;=', '&amp;=', '&amp;&amp;=', '||=', '|='
+	],
+
+	brackets: [
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.square' }
+	],
+
+	// we include these common regular expressions
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%\.]+/,
+
+	// escape sequences
+	escape: /(?:[abefnrstv\\"'\n\r]|[0-7]{1,3}|x[0-9A-Fa-f]{1,2}|u[0-9A-Fa-f]{4})/,
+	escapes: /\\(?:C\-(@escape|.)|c(@escape|.)|@escape)/,
+
+	decpart: /\d(_?\d)*/,
+	decimal: /0|@decpart/,
+
+	delim: /[^a-zA-Z0-9\s\n\r]/,
+	heredelim: /(?:\w+|'[^']*'|"[^"]*"|`[^`]*`)/,
+
+	regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
+	regexpesc: /\\(?:[AzZbBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})?/,
+
+
+	// The main tokenizer for our languages
+	tokenizer: {
+		// Main entry.
+		// root.&lt;decl&gt; where decl is the current opening declaration (like 'class')
+		root: [
+			// identifiers and keywords
+			// most complexity here is due to matching 'end' correctly with declarations.
+			// We distinguish a declaration that comes first on a line, versus declarations further on a line (which are most likey modifiers)
+			[/^(\s*)([a-z_]\w*[!?=]?)/, ['white',
+				{
+					cases: {
+						'for|until|while': { token: 'keyword.$2', next: '@dodecl.$2' },
+						'@declarations': { token: 'keyword.$2', next: '@root.$2' },
+						'end': { token: 'keyword.$S2', next: '@pop' },
+						'@keywords': 'keyword',
+						'@builtins': 'predefined',
+						'@default': 'identifier'
+					}
+				}]],
+			[/[a-z_]\w*[!?=]?/,
+				{
+					cases: {
+						'if|unless|while|until': { token: 'keyword.$0x', next: '@modifier.$0x' },
+						'for': { token: 'keyword.$2', next: '@dodecl.$2' },
+						'@linedecls': { token: 'keyword.$0', next: '@root.$0' },
+						'end': { token: 'keyword.$S2', next: '@pop' },
+						'@keywords': 'keyword',
+						'@builtins': 'predefined',
+						'@default': 'identifier'
+					}
+				}],
+
+			[/[A-Z][\w]*[!?=]?/, 'constructor.identifier'],     // constant
+			[/\$[\w]*/, 'global.constant'],               // global
+			[/@[\w]*/, 'namespace.instance.identifier'], // instance
+			[/@@[\w]*/, 'namespace.class.identifier'],    // class
+
+			// here document
+			[/&lt;&lt;[-~](@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
+			[/[ \t\r\n]+&lt;&lt;(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
+			[/^&lt;&lt;(@heredelim).*/, { token: 'string.heredoc.delimiter', next: '@heredoc.$1' }],
+
+
+			// whitespace
+			{ include: '@whitespace' },
+
+			// strings
+			[/"/, { token: 'string.d.delim', next: '@dstring.d."' }],
+			[/'/, { token: 'string.sq.delim', next: '@sstring.sq' }],
+
+			// % literals. For efficiency, rematch in the 'pstring' state
+			[/%([rsqxwW]|Q?)/, { token: '@rematch', next: 'pstring' }],
+
+			// commands and symbols
+			[/`/, { token: 'string.x.delim', next: '@dstring.x.`' }],
+			[/:(\w|[$@])\w*[!?=]?/, 'string.s'],
+			[/:"/, { token: 'string.s.delim', next: '@dstring.s."' }],
+			[/:'/, { token: 'string.s.delim', next: '@sstring.s' }],
+
+			// regular expressions. Lookahead for a (not escaped) closing forwardslash on the same line
+			[/\/(?=(\\\/|[^\/\n])+\/)/, { token: 'regexp.delim', next: '@regexp' }],
+
+			// delimiters and operators
+			[/[{}()\[\]]/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@keywordops': 'keyword',
+					'@operators': 'operator',
+					'@default': ''
+				}
+			}],
+
+			[/[;,]/, 'delimiter'],
+
+			// numbers
+			[/0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/, 'number.hex'],
+			[/0[_oO][0-7](_?[0-7])*/, 'number.octal'],
+			[/0[bB][01](_?[01])*/, 'number.binary'],
+			[/0[dD]@decpart/, 'number'],
+			[/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)/, {
+				cases: {
+					'$1': 'number.float',
+					'@default': 'number'
+				}
+			}],
+
+		],
+
+		// used to not treat a 'do' as a block opener if it occurs on the same
+		// line as a 'do' statement: 'while|until|for'
+		// dodecl.&lt;decl&gt; where decl is the declarations started, like 'while'
+		dodecl: [
+			[/^/, { token: '', switchTo: '@root.$S2' }], // get out of do-skipping mode on a new line
+			[/[a-z_]\w*[!?=]?/, {
+				cases: {
+					'end': { token: 'keyword.$S2', next: '@pop' }, // end on same line
+					'do': { token: 'keyword', switchTo: '@root.$S2' }, // do on same line: not an open bracket here
+					'@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration on same line: rematch
+					'@keywords': 'keyword',
+					'@builtins': 'predefined',
+					'@default': 'identifier'
+				}
+			}],
+			{ include: '@root' }
+		],
+
+		// used to prevent potential modifiers ('if|until|while|unless') to match
+		// with 'end' keywords.
+		// modifier.&lt;decl&gt;x where decl is the declaration starter, like 'if'
+		modifier: [
+			[/^/, '', '@pop'], // it was a modifier: get out of modifier mode on a new line
+			[/[a-z_]\w*[!?=]?/, {
+				cases: {
+					'end': { token: 'keyword.$S2', next: '@pop' }, // end on same line
+					'then|else|elsif|do': { token: 'keyword', switchTo: '@root.$S2' }, // real declaration and not a modifier
+					'@linedecls': { token: '@rematch', switchTo: '@root.$S2' }, // other declaration =&gt; not a modifier
+					'@keywords': 'keyword',
+					'@builtins': 'predefined',
+					'@default': 'identifier'
+				}
+			}],
+			{ include: '@root' }
+		],
+
+		// single quote strings (also used for symbols)
+		// sstring.&lt;kind&gt;  where kind is 'sq' (single quote) or 's' (symbol)
+		sstring: [
+			[/[^\\']+/, 'string.$S2'],
+			[/\\\\|\\'|\\$/, 'string.$S2.escape'],
+			[/\\./, 'string.$S2.invalid'],
+			[/'/, { token: 'string.$S2.delim', next: '@pop' }]
+		],
+
+		// double quoted "string".
+		// dstring.&lt;kind&gt;.&lt;delim&gt; where kind is 'd' (double quoted), 'x' (command), or 's' (symbol)
+		// and delim is the ending delimiter (" or `)
+		dstring: [
+			[/[^\\`"#]+/, 'string.$S2'],
+			[/#/, 'string.$S2.escape', '@interpolated'],
+			[/\\$/, 'string.$S2.escape'],
+			[/@escapes/, 'string.$S2.escape'],
+			[/\\./, 'string.$S2.escape.invalid'],
+			[/[`"]/, {
+				cases: {
+					'$#==$S3': { token: 'string.$S2.delim', next: '@pop' },
+					'@default': 'string.$S2'
+				}
+			}]
+		],
+
+		// literal documents
+		// heredoc.&lt;close&gt; where close is the closing delimiter
+		heredoc: [
+			[/^(\s*)(@heredelim)$/, {
+				cases: {
+					'$2==$S2': ['string.heredoc', { token: 'string.heredoc.delimiter', next: '@pop' }],
+					'@default': ['string.heredoc', 'string.heredoc']
+				}
+			}],
+			[/.*/, 'string.heredoc'],
+		],
+
+		// interpolated sequence
+		interpolated: [
+			[/\$\w*/, 'global.constant', '@pop'],
+			[/@\w*/, 'namespace.class.identifier', '@pop'],
+			[/@@\w*/, 'namespace.instance.identifier', '@pop'],
+			[/[{]/, { token: 'string.escape.curly', switchTo: '@interpolated_compound' }],
+			['', '', '@pop'], // just a # is interpreted as a #
+		],
+
+		// any code
+		interpolated_compound: [
+			[/[}]/, { token: 'string.escape.curly', next: '@pop' }],
+			{ include: '@root' },
+		],
+
+		// %r quoted regexp
+		// pregexp.&lt;open&gt;.&lt;close&gt; where open/close are the open/close delimiter
+		pregexp: [
+			{ include: '@whitespace' },
+			// turns out that you can quote using regex control characters, aargh!
+			// for example; %r|kgjgaj| is ok (even though | is used for alternation)
+			// so, we need to match those first
+			[/[^\(\{\[\\]/, {
+				cases: {
+					'$#==$S3': { token: 'regexp.delim', next: '@pop' },
+					'$#==$S2': { token: 'regexp.delim', next: '@push' }, // nested delimiters are allowed..
+					'~[)}\\]]': '@brackets.regexp.escape.control',
+					'~@regexpctl': 'regexp.escape.control',
+					'@default': 'regexp'
+				}
+			}],
+			{ include: '@regexcontrol' },
+		],
+
+		// We match regular expression quite precisely
+		regexp: [
+			{ include: '@regexcontrol' },
+			[/[^\\\/]/, 'regexp'],
+			['/[ixmp]*', { token: 'regexp.delim' }, '@pop'],
+		],
+
+		regexcontrol: [
+			[/(\{)(\d+(?:,\d*)?)(\})/, ['@brackets.regexp.escape.control', 'regexp.escape.control', '@brackets.regexp.escape.control']],
+			[/(\[)(\^?)/, ['@brackets.regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]],
+			[/(\()(\?[:=!])/, ['@brackets.regexp.escape.control', 'regexp.escape.control']],
+			[/\(\?#/, { token: 'regexp.escape.control', next: '@regexpcomment' }],
+			[/[()]/, '@brackets.regexp.escape.control'],
+			[/@regexpctl/, 'regexp.escape.control'],
+			[/\\$/, 'regexp.escape'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/\\\./, 'regexp.invalid'],
+			[/#/, 'regexp.escape', '@interpolated'],
+		],
+
+		regexrange: [
+			[/-/, 'regexp.escape.control'],
+			[/\^/, 'regexp.invalid'],
+			[/\\$/, 'regexp.escape'],
+			[/@regexpesc/, 'regexp.escape'],
+			[/[^\]]/, 'regexp'],
+			[/\]/, '@brackets.regexp.escape.control', '@pop'],
+		],
+
+		regexpcomment: [
+			[/[^)]+/, 'comment'],
+			[/\)/, { token: 'regexp.escape.control', next: '@pop' }]
+		],
+
+
+		// % quoted strings
+		// A bit repetitive since we need to often special case the kind of ending delimiter
+		pstring: [
+			[/%([qws])\(/, { token: 'string.$1.delim', switchTo: '@qstring.$1.(.)' }],
+			[/%([qws])\[/, { token: 'string.$1.delim', switchTo: '@qstring.$1.[.]' }],
+			[/%([qws])\{/, { token: 'string.$1.delim', switchTo: '@qstring.$1.{.}' }],
+			[/%([qws])&lt;/, { token: 'string.$1.delim', switchTo: '@qstring.$1.&lt;.&gt;' }],
+			[/%([qws])(@delim)/, { token: 'string.$1.delim', switchTo: '@qstring.$1.$2.$2' }],
+
+			[/%r\(/, { token: 'regexp.delim', switchTo: '@pregexp.(.)' }],
+			[/%r\[/, { token: 'regexp.delim', switchTo: '@pregexp.[.]' }],
+			[/%r\{/, { token: 'regexp.delim', switchTo: '@pregexp.{.}' }],
+			[/%r&lt;/, { token: 'regexp.delim', switchTo: '@pregexp.&lt;.&gt;' }],
+			[/%r(@delim)/, { token: 'regexp.delim', switchTo: '@pregexp.$1.$1' }],
+
+			[/%(x|W|Q?)\(/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.(.)' }],
+			[/%(x|W|Q?)\[/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.[.]' }],
+			[/%(x|W|Q?)\{/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.{.}' }],
+			[/%(x|W|Q?)&lt;/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.&lt;.&gt;' }],
+			[/%(x|W|Q?)(@delim)/, { token: 'string.$1.delim', switchTo: '@qqstring.$1.$2.$2' }],
+
+			[/%([rqwsxW]|Q?)./, { token: 'invalid', next: '@pop' }], // recover
+			[/./, { token: 'invalid', next: '@pop' }], // recover
+		],
+
+		// non-expanded quoted string.
+		// qstring.&lt;kind&gt;.&lt;open&gt;.&lt;close&gt;
+		//  kind = q|w|s  (single quote, array, symbol)
+		//  open = open delimiter
+		//  close = close delimiter
+		qstring: [
+			[/\\$/, 'string.$S2.escape'],
+			[/\\./, 'string.$S2.escape'],
+			[/./, {
+				cases: {
+					'$#==$S4': { token: 'string.$S2.delim', next: '@pop' },
+					'$#==$S3': { token: 'string.$S2.delim', next: '@push' }, // nested delimiters are allowed..
+					'@default': 'string.$S2'
+				}
+			}],
+		],
+
+		// expanded quoted string.
+		// qqstring.&lt;kind&gt;.&lt;open&gt;.&lt;close&gt;
+		//  kind = Q|W|x  (double quote, array, command)
+		//  open = open delimiter
+		//  close = close delimiter
+		qqstring: [
+			[/#/, 'string.$S2.escape', '@interpolated'],
+			{ include: '@qstring' }
+		],
+
+
+		// whitespace &amp; comments
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/^\s*=begin\b/, 'comment', '@comment'],
+			[/#.*$/, 'comment'],
+		],
+
+		comment: [
+			[/[^=]+/, 'comment'],
+			[/^\s*=begin\b/, 'comment.invalid'],    // nested comment
+			[/^\s*=end\b.*/, 'comment', '@pop'],
+			[/[=]/, 'comment']
+		],
+	}
+};
+</pre
+				>
+
+				<pre id="python-sample">
+from Tkinter   import *
+import Pmw, string
+
+class SLabel(Frame):
+    """ SLabel defines a 2-sided label within a Frame. The
+        left hand label has blue letters the right has white letters """
+    def __init__(self, master, leftl, rightl):
+        Frame.__init__(self, master, bg='gray40')
+        self.pack(side=LEFT, expand=YES, fill=BOTH)
+        Label(self, text=leftl, fg='steelblue1',
+                     font=("arial", 6, "bold"), width=5, bg='gray40').pack(
+                         side=LEFT, expand=YES, fill=BOTH)
+        Label(self, text=rightl, fg='white',
+                     font=("arial", 6, "bold"), width=1, bg='gray40').pack(
+                         side=RIGHT, expand=YES, fill=BOTH)
+
+class Key(Button):
+    def __init__(self, master, font=('arial', 8, 'bold'),
+                 fg='white',width=5, borderwidth=5, **kw):
+        kw['font'] = font
+        kw['fg'] = fg
+        kw['width'] = width
+        kw['borderwidth'] = borderwidth
+        apply(Button.__init__, (self, master), kw)
+        self.pack(side=LEFT, expand=NO, fill=NONE)
+
+class Calculator(Frame):
+    def __init__(self, parent=None):
+        Frame.__init__(self, bg='gray40')
+        self.pack(expand=YES, fill=BOTH)
+        self.master.title('Tkinter Toolkit TT-42')
+        self.master.iconname('Tk-42')
+        self.calc = Evaluator()        # This is our evaluator
+        self.buildCalculator()         # Build the widgets
+        # This is an incomplete dictionary - a good exercise!
+        self.actionDict = {'second': self.doThis, 'mode':    self.doThis,
+                           'delete': self.doThis, 'alpha':   self.doThis,
+                           'stat':   self.doThis, 'math':    self.doThis,
+                           'matrix': self.doThis, 'program': self.doThis,
+                           'vars':   self.doThis, 'clear':   self.clearall,
+                           'sin':    self.doThis, 'cos':     self.doThis,
+                           'tan':    self.doThis, 'up':      self.doThis,
+                           'X1':     self.doThis, 'X2':      self.doThis,
+                           'log':    self.doThis, 'ln':      self.doThis,
+                           'store':  self.doThis, 'off':     self.turnoff,
+                           'neg':    self.doThis, 'enter':   self.doEnter,
+                           }
+        self.current = ""
+
+    def doThis(self,action):
+        print '"%s" has not been implemented' % action
+
+    def turnoff(self, *args):
+        self.quit()
+
+    def clearall(self, *args):
+        self.current = ""
+        self.display.component('text').delete(1.0, END)
+
+    def doEnter(self, *args):
+        result = self.calc.runpython(self.current)
+        if result:
+            self.display.insert(END, '\n')
+            self.display.insert(END, '%s\n' % result, 'ans')
+        self.current = ""
+
+    def doKeypress(self, event):
+        key = event.char
+        if not key in ['\b']:
+            self.current = self.current + event.char
+        if key == '\b':
+            self.current = self.current[:-1]
+
+    def keyAction(self, key):
+        self.display.insert(END, key)
+        self.current = self.current + key
+
+    def evalAction(self, action):
+  try:
+            self.actionDict[action](action)
+  except KeyError:
+            pass
+
+    def buildCalculator(self):
+        FUN   = 1            # Designates a Function
+        KEY   = 0            # Designates a Key
+        KC1   = 'gray30'     # Dark Keys
+        KC2   = 'gray50'     # Light Keys
+        KC3   = 'steelblue1' # Light Blue Key
+        KC4   = 'steelblue'  # Dark Blue Key
+        keys = [
+            [('2nd',  '',     '',  KC3, FUN, 'second'),  # Row 1
+             ('Mode', 'Quit', '',  KC1, FUN, 'mode'),
+             ('Del',  'Ins',  '',  KC1, FUN, 'delete'),
+             ('Alpha','Lock', '',  KC2, FUN, 'alpha'),
+             ('Stat', 'List', '',  KC1, FUN, 'stat')],
+            [('Math', 'Test', 'A', KC1, FUN, 'math'),    # Row 2
+             ('Mtrx', 'Angle','B', KC1, FUN, 'matrix'),
+             ('Prgm', 'Draw', 'C', KC1, FUN, 'program'),
+             ('Vars', 'YVars','',  KC1, FUN, 'vars'),
+             ('Clr',  '',     '',  KC1, FUN, 'clear')],
+            [('X-1',  'Abs',  'D', KC1, FUN, 'X1'),      # Row 3
+             ('Sin',  'Sin-1','E', KC1, FUN, 'sin'),
+             ('Cos',  'Cos-1','F', KC1, FUN, 'cos'),
+             ('Tan',  'Tan-1','G', KC1, FUN, 'tan'),
+             ('^',    'PI',   'H', KC1, FUN, 'up')],
+            [('X2',   'Root', 'I', KC1, FUN, 'X2'),      # Row 4
+             (',',    'EE',   'J', KC1, KEY, ','),
+             ('(',    '{',    'K', KC1, KEY, '('),
+             (')',    '}',    'L', KC1, KEY, ')'),
+             ('/',    '',     'M', KC4, KEY, '/')],
+            [('Log',  '10x',  'N', KC1, FUN, 'log'),     # Row 5
+             ('7',    'Un-1', 'O', KC2, KEY, '7'),
+             ('8',    'Vn-1', 'P', KC2, KEY, '8'),
+             ('9',    'n',    'Q', KC2, KEY, '9'),
+             ('X',    '[',    'R', KC4, KEY, '*')],
+            [('Ln',   'ex',   'S', KC1, FUN, 'ln'),      # Row 6
+             ('4',    'L4',   'T', KC2, KEY, '4'),
+             ('5',    'L5',   'U', KC2, KEY, '5'),
+             ('6',    'L6',   'V', KC2, KEY, '6'),
+             ('-',    ']',    'W', KC4, KEY, '-')],
+            [('STO',  'RCL',  'X', KC1, FUN, 'store'),   # Row 7
+             ('1',    'L1',   'Y', KC2, KEY, '1'),
+             ('2',    'L2',   'Z', KC2, KEY, '2'),
+             ('3',    'L3',   '',  KC2, KEY, '3'),
+             ('+',    'MEM',  '"', KC4, KEY, '+')],
+            [('Off',  '',     '',  KC1, FUN, 'off'),     # Row 8
+             ('0',    '',     '',  KC2, KEY, '0'),
+             ('.',    ':',    '',  KC2, KEY, '.'),
+             ('(-)',  'ANS',  '?', KC2, FUN, 'neg'),
+             ('Enter','Entry','',  KC4, FUN, 'enter')]]
+
+        self.display = Pmw.ScrolledText(self, hscrollmode='dynamic',
+                      vscrollmode='dynamic', hull_relief='sunken',
+                      hull_background='gray40', hull_borderwidth=10,
+                      text_background='honeydew4', text_width=16,
+                      text_foreground='black', text_height=6,
+          text_padx=10, text_pady=10, text_relief='groove',
+                      text_font=('arial', 12, 'bold'))
+        self.display.pack(side=TOP, expand=YES, fill=BOTH)
+        self.display.tag_config('ans', foreground='white')
+        self.display.component('text').bind('&lt;Key>', self.doKeypress)
+        self.display.component('text').bind('&lt;Return>', self.doEnter)
+
+        for row in keys:
+            rowa = Frame(self, bg='gray40')
+            rowb = Frame(self, bg='gray40')
+            for p1, p2, p3, color, ktype, func in row:
+                if ktype == FUN:
+                    a = lambda s=self, a=func: s.evalAction(a)
+                else:
+                    a = lambda s=self, k=func: s.keyAction(k)
+                SLabel(rowa, p2, p3)
+                Key(rowb, text=p1, bg=color, command=a)
+            rowa.pack(side=TOP, expand=YES, fill=BOTH)
+            rowb.pack(side=TOP, expand=YES, fill=BOTH)
+
+class Evaluator:
+    def __init__(self):
+        self.myNameSpace = {}
+        self.runpython("from math import *")
+
+    def runpython(self, code):
+        try:
+            return 'eval(code, self.myNameSpace, self.myNameSpace)'
+        except SyntaxError:
+            try:
+                exec code in self.myNameSpace, self.myNameSpace
+            except:
+                return 'Error'
+
+Calculator().mainloop()
+</pre
+				>
+				<pre id="python">
+// Difficulty: "Moderate"
+// Python language definition.
+// Only trickiness is that we need to check strings before identifiers
+// since they have letter prefixes. We also treat ':' as an @open bracket
+// in order to get auto identation.
+return {
+	defaultToken: '',
+	tokenPostfix: '.python',
+
+	keywords: [
+		'and',
+		'as',
+		'assert',
+		'break',
+		'class',
+		'continue',
+		'def',
+		'del',
+		'elif',
+		'else',
+		'except',
+		'exec',
+		'finally',
+		'for',
+		'from',
+		'global',
+		'if',
+		'import',
+		'in',
+		'is',
+		'lambda',
+		'None',
+		'not',
+		'or',
+		'pass',
+		'print',
+		'raise',
+		'return',
+		'self',
+		'try',
+		'while',
+		'with',
+		'yield',
+
+		'int',
+		'float',
+		'long',
+		'complex',
+		'hex',
+
+		'abs',
+		'all',
+		'any',
+		'apply',
+		'basestring',
+		'bin',
+		'bool',
+		'buffer',
+		'bytearray',
+		'callable',
+		'chr',
+		'classmethod',
+		'cmp',
+		'coerce',
+		'compile',
+		'complex',
+		'delattr',
+		'dict',
+		'dir',
+		'divmod',
+		'enumerate',
+		'eval',
+		'execfile',
+		'file',
+		'filter',
+		'format',
+		'frozenset',
+		'getattr',
+		'globals',
+		'hasattr',
+		'hash',
+		'help',
+		'id',
+		'input',
+		'intern',
+		'isinstance',
+		'issubclass',
+		'iter',
+		'len',
+		'locals',
+		'list',
+		'map',
+		'max',
+		'memoryview',
+		'min',
+		'next',
+		'object',
+		'oct',
+		'open',
+		'ord',
+		'pow',
+		'print',
+		'property',
+		'reversed',
+		'range',
+		'raw_input',
+		'reduce',
+		'reload',
+		'repr',
+		'reversed',
+		'round',
+		'set',
+		'setattr',
+		'slice',
+		'sorted',
+		'staticmethod',
+		'str',
+		'sum',
+		'super',
+		'tuple',
+		'type',
+		'unichr',
+		'unicode',
+		'vars',
+		'xrange',
+		'zip',
+
+		'True',
+		'False',
+
+		'__dict__',
+		'__methods__',
+		'__members__',
+		'__class__',
+		'__bases__',
+		'__name__',
+		'__mro__',
+		'__subclasses__',
+		'__init__',
+		'__import__'
+	],
+
+	brackets: [
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.bracket' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' }
+	],
+
+	tokenizer: {
+		root: [
+			{ include: '@whitespace' },
+			{ include: '@numbers' },
+			{ include: '@strings' },
+
+			[/[,:;]/, 'delimiter'],
+			[/[{}\[\]()]/, '@brackets'],
+
+			[/@[a-zA-Z]\w*/, 'tag'],
+			[/[a-zA-Z]\w*/, {
+				cases: {
+					'@keywords': 'keyword',
+					'@default': 'identifier'
+				}
+			}]
+		],
+
+		// Deal with white space, including single and multi-line comments
+		whitespace: [
+			[/\s+/, 'white'],
+			[/(^#.*$)/, 'comment'],
+			[/('''.*''')|(""".*""")/, 'string'],
+			[/'''.*$/, 'string', '@endDocString'],
+			[/""".*$/, 'string', '@endDblDocString']
+		],
+		endDocString: [
+			[/\\'/, 'string'],
+			[/.*'''/, 'string', '@popall'],
+			[/.*$/, 'string']
+		],
+		endDblDocString: [
+			[/\\"/, 'string'],
+			[/.*"""/, 'string', '@popall'],
+			[/.*$/, 'string']
+		],
+
+		// Recognize hex, negatives, decimals, imaginaries, longs, and scientific notation
+		numbers: [
+			[/-?0x([abcdef]|[ABCDEF]|\d)+[lL]?/, 'number.hex'],
+			[/-?(\d*\.)?\d+([eE][+\-]?\d+)?[jJ]?[lL]?/, 'number']
+		],
+
+		// Recognize strings, including those broken across lines with \ (but not without)
+		strings: [
+			[/'$/, 'string.escape', '@popall'],
+			[/'/, 'string.escape', '@stringBody'],
+			[/"$/, 'string.escape', '@popall'],
+			[/"/, 'string.escape', '@dblStringBody']
+		],
+		stringBody: [
+			[/[^\\']+$/, 'string', '@popall'],
+			[/[^\\']+/, 'string'],
+			[/\\./, 'string'],
+			[/'/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
+		],
+		dblStringBody: [
+			[/[^\\"]+$/, 'string', '@popall'],
+			[/[^\\"]+/, 'string'],
+			[/\\./, 'string'],
+			[/"/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
+		]
+	}
+};
+</pre
+				>
+
+				<pre id="z3python-sample">
+# 9x9 matrix of integer variables
+X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
+      for i in range(9) ]
+
+# each cell contains a value in {1, ..., 9}
+cells_c  = [ And(1 &lt;= X[i][j], X[i][j] &lt;= 9)
+             for i in range(9) for j in range(9) ]
+
+# each row contains a digit at most once
+rows_c   = [ Distinct(X[i]) for i in range(9) ]
+
+# each column contains a digit at most once
+cols_c   = [ Distinct([ X[i][j] for i in range(9) ])
+             for j in range(9) ]
+
+# each 3x3 square contains a digit at most once
+sq_c     = [ Distinct([ X[3*i0 + i][3*j0 + j]
+                        for i in range(3) for j in range(3) ])
+             for i0 in range(3) for j0 in range(3) ]
+
+sudoku_c = cells_c + rows_c + cols_c + sq_c
+
+# sudoku instance, we use '0' for empty cells
+instance = ((0,0,0,0,9,4,0,3,0),
+            (0,0,0,5,1,0,0,0,7),
+            (0,8,9,0,0,0,0,4,0),
+            (0,0,0,0,0,0,2,0,8),
+            (0,6,0,2,0,1,0,5,0),
+            (1,0,2,0,0,0,0,0,0),
+            (0,7,0,0,0,0,5,2,0),
+            (9,0,0,0,6,5,0,0,0),
+            (0,4,0,9,7,0,0,0,0))
+
+instance_c = [ If(instance[i][j] == 0,
+                  True,
+                  X[i][j] == instance[i][j])
+               for i in range(9) for j in range(9) ]
+
+s = Solver()
+s.add(sudoku_c + instance_c)
+if s.check() == sat:
+    m = s.model()
+    r = [ [ m.evaluate(X[i][j]) for j in range(9) ]
+          for i in range(9) ]
+    print_matrix(r)
+else:
+    print "failed to solve"
+</pre
+				>
+
+				<pre id="z3python">
+// Difficulty: "Moderate"
+// This is the Python language definition but specialized for use with Z3
+// See also: http://www.rise4fun.com/Z3Py
+return {
+
+  // Set defaultToken to invalid to see what you do not tokenize yet
+  // defaultToken: 'invalid',
+
+  keywords: [
+    'and', 'del', 'from', 'not', 'while',
+    'as', 'elif', 'global', 'or', 'with',
+    'assert', 'else', 'if', 'pass', 'yield',
+    'break', 'except', 'import', 'print',
+    'class', 'exec', 'in', 'raise', 'continue', 'finally', 'is',
+    'return', 'def', 'for', 'lambda', 'try',
+    ':','=',
+    'isinstance','__debug__',
+  ],
+
+  operators: [
+    '+', '-', '*', '**', '/', '//', '%',
+    '&lt;&lt;', '&gt;&gt;', '&amp;', '|', '^', '~',
+    '&lt;', '&gt;', '&lt;=', '&gt;=', '==', '!=', '&lt;&gt;',
+    '+=', '-=', '*=', '/=', '//=', '%=',
+    '&amp;=', '|=', '^=', '&gt;&gt;=', '&lt;&lt;=', '**=',
+  ],
+
+  builtins: [
+    'set_option', 'solve', 'simplify', 'Int', 'Real', 'Bool', 'open_log',
+    'append_log', 'is_sort', 'DeclareSort', 'Function', 'is_func_decl', 'is_expr',
+    'is_app', 'is_const', 'is_var', 'get_var_index', 'is_app_of',
+    'If', 'Distinct', 'Const', 'Consts', 'Var', 'is_bool',
+    'is_true', 'is_false', 'is_and', 'is_or', 'is_not', 'is_eq',
+    'BoolSort', 'BoolVal', 'Bools', 'BoolVector', 'FreshBool',
+    'Implies', 'Not', 'And', 'Or', 'MultiPattern', 'ForAll',
+    'Exists', 'is_int', 'is_real', 'is_int_value', 'is_rational_value',
+    'is_algebraic_value', 'IntSort', 'RealSort', 'IntVal',
+    'RealVal', 'RatVal', 'Q', 'Ints', 'Reals', 'IntVector', 'RealVector',
+    'FreshInt', 'FreshReal', 'ToReal', 'ToInt', 'IsInt',
+    'Sqrt', 'Cbrt', 'is_bv', 'BV2Int', 'BitVecSort', 'BitVecVal',
+    'BitVec', 'BitVecs', 'Concat', 'Extract', 'ULE', 'ULT',
+    'UGE', 'UGT', 'UDiv', 'URem', 'SRem', 'LShR', 'RotateLeft',
+    'RotateRight', 'SignExt', 'ZeroExt', 'RepeatBitVec',
+    'is_array', 'ArraySort', 'Array', 'Update', 'Store',
+    'Select', 'Map', 'K', 'CreateDatatypes', 'EnumSort', 'Solver',
+    'SolverFor', 'SimpleSolver', 'FixedPoint', 'Tactic', 'AndThen',
+    'Then', 'OrElse', 'ParOr', 'ParThen', 'ParAndThen',
+    'With', 'Repeat', 'TryFor', 'Probe', 'When', 'FailIf', 'Cond',
+    'substitute', 'Sum', 'Product', 'solve_using', 'prove', 'init', 'sat', 'unsat',
+    'unknown'
+   ],
+
+  brackets: [
+    ['(',')','delimiter.parenthesis'],
+    ['{','}','delimiter.curly'],
+    ['[',']','delimiter.square']
+  ],
+
+  // operator symbols
+  symbols:    /[=&gt;&lt;!~&amp;|+\-*\/\^%]+/,
+  delimiters: /[;=.@:,`]/,
+
+  // strings
+  escapes: /\\(?:[abfnrtv\\"'\n\r]|x[0-9A-Fa-f]{2}|[0-7]{3}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8}|N\{\w+\})/,
+  rawpre: /(?:[rR]|ur|Ur|uR|UR|br|Br|bR|BR)/,
+  strpre: /(?:[buBU])/,
+
+  // The main tokenizer for our languages
+  tokenizer: {
+    root: [
+      // strings: need to check first due to the prefix
+      [/@strpre?("""|''')/, { token: 'string.delim', bracket: '@open', next: '@mstring.$1' } ],
+      [/@strpre?"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/@strpre?'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/@strpre?(["'])/,  { token: 'string.delim', bracket: '@open', next: '@string.$1' } ],
+
+      [/@rawpre("""|''')/, { token: 'string.delim', bracket: '@open', next: '@mrawstring.$1' } ],
+      [/@rawpre"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/@rawpre'([^'\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/@rawpre(["'])/,  { token: 'string.delim', bracket: '@open', next: '@rawstring.$1' } ],
+
+      // identifiers and keywords
+      [/__[\w$]*/, 'predefined' ],
+      [/[a-z_$][\w$]*/, { cases: { '@keywords': 'keyword',
+                                   '@builtins': 'constructor.identifier',
+                                   '@default': 'identifier' } }],
+      [/[A-Z][\w]*/, { cases: { '~[A-Z0-9_]+': 'constructor.identifier',
+                                '@builtins'  : 'constructor.identifier',
+                                '@default'   : 'namespace.identifier' }}],  // to show class names nicely
+
+      // whitespace
+      { include: '@whitespace' },
+
+      // delimiters and operators
+      [/[{}()\[\]]/, '@brackets'],
+      [/@symbols/, { cases: { '@keywords' : 'keyword',
+                              '@operators': 'operator',
+                              '@default'  : '' } } ],
+
+      // numbers
+      [/\d*\.\d+([eE][\-+]?\d+)?/,   'number.float'],
+      [/0[xX][0-9a-fA-F]+[lL]?/,     'number.hex'],
+      [/0[bB][0-1]+[lL]?/,           'number.binary'],
+      [/(0[oO][0-7]+|0[0-7]+)[lL]?/, 'number.octal'],
+      [/(0|[1-9]\d*)[lL]?/,          'number'],
+
+      // delimiter: after number because of .\d floats
+      [':', { token: 'keyword', bracket: '@open' }], // bracket for indentation
+      [/@delimiters/, { cases: { '@keywords': 'keyword',
+                                 '@default': 'delimiter' }}],
+
+    ],
+
+    comment: [
+      [/[^\/*]+/, 'comment' ],
+      [/\/\*/,    'comment', '@push' ],    // nested comment
+      ["\\*/",    'comment', '@pop'  ],
+      [/[\/*]/,   'comment' ]
+    ],
+
+    // Regular strings
+    mstring: [
+      { include: '@strcontent' },
+      [/"""|'''/,  { cases: { '$#==$S2':  { token: 'string.delim', bracket: '@close', next: '@pop' },
+                              '@default': { token: 'string' } } }],
+      [/["']/, 'string' ],
+      [/./,    'string.invalid'],
+    ],
+
+    string: [
+      { include: '@strcontent' },
+      [/["']/, { cases: { '$#==$S2': { token: 'string.delim', bracket: '@close', next: '@pop' },
+                          '@default': { token: 'string' } } } ],
+      [/./, 'string.invalid'],
+    ],
+
+    strcontent: [
+      [/[^\\"']+/,  'string'],
+      [/\\$/,       'string.escape'],
+      [/@escapes/,  'string.escape'],
+      [/\\./,       'string.escape.invalid'],
+    ],
+
+    // Raw strings: we distinguish them to color escape sequences correctly
+    mrawstring: [
+      { include: '@rawstrcontent' },
+      [/"""|'''/,  { cases: { '$#==$S2':  { token: 'string.delim', bracket: '@close', next: '@pop' },
+                              '@default': { token: 'string' } } }],
+      [/["']/, 'string' ],
+      [/./,    'string.invalid'],
+    ],
+
+    rawstring: [
+      { include: '@rawstrcontent' },
+      [/["']/, { cases: { '$#==$S2': { token: 'string.delim', bracket: '@close', next: '@pop' },
+                          '@default': { token: 'string' } } } ],
+      [/./, 'string.invalid'],
+    ],
+
+    rawstrcontent: [
+      [/[^\\"']+/, 'string'],
+      [/\\["']/,   'string'],
+      [/\\u[0-9A-Fa-f]{4}/, 'string.escape'],
+      [/\\/, 'string' ],
+    ],
+
+    // whitespace
+    whitespace: [
+      [/[ \t\r\n]+/, 'white'],
+      [/#.*$/,       'comment'],
+    ],
+  },
+};
+</pre
+				>
+
+				<pre id="smt2-sample">
+; This example illustrates different uses of the arrays
+; supported in Z3.
+; This includes Combinatory Array Logic (de Moura &amp; Bjorner, FMCAD 2009).
+;
+(define-sort A () (Array Int Int))
+(declare-fun x () Int)
+(declare-fun y () Int)
+(declare-fun z () Int)
+(declare-fun a1 () A)
+(declare-fun a2 () A)
+(declare-fun a3 () A)
+(push) ; illustrate select-store
+(assert (= (select a1 x) x))
+(assert (= (store a1 x y) a1))
+(check-sat)
+(get-model)
+(assert (not (= x y)))
+(check-sat)
+(pop)
+(define-fun all1_array () A ((as const A) 1))
+(simplify (select all1_array x))
+(define-sort IntSet () (Array Int Bool))
+(declare-fun a () IntSet)
+(declare-fun b () IntSet)
+(declare-fun c () IntSet)
+(push) ; illustrate map
+(assert (not (= ((_ map and) a b) ((_ map not) ((_ map or) ((_ map not) b) ((_ map not) a))))))
+(check-sat)
+(pop)
+(push)
+(assert (and (select ((_ map and) a b) x) (not (select a x))))
+(check-sat)
+(pop)
+(push)
+(assert (and (select ((_ map or) a b) x) (not (select a x))))
+(check-sat)
+(get-model)
+(assert (and (not (select b x))))
+(check-sat)
+;; unsat, so there is no model.
+(pop)
+(push) ; illustrate default
+(assert (= (default a1) 1))
+(assert (not (= a1 ((as const A) 1))))
+(check-sat)
+(get-model)
+(assert (= (default a2) 1))
+(assert (not (= a1 a2)))
+(check-sat)
+(get-model)
+(pop)
+(exit)
+</pre
+				>
+				<pre id="smt2">
+// Difficulty: "Easy"
+// SMT 2.0 language
+// See http://www.rise4fun.com/z3 or http://www.smtlib.org/ for more information
+return {
+
+  // Set defaultToken to invalid to see what you do not tokenize yet
+  // defaultToken: 'invalid',
+
+  keywords: [
+    'define-fun', 'define-const', 'assert', 'push', 'pop', 'assert', 'check-sat',
+    'declare-const', 'declare-fun', 'get-model', 'get-value', 'declare-sort',
+    'declare-datatypes', 'reset', 'eval', 'set-logic', 'help', 'get-assignment',
+    'exit', 'get-proof', 'get-unsat-core', 'echo', 'let', 'forall', 'exists',
+    'define-sort', 'set-option', 'get-option', 'set-info', 'check-sat-using', 'apply', 'simplify',
+    'display', 'as', '!', 'get-info', 'declare-map', 'declare-rel', 'declare-var', 'rule',
+    'query', 'get-user-tactics'
+  ],
+
+ operators: [
+    '=', '&gt;', '&lt;', '&lt;=', '&gt;=', '=&gt;', '+', '-', '*', '/',
+  ],
+
+  builtins: [
+    'mod', 'div', 'rem', '^', 'to_real', 'and', 'or', 'not', 'distinct',
+    'to_int', 'is_int', '~', 'xor', 'if', 'ite', 'true', 'false', 'root-obj',
+    'sat', 'unsat', 'const', 'map', 'store', 'select', 'sat', 'unsat',
+    'bit1', 'bit0', 'bvneg', 'bvadd', 'bvsub', 'bvmul', 'bvsdiv', 'bvudiv', 'bvsrem',
+    'bvurem', 'bvsmod',  'bvule', 'bvsle', 'bvuge', 'bvsge', 'bvult',
+    'bvslt', 'bvugt', 'bvsgt', 'bvand', 'bvor', 'bvnot', 'bvxor', 'bvnand',
+    'bvnor', 'bvxnor', 'concat', 'sign_extend', 'zero_extend', 'extract',
+    'repeat', 'bvredor', 'bvredand', 'bvcomp', 'bvshl', 'bvlshr', 'bvashr',
+    'rotate_left', 'rotate_right', 'get-assertions'
+  ],
+
+  brackets: [
+    ['(',')','delimiter.parenthesis'],
+    ['{','}','delimiter.curly'],
+    ['[',']','delimiter.square']
+  ],
+
+  // we include these common regular expressions
+  symbols:  /[=&gt;&lt;~&amp;|+\-*\/%@#]+/,
+
+  // C# style strings
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+  // The main tokenizer for our languages
+  tokenizer: {
+    root: [
+      // identifiers and keywords
+      [/[a-z_][\w\-\.']*/, { cases: { '@builtins': 'predefined.identifier',
+                                      '@keywords': 'keyword',
+                                      '@default': 'identifier' } }],
+      [/[A-Z][\w\-\.']*/, 'type.identifier' ],
+      [/[:][\w\-\.']*/, 'string.identifier' ],
+      [/[$?][\w\-\.']*/, 'constructor.identifier' ],
+
+      // whitespace
+      { include: '@whitespace' },
+
+      // delimiters and operators
+      [/[()\[\]]/, '@brackets'],
+      [/@symbols/, { cases: { '@operators': 'predefined.operator',
+                              '@default'  : 'operator' } } ],
+
+
+      // numbers
+      [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+      [/0[xX][0-9a-fA-F]+/, 'number.hex'],
+      [/#[xX][0-9a-fA-F]+/, 'number.hex'],
+      [/#b[0-1]+/, 'number.binary'],
+      [/\d+/, 'number'],
+
+      // delimiter: after number because of .\d floats
+      [/[,.]/, 'delimiter'],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+
+      // user values
+      [/\{/, { token: 'string.curly', bracket: '@open', next: '@uservalue' } ],
+    ],
+
+    uservalue: [
+      [/[^\\\}]+/, 'string' ],
+      [/\}/,       { token: 'string.curly', bracket: '@close', next: '@pop' } ],
+      [/\\\}/,     'string.escape'],
+      [/./,        'string']  // recover
+    ],
+
+    string: [
+      [/[^\\"]+/,  'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./,      'string.escape.invalid'],
+      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+    ],
+
+    whitespace: [
+      [/[ \t\r\n]+/, 'white'],
+      [/;.*$/,    'comment'],
+    ],
+  },
+};
+</pre
+				>
+
+				<pre id="xdot-sample">
+digraph "If.try_if_then"
+{
+  label = "If.try_if_then";
+  rankdir="TD";
+
+  node [fontname="Helvetica", shape=record, fontsize="12", color="lightblue", style="filled"];
+
+  edge [fontname="Helvetica", fontsize="10", color="black"];
+
+  subgraph "cluster_node_57"
+  { /* block node_57 */
+  label = "";
+  node_57 [label = "Block [57]"];
+  node_58 [label = "Return [58@57]"];
+
+  node_50 -> node_58 [label = "mem", dir = back];
+  node_48 -> node_58 [label = "int", dir = back];
+  } /* block node_57 */
+
+  subgraph "cluster_node_43"
+  { /* block node_43 */
+  label = "";
+  node_43 [label = "Block [43]"];
+  node_50 [label = "Proj (mem) [50@43]"];
+
+  node_45 -> node_50 [label = "tuple", dir = back];
+  node_49 [label = "Proj (arg_2) [49@43]"];
+
+  node_45 -> node_49 [label = "tuple", dir = back];
+  node_48 [label = "Proj (arg_1) [48@43]"];
+
+  node_45 -> node_48 [label = "tuple", dir = back];
+  node_45 [label = "Start [45@43]"];
+
+  node_51 [label = "Proj (exe(4)) [51@43]"];
+
+  node_45 -> node_51 [label = "tuple", dir = back];
+  } /* block node_43 */
+
+  subgraph "cluster_node_52"
+  { /* block node_52 */
+  label = "";
+  node_52 [label = "Block [52]"];
+  node_56 [label = "Proj (exe(0)) [56@52]"];
+
+  node_54 -> node_56 [label = "tuple", dir = back];
+  node_53 [label = "Compare [53@52]"];
+
+  node_48 -> node_53 [label = "int", dir = back];
+  node_49 -> node_53 [label = "int", dir = back];
+  node_54 [label = "Cond (2) [54@52]"];
+
+  node_53 -> node_54 [label = "condition", dir = back];
+  node_55 [label = "Proj (exe(1)) [55@52]"];
+
+  node_54 -> node_55 [label = "tuple", dir = back];
+  } /* block node_52 */
+
+  subgraph "cluster_node_60"
+  { /* block node_60 */
+  label = "";
+  node_60 [label = "Block [60]"];
+  node_61 [label = "Return [61@60]"];
+
+  node_50 -> node_61 [label = "mem", dir = back];
+  node_49 -> node_61 [label = "int", dir = back];
+  } /* block node_60 */
+
+  subgraph "cluster_node_44"
+  { /* block node_44 */
+  label = "";
+  node_44 [label = "Block [44]"];
+  node_46 [label = "End [46@44]"];
+
+  } /* block node_44 */
+
+  node_56 -> node_60 [label = "exe", dir = back];
+  node_51 -> node_52 [label = "exe", dir = back];
+  node_55 -> node_57 [label = "exe", dir = back];
+  node_58 -> node_44 [label = "exe", dir = back];
+  node_61 -> node_44 [label = "exe", dir = back];
+} /* Graph "If.try_if_then" */
+</pre
+				>
+				<pre id="xdot">
+// Difficulty: Easy
+// Dot graph language.
+// See http://www.rise4fun.com/Agl
+return {
+  // Set defaultToken to invalid to see what you do not tokenize yet
+  // defaultToken: 'invalid',
+
+  keywords: [
+    'strict','graph','digraph','node','edge','subgraph','rank','abstract',
+    'n','ne','e','se','s','sw','w','nw','c','_',
+    '-&gt;',':','=',',',
+  ],
+
+  builtins: [
+    'rank','rankdir','ranksep','size','ratio',
+    'label','headlabel','taillabel',
+    'arrowhead','samehead','samearrowhead',
+    'arrowtail','sametail','samearrowtail','arrowsize',
+    'labeldistance', 'labelangle', 'labelfontsize',
+    'dir','width','height','angle',
+    'fontsize','fontcolor', 'same','weight','color',
+    'bgcolor','style','shape','fillcolor','nodesep','id',
+  ],
+
+  attributes: [
+    'doublecircle','circle','diamond','box','point','ellipse','record',
+    'inv','invdot','dot','dashed','dotted','filled','back','forward',
+  ],
+
+  // we include these common regular expressions
+  symbols:  /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+
+
+  // The main tokenizer for our languages
+  tokenizer: {
+    root: [
+      // identifiers and keywords
+      [/[a-zA-Z_\x80-\xFF][\w\x80-\xFF]*/, {
+          cases: { '@keywords': 'keyword',
+                   '@builtins': 'predefined',
+                   '@attributes': 'constructor',
+                   '@default': 'identifier' } }],
+
+      // whitespace
+      { include: '@whitespace' },
+
+      // html identifiers
+      [/&lt;(?!@symbols)/, { token: 'string.html.quote', bracket: '@open', next: 'html' } ],
+
+      // delimiters and operators
+      [/[{}()\[\]]/, '@brackets'],
+      [/@symbols/, { cases: { '@keywords': 'keyword',
+                              '@default' : 'operator' } } ],
+
+      // delimiter
+      [/[;,]/, 'delimiter'],
+
+      // numbers
+      [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+      [/0[xX][0-9a-fA-F]+/, 'number.hex'],
+      [/\d+/, 'number'],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+    ],
+
+    comment: [
+      [/[^\/*]+/, 'comment' ],
+      [/\/\*/,    'comment', '@push' ],    // nested comment
+      ["\\*/",    'comment', '@pop'  ],
+      [/[\/*]/,   'comment' ]
+    ],
+
+    html: [
+      [/[^&lt;&gt;&amp;]+/,   'string.html'],
+      [/&amp;\w+;/,     'string.html.escape' ],
+      [/&amp;/,         'string.html'],
+      [/&lt;/,         { token: 'string.html.quote', bracket: '@open', next: '@push' } ], //nested bracket
+      [/&gt;/,         { token: 'string.html.quote', bracket: '@close', next: '@pop' } ],
+    ],
+
+    string: [
+      [/[^\\"&amp;]+/,  'string'],
+      [/\\"/,       'string.escape'],
+      [/&amp;\w+;/,     'string.escape'],
+      [/[\\&amp;]/,     'string'],
+      [/"/,         { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+    ],
+
+    whitespace: [
+      [/[ \t\r\n]+/, 'white'],
+      [/\/\*/,       'comment', '@comment' ],
+      [/\/\/.*$/,    'comment'],
+      [/#.*$/,       'comment'],
+    ],
+  },
+};
+</pre
+				>
+
+				<pre id="csharp-sample">
+// CSharp 4.0 ray-tracer sample by Luke Hoban
+using System.Drawing;
+using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Forms;
+
+namespace RayTracer {
+    public class RayTracer {
+
+        private int screenWidth;
+        private int screenHeight;
+        private const int MaxDepth = 5;
+
+        public Action&lt;int, int, System.Drawing.Color> setPixel;
+
+        public RayTracer(int screenWidth, int screenHeight, Action&lt;int,int, System.Drawing.Color> setPixel) {
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
+            this.setPixel = setPixel;
+        }
+
+        private IEnumerable&lt;ISect> Intersections(Ray ray, Scene scene)
+        {
+            return scene.Things
+                        .Select(obj => obj.Intersect(ray))
+                        .Where(inter => inter != null)
+                        .OrderBy(inter => inter.Dist);
+        }
+
+        private double TestRay(Ray ray, Scene scene) {
+            var isects = Intersections(ray, scene);
+            ISect isect = isects.FirstOrDefault();
+            if (isect == null)
+                return 0;
+            return isect.Dist;
+        }
+
+        private Color TraceRay(Ray ray, Scene scene, int depth) {
+            var isects = Intersections(ray, scene);
+            ISect isect = isects.FirstOrDefault();
+            if (isect == null)
+                return Color.Background;
+            return Shade(isect, scene, depth);
+        }
+
+        private Color GetNaturalColor(SceneObject thing, Vector pos, Vector norm, Vector rd, Scene scene) {
+            Color ret = Color.Make(0, 0, 0);
+            foreach (Light light in scene.Lights) {
+                Vector ldis = Vector.Minus(light.Pos, pos);
+                Vector livec = Vector.Norm(ldis);
+                double neatIsect = TestRay(new Ray() { Start = pos, Dir = livec }, scene);
+                bool isInShadow = !((neatIsect > Vector.Mag(ldis)) || (neatIsect == 0));
+                if (!isInShadow) {
+                    double illum = Vector.Dot(livec, norm);
+                    Color lcolor = illum > 0 ? Color.Times(illum, light.Color) : Color.Make(0, 0, 0);
+                    double specular = Vector.Dot(livec, Vector.Norm(rd));
+                    Color scolor = specular > 0 ? Color.Times(Math.Pow(specular, thing.Surface.Roughness), light.Color) : Color.Make(0, 0, 0);
+                    ret = Color.Plus(ret, Color.Plus(Color.Times(thing.Surface.Diffuse(pos), lcolor),
+                                                     Color.Times(thing.Surface.Specular(pos), scolor)));
+                }
+            }
+            return ret;
+        }
+
+        private Color GetReflectionColor(SceneObject thing, Vector pos, Vector norm, Vector rd, Scene scene, int depth) {
+            return Color.Times(thing.Surface.Reflect(pos), TraceRay(new Ray() { Start = pos, Dir = rd }, scene, depth + 1));
+        }
+
+        private Color Shade(ISect isect, Scene scene, int depth) {
+            var d = isect.Ray.Dir;
+            var pos = Vector.Plus(Vector.Times(isect.Dist, isect.Ray.Dir), isect.Ray.Start);
+            var normal = isect.Thing.Normal(pos);
+            var reflectDir = Vector.Minus(d, Vector.Times(2 * Vector.Dot(normal, d), normal));
+            Color ret = Color.DefaultColor;
+            ret = Color.Plus(ret, GetNaturalColor(isect.Thing, pos, normal, reflectDir, scene));
+            if (depth >= MaxDepth) {
+                return Color.Plus(ret, Color.Make(.5, .5, .5));
+            }
+            return Color.Plus(ret, GetReflectionColor(isect.Thing, Vector.Plus(pos, Vector.Times(.001, reflectDir)), normal, reflectDir, scene, depth));
+        }
+
+        private double RecenterX(double x) {
+            return (x - (screenWidth / 2.0)) / (2.0 * screenWidth);
+        }
+        private double RecenterY(double y) {
+            return -(y - (screenHeight / 2.0)) / (2.0 * screenHeight);
+        }
+
+        private Vector GetPoint(double x, double y, Camera camera) {
+            return Vector.Norm(Vector.Plus(camera.Forward, Vector.Plus(Vector.Times(RecenterX(x), camera.Right),
+                                                                       Vector.Times(RecenterY(y), camera.Up))));
+        }
+
+        internal void Render(Scene scene) {
+            for (int y = 0; y &lt; screenHeight; y++)
+            {
+                for (int x = 0; x &lt; screenWidth; x++)
+                {
+                    Color color = TraceRay(new Ray() { Start = scene.Camera.Pos, Dir = GetPoint(x, y, scene.Camera) }, scene, 0);
+                    setPixel(x, y, color.ToDrawingColor());
+                }
+            }
+        }
+
+        internal readonly Scene DefaultScene =
+            new Scene() {
+                    Things = new SceneObject[] {
+                                new Plane() {
+                                    Norm = Vector.Make(0,1,0),
+                                    Offset = 0,
+                                    Surface = Surfaces.CheckerBoard
+                                },
+                                new Sphere() {
+                                    Center = Vector.Make(0,1,0),
+                                    Radius = 1,
+                                    Surface = Surfaces.Shiny
+                                },
+                                new Sphere() {
+                                    Center = Vector.Make(-1,.5,1.5),
+                                    Radius = .5,
+                                    Surface = Surfaces.Shiny
+                                }},
+                    Lights = new Light[] {
+                                new Light() {
+                                    Pos = Vector.Make(-2,2.5,0),
+                                    Color = Color.Make(.49,.07,.07)
+                                },
+                                new Light() {
+                                    Pos = Vector.Make(1.5,2.5,1.5),
+                                    Color = Color.Make(.07,.07,.49)
+                                },
+                                new Light() {
+                                    Pos = Vector.Make(1.5,2.5,-1.5),
+                                    Color = Color.Make(.07,.49,.071)
+                                },
+                                new Light() {
+                                    Pos = Vector.Make(0,3.5,0),
+                                    Color = Color.Make(.21,.21,.35)
+                                }},
+                    Camera = Camera.Create(Vector.Make(3,2,4), Vector.Make(-1,.5,0))
+                };
+    }
+
+    static class Surfaces {
+        // Only works with X-Z plane.
+        public static readonly Surface CheckerBoard  =
+            new Surface() {
+                Diffuse = pos => ((Math.Floor(pos.Z) + Math.Floor(pos.X)) % 2 != 0)
+                                    ? Color.Make(1,1,1)
+                                    : Color.Make(0,0,0),
+                Specular = pos => Color.Make(1,1,1),
+                Reflect = pos => ((Math.Floor(pos.Z) + Math.Floor(pos.X)) % 2 != 0)
+                                    ? .1
+                                    : .7,
+                Roughness = 150
+            };
+
+
+        public static readonly Surface Shiny  =
+            new Surface() {
+                Diffuse = pos => Color.Make(1,1,1),
+                Specular = pos => Color.Make(.5,.5,.5),
+                Reflect = pos => .6,
+                Roughness = 50
+            };
+    }
+
+    class Vector {
+        public double X;
+        public double Y;
+        public double Z;
+
+        public Vector(double x, double y, double z) { X = x; Y = y; Z = z; }
+        public Vector(string str) {
+            string[] nums = str.Split(',');
+            if (nums.Length != 3) throw new ArgumentException();
+            X = double.Parse(nums[0]);
+            Y = double.Parse(nums[1]);
+            Z = double.Parse(nums[2]);
+        }
+        public static Vector Make(double x, double y, double z) { return new Vector(x, y, z); }
+        public static Vector Times(double n, Vector v) {
+            return new Vector(v.X * n, v.Y * n, v.Z * n);
+        }
+        public static Vector Minus(Vector v1, Vector v2) {
+            return new Vector(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+        }
+        public static Vector Plus(Vector v1, Vector v2) {
+            return new Vector(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+        }
+        public static double Dot(Vector v1, Vector v2) {
+            return (v1.X * v2.X) + (v1.Y * v2.Y) + (v1.Z * v2.Z);
+        }
+        public static double Mag(Vector v) { return Math.Sqrt(Dot(v, v)); }
+        public static Vector Norm(Vector v) {
+            double mag = Mag(v);
+            double div = mag == 0 ? double.PositiveInfinity : 1 / mag;
+            return Times(div, v);
+        }
+        public static Vector Cross(Vector v1, Vector v2) {
+            return new Vector(((v1.Y * v2.Z) - (v1.Z * v2.Y)),
+                              ((v1.Z * v2.X) - (v1.X * v2.Z)),
+                              ((v1.X * v2.Y) - (v1.Y * v2.X)));
+        }
+        public static bool Equals(Vector v1, Vector v2) {
+            return (v1.X == v2.X) &amp;&amp; (v1.Y == v2.Y) &amp;&amp; (v1.Z == v2.Z);
+        }
+    }
+
+    public class Color {
+        public double R;
+        public double G;
+        public double B;
+
+        public Color(double r, double g, double b) { R = r; G = g; B = b; }
+        public Color(string str) {
+            string[] nums = str.Split(',');
+            if (nums.Length != 3) throw new ArgumentException();
+            R = double.Parse(nums[0]);
+            G = double.Parse(nums[1]);
+            B = double.Parse(nums[2]);
+        }
+
+        public static Color Make(double r, double g, double b) { return new Color(r, g, b); }
+
+        public static Color Times(double n, Color v) {
+            return new Color(n * v.R, n * v.G, n * v.B);
+        }
+        public static Color Times(Color v1, Color v2) {
+            return new Color(v1.R * v2.R, v1.G * v2.G,v1.B * v2.B);
+        }
+
+        public static Color Plus(Color v1, Color v2) {
+            return new Color(v1.R + v2.R, v1.G + v2.G,v1.B + v2.B);
+        }
+        public static Color Minus(Color v1, Color v2) {
+            return new Color(v1.R - v2.R, v1.G - v2.G,v1.B - v2.B);
+        }
+
+        public static readonly Color Background = Make(0, 0, 0);
+        public static readonly Color DefaultColor = Make(0, 0, 0);
+
+        public double Legalize(double d) {
+            return d > 1 ? 1 : d;
+        }
+
+        internal System.Drawing.Color ToDrawingColor() {
+            return System.Drawing.Color.FromArgb((int)(Legalize(R) * 255), (int)(Legalize(G) * 255), (int)(Legalize(B) * 255));
+        }
+
+    }
+
+    class Ray {
+        public Vector Start;
+        public Vector Dir;
+    }
+
+    class ISect {
+        public SceneObject Thing;
+        public Ray Ray;
+        public double Dist;
+    }
+
+    class Surface {
+        public Func&lt;Vector, Color> Diffuse;
+        public Func&lt;Vector, Color> Specular;
+        public Func&lt;Vector, double> Reflect;
+        public double Roughness;
+    }
+
+    class Camera {
+        public Vector Pos;
+        public Vector Forward;
+        public Vector Up;
+        public Vector Right;
+
+        public static Camera Create(Vector pos, Vector lookAt) {
+            Vector forward = Vector.Norm(Vector.Minus(lookAt, pos));
+            Vector down = new Vector(0, -1, 0);
+            Vector right = Vector.Times(1.5, Vector.Norm(Vector.Cross(forward, down)));
+            Vector up = Vector.Times(1.5, Vector.Norm(Vector.Cross(forward, right)));
+
+            return new Camera() { Pos = pos, Forward = forward, Up = up, Right = right };
+        }
+    }
+
+    class Light {
+        public Vector Pos;
+        public Color Color;
+    }
+
+    abstract class SceneObject {
+        public Surface Surface;
+        public abstract ISect Intersect(Ray ray);
+        public abstract Vector Normal(Vector pos);
+    }
+
+    class Sphere : SceneObject {
+        public Vector Center;
+        public double Radius;
+
+        public override ISect Intersect(Ray ray) {
+            Vector eo = Vector.Minus(Center, ray.Start);
+            double v = Vector.Dot(eo, ray.Dir);
+            double dist;
+            if (v &lt; 0) {
+                dist = 0;
+            }
+            else {
+                double disc = Math.Pow(Radius,2) - (Vector.Dot(eo, eo) - Math.Pow(v,2));
+                dist = disc &lt; 0 ? 0 : v - Math.Sqrt(disc);
+            }
+            if (dist == 0) return null;
+            return new ISect() {
+                Thing = this,
+                Ray = ray,
+                Dist = dist};
+        }
+
+        public override Vector Normal(Vector pos) {
+            return Vector.Norm(Vector.Minus(pos, Center));
+        }
+    }
+
+    class Plane : SceneObject {
+        public Vector Norm;
+        public double Offset;
+
+        public override ISect Intersect(Ray ray) {
+            double denom = Vector.Dot(Norm, ray.Dir);
+            if (denom > 0) return null;
+            return new ISect() {
+                Thing = this,
+                Ray = ray,
+                Dist = (Vector.Dot(Norm, ray.Start) + Offset) / (-denom)};
+        }
+
+        public override Vector Normal(Vector pos) {
+            return Norm;
+        }
+    }
+
+    class Scene {
+        public SceneObject[] Things;
+        public Light[] Lights;
+        public Camera Camera;
+
+        public IEnumerable&lt;ISect> Intersect(Ray r) {
+            return from thing in Things
+                   select thing.Intersect(r);
+        }
+    }
+
+    public delegate void Action&lt;T,U,V>(T t, U u, V v);
+
+    public partial class RayTracerForm : Form
+    {
+        Bitmap bitmap;
+        PictureBox pictureBox;
+        const int width = 600;
+        const int height = 600;
+
+        public RayTracerForm()
+        {
+            bitmap = new Bitmap(width,height);
+
+            pictureBox = new PictureBox();
+            pictureBox.Dock = DockStyle.Fill;
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox.Image = bitmap;
+
+            ClientSize = new System.Drawing.Size(width, height + 24);
+            Controls.Add(pictureBox);
+            Text = "Ray Tracer";
+            Load += RayTracerForm_Load;
+
+            Show();
+        }
+
+        private void RayTracerForm_Load(object sender, EventArgs e)
+        {
+            this.Show();
+            RayTracer rayTracer = new RayTracer(width, height, (int x, int y, System.Drawing.Color color) =>
+                                                               {
+                                                                   bitmap.SetPixel(x, y, color);
+                                                                   if (x == 0) pictureBox.Refresh();
+                                                               });
+            rayTracer.Render(rayTracer.DefaultScene);
+            pictureBox.Invalidate();
+
+        }
+
+        [STAThread]
+        static void Main() {
+            Application.EnableVisualStyles();
+
+            Application.Run(new RayTracerForm());
+        }
+    }
+}
+</pre
+				>
+				<pre id="csharp">
+// Difficulty: Moderate
+// CSharp language definition
+// Takes special care to color types and namespaces nicely.
+// (note: this can't be done completely accurately though on a lexical level,
+//  but we are getting quite close :-) )
+//
+// Todo: support unicode identifiers
+// Todo: special color for documentation comments and attributes
+return {
+	defaultToken: '',
+	tokenPostfix: '.cs',
+
+	brackets: [
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.square' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '&lt;', close: '&gt;', token: 'delimiter.angle' }
+	],
+
+	keywords: [
+		'extern', 'alias', 'using', 'bool', 'decimal', 'sbyte', 'byte', 'short',
+		'ushort', 'int', 'uint', 'long', 'ulong', 'char', 'float', 'double',
+		'object', 'dynamic', 'string', 'assembly', 'is', 'as', 'ref',
+		'out', 'this', 'base', 'new', 'typeof', 'void', 'checked', 'unchecked',
+		'default', 'delegate', 'var', 'const', 'if', 'else', 'switch', 'case',
+		'while', 'do', 'for', 'foreach', 'in', 'break', 'continue', 'goto',
+		'return', 'throw', 'try', 'catch', 'finally', 'lock', 'yield', 'from',
+		'let', 'where', 'join', 'on', 'equals', 'into', 'orderby', 'ascending',
+		'descending', 'select', 'group', 'by', 'namespace', 'partial', 'class',
+		'field', 'event', 'method', 'param', 'property', 'public', 'protected',
+		'internal', 'private', 'abstract', 'sealed', 'static', 'struct', 'readonly',
+		'volatile', 'virtual', 'override', 'params', 'get', 'set', 'add', 'remove',
+		'operator', 'true', 'false', 'implicit', 'explicit', 'interface', 'enum',
+		'null', 'async', 'await', 'fixed', 'sizeof', 'stackalloc', 'unsafe', 'nameof',
+		'when'
+	],
+
+	namespaceFollows: [
+		'namespace', 'using',
+	],
+
+	parenFollows: [
+		'if', 'for', 'while', 'switch', 'foreach', 'using', 'catch', 'when'
+	],
+
+	operators: [
+		'=', '??', '||', '&amp;&amp;', '|', '^', '&amp;', '==', '!=', '&lt;=', '&gt;=', '&lt;&lt;',
+		'+', '-', '*', '/', '%', '!', '~', '++', '--', '+=',
+		'-=', '*=', '/=', '%=', '&amp;=', '|=', '^=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;', '=&gt;'
+	],
+
+	symbols: /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+
+	// escape sequences
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+
+			// identifiers and keywords
+			[/\@?[a-zA-Z_]\w*/, {
+				cases: {
+					'@namespaceFollows': { token: 'keyword.$0', next: '@namespace' },
+					'@keywords': { token: 'keyword.$0', next: '@qualified' },
+					'@default': { token: 'identifier', next: '@qualified' }
+				}
+			}],
+
+			// whitespace
+			{ include: '@whitespace' },
+
+			// delimiters and operators
+			[/}/, {
+				cases: {
+					'$S2==interpolatedstring': { token: 'string.quote', next: '@pop' },
+					'$S2==litinterpstring': { token: 'string.quote', next: '@pop' },
+					'@default': '@brackets'
+				}
+			}],
+			[/[{}()\[\]]/, '@brackets'],
+			[/[&lt;&gt;](?!@symbols)/, '@brackets'],
+			[/@symbols/, {
+				cases: {
+					'@operators': 'delimiter',
+					'@default': ''
+				}
+			}],
+
+
+			// numbers
+			[/[0-9_]*\.[0-9_]+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
+			[/0[xX][0-9a-fA-F_]+/, 'number.hex'],
+			[/0[bB][01_]+/, 'number.hex'], // binary: use same theme style as hex
+			[/[0-9_]+/, 'number'],
+
+			// delimiter: after number because of .\d floats
+			[/[;,.]/, 'delimiter'],
+
+			// strings
+			[/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+			[/"/, { token: 'string.quote', next: '@string' }],
+			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' }],
+			[/\@"/, { token: 'string.quote', next: '@litstring' }],
+			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' }],
+
+			// characters
+			[/'[^\\']'/, 'string'],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
+			[/'/, 'string.invalid']
+		],
+
+		qualified: [
+			[/[a-zA-Z_][\w]*/, {
+				cases: {
+					'@keywords': { token: 'keyword.$0' },
+					'@default': 'identifier'
+				}
+			}],
+			[/\./, 'delimiter'],
+			['', '', '@pop'],
+		],
+
+		namespace: [
+			{ include: '@whitespace' },
+			[/[A-Z]\w*/, 'namespace'],
+			[/[\.=]/, 'delimiter'],
+			['', '', '@pop'],
+		],
+
+		comment: [
+			[/[^\/*]+/, 'comment'],
+			// [/\/\*/,    'comment', '@push' ],    // no nested comments :-(
+			['\\*/', 'comment', '@pop'],
+			[/[\/*]/, 'comment']
+		],
+
+		string: [
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
+
+		litstring: [
+			[/[^"]+/, 'string'],
+			[/""/, 'string.escape'],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
+
+		litinterpstring: [
+			[/[^"{]+/, 'string'],
+			[/""/, 'string.escape'],
+			[/{{/, 'string.escape'],
+			[/}}/, 'string.escape'],
+			[/{/, { token: 'string.quote', next: 'root.litinterpstring' }],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
+
+		interpolatedstring: [
+			[/[^\\"{]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/{{/, 'string.escape'],
+			[/}}/, 'string.escape'],
+			[/{/, { token: 'string.quote', next: 'root.interpolatedstring' }],
+			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
+
+		whitespace: [
+			[/^[ \t\v\f]*#((r)|(load))(?=\s)/, 'directive.csx'],
+			[/^[ \t\v\f]*#\w.*$/, 'namespace.cpp'],
+			[/[ \t\v\f\r\n]+/, ''],
+			[/\/\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment'],
+		],
+	},
+};
+</pre
+				>
+
+				<pre id="chalice-sample">
+// This example shows a use of a channel.  Properties of the messages
+// passed along the channel, as well as permissions and channel credits,
+// are specified in the channel's "where" clause.
+
+channel NumberStream(x: int) where 2 &lt;= x ==> credit(this);
+
+class Sieve {
+  method Counter(n: NumberStream, to: int)  // sends the plurals along n
+    requires rd(n.mu) &amp;&amp; credit(n,-1) &amp;&amp; 0 &lt;= to;
+  {
+    var i := 2;
+    while (i &lt; to)
+      invariant rd(n.mu);
+      invariant 2 &lt;= i;
+      invariant credit(n, -1)
+    {
+      send n(i);
+      i := i + 1;
+    }
+    send n(-1);
+  }
+
+  method Filter(prime: int, r: NumberStream, s: NumberStream)
+    requires 2 &lt;= prime;
+    requires rd(r.mu) &amp;&amp; waitlevel &lt;&lt; r.mu;
+    requires rd(s.mu) &amp;&amp; s.mu &lt;&lt; r.mu &amp;&amp; credit(r) &amp;&amp; credit(s, -1);
+  {
+    receive x := r;
+    while (2 &lt;= x)
+      invariant rd(r.mu) &amp;&amp; rd(s.mu) &amp;&amp; s &lt;&lt; r &amp;&amp; waitlevel &lt;&lt; r.mu;
+      invariant 2&lt;= x ==> credit(r);
+      invariant credit(s, -1);
+    {
+      if (x % prime != 0) {  // suppress multiples of prime
+        send s(x);
+      }
+      receive x := r;
+
+    }
+    send s(-1);
+  }
+
+  method Start()
+  {
+    var ch := new NumberStream;
+    fork Counter(ch, 101);
+    var p: int;
+    receive p := ch;
+    while (2 &lt;= p)
+      invariant ch != null;
+      invariant 2 &lt;= p ==> credit(ch, 1);
+      invariant rd*(ch.mu) &amp;&amp; waitlevel &lt;&lt; ch.mu;
+    {
+      // print p--it's a prime!
+      var cp := new ChalicePrint;  call cp.Int(p);
+
+      var n := new NumberStream between waitlevel and ch;
+      fork Filter(p, ch, n);
+      ch := n;
+      receive p := ch;
+    }
+  }
+}
+
+external class ChalicePrint {
+  method Int(x: int) { }
+}
+</pre
+				>
+
+				<pre id="chalice">
+// Difficulty: "Easy"
+// Language definition sample for the Chalice language.
+// See 'http://rise4fun.com/Chalice'.
+return {
+  keywords: [
+    'class','ghost','var','const','method','channel','condition',
+    'assert','assume','new','this','reorder',
+    'between','and','above','below','share','unshare','acquire','release','downgrade',
+
+    'call','if','else','while','lockchange',
+    'returns','where',
+    'false','true','null',
+    'waitlevel','lockbottom',
+    'module','external',
+    'predicate','function',
+    'forall','exists',
+    'nil','result','eval','token',
+    'unlimited',
+    'refines','transforms','replaces','by','spec',
+  ],
+
+  builtins: [
+    'lock','fork','join','rd','acc','credit','holds','old','assigned',
+    'send','receive',
+    'ite','fold','unfold','unfolding','in',
+    'wait','signal',
+  ],
+
+  verifyKeywords: [
+   'requires','ensures','free','invariant'
+  ],
+
+  types: [
+   'bool','int','string','seq'
+  ],
+
+  brackets: [
+    ['{','}','delimiter.curly'],
+    ['[',']','delimiter.square'],
+    ['(',')','delimiter.parenthesis']
+  ],
+
+  // Chalice uses C# style strings
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+  tokenizer: {
+    root: [
+      // identifiers
+      [/array([2-9]\d*|1\d+)/, 'type.keyword' ],
+      [/[a-zA-Z'_\?\\][\w'\?\\]*/, { cases: {'@keywords': 'keyword',
+                                             '@verifyKeywords': 'constructor.identifier',
+                                             '@builtins': 'keyword',
+                                             '@types'   : 'type.keyword',
+                                             '@default' : 'identifier' }}],
+      [':=','keyword'],
+
+      // whitespace
+      { include: '@whitespace' },
+
+      [/[{}()\[\]]/, '@brackets'],
+      [/[;,]/, 'delimiter'],
+
+      // literals
+      [/[0-9]+/, 'number'],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  'string', '@string' ],
+    ],
+
+    whitespace: [
+      [/[ \t\r\n]+/, 'white'],
+      [/\/\*/,       'comment', '@comment' ],
+      [/\/\/.*$/,    'comment'],
+    ],
+
+    comment: [
+      [/[^\/*]+/, 'comment' ],
+      [/\/\*/, 'comment', '@push' ],    // nested comment
+      ["\\*/",    'comment', '@pop'  ],
+      [/[\/*]/,   'comment' ]
+    ],
+
+    string: [
+      [/[^\\"]+/,  'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./,      'string.escape.invalid'],
+      [/"/,  'string', '@pop' ]
+    ],
+  }
+};
+</pre
+				>
+
+				<pre id="specsharp-sample">
+// This example shows many of the features of Spec#, including pre-
+// and postcondition of methods and object invariants.  The basic
+// idea in the example is to implement a "chunker", which returns
+// successive portions of a given string.  The main work is done
+// in the NextChunk() method.
+
+// For a full demo showing this example, check out the "The Chunker"
+// episode on Verification Corner
+// (http://research.microsoft.com/verificationcorner)
+
+public class Chunker
+{
+  string src;
+  int ChunkSize;
+  invariant 0 &lt;= ChunkSize;
+  int n;  // the number of characters returned so far
+  invariant 0 &lt;= n;
+
+  public string NextChunk()
+    ensures result.Length &lt;= ChunkSize;
+  {
+    string s;
+    if (n + ChunkSize &lt;= src.Length) {
+      s = src.Substring(n, ChunkSize);
+    } else {
+      s = src.Substring(n);
+    }
+    return s;
+  }
+
+  public Chunker(string source, int chunkSize)
+  {
+    src = source;
+    ChunkSize = chunkSize;
+    n = 0;
+  }
+}
+</pre
+				>
+
+				<pre id="specsharp">
+// Difficulty: Moderate
+// SpecSharp language definition. This is an extension of the C# language definition.
+// See: http://rise4fun.com/SpecSharp for more information
+//
+// Takes special care to color types and namespaces nicely.
+// (note: this can't be done completely accurately though on a lexical level,
+//  but we are getting quite close :-) )
+//
+// Todo: support unicode identifiers
+// Todo: special color for documentation comments and attributes
+return {
+  keywords: [
+    'extern', 'alias', 'using', 'bool', 'decimal', 'sbyte', 'byte', 'short',
+    'ushort', 'int', 'uint', 'long', 'ulong', 'char', 'float', 'double',
+    'object', 'dynamic', 'string', 'assembly', 'module', 'is', 'as', 'ref',
+    'out', 'this', 'base', 'new', 'typeof', 'void', 'checked', 'unchecked',
+    'default', 'delegate', 'var', 'const', 'if', 'else', 'switch', 'case',
+    'while', 'do', 'for', 'foreach', 'in', 'break', 'continue', 'goto',
+    'return', 'throw', 'try', 'catch', 'finally', 'lock', 'yield', 'from',
+    'let', 'where', 'join', 'on', 'equals', 'into', 'orderby', 'ascending',
+    'descending', 'select', 'group', 'by', 'namespace', 'partial', 'class',
+    'field', 'event', 'method', 'param', 'property', 'public', 'protected',
+    'internal', 'private', 'abstract', 'sealed', 'static', 'struct', 'readonly',
+    'volatile', 'virtual', 'override', 'params', 'get', 'set', 'add', 'remove',
+    'operator', 'true', 'false', 'implicit', 'explicit', 'interface', 'enum',
+    'null',
+    '=',':',
+    'expose', 'assert', 'assume',
+    'additive', 'model', 'throws',
+    'forall', 'exists', 'unique', 'count', 'max', 'min', 'product', 'sum',
+    'result'
+  ],
+
+  verifyKeywords: [
+    'requires', 'modifies', 'ensures', 'otherwise', 'satisfies', 'witness', 'invariant',
+  ],
+
+  typeKeywords: [
+    'bool', 'byte', 'char', 'decimal', 'double', 'fixed', 'float',
+    'int', 'long','object','sbyte','short','string','uint','ulong',
+    'ushort','void'
+  ],
+
+  keywordInType: [
+    'struct','new','where','class'
+  ],
+
+  typeFollows: [
+    'as', 'class', 'interface', 'struct', 'enum', 'new','where',
+    ':',
+  ],
+
+  namespaceFollows: [
+    'namespace', 'using',
+  ],
+
+  operators: [
+    '??', '||', '&amp;&amp;', '|', '^', '&amp;', '==', '!=', '&lt;=', '&gt;=', '&lt;&lt;',
+    '+', '-', '*', '/', '%', '!', '~', '++', '--','+=',
+    '-=', '*=', '/=', '%=', '&amp;=', '|=', '^=', '&lt;&lt;=', '&gt;&gt;=', '&gt;&gt;', '=&gt;'
+  ],
+
+  symbols:  /[=&gt;&lt;!~?:&amp;|+\-*\/\^%]+/,
+
+  // escape sequences
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+  // The main tokenizer for our languages
+  tokenizer: {
+    root: [
+      // Try to show type names nicely: for parameters: Type name
+      [/[A-Z][\w]*(?=[\.\w]*(\s|\/\*!\*\/)+\w)/, 'type.identifier' ],
+
+      // Generic types List&lt;int&gt;.
+      // Unfortunately, colors explicit nested generic method instantiation as Method&lt;List&lt;int&gt;&gt;(x) wrongly
+      [/([A-Z][\w]*[\.\w]*)(&lt;)(?![^&gt;]+&gt;\s*(?:\(|$))/, ['type.identifier', { token: '@brackets', next: '@type' } ]],
+      [/([A-Z][\w]*[\.\w]*)(&lt;)/, ['identifier', { token: '@brackets', next: '@type' } ]],
+
+      // These take care of 'System.Console.WriteLine'.
+      // These two rules are not 100% right: if a non-qualified field has an uppercase name
+      // it colors it as a type.. but you could use this.Field to circumenvent this.
+      [/[A-Z][\w]*(?=\.[A-Z])/, 'type.identifier' ],
+      [/[A-Z][\w]*(?=\.[a-z_])/, 'type.identifier', '@qualified' ],
+
+      // identifiers and keywords
+      [/[a-zA-Z_]\w*/, { cases: {'@typeFollows': { token: 'keyword', next: '@type' },
+                                 '@namespaceFollows': { token: 'keyword', next: '@namespace' },
+                                 '@typeKeywords': { token: 'type.identifier', next: '@qualified' },
+                                 '@keywords': { token: 'keyword', next: '@qualified' },
+                                 '@verifyKeywords': { token: 'constructor', next: '@qualified' },
+                                 '@default': { token: 'identifier', next: '@qualified' } } }],
+
+      // whitespace
+      { include: '@whitespace' },
+
+      // delimiters and operators
+      [/[{}()\[\]]/, '@brackets'],
+      [/[&lt;&gt;](?!@symbols)/, '@brackets'],
+      [/@symbols/, { cases: { '@operators': 'operator',
+                              '@default'  : '' } } ],
+
+      // literal string
+      [/@"/, { token: 'string.quote', bracket: '@open', next: '@litstring' } ],
+
+      // numbers
+      [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+      [/0[xX][0-9a-fA-F]+/, 'number.hex'],
+      [/\d+/, 'number'],
+
+      // delimiter: after number because of .\d floats
+      [/[;,.]/, 'delimiter'],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+
+      // characters
+      [/'[^\\']'/, 'string'],
+      [/(')(@escapes)(')/, ['string','string.escape','string']],
+      [/'/, 'string.invalid']
+    ],
+
+    qualified: [
+      [/[a-zA-Z_][\w]*/, { cases: { '@typeFollows': { token: 'keyword', next: '@type' },
+                                    '@typeKeywords': 'type.identifier',
+                                    '@keywords': 'keyword',
+                                    '@verifyKeywords': 'constructor',
+                                    '@default': 'identifier' } }],
+      [/\./, 'delimiter'],
+      ['','','@pop'],
+    ],
+
+    type: [
+      { include: '@whitespace' },
+      [/[A-Z]\w*/, 'type.identifier'],
+      // identifiers and keywords
+      [/[a-zA-Z_]\w*/, { cases: {'@typeKeywords': 'type.identifier',
+                                 '@keywordInType': 'keyword',
+                                 '@keywords': {token: '@rematch', next: '@popall'},
+                                 '@verifyKeywords': {token: '@rematch', next: '@popall'},
+                                 '@default': 'type.identifier' } }],
+      [/[&lt;]/, '@brackets', '@type_nested' ],
+      [/[&gt;]/, '@brackets', '@pop' ],
+      [/[\.,:]/, { cases: { '@keywords': 'keyword',
+                            '@verifyKeywords': 'constructor',
+                            '@default': 'delimiter' }}],
+      ['','','@popall'], // catch all
+    ],
+
+    type_nested: [
+      [/[&lt;]/, '@brackets', '@type_nested' ],
+      { include: 'type' }
+    ],
+
+    namespace: [
+      { include: '@whitespace' },
+      [/[A-Z]\w*/, 'namespace'],
+      [/[\.=]/, 'keyword'],
+      ['','','@pop'],
+    ],
+
+    comment: [
+      [/[^\/*]+/, 'comment' ],
+      // [/\/\*/,    'comment', '@push' ],    // no nested comments :-(
+      ["\\*/",    'comment', '@pop'  ],
+      [/[\/*]/,   'comment' ]
+    ],
+
+    string: [
+      [/[^\\"]+/,  'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./,      'string.escape.invalid'],
+      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+    ],
+
+    litstring: [
+      [/[^"]+/,    'string'],
+      [/""/,       'string.escape'],
+      [/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+    ],
+
+    whitespace: [
+      [/^[ \t\v\f]*#\w.*$/, 'namespace.cpp' ],
+      [/[ \t\v\f\r\n]+/, 'white'],
+      [/\/\*/,       'comment', '@comment' ],
+      [/\/\/.*$/,    'comment'],
+    ],
+  },
+};</pre
+				>
+
+				<pre id="boogie-sample">
+// The partition step of Quick Sort picks a 'pivot' element from a specified subsection
+// of a given integer array.  It then partially sorts the elements of the array so that
+// elements smaller than the pivot end up to the left of the pivot and elements larger
+// than the pivot end up to the right of the pivot.  Finally, the index of the pivot is
+// returned.
+// The procedure below always picks the first element of the subregion as the pivot.
+// The specification of the procedure talks about the ordering of the elements, but
+// does not say anything about keeping the multiset of elements the same.
+
+var A: [int]int;
+const N: int;
+
+procedure Partition(l: int, r: int) returns (result: int)
+  requires 0 &lt;= l &amp;&amp; l+2 &lt;= r &amp;&amp; r &lt;= N;
+  modifies A;
+  ensures l &lt;= result &amp;&amp; result &lt; r;
+  ensures (forall k: int, j: int :: l &lt;= k &amp;&amp; k &lt; result &amp;&amp; result &lt;= j &amp;&amp; j &lt; r  ==>  A[k] &lt;= A[j]);
+  ensures (forall k: int :: l &lt;= k &amp;&amp; k &lt; result  ==>  A[k] &lt;= old(A)[l]);
+  ensures (forall k: int :: result &lt;= k &amp;&amp; k &lt; r  ==>  old(A)[l] &lt;= A[k]);
+{
+  var pv, i, j, tmp: int;
+
+  pv := A[l];
+  i := l;
+  j := r-1;
+  // swap A[l] and A[j]
+  tmp := A[l];
+  A[l] := A[j];
+  A[j] := tmp;
+  goto LoopHead;
+
+  // The following loop iterates while 'i &lt; j'.  In each iteration,
+  // one of the three alternatives (A, B, or C) is chosen in such
+  // a way that the assume statements will evaluate to true.
+  LoopHead:
+    // The following the assert statements give the loop invariant
+    assert (forall k: int :: l &lt;= k &amp;&amp; k &lt; i  ==>  A[k] &lt;= pv);
+    assert (forall k: int :: j &lt;= k &amp;&amp; k &lt; r  ==>  pv &lt;= A[k]);
+    assert l &lt;= i &amp;&amp; i &lt;= j &amp;&amp; j &lt; r;
+    goto A, B, C, exit;
+
+  A:
+    assume i &lt; j;
+    assume A[i] &lt;= pv;
+    i := i + 1;
+    goto LoopHead;
+
+  B:
+    assume i &lt; j;
+    assume pv &lt;= A[j-1];
+    j := j - 1;
+    goto LoopHead;
+
+  C:
+    assume i &lt; j;
+    assume A[j-1] &lt; pv &amp;&amp; pv &lt; A[i];
+    // swap A[j-1] and A[i]
+    tmp := A[i];
+    A[i] := A[j-1];
+    A[j-1] := tmp;
+    assert A[i] &lt; pv &amp;&amp; pv &lt; A[j-1];
+    i := i + 1;
+    j := j - 1;
+    goto LoopHead;
+
+  exit:
+    assume i == j;
+    result := i;
+}
+</pre
+				>
+
+				<pre id="boogie">
+// Difficulty: "Easy"
+// Language definition sample for the Boogie language.
+// See 'http://rise4fun.com/Boogie'.
+return {
+  keywords: [
+    'type','const','function','axiom','var','procedure','implementation',
+    'returns',
+    'assert','assume','break','call','then','else','havoc','if','goto','return','while',
+    'old','forall','exists','lambda','cast',
+    'false','true'
+  ],
+
+  verifyKeywords: [
+    'where','requires','ensures','modifies','free','invariant',
+    'unique','extends','complete'
+  ],
+
+  types: [
+    'bool','int'
+  ],
+
+  escapes: '\\\\(?:[abfnrtv\\\\""\']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})',
+
+  tokenizer: {
+    root: [
+      // identifiers
+      ['bv(0|[1-9]\\d*)', 'type.keyword' ],
+      [/\\?[a-zA-Z_'\~#\$\^\.\?\\`][\w_'\~#\$\^\.\?\\`]*(\s*:\s*$)?/,
+        { cases: {'$1': 'constructor',
+                  '@keywords': 'keyword',
+                  '@verifyKeywords': 'constructor.identifier',
+                  '@types'   : 'type.keyword',
+                  '@default' : 'identifier' }}],
+      [':=','keyword'],
+
+      // whitespace
+      { include: '@whitespace' },
+
+      ['[\\{\\}\\(\\)\\[\\]]', '@brackets'],
+      ['[;,]', 'delimiter'],
+
+      // literals
+      ['[0-9]+bv[0-9]+', 'number'],  // this is perhaps not so much a 'number' as it is a 'bitvector literal'
+      ['[0-9]+', 'number'],
+      ['""$', 'string.invalid'], // recover
+      ['""', 'string', '@string' ],
+    ],
+
+    whitespace: [
+      ['[ \\t\\r\\n]+', 'white'],
+      ['/\\*', 'comment', '@comment' ],
+      ['//.*', 'comment']
+    ],
+
+    comment: [
+      ['[^/\\*]+', 'comment' ],
+      ['/\\*',  'comment', '@push' ],
+      ['\\*/',  'comment', '@pop'  ],
+      ['[/\\*]', 'comment']
+    ],
+
+    string: [
+      ['[^\\\\""]+$', 'string.invalid', '@pop'],  // recover on end of line
+      ['@escapes$', 'string.escape.invalid', '@pop'], // more recovery
+      ['[^\\\\""]+', 'string'],
+      ['@escapes', 'string.escape'],
+      ['""', 'string', '@pop' ]
+    ]
+  }
+}
+</pre
+				>
+
+				<pre id="formula-sample">
+/*
+  This Formula specificatin models a problem in graph theory. It tries to find
+  a Eulerian walk within a specified graph. The problem is to find a walk through
+  the graph with the following properties:
+
+  - all edges in the graph must be used
+  - every edge must be used only once
+
+  A well known example of this problem is the so called German "Das-ist-das-Haus-vom-Nikolaus"
+  problem, which is modeled within this file.
+*/
+
+domain EulerWay
+{
+  primitive BaseEdge ::= (x:PosInteger, y:PosInteger).
+  primitive SolutionEdge ::= (pos:PosInteger, x : PosInteger, y : PosInteger).
+
+  // Make sure we have used all BaseEdge terms in the solution
+  usedBaseEdge ::= (x:PosInteger, y:PosInteger).
+  usedBaseEdge(x,y) :- BaseEdge(x,y), SolutionEdge(_,x,y).
+  usedBaseEdge(x,y) :- BaseEdge(x,y), SolutionEdge(_,y,x).
+  unusedBaseEdge := BaseEdge(x,y), fail usedBaseEdge(x,y).
+
+  // Make sure our index values are one based and not bigger than the number of base edges
+  indexTooBig := SolutionEdge(x,_,_), x > count(BaseEdge(_,_)).
+
+  // Make sure that no index is used twice
+  doubleIndex := s1 is SolutionEdge, s2 is SolutionEdge, s1 != s2, s1.pos = s2.pos.
+
+  // Exclude edges that don't line up
+  //wrongSequence := SolutionEdge(x, Edge(_,b)), SolutionEdge(y, Edge(c,_)), y = x + 1, b != c.
+  wrongSequence := SolutionEdge(pos1,_,y1), SolutionEdge(pos2,x2,_), pos2 = pos1 + 1, y1 != x2.
+
+  // Avoid using edges twice
+  doubleEdge := SolutionEdge(pos1,x,y), SolutionEdge(pos2,x,y), pos1 != pos2.
+
+  // Exclude mirrors of already used edges
+  mirrorEdge := SolutionEdge(_,x,y), SolutionEdge(_,y,x).
+
+  conforms := !unusedBaseEdge &amp; !indexTooBig &amp; !doubleIndex &amp; !wrongSequence &amp; !doubleEdge &amp; !mirrorEdge.
+}
+
+/*
+   Nikolaus graph:
+
+     5
+    / \
+   3---4
+   |\ /|
+   | X |
+   |/ \|
+   1---2
+*/
+
+partial model nikolaus2 of EulerWay
+{
+    BaseEdge(1,2)
+    BaseEdge(1,3)
+    BaseEdge(1,4)
+    BaseEdge(2,4)
+    BaseEdge(2,3)
+    BaseEdge(3,4)
+    BaseEdge(3,5)
+    BaseEdge(4,5)
+    SolutionEdge(1,_,_)
+    SolutionEdge(2,_,_)
+    SolutionEdge(3,_,_)
+    SolutionEdge(4,_,_)
+    SolutionEdge(5,_,_)
+    SolutionEdge(6,_,_)
+    SolutionEdge(7,_,_)
+    SolutionEdge(8,_,_)
+}
+</pre
+				>
+
+				<pre id="formula">
+// Difficulty: 'Easy'
+// Language definition for the Formula language
+// More information at: http://rise4fun.com/formula
+return {
+  brackets: [
+    ['{','}','delimiter.curly'],
+    ['[',']','delimiter.square'],
+    ['(',')','delimiter.parenthesis']
+  ],
+
+  keywords: [
+    'domain', 'model', 'transform', 'system',
+    'includes', 'extends', 'of', 'returns',
+    'at', 'machine', 'is', 'no',
+    'new', 'fun', 'inj', 'bij',
+    'sur', 'any', 'ensures', 'requires',
+    'some', 'atleast', 'atmost', 'partial',
+    'initially', 'next', 'property', 'boot',
+    'primitive'
+  ],
+
+  operators: [
+    ':', '::', '..', '::=',
+    ':-', '|', ';', ',',
+    '=', '!=', '&lt;', '&lt;=',
+    '&gt;', '&gt;=', '+', '-',
+    '%', '/', '*'
+  ],
+
+  // operators
+  symbols: /([\.]{2})|([=&gt;&lt;!:\|\+\-\*\/%,;]+)/,
+
+  // escape sequences
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+  tokenizer: {
+    root : [
+      { include: '@whitespace' },
+
+      [ /[a-zA-Z_][\w_]*('*)/, {
+          cases: {
+              '@keywords': 'keyword',
+              '@default': 'identifier'
+          } } ],
+
+      // delimiters
+      [ /[\{\}\(\)\[\]]/, '@brackets' ],
+      [ /`/, { token: 'delimiter.quote', next: '@quotation', bracket: "@open" } ],
+      [ /\./, 'delimiter' ],
+
+      // numbers
+      [ /[\-\+]?\d+\/[\-\+]?\d*[1-9]/, 'string' ],
+      [ /[\-\+]?\d+(\.\d+)?/, 'string' ],
+      [ /@symbols/, { cases:{ '@operators': 'keyword',
+                              '@default': 'symbols' } } ],
+
+      // strings
+      [/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+      [/"/,  'string', '@string' ],
+    ],
+
+    unquote:  [
+      { 'include' : '@root' },
+      [ /\$/, 'predefined.identifier', '@pop' ]
+    ],
+
+    quotation:
+    [
+      [ /[^`\$]/, 'metatag' ],
+      [ /`/, { token: 'delimiter.quote', bracket: '@close', next: '@pop' } ],
+      [ /\$/, 'predefined.identifier', '@unquote' ]
+    ],
+
+    whitespace: [
+      [/[ \t\r\n]+/, 'white'],
+      [/\/\*/,       'comment', '@comment' ],
+      [/\/\/.*$/,    'comment'],
+    ],
+
+    comment: [
+      [/[^\/*]+/, 'comment' ],
+      [/\/\*/, 'comment', '@push' ],    // nested comments
+      [/\/\*/,    'comment.invalid' ],
+      ["\\*/",    'comment', '@pop'  ],
+      [/[\/*]/,   'comment' ]
+    ],
+
+    string: [
+      [/[^"]+/,  'string'],
+      // [/@escapes/, 'string.escape'],
+      // [/\\./,      'string.escape.invalid'],
+      [/"/,        'string', '@pop' ]
+    ],
+  }
+};
+</pre
+				>
+			</div>
+			<!-- samples -->
+		</section>
+
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+			integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"
+			integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8="
+			crossorigin="anonymous"
+		></script>
+
+		<script>
+			var require = {
+				paths: { vs: "./node_modules/monaco-editor/dev/vs" },
+			};
+		</script>
+		<script src="./node_modules/monaco-editor/dev/vs/loader.js"></script>
+		<script src="./node_modules/monaco-editor/dev/vs/editor/editor.main.nls.js"></script>
+		<script src="./node_modules/monaco-editor/dev/vs/editor/editor.main.js"></script>
+
+		<script data-inline="yes-please" src="./monarch/monarch.js"></script>
+	</body>
+</html>
