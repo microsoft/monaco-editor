@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "commonjs",
+		"strict": true,
+		"outDir": "dist",
+		"skipLibCheck": true,
+		"rootDir": "./src",
+		"resolveJsonModule": true,
+		"newLine": "LF",
+		"sourceMap": true,
+		"jsx": "react",
+		"experimentalDecorators": true,
+		// to enable mobx decorators
+		"useDefineForClassFields": false
+	},
+	"include": ["src/**/*", "../release/monaco.d.ts"]
+}

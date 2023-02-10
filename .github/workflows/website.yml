@@ -2,8 +2,8 @@ name: Publish Website
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
   # enable users to manually trigger with workflow_dispatch
   workflow_dispatch: {}
 
@@ -12,9 +12,9 @@ jobs:
     name: Publish Website
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6 # pin@v2
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # pin@v2
         with:
           node-version: 16
 
@@ -23,17 +23,30 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-cacheNodeModules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-cacheNodeModules-
+          key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-cacheNodeModules2-
 
-      - name: Install node modules (1)
+      - name: execute `npm ci` (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci
 
-      - name: Build website
-        run: npm run build-website
+      - name: Build
+        run: npm run release
 
-      - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./.github/workflows/publish-website.sh
+      - name: Install website node modules
+        working-directory: website
+        run: yarn install --frozen-lockfile
+
+      - name: Install most recent version of monaco-editor
+        working-directory: website
+        run: yarn add monaco-editor
+
+      - name: Build website
+        working-directory: website
+        run: yarn run build
+
+      - name: Upload website to github pages
+        uses: peaceiris/actions-gh-pages@bd8c6b06eba6b3d25d72b7a1767993c0aeee42e7 # pin@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website/dist
