@@ -62,5 +62,10 @@ jobs:
       - name: Run smoke test
         run: npm run smoketest
 
+      - name: Install website node modules
+        working-directory: website
+        run: yarn install --frozen-lockfile
+
       - name: Build website
-        run: npm run build-website
+        working-directory: website
+        run: yarn run build
