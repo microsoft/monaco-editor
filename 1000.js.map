@@ -1,0 +1,1 @@
+{"version":3,"file":"1000.js","mappings":"4IAAA,2D","sources":["file:////home/runner/work/monaco-editor/monaco-editor/website/src/website/data/playground-samples/extending-language-services/inlay-hints-provider-example/sample.html"],"sourcesContent":["export default \"<div id=\\\"container\\\" style=\\\"height: 100%\\\"></div>\\n\";"],"names":[],"sourceRoot":""}

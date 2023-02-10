@@ -1,0 +1,2 @@
+/*! For license information please see less.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"less",extensions:[".less"],aliases:["Less","less"],mimetypes:["text/x-less","text/less"],loader:()=>import("./less")});

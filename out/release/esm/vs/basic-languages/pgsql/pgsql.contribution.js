@@ -1,0 +1,2 @@
+/*! For license information please see pgsql.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"pgsql",extensions:[],aliases:["PostgreSQL","postgres","pg","postgre"],loader:()=>import("./pgsql")});

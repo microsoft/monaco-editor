@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,n,u){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),(0,u.registerLanguage)({id:"lua",extensions:[".lua"],aliases:["Lua","lua"],loader:function(){return AMD?new Promise((function(n,u){e(["vs/basic-languages/lua/lua"],n,u)})):new Promise((function(n,u){e(["./lua"],n,u)}))}})}));

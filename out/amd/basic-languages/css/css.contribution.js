@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,s,n){"use strict";Object.defineProperty(s,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"css",extensions:[".css"],aliases:["CSS","css"],mimetypes:["text/css"],loader:function(){return AMD?new Promise((function(s,n){e(["vs/basic-languages/css/css"],s,n)})):new Promise((function(s,n){e(["./css"],s,n)}))}})}));

@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,i,s){"use strict";Object.defineProperty(i,"__esModule",{value:!0}),(0,s.registerLanguage)({id:"aes",extensions:[".aes"],aliases:["aes","sophia","Sophia"],loader:function(){return AMD?new Promise((function(i,s){e(["vs/basic-languages/sophia/sophia"],i,s)})):new Promise((function(i,s){e(["./sophia"],i,s)}))}})}));

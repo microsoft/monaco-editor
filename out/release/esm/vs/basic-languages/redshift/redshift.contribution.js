@@ -1,0 +1,2 @@
+/*! For license information please see redshift.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"redshift",extensions:[],aliases:["Redshift","redshift"],loader:()=>import("./redshift")});

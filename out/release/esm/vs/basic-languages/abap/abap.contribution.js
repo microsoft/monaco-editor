@@ -1,0 +1,2 @@
+/*! For license information please see abap.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"abap",extensions:[".abap"],aliases:["abap","ABAP"],loader:()=>import("./abap")});

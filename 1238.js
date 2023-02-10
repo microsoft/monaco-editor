@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[1238],{1238:(n,e,o)=>{o.r(e),o.d(e,{default:()=>t});const t='var editor = monaco.editor.create(document.getElementById("container"), {\n\tvalue: "function hello() {\\n\\talert(\'Hello world!\');\\n}",\n\tlanguage: "javascript",\n});\n\nvar myBinding = editor.addCommand(monaco.KeyCode.F9, function () {\n\talert("F9 pressed!");\n});\n\n// You can\'t dispose `addCommand`\n// If you need to dispose it you might use `addAction` or `registerCommand`\n'}}]);
+//# sourceMappingURL=1238.js.map

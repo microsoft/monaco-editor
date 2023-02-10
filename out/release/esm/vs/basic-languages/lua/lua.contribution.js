@@ -1,0 +1,2 @@
+/*! For license information please see lua.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"lua",extensions:[".lua"],aliases:["Lua","lua"],loader:()=>import("./lua")});

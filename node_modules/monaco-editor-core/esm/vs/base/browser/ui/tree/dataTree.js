@@ -1,0 +1,1 @@
+import{AbstractTree}from"./abstractTree.js";import{ObjectTreeModel}from"./objectTreeModel.js";export class DataTree extends AbstractTree{constructor(e,r,t,o,s,c={}){super(e,r,t,o,c),this.user=e,this.dataSource=s,this.identityProvider=c.identityProvider}createModel(e,r,t){return new ObjectTreeModel(e,r,t)}}

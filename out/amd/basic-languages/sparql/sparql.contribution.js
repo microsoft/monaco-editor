@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,r,n){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"sparql",extensions:[".rq"],aliases:["sparql","SPARQL"],loader:function(){return AMD?new Promise((function(r,n){e(["vs/basic-languages/sparql/sparql"],r,n)})):new Promise((function(r,n){e(["./sparql"],r,n)}))}})}));

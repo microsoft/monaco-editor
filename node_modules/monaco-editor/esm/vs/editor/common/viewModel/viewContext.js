@@ -1,0 +1,1 @@
+import{EditorTheme}from"../editorTheme.js";export class ViewContext{constructor(e,t,i){this.configuration=e,this.theme=new EditorTheme(t),this.viewModel=i,this.viewLayout=i.viewLayout}addEventHandler(e){this.viewModel.addViewEventHandler(e)}removeEventHandler(e){this.viewModel.removeViewEventHandler(e)}}

@@ -1,0 +1,1 @@
+import{ContiguousMultilineTokens}from"./contiguousMultilineTokens.js";export class ContiguousMultilineTokensBuilder{constructor(){this._tokens=[]}add(n,t){if(this._tokens.length>0){const e=this._tokens[this._tokens.length-1];if(e.endLineNumber+1===n)return void e.appendLineTokens(t)}this._tokens.push(new ContiguousMultilineTokens(n,[t]))}finalize(){return this._tokens}}

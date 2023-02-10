@@ -1,0 +1,2 @@
+/*! For license information please see pascaligo.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution.js";registerLanguage({id:"pascaligo",extensions:[".ligo"],aliases:["Pascaligo","ligo"],loader:()=>import("./pascaligo.js")});

@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,n,i){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),(0,i.registerLanguage)({id:"pla",extensions:[".pla"],loader:function(){return AMD?new Promise((function(n,i){e(["vs/basic-languages/pla/pla"],n,i)})):new Promise((function(n,i){e(["./pla"],n,i)}))}})}));

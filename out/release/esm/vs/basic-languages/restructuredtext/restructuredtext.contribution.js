@@ -1,0 +1,2 @@
+/*! For license information please see restructuredtext.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"restructuredtext",extensions:[".rst"],aliases:["reStructuredText","restructuredtext"],loader:()=>import("./restructuredtext")});

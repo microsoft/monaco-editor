@@ -1,0 +1,1 @@
+define(["require","exports","vs/editor/editor.api"],(function(e,r,i){"use strict";return i}));

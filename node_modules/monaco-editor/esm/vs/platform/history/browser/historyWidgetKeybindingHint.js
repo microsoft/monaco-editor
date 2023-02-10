@@ -1,0 +1,1 @@
+export function showHistoryKeybindingHint(o){var i,e;return"Up"===(null===(i=o.lookupKeybinding("history.showPrevious"))||void 0===i?void 0:i.getElectronAccelerator())&&"Down"===(null===(e=o.lookupKeybinding("history.showNext"))||void 0===e?void 0:e.getElectronAccelerator())}

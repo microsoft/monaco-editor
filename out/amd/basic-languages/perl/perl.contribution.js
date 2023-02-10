@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,n,r){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),(0,r.registerLanguage)({id:"perl",extensions:[".pl"],aliases:["Perl","pl"],loader:function(){return AMD?new Promise((function(n,r){e(["vs/basic-languages/perl/perl"],n,r)})):new Promise((function(n,r){e(["./perl"],n,r)}))}})}));

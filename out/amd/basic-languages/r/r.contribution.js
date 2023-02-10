@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,r,i){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),(0,i.registerLanguage)({id:"r",extensions:[".r",".rhistory",".rmd",".rprofile",".rt"],aliases:["R","r"],loader:function(){return AMD?new Promise((function(r,i){e(["vs/basic-languages/r/r"],r,i)})):new Promise((function(r,i){e(["./r"],r,i)}))}})}));

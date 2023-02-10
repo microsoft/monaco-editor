@@ -1,0 +1,1 @@
+export class IdGenerator{constructor(t){this._prefix=t,this._lastId=0}nextId(){return this._prefix+ ++this._lastId}}export const defaultGenerator=new IdGenerator("id#");

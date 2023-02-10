@@ -1,0 +1,2 @@
+/*! For license information please see msdax.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"msdax",extensions:[".dax",".msdax"],aliases:["DAX","MSDAX"],loader:()=>import("./msdax")});

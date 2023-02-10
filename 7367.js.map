@@ -1,0 +1,1 @@
+{"version":3,"file":"7367.js","mappings":"8IAAA,2D","sources":["file:////home/runner/work/monaco-editor/monaco-editor/website/src/website/data/playground-samples/interacting-with-the-editor/rendering-glyphs-in-the-margin/sample.html"],"sourcesContent":["export default \"<div id=\\\"container\\\" style=\\\"height: 100%\\\"></div>\\n\";"],"names":[],"sourceRoot":""}

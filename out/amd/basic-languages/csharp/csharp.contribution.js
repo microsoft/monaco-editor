@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,s,n){"use strict";Object.defineProperty(s,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"csharp",extensions:[".cs",".csx",".cake"],aliases:["C#","csharp"],loader:function(){return AMD?new Promise((function(s,n){e(["vs/basic-languages/csharp/csharp"],s,n)})):new Promise((function(s,n){e(["./csharp"],s,n)}))}})}));

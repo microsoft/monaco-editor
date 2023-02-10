@@ -1,0 +1,2 @@
+/*! For license information please see kotlin.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"kotlin",extensions:[".kt",".kts"],aliases:["Kotlin","kotlin"],mimetypes:["text/x-kotlin-source","text/x-kotlin"],loader:()=>import("./kotlin")});

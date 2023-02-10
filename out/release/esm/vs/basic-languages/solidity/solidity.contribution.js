@@ -1,0 +1,2 @@
+/*! For license information please see solidity.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"sol",extensions:[".sol"],aliases:["sol","solidity","Solidity"],loader:()=>import("./solidity")});

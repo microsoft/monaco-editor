@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,i,n){"use strict";Object.defineProperty(i,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"bicep",extensions:[".bicep"],aliases:["Bicep"],loader:function(){return AMD?new Promise((function(i,n){e(["vs/basic-languages/bicep/bicep"],i,n)})):new Promise((function(i,n){e(["./bicep"],i,n)}))}})}));

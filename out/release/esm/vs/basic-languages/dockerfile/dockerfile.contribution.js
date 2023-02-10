@@ -1,0 +1,2 @@
+/*! For license information please see dockerfile.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"dockerfile",extensions:[".dockerfile"],filenames:["Dockerfile"],aliases:["Dockerfile"],loader:()=>import("./dockerfile")});

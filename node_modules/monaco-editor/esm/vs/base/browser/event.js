@@ -1,0 +1,1 @@
+import{Emitter}from"../common/event.js";export class DomEmitter{get event(){return this.emitter.event}constructor(e,t,i){const r=e=>this.emitter.fire(e);this.emitter=new Emitter({onWillAddFirstListener:()=>e.addEventListener(t,r,i),onDidRemoveLastListener:()=>e.removeEventListener(t,r,i)})}dispose(){this.emitter.dispose()}}

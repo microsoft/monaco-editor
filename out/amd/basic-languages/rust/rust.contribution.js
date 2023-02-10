@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,r,s){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),(0,s.registerLanguage)({id:"rust",extensions:[".rs",".rlib"],aliases:["Rust","rust"],loader:function(){return AMD?new Promise((function(r,s){e(["vs/basic-languages/rust/rust"],r,s)})):new Promise((function(r,s){e(["./rust"],r,s)}))}})}));

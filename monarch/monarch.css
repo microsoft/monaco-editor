@@ -102,7 +102,8 @@
 }
 
 #main {
-	font-family: 'Segoe UI Light', 'Segoe UI', Arial, 'HelveticaNeue-Light', sans-serif;
+	font-family: "Segoe UI Light", "Segoe UI", Arial, "HelveticaNeue-Light",
+		sans-serif;
 	font-size: 12pt;
 	width: 94%;
 	padding: 0pt;
@@ -208,7 +209,7 @@
 	clear: both;
 	border: lightgray 1px solid;
 	padding: 1ex 4ex 1ex 3ex;
-	font-family: 'Segoe UI', Arial, 'HelveticaNeue-Light', sans-serif;
+	font-family: "Segoe UI", Arial, "HelveticaNeue-Light", sans-serif;
 }
 
 #documentation a {

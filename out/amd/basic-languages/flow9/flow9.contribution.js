@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,o,n){"use strict";Object.defineProperty(o,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"flow9",extensions:[".flow"],aliases:["Flow9","Flow","flow9","flow"],loader:function(){return AMD?new Promise((function(o,n){e(["vs/basic-languages/flow9/flow9"],o,n)})):new Promise((function(o,n){e(["./flow9"],o,n)}))}})}));

@@ -1,0 +1,1 @@
+export function toUint8(t){return t<0?0:t>255?255:0|t}export function toUint32(t){return t<0?0:t>4294967295?4294967295:0|t}

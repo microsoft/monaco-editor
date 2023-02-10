@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[152],{152:(e,n,a)=>{a.r(n),a.d(n,{default:()=>t});const t='// The Monaco Editor can be easily created, given an\n// empty container and an options literal.\n// Two members of the literal are "value" and "language".\n// The editor takes the full size of its container.\n\nmonaco.editor.create(document.getElementById("container"), {\n\tvalue: "function hello() {\\n\\talert(\'Hello world!\');\\n}",\n\tlanguage: "javascript",\n});\n'}}]);
+//# sourceMappingURL=152.js.map

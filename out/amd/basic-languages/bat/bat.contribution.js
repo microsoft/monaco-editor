@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"bat",extensions:[".bat",".cmd"],aliases:["Batch","bat"],loader:function(){return AMD?new Promise((function(t,n){e(["vs/basic-languages/bat/bat"],t,n)})):new Promise((function(t,n){e(["./bat"],t,n)}))}})}));

@@ -1,0 +1,1 @@
+export class EditorTheme{get type(){return this._theme.type}get value(){return this._theme}constructor(e){this._theme=e}update(e){this._theme=e}getColor(e){return this._theme.getColor(e)}}

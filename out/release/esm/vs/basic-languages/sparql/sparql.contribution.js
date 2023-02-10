@@ -1,0 +1,2 @@
+/*! For license information please see sparql.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"sparql",extensions:[".rq"],aliases:["sparql","SPARQL"],loader:()=>import("./sparql")});

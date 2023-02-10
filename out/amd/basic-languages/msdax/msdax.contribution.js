@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,n,s){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),(0,s.registerLanguage)({id:"msdax",extensions:[".dax",".msdax"],aliases:["DAX","MSDAX"],loader:function(){return AMD?new Promise((function(n,s){e(["vs/basic-languages/msdax/msdax"],n,s)})):new Promise((function(n,s){e(["./msdax"],n,s)}))}})}));

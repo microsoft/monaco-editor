@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,s,n){"use strict";Object.defineProperty(s,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"pgsql",extensions:[],aliases:["PostgreSQL","postgres","pg","postgre"],loader:function(){return AMD?new Promise((function(s,n){e(["vs/basic-languages/pgsql/pgsql"],s,n)})):new Promise((function(s,n){e(["./pgsql"],s,n)}))}})}));

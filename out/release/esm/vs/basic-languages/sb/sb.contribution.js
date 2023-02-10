@@ -1,0 +1,2 @@
+/*! For license information please see sb.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"sb",extensions:[".sb"],aliases:["Small Basic","sb"],loader:()=>import("./sb")});

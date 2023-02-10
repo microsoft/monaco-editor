@@ -1,0 +1,2 @@
+/*! For license information please see redis.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"redis",extensions:[".redis"],aliases:["redis"],loader:()=>import("./redis")});

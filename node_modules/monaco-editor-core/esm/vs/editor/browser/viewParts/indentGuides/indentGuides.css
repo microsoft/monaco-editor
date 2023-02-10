@@ -1,0 +1,17 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.monaco-editor .lines-content .core-guide {
+	position: absolute;
+	box-sizing: border-box;
+}
+
+.monaco-editor .lines-content .core-guide-indent {
+	box-shadow: 1px 0 0 0 var(--vscode-editorIndentGuide-background) inset;
+}
+
+.monaco-editor .lines-content .core-guide-indent-active {
+	box-shadow: 1px 0 0 0 var(--vscode-editorIndentGuide-activeBackground, --vscode-editorIndentGuide-background) inset;
+}

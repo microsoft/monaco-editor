@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,s,n){"use strict";Object.defineProperty(s,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"sb",extensions:[".sb"],aliases:["Small Basic","sb"],loader:function(){return AMD?new Promise((function(s,n){e(["vs/basic-languages/sb/sb"],s,n)})):new Promise((function(s,n){e(["./sb"],s,n)}))}})}));

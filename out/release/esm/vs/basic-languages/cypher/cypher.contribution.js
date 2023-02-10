@@ -1,0 +1,2 @@
+/*! For license information please see cypher.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"cypher",extensions:[".cypher",".cyp"],aliases:["Cypher","OpenCypher"],loader:()=>import("./cypher")});

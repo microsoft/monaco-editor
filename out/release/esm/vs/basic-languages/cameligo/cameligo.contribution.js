@@ -1,0 +1,2 @@
+/*! For license information please see cameligo.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"cameligo",extensions:[".mligo"],aliases:["Cameligo"],loader:()=>import("./cameligo")});

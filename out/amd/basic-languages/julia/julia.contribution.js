@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,i,n){"use strict";Object.defineProperty(i,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"julia",extensions:[".jl"],aliases:["julia","Julia"],loader:function(){return AMD?new Promise((function(i,n){e(["vs/basic-languages/julia/julia"],i,n)})):new Promise((function(i,n){e(["./julia"],i,n)}))}})}));

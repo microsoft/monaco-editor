@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,i,n){"use strict";Object.defineProperty(i,"__esModule",{value:!0}),(0,n.registerLanguage)({id:"azcli",extensions:[".azcli"],aliases:["Azure CLI","azcli"],loader:function(){return AMD?new Promise((function(i,n){e(["vs/basic-languages/azcli/azcli"],i,n)})):new Promise((function(i,n){e(["./azcli"],i,n)}))}})}));

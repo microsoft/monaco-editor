@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[8587],{8587:(n,t,e)=>{e.r(t),e.d(t,{default:()=>o});const o=".myInlineDecoration {\n\tcolor: red !important;\n\tcursor: pointer;\n\ttext-decoration: underline;\n\tfont-weight: bold;\n\tfont-style: oblique;\n}\n\n.myLineDecoration {\n\tbackground: lightblue;\n\twidth: 5px !important;\n\tmargin-left: 3px;\n}\n"}}]);
+//# sourceMappingURL=8587.js.map

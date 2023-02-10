@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,n,o){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),(0,o.registerLanguage)({id:"go",extensions:[".go"],aliases:["Go"],loader:function(){return AMD?new Promise((function(n,o){e(["vs/basic-languages/go/go"],n,o)})):new Promise((function(n,o){e(["./go"],n,o)}))}})}));

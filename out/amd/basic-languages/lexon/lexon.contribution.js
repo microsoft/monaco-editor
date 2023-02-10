@@ -1,0 +1,1 @@
+define(["require","exports","../_.contribution"],(function(e,n,o){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),(0,o.registerLanguage)({id:"lexon",extensions:[".lex"],aliases:["Lexon"],loader:function(){return AMD?new Promise((function(n,o){e(["vs/basic-languages/lexon/lexon"],n,o)})):new Promise((function(n,o){e(["./lexon"],n,o)}))}})}));

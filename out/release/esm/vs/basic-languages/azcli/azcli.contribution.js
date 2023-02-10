@@ -1,0 +1,2 @@
+/*! For license information please see azcli.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"azcli",extensions:[".azcli"],aliases:["Azure CLI","azcli"],loader:()=>import("./azcli")});

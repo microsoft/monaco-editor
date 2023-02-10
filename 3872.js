@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[3872],{3872:(i,t,e)=>{e.r(t),e.d(t,{default:()=>n});const n='<div id="output" style="height: 29%; font-family: \'Courier New\', monospace">\n\tLast 3 events:<br />\n</div>\n<div style="background: #ccc; height: 1%"></div>\n<div id="container" style="height: 70%"></div>\n'}}]);
+//# sourceMappingURL=3872.js.map

@@ -1,0 +1,1 @@
+import{Emitter}from"./event.js";export class IMEImpl{constructor(){this._onDidChange=new Emitter,this.onDidChange=this._onDidChange.event,this._enabled=!0}get enabled(){return this._enabled}enable(){this._enabled=!0,this._onDidChange.fire()}disable(){this._enabled=!1,this._onDidChange.fire()}}export const IME=new IMEImpl;

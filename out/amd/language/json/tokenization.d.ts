@@ -1,0 +1,13 @@
+import { languages } from '../../fillers/monaco-editor-core';
+export declare function createTokenizationSupport(supportComments: boolean): languages.TokensProvider;
+export declare const TOKEN_DELIM_OBJECT = "delimiter.bracket.json";
+export declare const TOKEN_DELIM_ARRAY = "delimiter.array.json";
+export declare const TOKEN_DELIM_COLON = "delimiter.colon.json";
+export declare const TOKEN_DELIM_COMMA = "delimiter.comma.json";
+export declare const TOKEN_VALUE_BOOLEAN = "keyword.json";
+export declare const TOKEN_VALUE_NULL = "keyword.json";
+export declare const TOKEN_VALUE_STRING = "string.value.json";
+export declare const TOKEN_VALUE_NUMBER = "number.json";
+export declare const TOKEN_PROPERTY_NAME = "string.key.json";
+export declare const TOKEN_COMMENT_BLOCK = "comment.block.json";
+export declare const TOKEN_COMMENT_LINE = "comment.line.json";

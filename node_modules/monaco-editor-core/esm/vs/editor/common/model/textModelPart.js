@@ -1,0 +1,1 @@
+import{Disposable}from"../../../base/common/lifecycle.js";export class TextModelPart extends Disposable{constructor(){super(...arguments),this._isDisposed=!1}dispose(){super.dispose(),this._isDisposed=!0}assertNotDisposed(){if(this._isDisposed)throw new Error("TextModelPart is disposed!")}}

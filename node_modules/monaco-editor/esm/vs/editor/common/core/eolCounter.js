@@ -1,0 +1,1 @@
+export function countEOL(t){let e=0,n=0,o=0,r=0;for(let c=0,h=t.length;c<h;c++){const l=t.charCodeAt(c);13===l?(0===e&&(n=c),e++,c+1<h&&10===t.charCodeAt(c+1)?(r|=2,c++):r|=3,o=c+1):10===l&&(r|=1,0===e&&(n=c),e++,o=c+1)}return 0===e&&(n=t.length),[e,n,t.length-o,r]}

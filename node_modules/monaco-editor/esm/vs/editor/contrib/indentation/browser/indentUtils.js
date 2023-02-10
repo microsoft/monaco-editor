@@ -1,0 +1,1 @@
+export function getSpaceCnt(t,e){let n=0;for(let r=0;r<t.length;r++)"\t"===t.charAt(r)?n+=e:n++;return n}export function generateIndent(t,e,n){t=t<0?0:t;let r="";if(!n){const n=Math.floor(t/e);t%=e;for(let t=0;t<n;t++)r+="\t"}for(let e=0;e<t;e++)r+=" ";return r}
