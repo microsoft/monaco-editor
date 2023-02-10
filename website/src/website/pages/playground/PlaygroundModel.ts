@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Disposable } from "@hediet/std/disposable";
 import {
 	action,
 	autorun,
@@ -12,20 +11,25 @@ import {
 	ObservableMap,
 	reaction,
 	runInAction,
-	trace,
 } from "mobx";
-import {
-	getLoadedMonaco,
-	IMonacoSetup,
-	loadMonaco,
-} from "../../../monaco-loader";
+import { IMonacoSetup, loadMonaco } from "../../../monaco-loader";
 import { IPlaygroundProject, IPreviewState } from "../../../shared";
-import { getPlaygroundExamples, PlaygroundExample } from "./playgroundExamples";
+import { monacoEditorVersion } from "../../monacoEditorVersion";
+import { Debouncer } from "../../utils/Debouncer";
+import { LzmaCompressor } from "../../utils/lzmaCompressor";
 import {
 	HistoryController,
 	IHistoryModel,
 	ILocation,
 } from "../../utils/ObservableHistory";
+import { ObservablePromise } from "../../utils/ObservablePromise";
+import { debouncedComputed, Disposable } from "../../utils/utils";
+import {
+	getNpmVersions,
+	getNpmVersionsSync,
+	getVsCodeCommitId,
+} from "./getNpmVersionsSync";
+import { getPlaygroundExamples, PlaygroundExample } from "./playgroundExamples";
 import {
 	getDefaultSettings,
 	JsonString,
@@ -33,17 +37,6 @@ import {
 	SettingsModel,
 	toLoaderConfig,
 } from "./SettingsModel";
-import { Debouncer } from "../../utils/Debouncer";
-import { LzmaCompressor } from "../../utils/lzmaCompressor";
-import { ObservablePromise } from "../../utils/ObservablePromise";
-import { transaction } from "mobx";
-import { debouncedComputed } from "../../utils/utils";
-import {
-	getNpmVersions,
-	getNpmVersionsSync,
-	getVsCodeCommitId,
-} from "./getNpmVersionsSync";
-import { monacoEditorVersion } from "../../monacoEditorVersion";
 
 export class PlaygroundModel {
 	public readonly dispose = Disposable.fn();
