@@ -7,7 +7,6 @@
 	"scripts": {
 		"watch": "tsc -w -p tsconfig.json",
 		"compile": "tsc -p tsconfig.json",
-		"import-editor": "node ./scripts/import-editor.js",
 		"prepublishOnly": "npm run compile"
 	},
 	"repository": {

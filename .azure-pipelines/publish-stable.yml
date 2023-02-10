@@ -70,3 +70,17 @@ extends:
               git tag -a v$(SetPackageSpec.PACKAGE_VERSION) -m v$(SetPackageSpec.PACKAGE_VERSION)
               git push origin v$(SetPackageSpec.PACKAGE_VERSION)
             workingDirectory: $(Build.SourcesDirectory)
+
+      - name: monaco-editor-webpack-plugin
+        workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
+        testPlatforms: []
+        buildSteps:
+          - script: npm ci
+            displayName: Install NPM dependencies
+
+          - script: npm run compile
+            displayName: Build plugin
+
+        tag: latest
+        publishPackage: ${{ parameters.publishWebpackPlugin }}
+        publishRequiresApproval: false
