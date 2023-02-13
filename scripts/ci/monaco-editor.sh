@@ -25,7 +25,4 @@ npm run package-for-smoketest-parcel --prefix test/smoke/parcel
 # Run smoke test
 npm run smoketest
 
-# Build website
-npm run build-website
-
 # npm package is now ready to be published in ./release
