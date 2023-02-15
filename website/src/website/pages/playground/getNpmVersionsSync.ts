@@ -59,13 +59,14 @@ export async function getVsCodeCommitId(
 	monacoEditorVersion: string
 ): Promise<string | undefined> {
 	// TODO https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}/package.json
-	let commitId = knownVersionVsCodeCommitIds[monacoEditorVersion];
+	let commitId: string | undefined =
+		knownVersionVsCodeCommitIds[monacoEditorVersion];
 	if (!commitId) {
 		const json = (await (
 			await fetch(
-				`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}}/package.json`
+				`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}/package.json`
 			)
-		).json()) as { vscodeCommitId: string };
+		).json()) as { vscodeCommitId: string | undefined };
 		commitId = json.vscodeCommitId;
 	}
 	return commitId;
