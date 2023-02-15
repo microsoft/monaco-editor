@@ -115,6 +115,8 @@ module.exports = {
 				{
 					from: "./node_modules/monaco-editor/",
 					to: "./node_modules/monaco-editor/",
+					// This disables minification for js files
+					info: { minimized: true },
 				},
 			],
 		}),
@@ -123,6 +125,8 @@ module.exports = {
 				{
 					from: "../node_modules/monaco-editor-core/",
 					to: "./node_modules/monaco-editor-core/",
+					// This disables minification for js files
+					info: { minimized: true },
 				},
 			],
 		}),
