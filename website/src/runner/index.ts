@@ -8,6 +8,12 @@ import { IMessage, IPreviewState } from "../shared";
 import "./style.scss";
 
 window.addEventListener("message", (event) => {
+	const isInSandbox = window.origin === "null";
+	if (!isInSandbox) {
+		// To prevent someone from using this html file to run arbitrary code in non-sandboxed context
+		console.error("not in sandbox");
+		return;
+	}
 	const e = event.data as IMessage | { kind: undefined };
 	if (e.kind === "initialize") {
 		initialize(e.state);
@@ -43,7 +49,9 @@ async function initialize(state: IPreviewState) {
 		eval(state.js);
 	} catch (err) {
 		const pre = document.createElement("pre");
-		pre.appendChild(document.createTextNode(`${err}`));
+		pre.appendChild(
+			document.createTextNode(`${err}: ${(err as any).state}`)
+		);
 		document.body.insertBefore(pre, document.body.firstChild);
 	}
 }
