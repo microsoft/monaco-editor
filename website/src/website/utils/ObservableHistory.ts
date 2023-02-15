@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Disposable } from "@hediet/std/disposable";
-import { autorun, observable, runInAction } from "mobx";
+import { autorun } from "mobx";
+import { Disposable } from "./utils";
 
 export interface ILocation {
 	hashValue: string | undefined;

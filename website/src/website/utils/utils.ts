@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { observable, autorun, trace } from "mobx";
+import { autorun, observable } from "mobx";
 import { Debouncer } from "./Debouncer";
 
 export function debouncedComputed<T, TDerived>(
@@ -37,4 +37,22 @@ export class DebouncedComputed<T> {
 		private readonly getData: () => unknown,
 		private readonly getDebouncedData: (data: unknown) => T
 	) {}
+}
+
+export interface Disposable {
+	dispose(): void;
+}
+
+export namespace Disposable {
+	export function fn(): (() => void) & { track(d: Disposable): void } {
+		const disposables: Disposable[] = [];
+		const fn = () => {
+			disposables.forEach((d) => d.dispose());
+			disposables.length = 0;
+		};
+		fn.track = (d: Disposable) => {
+			disposables.push(d);
+		};
+		return fn;
+	}
 }
