@@ -45,6 +45,7 @@
 		"esbuild-plugin-alias": "^0.2.1",
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
+		"http-server": "^14.1.1",
 		"husky": "^7.0.4",
 		"jsdom": "^19.0.0",
 		"jsonc-parser": "^3.0.0",

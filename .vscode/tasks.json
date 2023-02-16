@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Launch Http Server",
+			"type": "shell",
+			"command": "node_modules/.bin/http-server --cors --port 5002 -a 127.0.0.1 -s -c-1",
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": ""
+				},
+				"background": {
+					"beginsPattern": ".*",
+					"endsPattern": ".*"
+				}
+			},
+			"dependsOn": ["npm: watch"]
+		},
+		{
+			"type": "npm",
+			"script": "watch",
+			"group": "build",
+			"problemMatcher": ["$tsc-watch"],
+			"isBackground": true,
+			"label": "npm: watch"
+		}
+	]
+}

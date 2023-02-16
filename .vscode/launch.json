@@ -5,14 +5,32 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Launch Chrome",
-			"request": "launch",
+			"name": "Monaco Editor Playground",
 			"type": "chrome",
-			"url": "http://localhost:8081",
-			"webRoot": "${workspaceFolder}"
+			"request": "launch",
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Famd",
+			"preLaunchTask": "Launch Http Server",
+			"presentation": {
+				"group": "monaco",
+				"order": 1
+			}
 		},
 		{
-			"type": "pwa-node",
+			// Clone VS Code and make sure the task "Launch Http Server" runs.
+			// Then the editor is build from sources.
+			// We recommend to use the workspace feature for this.
+			"name": "Monaco Editor Playground (Load From VS Code Http Server)",
+			"type": "chrome",
+			"request": "launch",
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Famd&source=http%3A%2F%2Flocalhost%3A5001%2Fout%2Fvs",
+			"preLaunchTask": "Launch Http Server",
+			"presentation": {
+				"group": "monaco",
+				"order": 1
+			}
+		},
+		{
+			"type": "node",
 			"request": "launch",
 			"name": "Monaco Languages Unit Tests",
 			"skipFiles": ["<node_internals>/**"],
@@ -21,7 +39,7 @@
 			"outFiles": ["${workspaceFolder}/**/*.js"]
 		},
 		{
-			"type": "pwa-node",
+			"type": "node",
 			"request": "launch",
 			"name": "release",
 			"skipFiles": ["<node_internals>/**"],
@@ -30,7 +48,7 @@
 			"cwd": "${workspaceFolder}"
 		},
 		{
-			"type": "pwa-node",
+			"type": "node",
 			"request": "launch",
 			"name": "website",
 			"skipFiles": ["<node_internals>/**"],
@@ -39,7 +57,7 @@
 			"cwd": "${workspaceFolder}"
 		},
 		{
-			"type": "pwa-node",
+			"type": "node",
 			"request": "launch",
 			"name": "webpack plugin test",
 			"skipFiles": ["<node_internals>/**"],
