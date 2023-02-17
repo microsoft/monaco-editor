@@ -10,7 +10,7 @@ Please note that this repository contains no source code for the code editor, it
 
 ## Try it out
 
-Try the editor out [on our website](https://microsoft.github.io/monaco-editor/index.html).
+Try the editor out [on our website](https://microsoft.github.io/monaco-editor/playground.html).
 
 ## Installing
 
