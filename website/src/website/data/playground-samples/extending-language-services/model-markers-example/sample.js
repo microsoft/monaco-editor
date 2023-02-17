@@ -41,7 +41,9 @@ abcd
 234.56`;
 const uri = monaco.Uri.parse("inmemory://test");
 const model = monaco.editor.createModel(value, "demoLanguage", uri);
-editor = monaco.editor.create(document.getElementById("container"), { model });
+const editor = monaco.editor.create(document.getElementById("container"), {
+	model,
+});
 validate(model);
 model.onDidChangeContent(() => {
 	validate(model);
