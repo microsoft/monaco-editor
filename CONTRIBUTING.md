@@ -99,15 +99,18 @@ Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localh
 > Note: The website is published automatically when pushing to the `master` branch.
 
 ```bash
-# create a local release
-/src/monaco-editor> npm run release
+# enter website directory
+/src/monaco-editor> cd website
 
-# build the website
-/src/monaco-editor> npm run build-website
+# install npm deps for website
+/src/monaco-editor/website> yarn
+
+# create TypeScript project document
+/src/monaco-editor/website> yarn typedoc
 
 # start local webserver
-/src/monaco-editor> npm run simpleserver
+/src/monaco-editor/website> yarn dev
 
-# open http://localhost:8080/monaco-editor-website/
+# open http://localhost:8080/
 
 ```
