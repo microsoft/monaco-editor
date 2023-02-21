@@ -96,7 +96,7 @@ Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localh
 
 ## Running the website locally
 
-> Note: The website is published automatically when pushing to the `master` branch.
+> Note: The website is published automatically when pushing to the `main` branch.
 
 ```bash
 # enter website directory
