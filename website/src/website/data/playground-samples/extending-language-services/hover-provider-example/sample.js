@@ -2,7 +2,7 @@ monaco.languages.register({ id: "mySpecialLanguage" });
 
 monaco.languages.registerHoverProvider("mySpecialLanguage", {
 	provideHover: function (model, position) {
-		return xhr("../playground.html").then(function (res) {
+		return xhr("./playground.html").then(function (res) {
 			return {
 				range: new monaco.Range(
 					1,
