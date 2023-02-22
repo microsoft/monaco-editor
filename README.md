@@ -4,7 +4,7 @@
 
 The Monaco Editor is the code editor which powers [VS Code](https://github.com/microsoft/vscode), with the features better described [here](https://code.visualstudio.com/docs/editor/editingevolved).
 
-Please note that this repository contains no source code for the code editor, it only contains the scripts to package everything together and ship the `monaco-editor` npm module.
+Please note that this repository contains no source code for the code editor, it only contains the scripts to package everything together and ship the `monaco-editor` npm module and the implementation for various language supports.
 
 ![image](https://user-images.githubusercontent.com/5047891/94183711-290c0780-fea3-11ea-90e3-c88ff9d21bd6.png)
 
@@ -41,7 +41,7 @@ It is recommended to develop against the `dev` version, and in production to use
 
 ## Issues
 
-Create [issues](https://github.com/microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
+Create [issues](https://github.com/microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Please search for existing issues to avoid duplicates.
 
 ## FAQ
 
@@ -78,10 +78,6 @@ No.
 ❓ **Why doesn't the editor support TextMate grammars?**
 
 - Please see https://github.com/bolinfest/monaco-tm which puts together `monaco-editor`, `vscode-oniguruma` and `vscode-textmate` to get TM grammar support in the editor.
-
-❓ **What about IE 11 support?**
-
-- The Monaco Editor no longer supports IE 11. The last version that was tested on IE 11 is `0.18.1`.
 
 ## Development setup
 

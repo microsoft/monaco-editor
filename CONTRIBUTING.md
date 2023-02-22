@@ -25,6 +25,10 @@ Please understand that we only bundle languages with the monaco editor that have
 import './{myLang}/{myLang}.contribution';
 ```
 
+## Debugging / Developing The Core Editor
+
+## Debugging / Developing Language Support
+
 ## Running the editor from source
 
 You need to have all the build setup of VS Code to be able to build the Monaco Editor.
@@ -96,18 +100,4 @@ Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localh
 
 ## Running the website locally
 
-> Note: The website is published automatically when pushing to the `master` branch.
-
-```bash
-# create a local release
-/src/monaco-editor> npm run release
-
-# build the website
-/src/monaco-editor> npm run build-website
-
-# start local webserver
-/src/monaco-editor> npm run simpleserver
-
-# open http://localhost:8080/monaco-editor-website/
-
-```
+TOD
