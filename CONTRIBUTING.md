@@ -27,76 +27,29 @@ import './{myLang}/{myLang}.contribution';
 
 ## Debugging / Developing The Core Editor
 
+TODO
+
 ## Debugging / Developing Language Support
+
+TODO
 
 ## Running the editor from source
 
-You need to have all the build setup of VS Code to be able to build the Monaco Editor.
-
-- Install all the [prerequisites](https://github.com/microsoft/vscode/wiki/How-to-Contribute#prerequisites)
-
-```bash
-# clone vscode-loc repository for localized string resources
-/src> git clone https://github.com/microsoft/vscode-loc
-# clone VS Code repository
-/src> git clone https://github.com/microsoft/vscode
-/src> cd vscode
-# install npm deps for vscode
-/src/vscode> yarn
-# start the compiler in the background
-/src/vscode> yarn watch
-```
-
-- For the monaco editor test pages:
-
-```bash
-# clone monaco-editor (note the folders must be siblings!)
-/src> git clone https://github.com/microsoft/monaco-editor
-
-# install npm deps for monaco-editor
-/src/monaco-editor> npm install .
-
-# compile and bundle all plugins
-/src/monaco-editor> npm run release
-
-# start a local http server in the background
-/src/monaco-editor> npm run simpleserver
-```
-
-Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localhost:8080/monaco-editor/test/manual/?editor=src) to run.
+TODO
 
 ## Running the editor tests
 
 ```bash
-# create a local release
-/src/monaco-editor> npm run release
+> npm run build-monaco-editor
+> npm run test
+> npm run compile --prefix webpack-plugin
 
-# run unit tests
-/src/monaco-editor> npm run test
-
-# compile the webpack plugin
-/src/monaco-editor> npm run compile --prefix webpack-plugin
-
-# package using the webpack plugin
-/src/monaco-editor> npm run package-for-smoketest-webpack
-
-# package using esbuild
-/src/monaco-editor> npm run package-for-smoketest-esbuild
-
-# package using vite
-/src/monaco-editor> npm run package-for-smoketest-vite
-
-# package using parcel
-/src/monaco-editor> npm run package-for-smoketest-parcel --prefix test/smoke/parcel
-
-# run the smoketest
-/src/monaco-editor> npm run smoketest-debug
+> npm run package-for-smoketest-webpack
+> npm run package-for-smoketest-esbuild
+> npm run package-for-smoketest-vite
+> npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+> npm run smoketest-debug
 ```
-
-> Tip: All folders must be cloned as siblings.
-
-> Tip: When running the test pages, use the control panel in the top right corner to switch between running from source, running from npm or running from the local release:
-> ![image](https://cloud.githubusercontent.com/assets/5047891/19599080/eb0d7622-979e-11e6-96ce-dde98cd95dc1.png)
 
 ## Running the website locally
 

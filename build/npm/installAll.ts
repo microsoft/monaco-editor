@@ -12,7 +12,7 @@ import { REPO_ROOT } from '../utils';
 
 const files = glob.sync('**/package.json', {
 	cwd: REPO_ROOT,
-	ignore: ['**/node_modules/**', '**/out/**', '**/release/**']
+	ignore: ['**/node_modules/**', '**/dist/**', '**/out/**']
 });
 
 for (const file of files) {

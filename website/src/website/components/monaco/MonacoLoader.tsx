@@ -6,7 +6,7 @@ import { getMonaco, loadMonaco } from "../../../monaco-loader";
  */
 export class MonacoLoader extends React.Component<
 	{ children: (m: typeof monaco) => React.ReactChild },
-	{ monaco: typeof monaco | undefined }
+	{ monaco?: typeof monaco }
 > {
 	constructor(props: any) {
 		super(props);

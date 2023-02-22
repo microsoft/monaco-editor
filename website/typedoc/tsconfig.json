@@ -3,6 +3,6 @@
 		"module": "CommonJS",
 		"skipLibCheck": true
 	},
-	"include": ["../../release/esm/vs/editor/editor.api.d.ts"],
+	"include": ["../../out/monaco-editor/esm/vs/editor/editor.api.d.ts"],
 	"exclude": ["theme"]
 }

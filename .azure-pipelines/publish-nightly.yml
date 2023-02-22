@@ -42,7 +42,7 @@ extends:
         publishRequiresApproval: false
 
       - name: monaco-editor
-        workingDirectory: $(Build.SourcesDirectory)/release
+        workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
         testPlatforms: []
         buildSteps:
           - script: npm ci

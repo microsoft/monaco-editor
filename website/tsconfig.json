@@ -14,5 +14,5 @@
 		// to enable mobx decorators
 		"useDefineForClassFields": false
 	},
-	"include": ["src/**/*", "../release/monaco.d.ts"]
+	"include": ["src/**/*", "./node_modules/monaco-editor/monaco.d.ts"]
 }

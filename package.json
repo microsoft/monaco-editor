@@ -15,7 +15,6 @@
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",
 		"pretty-quick": "pretty-quick --staged",
-		"release": "ts-node ./build/build && ts-node ./build/release",
 		"simpleserver": "ts-node ./build/simpleserver",
 		"package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
 		"package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
@@ -26,8 +25,10 @@
 		"test": "mocha test/unit/all.js && ts-node ./build/check-samples",
 		"deps-all-remove": "ts-node ./build/npm/removeAll",
 		"deps-all-install": "ts-node ./build/npm/installAll",
+		"update-actions": "pin-github-action ./.github/workflows/website.yml",
 		"watch": "tsc -w -p ./src",
-		"update-actions": "pin-github-action ./.github/workflows/website.yml"
+		"build": "ts-node ./build/build-languages",
+		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor"
 	},
 	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"module": "./esm/vs/editor/editor.main.js",
