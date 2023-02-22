@@ -8,11 +8,12 @@
 			"isBackground": true,
 			"problemMatcher": {
 				"pattern": {
-					"regexp": ""
+					"regexp": "does not support problems"
 				},
 				"background": {
-					"beginsPattern": ".*",
-					"endsPattern": ".*"
+					"activeOnStart": true,
+					"beginsPattern": "Shutting down http-server (will never match)",
+					"endsPattern": "Starting up http-server"
 				}
 			},
 			"dependsOn": ["npm: watch"]
