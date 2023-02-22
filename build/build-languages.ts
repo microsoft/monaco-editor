@@ -131,11 +131,6 @@ buildAMD({
 
 //#region typescript
 
-copyFile(
-	`src/language/typescript/lib/typescriptServices-amd.js`,
-	`out/languages/amd-tsc/language/typescript/lib/typescriptServices.js`
-);
-
 buildESM({
 	base: 'language/typescript',
 	entryPoints: [
