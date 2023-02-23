@@ -1,0 +1,1 @@
+{"version":3,"file":"ts.worker.js","sourceRoot":"","sources":["../../../../../src/language/typescript/ts.worker.ts"],"names":[],"mappings":"AAAA;;;gGAGgG;;;;;IAMhG,IAAI,CAAC,SAAS,GAAG;QAChB,2BAA2B;QAC3B,QAAQ,CAAC,UAAU,CAAC,UAAC,GAA0B,EAAE,UAAuB;YACvE,OAAO,IAAA,iBAAM,EAAC,GAAG,EAAE,UAAU,CAAC,CAAC;QAChC,CAAC,CAAC,CAAC;IACJ,CAAC,CAAC;IAEO,kGAAA,MAAM,OAAA"}

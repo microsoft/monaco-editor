@@ -1,0 +1,1 @@
+{"version":3,"file":"json.worker.js","sourceRoot":"","sources":["../../../../../src/language/json/json.worker.ts"],"names":[],"mappings":"AAAA;;;gGAGgG;;;;IAKhG,IAAI,CAAC,SAAS,GAAG;QAChB,2BAA2B;QAC3B,MAAM,CAAC,UAAU,CAAC,UAAC,GAAG,EAAE,UAAU;YACjC,OAAO,IAAI,uBAAU,CAAC,GAAG,EAAE,UAAU,CAAC,CAAC;QACxC,CAAC,CAAC,CAAC;IACJ,CAAC,CAAC"}
