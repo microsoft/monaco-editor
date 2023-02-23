@@ -8,7 +8,7 @@
 			"name": "Monaco Editor Playground",
 			"type": "chrome",
 			"request": "launch",
-			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fdist%2Flanguages%2Famd-tsc",
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Flanguages%2Famd-tsc",
 			"preLaunchTask": "Launch Http Server",
 			"presentation": {
 				"group": "monaco",
@@ -22,7 +22,7 @@
 			"name": "Monaco Editor Playground (Load From VS Code Http Server)",
 			"type": "chrome",
 			"request": "launch",
-			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fdist%2Flanguages%2Famd-tsc&source=http%3A%2F%2Flocalhost%3A5001%2Fout%2Fvs",
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Flanguages%2Famd-tsc&source=http%3A%2F%2Flocalhost%3A5001%2Fout%2Fvs",
 			"preLaunchTask": "Launch Http Server",
 			"presentation": {
 				"group": "monaco",
