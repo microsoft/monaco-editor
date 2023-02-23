@@ -15,7 +15,7 @@ and limitations under the License.
 
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.35.0(6e7b4b68ddcb19b807624e7d42790a7eba7d4468)
+ * Version: 0.35.0(fb0d6bada18de72e731ba0e0a4e3717879985f66)
  * Released under the MIT license
  * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt
  *-----------------------------------------------------------------------------*/
