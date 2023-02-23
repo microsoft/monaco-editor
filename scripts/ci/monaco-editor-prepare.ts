@@ -30,7 +30,7 @@ async function prepareMonacoEditorReleaseStableOrNightly() {
 
 	await prepareMonacoEditorRelease(version);
 
-	// npm package is now in ./release, ready to be published
+	// npm package is now in ./out/monaco-editor, ready to be published
 }
 
 async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {

@@ -39,7 +39,7 @@ jobs:
         run: npm run prettier-check
 
       - name: Build
-        run: npm run release
+        run: npm run build-monaco-editor
 
       - name: Run unit tests
         run: npm test

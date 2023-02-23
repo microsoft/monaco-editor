@@ -1,6 +1,6 @@
 {
 	"$schema": "https://typedoc.org/schema.json",
-	"entryPoints": ["../../release/esm/vs/editor/editor.api.d.ts"],
+	"entryPoints": ["../../out/monaco-editor/esm/vs/editor/editor.api.d.ts"],
 
 	"out": "dist",
 	"theme": "default",

@@ -131,7 +131,7 @@ module.exports = {
 			],
 		}),
 		new CopyPlugin({
-			patterns: [{ from: "../out/", to: "./out/" }],
+			patterns: [{ from: "../out/languages/", to: "./out/languages/" }],
 		}),
 	],
 } as webpack.Configuration;

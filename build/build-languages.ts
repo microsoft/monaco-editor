@@ -4,33 +4,33 @@
  *--------------------------------------------------------------------------------------------*/
 
 import glob from 'glob';
-import { tsc, dts, buildESM, buildAMD } from './utils';
+import { runTsc, massageAndCopyDts, buildESM, buildAMD } from './utils';
 import { copyFile, removeDir } from './fs';
 
-removeDir(`out`);
+removeDir(`out/languages`);
 
-tsc(`src/tsconfig.json`);
+runTsc(`src/tsconfig.json`);
 
 //#region Type Defintion
 
-dts(
-	`out/amd/language/css/monaco.contribution.d.ts`,
-	`out/release/css.d.ts`,
+massageAndCopyDts(
+	`out/languages/amd-tsc/language/css/monaco.contribution.d.ts`,
+	`out/languages/bundled/css.d.ts`,
 	'monaco.languages.css'
 );
-dts(
-	`out/amd/language/html/monaco.contribution.d.ts`,
-	`out/release/html.d.ts`,
+massageAndCopyDts(
+	`out/languages/amd-tsc/language/html/monaco.contribution.d.ts`,
+	`out/languages/bundled/html.d.ts`,
 	'monaco.languages.html'
 );
-dts(
-	`out/amd/language/json/monaco.contribution.d.ts`,
-	`out/release/json.d.ts`,
+massageAndCopyDts(
+	`out/languages/amd-tsc/language/json/monaco.contribution.d.ts`,
+	`out/languages/bundled/json.d.ts`,
 	'monaco.languages.json'
 );
-dts(
-	`out/amd/language/typescript/monaco.contribution.d.ts`,
-	`out/release/typescript.d.ts`,
+massageAndCopyDts(
+	`out/languages/amd-tsc/language/typescript/monaco.contribution.d.ts`,
+	`out/languages/bundled/typescript.d.ts`,
 	'monaco.languages.typescript'
 );
 
@@ -133,7 +133,7 @@ buildAMD({
 
 copyFile(
 	`src/language/typescript/lib/typescriptServices-amd.js`,
-	`out/amd/language/typescript/lib/typescriptServices.js`
+	`out/languages/amd-tsc/language/typescript/lib/typescriptServices.js`
 );
 
 buildESM({

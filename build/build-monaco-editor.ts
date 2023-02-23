@@ -10,7 +10,7 @@ import { removeDir } from '../build/fs';
 import ts = require('typescript');
 import { generateMetadata } from './releaseMetadata';
 
-removeDir(`release`);
+removeDir(`out/monaco-editor`);
 
 // dev folder
 AMD_releaseOne('dev');
@@ -39,7 +39,7 @@ generateMetadata();
 	delete json.scripts['postinstall'];
 
 	packageJSON.contents = Buffer.from(JSON.stringify(json, null, '  '));
-	writeFiles([packageJSON], `release`);
+	writeFiles([packageJSON], `out/monaco-editor`);
 })();
 
 (() => {
@@ -59,7 +59,7 @@ generateMetadata();
 		})
 	);
 
-	writeFiles(otherFiles, `release`);
+	writeFiles(otherFiles, `out/monaco-editor`);
 })();
 
 /**
@@ -70,13 +70,13 @@ function AMD_releaseOne(type: 'dev' | 'min') {
 		base: `node_modules/monaco-editor-core/${type}`
 	});
 	AMD_addPluginContribs(type, coreFiles);
-	writeFiles(coreFiles, `release/${type}`);
+	writeFiles(coreFiles, `out/monaco-editor/${type}`);
 
-	const pluginFiles = readFiles(`out/release/${type}/**/*`, {
-		base: `out/release/${type}`,
+	const pluginFiles = readFiles(`out/languages/bundled/amd-${type}/**/*`, {
+		base: `out/languages/bundled/amd-${type}`,
 		ignore: ['**/monaco.contribution.js']
 	});
-	writeFiles(pluginFiles, `release/${type}`);
+	writeFiles(pluginFiles, `out/monaco-editor/${type}`);
 }
 
 /**
@@ -96,8 +96,8 @@ function AMD_addPluginContribs(type: 'dev' | 'min', files: IFile[]) {
 		// Rename the AMD module 'vs/editor/editor.main' to 'vs/editor/edcore.main'
 		contents = contents.replace(/"vs\/editor\/editor\.main\"/, '"vs/editor/edcore.main"');
 
-		const pluginFiles = readFiles(`out/release/${type}/**/monaco.contribution.js`, {
-			base: `out/release/${type}`
+		const pluginFiles = readFiles(`out/languages/bundled/amd-${type}/**/monaco.contribution.js`, {
+			base: `out/languages/bundled/amd-${type}`
 		});
 
 		const extraContent = pluginFiles.map((file) => {
@@ -141,7 +141,7 @@ function ESM_release() {
 	});
 	ESM_addImportSuffix(coreFiles);
 	ESM_addPluginContribs(coreFiles);
-	writeFiles(coreFiles, `release/esm`);
+	writeFiles(coreFiles, `out/monaco-editor/esm`);
 
 	ESM_releasePlugins();
 }
@@ -152,7 +152,7 @@ function ESM_release() {
  * Rewrites imports for 'monaco-editor-core/**'
  */
 function ESM_releasePlugins() {
-	const files = readFiles(`out/release/esm/**/*`, { base: 'out/release/esm/' });
+	const files = readFiles(`out/languages/bundled/esm/**/*`, { base: 'out/languages/bundled/esm/' });
 
 	for (const file of files) {
 		if (!/(\.js$)|(\.ts$)/.test(file.path)) {
@@ -210,7 +210,7 @@ function ESM_releasePlugins() {
 	}
 
 	ESM_addImportSuffix(files);
-	writeFiles(files, `release/esm`);
+	writeFiles(files, `out/monaco-editor/esm`);
 }
 
 /**
@@ -256,8 +256,8 @@ function ESM_addPluginContribs(files: IFile[]) {
 
 	const mainFileDestPath = 'vs/editor/editor.main.js';
 
-	const mainFileImports = readFiles(`out/release/esm/**/monaco.contribution.js`, {
-		base: `out/release/esm`
+	const mainFileImports = readFiles(`out/languages/bundled/esm/**/monaco.contribution.js`, {
+		base: `out/languages/bundled/esm`
 	}).map((file) => {
 		let relativePath = path
 			.relative(path.dirname(mainFileDestPath), file.path)
@@ -292,8 +292,8 @@ function releaseDTS() {
 
 	let contents = monacodts.contents.toString();
 
-	const extraContent = readFiles('out/release/*.d.ts', {
-		base: 'out/release/'
+	const extraContent = readFiles('out/languages/bundled/*.d.ts', {
+		base: 'out/languages/bundled/'
 	}).map((file) => {
 		return file.contents.toString().replace(/\/\/\/ <reference.*\n/m, '');
 	});
@@ -321,7 +321,7 @@ function releaseDTS() {
 		contents: Buffer.from(toExternalDTS(contents))
 	};
 
-	writeFiles([monacodts, editorapidts], `release`);
+	writeFiles([monacodts, editorapidts], `out/monaco-editor`);
 
 	// fs.writeFileSync('website/typedoc/monaco.d.ts', contents);
 }
@@ -422,5 +422,5 @@ function releaseThirdPartyNotices() {
 	contents += '\n' + thirdPartyNoticeContent;
 	tpn.contents = Buffer.from(contents);
 
-	writeFiles([tpn], `release`);
+	writeFiles([tpn], `out/monaco-editor`);
 }
