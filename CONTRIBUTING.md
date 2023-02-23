@@ -1,15 +1,17 @@
-# Contributing
+# Contributing / Dev Setup
 
-Checkout [MAINTAINING.md](./MAINTAINING.md) for common maintaining tasks.
+## Source Code Structure
 
-## A brief explanation on the source code structure
+It is important to understand that the Monaco Editor _Core_ is built directly from the [VS Code source code](https://github.com/microsoft/vscode).
+The Monaco Editor then enhances the Monaco Editor Core with some basic language features.
 
-This repository contains source code only for Monaco Editor Languages, the core editor source lives in the [vscode repository](https://github.com/microsoft/vscode).
+This diagram describes the relationships between the repositories and the npm packages:
 
-| repository                                                  | npm module                                                             | explanation                                                             |
-| ----------------------------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [vscode](https://github.com/microsoft/vscode)               | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode. |
-| [monaco-editor](https://github.com/microsoft/monaco-editor) | [monaco-editor](https://www.npmjs.com/package/monaco-editor)           | the Monaco Editor.                                                      |
+![](./docs/code-structure.dio.svg)
+
+By default, `monaco-editor-core` is installed from npm (through the initial `npm install`), so you can work on Monaco Editor language features without having to build the core editor / VS Code.
+The nightly builds build a fresh version of `monaco-editor-core` from the `main` branch of VS Code.
+For a stable release, the commit specified in `vscodeRef` in [package.json](./package.json) specifies the commit of VS Code that is used to build `monaco-editor-core`.
 
 ## Contributing a new tokenizer / a new language
 
@@ -27,15 +29,62 @@ import './{myLang}/{myLang}.contribution';
 
 ## Debugging / Developing The Core Editor
 
-TODO
+To debug core editor issues.
+
+This can be done directly from the VS Code repository and does not involve the monaco editor repository.
+
+- Clone the [VS Code repository](https://github.com/microsoft/vscode): `git clone https://github.com/microsoft/vscode`
+- Open the repository in VS Code: `code vscode`
+- Run `yarn install`
+- Select and run the launch configuration "Monaco Editor Playground" (this might take a while, as it compiles the sources):
+
+  ![](./docs/launch%20config.png)
+
+- Now you can set breakpoints and change the source code
+
+  ![](./docs/debugging-core.gif)
+
+- Optionally, you can build `monaco-editor-core` and link it to the monaco editor repository:
+
+  ```bash
+  # builds out-monaco-editor-core
+  > yarn gulp editor-distro
+
+  > cd out-monaco-editor-core
+  > npm link
+  > cd ../path/to/monaco-editor
+
+  # symlinks the monaco-editor-core package to the out-monaco-editor-core folder we just built
+  > npm link monaco-editor-core
+  ```
 
 ## Debugging / Developing Language Support
 
-TODO
+To debug bundled languages, such as JSON, HTML or TypeScript/JavaScript.
 
-## Running the editor from source
+- Clone the [monaco editor repository](https://github.com/microsoft/monaco-editor): `git clone https://github.com/microsoft/monaco-editor`
+- Open the repository in VS Code: `code monaco-editor`
+- Run `npm install`
+- Select and run the launch configuration "Monaco Editor Playground" (this might take a while, as it compiles the sources):
 
-TODO
+  ![](./docs/launch%20config.png)
+
+- Now you can set breakpoints and change the source code
+
+  ![](./docs/debugging-languages.gif)
+
+- Optionally, you can build `monaco-editor` and link it if you want to test your changes in a real application:
+
+  ```bash
+  # builds out/monaco-editor
+  > npm run build-monaco-editor
+
+  > cd out/monaco-editor
+  > npm link
+
+  > cd ../path/to/my-app
+  > npm link monaco-editor
+  ```
 
 ## Running the editor tests
 
@@ -53,4 +102,14 @@ TODO
 
 ## Running the website locally
 
-TOD
+```bash
+cd website
+yarn install
+yarn watch
+```
+
+No webpack logs the path to the website.
+
+## Maintaining
+
+Checkout [MAINTAINING.md](./MAINTAINING.md) for common maintaining tasks (for maintainers only).
