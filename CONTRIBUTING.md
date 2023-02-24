@@ -110,6 +110,12 @@ yarn watch
 
 No webpack logs the path to the website.
 
+## Out Folders
+
+This diagram describes the output folders of the build process:
+
+![](./docs/out-folders.dio.svg)
+
 ## Maintaining
 
 Checkout [MAINTAINING.md](./MAINTAINING.md) for common maintaining tasks (for maintainers only).
