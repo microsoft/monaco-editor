@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.36.0]
+
+- Maintenance release
+
 ## [0.35.0]
 
 - Adds sticky scrolling
