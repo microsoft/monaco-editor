@@ -1,9 +1,10 @@
-// The Monaco Editor can be easily created, given an
-// empty container and an options literal.
-// Two members of the literal are "value" and "language".
-// The editor takes the full size of its container.
+const text = `function hello() {
+	alert('Hello world!');
+}`;
 
+// Hover on each property to see its docs!
 monaco.editor.create(document.getElementById("container"), {
-	value: "function hello() {\n\talert('Hello world!');\n}",
+	value: text,
 	language: "javascript",
+	automaticLayout: true,
 });
