@@ -24,7 +24,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">IContentWidgetPosition</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:4999</li></ul></aside>
+<li>Defined in editor.api.d.ts:5003</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -42,11 +42,19 @@
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="position" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>position</span><a href="#position" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <div class="tsd-signature">position<span class="tsd-signature-symbol">:</span> <a href="IPosition.html" class="tsd-signature-type" data-tsd-kind="Interface">IPosition</a></div>
-<div class="tsd-comment tsd-typography"><p>Desired position for the content widget.
-<code>preference</code> will also affect the placement.</p>
+<div class="tsd-comment tsd-typography"><p>Desired position which serves as an anchor for placing the content widget.
+The widget will be placed above, at, or below the specified position, based on the
+provided preference. The widget will always touch this position.</p>
+<p>Given sufficient horizontal space, the widget will be placed to the right of the
+passed in position. This can be tweaked by providing a <code>secondaryPosition</code>.</p>
+
+<h3>See</h3><ul>
+<li>preference</li>
+<li>secondaryPosition</li>
+</ul>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5004</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:5015</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="positionAffinity" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>position<wbr/>Affinity</span><a href="#positionAffinity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">position<wbr/>Affinity<span class="tsd-signature-symbol">?:</span> <a href="../enums/editor.PositionAffinity.html" class="tsd-signature-type" data-tsd-kind="Enumeration">PositionAffinity</a></div>
@@ -54,23 +62,24 @@
 This plays a role when injected text is involved.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5019</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:5031</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="preference" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>preference</span><a href="#preference" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">preference<span class="tsd-signature-symbol">:</span> <a href="../enums/editor.ContentWidgetPositionPreference.html" class="tsd-signature-type" data-tsd-kind="Enumeration">ContentWidgetPositionPreference</a><span class="tsd-signature-symbol">[]</span></div>
 <div class="tsd-comment tsd-typography"><p>Placement preference for position, in order of preference.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5014</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:5026</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="secondaryPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>secondary<wbr/>Position</span><a href="#secondaryPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">secondary<wbr/>Position<span class="tsd-signature-symbol">?:</span> <a href="IPosition.html" class="tsd-signature-type" data-tsd-kind="Interface">IPosition</a></div>
-<div class="tsd-comment tsd-typography"><p>Optionally, a secondary position can be provided to further
-define the position of the content widget. The secondary position
-must have the same line number as the primary position.</p>
+<div class="tsd-comment tsd-typography"><p>Optionally, a secondary position can be provided to further define the placing of
+the content widget. The secondary position must have the same line number as the
+primary position. If possible, the widget will be placed such that it also touches
+the secondary position.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5010</li></ul></aside></section></section></div>
+<li>Defined in editor.api.d.ts:5022</li></ul></aside></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

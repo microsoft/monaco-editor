@@ -110,6 +110,7 @@ export function setupCustomHover(hoverDelegate, htmlElement, content, options) {
     let hoverWidget;
     const hideHover = (disposeWidget, disposePreparation) => {
         var _a;
+        const hadHover = hoverWidget !== undefined;
         if (disposeWidget) {
             hoverWidget === null || hoverWidget === void 0 ? void 0 : hoverWidget.dispose();
             hoverWidget = undefined;
@@ -118,7 +119,9 @@ export function setupCustomHover(hoverDelegate, htmlElement, content, options) {
             hoverPreparation === null || hoverPreparation === void 0 ? void 0 : hoverPreparation.dispose();
             hoverPreparation = undefined;
         }
-        (_a = hoverDelegate.onDidHideHover) === null || _a === void 0 ? void 0 : _a.call(hoverDelegate);
+        if (hadHover) {
+            (_a = hoverDelegate.onDidHideHover) === null || _a === void 0 ? void 0 : _a.call(hoverDelegate);
+        }
     };
     const triggerShowHover = (delay, focus, target) => {
         return new TimeoutTimer(() => __awaiter(this, void 0, void 0, function* () {

@@ -26,7 +26,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">InlineCompletionsProvider</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:6737</li></ul></aside>
+<li>Defined in editor.api.d.ts:6750</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -36,6 +36,7 @@
 <h3 class="tsd-index-heading">Methods</h3>
 <div class="tsd-index-list"><a href="languages.InlineCompletionsProvider.html#freeInlineCompletions" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>free<wbr/>Inline<wbr/>Completions</span></a>
 <a href="languages.InlineCompletionsProvider.html#handleItemDidShow" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>handle<wbr/>Item<wbr/>Did<wbr/>Show?</span></a>
+<a href="languages.InlineCompletionsProvider.html#handlePartialAccept" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>handle<wbr/>Partial<wbr/>Accept?</span></a>
 <a href="languages.InlineCompletionsProvider.html#provideInlineCompletions" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>provide<wbr/>Inline<wbr/>Completions</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
@@ -54,7 +55,7 @@
 <h5>completions: <span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:6746</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6763</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="handleItemDidShow" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>handle<wbr/>Item<wbr/>Did<wbr/>Show</span><a href="#handleItemDidShow" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -71,7 +72,26 @@
 <h5>item: <span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">&quot;items&quot;</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:6742</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6755</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="handlePartialAccept" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>handle<wbr/>Partial<wbr/>Accept</span><a href="#handlePartialAccept" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="handlePartialAccept.handlePartialAccept-1">handle<wbr/>Partial<wbr/>Accept<span class="tsd-signature-symbol">(</span>completions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span>, item<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">&quot;items&quot;</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span>, acceptedCharacters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#handlePartialAccept.handlePartialAccept-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Will be called when an item is partially accepted.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>completions: <span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span></h5></li>
+<li>
+<h5>item: <span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">&quot;items&quot;</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5></li>
+<li>
+<h5>acceptedCharacters: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in editor.api.d.ts:6759</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="provideInlineCompletions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>provide<wbr/>Inline<wbr/>Completions</span><a href="#provideInlineCompletions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -90,7 +110,7 @@
 <h5>token: <a href="CancellationToken.html" class="tsd-signature-type" data-tsd-kind="Interface">CancellationToken</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/languages.ProviderResult.html" class="tsd-signature-type" data-tsd-kind="Type alias">ProviderResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:6738</li></ul></aside></li></ul></section></section></div>
+<li>Defined in editor.api.d.ts:6751</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -126,5 +146,6 @@
 <ul>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="languages.InlineCompletionsProvider.html#freeInlineCompletions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>free<wbr/>Inline<wbr/>Completions</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="languages.InlineCompletionsProvider.html#handleItemDidShow" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>handle<wbr/>Item<wbr/>Did<wbr/>Show?</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="languages.InlineCompletionsProvider.html#handlePartialAccept" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>handle<wbr/>Partial<wbr/>Accept?</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="languages.InlineCompletionsProvider.html#provideInlineCompletions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>provide<wbr/>Inline<wbr/>Completions</a></li></ul></li></ul></nav></div></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { CachedFunction } from '../../../../base/common/cache.js';
-import { BugIndicatingError } from '../../../../base/common/errors.js';
 /**
  * Captures all bracket related configurations for a single language.
  * Immutable.
@@ -11,24 +10,7 @@ import { BugIndicatingError } from '../../../../base/common/errors.js';
 export class LanguageBracketsConfiguration {
     constructor(languageId, config) {
         this.languageId = languageId;
-        let brackets;
-        // Prefer colorized bracket pairs, as they are more accurate.
-        // TODO@hediet: Deprecate `colorizedBracketPairs` and increase accuracy for brackets.
-        if (config.colorizedBracketPairs) {
-            brackets = filterValidBrackets(config.colorizedBracketPairs.map(b => [b[0], b[1]]));
-        }
-        else if (config.brackets) {
-            brackets = filterValidBrackets(config.brackets
-                .map((b) => [b[0], b[1]])
-                // Many languages set < ... > as bracket pair, even though they also use it as comparison operator.
-                // This leads to problems when colorizing this bracket, so we exclude it by default.
-                // Languages can still override this by configuring `colorizedBracketPairs`
-                // https://github.com/microsoft/vscode/issues/132476
-                .filter((p) => !(p[0] === '<' && p[1] === '>')));
-        }
-        else {
-            brackets = [];
-        }
+        const bracketPairs = config.brackets ? filterValidBrackets(config.brackets) : [];
         const openingBracketInfos = new CachedFunction((bracket) => {
             const closing = new Set();
             return {
@@ -38,15 +20,32 @@ export class LanguageBracketsConfiguration {
         });
         const closingBracketInfos = new CachedFunction((bracket) => {
             const opening = new Set();
+            const openingColorized = new Set();
             return {
-                info: new ClosingBracketKind(this, bracket, opening),
+                info: new ClosingBracketKind(this, bracket, opening, openingColorized),
                 opening,
+                openingColorized,
             };
         });
-        for (const [open, close] of brackets) {
+        for (const [open, close] of bracketPairs) {
             const opening = openingBracketInfos.get(open);
             const closing = closingBracketInfos.get(close);
             opening.closing.add(closing.info);
+            closing.opening.add(opening.info);
+        }
+        // Treat colorized brackets as brackets, and mark them as colorized.
+        const colorizedBracketPairs = config.colorizedBracketPairs
+            ? filterValidBrackets(config.colorizedBracketPairs)
+            // If not configured: Take all brackets except `<` ... `>`
+            // Many languages set < ... > as bracket pair, even though they also use it as comparison operator.
+            // This leads to problems when colorizing this bracket, so we exclude it if not explicitly configured otherwise.
+            // https://github.com/microsoft/vscode/issues/132476
+            : bracketPairs.filter((p) => !(p[0] === '<' && p[1] === '>'));
+        for (const [open, close] of colorizedBracketPairs) {
+            const opening = openingBracketInfos.get(open);
+            const closing = closingBracketInfos.get(close);
+            opening.closing.add(closing.info);
+            closing.openingColorized.add(opening.info);
             closing.opening.add(opening.info);
         }
         this._openingBrackets = new Map([...openingBracketInfos.cachedValues].map(([k, v]) => [k, v.info]));
@@ -98,25 +97,29 @@ export class ClosingBracketKind extends BracketKindBase {
     /**
      * Non empty array of all opening brackets this bracket closes.
     */
-    closedBrackets) {
+    openingBrackets, openingColorizedBrackets) {
         super(config, bracketText);
-        this.closedBrackets = closedBrackets;
+        this.openingBrackets = openingBrackets;
+        this.openingColorizedBrackets = openingColorizedBrackets;
         this.isOpeningBracket = false;
     }
     /**
      * Checks if this bracket closes the given other bracket.
-     * Brackets from other language configuration can be used (they will always return false).
-     * If other is a bracket with the same language id, they have to be from the same configuration.
+     * If the bracket infos come from different configurations, this method will return false.
     */
     closes(other) {
-        if (other.languageId === this.languageId) {
-            if (other['config'] !== this.config) {
-                throw new BugIndicatingError('Brackets from different language configuration cannot be used.');
-            }
+        if (other['config'] !== this.config) {
+            return false;
         }
-        return this.closedBrackets.has(other);
+        return this.openingBrackets.has(other);
     }
-    getClosedBrackets() {
-        return [...this.closedBrackets];
+    closesColorized(other) {
+        if (other['config'] !== this.config) {
+            return false;
+        }
+        return this.openingColorizedBrackets.has(other);
+    }
+    getOpeningBrackets() {
+        return [...this.openingBrackets];
     }
 }

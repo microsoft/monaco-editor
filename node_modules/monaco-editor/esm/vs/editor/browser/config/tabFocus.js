@@ -5,19 +5,22 @@
 import { Emitter } from '../../../base/common/event.js';
 class TabFocusImpl {
     constructor() {
-        this._tabFocus = false;
+        this._tabFocusTerminal = false;
+        this._tabFocusEditor = false;
         this._onDidChangeTabFocus = new Emitter();
         this.onDidChangeTabFocus = this._onDidChangeTabFocus.event;
     }
-    getTabFocusMode() {
-        return this._tabFocus;
+    getTabFocusMode(context) {
+        return context === "terminalFocus" /* TabFocusContext.Terminal */ ? this._tabFocusTerminal : this._tabFocusEditor;
     }
-    setTabFocusMode(tabFocusMode) {
-        if (this._tabFocus === tabFocusMode) {
-            return;
+    setTabFocusMode(tabFocusMode, context) {
+        if (context === "terminalFocus" /* TabFocusContext.Terminal */) {
+            this._tabFocusTerminal = tabFocusMode;
         }
-        this._tabFocus = tabFocusMode;
-        this._onDidChangeTabFocus.fire(this._tabFocus);
+        else {
+            this._tabFocusEditor = tabFocusMode;
+        }
+        this._onDidChangeTabFocus.fire();
     }
 }
 /**

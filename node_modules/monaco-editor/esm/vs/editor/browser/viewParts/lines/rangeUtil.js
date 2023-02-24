@@ -65,7 +65,7 @@ export class RangeUtil {
         }
         return this._mergeAdjacentRanges(result);
     }
-    static readHorizontalRanges(domNode, startChildIndex, startOffset, endChildIndex, endOffset, clientRectDeltaLeft, clientRectScale, endNode) {
+    static readHorizontalRanges(domNode, startChildIndex, startOffset, endChildIndex, endOffset, context) {
         // Panic check
         const min = 0;
         const max = domNode.children.length - 1;
@@ -78,7 +78,8 @@ export class RangeUtil {
             // We must find the position at the beginning of a <span>
             // To cover cases of empty <span>s, avoid using a range and use the <span>'s bounding box
             const clientRects = domNode.children[startChildIndex].getClientRects();
-            return this._createHorizontalRangesFromClientRects(clientRects, clientRectDeltaLeft, clientRectScale);
+            context.markDidDomLayout();
+            return this._createHorizontalRangesFromClientRects(clientRects, context.clientRectDeltaLeft, context.clientRectScale);
         }
         // If crossing over to a span only to select offset 0, then use the previous span's maximum offset
         // Chrome is buggy and doesn't handle 0 offsets well sometimes.
@@ -106,7 +107,8 @@ export class RangeUtil {
         }
         startOffset = Math.min(startElement.textContent.length, Math.max(0, startOffset));
         endOffset = Math.min(endElement.textContent.length, Math.max(0, endOffset));
-        const clientRects = this._readClientRects(startElement, startOffset, endElement, endOffset, endNode);
-        return this._createHorizontalRangesFromClientRects(clientRects, clientRectDeltaLeft, clientRectScale);
+        const clientRects = this._readClientRects(startElement, startOffset, endElement, endOffset, context.endNode);
+        context.markDidDomLayout();
+        return this._createHorizontalRangesFromClientRects(clientRects, context.clientRectDeltaLeft, context.clientRectScale);
     }
 }
