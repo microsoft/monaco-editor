@@ -6,8 +6,8 @@ const path = require('path');
 requirejs.config({
 	baseUrl: '',
 	paths: {
-		'vs/fillers/monaco-editor-core': 'out/amd/fillers/monaco-editor-core-amd',
-		'vs/basic-languages': 'out/amd/basic-languages',
+		'vs/fillers/monaco-editor-core': 'out/languages/amd-tsc/fillers/monaco-editor-core-amd',
+		'vs/basic-languages': 'out/languages/amd-tsc/basic-languages',
 		vs: './node_modules/monaco-editor-core/dev/vs'
 	},
 	nodeRequire: require
@@ -38,7 +38,7 @@ requirejs(
 	['test/unit/setup'],
 	function () {
 		glob(
-			'out/amd/basic-languages/*/*.test.js',
+			'out/languages/amd-tsc/basic-languages/*/*.test.js',
 			{ cwd: path.join(__dirname, '../../') },
 			function (err, files) {
 				if (err) {
@@ -46,7 +46,7 @@ requirejs(
 					return;
 				}
 				requirejs(
-					files.map((f) => f.replace(/^out\/amd/, 'vs').replace(/\.js$/, '')),
+					files.map((f) => f.replace(/^out\/languages\/amd-tsc/, 'vs').replace(/\.js$/, '')),
 					function () {
 						run(); // We can launch the tests!
 					},

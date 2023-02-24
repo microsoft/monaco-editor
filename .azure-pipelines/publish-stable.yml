@@ -36,7 +36,7 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor-core stable
+          - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare stable
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: latest
@@ -44,13 +44,13 @@ extends:
         publishRequiresApproval: false
 
       - name: monaco-editor
-        workingDirectory: $(Build.SourcesDirectory)/release
+        workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
         testPlatforms: []
         buildSteps:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/prepare-monaco-editor stable
+          - script: yarn ts-node ./scripts/ci/monaco-editor-prepare stable
             displayName: Setup, Build & Test monaco-editor
 
         tag: latest
@@ -70,3 +70,17 @@ extends:
               git tag -a v$(SetPackageSpec.PACKAGE_VERSION) -m v$(SetPackageSpec.PACKAGE_VERSION)
               git push origin v$(SetPackageSpec.PACKAGE_VERSION)
             workingDirectory: $(Build.SourcesDirectory)
+
+      - name: monaco-editor-webpack-plugin
+        workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
+        testPlatforms: []
+        buildSteps:
+          - script: npm ci
+            displayName: Install NPM dependencies
+
+          - script: npm run compile
+            displayName: Build plugin
+
+        tag: latest
+        publishPackage: ${{ parameters.publishWebpackPlugin }}
+        publishRequiresApproval: false

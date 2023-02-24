@@ -24,7 +24,7 @@ webpack(
 		},
 		resolve: {
 			alias: {
-				'monaco-editor': path.resolve(REPO_ROOT, 'release')
+				'monaco-editor': path.resolve(REPO_ROOT, 'out/monaco-editor')
 			}
 		},
 		module: {
@@ -40,7 +40,7 @@ webpack(
 			]
 		},
 		plugins: [<any>new MonacoWebpackPlugin({
-				monacoEditorPath: path.resolve(REPO_ROOT, 'release')
+				monacoEditorPath: path.resolve(REPO_ROOT, 'out/monaco-editor')
 			})]
 	},
 	(err: Error | undefined, stats: webpack.Stats | undefined) => {

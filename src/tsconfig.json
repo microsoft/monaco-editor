@@ -4,8 +4,11 @@
 		"lib": ["dom", "es5", "es2015.collection", "es2015.promise", "es2015.iterable"],
 		"module": "amd",
 		"moduleResolution": "node",
-		"outDir": "../out/amd",
+		"outDir": "../out/languages/amd-tsc",
 		"strict": true,
-		"target": "es5"
+		"target": "es5",
+		"sourceMap": true,
+		"allowJs": true,
+		"checkJs": false
 	}
 }
