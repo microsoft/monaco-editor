@@ -33,7 +33,10 @@ export class PlaygroundPageContent extends React.Component<
 			<Page>
 				<SettingsDialog model={model} />
 				<div className="p-2" style={{ height: "100%" }}>
-					<Row className="h-100 g-2">
+					<Row
+						className="h-100 g-2"
+						style={{ flexWrap: "wrap-reverse" }}
+					>
 						<Col
 							md
 							className={
