@@ -13,6 +13,7 @@ export class Preview
 	@observable
 	private counter = 0;
 	private currentState: IPreviewState | undefined;
+	private iframe: HTMLIFrameElement | null = null;
 
 	render() {
 		return (
@@ -30,6 +31,7 @@ export class Preview
 	}
 
 	handleIframe = (iframe: HTMLIFrameElement | null) => {
+		this.iframe = iframe;
 		if (!iframe) {
 			return;
 		}
@@ -57,7 +59,24 @@ export class Preview
 	}
 
 	handlePreview(state: IPreviewState): void {
-		this.currentState = state;
-		this.counter++;
+		if (
+			JSON.stringify({ ...state, css: "" }) ===
+			JSON.stringify({ ...this.currentState, css: "" })
+		) {
+			// only css changed
+			this.iframe?.contentWindow!.postMessage(
+				{
+					kind: "update-css",
+					css: state.css,
+				} as IMessage,
+				{
+					targetOrigin: "*",
+				}
+			);
+			this.currentState = state;
+		} else {
+			this.currentState = state;
+			this.counter++;
+		}
 	}
 }

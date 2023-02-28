@@ -5,10 +5,15 @@
 
 import { IMonacoSetup } from "./monaco-loader";
 
-export type IMessage = {
-	kind: "initialize";
-	state: IPreviewState;
-};
+export type IMessage =
+	| {
+			kind: "initialize";
+			state: IPreviewState;
+	  }
+	| {
+			kind: "update-css";
+			css: string;
+	  };
 
 export interface IPlaygroundProject {
 	js: string;
@@ -17,5 +22,6 @@ export interface IPlaygroundProject {
 }
 
 export interface IPreviewState extends IPlaygroundProject {
+	key: number;
 	monacoSetup: IMonacoSetup;
 }

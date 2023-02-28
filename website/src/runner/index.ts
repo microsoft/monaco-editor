@@ -17,6 +17,11 @@ window.addEventListener("message", (event) => {
 	const e = event.data as IMessage | { kind: undefined };
 	if (e.kind === "initialize") {
 		initialize(e.state);
+	} else if (e.kind === "update-css") {
+		const style = document.getElementById(
+			"custom-style"
+		) as HTMLStyleElement;
+		style.innerHTML = e.css;
 	}
 });
 
@@ -40,6 +45,7 @@ async function initialize(state: IPreviewState) {
 	loadingContainerDiv.remove();
 
 	const style = document.createElement("style");
+	style.id = "custom-style";
 	style.innerHTML = state.css;
 	document.body.appendChild(style);
 
