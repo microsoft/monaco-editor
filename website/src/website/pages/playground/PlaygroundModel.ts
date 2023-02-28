@@ -87,7 +87,11 @@ export class PlaygroundModel {
 
 	@computed
 	public get state(): IPreviewState {
-		return { ...this.playgroundProject, monacoSetup: this.monacoSetup };
+		return {
+			...this.playgroundProject,
+			monacoSetup: this.monacoSetup,
+			key: this.reloadKey,
+		};
 	}
 
 	@observable
@@ -126,7 +130,7 @@ export class PlaygroundModel {
 	constructor() {
 		this.dispose.track({
 			dispose: reaction(
-				() => ({ state: this.state, key: this.reloadKey }),
+				() => ({ state: this.state }),
 				({ state }) => {
 					this.debouncer.run(() => {
 						for (const handler of this._previewHandlers) {
@@ -162,6 +166,8 @@ export class PlaygroundModel {
 						return;
 					}
 					const monacoTypesUrl = this.monacoSetup.monacoTypesUrl;
+					this.reloadKey; // Allow reload to reload the d.ts file.
+
 					let content = "";
 					if (monacoTypesUrl) {
 						content = await (await fetch(monacoTypesUrl)).text();
