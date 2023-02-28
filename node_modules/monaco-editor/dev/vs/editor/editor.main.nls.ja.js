@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.ja", {
 		"semanticHighlighting をサポートされる言語で表示するかどうかを制御します。",
 		"エディターのコンテンツをダブルクリックするか、`Escape` キーを押しても、ピーク エディターを開いたままにします。",
 		"この長さを越える行は、パフォーマンス上の理由によりトークン化されません。",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"Web ワーカーでトークン化を非同期的に行うかどうかを制御します。",
 		"インデントを増減する角かっこを定義します。",
 		"左角かっこまたは文字列シーケンス。",
 		"右角かっこまたは文字列シーケンス。",

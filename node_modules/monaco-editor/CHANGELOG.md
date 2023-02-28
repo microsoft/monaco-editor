@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.36.1]
+
+- Marks unneeded dependencies as dev dependencies.
+
 ## [0.36.0]
 
 - Maintenance release

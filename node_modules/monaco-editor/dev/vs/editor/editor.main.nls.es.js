@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.es", {
 		"Controla si se muestra semanticHighlighting para los idiomas que lo admiten.",
 		"Mantiene abiertos los editores interactivos, incluso al hacer doble clic en su contenido o presionar \"Escape\".",
 		"Las lineas por encima de esta longitud no se tokenizarán por razones de rendimiento.",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"Controla si la tokenización debe producirse de forma asincrónica en un rol de trabajo.",
 		"Define los corchetes que aumentan o reducen la sangría.",
 		"Secuencia de cadena o corchete de apertura.",
 		"Secuencia de cadena o corchete de cierre.",

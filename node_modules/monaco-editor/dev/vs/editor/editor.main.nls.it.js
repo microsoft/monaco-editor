@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.it", {
 		"Controlla se l\'evidenziazione semanticHighlighting è visualizzata per i linguaggi che la supportano.",
 		"Consente di mantenere aperti gli editor rapidi anche quando si fa doppio clic sul contenuto o si preme \'ESC\'.",
 		"Per motivi di prestazioni le righe di lunghezza superiore non verranno tokenizzate",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"Controlla se la tokenizzazione deve essere eseguita in modo asincrono in un web worker.",
 		"Definisce i simboli di parentesi quadra che aumentano o riducono il rientro.",
 		"Sequenza di stringa o carattere parentesi quadra di apertura.",
 		"Sequenza di stringa o carattere parentesi quadra di chiusura.",

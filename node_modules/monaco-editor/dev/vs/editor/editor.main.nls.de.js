@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuert, ob die semantische Hervorhebung für die Sprachen angezeigt wird, die sie unterstützen.",
 		"Lassen Sie Peek-Editoren geöffnet, auch wenn Sie auf ihren Inhalt doppelklicken oder auf die ESCAPETASTE klicken.",
 		"Zeilen, die diese Länge überschreiten, werden aus Leistungsgründen nicht tokenisiert",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"Steuert, ob die Tokenisierung asynchron auf einem Webworker erfolgen soll.",
 		"Definiert die Klammersymbole, die den Einzug vergrößern oder verkleinern.",
 		"Das öffnende Klammerzeichen oder die Zeichenfolgensequenz.",
 		"Das schließende Klammerzeichen oder die Zeichenfolgensequenz.",

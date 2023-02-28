@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"控制 semanticHighlighting 是否會為支援的語言顯示。",
 		"即使按兩下內容或按 `Escape`，仍保持瞄孔編輯器開啟。",
 		"因效能的緣故，不會將超過此高度的行 Token 化",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"控制權杖化是否應該在 Web 工作者上非同步進行。",
 		"定義增加或減少縮排的括弧符號。",
 		"左括弧字元或字串順序。",
 		"右括弧字元或字串順序。",

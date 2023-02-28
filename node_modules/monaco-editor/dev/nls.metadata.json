@@ -369,22 +369,115 @@
 			"hint1n",
 			"hintnn"
 		],
-		"vs/editor/browser/widget/codeEditorWidget": [
-			"cursors.maximum",
-			"goToSetting"
+		"vs/editor/browser/editorExtensions": [
+			{
+				"key": "miUndo",
+				"comment": [
+					"&& denotes a mnemonic"
+				]
+			},
+			"undo",
+			{
+				"key": "miRedo",
+				"comment": [
+					"&& denotes a mnemonic"
+				]
+			},
+			"redo",
+			{
+				"key": "miSelectAll",
+				"comment": [
+					"&& denotes a mnemonic"
+				]
+			},
+			"selectAll"
+		],
+		"vs/editor/common/editorContextKeys": [
+			"editorTextFocus",
+			"editorFocus",
+			"textInputFocus",
+			"editorReadonly",
+			"inDiffEditor",
+			"editorColumnSelection",
+			"editorHasSelection",
+			"editorHasMultipleSelections",
+			"editorTabMovesFocus",
+			"editorHoverVisible",
+			"inCompositeEditor",
+			"editorLangId",
+			"editorHasCompletionItemProvider",
+			"editorHasCodeActionsProvider",
+			"editorHasCodeLensProvider",
+			"editorHasDefinitionProvider",
+			"editorHasDeclarationProvider",
+			"editorHasImplementationProvider",
+			"editorHasTypeDefinitionProvider",
+			"editorHasHoverProvider",
+			"editorHasDocumentHighlightProvider",
+			"editorHasDocumentSymbolProvider",
+			"editorHasReferenceProvider",
+			"editorHasRenameProvider",
+			"editorHasSignatureHelpProvider",
+			"editorHasInlayHintsProvider",
+			"editorHasDocumentFormattingProvider",
+			"editorHasDocumentSelectionFormattingProvider",
+			"editorHasMultipleDocumentFormattingProvider",
+			"editorHasMultipleDocumentSelectionFormattingProvider"
+		],
+		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
+			{
+				"key": "toggle.tabMovesFocus",
+				"comment": [
+					"Turn on/off use of tab key for moving focus around VS Code"
+				]
+			},
+			"toggle.tabMovesFocus.on",
+			"toggle.tabMovesFocus.off"
+		],
+		"vs/editor/common/standaloneStrings": [
+			"noSelection",
+			"singleSelectionRange",
+			"singleSelection",
+			"multiSelectionRange",
+			"multiSelection",
+			"emergencyConfOn",
+			"openingDocs",
+			"readonlyDiffEditor",
+			"editableDiffEditor",
+			"readonlyEditor",
+			"editableEditor",
+			"changeConfigToOnMac",
+			"changeConfigToOnWinLinux",
+			"auto_on",
+			"auto_off",
+			"tabFocusModeOnMsg",
+			"tabFocusModeOnMsgNoKb",
+			"tabFocusModeOffMsg",
+			"tabFocusModeOffMsgNoKb",
+			"openDocMac",
+			"openDocWinLinux",
+			"outroMsg",
+			"showAccessibilityHelpAction",
+			"inspectTokens",
+			"gotoLineActionLabel",
+			"helpQuickAccess",
+			"quickCommandActionLabel",
+			"quickCommandActionHelp",
+			"quickOutlineActionLabel",
+			"quickOutlineByCategoryActionLabel",
+			"editorViewAccessibleLabel",
+			"accessibilityHelpMessage",
+			"toggleHighContrast",
+			"bulkEditServiceSummary"
 		],
 		"vs/editor/browser/coreCommands": [
 			"stickydesc",
 			"stickydesc",
 			"removedCursor"
 		],
-		"vs/editor/contrib/anchorSelect/browser/anchorSelect": [
-			"selectionAnchor",
-			"anchorSet",
-			"setSelectionAnchor",
-			"goToSelectionAnchor",
-			"selectFromAnchorToCursor",
-			"cancelSelectionAnchor"
+		"vs/editor/browser/widget/codeEditorWidget": [
+			"cursors.maximum",
+			"goToSetting"
 		],
 		"vs/editor/browser/widget/diffEditorWidget": [
 			"diffInsertIcon",
@@ -402,6 +495,14 @@
 					"&& denotes a mnemonic"
 				]
 			}
+		],
+		"vs/editor/contrib/anchorSelect/browser/anchorSelect": [
+			"selectionAnchor",
+			"anchorSet",
+			"setSelectionAnchor",
+			"goToSelectionAnchor",
+			"selectFromAnchorToCursor",
+			"cancelSelectionAnchor"
 		],
 		"vs/editor/contrib/caretOperations/browser/caretOperations": [
 			"caret.moveLeft",
@@ -449,21 +550,6 @@
 		"vs/editor/contrib/codelens/browser/codelensController": [
 			"showLensOnLine"
 		],
-		"vs/editor/contrib/copyPaste/browser/copyPasteContribution": [
-			"pasteActions"
-		],
-		"vs/editor/contrib/contextmenu/browser/contextmenu": [
-			"context.minimap.minimap",
-			"context.minimap.renderCharacters",
-			"context.minimap.size",
-			"context.minimap.size.proportional",
-			"context.minimap.size.fill",
-			"context.minimap.size.fit",
-			"context.minimap.slider",
-			"context.minimap.slider.mouseover",
-			"context.minimap.slider.always",
-			"action.showContextMenu.label"
-		],
 		"vs/editor/contrib/comment/browser/comment": [
 			"comment.line",
 			{
@@ -482,12 +568,32 @@
 				]
 			}
 		],
+		"vs/editor/contrib/copyPaste/browser/copyPasteContribution": [
+			"pasteActions"
+		],
+		"vs/editor/contrib/contextmenu/browser/contextmenu": [
+			"context.minimap.minimap",
+			"context.minimap.renderCharacters",
+			"context.minimap.size",
+			"context.minimap.size.proportional",
+			"context.minimap.size.fill",
+			"context.minimap.size.fit",
+			"context.minimap.slider",
+			"context.minimap.slider.mouseover",
+			"context.minimap.slider.always",
+			"action.showContextMenu.label"
+		],
 		"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
 			"cursor.undo",
 			"cursor.redo"
 		],
 		"vs/editor/contrib/dropIntoEditor/browser/dropIntoEditorContribution": [
 			"dropProgressTitle"
+		],
+		"vs/editor/contrib/fontZoom/browser/fontZoom": [
+			"EditorFontZoomIn.label",
+			"EditorFontZoomOut.label",
+			"EditorFontZoomReset.label"
 		],
 		"vs/editor/contrib/find/browser/findController": [
 			"startFindAction",
@@ -519,10 +625,9 @@
 				]
 			}
 		],
-		"vs/editor/contrib/fontZoom/browser/fontZoom": [
-			"EditorFontZoomIn.label",
-			"EditorFontZoomOut.label",
-			"EditorFontZoomReset.label"
+		"vs/editor/contrib/format/browser/formatActions": [
+			"formatDocument.label",
+			"formatSelection.label"
 		],
 		"vs/editor/contrib/folding/browser/folding": [
 			"unfoldAction.label",
@@ -543,10 +648,6 @@
 			"createManualFoldRange.label",
 			"removeManualFoldingRanges.label",
 			"foldLevelAction.label"
-		],
-		"vs/editor/contrib/format/browser/formatActions": [
-			"formatDocument.label",
-			"formatSelection.label"
 		],
 		"vs/editor/contrib/gotoSymbol/browser/goToCommands": [
 			"peek.submenu",
@@ -637,6 +738,22 @@
 				]
 			}
 		],
+		"vs/editor/contrib/hover/browser/hover": [
+			{
+				"key": "showHover",
+				"comment": [
+					"Label for action that will trigger the showing of a hover in the editor.",
+					"This allows for users to show the hover without using the mouse."
+				]
+			},
+			{
+				"key": "showDefinitionPreviewHover",
+				"comment": [
+					"Label for action that will trigger the showing of definition preview hover in the editor.",
+					"This allows for users to show the definition preview hover without using the mouse."
+				]
+			}
+		],
 		"vs/editor/contrib/indentation/browser/indentation": [
 			"indentationToSpaces",
 			"indentationToTabs",
@@ -656,28 +773,16 @@
 			"editor.reindentlines",
 			"editor.reindentselectedlines"
 		],
-		"vs/editor/contrib/hover/browser/hover": [
-			{
-				"key": "showHover",
-				"comment": [
-					"Label for action that will trigger the showing of a hover in the editor.",
-					"This allows for users to show the hover without using the mouse."
-				]
-			},
-			{
-				"key": "showDefinitionPreviewHover",
-				"comment": [
-					"Label for action that will trigger the showing of definition preview hover in the editor.",
-					"This allows for users to show the definition preview hover without using the mouse."
-				]
-			}
-		],
 		"vs/editor/contrib/inPlaceReplace/browser/inPlaceReplace": [
 			"InPlaceReplaceAction.previous.label",
 			"InPlaceReplaceAction.next.label"
 		],
 		"vs/editor/contrib/lineSelection/browser/lineSelection": [
 			"expandLineSelection"
+		],
+		"vs/editor/contrib/linkedEditing/browser/linkedEditing": [
+			"linkedEditing.label",
+			"editorLinkedEditingBackground"
 		],
 		"vs/editor/contrib/linesOperations/browser/linesOperations": [
 			"lines.copyUp",
@@ -734,10 +839,6 @@
 			"editor.transformToSnakecase",
 			"editor.transformToCamelcase",
 			"editor.transformToKebabcase"
-		],
-		"vs/editor/contrib/linkedEditing/browser/linkedEditing": [
-			"linkedEditing.label",
-			"editorLinkedEditingBackground"
 		],
 		"vs/editor/contrib/links/browser/links": [
 			"invalid.url",
@@ -826,25 +927,6 @@
 			"hasPrevTabstop",
 			"next"
 		],
-		"vs/editor/contrib/smartSelect/browser/smartSelect": [
-			"smartSelect.expand",
-			{
-				"key": "miSmartSelectGrow",
-				"comment": [
-					"&& denotes a mnemonic"
-				]
-			},
-			"smartSelect.shrink",
-			{
-				"key": "miSmartSelectShrink",
-				"comment": [
-					"&& denotes a mnemonic"
-				]
-			}
-		],
-		"vs/editor/contrib/tokenization/browser/tokenization": [
-			"forceRetokenize"
-		],
 		"vs/editor/contrib/suggest/browser/suggestController": [
 			"aria.alert.snippet",
 			"suggest.trigger.label",
@@ -857,15 +939,8 @@
 			"detail.less",
 			"suggest.reset.label"
 		],
-		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
-			{
-				"key": "toggle.tabMovesFocus",
-				"comment": [
-					"Turn on/off use of tab key for moving focus around VS Code"
-				]
-			},
-			"toggle.tabMovesFocus.on",
-			"toggle.tabMovesFocus.off"
+		"vs/editor/contrib/tokenization/browser/tokenization": [
+			"forceRetokenize"
 		],
 		"vs/editor/contrib/unicodeHighlighter/browser/unicodeHighlighter": [
 			"warningIcon",
@@ -892,6 +967,22 @@
 			"unicodeHighlight.allowCommonCharactersInLanguage",
 			"unicodeHighlight.configureUnicodeHighlightOptions"
 		],
+		"vs/editor/contrib/smartSelect/browser/smartSelect": [
+			"smartSelect.expand",
+			{
+				"key": "miSmartSelectGrow",
+				"comment": [
+					"&& denotes a mnemonic"
+				]
+			},
+			"smartSelect.shrink",
+			{
+				"key": "miSmartSelectShrink",
+				"comment": [
+					"&& denotes a mnemonic"
+				]
+			}
+		],
 		"vs/editor/contrib/unusualLineTerminators/browser/unusualLineTerminators": [
 			"unusualLineTerminators.title",
 			"unusualLineTerminators.message",
@@ -912,103 +1003,9 @@
 		"vs/editor/contrib/wordOperations/browser/wordOperations": [
 			"deleteInsideWord"
 		],
-		"vs/editor/common/standaloneStrings": [
-			"noSelection",
-			"singleSelectionRange",
-			"singleSelection",
-			"multiSelectionRange",
-			"multiSelection",
-			"emergencyConfOn",
-			"openingDocs",
-			"readonlyDiffEditor",
-			"editableDiffEditor",
-			"readonlyEditor",
-			"editableEditor",
-			"changeConfigToOnMac",
-			"changeConfigToOnWinLinux",
-			"auto_on",
-			"auto_off",
-			"tabFocusModeOnMsg",
-			"tabFocusModeOnMsgNoKb",
-			"tabFocusModeOffMsg",
-			"tabFocusModeOffMsgNoKb",
-			"openDocMac",
-			"openDocWinLinux",
-			"outroMsg",
-			"showAccessibilityHelpAction",
-			"inspectTokens",
-			"gotoLineActionLabel",
-			"helpQuickAccess",
-			"quickCommandActionLabel",
-			"quickCommandActionHelp",
-			"quickOutlineActionLabel",
-			"quickOutlineByCategoryActionLabel",
-			"editorViewAccessibleLabel",
-			"accessibilityHelpMessage",
-			"toggleHighContrast",
-			"bulkEditServiceSummary"
-		],
 		"vs/editor/contrib/readOnlyMessage/browser/contribution": [
 			"editor.simple.readonly",
 			"editor.readonly"
-		],
-		"vs/editor/common/editorContextKeys": [
-			"editorTextFocus",
-			"editorFocus",
-			"textInputFocus",
-			"editorReadonly",
-			"inDiffEditor",
-			"editorColumnSelection",
-			"editorHasSelection",
-			"editorHasMultipleSelections",
-			"editorTabMovesFocus",
-			"editorHoverVisible",
-			"inCompositeEditor",
-			"editorLangId",
-			"editorHasCompletionItemProvider",
-			"editorHasCodeActionsProvider",
-			"editorHasCodeLensProvider",
-			"editorHasDefinitionProvider",
-			"editorHasDeclarationProvider",
-			"editorHasImplementationProvider",
-			"editorHasTypeDefinitionProvider",
-			"editorHasHoverProvider",
-			"editorHasDocumentHighlightProvider",
-			"editorHasDocumentSymbolProvider",
-			"editorHasReferenceProvider",
-			"editorHasRenameProvider",
-			"editorHasSignatureHelpProvider",
-			"editorHasInlayHintsProvider",
-			"editorHasDocumentFormattingProvider",
-			"editorHasDocumentSelectionFormattingProvider",
-			"editorHasMultipleDocumentFormattingProvider",
-			"editorHasMultipleDocumentSelectionFormattingProvider"
-		],
-		"vs/editor/browser/editorExtensions": [
-			{
-				"key": "miUndo",
-				"comment": [
-					"&& denotes a mnemonic"
-				]
-			},
-			"undo",
-			{
-				"key": "miRedo",
-				"comment": [
-					"&& denotes a mnemonic"
-				]
-			},
-			"redo",
-			{
-				"key": "miSelectAll",
-				"comment": [
-					"&& denotes a mnemonic"
-				]
-			},
-			"selectAll"
-		],
-		"vs/platform/quickinput/browser/helpQuickAccess": [
-			"helpPickAriaLabel"
 		],
 		"vs/editor/contrib/quickAccess/browser/gotoLineQuickAccess": [
 			"cannotRunGotoLine",
@@ -1016,6 +1013,9 @@
 			"gotoLineLabel",
 			"gotoLineLabelEmptyWithLimit",
 			"gotoLineLabelEmpty"
+		],
+		"vs/platform/quickinput/browser/helpQuickAccess": [
+			"helpPickAriaLabel"
 		],
 		"vs/editor/contrib/quickAccess/browser/gotoSymbolQuickAccess": [
 			"cannotRunGotoSymbolWithoutEditor",
@@ -1091,6 +1091,14 @@
 			"referenceSearchVisible",
 			"labelLoading",
 			"metaTitle.N"
+		],
+		"vs/platform/markers/common/markers": [
+			"sev.error",
+			"sev.warning",
+			"sev.info"
+		],
+		"vs/editor/common/languages/modesRegistry": [
+			"plainText.alias"
 		],
 		"vs/platform/audioCues/browser/audioCueService": [
 			"audioCues.lineHasError.name",
@@ -1382,17 +1390,6 @@
 			"chartsGreen",
 			"chartsPurple"
 		],
-		"vs/editor/browser/widget/inlineDiffMargin": [
-			"diff.clipboard.copyDeletedLinesContent.label",
-			"diff.clipboard.copyDeletedLinesContent.single.label",
-			"diff.clipboard.copyChangedLinesContent.label",
-			"diff.clipboard.copyChangedLinesContent.single.label",
-			"diff.clipboard.copyDeletedLineContent.label",
-			"diff.clipboard.copyChangedLineContent.label",
-			"diff.inline.revertChange.label",
-			"diff.clipboard.copyDeletedLineContent.label",
-			"diff.clipboard.copyChangedLineContent.label"
-		],
 		"vs/editor/browser/widget/diffReview": [
 			"diffReviewInsertIcon",
 			"diffReviewRemoveIcon",
@@ -1424,6 +1421,17 @@
 			"deleteLine",
 			"editor.action.diffReview.next",
 			"editor.action.diffReview.prev"
+		],
+		"vs/editor/browser/widget/inlineDiffMargin": [
+			"diff.clipboard.copyDeletedLinesContent.label",
+			"diff.clipboard.copyDeletedLinesContent.single.label",
+			"diff.clipboard.copyChangedLinesContent.label",
+			"diff.clipboard.copyChangedLinesContent.single.label",
+			"diff.clipboard.copyDeletedLineContent.label",
+			"diff.clipboard.copyChangedLineContent.label",
+			"diff.inline.revertChange.label",
+			"diff.clipboard.copyDeletedLineContent.label",
+			"diff.clipboard.copyChangedLineContent.label"
 		],
 		"vs/editor/common/viewLayout/viewLineRenderer": [
 			"showMore",
@@ -1723,14 +1731,6 @@
 			"suggestionInsertMode",
 			"suggestionCanResolve"
 		],
-		"vs/platform/markers/common/markers": [
-			"sev.error",
-			"sev.warning",
-			"sev.info"
-		],
-		"vs/editor/common/languages/modesRegistry": [
-			"plainText.alias"
-		],
 		"vs/editor/contrib/stickyScroll/browser/stickyScrollActions": [
 			"toggleStickyScroll",
 			{
@@ -1783,11 +1783,6 @@
 			"morecCommands",
 			"canNotRun"
 		],
-		"vs/editor/contrib/gotoSymbol/browser/peek/referencesWidget": [
-			"missingPreviewMessage",
-			"noResults",
-			"peekView.alternateTitle"
-		],
 		"vs/platform/list/browser/listService": [
 			"workbenchConfigurationTitle",
 			"multiSelectModifier.ctrlCmd",
@@ -1826,88 +1821,10 @@
 			"expand mode",
 			"typeNavigationMode"
 		],
-		"vs/editor/contrib/editorState/browser/keybindingCancellation": [
-			"cancellableOperation"
-		],
-		"vs/editor/browser/controller/textAreaHandler": [
-			"editor",
-			"accessibilityOffAriaLabel"
-		],
-		"vs/editor/common/model/editStack": [
-			"edit"
-		],
-		"vs/editor/contrib/codeAction/browser/codeAction": [
-			"applyCodeActionFailed"
-		],
-		"vs/editor/contrib/codeAction/browser/codeActionUi": [
-			"hideMoreActions",
-			"showMoreActions"
-		],
-		"vs/editor/contrib/colorPicker/browser/colorPickerWidget": [
-			"clickToToggleColorOptions"
-		],
-		"vs/base/browser/ui/iconLabel/iconLabelHover": [
-			"iconLabel.loading"
-		],
-		"vs/base/browser/ui/findinput/findInputToggles": [
-			"caseDescription",
-			"wordsDescription",
-			"regexDescription"
-		],
-		"vs/platform/history/browser/contextScopedHistoryWidget": [
-			"suggestWidgetVisible"
-		],
-		"vs/platform/actions/browser/menuEntryActionViewItem": [
-			"titleAndKb",
-			"titleAndKb",
-			"titleAndKbAndAlt"
-		],
-		"vs/base/browser/ui/keybindingLabel/keybindingLabel": [
-			"unbound"
-		],
-		"vs/platform/actions/browser/toolbar": [
-			"hide",
-			"resetThisMenu"
-		],
-		"vs/editor/contrib/snippet/browser/snippetVariables": [
-			"Sunday",
-			"Monday",
-			"Tuesday",
-			"Wednesday",
-			"Thursday",
-			"Friday",
-			"Saturday",
-			"SundayShort",
-			"MondayShort",
-			"TuesdayShort",
-			"WednesdayShort",
-			"ThursdayShort",
-			"FridayShort",
-			"SaturdayShort",
-			"January",
-			"February",
-			"March",
-			"April",
-			"May",
-			"June",
-			"July",
-			"August",
-			"September",
-			"October",
-			"November",
-			"December",
-			"JanuaryShort",
-			"FebruaryShort",
-			"MarchShort",
-			"AprilShort",
-			"MayShort",
-			"JuneShort",
-			"JulyShort",
-			"AugustShort",
-			"SeptemberShort",
-			"OctoberShort",
-			"NovemberShort",
-			"DecemberShort"
+		"vs/editor/contrib/gotoSymbol/browser/peek/referencesWidget": [
+			"missingPreviewMessage",
+			"noResults",
+			"peekView.alternateTitle"
 		],
 		"vs/platform/keybinding/common/abstractKeybindingService": [
 			"first.chord",
@@ -2026,6 +1943,89 @@
 				]
 			}
 		],
+		"vs/editor/contrib/editorState/browser/keybindingCancellation": [
+			"cancellableOperation"
+		],
+		"vs/editor/browser/controller/textAreaHandler": [
+			"editor",
+			"accessibilityOffAriaLabel"
+		],
+		"vs/editor/common/model/editStack": [
+			"edit"
+		],
+		"vs/editor/contrib/codeAction/browser/codeAction": [
+			"applyCodeActionFailed"
+		],
+		"vs/editor/contrib/codeAction/browser/codeActionUi": [
+			"hideMoreActions",
+			"showMoreActions"
+		],
+		"vs/editor/contrib/colorPicker/browser/colorPickerWidget": [
+			"clickToToggleColorOptions"
+		],
+		"vs/base/browser/ui/iconLabel/iconLabelHover": [
+			"iconLabel.loading"
+		],
+		"vs/base/browser/ui/findinput/findInputToggles": [
+			"caseDescription",
+			"wordsDescription",
+			"regexDescription"
+		],
+		"vs/platform/history/browser/contextScopedHistoryWidget": [
+			"suggestWidgetVisible"
+		],
+		"vs/platform/actions/browser/menuEntryActionViewItem": [
+			"titleAndKb",
+			"titleAndKb",
+			"titleAndKbAndAlt"
+		],
+		"vs/base/browser/ui/keybindingLabel/keybindingLabel": [
+			"unbound"
+		],
+		"vs/platform/actions/browser/toolbar": [
+			"hide",
+			"resetThisMenu"
+		],
+		"vs/editor/contrib/snippet/browser/snippetVariables": [
+			"Sunday",
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"Saturday",
+			"SundayShort",
+			"MondayShort",
+			"TuesdayShort",
+			"WednesdayShort",
+			"ThursdayShort",
+			"FridayShort",
+			"SaturdayShort",
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December",
+			"JanuaryShort",
+			"FebruaryShort",
+			"MarchShort",
+			"AprilShort",
+			"MayShort",
+			"JuneShort",
+			"JulyShort",
+			"AugustShort",
+			"SeptemberShort",
+			"OctoberShort",
+			"NovemberShort",
+			"DecemberShort"
+		],
 		"vs/platform/action/common/actionCommonCategories": [
 			"view",
 			"help",
@@ -2063,11 +2063,6 @@
 			"error.moreErrors",
 			"error.defaultMessage"
 		],
-		"vs/editor/contrib/gotoSymbol/browser/peek/referencesTree": [
-			"referencesCount",
-			"referenceCount",
-			"treeAriaLabel"
-		],
 		"vs/base/browser/ui/tree/abstractTree": [
 			"filter",
 			"fuzzySearch",
@@ -2076,6 +2071,11 @@
 			"type to search",
 			"close",
 			"not found"
+		],
+		"vs/editor/contrib/gotoSymbol/browser/peek/referencesTree": [
+			"referencesCount",
+			"referenceCount",
+			"treeAriaLabel"
 		],
 		"vs/editor/contrib/codeAction/browser/codeActionMenu": [
 			"codeAction.widget.id.more",
@@ -2251,6 +2251,29 @@
 				]
 			}
 		],
+		"vs/platform/quickinput/browser/quickInput": [
+			"quickInput.back",
+			"inputModeEntry",
+			"quickInput.steps",
+			"quickInputBox.ariaLabel",
+			"quickInput.checkAll",
+			{
+				"key": "quickInput.visibleCount",
+				"comment": [
+					"This tells the user how many items are shown in a list of items to select from. The items can be anything. Currently not visible, but read by screen readers."
+				]
+			},
+			{
+				"key": "quickInput.countSelected",
+				"comment": [
+					"This tells the user how many items are selected in a list of items to select from. The items can be anything."
+				]
+			},
+			"ok",
+			"custom",
+			"quickInput.backWithKeybinding",
+			"quickInput.back"
+		],
 		"vs/platform/actionWidget/browser/actionList": [
 			{
 				"key": "label-preview",
@@ -2276,29 +2299,6 @@
 					"An action widget option"
 				]
 			}
-		],
-		"vs/platform/quickinput/browser/quickInput": [
-			"quickInput.back",
-			"inputModeEntry",
-			"quickInput.steps",
-			"quickInputBox.ariaLabel",
-			"quickInput.checkAll",
-			{
-				"key": "quickInput.visibleCount",
-				"comment": [
-					"This tells the user how many items are shown in a list of items to select from. The items can be anything. Currently not visible, but read by screen readers."
-				]
-			},
-			{
-				"key": "quickInput.countSelected",
-				"comment": [
-					"This tells the user how many items are selected in a list of items to select from. The items can be anything."
-				]
-			},
-			"ok",
-			"custom",
-			"quickInput.backWithKeybinding",
-			"quickInput.back"
 		],
 		"vs/platform/quickinput/browser/quickInputList": [
 			"quickInput"
@@ -2643,22 +2643,95 @@
 			"Made 1 formatting edit between lines {0} and {1}",
 			"Made {0} formatting edits between lines {1} and {2}"
 		],
-		"vs/editor/browser/widget/codeEditorWidget": [
-			"The number of cursors has been limited to {0}. Consider using [find and replace](https://code.visualstudio.com/docs/editor/codebasics#_find-and-replace) for larger changes or increase the editor multi cursor limit setting.",
-			"Increase Multi Cursor Limit"
+		"vs/editor/browser/editorExtensions": [
+			"&&Undo",
+			"Undo",
+			"&&Redo",
+			"Redo",
+			"&&Select All",
+			"Select All"
+		],
+		"vs/editor/common/editorContextKeys": [
+			"Whether the editor text has focus (cursor is blinking)",
+			"Whether the editor or an editor widget has focus (e.g. focus is in the find widget)",
+			"Whether an editor or a rich text input has focus (cursor is blinking)",
+			"Whether the editor is read only",
+			"Whether the context is a diff editor",
+			"Whether `editor.columnSelection` is enabled",
+			"Whether the editor has text selected",
+			"Whether the editor has multiple selections",
+			"Whether `Tab` will move focus out of the editor",
+			"Whether the editor hover is visible",
+			"Whether the editor is part of a larger editor (e.g. notebooks)",
+			"The language identifier of the editor",
+			"Whether the editor has a completion item provider",
+			"Whether the editor has a code actions provider",
+			"Whether the editor has a code lens provider",
+			"Whether the editor has a definition provider",
+			"Whether the editor has a declaration provider",
+			"Whether the editor has an implementation provider",
+			"Whether the editor has a type definition provider",
+			"Whether the editor has a hover provider",
+			"Whether the editor has a document highlight provider",
+			"Whether the editor has a document symbol provider",
+			"Whether the editor has a reference provider",
+			"Whether the editor has a rename provider",
+			"Whether the editor has a signature help provider",
+			"Whether the editor has an inline hints provider",
+			"Whether the editor has a document formatting provider",
+			"Whether the editor has a document selection formatting provider",
+			"Whether the editor has multiple document formatting providers",
+			"Whether the editor has multiple document selection formatting providers"
+		],
+		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
+			"Toggle Tab Key Moves Focus",
+			"Pressing Tab will now move focus to the next focusable element",
+			"Pressing Tab will now insert the tab character"
+		],
+		"vs/editor/common/standaloneStrings": [
+			"No selection",
+			"Line {0}, Column {1} ({2} selected)",
+			"Line {0}, Column {1}",
+			"{0} selections ({1} characters selected)",
+			"{0} selections",
+			"Now changing the setting `accessibilitySupport` to 'on'.",
+			"Now opening the Editor Accessibility documentation page.",
+			" in a read-only pane of a diff editor.",
+			" in a pane of a diff editor.",
+			" in a read-only code editor",
+			" in a code editor",
+			"To configure the editor to be optimized for usage with a Screen Reader press Command+E now.",
+			"To configure the editor to be optimized for usage with a Screen Reader press Control+E now.",
+			"The editor is configured to be optimized for usage with a Screen Reader.",
+			"The editor is configured to never be optimized for usage with a Screen Reader, which is not the case at this time.",
+			"Pressing Tab in the current editor will move focus to the next focusable element. Toggle this behavior by pressing {0}.",
+			"Pressing Tab in the current editor will move focus to the next focusable element. The command {0} is currently not triggerable by a keybinding.",
+			"Pressing Tab in the current editor will insert the tab character. Toggle this behavior by pressing {0}.",
+			"Pressing Tab in the current editor will insert the tab character. The command {0} is currently not triggerable by a keybinding.",
+			"Press Command+H now to open a browser window with more information related to editor accessibility.",
+			"Press Control+H now to open a browser window with more information related to editor accessibility.",
+			"You can dismiss this tooltip and return to the editor by pressing Escape or Shift+Escape.",
+			"Show Accessibility Help",
+			"Developer: Inspect Tokens",
+			"Go to Line/Column...",
+			"Show all Quick Access Providers",
+			"Command Palette",
+			"Show And Run Commands",
+			"Go to Symbol...",
+			"Go to Symbol by Category...",
+			"Editor content",
+			"Press Alt+F1 for Accessibility Options.",
+			"Toggle High Contrast Theme",
+			"Made {0} edits in {1} files"
 		],
 		"vs/editor/browser/coreCommands": [
 			"Stick to the end even when going to longer lines",
 			"Stick to the end even when going to longer lines",
 			"Removed secondary cursors"
 		],
-		"vs/editor/contrib/anchorSelect/browser/anchorSelect": [
-			"Selection Anchor",
-			"Anchor set at {0}:{1}",
-			"Set Selection Anchor",
-			"Go to Selection Anchor",
-			"Select from Anchor to Cursor",
-			"Cancel Selection Anchor"
+		"vs/editor/browser/widget/codeEditorWidget": [
+			"The number of cursors has been limited to {0}. Consider using [find and replace](https://code.visualstudio.com/docs/editor/codebasics#_find-and-replace) for larger changes or increase the editor multi cursor limit setting.",
+			"Increase Multi Cursor Limit"
 		],
 		"vs/editor/browser/widget/diffEditorWidget": [
 			"Line decoration for inserts in the diff editor.",
@@ -2671,6 +2744,14 @@
 			"Go to Bracket",
 			"Select to Bracket",
 			"Go to &&Bracket"
+		],
+		"vs/editor/contrib/anchorSelect/browser/anchorSelect": [
+			"Selection Anchor",
+			"Anchor set at {0}:{1}",
+			"Set Selection Anchor",
+			"Go to Selection Anchor",
+			"Select from Anchor to Cursor",
+			"Cancel Selection Anchor"
 		],
 		"vs/editor/contrib/caretOperations/browser/caretOperations": [
 			"Move Selected Text Left",
@@ -2703,6 +2784,14 @@
 		"vs/editor/contrib/codelens/browser/codelensController": [
 			"Show CodeLens Commands For Current Line"
 		],
+		"vs/editor/contrib/comment/browser/comment": [
+			"Toggle Line Comment",
+			"&&Toggle Line Comment",
+			"Add Line Comment",
+			"Remove Line Comment",
+			"Toggle Block Comment",
+			"Toggle &&Block Comment"
+		],
 		"vs/editor/contrib/copyPaste/browser/copyPasteContribution": [
 			"Enable/disable running edits from extensions on paste."
 		],
@@ -2718,20 +2807,17 @@
 			"Always",
 			"Show Editor Context Menu"
 		],
-		"vs/editor/contrib/comment/browser/comment": [
-			"Toggle Line Comment",
-			"&&Toggle Line Comment",
-			"Add Line Comment",
-			"Remove Line Comment",
-			"Toggle Block Comment",
-			"Toggle &&Block Comment"
-		],
 		"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
 			"Cursor Undo",
 			"Cursor Redo"
 		],
 		"vs/editor/contrib/dropIntoEditor/browser/dropIntoEditorContribution": [
 			"Running drop handlers..."
+		],
+		"vs/editor/contrib/fontZoom/browser/fontZoom": [
+			"Editor Font Zoom In",
+			"Editor Font Zoom Out",
+			"Editor Font Zoom Reset"
 		],
 		"vs/editor/contrib/find/browser/findController": [
 			"Find",
@@ -2753,10 +2839,9 @@
 			"Replace",
 			"&&Replace"
 		],
-		"vs/editor/contrib/fontZoom/browser/fontZoom": [
-			"Editor Font Zoom In",
-			"Editor Font Zoom Out",
-			"Editor Font Zoom Reset"
+		"vs/editor/contrib/format/browser/formatActions": [
+			"Format Document",
+			"Format Selection"
 		],
 		"vs/editor/contrib/folding/browser/folding": [
 			"Unfold",
@@ -2777,10 +2862,6 @@
 			"Create Folding Range from Selection",
 			"Remove Manual Folding Ranges",
 			"Fold Level {0}"
-		],
-		"vs/editor/contrib/format/browser/formatActions": [
-			"Format Document",
-			"Format Selection"
 		],
 		"vs/editor/contrib/gotoSymbol/browser/goToCommands": [
 			"Peek",
@@ -2836,6 +2917,10 @@
 			"Go to Previous Problem in Files (Error, Warning, Info)",
 			"Previous &&Problem"
 		],
+		"vs/editor/contrib/hover/browser/hover": [
+			"Show Hover",
+			"Show Definition Preview Hover"
+		],
 		"vs/editor/contrib/indentation/browser/indentation": [
 			"Convert Indentation to Spaces",
 			"Convert Indentation to Tabs",
@@ -2850,16 +2935,16 @@
 			"Reindent Lines",
 			"Reindent Selected Lines"
 		],
-		"vs/editor/contrib/hover/browser/hover": [
-			"Show Hover",
-			"Show Definition Preview Hover"
-		],
 		"vs/editor/contrib/inPlaceReplace/browser/inPlaceReplace": [
 			"Replace with Previous Value",
 			"Replace with Next Value"
 		],
 		"vs/editor/contrib/lineSelection/browser/lineSelection": [
 			"Expand Line Selection"
+		],
+		"vs/editor/contrib/linkedEditing/browser/linkedEditing": [
+			"Start Linked Editing",
+			"Background color when the editor auto renames on type."
 		],
 		"vs/editor/contrib/linesOperations/browser/linesOperations": [
 			"Copy Line Up",
@@ -2891,10 +2976,6 @@
 			"Transform to Snake Case",
 			"Transform to Camel Case",
 			"Transform to Kebab Case"
-		],
-		"vs/editor/contrib/linkedEditing/browser/linkedEditing": [
-			"Start Linked Editing",
-			"Background color when the editor auto renames on type."
 		],
 		"vs/editor/contrib/links/browser/links": [
 			"Failed to open this link because it is not well-formed: {0}",
@@ -2953,15 +3034,6 @@
 			"Whether there is a previous tab stop when in snippet mode",
 			"Go to next placeholder..."
 		],
-		"vs/editor/contrib/smartSelect/browser/smartSelect": [
-			"Expand Selection",
-			"&&Expand Selection",
-			"Shrink Selection",
-			"&&Shrink Selection"
-		],
-		"vs/editor/contrib/tokenization/browser/tokenization": [
-			"Developer: Force Retokenize"
-		],
 		"vs/editor/contrib/suggest/browser/suggestController": [
 			"Accepting '{0}' made {1} additional edits",
 			"Trigger Suggest",
@@ -2974,10 +3046,8 @@
 			"show more",
 			"Reset Suggest Widget Size"
 		],
-		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
-			"Toggle Tab Key Moves Focus",
-			"Pressing Tab will now move focus to the next focusable element",
-			"Pressing Tab will now insert the tab character"
+		"vs/editor/contrib/tokenization/browser/tokenization": [
+			"Developer: Force Retokenize"
 		],
 		"vs/editor/contrib/unicodeHighlighter/browser/unicodeHighlighter": [
 			"Icon shown with a warning message in the extensions editor.",
@@ -3004,6 +3074,12 @@
 			"Allow unicode characters that are more common in the language \"{0}\".",
 			"Configure Unicode Highlight Options"
 		],
+		"vs/editor/contrib/smartSelect/browser/smartSelect": [
+			"Expand Selection",
+			"&&Expand Selection",
+			"Shrink Selection",
+			"&&Shrink Selection"
+		],
 		"vs/editor/contrib/unusualLineTerminators/browser/unusualLineTerminators": [
 			"Unusual Line Terminators",
 			"Detected unusual line terminators",
@@ -3019,88 +3095,9 @@
 		"vs/editor/contrib/wordOperations/browser/wordOperations": [
 			"Delete Word"
 		],
-		"vs/editor/common/standaloneStrings": [
-			"No selection",
-			"Line {0}, Column {1} ({2} selected)",
-			"Line {0}, Column {1}",
-			"{0} selections ({1} characters selected)",
-			"{0} selections",
-			"Now changing the setting `accessibilitySupport` to 'on'.",
-			"Now opening the Editor Accessibility documentation page.",
-			" in a read-only pane of a diff editor.",
-			" in a pane of a diff editor.",
-			" in a read-only code editor",
-			" in a code editor",
-			"To configure the editor to be optimized for usage with a Screen Reader press Command+E now.",
-			"To configure the editor to be optimized for usage with a Screen Reader press Control+E now.",
-			"The editor is configured to be optimized for usage with a Screen Reader.",
-			"The editor is configured to never be optimized for usage with a Screen Reader, which is not the case at this time.",
-			"Pressing Tab in the current editor will move focus to the next focusable element. Toggle this behavior by pressing {0}.",
-			"Pressing Tab in the current editor will move focus to the next focusable element. The command {0} is currently not triggerable by a keybinding.",
-			"Pressing Tab in the current editor will insert the tab character. Toggle this behavior by pressing {0}.",
-			"Pressing Tab in the current editor will insert the tab character. The command {0} is currently not triggerable by a keybinding.",
-			"Press Command+H now to open a browser window with more information related to editor accessibility.",
-			"Press Control+H now to open a browser window with more information related to editor accessibility.",
-			"You can dismiss this tooltip and return to the editor by pressing Escape or Shift+Escape.",
-			"Show Accessibility Help",
-			"Developer: Inspect Tokens",
-			"Go to Line/Column...",
-			"Show all Quick Access Providers",
-			"Command Palette",
-			"Show And Run Commands",
-			"Go to Symbol...",
-			"Go to Symbol by Category...",
-			"Editor content",
-			"Press Alt+F1 for Accessibility Options.",
-			"Toggle High Contrast Theme",
-			"Made {0} edits in {1} files"
-		],
 		"vs/editor/contrib/readOnlyMessage/browser/contribution": [
 			"Cannot edit in read-only input",
 			"Cannot edit in read-only editor"
-		],
-		"vs/editor/common/editorContextKeys": [
-			"Whether the editor text has focus (cursor is blinking)",
-			"Whether the editor or an editor widget has focus (e.g. focus is in the find widget)",
-			"Whether an editor or a rich text input has focus (cursor is blinking)",
-			"Whether the editor is read only",
-			"Whether the context is a diff editor",
-			"Whether `editor.columnSelection` is enabled",
-			"Whether the editor has text selected",
-			"Whether the editor has multiple selections",
-			"Whether `Tab` will move focus out of the editor",
-			"Whether the editor hover is visible",
-			"Whether the editor is part of a larger editor (e.g. notebooks)",
-			"The language identifier of the editor",
-			"Whether the editor has a completion item provider",
-			"Whether the editor has a code actions provider",
-			"Whether the editor has a code lens provider",
-			"Whether the editor has a definition provider",
-			"Whether the editor has a declaration provider",
-			"Whether the editor has an implementation provider",
-			"Whether the editor has a type definition provider",
-			"Whether the editor has a hover provider",
-			"Whether the editor has a document highlight provider",
-			"Whether the editor has a document symbol provider",
-			"Whether the editor has a reference provider",
-			"Whether the editor has a rename provider",
-			"Whether the editor has a signature help provider",
-			"Whether the editor has an inline hints provider",
-			"Whether the editor has a document formatting provider",
-			"Whether the editor has a document selection formatting provider",
-			"Whether the editor has multiple document formatting providers",
-			"Whether the editor has multiple document selection formatting providers"
-		],
-		"vs/editor/browser/editorExtensions": [
-			"&&Undo",
-			"Undo",
-			"&&Redo",
-			"Redo",
-			"&&Select All",
-			"Select All"
-		],
-		"vs/platform/quickinput/browser/helpQuickAccess": [
-			"{0}, {1}"
 		],
 		"vs/editor/contrib/quickAccess/browser/gotoLineQuickAccess": [
 			"Open a text editor first to go to a line.",
@@ -3108,6 +3105,9 @@
 			"Go to line {0}.",
 			"Current Line: {0}, Character: {1}. Type a line number between 1 and {2} to navigate to.",
 			"Current Line: {0}, Character: {1}. Type a line number to navigate to."
+		],
+		"vs/platform/quickinput/browser/helpQuickAccess": [
+			"{0}, {1}"
 		],
 		"vs/editor/contrib/quickAccess/browser/gotoSymbolQuickAccess": [
 			"To go to a symbol, first open a text editor with symbol information.",
@@ -3183,6 +3183,14 @@
 			"Whether reference peek is visible, like 'Peek References' or 'Peek Definition'",
 			"Loading...",
 			"{0} ({1})"
+		],
+		"vs/platform/markers/common/markers": [
+			"Error",
+			"Warning",
+			"Info"
+		],
+		"vs/editor/common/languages/modesRegistry": [
+			"Plain Text"
 		],
 		"vs/platform/audioCues/browser/audioCueService": [
 			"Error on Line",
@@ -3474,17 +3482,6 @@
 			"The green color used in chart visualizations.",
 			"The purple color used in chart visualizations."
 		],
-		"vs/editor/browser/widget/inlineDiffMargin": [
-			"Copy deleted lines",
-			"Copy deleted line",
-			"Copy changed lines",
-			"Copy changed line",
-			"Copy deleted line ({0})",
-			"Copy changed line ({0})",
-			"Revert this change",
-			"Copy deleted line ({0})",
-			"Copy changed line ({0})"
-		],
 		"vs/editor/browser/widget/diffReview": [
 			"Icon for 'Insert' in diff review.",
 			"Icon for 'Remove' in diff review.",
@@ -3501,6 +3498,17 @@
 			"- {0} original line {1}",
 			"Go to Next Difference",
 			"Go to Previous Difference"
+		],
+		"vs/editor/browser/widget/inlineDiffMargin": [
+			"Copy deleted lines",
+			"Copy deleted line",
+			"Copy changed lines",
+			"Copy changed line",
+			"Copy deleted line ({0})",
+			"Copy changed line ({0})",
+			"Revert this change",
+			"Copy deleted line ({0})",
+			"Copy changed line ({0})"
 		],
 		"vs/editor/common/viewLayout/viewLineRenderer": [
 			"Show more ({0})",
@@ -3778,14 +3786,6 @@
 			"Whether the default behaviour is to insert or replace",
 			"Whether the current suggestion supports to resolve further details"
 		],
-		"vs/platform/markers/common/markers": [
-			"Error",
-			"Warning",
-			"Info"
-		],
-		"vs/editor/common/languages/modesRegistry": [
-			"Plain Text"
-		],
 		"vs/editor/contrib/stickyScroll/browser/stickyScrollActions": [
 			"Toggle Sticky Scroll",
 			"&&Toggle Sticky Scroll",
@@ -3828,11 +3828,6 @@
 			"other commands",
 			"Command '{0}' resulted in an error"
 		],
-		"vs/editor/contrib/gotoSymbol/browser/peek/referencesWidget": [
-			"no preview available",
-			"No results",
-			"References"
-		],
 		"vs/platform/list/browser/listService": [
 			"Workbench",
 			"Maps to `Control` on Windows and Linux and to `Command` on macOS.",
@@ -3859,6 +3854,43 @@
 			"Controls the type of matching used when searching lists and trees in the workbench.",
 			"Controls how tree folders are expanded when clicking the folder names. Note that some trees and lists might choose to ignore this setting if it is not applicable.",
 			"Controls the how type navigation works in lists and trees in the workbench. When set to 'trigger', type navigation begins once the 'list.triggerTypeNavigation' command is run."
+		],
+		"vs/editor/contrib/gotoSymbol/browser/peek/referencesWidget": [
+			"no preview available",
+			"No results",
+			"References"
+		],
+		"vs/platform/keybinding/common/abstractKeybindingService": [
+			"({0}) was pressed. Waiting for second key of chord...",
+			"The key combination ({0}, {1}) is not a command."
+		],
+		"vs/platform/actions/common/menuService": [
+			"Hide '{0}'"
+		],
+		"vs/platform/contextkey/browser/contextKeyService": [
+			"A command that returns information about context keys"
+		],
+		"vs/platform/undoRedo/common/undoRedoService": [
+			"The following files have been closed and modified on disk: {0}.",
+			"The following files have been modified in an incompatible way: {0}.",
+			"Could not undo '{0}' across all files. {1}",
+			"Could not undo '{0}' across all files. {1}",
+			"Could not undo '{0}' across all files because changes were made to {1}",
+			"Could not undo '{0}' across all files because there is already an undo or redo operation running on {1}",
+			"Could not undo '{0}' across all files because an undo or redo operation occurred in the meantime",
+			"Would you like to undo '{0}' across all files?",
+			"&&Undo in {0} Files",
+			"Undo this &&File",
+			"Could not undo '{0}' because there is already an undo or redo operation running.",
+			"Would you like to undo '{0}'?",
+			"&&Yes",
+			"No",
+			"Could not redo '{0}' across all files. {1}",
+			"Could not redo '{0}' across all files. {1}",
+			"Could not redo '{0}' across all files because changes were made to {1}",
+			"Could not redo '{0}' across all files because there is already an undo or redo operation running on {1}",
+			"Could not redo '{0}' across all files because an undo or redo operation occurred in the meantime",
+			"Could not redo '{0}' because there is already an undo or redo operation running."
 		],
 		"vs/editor/contrib/editorState/browser/keybindingCancellation": [
 			"Whether the editor runs a cancellable operation, e.g. like 'Peek References'"
@@ -3943,38 +3975,6 @@
 			"Nov",
 			"Dec"
 		],
-		"vs/platform/keybinding/common/abstractKeybindingService": [
-			"({0}) was pressed. Waiting for second key of chord...",
-			"The key combination ({0}, {1}) is not a command."
-		],
-		"vs/platform/actions/common/menuService": [
-			"Hide '{0}'"
-		],
-		"vs/platform/contextkey/browser/contextKeyService": [
-			"A command that returns information about context keys"
-		],
-		"vs/platform/undoRedo/common/undoRedoService": [
-			"The following files have been closed and modified on disk: {0}.",
-			"The following files have been modified in an incompatible way: {0}.",
-			"Could not undo '{0}' across all files. {1}",
-			"Could not undo '{0}' across all files. {1}",
-			"Could not undo '{0}' across all files because changes were made to {1}",
-			"Could not undo '{0}' across all files because there is already an undo or redo operation running on {1}",
-			"Could not undo '{0}' across all files because an undo or redo operation occurred in the meantime",
-			"Would you like to undo '{0}' across all files?",
-			"&&Undo in {0} Files",
-			"Undo this &&File",
-			"Could not undo '{0}' because there is already an undo or redo operation running.",
-			"Would you like to undo '{0}'?",
-			"&&Yes",
-			"No",
-			"Could not redo '{0}' across all files. {1}",
-			"Could not redo '{0}' across all files. {1}",
-			"Could not redo '{0}' across all files because changes were made to {1}",
-			"Could not redo '{0}' across all files because there is already an undo or redo operation running on {1}",
-			"Could not redo '{0}' across all files because an undo or redo operation occurred in the meantime",
-			"Could not redo '{0}' because there is already an undo or redo operation running."
-		],
 		"vs/platform/action/common/actionCommonCategories": [
 			"View",
 			"Help",
@@ -4001,11 +4001,6 @@
 			"{0} ({1} errors in total)",
 			"An unknown error occurred. Please consult the log for more details."
 		],
-		"vs/editor/contrib/gotoSymbol/browser/peek/referencesTree": [
-			"{0} references",
-			"{0} reference",
-			"References"
-		],
 		"vs/base/browser/ui/tree/abstractTree": [
 			"Filter",
 			"Fuzzy Match",
@@ -4014,6 +4009,11 @@
 			"Type to search",
 			"Close",
 			"No elements found."
+		],
+		"vs/editor/contrib/gotoSymbol/browser/peek/referencesTree": [
+			"{0} references",
+			"{0} reference",
+			"References"
 		],
 		"vs/editor/contrib/codeAction/browser/codeActionMenu": [
 			"More Actions...",
@@ -4079,12 +4079,6 @@
 			"Info: {0}",
 			"for history"
 		],
-		"vs/platform/actionWidget/browser/actionList": [
-			"{0} to apply, {1} to preview",
-			"{0} to apply",
-			"{0}, Disabled Reason: {1}",
-			"Action Widget"
-		],
 		"vs/platform/quickinput/browser/quickInput": [
 			"Back",
 			"Press 'Enter' to confirm your input or 'Escape' to cancel",
@@ -4097,6 +4091,12 @@
 			"Custom",
 			"Back ({0})",
 			"Back"
+		],
+		"vs/platform/actionWidget/browser/actionList": [
+			"{0} to apply, {1} to preview",
+			"{0} to apply",
+			"{0}, Disabled Reason: {1}",
+			"Action Widget"
 		],
 		"vs/platform/quickinput/browser/quickInputList": [
 			"Quick Input"

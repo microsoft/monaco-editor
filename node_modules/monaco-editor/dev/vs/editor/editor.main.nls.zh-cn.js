@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制是否为支持它的语言显示语义突出显示。",
 		"保持速览编辑器处于打开状态，即使双击其中的内容或者点击 `Escape` 键也是如此。",
 		"由于性能原因，超过这个长度的行将不会被标记",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"控制是否应在 Web 辅助进程上异步进行标记化。",
 		"定义增加和减少缩进的括号。",
 		"左方括号字符或字符串序列。",
 		"右方括号字符或字符串序列。",

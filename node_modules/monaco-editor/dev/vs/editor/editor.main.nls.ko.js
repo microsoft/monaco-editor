@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.ko", {
 		"semanticHighlighting이 지원하는 언어에 대해 표시되는지 여부를 제어합니다.",
 		"해당 콘텐츠를 두 번 클릭하거나 \'Esc\' 키를 누르더라도 Peek 편집기를 열린 상태로 유지합니다.",
 		"이 길이를 초과하는 줄은 성능상의 이유로 토큰화되지 않습니다.",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"웹 작업자에서 토큰화가 비동기적으로 수행되어야 하는지 여부를 제어합니다.",
 		"들여쓰기를 늘리거나 줄이는 대괄호 기호를 정의합니다.",
 		"여는 대괄호 문자 또는 문자열 시퀀스입니다.",
 		"닫는 대괄호 문자 또는 문자열 시퀀스입니다.",

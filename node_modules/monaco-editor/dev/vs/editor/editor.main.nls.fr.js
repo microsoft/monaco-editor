@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.36.0(f86fe937752be8a628c17cecfdfb3287475997ec)
+ * Version: 0.36.1(6c56744c3419458f0dd48864520b759d1a3a1ca8)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -158,7 +158,7 @@ define("vs/editor/editor.main.nls.fr", {
 		"Contrôle si semanticHighlighting est affiché pour les langages qui le prennent en charge.",
 		"Maintenir les éditeurs d\'aperçu ouverts même si l\'utilisateur double-clique sur son contenu ou appuie sur la touche Échap.",
 		"Les lignes plus longues que cette valeur ne sont pas tokenisées pour des raisons de performances",
-		"Controls whether the tokenization should happen asynchronously on a web worker.",
+		"Contrôle si la création de jetons doit se produire de manière asynchrone sur un worker web.",
 		"Définit les symboles de type crochet qui augmentent ou diminuent le retrait.",
 		"Séquence de chaînes ou de caractères de crochets ouvrants.",
 		"Séquence de chaînes ou de caractères de crochets fermants.",

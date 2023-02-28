@@ -1,6 +1,6 @@
 {
   "name": "monaco-editor",
-  "version": "0.36.0",
+  "version": "0.36.1",
   "vscodeRef": "07d120e10a4d3ac790e65b8a6dc85195546df664",
   "private": false,
   "description": "A browser based code editor",
@@ -50,7 +50,7 @@
     "jsdom": "^19.0.0",
     "jsonc-parser": "^3.0.0",
     "mocha": "^9.2.0",
-    "monaco-editor-core": "0.36.0",
+    "monaco-editor-core": "0.36.1",
     "parcel": "^2.7.0",
     "playwright": "^1.18.1",
     "prettier": "^2.5.1",
@@ -69,17 +69,16 @@
     "vscode-languageserver-types": "3.16.0",
     "vscode-uri": "3.0.3",
     "webpack": "^5.74.0",
-    "yaserver": "^0.4.0"
+    "yaserver": "^0.4.0",
+    "@types/shelljs": "^0.8.11",
+    "pin-github-action": "^1.8.0",
+    "shelljs": "^0.8.5"
   },
   "alias": {
     "process": false,
     "buffer": false
   },
-  "dependencies": {
-    "@types/shelljs": "^0.8.11",
-    "pin-github-action": "^1.8.0",
-    "shelljs": "^0.8.5"
-  },
+  "dependencies": {},
   "vscodeCommitId": "07d120e10a4d3ac790e65b8a6dc85195546df664",
-  "monacoCommitId": "f86fe937752be8a628c17cecfdfb3287475997ec"
+  "monacoCommitId": "6c56744c3419458f0dd48864520b759d1a3a1ca8"
 }
