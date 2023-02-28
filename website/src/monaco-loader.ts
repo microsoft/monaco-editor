@@ -43,9 +43,6 @@ async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 		return setup.codiconUrl;
 	};
 
-	console.log("LOADER CONFIG: ");
-	console.log(JSON.stringify(setup.loaderConfigPaths, null, "\t"));
-
 	/** @type {any} */
 	const req = global.require as any;
 	req.config({ paths: setup.loaderConfigPaths });
