@@ -103,10 +103,15 @@ To debug bundled languages, such as JSON, HTML or TypeScript/JavaScript.
 ## Running the website locally
 
 ```bash
+yarn
+yarn build-monaco-editor
+
 cd website
-yarn install
-yarn watch
+yarn 
+yarn typedoc
+yarn dev 
 ```
+open `http://localhost:8080/`
 
 No webpack logs the path to the website.
 
