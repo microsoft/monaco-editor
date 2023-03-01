@@ -715,7 +715,10 @@ export class QuickInfoAdapter extends Adapter implements languages.HoverProvider
 
 // --- occurrences ------
 
-export class OccurrencesAdapter extends Adapter implements languages.DocumentHighlightProvider {
+export class DocumentHighlightAdapter
+	extends Adapter
+	implements languages.DocumentHighlightProvider
+{
 	public async provideDocumentHighlights(
 		model: editor.ITextModel,
 		position: Position,
@@ -729,19 +732,24 @@ export class OccurrencesAdapter extends Adapter implements languages.DocumentHig
 			return;
 		}
 
-		const entries = await worker.getOccurrencesAtPosition(resource.toString(), offset);
+		const entries = await worker.getDocumentHighlights(resource.toString(), offset, [
+			resource.toString()
+		]);
 
 		if (!entries || model.isDisposed()) {
 			return;
 		}
 
-		return entries.map((entry) => {
-			return <languages.DocumentHighlight>{
-				range: this._textSpanToRange(model, entry.textSpan),
-				kind: entry.isWriteAccess
-					? languages.DocumentHighlightKind.Write
-					: languages.DocumentHighlightKind.Text
-			};
+		return entries.flatMap((entry) => {
+			return entry.highlightSpans.map((highlightSpans) => {
+				return <languages.DocumentHighlight>{
+					range: this._textSpanToRange(model, highlightSpans.textSpan),
+					kind:
+						highlightSpans.kind === 'writtenReference'
+							? languages.DocumentHighlightKind.Write
+							: languages.DocumentHighlightKind.Text
+				};
+			});
 		});
 	}
 }
