@@ -86,7 +86,7 @@ function setupMode(
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					modeId,
-					new languageFeatures.OccurrencesAdapter(worker)
+					new languageFeatures.DocumentHighlightAdapter(worker)
 				)
 			);
 		}
