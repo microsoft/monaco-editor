@@ -873,39 +873,31 @@ export class OutlineAdapter extends Adapter implements languages.DocumentSymbolP
 			return;
 		}
 
-		const items = await worker.getNavigationBarItems(resource.toString());
+		const root = await worker.getNavigationTree(resource.toString());
 
-		if (!items || model.isDisposed()) {
+		if (!root || model.isDisposed()) {
 			return;
 		}
 
 		const convert = (
-			bucket: languages.DocumentSymbol[],
-			item: ts.NavigationBarItem,
+			item: ts.NavigationTree,
 			containerLabel?: string
-		): void => {
-			let result: languages.DocumentSymbol = {
+		): languages.DocumentSymbol => {
+			const result: languages.DocumentSymbol = {
 				name: item.text,
 				detail: '',
 				kind: <languages.SymbolKind>(outlineTypeTable[item.kind] || languages.SymbolKind.Variable),
 				range: this._textSpanToRange(model, item.spans[0]),
 				selectionRange: this._textSpanToRange(model, item.spans[0]),
-				tags: []
+				tags: [],
+				children: item.childItems?.map((child) => convert(child, result.name)),
+				containerName: containerLabel
 			};
-
-			if (containerLabel) result.containerName = containerLabel;
-
-			if (item.childItems && item.childItems.length > 0) {
-				for (let child of item.childItems) {
-					convert(bucket, child, result.name);
-				}
-			}
-
-			bucket.push(result);
+			return result;
 		};
 
-		let result: languages.DocumentSymbol[] = [];
-		items.forEach((item) => convert(result, item));
+		// Exclude the root node, as it alwas spans the entire document.
+		const result = root.childItems ? root.childItems.map((item) => convert(item)) : [];
 		return result;
 	}
 }

@@ -463,9 +463,9 @@ export interface TypeScriptWorker {
 
 	/**
 	 * Get outline entries for the item at the given position in the file.
-	 * @returns `Promise<typescript.NavigationBarItem[]>`
+	 * @returns `Promise<typescript.NavigationTree | undefined>`
 	 */
-	getNavigationBarItems(fileName: string): Promise<any[]>;
+	getNavigationTree(fileName: string): Promise<any | undefined>;
 
 	/**
 	 * Get changes which should be applied to format the given file.

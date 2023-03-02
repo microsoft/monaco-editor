@@ -330,11 +330,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getReferencesAtPosition(fileName, position);
 	}
 
-	async getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]> {
+	async getNavigationTree(fileName: string): Promise<ts.NavigationTree | undefined> {
 		if (fileNameIsLib(fileName)) {
-			return [];
+			return undefined;
 		}
-		return this._languageService.getNavigationBarItems(fileName);
+		return this._languageService.getNavigationTree(fileName);
 	}
 
 	async getFormattingEditsForDocument(
