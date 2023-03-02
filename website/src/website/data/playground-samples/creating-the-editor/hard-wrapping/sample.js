@@ -8,9 +8,6 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	wordWrap: "wordWrapColumn",
 	wordWrapColumn: 40,
 
-	// Set this to false to not auto word wrap minified files
-	wordWrapMinified: true,
-
 	// try "same", "indent" or "none"
 	wrappingIndent: "indent",
 });
