@@ -33,10 +33,10 @@ export declare class TypeScriptWorker implements ts.LanguageServiceHost, ITypeSc
     getCompletionEntryDetails(fileName: string, position: number, entry: string): Promise<ts.CompletionEntryDetails | undefined>;
     getSignatureHelpItems(fileName: string, position: number, options: ts.SignatureHelpItemsOptions | undefined): Promise<ts.SignatureHelpItems | undefined>;
     getQuickInfoAtPosition(fileName: string, position: number): Promise<ts.QuickInfo | undefined>;
-    getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.ReferenceEntry> | undefined>;
+    getDocumentHighlights(fileName: string, position: number, filesToSearch: string[]): Promise<ReadonlyArray<ts.DocumentHighlights> | undefined>;
     getDefinitionAtPosition(fileName: string, position: number): Promise<ReadonlyArray<ts.DefinitionInfo> | undefined>;
     getReferencesAtPosition(fileName: string, position: number): Promise<ts.ReferenceEntry[] | undefined>;
-    getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]>;
+    getNavigationTree(fileName: string): Promise<ts.NavigationTree | undefined>;
     getFormattingEditsForDocument(fileName: string, options: ts.FormatCodeOptions): Promise<ts.TextChange[]>;
     getFormattingEditsForRange(fileName: string, start: number, end: number, options: ts.FormatCodeOptions): Promise<ts.TextChange[]>;
     getFormattingEditsAfterKeystroke(fileName: string, postion: number, ch: string, options: ts.FormatCodeOptions): Promise<ts.TextChange[]>;

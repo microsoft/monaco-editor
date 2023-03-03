@@ -368,11 +368,7 @@ export interface TypeScriptWorker {
      * @returns `Promise<typescript.QuickInfo | undefined>`
      */
     getQuickInfoAtPosition(fileName: string, position: number): Promise<any | undefined>;
-    /**
-     * Get other ranges which are related to the item at the given position in the file (often used for highlighting).
-     * @returns `Promise<ReadonlyArray<typescript.ReferenceEntry> | undefined>`
-     */
-    getOccurrencesAtPosition(fileName: string, position: number): Promise<ReadonlyArray<any> | undefined>;
+    getDocumentHighlights(fileName: string, position: number, filesToSearch: string[]): Promise<ReadonlyArray<any> | undefined>;
     /**
      * Get the definition of the item at the given position in the file.
      * @returns `Promise<ReadonlyArray<typescript.DefinitionInfo> | undefined>`
@@ -385,9 +381,9 @@ export interface TypeScriptWorker {
     getReferencesAtPosition(fileName: string, position: number): Promise<any[] | undefined>;
     /**
      * Get outline entries for the item at the given position in the file.
-     * @returns `Promise<typescript.NavigationBarItem[]>`
+     * @returns `Promise<typescript.NavigationTree | undefined>`
      */
-    getNavigationBarItems(fileName: string): Promise<any[]>;
+    getNavigationTree(fileName: string): Promise<any | undefined>;
     /**
      * Get changes which should be applied to format the given file.
      * @param options `typescript.FormatCodeOptions`

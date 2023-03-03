@@ -48,7 +48,7 @@ export declare class SignatureHelpAdapter extends Adapter implements languages.S
 export declare class QuickInfoAdapter extends Adapter implements languages.HoverProvider {
     provideHover(model: editor.ITextModel, position: Position, token: CancellationToken): Promise<languages.Hover | undefined>;
 }
-export declare class OccurrencesAdapter extends Adapter implements languages.DocumentHighlightProvider {
+export declare class DocumentHighlightAdapter extends Adapter implements languages.DocumentHighlightProvider {
     provideDocumentHighlights(model: editor.ITextModel, position: Position, token: CancellationToken): Promise<languages.DocumentHighlight[] | undefined>;
 }
 export declare class DefinitionAdapter extends Adapter {
