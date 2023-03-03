@@ -299,14 +299,15 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getQuickInfoAtPosition(fileName, position);
 	}
 
-	async getOccurrencesAtPosition(
+	async getDocumentHighlights(
 		fileName: string,
-		position: number
-	): Promise<ReadonlyArray<ts.ReferenceEntry> | undefined> {
+		position: number,
+		filesToSearch: string[]
+	): Promise<ReadonlyArray<ts.DocumentHighlights> | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
-		return this._languageService.getOccurrencesAtPosition(fileName, position);
+		return this._languageService.getDocumentHighlights(fileName, position, filesToSearch);
 	}
 
 	async getDefinitionAtPosition(
@@ -329,11 +330,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getReferencesAtPosition(fileName, position);
 	}
 
-	async getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]> {
+	async getNavigationTree(fileName: string): Promise<ts.NavigationTree | undefined> {
 		if (fileNameIsLib(fileName)) {
-			return [];
+			return undefined;
 		}
-		return this._languageService.getNavigationBarItems(fileName);
+		return this._languageService.getNavigationTree(fileName);
 	}
 
 	async getFormattingEditsForDocument(

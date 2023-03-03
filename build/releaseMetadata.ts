@@ -185,6 +185,15 @@ exports.languages = ${JSON.stringify(languages, null, '  ')};
 			const jsDestination = path.join(REPO_ROOT, 'out/monaco-editor/esm/metadata.js');
 			ensureDir(path.dirname(jsDestination));
 			fs.writeFileSync(jsDestination, jsContents.replace(/\r\n/g, '\n'));
+
+			for (const feature of [...features, ...languages]) {
+				const entries = [].concat(feature.entry);
+				for (const entry of entries) {
+					const dtsDestination = path.join(REPO_ROOT, 'out/monaco-editor/esm', entry) + '.d.ts';
+					ensureDir(path.dirname(dtsDestination));
+					fs.writeFileSync(dtsDestination, 'export {}\n');
+				}
+			}
 		}
 	);
 }
