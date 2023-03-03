@@ -164,6 +164,8 @@ export interface DiagnosticsOptions {
 }
 
 export interface WorkerOptions {
+	/** A full HTTP path to a typescript.js file that will define a global `ts` which the worker will use */
+	customTypeScriptPath?: string;
 	/** A full HTTP path to a JavaScript file which adds a function `customTSWorkerFactory` to the self inside a web-worker */
 	customWorkerPath?: string;
 }

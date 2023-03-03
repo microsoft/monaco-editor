@@ -13,6 +13,8 @@ import {
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
 
+let tsImpl: typeof ts = ts;
+
 /**
  * Loading a default lib as a source file will mess up TS completely.
  * So our strategy is to hide such a text model from TS.
@@ -36,7 +38,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	private _ctx: worker.IWorkerContext;
 	private _extraLibs: IExtraLibs = Object.create(null);
-	private _languageService = ts.createLanguageService(this);
+	private _languageService = tsImpl.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 	private _inlayHintsOptions?: ts.InlayHintsOptions;
 
@@ -462,6 +464,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
 	extraLibs: IExtraLibs;
+	customTypeScriptPath?: string;
 	customWorkerPath?: string;
 	inlayHintsOptions?: ts.InlayHintsOptions;
 }
@@ -482,6 +485,23 @@ declare global {
 
 export function create(ctx: worker.IWorkerContext, createData: ICreateData): TypeScriptWorker {
 	let TSWorkerClass = TypeScriptWorker;
+	if (createData.customTypeScriptPath) {
+		if (typeof importScripts === 'undefined') {
+			console.warn(
+				'Monaco is not using webworkers for background tasks, and that is needed to support the customTypeScriptPath flag'
+			);
+		} else {
+			(<any>globalThis).ts = undefined;
+			self.importScripts(createData.customTypeScriptPath);
+			if (!(<any>globalThis).ts) {
+				console.warn(
+					'No global `ts` defined after importing custom TypeScript, using builtin TypeScript!'
+				);
+			} else {
+				tsImpl = (<any>globalThis).ts;
+			}
+		}
+	}
 	if (createData.customWorkerPath) {
 		if (typeof importScripts === 'undefined') {
 			console.warn(
@@ -497,7 +517,7 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 				);
 			}
 
-			TSWorkerClass = workerFactoryFunc(TypeScriptWorker, ts, libFileMap);
+			TSWorkerClass = workerFactoryFunc(TypeScriptWorker, tsImpl, libFileMap);
 		}
 	}
 
