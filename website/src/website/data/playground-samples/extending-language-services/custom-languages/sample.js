@@ -30,12 +30,20 @@ monaco.editor.defineTheme("myCoolTheme", {
 
 // Register a completion item provider for the new language
 monaco.languages.registerCompletionItemProvider("mySpecialLanguage", {
-	provideCompletionItems: () => {
+	provideCompletionItems: (model, position) => {
+		var word = model.getWordUntilPosition(position);
+		var range = {
+			startLineNumber: position.lineNumber,
+			endLineNumber: position.lineNumber,
+			startColumn: word.startColumn,
+			endColumn: word.endColumn,
+		};
 		var suggestions = [
 			{
 				label: "simpleText",
 				kind: monaco.languages.CompletionItemKind.Text,
 				insertText: "simpleText",
+				range: range,
 			},
 			{
 				label: "testing",
@@ -44,6 +52,7 @@ monaco.languages.registerCompletionItemProvider("mySpecialLanguage", {
 				insertTextRules:
 					monaco.languages.CompletionItemInsertTextRule
 						.InsertAsSnippet,
+				range: range,
 			},
 			{
 				label: "ifelse",
@@ -59,6 +68,7 @@ monaco.languages.registerCompletionItemProvider("mySpecialLanguage", {
 					monaco.languages.CompletionItemInsertTextRule
 						.InsertAsSnippet,
 				documentation: "If-Else Statement",
+				range: range,
 			},
 		];
 		return { suggestions: suggestions };
