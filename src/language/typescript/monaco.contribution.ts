@@ -226,6 +226,73 @@ interface OutputFile {
 	text: string;
 }
 
+export interface ModeConfiguration {
+	/**
+	 * Defines whether the built-in completionItemProvider is enabled.
+	 */
+	readonly completionItems?: boolean;
+
+	/**
+	 * Defines whether the built-in hoverProvider is enabled.
+	 */
+	readonly hovers?: boolean;
+
+	/**
+	 * Defines whether the built-in documentSymbolProvider is enabled.
+	 */
+	readonly documentSymbols?: boolean;
+
+	/**
+	 * Defines whether the built-in definitions provider is enabled.
+	 */
+	readonly definitions?: boolean;
+
+	/**
+	 * Defines whether the built-in references provider is enabled.
+	 */
+	readonly references?: boolean;
+
+	/**
+	 * Defines whether the built-in references provider is enabled.
+	 */
+	readonly documentHighlights?: boolean;
+
+	/**
+	 * Defines whether the built-in rename provider is enabled.
+	 */
+	readonly rename?: boolean;
+
+	/**
+	 * Defines whether the built-in diagnostic provider is enabled.
+	 */
+	readonly diagnostics?: boolean;
+
+	/**
+	 * Defines whether the built-in document formatting range edit provider is enabled.
+	 */
+	readonly documentRangeFormattingEdits?: boolean;
+
+	/**
+	 * Defines whether the built-in signature help provider is enabled.
+	 */
+	readonly signatureHelp?: boolean;
+
+	/**
+	 * Defines whether the built-in onType formatting edit provider is enabled.
+	 */
+	readonly onTypeFormattingEdits?: boolean;
+
+	/**
+	 * Defines whether the built-in code actions provider is enabled.
+	 */
+	readonly codeActions?: boolean;
+
+	/**
+	 * Defines whether the built-in inlay hints provider is enabled.
+	 */
+	readonly inlayHints?: boolean;
+}
+
 export interface LanguageServiceDefaults {
 	/**
 	 * Event fired when compiler options or diagnostics options are changed.
@@ -240,6 +307,9 @@ export interface LanguageServiceDefaults {
 	readonly workerOptions: WorkerOptions;
 
 	readonly inlayHintsOptions: InlayHintsOptions;
+
+	readonly modeConfiguration: ModeConfiguration;
+	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 
 	/**
 	 * Get the current extra libs registered with the language service.
@@ -370,13 +440,10 @@ export interface TypeScriptWorker {
 	 */
 	getQuickInfoAtPosition(fileName: string, position: number): Promise<any | undefined>;
 
-	/**
-	 * Get other ranges which are related to the item at the given position in the file (often used for highlighting).
-	 * @returns `Promise<ReadonlyArray<typescript.ReferenceEntry> | undefined>`
-	 */
-	getOccurrencesAtPosition(
+	getDocumentHighlights(
 		fileName: string,
-		position: number
+		position: number,
+		filesToSearch: string[]
 	): Promise<ReadonlyArray<any> | undefined>;
 
 	/**
@@ -396,9 +463,9 @@ export interface TypeScriptWorker {
 
 	/**
 	 * Get outline entries for the item at the given position in the file.
-	 * @returns `Promise<typescript.NavigationBarItem[]>`
+	 * @returns `Promise<typescript.NavigationTree | undefined>`
 	 */
-	getNavigationBarItems(fileName: string): Promise<any[]>;
+	getNavigationTree(fileName: string): Promise<any | undefined>;
 
 	/**
 	 * Get changes which should be applied to format the given file.
@@ -491,12 +558,14 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _workerOptions!: WorkerOptions;
 	private _onDidExtraLibsChangeTimeout: number;
 	private _inlayHintsOptions!: InlayHintsOptions;
+	private _modeConfiguration!: ModeConfiguration;
 
 	constructor(
 		compilerOptions: CompilerOptions,
 		diagnosticsOptions: DiagnosticsOptions,
 		workerOptions: WorkerOptions,
-		inlayHintsOptions: InlayHintsOptions
+		inlayHintsOptions: InlayHintsOptions,
+		modeConfiguration: ModeConfiguration
 	) {
 		this._extraLibs = Object.create(null);
 		this._removedExtraLibs = Object.create(null);
@@ -505,6 +574,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this.setDiagnosticsOptions(diagnosticsOptions);
 		this.setWorkerOptions(workerOptions);
 		this.setInlayHintsOptions(inlayHintsOptions);
+		this.setModeConfiguration(modeConfiguration);
 		this._onDidExtraLibsChangeTimeout = -1;
 	}
 
@@ -514,6 +584,10 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	get onDidExtraLibsChange(): IEvent<void> {
 		return this._onDidExtraLibsChange.event;
+	}
+
+	get modeConfiguration(): ModeConfiguration {
+		return this._modeConfiguration;
 	}
 
 	get workerOptions(): WorkerOptions {
@@ -650,22 +724,45 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	getEagerModelSync() {
 		return this._eagerModelSync;
 	}
+
+	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
+		this._modeConfiguration = modeConfiguration || Object.create(null);
+		this._onDidChange.fire(undefined);
+	}
 }
 
 export const typescriptVersion: string = tsversion;
+
+const modeConfigurationDefault: Required<ModeConfiguration> = {
+	completionItems: true,
+	hovers: true,
+	documentSymbols: true,
+	definitions: true,
+	references: true,
+	documentHighlights: true,
+	rename: true,
+	diagnostics: true,
+	documentRangeFormattingEdits: true,
+	signatureHelp: true,
+	onTypeFormattingEdits: true,
+	codeActions: true,
+	inlayHints: true
+};
 
 export const typescriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: false, noSyntaxValidation: false, onlyVisible: false },
 	{},
-	{}
+	{},
+	modeConfigurationDefault
 );
 
 export const javascriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
 	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
 	{ noSemanticValidation: true, noSyntaxValidation: false, onlyVisible: false },
 	{},
-	{}
+	{},
+	modeConfigurationDefault
 );
 
 export const getTypeScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> => {

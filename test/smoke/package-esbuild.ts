@@ -7,7 +7,7 @@ import * as esbuild from 'esbuild';
 import * as path from 'path';
 import { removeDir } from '../../build/fs';
 
-removeDir('test/smoke/esbuild/out', (entry) => /esbuild.html$/.test(entry));
+removeDir('test/smoke/esbuild/out');
 
 const workerEntryPoints = [
 	'vs/language/json/json.worker.js',
@@ -18,11 +18,13 @@ const workerEntryPoints = [
 ];
 
 build({
-	entryPoints: workerEntryPoints.map((entry) => path.join(__dirname, `../../release/esm/${entry}`)),
+	entryPoints: workerEntryPoints.map((entry) =>
+		path.join(__dirname, `../../out/monaco-editor/esm/${entry}`)
+	),
 	bundle: true,
 	format: 'iife',
 	logLevel: 'silent',
-	outbase: path.join(__dirname, '../../release/esm/'),
+	outbase: path.join(__dirname, '../../out/monaco-editor/esm/'),
 	outdir: path.join(__dirname, 'esbuild/out')
 });
 

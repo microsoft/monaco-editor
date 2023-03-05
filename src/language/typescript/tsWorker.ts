@@ -63,7 +63,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	getScriptFileNames(): string[] {
 		const allModels = this._ctx.getMirrorModels().map((model) => model.uri);
-		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString(true));
+		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString());
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
@@ -299,14 +299,15 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getQuickInfoAtPosition(fileName, position);
 	}
 
-	async getOccurrencesAtPosition(
+	async getDocumentHighlights(
 		fileName: string,
-		position: number
-	): Promise<ReadonlyArray<ts.ReferenceEntry> | undefined> {
+		position: number,
+		filesToSearch: string[]
+	): Promise<ReadonlyArray<ts.DocumentHighlights> | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
-		return this._languageService.getOccurrencesAtPosition(fileName, position);
+		return this._languageService.getDocumentHighlights(fileName, position, filesToSearch);
 	}
 
 	async getDefinitionAtPosition(
@@ -329,11 +330,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getReferencesAtPosition(fileName, position);
 	}
 
-	async getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]> {
+	async getNavigationTree(fileName: string): Promise<ts.NavigationTree | undefined> {
 		if (fileNameIsLib(fileName)) {
-			return [];
+			return undefined;
 		}
-		return this._languageService.getNavigationBarItems(fileName);
+		return this._languageService.getNavigationTree(fileName);
 	}
 
 	async getFormattingEditsForDocument(
@@ -487,7 +488,7 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 				'Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag'
 			);
 		} else {
-			importScripts(createData.customWorkerPath);
+			self.importScripts(createData.customWorkerPath);
 
 			const workerFactoryFunc: CustomTSWebWorkerFactory | undefined = self.customTSWorkerFactory;
 			if (!workerFactoryFunc) {

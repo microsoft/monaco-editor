@@ -90,10 +90,14 @@ function npmGetLatestVersion(packageName) {
  * @returns {boolean}
  */
 function npmExists(packageName, version) {
-	const output = cp.execSync(`npm show ${packageName}@${version} version`).toString();
-	const result = output.split(/\r\n|\r|\n/g)[0];
-	if (result.trim().length === 0) {
+	try {
+		const output = cp.execSync(`npm show ${packageName}@${version} version`).toString();
+		const result = output.split(/\r\n|\r|\n/g)[0];
+		if (result.trim().length === 0) {
+			return false;
+		}
+		return true;
+	} catch (err) {
 		return false;
 	}
-	return true;
 }

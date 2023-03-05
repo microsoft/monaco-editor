@@ -6,7 +6,7 @@
 	"files.trimTrailingWhitespace": true,
 	"search.exclude": {
 		"**/node_modules": true,
-		"**/release": true,
+		"**/dist": true,
 		"**/out": true
 	},
 	"typescript.tsdk": "./node_modules/typescript/lib",
