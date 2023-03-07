@@ -11,7 +11,7 @@ monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
 
 // compiler options
 monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-	target: monaco.languages.typescript.ScriptTarget.ES6,
+	target: monaco.languages.typescript.ScriptTarget.ES2015,
 	allowNonTsExtensions: true,
 });
 
