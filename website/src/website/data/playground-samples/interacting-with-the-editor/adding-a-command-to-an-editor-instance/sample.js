@@ -32,11 +32,12 @@ editor.addCommand(
 	},
 	"myCondition1 && myCondition2"
 );
-
+// @ts-ignore
 myCondition1.set(true);
 
 setTimeout(function () {
 	console.log("now enabling also myCondition2, try pressing Tab!");
+	// @ts-ignore
 	myCondition2.set(true);
 	// you can use myCondition2.reset() to go back to the default
 }, 2000);

@@ -3,7 +3,7 @@
 monaco.editor.defineTheme("myTheme", {
 	base: "vs",
 	inherit: true,
-	rules: [{ background: "EDF9FA" }],
+	rules: [],
 	colors: {
 		"editor.foreground": "#000000",
 		"editor.background": "#EDF9FA",
