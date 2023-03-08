@@ -10,7 +10,7 @@ declare var require: any;
 
 registerLanguage({
 	id: 'typescript',
-	extensions: ['.ts', '.tsx'],
+	extensions: ['.ts', '.tsx', '.cts', '.mts'],
 	aliases: ['TypeScript', 'ts', 'typescript'],
 	mimetypes: ['text/typescript'],
 	loader: (): Promise<any> => {
