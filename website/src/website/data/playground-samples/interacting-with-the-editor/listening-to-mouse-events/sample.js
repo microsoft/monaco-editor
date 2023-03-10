@@ -17,8 +17,7 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	contextmenu: false,
 });
 
-var decorations = editor.deltaDecorations(
-	[],
+var decorations = editor.createDecorationsCollection(
 	[
 		{
 			range: new monaco.Range(3, 1, 3, 1),
