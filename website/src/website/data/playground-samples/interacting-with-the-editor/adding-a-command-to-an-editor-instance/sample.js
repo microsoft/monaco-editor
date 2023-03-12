@@ -28,15 +28,16 @@ editor.addCommand(
 	monaco.KeyCode.Tab,
 	function () {
 		// services available in `ctx`
-		alert("my command is executing!");
+		console.log("my command is executing!");
 	},
 	"myCondition1 && myCondition2"
 );
-
+// @ts-ignore
 myCondition1.set(true);
 
 setTimeout(function () {
-	alert("now enabling also myCondition2, try pressing Tab!");
+	console.log("now enabling also myCondition2, try pressing Tab!");
+	// @ts-ignore
 	myCondition2.set(true);
 	// you can use myCondition2.reset() to go back to the default
 }, 2000);
