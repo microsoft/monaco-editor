@@ -17,19 +17,16 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	contextmenu: false,
 });
 
-var decorations = editor.deltaDecorations(
-	[],
-	[
-		{
-			range: new monaco.Range(3, 1, 3, 1),
-			options: {
-				isWholeLine: true,
-				className: "myContentClass",
-				glyphMarginClassName: "myGlyphMarginClass",
-			},
+var decorations = editor.createDecorationsCollection([
+	{
+		range: new monaco.Range(3, 1, 3, 1),
+		options: {
+			isWholeLine: true,
+			className: "myContentClass",
+			glyphMarginClassName: "myGlyphMarginClass",
 		},
-	]
-);
+	},
+]);
 
 // Add a zone to make hit testing more interesting
 var viewZoneId = null;
