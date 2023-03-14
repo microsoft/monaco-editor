@@ -44,6 +44,7 @@ extends:
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: latest
+        ghCreateTag: false
         publishPackage: ${{ parameters.publishMonacoEditorCore }}
         publishRequiresApproval: false
 
@@ -61,20 +62,6 @@ extends:
         publishPackage: ${{ parameters.publishMonacoEditor }}
         publishRequiresApproval: false
 
-        postPublishSteps:
-          - checkout: self
-            persistCredentials: true
-
-          - script: |
-              set -e
-
-              git config user.email "vscode@microsoft.com"
-              git config user.name "VSCode"
-
-              git tag -a v$(SetPackageSpec.PACKAGE_VERSION) -m v$(SetPackageSpec.PACKAGE_VERSION)
-              git push origin v$(SetPackageSpec.PACKAGE_VERSION)
-            workingDirectory: $(Build.SourcesDirectory)
-
       - name: monaco-editor-webpack-plugin
         workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
         testPlatforms: []
@@ -86,5 +73,6 @@ extends:
             displayName: Build plugin
 
         tag: latest
+        ghCreateTag: false
         publishPackage: ${{ parameters.publishWebpackPlugin }}
         publishRequiresApproval: false
