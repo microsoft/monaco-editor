@@ -69,7 +69,7 @@
 		"vscode-languageserver-textdocument": "^1.0.4",
 		"vscode-languageserver-types": "3.16.0",
 		"vscode-uri": "3.0.3",
-		"webpack": "^5.74.0",
+		"webpack": "^5.76.0",
 		"yaserver": "^0.4.0",
 		"@types/shelljs": "^0.8.11",
 		"pin-github-action": "^1.8.0",
