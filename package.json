@@ -63,7 +63,7 @@
 		"style-loader": "^3.3.1",
 		"terser": "^5.14.2",
 		"ts-node": "^10.6.0",
-		"typescript": "^4.9.5",
+		"typescript": "^5.0.2",
 		"vite": "^3.1.8",
 		"vscode-css-languageservice": "5.4.1",
 		"vscode-html-languageservice": "4.2.4",
