@@ -38,6 +38,12 @@
 		},
 		{
 			chapter: "Interacting with the editor",
+			name: "Adding a keybinding to an existing command",
+			id: "interacting-with-the-editor-adding-an-keybinding-to-an-existing-command",
+			path: "interacting-with-the-editor/adding-an-keybinding-to-an-existing-command",
+		},
+		{
+			chapter: "Interacting with the editor",
 			name: "Revealing a position",
 			id: "interacting-with-the-editor-revealing-a-position",
 			path: "interacting-with-the-editor/revealing-a-position",
