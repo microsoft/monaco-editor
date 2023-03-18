@@ -111,7 +111,7 @@ export interface LanguageServiceDefaults {
     setDiagnosticsOptions(options: DiagnosticsOptions): void;
 }
 /** @deprecated Use Options instead */
-export declare type DiagnosticsOptions = Options;
+export type DiagnosticsOptions = Options;
 export declare const cssDefaults: LanguageServiceDefaults;
 export declare const scssDefaults: LanguageServiceDefaults;
 export declare const lessDefaults: LanguageServiceDefaults;
@@ -138,7 +138,7 @@ export interface CSSDataV1 {
     pseudoClasses?: IPseudoClassData[];
     pseudoElements?: IPseudoElementData[];
 }
-export declare type EntryStatus = 'standard' | 'experimental' | 'nonstandard' | 'obsolete';
+export type EntryStatus = 'standard' | 'experimental' | 'nonstandard' | 'obsolete';
 export interface IReference {
     name: string;
     url: string;

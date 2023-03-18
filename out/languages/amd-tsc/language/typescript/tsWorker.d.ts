@@ -51,7 +51,7 @@ export interface ICreateData {
     compilerOptions: ts.CompilerOptions;
     extraLibs: IExtraLibs;
     customWorkerPath?: string;
-    inlayHintsOptions?: ts.InlayHintsOptions;
+    inlayHintsOptions?: ts.UserPreferences;
 }
 /** The shape of the factory */
 export interface CustomTSWebWorkerFactory {

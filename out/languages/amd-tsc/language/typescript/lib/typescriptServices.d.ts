@@ -7,4 +7,4 @@ export const IndentStyle: any;
 export const ScriptKind: any;
 export const ScriptTarget: any;
 export const TokenClass: any;
-export const typescript: {};
+export const typescript: any;

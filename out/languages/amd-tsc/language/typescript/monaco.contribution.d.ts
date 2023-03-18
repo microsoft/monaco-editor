@@ -40,7 +40,7 @@ export declare enum ModuleResolutionKind {
 interface MapLike<T> {
     [index: string]: T;
 }
-declare type CompilerOptionsValue = string | number | boolean | (string | number)[] | string[] | MapLike<string[]> | null | undefined;
+type CompilerOptionsValue = string | number | boolean | (string | number)[] | string[] | MapLike<string[]> | null | undefined;
 interface CompilerOptions {
     allowJs?: boolean;
     allowSyntheticDefaultImports?: boolean;

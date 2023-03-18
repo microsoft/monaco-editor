@@ -1,1 +1,1 @@
-export declare const typescriptVersion = "4.5.5";
+export declare const typescriptVersion = "5.0.2";
