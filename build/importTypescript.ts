@@ -14,6 +14,7 @@ const generatedNote = `//
 `;
 
 const TYPESCRIPT_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/typescript/lib');
+const TYPESCRIPT_ATA_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/@typescript/ata/dist');
 const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/language/typescript/lib');
 
 (function () {
@@ -76,6 +77,11 @@ export var typescript = ts;
 		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.d.ts'),
 		generatedNote + dtsServices
 	);
+
+	let ata = fs.readFileSync(path.join(TYPESCRIPT_ATA_LIB_SOURCE, 'index.js')).toString();
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'ata.js'), ata);
+	let ataDts = fs.readFileSync(path.join(TYPESCRIPT_ATA_LIB_SOURCE, 'index.d.ts')).toString();
+	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'ata.d.ts'), ataDts);
 })();
 
 function importLibs() {

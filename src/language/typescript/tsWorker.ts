@@ -6,12 +6,14 @@
 import * as ts from './lib/typescriptServices';
 import { libFileMap } from './lib/lib';
 import {
+	AtaOptions,
 	Diagnostic,
 	DiagnosticRelatedInformation,
 	IExtraLibs,
 	TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
+import { setupTypeAcquisition } from './lib/ata';
 
 /**
  * Loading a default lib as a source file will mess up TS completely.
@@ -39,12 +41,36 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 	private _inlayHintsOptions?: ts.UserPreferences;
+	private _ataOptions: AtaOptions = Object.create(null);
+	private _ata: (source: string) => void;
+	private _ataLibs: { [path: string]: string } = Object.create(null);
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
 		this._compilerOptions = createData.compilerOptions;
 		this._extraLibs = createData.extraLibs;
 		this._inlayHintsOptions = createData.inlayHintsOptions;
+		this._ataOptions = createData.ataOptions;
+		this._ata = setupTypeAcquisition({
+			projectName: this._ataOptions.userAgent || 'Monoco Editor',
+			typescript: (ts as any).typescript as typeof ts,
+			logger: console,
+			delegate: {
+				receivedFile: (code, path) => {
+					this._ataLibs[`inmemory://model${path.replace('/@types/node/', '/@types/')}`] = code;
+					// console.log({ code, path });
+				},
+				progress: (downloaded, total) => {
+					// console.log({ downloaded, total });
+				},
+				started: () => {
+					console.log('ATA started');
+				},
+				finished: () => {
+					console.log('ATA done');
+				}
+			}
+		});
 	}
 
 	// --- language service host ---------------
@@ -87,6 +113,8 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 			return '1';
 		} else if (fileName in this._extraLibs) {
 			return String(this._extraLibs[fileName].version);
+		} else if (fileName in this._ataLibs) {
+			return '1';
 		}
 		return '';
 	}
@@ -102,6 +130,9 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		if (model) {
 			// a true editor model
 			text = model.getValue();
+			if (this._ataOptions.enabled) {
+				this._ata(text);
+			}
 		} else if (fileName in libFileMap) {
 			text = libFileMap[fileName];
 		} else if (libizedFileName in libFileMap) {
@@ -109,6 +140,9 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		} else if (fileName in this._extraLibs) {
 			// extra lib
 			text = this._extraLibs[fileName].content;
+		} else if (fileName in this._ataLibs) {
+			// ATA lib
+			text = this._ataLibs[fileName];
 		} else {
 			return;
 		}
@@ -464,6 +498,7 @@ export interface ICreateData {
 	extraLibs: IExtraLibs;
 	customWorkerPath?: string;
 	inlayHintsOptions?: ts.UserPreferences;
+	ataOptions: AtaOptions;
 }
 
 /** The shape of the factory */

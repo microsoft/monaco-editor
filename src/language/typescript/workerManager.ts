@@ -71,7 +71,8 @@ export class WorkerManager {
 						compilerOptions: this._defaults.getCompilerOptions(),
 						extraLibs: this._defaults.getExtraLibs(),
 						customWorkerPath: this._defaults.workerOptions.customWorkerPath,
-						inlayHintsOptions: this._defaults.inlayHintsOptions
+						inlayHintsOptions: this._defaults.inlayHintsOptions,
+						ataOptions: this._defaults.ataOptions
 					}
 				});
 

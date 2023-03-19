@@ -178,6 +178,13 @@ interface InlayHintsOptions {
 	readonly includeInlayEnumMemberValueHints?: boolean;
 }
 
+export interface AtaOptions {
+	/** Enable ATA */
+	enabled: boolean;
+	/** User-Agent when requesting to jsdelivr */
+	userAgent: string;
+}
+
 interface IExtraLib {
 	content: string;
 	version: number;
@@ -308,6 +315,8 @@ export interface LanguageServiceDefaults {
 
 	readonly inlayHintsOptions: InlayHintsOptions;
 
+	readonly ataOptions: AtaOptions;
+
 	readonly modeConfiguration: ModeConfiguration;
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 
@@ -383,6 +392,12 @@ export interface LanguageServiceDefaults {
 	 * Configure inlay hints options.
 	 */
 	setInlayHintsOptions(options: InlayHintsOptions): void;
+
+	/**
+	 * Configure ATA(Automatic Type Acquisition)
+	 * ATA fetches type definition from jsdelivr CDN
+	 */
+	setAtaOptions(options: AtaOptions): void;
 }
 
 export interface TypeScriptWorker {
@@ -559,6 +574,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidExtraLibsChangeTimeout: number;
 	private _inlayHintsOptions!: InlayHintsOptions;
 	private _modeConfiguration!: ModeConfiguration;
+	private _ataOptions: AtaOptions;
 
 	constructor(
 		compilerOptions: CompilerOptions,
@@ -570,6 +586,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this._extraLibs = Object.create(null);
 		this._removedExtraLibs = Object.create(null);
 		this._eagerModelSync = false;
+		this._ataOptions = Object.create(null);
 		this.setCompilerOptions(compilerOptions);
 		this.setDiagnosticsOptions(diagnosticsOptions);
 		this.setWorkerOptions(workerOptions);
@@ -596,6 +613,10 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	get inlayHintsOptions(): InlayHintsOptions {
 		return this._inlayHintsOptions;
+	}
+
+	get ataOptions(): AtaOptions {
+		return this._ataOptions;
 	}
 
 	getExtraLibs(): IExtraLibs {
@@ -727,6 +748,15 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
+		this._onDidChange.fire(undefined);
+	}
+
+	getAtaOptions() {
+		return this._ataOptions;
+	}
+
+	setAtaOptions(options: AtaOptions) {
+		this._ataOptions = options || Object.create(null);
 		this._onDidChange.fire(undefined);
 	}
 }

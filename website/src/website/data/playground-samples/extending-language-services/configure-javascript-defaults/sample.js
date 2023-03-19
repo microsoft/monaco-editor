@@ -30,8 +30,16 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
 // Creating a model for the library allows "peek definition/references" commands to work with the library.
 monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
 
+// Enable ATA(Automatic Type Acquisition)
+monaco.languages.typescript.javascriptDefaults.setAtaOptions({
+	enabled: true,
+	userAgent: "Monaco Editor Playground",
+});
+
 var jsCode = [
 	'"use strict";',
+	"",
+	'import * as fs from "fs"; // ATA tries to get type definition of fs',
 	"",
 	"class Chuck {",
 	"    greet() {",

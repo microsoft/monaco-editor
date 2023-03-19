@@ -39,6 +39,11 @@ module.exports = {
 		},
 		allowedHosts: "all",
 		watchFiles: [],
+		client: {
+			overlay: {
+				warnings: false,
+			},
+		},
 	},
 	module: {
 		rules: [
@@ -132,7 +137,10 @@ module.exports = {
 			],
 		}),
 		new CopyPlugin({
-			patterns: [{ from: "../out/languages/", to: "./out/languages/" }],
+			patterns: [
+				{ from: "../out/languages/", to: "./out/languages/" },
+				{ from: "../out/monaco-editor/", to: "./out/monaco-editor/" },
+			],
 		}),
 	],
 } as webpack.Configuration;
