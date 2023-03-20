@@ -69,3 +69,7 @@ jobs:
       - name: Build website
         working-directory: website
         run: yarn run build
+
+      - name: Test website
+        working-directory: website
+        run: yarn test

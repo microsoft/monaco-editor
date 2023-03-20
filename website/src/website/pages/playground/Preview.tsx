@@ -21,7 +21,7 @@ export class Preview
 				<iframe
 					className="full-iframe"
 					key={this.counter}
-					sandbox="allow-scripts"
+					sandbox="allow-scripts allow-modals"
 					frameBorder={0}
 					ref={this.handleIframe}
 					src="./playgroundRunner.html"

@@ -17,19 +17,16 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	contextmenu: false,
 });
 
-var decorations = editor.deltaDecorations(
-	[],
-	[
-		{
-			range: new monaco.Range(3, 1, 3, 1),
-			options: {
-				isWholeLine: true,
-				className: "myContentClass",
-				glyphMarginClassName: "myGlyphMarginClass",
-			},
+var decorations = editor.createDecorationsCollection([
+	{
+		range: new monaco.Range(3, 1, 3, 1),
+		options: {
+			isWholeLine: true,
+			className: "myContentClass",
+			glyphMarginClassName: "myGlyphMarginClass",
 		},
-	]
-);
+	},
+]);
 
 // Add a zone to make hit testing more interesting
 var viewZoneId = null;
@@ -45,16 +42,16 @@ editor.changeViewZones(function (changeAccessor) {
 
 // Add a content widget (scrolls inline with text)
 var contentWidget = {
-	domNode: null,
+	domNode: (function () {
+		var domNode = document.createElement("div");
+		domNode.innerHTML = "My content widget";
+		domNode.style.background = "grey";
+		return domNode;
+	})(),
 	getId: function () {
 		return "my.content.widget";
 	},
 	getDomNode: function () {
-		if (!this.domNode) {
-			this.domNode = document.createElement("div");
-			this.domNode.innerHTML = "My content widget";
-			this.domNode.style.background = "grey";
-		}
 		return this.domNode;
 	},
 	getPosition: function () {
@@ -74,18 +71,18 @@ editor.addContentWidget(contentWidget);
 
 // Add an overlay widget
 var overlayWidget = {
-	domNode: null,
+	domNode: (function () {
+		var domNode = document.createElement("div");
+		domNode.innerHTML = "My overlay widget";
+		domNode.style.background = "grey";
+		domNode.style.right = "30px";
+		domNode.style.top = "50px";
+		return domNode;
+	})(),
 	getId: function () {
 		return "my.overlay.widget";
 	},
 	getDomNode: function () {
-		if (!this.domNode) {
-			this.domNode = document.createElement("div");
-			this.domNode.innerHTML = "My overlay widget";
-			this.domNode.style.background = "grey";
-			this.domNode.style.right = "30px";
-			this.domNode.style.top = "50px";
-		}
 		return this.domNode;
 	},
 	getPosition: function () {

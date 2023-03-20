@@ -15,19 +15,16 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	language: "javascript",
 });
 
-var decorations = editor.deltaDecorations(
-	[],
-	[
-		{
-			range: new monaco.Range(3, 1, 5, 1),
-			options: {
-				isWholeLine: true,
-				linesDecorationsClassName: "myLineDecoration",
-			},
+var decorations = editor.createDecorationsCollection([
+	{
+		range: new monaco.Range(3, 1, 5, 1),
+		options: {
+			isWholeLine: true,
+			linesDecorationsClassName: "myLineDecoration",
 		},
-		{
-			range: new monaco.Range(7, 1, 7, 24),
-			options: { inlineClassName: "myInlineDecoration" },
-		},
-	]
-);
+	},
+	{
+		range: new monaco.Range(7, 1, 7, 24),
+		options: { inlineClassName: "myInlineDecoration" },
+	},
+]);
