@@ -10,7 +10,7 @@ declare var require: any;
 
 registerLanguage({
 	id: 'perl',
-	extensions: ['.pl'],
+	extensions: ['.pl', '.pm'],
 	aliases: ['Perl', 'pl'],
 	loader: () => {
 		if (AMD) {
