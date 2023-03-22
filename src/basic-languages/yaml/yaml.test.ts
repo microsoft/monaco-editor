@@ -473,5 +473,55 @@ testTokenization('yaml', [
 				{ startIndex: 10, type: 'comment.yaml' }
 			]
 		}
+	],
+
+	// ': ' in double-quoted Value
+	[
+		{
+			line: 'key: "va: lue"',
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				}
+			]
+		}
+	],
+
+	// ': ' in single-quoted Value
+	[
+		{
+			line: "key: 'va: lue'",
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				}
+			]
+		}
 	]
 ]);
