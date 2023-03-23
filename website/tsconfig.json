@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"module": "commonjs",
+		"moduleResolution": "node16",
 		"strict": true,
 		"outDir": "dist",
 		"skipLibCheck": true,
