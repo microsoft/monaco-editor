@@ -602,10 +602,43 @@ testTokenization('yaml', [
 		}
 	],
 
-	// Comment following  Value
+	// Comment following Value
 	[
 		{
 			line: 'key: value #comment',
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				},
+				{
+					startIndex: 10,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 11,
+					type: 'comment.yaml'
+				}
+			]
+		}
+	],
+
+	// ': ' in Comment following Value
+	[
+		{
+			line: 'key: value #comment: also comment',
 			tokens: [
 				{
 					startIndex: 0,

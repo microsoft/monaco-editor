@@ -86,7 +86,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/@numberDate(?![ \t]*\S+)/, 'number.date'],
 
 			// Key:Value pair
-			[/(".*?"|'.*?'|[^'"]*?)([ \t]*)(:)( |$)/, ['type', 'white', 'operators', 'white']],
+			[/(".*?"|'.*?'|[^#'"]*?)([ \t]*)(:)( |$)/, ['type', 'white', 'operators', 'white']],
 
 			{ include: '@flowScalars' },
 
