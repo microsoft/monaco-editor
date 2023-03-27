@@ -12,6 +12,7 @@ registerLanguage({
 	id: 'xml',
 	extensions: [
 		'.xml',
+		'.xsd',
 		'.dtd',
 		'.ascx',
 		'.csproj',
@@ -25,6 +26,7 @@ registerLanguage({
 		'.svg',
 		'.svgz',
 		'.opf',
+		'.xslt',
 		'.xsl'
 	],
 	firstLine: '(\\<\\?xml.*)|(\\<svg)|(\\<\\!doctype\\s+svg)',
