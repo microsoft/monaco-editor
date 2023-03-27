@@ -458,6 +458,7 @@ testTokenization('yaml', [
 				{ startIndex: 4, type: 'operators.yaml' },
 				{ startIndex: 5, type: 'white.yaml' },
 				{ startIndex: 6, type: 'string.yaml' },
+				{ startIndex: 28, type: 'white.yaml' },
 				{ startIndex: 29, type: 'comment.yaml' }
 			]
 		}
@@ -470,7 +471,199 @@ testTokenization('yaml', [
 				{ startIndex: 6, type: 'operators.yaml' },
 				{ startIndex: 7, type: 'white.yaml' },
 				{ startIndex: 8, type: 'string.yaml' },
+				{ startIndex: 9, type: 'white.yaml' },
 				{ startIndex: 10, type: 'comment.yaml' }
+			]
+		}
+	],
+
+	// ': ' in double-quoted Value
+	[
+		{
+			line: 'key: "va: lue"',
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				}
+			]
+		}
+	],
+
+	// ': ' in single-quoted Value
+	[
+		{
+			line: "key: 'va: lue'",
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				}
+			]
+		}
+	],
+
+	// '#' in single-quoted Value
+	[
+		{
+			line: "key: 'va#lue'",
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				}
+			]
+		}
+	],
+
+	// '#' in double-quoted Value
+	[
+		{
+			line: 'key: "va#lue"',
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				}
+			]
+		}
+	],
+
+	// '#' in  Value
+	[
+		{
+			line: 'key: va#lue',
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				}
+			]
+		}
+	],
+
+	// Comment following Value
+	[
+		{
+			line: 'key: value #comment',
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				},
+				{
+					startIndex: 10,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 11,
+					type: 'comment.yaml'
+				}
+			]
+		}
+	],
+
+	// ': ' in Comment following Value
+	[
+		{
+			line: 'key: value #comment: also comment',
+			tokens: [
+				{
+					startIndex: 0,
+					type: 'type.yaml'
+				},
+				{
+					startIndex: 3,
+					type: 'operators.yaml'
+				},
+				{
+					startIndex: 4,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 5,
+					type: 'string.yaml'
+				},
+				{
+					startIndex: 10,
+					type: 'white.yaml'
+				},
+				{
+					startIndex: 11,
+					type: 'comment.yaml'
+				}
 			]
 		}
 	]
