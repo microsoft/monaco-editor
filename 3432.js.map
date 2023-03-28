@@ -1,0 +1,1 @@
+{"version":3,"file":"3432.js","mappings":"8IAAA,8I","sources":["file:////home/runner/work/monaco-editor/monaco-editor/website/src/website/data/home-samples/sample.pla.txt"],"sourcesContent":["export default \".ob out1 out2 out3\\n--1--     -        wait     110000\\n.ilb in1 in0 wait ack nack\\n.symbolic state<3> state<2>;aaa bbb; # comment\\n\";"],"names":[],"sourceRoot":""}

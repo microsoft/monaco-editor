@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[2873],{2873:(n,t,o)=>{o.r(t),o.d(t,{default:()=>c});const c="F0 := IMDB.File_actors;\nCountActors := RECORD\nF0.ActorName;\nUNSIGNED C := COUNT(GROUP);\nEND;\nMoviesIn := TABLE(F0,CountActors,ActorName);\nOUTPUT(TOPN(MoviesIn,100,-C));\n"}}]);
+//# sourceMappingURL=2873.js.map

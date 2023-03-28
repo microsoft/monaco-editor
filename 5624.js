@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[5624],{5624:(a,n,e)=>{e.r(n),e.d(n,{default:()=>f});const f="  SELECT ?x ?name\n  {\n    ?x  foaf:mbox <mailto:alice@example> .\n    ?x  foaf:knows ?a1 .\n    ?a1 foaf:knows ?a2 .\n    ?a2 foaf:name ?name .\n  }\n"}}]);
+//# sourceMappingURL=5624.js.map

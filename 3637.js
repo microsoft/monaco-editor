@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[3637],{3637:(e,a,i)=>{i.r(a),i.d(a,{default:()=>n});const n="MATCH (nicole:Actor {name: 'Nicole Kidman'})-[:ACTED_IN]->(movie:Movie)\nWHERE movie.year < $yearParameter\nRETURN movie\n"}}]);
+//# sourceMappingURL=3637.js.map

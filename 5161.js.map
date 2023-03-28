@@ -1,0 +1,1 @@
+{"version":3,"file":"5161.js","mappings":"8IAAA,qI","sources":["file:////home/runner/work/monaco-editor/monaco-editor/website/src/website/data/home-samples/sample.csp.txt"],"sourcesContent":["export default \"Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com\";"],"names":[],"sourceRoot":""}

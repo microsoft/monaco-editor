@@ -1,0 +1,1 @@
+{"version":3,"file":"3637.js","mappings":"8IAAA,oI","sources":["file:////home/runner/work/monaco-editor/monaco-editor/website/src/website/data/home-samples/sample.cypher.txt"],"sourcesContent":["export default \"MATCH (nicole:Actor {name: 'Nicole Kidman'})-[:ACTED_IN]->(movie:Movie)\\nWHERE movie.year < $yearParameter\\nRETURN movie\\n\";"],"names":[],"sourceRoot":""}

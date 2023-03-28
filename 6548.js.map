@@ -1,0 +1,1 @@
+{"version":3,"file":"6548.js","mappings":"8IAAA,2D","sources":["file:////home/runner/work/monaco-editor/monaco-editor/website/src/website/data/playground-samples/interacting-with-the-editor/adding-a-keybinding-to-an-existing-command/sample.html"],"sourcesContent":["export default \"<div id=\\\"container\\\" style=\\\"height: 100%\\\"></div>\\n\";"],"names":[],"sourceRoot":""}

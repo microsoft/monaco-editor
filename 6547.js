@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_application=self.webpackChunkmy_application||[]).push([[6547],{6547:(t,e,n)=>{n.r(e),n.d(e,{default:()=>o});const o='import material/material;\n\nexport {\n\tdemoMakeHelloWorld(onClose : () -> void) -> Material;\n}\n\ndemoMakeHelloWorld(onClose : () -> void) -> Material {\n\tMCenter(\n\t\tMLines2(\n\t\t\tMText("Hello, world!", []),\n\t\t\tMTextButton("CLOSE", onClose, [], [])\n\t\t)\n\t);\n}\n'}}]);
+//# sourceMappingURL=6547.js.map

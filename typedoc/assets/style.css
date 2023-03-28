@@ -483,10 +483,9 @@ blockquote {
     .has-menu .col-menu {
         visibility: visible;
         transform: translate(0, 0);
-        display: grid;
-        align-items: center;
-        grid-template-rows: auto 1fr;
-        grid-gap: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
         max-height: 100vh;
         padding: 1rem 2rem;
     }
@@ -911,7 +910,7 @@ a.tsd-index-link {
     margin-right: 0.8rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
     .col-content {
         margin: 2rem auto;
     }
