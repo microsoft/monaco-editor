@@ -79,5 +79,6 @@ import './tcl/tcl.contribution';
 import './twig/twig.contribution';
 import './typescript/typescript.contribution';
 import './vb/vb.contribution';
+import './wgsl/wgsl.contribution';
 import './xml/xml.contribution';
 import './yaml/yaml.contribution';
