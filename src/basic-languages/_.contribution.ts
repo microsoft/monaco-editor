@@ -73,7 +73,7 @@ export function registerLanguage(def: ILang): void {
 			return mod.language;
 		}
 	});
-	languages.onLanguage(languageId, async () => {
+	languages.onLanguageEncountered(languageId, async () => {
 		const mod = await lazyLanguageLoader.load();
 		languages.setLanguageConfiguration(languageId, mod.conf);
 	});
