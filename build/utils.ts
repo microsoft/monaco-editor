@@ -16,7 +16,7 @@ export const REPO_ROOT = path.join(__dirname, '../');
 /**
  * Launch the typescript compiler synchronously over a project.
  */
-export function tsc(_projectPath: string) {
+export function runTsc(_projectPath: string) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
 	console.log(`Launching compiler at ${_projectPath}...`);
 	const res = cp.spawnSync(
@@ -47,12 +47,12 @@ export function prettier(_filePath: string) {
 /**
  * Transform an external .d.ts file to an internal .d.ts file
  */
-export function dts(_source: string, _destination: string, namespace: string) {
-	const source = path.join(REPO_ROOT, _source);
-	const destination = path.join(REPO_ROOT, _destination);
+export function massageAndCopyDts(source: string, destination: string, namespace: string) {
+	const absoluteSource = path.join(REPO_ROOT, source);
+	const absoluteDestination = path.join(REPO_ROOT, destination);
 
 	const lines = fs
-		.readFileSync(source)
+		.readFileSync(absoluteSource)
 		.toString()
 		.split(/\r\n|\r|\n/);
 
@@ -81,10 +81,10 @@ export function dts(_source: string, _destination: string, namespace: string) {
 	result.push(`}`);
 	result.push(``);
 
-	ensureDir(path.dirname(destination));
-	fs.writeFileSync(destination, result.join('\n'));
+	ensureDir(path.dirname(absoluteDestination));
+	fs.writeFileSync(absoluteDestination, result.join('\n'));
 
-	prettier(_destination);
+	prettier(destination);
 }
 
 export function build(options: import('esbuild').BuildOptions) {
@@ -104,6 +104,7 @@ export function buildESM(options: { base: string; entryPoints: string[]; externa
 		bundle: true,
 		target: 'esnext',
 		format: 'esm',
+		drop: ['debugger'],
 		define: {
 			AMD: 'false'
 		},
@@ -112,7 +113,7 @@ export function buildESM(options: { base: string; entryPoints: string[]; externa
 		},
 		external: options.external,
 		outbase: `src/${options.base}`,
-		outdir: `out/release/esm/vs/${options.base}/`,
+		outdir: `out/languages/bundled/esm/vs/${options.base}/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
@@ -141,6 +142,7 @@ function buildOneAMD(
 		bundle: true,
 		target: 'esnext',
 		format: 'iife',
+		drop: ['debugger'],
 		define: {
 			AMD: 'true'
 		},
@@ -154,7 +156,7 @@ function buildOneAMD(
 			js: 'return moduleExports;\n});'
 		},
 		outbase: `src/${options.base}`,
-		outdir: `out/release/${type}/vs/${options.base}/`,
+		outdir: `out/languages/bundled/amd-${type}/vs/${options.base}/`,
 		plugins: [
 			alias({
 				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),

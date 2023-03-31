@@ -1,6 +1,51 @@
 # Monaco Editor Changelog
 
-## [0.34.0] (Unreleased)
+## [0.36.1]
+
+- Marks unneeded dependencies as dev dependencies.
+
+## [0.36.0]
+
+- Maintenance release
+
+## [0.35.0]
+
+- Adds sticky scrolling
+- Support for custom diff algorithms
+
+### Breaking Changes
+
+- Renamed the option `enableDropIntoEditor` to `dropIntoEditor`
+- Changed `IContentWidgetPosition.range: Range` to `IContentWidgetPosition.secondaryPosition: Position`
+- `renderFinalNewline` config: is now of type `'on' | 'off' | 'dimmed'` (was `boolean`).
+- `cursorSmoothCaretAnimation` config: is now of type `'off' | 'explicit' | 'on'` (was `boolean`)
+
+Contributions to `monaco-editor`:
+
+- [@andrewimcclement](https://github.com/andrewimcclement): Add .props & .targets as XML extensions [PR #3510](https://github.com/microsoft/monaco-editor/pull/3510)
+- [@DetachHead](https://github.com/DetachHead): add `satisfies` keyword to typescript [PR #3337](https://github.com/microsoft/monaco-editor/pull/3337)
+- [@jeremy-rifkin (Jeremy Rifkin)](https://github.com/jeremy-rifkin): Add AVX 512 types to C++ syntax highlighting [PR #3286](https://github.com/microsoft/monaco-editor/pull/3286)
+- [@joecarl (José Carlos)](https://github.com/joecarl): Add setModeConfiguration for monaco.languages.typescript.[typescript|javascript]Defaults [PR #3489](https://github.com/microsoft/monaco-editor/pull/3489)
+- [@jonatanklosko (Jonatan Kłosko)](https://github.com/jonatanklosko): Update Elixir tokenizer [PR #3453](https://github.com/microsoft/monaco-editor/pull/3453)
+- [@JoyceZhu (Joyce Zhu)](https://github.com/JoyceZhu): Update import path for `browser-esm-webpack-small` [PR #3402](https://github.com/microsoft/monaco-editor/pull/3402)
+- [@Jozebel11 (Joseph Hardwicke)](https://github.com/Jozebel11): Add position styling to playground container to equal 'relative' [PR #3446](https://github.com/microsoft/monaco-editor/pull/3446)
+- [@kirjs (Kirill Cherkashin)](https://github.com/kirjs): Fix broken link in the changelog [PR #3382](https://github.com/microsoft/monaco-editor/pull/3382)
+- [@LeoDog896 (Tristan F.)](https://github.com/LeoDog896)
+  - Ignore dist from vite/parcel in prettier [PR #3466](https://github.com/microsoft/monaco-editor/pull/3466)
+  - Add .kts as a file extension [PR #3467](https://github.com/microsoft/monaco-editor/pull/3467)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin): Add new pgsql 15 functions [PR #3363](https://github.com/microsoft/monaco-editor/pull/3363)
+- [@mofux (Thomas Zilz)](https://github.com/mofux): Resolve URIs with special characters correctly [PR #3392](https://github.com/microsoft/monaco-editor/pull/3392)
+- [@nnnnoel (Noel Kim (김민혁))](https://github.com/nnnnoel): fix(mysql/tokenizer): Fix single quoted string escape [PR #3232](https://github.com/microsoft/monaco-editor/pull/3232)
+- [@rcjsuen (Remy Suen)](https://github.com/rcjsuen): Fix the color provider's columns [PR #3348](https://github.com/microsoft/monaco-editor/pull/3348)
+- [@RubenRBS (Rubén Rincón Blanco)](https://github.com/RubenRBS): Recognize \0 as an escape sequence [PR #3443](https://github.com/microsoft/monaco-editor/pull/3443)
+- [@sekedus (Sekedus)](https://github.com/sekedus): add homepage url [PR #3497](https://github.com/microsoft/monaco-editor/pull/3497)
+- [@tr3ysmith (Trey Smith)](https://github.com/tr3ysmith): Fix possible duplicate of editors in vite sample [PR #3390](https://github.com/microsoft/monaco-editor/pull/3390)
+
+## [0.34.1]
+
+- Adds API to register global actions, commands, or keybinding rules
+
+## [0.34.0]
 
 - Introduction of `IEditor.createDecorationsCollection` API
 - New function `removeAllMarkers` to remove all markers
@@ -25,6 +70,16 @@
   - `modelVersionId?: number` -> `versionId: number | undefined`
 - `InlayHint` API tweaks
 - Soft deprecation of `ICodeEditor.deltaDecorations`, no adoption required. `IEditor.createDecorationsCollection` API should be used instead.
+
+Contributions to `monaco-editor`:
+
+- [@alexander-zw (Alexander Wu)](https://github.com/alexander-zw): [webpack readme] Add how to get languages/features [PR #3171](https://github.com/microsoft/monaco-editor/pull/3171)
+- [@anjbur (Angela Burton)](https://github.com/anjbur): Update Q# keywords [PR #3222](https://github.com/microsoft/monaco-editor/pull/3222)
+- [@bsorrentino (bsorrentino)](https://github.com/bsorrentino): Fix issue #2295 - Models with "@" in their name do not resolve as dependencies [PR #3057](https://github.com/microsoft/monaco-editor/pull/3057)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin): Remove duplicate testcases for mysql [PR #3138](https://github.com/microsoft/monaco-editor/pull/3138)
+- [@mhsdesign (Marc Henry Schultz)](https://github.com/mhsdesign): [DOCS] IEditorOptions.automaticLayout uses ResizeObserver 3051 [PR #3052](https://github.com/microsoft/monaco-editor/pull/3052)
+- [@supersonictw (SuperSonic)](https://github.com/supersonictw): Fix menu link in integrate-esm.md [PR #3214](https://github.com/microsoft/monaco-editor/pull/3214)
+- [@tonilastre (Toni)](https://github.com/tonilastre): Add config and tokenizer for query language Cypher [PR #3102](https://github.com/microsoft/monaco-editor/pull/3102)
 
 ## [0.33.0]
 
@@ -482,7 +537,7 @@ Contributions to `monaco-typescript`:
 - Many improvements in `monaco-typescript`: support for "deprecated" tags, API to participate in the web worker, improved lib.d.ts resolving.
 - New tokenization support for: Julia, Scala, Lexon, Terraform HCL, Dart, Systemverilog.
 - New semantic tokens provider [sample on the playground](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-semantic-tokens-provider-example).
-- New [shadow dom sample](https://github.com/microsoft/monaco-editor-samples/tree/master/browser-amd-shadow-dom)
+- New [shadow dom sample](https://github.com/microsoft/monaco-editor/tree/main/samples/browser-amd-shadow-dom)
 - New `overflowWidgetsDomNode` constructor option to pass in a parent for overflowing widgets.
 - New `minimap.size` option: `proportional`, `fill`, `fit`.
 - New `OnTypeRename` provider and option `renameOnType`.

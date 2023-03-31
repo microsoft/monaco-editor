@@ -1,6 +1,6 @@
 **/node_modules/
+**/dist/
 **/out/
-**/release/
 /samples/browser-esm-parcel/.parcel-cache/
 /samples/browser-esm-parcel/dist/
 /samples/browser-esm-vite-react/dist/**/*.js
@@ -13,3 +13,5 @@
 /test/manual/generated/
 /website/lib/
 /website/typedoc/monaco.d.ts
+/test/smoke/vite/dist
+/test/smoke/parcel/dist

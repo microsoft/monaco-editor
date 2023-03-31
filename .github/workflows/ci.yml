@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     name: CI
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
@@ -39,7 +39,7 @@ jobs:
         run: npm run prettier-check
 
       - name: Build
-        run: npm run release
+        run: npm run build-monaco-editor
 
       - name: Run unit tests
         run: npm test
@@ -48,13 +48,28 @@ jobs:
         run: npm run compile --prefix webpack-plugin
 
       - name: Package using webpack plugin
-        run: npm run package-for-smoketest --prefix webpack-plugin
+        run: npm run package-for-smoketest-webpack
 
       - name: Package using esbuild
         run: npm run package-for-smoketest-esbuild
 
+      - name: Package using vite
+        run: npm run package-for-smoketest-vite
+
+      - name: Package using parcel
+        run: npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+
       - name: Run smoke test
         run: npm run smoketest
 
+      - name: Install website node modules
+        working-directory: website
+        run: yarn install --frozen-lockfile
+
       - name: Build website
-        run: npm run build-website
+        working-directory: website
+        run: yarn run build
+
+      - name: Test website
+        working-directory: website
+        run: yarn test

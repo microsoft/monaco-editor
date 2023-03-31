@@ -74,7 +74,8 @@ export const language = <languages.IMonarchLanguage>{
 		'borrow',
 		'using',
 		'borrowing',
-		'mutable'
+		'mutable',
+		'internal'
 	],
 
 	typeKeywords: [

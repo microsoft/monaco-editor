@@ -32,7 +32,7 @@ export const conf: languages.LanguageConfiguration = {
 	onEnterRules: [
 		{
 			beforeText: new RegExp(
-				'^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async).*?:\\s*$'
+				'^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async|match|case).*?:\\s*$'
 			),
 			action: { indentAction: languages.IndentAction.Indent }
 		}
@@ -52,18 +52,21 @@ export const language = <languages.IMonarchLanguage>{
 
 	keywords: [
 		// This section is the result of running
-		// `for k in keyword.kwlist: print('  "' + k + '",')` in a Python REPL,
+		// `import keyword; for k in sorted(keyword.kwlist + keyword.softkwlist): print("  '" + k + "',")`
+		// in a Python REPL,
 		// though note that the output from Python 3 is not a strict superset of the
 		// output from Python 2.
 		'False', // promoted to keyword.kwlist in Python 3
 		'None', // promoted to keyword.kwlist in Python 3
 		'True', // promoted to keyword.kwlist in Python 3
+		'_', // new in Python 3.10
 		'and',
 		'as',
 		'assert',
 		'async', // new in Python 3
 		'await', // new in Python 3
 		'break',
+		'case', // new in Python 3.10
 		'class',
 		'continue',
 		'def',
@@ -81,6 +84,7 @@ export const language = <languages.IMonarchLanguage>{
 		'in',
 		'is',
 		'lambda',
+		'match', // new in Python 3.10
 		'nonlocal', // new in Python 3
 		'not',
 		'or',

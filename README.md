@@ -1,29 +1,32 @@
 # Monaco Editor
 
-[![Build Status](https://dev.azure.com/ms/monaco-editor/_apis/build/status/microsoft.monaco-editor?label=website)](https://dev.azure.com/ms/monaco-editor/_build/latest?definitionId=3)
+[![Versions](https://img.shields.io/npm/v/monaco-editor)](https://www.npmjs.com/package/monaco-editor)
+[![Versions](https://img.shields.io/npm/v/monaco-editor/next)](https://www.npmjs.com/package/monaco-editor)
+[![Feature Requests](https://img.shields.io/github/issues/microsoft/monaco-editor/feature-request.svg)](https://github.com/microsoft/monaco-editor/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
+[![Bugs](https://img.shields.io/github/issues/microsoft/monaco-editor/bug.svg)](https://github.com/microsoft/monaco-editor/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
 
-The Monaco Editor is the code editor which powers [VS Code](https://github.com/microsoft/vscode), with the features better described [here](https://code.visualstudio.com/docs/editor/editingevolved).
-
-Please note that this repository contains no source code for the code editor, it only contains the scripts to package everything together and ship the `monaco-editor` npm module.
+The Monaco Editor is the fully featured code editor from [VS Code](https://github.com/microsoft/vscode). Check out the [VS Code docs](https://code.visualstudio.com/docs/editor/editingevolved) to see some of the supported features.
 
 ![image](https://user-images.githubusercontent.com/5047891/94183711-290c0780-fea3-11ea-90e3-c88ff9d21bd6.png)
 
 ## Try it out
 
-Try the editor out [on our website](https://microsoft.github.io/monaco-editor/index.html).
+Try out the editor and see various examples [in our interactive playground](https://microsoft.github.io/monaco-editor/playground.html).
+
+The playground is the best way to learn about how to use the editor, which features is supports, to try out different versions and to create minimal reproducible examples for bug reports.
 
 ## Installing
 
 ```
-$ npm install monaco-editor
+> npm install monaco-editor
 ```
 
 You will get:
 
-- inside `esm`: ESM version of the editor (compatible with e.g. webpack)
-- inside `dev`: AMD bundled, not minified
-- inside `min`: AMD bundled, and minified
-- inside `min-maps`: source maps for `min`
+- inside `/esm`: ESM version of the editor (compatible with e.g. webpack)
+- inside `/dev`: AMD bundled, not minified
+- inside `/min`: AMD bundled, and minified
+- inside `/min-maps`: source maps for `min`
 - `monaco.d.ts`: this specifies the API of the editor (this is what is actually versioned, everything else is considered private and might break with any release).
 
 It is recommended to develop against the `dev` version, and in production to use the `min` version.
@@ -34,14 +37,14 @@ It is recommended to develop against the `dev` version, and in production to use
   - [Integrate the AMD version](./docs/integrate-amd.md).
   - [Integrate the ESM version](./docs/integrate-esm.md)
 - Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
-- Explore the [API docs](https://microsoft.github.io/monaco-editor/api/index.html) or read them straight from [`monaco.d.ts`](https://github.com/microsoft/monaco-editor/blob/main/website/typedoc/monaco.d.ts).
+- Explore the [API docs](https://microsoft.github.io/monaco-editor/docs.html) or read them straight from [`monaco.d.ts`](https://github.com/microsoft/monaco-editor/blob/main/website/typedoc/monaco.d.ts).
 - Read [this guide](https://github.com/microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
 - Create a Monarch tokenizer for a new programming language [in the Monarch playground](https://microsoft.github.io/monaco-editor/monarch.html).
 - Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor)! Search open and closed issues, there are a lot of tips in there!
 
 ## Issues
 
-Create [issues](https://github.com/microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Always mention **the version** of the editor when creating issues and **the browser** you're having trouble in. Please search for existing issues to avoid duplicates.
+Create [issues](https://github.com/microsoft/monaco-editor/issues) in this repository for anything related to the Monaco Editor. Please search for existing issues to avoid duplicates.
 
 ## FAQ
 
@@ -79,13 +82,10 @@ No.
 
 - Please see https://github.com/bolinfest/monaco-tm which puts together `monaco-editor`, `vscode-oniguruma` and `vscode-textmate` to get TM grammar support in the editor.
 
-❓ **What about IE 11 support?**
+## Contributing / Local Development
 
-- The Monaco Editor no longer supports IE 11. The last version that was tested on IE 11 is `0.18.1`.
-
-## Development setup
-
-Please see [CONTRIBUTING](./CONTRIBUTING.md)
+We are welcoming contributions from the community!
+Please see [CONTRIBUTING](./CONTRIBUTING.md) for details how you can contribute effectively, how you can run the editor from sources and how you can debug and fix issues.
 
 ## Code of Conduct
 

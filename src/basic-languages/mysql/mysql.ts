@@ -862,6 +862,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/"/, { token: 'string.double', next: '@stringDouble' }]
 		],
 		string: [
+			[/\\'/, 'string'],
 			[/[^']+/, 'string'],
 			[/''/, 'string'],
 			[/'/, { token: 'string', next: '@pop' }]
