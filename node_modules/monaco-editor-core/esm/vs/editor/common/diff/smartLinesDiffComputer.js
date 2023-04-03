@@ -3,10 +3,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { LcsDiff } from '../../../base/common/diff/diff.js';
-import { LineRange, RangeMapping, LineRangeMapping } from './linesDiffComputer.js';
+import { RangeMapping, LineRangeMapping, LinesDiff } from './linesDiffComputer.js';
 import * as strings from '../../../base/common/strings.js';
 import { Range } from '../core/range.js';
 import { assertFn, checkAdjacentItems } from '../../../base/common/assert.js';
+import { LineRange } from '../core/lineRange.js';
 const MINIMUM_MATCHING_CHARACTER_LENGTH = 3;
 export class SmartLinesDiffComputer {
     computeDiff(originalLines, modifiedLines, options) {
@@ -57,10 +58,7 @@ export class SmartLinesDiffComputer {
                 m1.originalRange.endLineNumberExclusive < m2.originalRange.startLineNumber &&
                 m1.modifiedRange.endLineNumberExclusive < m2.modifiedRange.startLineNumber);
         });
-        return {
-            quitEarly: result.quitEarly,
-            changes,
-        };
+        return new LinesDiff(changes, result.quitEarly);
     }
 }
 function computeDiff(originalSequence, modifiedSequence, continueProcessingPredicate, pretty) {

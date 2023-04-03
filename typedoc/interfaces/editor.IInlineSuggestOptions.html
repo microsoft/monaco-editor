@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">IInlineSuggestOptions</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:4326</li></ul></aside>
+<li>Defined in editor.api.d.ts:4361</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -32,6 +32,7 @@
 <div class="tsd-index-list"><a href="editor.IInlineSuggestOptions.html#enabled" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>enabled?</span></a>
 <a href="editor.IInlineSuggestOptions.html#mode" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>mode?</span></a>
 <a href="editor.IInlineSuggestOptions.html#showToolbar" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>show<wbr/>Toolbar?</span></a>
+<a href="editor.IInlineSuggestOptions.html#suppressSuggestions" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>suppress<wbr/>Suggestions?</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
@@ -41,7 +42,7 @@
 <div class="tsd-comment tsd-typography"><p>Enable or disable the rendering of automatic inline completions.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:4330</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:4365</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="mode" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>mode</span><a href="#mode" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">mode<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">&quot;prefix&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;subword&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;subwordSmart&quot;</span></div>
@@ -52,12 +53,17 @@ Use <code>subwordSmart</code> to only show ghost text if the replace text is a s
 Defaults to <code>prefix</code>.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:4338</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:4373</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="showToolbar" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>show<wbr/>Toolbar</span><a href="#showToolbar" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">show<wbr/>Toolbar<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">&quot;always&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;onHover&quot;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:4339</li></ul></aside></section></section></div>
+<li>Defined in editor.api.d.ts:4374</li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="suppressSuggestions" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>suppress<wbr/>Suggestions</span><a href="#suppressSuggestions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">suppress<wbr/>Suggestions<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in editor.api.d.ts:4375</li></ul></aside></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -93,5 +99,6 @@ Defaults to <code>prefix</code>.</p>
 <ul>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.IInlineSuggestOptions.html#enabled" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>enabled?</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.IInlineSuggestOptions.html#mode" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>mode?</a></li>
-<li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.IInlineSuggestOptions.html#showToolbar" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>show<wbr/>Toolbar?</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.IInlineSuggestOptions.html#showToolbar" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>show<wbr/>Toolbar?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.IInlineSuggestOptions.html#suppressSuggestions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>suppress<wbr/>Suggestions?</a></li></ul></li></ul></nav></div></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

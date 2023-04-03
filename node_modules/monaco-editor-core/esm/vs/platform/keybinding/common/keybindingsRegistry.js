@@ -8,6 +8,9 @@ import { CommandsRegistry } from '../../commands/common/commands.js';
 import { Registry } from '../../registry/common/platform.js';
 import { combinedDisposable, DisposableStore, toDisposable } from '../../../base/common/lifecycle.js';
 import { LinkedList } from '../../../base/common/linkedList.js';
+/**
+ * Stores all built-in and extension-provided keybindings (but not ones that user defines themselves)
+ */
 class KeybindingsRegistryImpl {
     constructor() {
         this._coreKeybindings = new LinkedList();

@@ -14,10 +14,10 @@ export class InternalEditorAction {
     isSupported() {
         return this._contextKeyService.contextMatchesRules(this._precondition);
     }
-    run() {
+    run(args) {
         if (!this.isSupported()) {
             return Promise.resolve(undefined);
         }
-        return this._run();
+        return this._run(args);
     }
 }

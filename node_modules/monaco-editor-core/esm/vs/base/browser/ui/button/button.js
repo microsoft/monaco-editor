@@ -1,9 +1,12 @@
 import { addDisposableListener, EventHelper, EventType, reset, trackFocus } from '../../dom.js';
+import { sanitize } from '../../dompurify/dompurify.js';
 import { StandardKeyboardEvent } from '../../keyboardEvent.js';
-import { EventType as TouchEventType, Gesture } from '../../touch.js';
+import { renderMarkdown, renderStringAsPlaintext } from '../../markdownRenderer.js';
+import { Gesture, EventType as TouchEventType } from '../../touch.js';
 import { renderLabelWithIcons } from '../iconLabel/iconLabels.js';
 import { Color } from '../../../common/color.js';
 import { Emitter } from '../../../common/event.js';
+import { isMarkdownString, markdownStringEqual } from '../../../common/htmlContent.js';
 import { Disposable } from '../../../common/lifecycle.js';
 import './button.css';
 export const unthemedButtonStyles = {
@@ -20,6 +23,7 @@ export class Button extends Disposable {
     get onDidClick() { return this._onDidClick.event; }
     constructor(container, options) {
         super();
+        this._label = '';
         this._onDidClick = this._register(new Emitter());
         this.options = options;
         this._element = document.createElement('a');
@@ -118,20 +122,47 @@ export class Button extends Disposable {
         return this._element;
     }
     set label(value) {
+        var _a;
+        if (this._label === value) {
+            return;
+        }
+        if (isMarkdownString(this._label) && isMarkdownString(value) && markdownStringEqual(this._label, value)) {
+            return;
+        }
         this._element.classList.add('monaco-text-button');
         const labelElement = this.options.supportShortLabel ? this._labelElement : this._element;
-        if (this.options.supportIcons) {
-            reset(labelElement, ...this.getContentElements(value));
+        if (isMarkdownString(value)) {
+            const rendered = renderMarkdown(value, { inline: true });
+            rendered.dispose();
+            // Don't include outer `<p>`
+            const root = (_a = rendered.element.querySelector('p')) === null || _a === void 0 ? void 0 : _a.innerHTML;
+            if (root) {
+                // Only allow a very limited set of inline html tags
+                const sanitized = sanitize(root, { ADD_TAGS: ['b', 'i', 'u', 'code', 'span'], ALLOWED_ATTR: ['class'], RETURN_TRUSTED_TYPE: true });
+                labelElement.innerHTML = sanitized;
+            }
+            else {
+                reset(labelElement);
+            }
         }
         else {
-            labelElement.textContent = value;
+            if (this.options.supportIcons) {
+                reset(labelElement, ...this.getContentElements(value));
+            }
+            else {
+                labelElement.textContent = value;
+            }
         }
         if (typeof this.options.title === 'string') {
             this._element.title = this.options.title;
         }
         else if (this.options.title) {
-            this._element.title = value;
+            this._element.title = renderStringAsPlaintext(value);
         }
+        this._label = value;
+    }
+    get label() {
+        return this._label;
     }
     set enabled(value) {
         if (value) {

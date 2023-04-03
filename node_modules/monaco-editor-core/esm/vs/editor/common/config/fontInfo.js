@@ -19,13 +19,13 @@ export class BareFontInfo {
      * @internal
      */
     static createFromValidatedSettings(options, pixelRatio, ignoreEditorZoom) {
-        const fontFamily = options.get(46 /* EditorOption.fontFamily */);
-        const fontWeight = options.get(50 /* EditorOption.fontWeight */);
-        const fontSize = options.get(49 /* EditorOption.fontSize */);
-        const fontFeatureSettings = options.get(48 /* EditorOption.fontLigatures */);
-        const fontVariationSettings = options.get(51 /* EditorOption.fontVariations */);
-        const lineHeight = options.get(63 /* EditorOption.lineHeight */);
-        const letterSpacing = options.get(60 /* EditorOption.letterSpacing */);
+        const fontFamily = options.get(47 /* EditorOption.fontFamily */);
+        const fontWeight = options.get(51 /* EditorOption.fontWeight */);
+        const fontSize = options.get(50 /* EditorOption.fontSize */);
+        const fontFeatureSettings = options.get(49 /* EditorOption.fontLigatures */);
+        const fontVariationSettings = options.get(52 /* EditorOption.fontVariations */);
+        const lineHeight = options.get(64 /* EditorOption.lineHeight */);
+        const letterSpacing = options.get(61 /* EditorOption.letterSpacing */);
         return BareFontInfo._create(fontFamily, fontWeight, fontSize, fontFeatureSettings, fontVariationSettings, lineHeight, letterSpacing, pixelRatio, ignoreEditorZoom);
     }
     /**

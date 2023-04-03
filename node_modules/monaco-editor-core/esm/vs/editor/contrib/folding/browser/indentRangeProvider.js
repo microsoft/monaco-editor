@@ -22,7 +22,7 @@ export class IndentRangeProvider {
     }
 }
 // public only for testing
-class RangesCollector {
+export class RangesCollector {
     constructor(foldingRangesLimit) {
         this._startIndexes = [];
         this._endIndexes = [];

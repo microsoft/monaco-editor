@@ -2,19 +2,17 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { SequenceDiff, OffsetRange } from './diffAlgorithm.js';
+import { OffsetRange } from '../../core/offsetRange.js';
+import { DiffAlgorithmResult, InfiniteTimeout, SequenceDiff } from './diffAlgorithm.js';
 /**
  * An O(ND) diff algorithm that has a quadratic space worst-case complexity.
 */
 export class MyersDiffAlgorithm {
-    compute(seq1, seq2) {
+    compute(seq1, seq2, timeout = InfiniteTimeout.instance) {
         // These are common special cases.
         // The early return improves performance dramatically.
-        if (seq1.length === 0) {
-            return [new SequenceDiff(new OffsetRange(0, 0), new OffsetRange(0, seq2.length))];
-        }
-        else if (seq2.length === 0) {
-            return [new SequenceDiff(new OffsetRange(0, seq1.length), new OffsetRange(0, 0))];
+        if (seq1.length === 0 || seq2.length === 0) {
+            return DiffAlgorithmResult.trivial(seq1, seq2);
         }
         function getXAfterSnake(x, y) {
             while (x < seq1.length && y < seq2.length && seq1.getElement(x) === seq2.getElement(y)) {
@@ -35,6 +33,9 @@ export class MyersDiffAlgorithm {
         loop: while (true) {
             d++;
             for (k = -d; k <= d; k += 2) {
+                if (!timeout.isValid()) {
+                    return DiffAlgorithmResult.trivialTimedOut(seq1, seq2);
+                }
                 const maxXofDLineTop = k === d ? -1 : V.get(k + 1); // We take a vertical non-diagonal
                 const maxXofDLineLeft = k === -d ? -1 : V.get(k - 1) + 1; // We take a horizontal non-diagonal (+1 x)
                 const x = Math.min(Math.max(maxXofDLineTop, maxXofDLineLeft), seq1.length);
@@ -66,7 +67,7 @@ export class MyersDiffAlgorithm {
             path = path.prev;
         }
         result.reverse();
-        return result;
+        return new DiffAlgorithmResult(result, false);
     }
 }
 class SnakePath {

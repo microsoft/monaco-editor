@@ -2,12 +2,10 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-var _a;
 import { EditorOptions } from './common/config/editorOptions.js';
 import { createMonacoBaseAPI } from './common/services/editorBaseApi.js';
 import { createMonacoEditorAPI } from './standalone/browser/standaloneEditor.js';
 import { createMonacoLanguagesAPI } from './standalone/browser/standaloneLanguages.js';
-import { globals } from '../base/common/platform.js';
 import { FormattingConflicts } from './contrib/format/browser/format.js';
 // Set defaults for standalone editor
 EditorOptions.wrappingIndent.defaultValue = 0 /* WrappingIndent.None */;
@@ -34,11 +32,12 @@ export const Uri = api.Uri;
 export const Token = api.Token;
 export const editor = api.editor;
 export const languages = api.languages;
-if (((_a = globals.MonacoEnvironment) === null || _a === void 0 ? void 0 : _a.globalAPI) || (typeof define === 'function' && define.amd)) {
-    self.monaco = api;
+const monacoEnvironment = globalThis.MonacoEnvironment;
+if ((monacoEnvironment === null || monacoEnvironment === void 0 ? void 0 : monacoEnvironment.globalAPI) || (typeof define === 'function' && define.amd)) {
+    globalThis.monaco = api;
 }
-if (typeof self.require !== 'undefined' && typeof self.require.config === 'function') {
-    self.require.config({
+if (typeof globalThis.require !== 'undefined' && typeof globalThis.require.config === 'function') {
+    globalThis.require.config({
         ignoreDuplicateModules: [
             'vscode-languageserver-types',
             'vscode-languageserver-types/main',

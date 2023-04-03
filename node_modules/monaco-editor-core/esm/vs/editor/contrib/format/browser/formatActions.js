@@ -50,7 +50,7 @@ let FormatOnType = class FormatOnType {
         this._disposables.add(_editor.onDidChangeModel(() => this._update()));
         this._disposables.add(_editor.onDidChangeModelLanguage(() => this._update()));
         this._disposables.add(_editor.onDidChangeConfiguration(e => {
-            if (e.hasChanged(53 /* EditorOption.formatOnType */)) {
+            if (e.hasChanged(54 /* EditorOption.formatOnType */)) {
                 this._update();
             }
         }));
@@ -64,7 +64,7 @@ let FormatOnType = class FormatOnType {
         // clean up
         this._sessionDisposables.clear();
         // we are disabled
-        if (!this._editor.getOption(53 /* EditorOption.formatOnType */)) {
+        if (!this._editor.getOption(54 /* EditorOption.formatOnType */)) {
             return;
         }
         // no model
@@ -158,7 +158,7 @@ let FormatOnPaste = class FormatOnPaste {
         // clean up
         this._callOnModel.clear();
         // we are disabled
-        if (!this.editor.getOption(52 /* EditorOption.formatOnPaste */)) {
+        if (!this.editor.getOption(53 /* EditorOption.formatOnPaste */)) {
             return;
         }
         // no model

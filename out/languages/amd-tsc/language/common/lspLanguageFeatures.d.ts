@@ -103,6 +103,7 @@ export declare class DocumentFormattingEditProvider<T extends ILanguageWorkerWit
 }
 export declare class DocumentRangeFormattingEditProvider<T extends ILanguageWorkerWithFormat> implements languages.DocumentRangeFormattingEditProvider {
     private _worker;
+    readonly canFormatMultipleRanges = false;
     constructor(_worker: WorkerAccessor<T>);
     provideDocumentRangeFormattingEdits(model: editor.IReadOnlyModel, range: Range, options: languages.FormattingOptions, token: CancellationToken): Promise<languages.TextEdit[] | undefined>;
 }

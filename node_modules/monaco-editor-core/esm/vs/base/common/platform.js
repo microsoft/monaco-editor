@@ -17,6 +17,7 @@ let _isCI = false;
 let _isMobile = false;
 let _locale = undefined;
 let _language = LANGUAGE_DEFAULT;
+let _platformLocale = LANGUAGE_DEFAULT;
 let _translationsConfigFile = undefined;
 let _userAgent = undefined;
 /**
@@ -51,6 +52,7 @@ if (typeof navigator === 'object' && !isElectronRenderer) {
     nls.localize({ key: 'ensureLoaderPluginIsLoaded', comment: ['{Locked}'] }, '_'));
     _locale = configuredLocale || LANGUAGE_DEFAULT;
     _language = _locale;
+    _platformLocale = navigator.language;
 }
 // Native environment
 else if (typeof nodeProcess === 'object') {
@@ -68,6 +70,7 @@ else if (typeof nodeProcess === 'object') {
             const nlsConfig = JSON.parse(rawNlsConfig);
             const resolved = nlsConfig.availableLanguages['*'];
             _locale = nlsConfig.locale;
+            _platformLocale = nlsConfig.osLocale;
             // VSCode's default language is 'en'
             _language = resolved ? resolved : LANGUAGE_DEFAULT;
             _translationsConfigFile = nlsConfig._translationsConfigFile;
@@ -101,8 +104,8 @@ export const isIOS = _isIOS;
 export const isMobile = _isMobile;
 export const userAgent = _userAgent;
 /**
- * The language used for the user interface. or the locale specified by --locale
- * The format of the string is all lower case (e.g. zh-tw for Traditional
+ * The language used for the user interface. The format of
+ * the string is all lower case (e.g. zh-tw for Traditional
  * Chinese)
  */
 export const language = _language;

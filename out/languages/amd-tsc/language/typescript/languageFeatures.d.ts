@@ -99,6 +99,7 @@ export declare abstract class FormatHelper extends Adapter {
     protected _convertTextChanges(model: editor.ITextModel, change: ts.TextChange): languages.TextEdit;
 }
 export declare class FormatAdapter extends FormatHelper implements languages.DocumentRangeFormattingEditProvider {
+    readonly canFormatMultipleRanges = false;
     provideDocumentRangeFormattingEdits(model: editor.ITextModel, range: Range, options: languages.FormattingOptions, token: CancellationToken): Promise<languages.TextEdit[] | undefined>;
 }
 export declare class FormatOnTypeAdapter extends FormatHelper implements languages.OnTypeFormattingEditProvider {

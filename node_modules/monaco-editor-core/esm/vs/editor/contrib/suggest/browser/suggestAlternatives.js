@@ -53,7 +53,7 @@ let SuggestAlternatives = class SuggestAlternatives {
     }
     static _moveIndex(fwd, model, index) {
         let newIndex = index;
-        while (true) {
+        for (let rounds = model.items.length; rounds > 0; rounds--) {
             newIndex = (newIndex + model.items.length + (fwd ? +1 : -1)) % model.items.length;
             if (newIndex === index) {
                 break;
