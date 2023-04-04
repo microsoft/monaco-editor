@@ -29,3 +29,19 @@ export class ExtensionIdentifier {
         return id._lower;
     }
 }
+export class ExtensionIdentifierSet {
+    constructor(iterable) {
+        this._set = new Set();
+        if (iterable) {
+            for (const value of iterable) {
+                this.add(value);
+            }
+        }
+    }
+    add(id) {
+        this._set.add(ExtensionIdentifier.toKey(id));
+    }
+    has(id) {
+        return this._set.has(ExtensionIdentifier.toKey(id));
+    }
+}

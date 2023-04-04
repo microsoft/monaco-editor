@@ -6,7 +6,7 @@ import { transformErrorForSerialization } from '../errors.js';
 import { Emitter } from '../event.js';
 import { Disposable } from '../lifecycle.js';
 import { getAllMethodNames } from '../objects.js';
-import { globals, isWeb } from '../platform.js';
+import { isWeb } from '../platform.js';
 import * as strings from '../strings.js';
 const INITIALIZE = '$initialize';
 let webWorkerWarningLogged = false;
@@ -246,13 +246,14 @@ export class SimpleWorkerClient extends Disposable {
         this._protocol.setWorkerId(this._worker.getId());
         // Gather loader configuration
         let loaderConfiguration = null;
-        if (typeof globals.require !== 'undefined' && typeof globals.require.getConfig === 'function') {
+        const globalRequire = globalThis.require;
+        if (typeof globalRequire !== 'undefined' && typeof globalRequire.getConfig === 'function') {
             // Get the configuration from the Monaco AMD Loader
-            loaderConfiguration = globals.require.getConfig();
+            loaderConfiguration = globalRequire.getConfig();
         }
-        else if (typeof globals.requirejs !== 'undefined') {
+        else if (typeof globalThis.requirejs !== 'undefined') {
             // Get the configuration from requirejs
-            loaderConfiguration = globals.requirejs.s.contexts._.config;
+            loaderConfiguration = globalThis.requirejs.s.contexts._.config;
         }
         const hostMethods = getAllMethodNames(host);
         // Send initialize message
@@ -410,15 +411,15 @@ export class SimpleWorkerServer {
             }
             // Since this is in a web worker, enable catching errors
             loaderConfig.catchError = true;
-            globals.require.config(loaderConfig);
+            globalThis.require.config(loaderConfig);
         }
         return new Promise((resolve, reject) => {
             // Use the global require to be sure to get the global config
             // ESM-comment-begin
-            // 			const req = (globals.require || require);
+            // 			const req = (globalThis.require || require);
             // ESM-comment-end
             // ESM-uncomment-begin
-            const req = globals.require;
+            const req = globalThis.require;
             // ESM-uncomment-end
             req([moduleId], (module) => {
                 this._requestHandler = module.create(hostProxy);

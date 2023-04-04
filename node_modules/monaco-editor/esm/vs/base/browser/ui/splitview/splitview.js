@@ -772,10 +772,12 @@ export class SplitView extends Disposable {
         return undefined;
     }
     dispose() {
-        super.dispose();
+        var _a;
+        (_a = this.sashDragState) === null || _a === void 0 ? void 0 : _a.disposable.dispose();
         dispose(this.viewItems);
         this.viewItems = [];
         this.sashItems.forEach(i => i.disposable.dispose());
         this.sashItems = [];
+        super.dispose();
     }
 }

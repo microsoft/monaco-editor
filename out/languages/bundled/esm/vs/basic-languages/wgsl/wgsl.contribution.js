@@ -1,0 +1,2 @@
+/*! For license information please see wgsl.contribution.js.LICENSE.txt */
+import{registerLanguage}from"../_.contribution";registerLanguage({id:"wgsl",extensions:[".wgsl"],aliases:["WebGPU Shading Language","WGSL","wgsl"],loader:()=>import("./wgsl")});

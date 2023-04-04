@@ -2,6 +2,19 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+export var ObjectTreeElementCollapseState;
+(function (ObjectTreeElementCollapseState) {
+    ObjectTreeElementCollapseState[ObjectTreeElementCollapseState["Expanded"] = 0] = "Expanded";
+    ObjectTreeElementCollapseState[ObjectTreeElementCollapseState["Collapsed"] = 1] = "Collapsed";
+    /**
+     * If the element is already in the tree, preserve its current state. Else, expand it.
+     */
+    ObjectTreeElementCollapseState[ObjectTreeElementCollapseState["PreserveOrExpanded"] = 2] = "PreserveOrExpanded";
+    /**
+     * If the element is already in the tree, preserve its current state. Else, collapse it.
+     */
+    ObjectTreeElementCollapseState[ObjectTreeElementCollapseState["PreserveOrCollapsed"] = 3] = "PreserveOrCollapsed";
+})(ObjectTreeElementCollapseState || (ObjectTreeElementCollapseState = {}));
 export var TreeMouseEventTarget;
 (function (TreeMouseEventTarget) {
     TreeMouseEventTarget[TreeMouseEventTarget["Unknown"] = 0] = "Unknown";

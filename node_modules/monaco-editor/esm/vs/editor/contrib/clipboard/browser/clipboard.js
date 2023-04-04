@@ -20,6 +20,7 @@ import { EditorContextKeys } from '../../../common/editorContextKeys.js';
 import * as nls from '../../../../nls.js';
 import { MenuId, MenuRegistry } from '../../../../platform/actions/common/actions.js';
 import { IClipboardService } from '../../../../platform/clipboard/common/clipboardService.js';
+import { ContextKeyExpr } from '../../../../platform/contextkey/common/contextkey.js';
 const CLIPBOARD_CONTEXT_MENU_GROUP = '9_cutcopypaste';
 const supportsCut = (platform.isNative || document.queryCommandSupported('cut'));
 const supportsCopy = (platform.isNative || document.queryCommandSupported('copy'));
@@ -101,7 +102,9 @@ export const CopyAction = supportsCopy ? registerCommand(new MultiCommand({
 })) : undefined;
 MenuRegistry.appendMenuItem(MenuId.MenubarEditMenu, { submenu: MenuId.MenubarCopy, title: { value: nls.localize('copy as', "Copy As"), original: 'Copy As', }, group: '2_ccp', order: 3 });
 MenuRegistry.appendMenuItem(MenuId.EditorContext, { submenu: MenuId.EditorContextCopy, title: { value: nls.localize('copy as', "Copy As"), original: 'Copy As', }, group: CLIPBOARD_CONTEXT_MENU_GROUP, order: 3 });
-MenuRegistry.appendMenuItem(MenuId.EditorContext, { submenu: MenuId.EditorContextShare, title: { value: nls.localize('share', "Share"), original: 'Share', }, group: '11_share', order: -1 });
+MenuRegistry.appendMenuItem(MenuId.EditorContext, { submenu: MenuId.EditorContextShare, title: { value: nls.localize('share', "Share"), original: 'Share', }, group: '11_share', order: -1, when: ContextKeyExpr.and(ContextKeyExpr.notEquals('resourceScheme', 'output'), EditorContextKeys.editorTextFocus) });
+MenuRegistry.appendMenuItem(MenuId.EditorTitleContext, { submenu: MenuId.EditorTitleContextShare, title: { value: nls.localize('share', "Share"), original: 'Share', }, group: '11_share', order: -1 });
+MenuRegistry.appendMenuItem(MenuId.ExplorerContext, { submenu: MenuId.ExplorerContextShare, title: { value: nls.localize('share', "Share"), original: 'Share', }, group: '11_share', order: -1 });
 export const PasteAction = supportsPaste ? registerCommand(new MultiCommand({
     id: 'editor.action.clipboardPasteAction',
     precondition: undefined,
@@ -156,7 +159,7 @@ class ExecCommandCopyWithSyntaxHighlightingAction extends EditorAction {
         if (!editor.hasModel()) {
             return;
         }
-        const emptySelectionClipboard = editor.getOption(34 /* EditorOption.emptySelectionClipboard */);
+        const emptySelectionClipboard = editor.getOption(35 /* EditorOption.emptySelectionClipboard */);
         if (!emptySelectionClipboard && editor.getSelection().isEmpty()) {
             return;
         }
@@ -176,7 +179,7 @@ function registerExecCommandImpl(target, browserCommand) {
         const focusedEditor = accessor.get(ICodeEditorService).getFocusedCodeEditor();
         if (focusedEditor && focusedEditor.hasTextFocus()) {
             // Do not execute if there is no selection and empty selection clipboard is off
-            const emptySelectionClipboard = focusedEditor.getOption(34 /* EditorOption.emptySelectionClipboard */);
+            const emptySelectionClipboard = focusedEditor.getOption(35 /* EditorOption.emptySelectionClipboard */);
             const selection = focusedEditor.getSelection();
             if (selection && selection.isEmpty() && !emptySelectionClipboard) {
                 return true;
@@ -213,7 +216,7 @@ if (PasteAction) {
                         let multicursorText = null;
                         let mode = null;
                         if (metadata) {
-                            pasteOnNewLine = (focusedEditor.getOption(34 /* EditorOption.emptySelectionClipboard */) && !!metadata.isFromEmptySelection);
+                            pasteOnNewLine = (focusedEditor.getOption(35 /* EditorOption.emptySelectionClipboard */) && !!metadata.isFromEmptySelection);
                             multicursorText = (typeof metadata.multicursorText !== 'undefined' ? metadata.multicursorText : null);
                             mode = metadata.mode;
                         }

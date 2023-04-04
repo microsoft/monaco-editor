@@ -4,18 +4,27 @@
  *--------------------------------------------------------------------------------------------*/
 import { illegalArgument } from './errors.js';
 export function decodeKeybinding(keybinding, OS) {
-    if (keybinding === 0) {
-        return null;
+    if (typeof keybinding === 'number') {
+        if (keybinding === 0) {
+            return null;
+        }
+        const firstChord = (keybinding & 0x0000FFFF) >>> 0;
+        const secondChord = (keybinding & 0xFFFF0000) >>> 16;
+        if (secondChord !== 0) {
+            return new Keybinding([
+                createSimpleKeybinding(firstChord, OS),
+                createSimpleKeybinding(secondChord, OS)
+            ]);
+        }
+        return new Keybinding([createSimpleKeybinding(firstChord, OS)]);
     }
-    const firstChord = (keybinding & 0x0000FFFF) >>> 0;
-    const secondChord = (keybinding & 0xFFFF0000) >>> 16;
-    if (secondChord !== 0) {
-        return new Keybinding([
-            createSimpleKeybinding(firstChord, OS),
-            createSimpleKeybinding(secondChord, OS)
-        ]);
+    else {
+        const chords = [];
+        for (let i = 0; i < keybinding.length; i++) {
+            chords.push(createSimpleKeybinding(keybinding[i], OS));
+        }
+        return new Keybinding(chords);
     }
-    return new Keybinding([createSimpleKeybinding(firstChord, OS)]);
 }
 export function createSimpleKeybinding(keybinding, OS) {
     const ctrlCmd = (keybinding & 2048 /* BinaryKeybindingsMask.CtrlCmd */ ? true : false);

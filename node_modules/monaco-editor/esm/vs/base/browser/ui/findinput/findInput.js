@@ -120,7 +120,7 @@ export class FindInput extends Widget {
         }
         this.controls = document.createElement('div');
         this.controls.className = 'controls';
-        this.controls.style.display = this.showCommonFindToggles ? 'block' : 'none';
+        this.controls.style.display = this.showCommonFindToggles ? '' : 'none';
         if (this.caseSensitive) {
             this.controls.append(this.caseSensitive.domNode);
         }
@@ -149,6 +149,10 @@ export class FindInput extends Widget {
     }
     get onDidChange() {
         return this.inputBox.onDidChange;
+    }
+    layout(style) {
+        this.inputBox.layout();
+        this.updateInputBoxPadding(style.collapsedFindWidget);
     }
     enable() {
         var _a, _b, _c;
@@ -184,7 +188,6 @@ export class FindInput extends Widget {
         }
     }
     setAdditionalToggles(toggles) {
-        var _a, _b, _c, _d, _e, _f;
         for (const currentToggle of this.additionalToggles) {
             currentToggle.domNode.remove();
         }
@@ -203,11 +206,20 @@ export class FindInput extends Widget {
             this.additionalToggles.push(toggle);
         }
         if (this.additionalToggles.length > 0) {
-            this.controls.style.display = 'block';
+            this.controls.style.display = '';
         }
-        this.inputBox.paddingRight =
-            (((_b = (_a = this.caseSensitive) === null || _a === void 0 ? void 0 : _a.width()) !== null && _b !== void 0 ? _b : 0) + ((_d = (_c = this.wholeWords) === null || _c === void 0 ? void 0 : _c.width()) !== null && _d !== void 0 ? _d : 0) + ((_f = (_e = this.regex) === null || _e === void 0 ? void 0 : _e.width()) !== null && _f !== void 0 ? _f : 0))
-                + this.additionalToggles.reduce((r, t) => r + t.width(), 0);
+        this.updateInputBoxPadding();
+    }
+    updateInputBoxPadding(controlsHidden = false) {
+        var _a, _b, _c, _d, _e, _f;
+        if (controlsHidden) {
+            this.inputBox.paddingRight = 0;
+        }
+        else {
+            this.inputBox.paddingRight =
+                (((_b = (_a = this.caseSensitive) === null || _a === void 0 ? void 0 : _a.width()) !== null && _b !== void 0 ? _b : 0) + ((_d = (_c = this.wholeWords) === null || _c === void 0 ? void 0 : _c.width()) !== null && _d !== void 0 ? _d : 0) + ((_f = (_e = this.regex) === null || _e === void 0 ? void 0 : _e.width()) !== null && _f !== void 0 ? _f : 0))
+                    + this.additionalToggles.reduce((r, t) => r + t.width(), 0);
+        }
     }
     getValue() {
         return this.inputBox.value;

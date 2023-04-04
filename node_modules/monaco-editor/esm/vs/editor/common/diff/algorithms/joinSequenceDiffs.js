@@ -2,7 +2,8 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { OffsetRange, SequenceDiff } from './diffAlgorithm.js';
+import { OffsetRange } from '../../core/offsetRange.js';
+import { SequenceDiff } from './diffAlgorithm.js';
 export function optimizeSequenceDiffs(sequence1, sequence2, sequenceDiffs) {
     let result = sequenceDiffs;
     result = joinSequenceDiffs(sequence1, sequence2, result);

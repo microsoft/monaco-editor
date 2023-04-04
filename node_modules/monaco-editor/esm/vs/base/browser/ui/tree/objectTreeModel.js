@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { IndexTreeModel } from './indexTreeModel.js';
-import { TreeError } from './tree.js';
+import { ObjectTreeElementCollapseState, TreeError } from './tree.js';
 import { Iterable } from '../../../common/iterator.js';
 export class ObjectTreeModel {
     constructor(user, list, options = {}) {
@@ -76,10 +76,35 @@ export class ObjectTreeModel {
                 node = this.nodesByIdentity.get(id);
             }
             if (!node) {
-                return Object.assign(Object.assign({}, treeElement), { children: this.preserveCollapseState(treeElement.children) });
+                let collapsed;
+                if (typeof treeElement.collapsed === 'undefined') {
+                    collapsed = undefined;
+                }
+                else if (treeElement.collapsed === ObjectTreeElementCollapseState.Collapsed || treeElement.collapsed === ObjectTreeElementCollapseState.PreserveOrCollapsed) {
+                    collapsed = true;
+                }
+                else if (treeElement.collapsed === ObjectTreeElementCollapseState.Expanded || treeElement.collapsed === ObjectTreeElementCollapseState.PreserveOrExpanded) {
+                    collapsed = false;
+                }
+                else {
+                    collapsed = Boolean(treeElement.collapsed);
+                }
+                return Object.assign(Object.assign({}, treeElement), { children: this.preserveCollapseState(treeElement.children), collapsed });
             }
             const collapsible = typeof treeElement.collapsible === 'boolean' ? treeElement.collapsible : node.collapsible;
-            const collapsed = typeof treeElement.collapsed !== 'undefined' ? treeElement.collapsed : node.collapsed;
+            let collapsed;
+            if (typeof treeElement.collapsed === 'undefined' || treeElement.collapsed === ObjectTreeElementCollapseState.PreserveOrCollapsed || treeElement.collapsed === ObjectTreeElementCollapseState.PreserveOrExpanded) {
+                collapsed = node.collapsed;
+            }
+            else if (treeElement.collapsed === ObjectTreeElementCollapseState.Collapsed) {
+                collapsed = true;
+            }
+            else if (treeElement.collapsed === ObjectTreeElementCollapseState.Expanded) {
+                collapsed = false;
+            }
+            else {
+                collapsed = Boolean(treeElement.collapsed);
+            }
             return Object.assign(Object.assign({}, treeElement), { collapsible,
                 collapsed, children: this.preserveCollapseState(treeElement.children) });
         });

@@ -4,84 +4,46 @@
  *--------------------------------------------------------------------------------------------*/
 import { ArrayQueue } from '../../../../../base/common/arrays.js';
 import { TextEditInfo } from './beforeEditPositionMapper.js';
-import { lengthAdd, lengthDiffNonNegative, lengthEquals, lengthIsZero, lengthLessThanEqual, lengthZero, sumLengths } from './length.js';
+import { lengthAdd, lengthDiffNonNegative, lengthEquals, lengthIsZero, lengthToObj, lengthZero, sumLengths } from './length.js';
 export function combineTextEditInfos(textEditInfoFirst, textEditInfoSecond) {
     if (textEditInfoFirst.length === 0) {
         return textEditInfoSecond;
     }
+    if (textEditInfoSecond.length === 0) {
+        return textEditInfoFirst;
+    }
     // s0: State before any edits
-    const firstMap = new ArrayQueue(toTextMap(textEditInfoFirst));
+    const s0ToS1Map = new ArrayQueue(toLengthMapping(textEditInfoFirst));
     // s1: State after first edit, but before second edit
-    const secondMap = toTextMap(textEditInfoSecond);
+    const s1ToS2Map = toLengthMapping(textEditInfoSecond);
+    s1ToS2Map.push({ modified: false, lengthBefore: undefined, lengthAfter: undefined }); // Copy everything from old to new
     // s2: State after both edits
-    // If set, we are in an edit
-    let remainingS0Length = undefined;
-    let remainingS1Length = lengthZero;
+    let curItem = s0ToS1Map.dequeue();
     /**
      * @param s1Length Use undefined for length "infinity"
      */
-    function readPartialS0Map(s1Length) {
+    function nextS0ToS1MapWithS1LengthOf(s1Length) {
+        if (s1Length === undefined) {
+            const arr = s0ToS1Map.takeWhile(v => true) || [];
+            if (curItem) {
+                arr.unshift(curItem);
+            }
+            return arr;
+        }
         const result = [];
-        while (true) {
-            if ((remainingS0Length !== undefined && !lengthIsZero(remainingS0Length)) || !lengthIsZero(remainingS1Length)) {
-                let readS1Length;
-                if (s1Length !== undefined && lengthLessThanEqual(s1Length, remainingS1Length)) {
-                    // remaining satisfies request
-                    readS1Length = s1Length;
-                    remainingS1Length = lengthDiffNonNegative(s1Length, remainingS1Length);
-                    s1Length = lengthZero;
-                }
-                else {
-                    // Read all of remaining, potentially even more
-                    readS1Length = remainingS1Length;
-                    if (s1Length !== undefined) {
-                        s1Length = lengthDiffNonNegative(remainingS1Length, s1Length);
-                    }
-                    remainingS1Length = lengthZero;
-                }
-                if (remainingS0Length === undefined) {
-                    // unchanged area
-                    result.push({
-                        oldLength: readS1Length,
-                        newLength: undefined
-                    });
-                }
-                else {
-                    // We eagerly consume all of the old length, even if
-                    // we are in an edit and only consume it partially.
-                    result.push({
-                        oldLength: remainingS0Length,
-                        newLength: readS1Length
-                    });
-                    remainingS0Length = lengthZero;
-                }
-            }
-            if (s1Length !== undefined && lengthIsZero(s1Length)) {
-                break;
-            }
-            const item = firstMap.dequeue();
-            if (!item) {
-                if (s1Length !== undefined) {
-                    result.push({
-                        oldLength: s1Length,
-                        newLength: undefined,
-                    });
-                }
-                break;
-            }
-            if (item.newLength === undefined) {
-                remainingS1Length = item.oldLength;
-                remainingS0Length = undefined;
-            }
-            else {
-                remainingS0Length = item.oldLength;
-                remainingS1Length = item.newLength;
-            }
+        while (curItem && !lengthIsZero(s1Length)) {
+            const [item, remainingItem] = curItem.splitAt(s1Length);
+            result.push(item);
+            s1Length = lengthDiffNonNegative(item.lengthAfter, s1Length);
+            curItem = remainingItem !== null && remainingItem !== void 0 ? remainingItem : s0ToS1Map.dequeue();
+        }
+        if (!lengthIsZero(s1Length)) {
+            result.push(new LengthMapping(false, s1Length, s1Length));
         }
         return result;
     }
     const result = [];
-    function push(startOffset, endOffset, newLength) {
+    function pushEdit(startOffset, endOffset, newLength) {
         if (result.length > 0 && lengthEquals(result[result.length - 1].endOffset, startOffset)) {
             const lastResult = result[result.length - 1];
             result[result.length - 1] = new TextEditInfo(lastResult.startOffset, endOffset, lengthAdd(lastResult.newLength, newLength));
@@ -91,46 +53,68 @@ export function combineTextEditInfos(textEditInfoFirst, textEditInfoSecond) {
         }
     }
     let s0offset = lengthZero;
-    for (const s2 of secondMap) {
-        const s0ToS1Map = readPartialS0Map(s2.oldLength);
-        if (s2.newLength !== undefined) {
-            // This is an edit
-            const s0Length = sumLengths(s0ToS1Map, s => s.oldLength);
+    for (const s1ToS2 of s1ToS2Map) {
+        const s0ToS1Map = nextS0ToS1MapWithS1LengthOf(s1ToS2.lengthBefore);
+        if (s1ToS2.modified) {
+            const s0Length = sumLengths(s0ToS1Map, s => s.lengthBefore);
             const s0EndOffset = lengthAdd(s0offset, s0Length);
-            push(s0offset, s0EndOffset, s2.newLength);
+            pushEdit(s0offset, s0EndOffset, s1ToS2.lengthAfter);
             s0offset = s0EndOffset;
         }
         else {
-            // We are in an unchanged area
             for (const s1 of s0ToS1Map) {
                 const s0startOffset = s0offset;
-                s0offset = lengthAdd(s0offset, s1.oldLength);
-                if (s1.newLength !== undefined) {
-                    push(s0startOffset, s0offset, s1.newLength);
+                s0offset = lengthAdd(s0offset, s1.lengthBefore);
+                if (s1.modified) {
+                    pushEdit(s0startOffset, s0offset, s1.lengthAfter);
                 }
             }
         }
     }
-    const s0ToS1Map = readPartialS0Map(undefined);
-    for (const s1 of s0ToS1Map) {
-        const s0startOffset = s0offset;
-        s0offset = lengthAdd(s0offset, s1.oldLength);
-        if (s1.newLength !== undefined) {
-            push(s0startOffset, s0offset, s1.newLength);
-        }
-    }
     return result;
 }
-function toTextMap(textEditInfos) {
+class LengthMapping {
+    constructor(
+    /**
+     * If false, length before and length after equal.
+     */
+    modified, lengthBefore, lengthAfter) {
+        this.modified = modified;
+        this.lengthBefore = lengthBefore;
+        this.lengthAfter = lengthAfter;
+    }
+    splitAt(lengthAfter) {
+        const remainingLengthAfter = lengthDiffNonNegative(lengthAfter, this.lengthAfter);
+        if (lengthEquals(remainingLengthAfter, lengthZero)) {
+            return [this, undefined];
+        }
+        else if (this.modified) {
+            return [
+                new LengthMapping(this.modified, this.lengthBefore, lengthAfter),
+                new LengthMapping(this.modified, lengthZero, remainingLengthAfter)
+            ];
+        }
+        else {
+            return [
+                new LengthMapping(this.modified, lengthAfter, lengthAfter),
+                new LengthMapping(this.modified, remainingLengthAfter, remainingLengthAfter)
+            ];
+        }
+    }
+    toString() {
+        return `${this.modified ? 'M' : 'U'}:${lengthToObj(this.lengthBefore)} -> ${lengthToObj(this.lengthAfter)}`;
+    }
+}
+function toLengthMapping(textEditInfos) {
     const result = [];
     let lastOffset = lengthZero;
     for (const textEditInfo of textEditInfos) {
         const spaceLength = lengthDiffNonNegative(lastOffset, textEditInfo.startOffset);
         if (!lengthIsZero(spaceLength)) {
-            result.push({ oldLength: spaceLength });
+            result.push(new LengthMapping(false, spaceLength, spaceLength));
         }
-        const oldLength = lengthDiffNonNegative(textEditInfo.startOffset, textEditInfo.endOffset);
-        result.push({ oldLength, newLength: textEditInfo.newLength });
+        const lengthBefore = lengthDiffNonNegative(textEditInfo.startOffset, textEditInfo.endOffset);
+        result.push(new LengthMapping(true, lengthBefore, textEditInfo.newLength));
         lastOffset = textEditInfo.endOffset;
     }
     return result;

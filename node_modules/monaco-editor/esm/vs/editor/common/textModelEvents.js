@@ -162,13 +162,15 @@ export class InternalModelContentChangeEvent {
         const isUndoing = (a.isUndoing || b.isUndoing);
         const isRedoing = (a.isRedoing || b.isRedoing);
         const isFlush = (a.isFlush || b.isFlush);
+        const isEolChange = a.isEolChange && b.isEolChange; // both must be true to not confuse listeners who skip such edits
         return {
             changes: changes,
             eol: eol,
+            isEolChange: isEolChange,
             versionId: versionId,
             isUndoing: isUndoing,
             isRedoing: isRedoing,
-            isFlush: isFlush
+            isFlush: isFlush,
         };
     }
 }

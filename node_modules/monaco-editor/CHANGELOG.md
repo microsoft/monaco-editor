@@ -1,5 +1,24 @@
 # Monaco Editor Changelog
 
+## [0.37.0]
+
+- New `registerLinkOpener` API
+- New `onLanguageEncountered` event for when a language is encountered during tokenization.
+- Updated TypeScript to 5.0
+- New required field `canFormatMultipleRanges` on `DocumentRangeFormattingEditProvider`
+- Bugfixes
+
+Contributions to `monaco-editor`:
+
+- [@danboo (Dan Boorstein)](https://github.com/danboo): add perl module (.pm) extension [PR #3258](https://github.com/microsoft/monaco-editor/pull/3258)
+- [@miloush (Jan Kučera)](https://github.com/miloush): Include .xsd and .xslt as an XML extension [PR #3866](https://github.com/microsoft/monaco-editor/pull/3866)
+- [@nnnnoel (Noel Kim (김민혁))](https://github.com/nnnnoel): Add CommonJS, ESM extension for TS [PR #3264](https://github.com/microsoft/monaco-editor/pull/3264)
+- [@PmcFizz (Fizz)](https://github.com/PmcFizz): opt example [PR #3726](https://github.com/microsoft/monaco-editor/pull/3726)
+- [@tamayika](https://github.com/tamayika)
+  - Fix playground samples type errors and add CI test [PR #3722](https://github.com/microsoft/monaco-editor/pull/3722)
+  - Add custom keybinding example [PR #3848](https://github.com/microsoft/monaco-editor/pull/3848)
+- [@yuri1969 (yuri)](https://github.com/yuri1969): Various YAML improvements [PR #3864](https://github.com/microsoft/monaco-editor/pull/3864)
+
 ## [0.36.1]
 
 - Marks unneeded dependencies as dev dependencies.

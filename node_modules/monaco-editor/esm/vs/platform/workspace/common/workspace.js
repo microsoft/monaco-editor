@@ -126,3 +126,7 @@ export class WorkspaceFolder {
 }
 export const WORKSPACE_EXTENSION = 'code-workspace';
 export const WORKSPACE_FILTER = [{ name: localize('codeWorkspace', "Code Workspace"), extensions: [WORKSPACE_EXTENSION] }];
+export const STANDALONE_EDITOR_WORKSPACE_ID = '4064f6ec-cb38-4ad0-af64-ee6467e63c82';
+export function isStandaloneEditorWorkspace(workspace) {
+    return workspace.id === STANDALONE_EDITOR_WORKSPACE_ID;
+}

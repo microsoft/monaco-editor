@@ -23,8 +23,8 @@ import { IAccessibilityService } from '../../../platform/accessibility/common/ac
 import { ILanguageConfigurationService } from '../../common/languages/languageConfigurationRegistry.js';
 import { ILanguageFeaturesService } from '../../common/services/languageFeatures.js';
 let EmbeddedCodeEditorWidget = class EmbeddedCodeEditorWidget extends CodeEditorWidget {
-    constructor(domElement, options, parentEditor, instantiationService, codeEditorService, commandService, contextKeyService, themeService, notificationService, accessibilityService, languageConfigurationService, languageFeaturesService) {
-        super(domElement, Object.assign(Object.assign({}, parentEditor.getRawOptions()), { overflowWidgetsDomNode: parentEditor.getOverflowWidgetsDomNode() }), {}, instantiationService, codeEditorService, commandService, contextKeyService, themeService, notificationService, accessibilityService, languageConfigurationService, languageFeaturesService);
+    constructor(domElement, options, codeEditorWidgetOptions, parentEditor, instantiationService, codeEditorService, commandService, contextKeyService, themeService, notificationService, accessibilityService, languageConfigurationService, languageFeaturesService) {
+        super(domElement, Object.assign(Object.assign({}, parentEditor.getRawOptions()), { overflowWidgetsDomNode: parentEditor.getOverflowWidgetsDomNode() }), codeEditorWidgetOptions, instantiationService, codeEditorService, commandService, contextKeyService, themeService, notificationService, accessibilityService, languageConfigurationService, languageFeaturesService);
         this._parentEditor = parentEditor;
         this._overwriteOptions = options;
         // Overwrite parent's options
@@ -44,14 +44,14 @@ let EmbeddedCodeEditorWidget = class EmbeddedCodeEditorWidget extends CodeEditor
     }
 };
 EmbeddedCodeEditorWidget = __decorate([
-    __param(3, IInstantiationService),
-    __param(4, ICodeEditorService),
-    __param(5, ICommandService),
-    __param(6, IContextKeyService),
-    __param(7, IThemeService),
-    __param(8, INotificationService),
-    __param(9, IAccessibilityService),
-    __param(10, ILanguageConfigurationService),
-    __param(11, ILanguageFeaturesService)
+    __param(4, IInstantiationService),
+    __param(5, ICodeEditorService),
+    __param(6, ICommandService),
+    __param(7, IContextKeyService),
+    __param(8, IThemeService),
+    __param(9, INotificationService),
+    __param(10, IAccessibilityService),
+    __param(11, ILanguageConfigurationService),
+    __param(12, ILanguageFeaturesService)
 ], EmbeddedCodeEditorWidget);
 export { EmbeddedCodeEditorWidget };

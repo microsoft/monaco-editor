@@ -32,7 +32,7 @@ export class StandardMouseEvent {
             this.posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
         }
         // Find the position of the iframe this code is executing in relative to the iframe where the event was captured.
-        const iframeOffsets = IframeUtils.getPositionOfChildWindowRelativeToAncestorWindow(self, e.view);
+        const iframeOffsets = IframeUtils.getPositionOfChildWindowRelativeToAncestorWindow(window, e.view);
         this.posx -= iframeOffsets.left;
         this.posy -= iframeOffsets.top;
     }

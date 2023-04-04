@@ -127,4 +127,5 @@ ViewportSemanticTokensContribution = __decorate([
     __param(4, ILanguageFeatureDebounceService),
     __param(5, ILanguageFeaturesService)
 ], ViewportSemanticTokensContribution);
+export { ViewportSemanticTokensContribution };
 registerEditorContribution(ViewportSemanticTokensContribution.ID, ViewportSemanticTokensContribution, 1 /* EditorContributionInstantiation.AfterFirstRender */);
