@@ -21,12 +21,24 @@ export interface IMonacoSetup {
 	monacoTypesUrl: string | undefined;
 }
 
-let loadMonacoPromise: Promise<typeof monaco> | undefined;
+let loading = false;
+let resolve: (value: typeof monaco) => void;
+let reject: (error: unknown) => void;
+let loadMonacoPromise = new Promise<typeof monaco>((res, rej) => {
+	resolve = res;
+	reject = rej;
+});
+
+export async function waitForLoadedMonaco(): Promise<typeof monaco> {
+	return loadMonacoPromise;
+}
+
 export async function loadMonaco(
 	setup: IMonacoSetup = prodMonacoSetup
 ): Promise<typeof monaco> {
-	if (!loadMonacoPromise) {
-		loadMonacoPromise = _loadMonaco(setup);
+	if (!loading) {
+		loading = true;
+		_loadMonaco(setup).then(resolve, reject);
 	}
 	return loadMonacoPromise;
 }

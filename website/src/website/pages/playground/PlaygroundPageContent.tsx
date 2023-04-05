@@ -37,77 +37,87 @@ export class PlaygroundPageContent extends React.Component<
 						className="h-100 g-2"
 						style={{ flexWrap: "wrap-reverse" }}
 					>
-						<Col
-							md
-							className={
-								model.settings.previewFullScreen ? "d-none" : ""
-							}
-						>
-							<Vertical>
-								<div style={{ flex: 1 }}>
-									<LabeledEditor
-										label="JavaScript"
-										titleBarItems={
-											<div
-												className="hstack"
-												style={{ marginLeft: "auto" }}
-											>
-												<span
-													style={{ marginRight: 8 }}
+						{model.wasEverNonFullScreen && (
+							<Col
+								md
+								className={
+									model.settings.previewFullScreen
+										? "d-none"
+										: ""
+								}
+							>
+								<Vertical>
+									<div style={{ flex: 1 }}>
+										<LabeledEditor
+											label="JavaScript"
+											titleBarItems={
+												<div
+													className="hstack"
+													style={{
+														marginLeft: "auto",
+													}}
 												>
-													Example:
-												</span>
-												<Select<PlaygroundExample>
-													values={getPlaygroundExamples().map(
-														(e) => ({
-															groupTitle:
-																e.chapterTitle,
-															items: e.examples,
-														})
-													)}
-													value={ref(
-														model,
-														"selectedExample"
-													)}
-													getLabel={(i) => i.title}
-												/>
-											</div>
-										}
-									>
-										<Editor
-											language={"javascript"}
-											value={ref(model, "js")}
-										/>
-									</LabeledEditor>
-								</div>
+													<span
+														style={{
+															marginRight: 8,
+														}}
+													>
+														Example:
+													</span>
+													<Select<PlaygroundExample>
+														values={getPlaygroundExamples().map(
+															(e) => ({
+																groupTitle:
+																	e.chapterTitle,
+																items: e.examples,
+															})
+														)}
+														value={ref(
+															model,
+															"selectedExample"
+														)}
+														getLabel={(i) =>
+															i.title
+														}
+													/>
+												</div>
+											}
+										>
+											<Editor
+												language={"javascript"}
+												value={ref(model, "js")}
+											/>
+										</LabeledEditor>
+									</div>
 
-								<div>
-									<LabeledEditor label="HTML">
-										<Editor
-											height={{
-												kind: "dynamic",
-												maxHeight: 200,
-											}}
-											language={"html"}
-											value={ref(model, "html")}
-										/>
-									</LabeledEditor>
-								</div>
+									<div>
+										<LabeledEditor label="HTML">
+											<Editor
+												height={{
+													kind: "dynamic",
+													maxHeight: 200,
+												}}
+												language={"html"}
+												value={ref(model, "html")}
+											/>
+										</LabeledEditor>
+									</div>
 
-								<div>
-									<LabeledEditor label="CSS">
-										<Editor
-											height={{
-												kind: "dynamic",
-												maxHeight: 200,
-											}}
-											language={"css"}
-											value={ref(model, "css")}
-										/>
-									</LabeledEditor>
-								</div>
-							</Vertical>
-						</Col>
+									<div>
+										<LabeledEditor label="CSS">
+											<Editor
+												height={{
+													kind: "dynamic",
+													maxHeight: 200,
+												}}
+												language={"css"}
+												value={ref(model, "css")}
+											/>
+										</LabeledEditor>
+									</div>
+								</Vertical>
+							</Col>
+						)}
 						<Col md>
 							<LabeledEditor
 								label="Preview"
