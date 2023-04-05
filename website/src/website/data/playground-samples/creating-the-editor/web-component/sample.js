@@ -11,10 +11,12 @@ customElements.define(
 			const shadowRoot = this.attachShadow({ mode: "open" });
 
 			// Copy over editor styles
-			const style = document.querySelector(
-				"link[rel='stylesheet'][data-name='vs/editor/editor.main']"
+			const styles = document.querySelectorAll(
+				"link[rel='stylesheet'][data-name^='vs/']"
 			);
-			shadowRoot.appendChild(style.cloneNode(true));
+			for (const style of styles) {
+				shadowRoot.appendChild(style.cloneNode(true));
+			}
 
 			const template = /** @type HTMLTemplateElement */ (
 				document.getElementById("editor-template")

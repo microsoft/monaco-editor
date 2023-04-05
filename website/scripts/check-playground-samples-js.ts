@@ -14,6 +14,8 @@ import { exit } from "process";
 					"yarn",
 					[
 						"tsc",
+						"--target",
+						"es6",
 						"--noEmit",
 						"--allowJs",
 						"--checkJs",
