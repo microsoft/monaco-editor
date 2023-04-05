@@ -12,7 +12,11 @@ import {
 	reaction,
 	runInAction,
 } from "mobx";
-import { IMonacoSetup, loadMonaco } from "../../../monaco-loader";
+import {
+	IMonacoSetup,
+	loadMonaco,
+	waitForLoadedMonaco,
+} from "../../../monaco-loader";
 import { IPlaygroundProject, IPreviewState } from "../../../shared";
 import { monacoEditorVersion } from "../../monacoEditorVersion";
 import { Debouncer } from "../../utils/Debouncer";
@@ -61,6 +65,17 @@ export class PlaygroundModel {
 	}
 
 	private readonly _previewHandlers = new Set<IPreviewHandler>();
+
+	private _wasEverNonFullScreen = false;
+	public get wasEverNonFullScreen() {
+		if (this._wasEverNonFullScreen) {
+			return true;
+		}
+		if (!this.settings.previewFullScreen) {
+			this._wasEverNonFullScreen = true;
+		}
+		return this._wasEverNonFullScreen;
+	}
 
 	@computed.struct
 	get monacoSetup(): IMonacoSetup {
@@ -159,10 +174,10 @@ export class PlaygroundModel {
 			),
 		});
 
-		const observablePromise = new ObservablePromise(loadMonaco());
+		const observablePromise = new ObservablePromise(waitForLoadedMonaco());
 		let disposable: Disposable | undefined = undefined;
 
-		loadMonaco().then((m) => {
+		waitForLoadedMonaco().then((m) => {
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
