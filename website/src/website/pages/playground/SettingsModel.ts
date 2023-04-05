@@ -33,6 +33,14 @@ export class SettingsModel {
 		this.setSettings({ ...this._settings, previewFullScreen: value });
 	}
 
+	get autoReload() {
+		return this._settings.autoReload ?? true;
+	}
+
+	set autoReload(value: boolean) {
+		this.setSettings({ ...this._settings, autoReload: value });
+	}
+
 	constructor() {
 		const settingsStr = localStorage.getItem(this.settingsKey);
 		if (settingsStr) {
@@ -70,6 +78,7 @@ export interface Settings {
 	customConfig: JsonString<IMonacoSetup>;
 
 	previewFullScreen: boolean;
+	autoReload: boolean | undefined;
 }
 
 export type JsonString<T> = string;
@@ -167,6 +176,7 @@ export function getDefaultSettings(): Settings {
 			loaderPathsConfig: "",
 		}),
 		previewFullScreen: false,
+		autoReload: true,
 	};
 	return defaultSettings;
 }
