@@ -56,7 +56,7 @@ export class PlaygroundModel {
 
 	public readonly serializer = new StateUrlSerializer(this);
 
-	reload(): void {
+	public reload(): void {
 		this.reloadKey++;
 	}
 
@@ -127,12 +127,29 @@ export class PlaygroundModel {
 
 	private readonly debouncer = new Debouncer(250);
 
+	@observable
+	public isDirty = false;
+
 	constructor() {
+		let lastState = this.state;
+
 		this.dispose.track({
 			dispose: reaction(
 				() => ({ state: this.state }),
 				({ state }) => {
+					if (!this.settings.autoReload) {
+						if (
+							JSON.stringify(state.monacoSetup) ===
+								JSON.stringify(lastState.monacoSetup) &&
+							state.key === lastState.key
+						) {
+							this.isDirty = true;
+							return;
+						}
+					}
 					this.debouncer.run(() => {
+						this.isDirty = false;
+						lastState = state;
 						for (const handler of this._previewHandlers) {
 							handler.handlePreview(state);
 						}

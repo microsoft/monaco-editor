@@ -18,7 +18,7 @@ import { PlaygroundModel } from "./PlaygroundModel";
 import { Preview } from "./Preview";
 import { SettingsDialog } from "./SettingsDialog";
 import { Button, Col, Row, Stack } from "../../components/bootstrap";
-import { ButtonGroup } from "react-bootstrap";
+import { ButtonGroup, FormCheck } from "react-bootstrap";
 
 @hotComponent(module)
 @observer
@@ -114,11 +114,29 @@ export class PlaygroundPageContent extends React.Component<
 								titleBarItems={
 									<div
 										style={{ marginLeft: "auto" }}
-										className="d-flex gap-2"
+										className="d-flex gap-2 align-items-center"
 									>
+										{model.settings.previewFullScreen || (
+											<FormCheck
+												label="Auto-Reload"
+												className="text-nowrap"
+												checked={
+													model.settings.autoReload
+												}
+												onChange={(e) =>
+													(model.settings.autoReload =
+														e.target.checked)
+												}
+											/>
+										)}
 										<Button
 											type="button"
-											className="btn btn-light settings bi-arrow-clockwise"
+											className={
+												"btn settings bi-arrow-clockwise " +
+												(model.isDirty
+													? "btn-primary"
+													: "btn-light")
+											}
 											style={{
 												fontSize: 20,
 												padding: "0px 4px",
