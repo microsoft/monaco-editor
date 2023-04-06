@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.37.1]
+
+- Fixes Inline Completions feature
+
 ## [0.37.0]
 
 - New `registerLinkOpener` API

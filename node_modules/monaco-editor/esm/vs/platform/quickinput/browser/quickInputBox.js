@@ -29,6 +29,11 @@ export class QuickInputBox extends Disposable {
         };
         this.container = dom.append(this.parent, $('.quick-input-box'));
         this.findInput = this._register(new FindInput(this.container, undefined, { label: '', inputBoxStyles, toggleStyles }));
+        const input = this.findInput.inputBox.inputElement;
+        input.role = 'combobox';
+        input.ariaHasPopup = 'menu';
+        input.ariaAutoComplete = 'list';
+        input.ariaExpanded = 'true';
     }
     get value() {
         return this.findInput.getValue();
@@ -47,12 +52,6 @@ export class QuickInputBox extends Disposable {
     }
     set placeholder(placeholder) {
         this.findInput.inputBox.setPlaceHolder(placeholder);
-    }
-    get ariaLabel() {
-        return this.findInput.inputBox.getAriaLabel();
-    }
-    set ariaLabel(ariaLabel) {
-        this.findInput.inputBox.setAriaLabel(ariaLabel);
     }
     get password() {
         return this.findInput.inputBox.inputElement.type === 'password';
@@ -76,9 +75,6 @@ export class QuickInputBox extends Disposable {
     }
     setAttribute(name, value) {
         this.findInput.inputBox.inputElement.setAttribute(name, value);
-    }
-    removeAttribute(name) {
-        this.findInput.inputBox.inputElement.removeAttribute(name);
     }
     showDecoration(decoration) {
         if (decoration === Severity.Ignore) {
