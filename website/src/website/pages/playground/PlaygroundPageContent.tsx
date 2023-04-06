@@ -133,10 +133,16 @@ export class PlaygroundPageContent extends React.Component<
 												checked={
 													model.settings.autoReload
 												}
-												onChange={(e) =>
-													(model.settings.autoReload =
-														e.target.checked)
-												}
+												onChange={(e) => {
+													model.settings.autoReload =
+														e.target.checked;
+													if (
+														e.target.checked &&
+														model.isDirty
+													) {
+														model.reload();
+													}
+												}}
 											/>
 										)}
 										<Button
