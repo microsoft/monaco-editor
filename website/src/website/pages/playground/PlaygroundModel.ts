@@ -140,7 +140,7 @@ export class PlaygroundModel {
 		}
 	}
 
-	private readonly debouncer = new Debouncer(250);
+	private readonly debouncer = new Debouncer(700);
 
 	@observable
 	public isDirty = false;
