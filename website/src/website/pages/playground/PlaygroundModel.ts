@@ -148,6 +148,17 @@ export class PlaygroundModel {
 	constructor() {
 		let lastState = this.state;
 
+		this.dispose.track(
+			monaco.editor.addEditorAction({
+				id: "reload",
+				label: "Reload",
+				run: (editor, ...args) => {
+					this.reload();
+				},
+				keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+			})
+		);
+
 		this.dispose.track({
 			dispose: reaction(
 				() => ({ state: this.state }),
@@ -162,13 +173,19 @@ export class PlaygroundModel {
 							return;
 						}
 					}
-					this.debouncer.run(() => {
+					const action = () => {
 						this.isDirty = false;
 						lastState = state;
 						for (const handler of this._previewHandlers) {
 							handler.handlePreview(state);
 						}
-					});
+					};
+
+					if (state.key !== lastState.key) {
+						action(); // sync update
+					} else {
+						this.debouncer.run(action);
+					}
 				},
 				{ name: "update preview" }
 			),
