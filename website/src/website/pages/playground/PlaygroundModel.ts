@@ -148,17 +148,6 @@ export class PlaygroundModel {
 	constructor() {
 		let lastState = this.state;
 
-		this.dispose.track(
-			monaco.editor.addEditorAction({
-				id: "reload",
-				label: "Reload",
-				run: (editor, ...args) => {
-					this.reload();
-				},
-				keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
-			})
-		);
-
 		this.dispose.track({
 			dispose: reaction(
 				() => ({ state: this.state }),
@@ -195,6 +184,17 @@ export class PlaygroundModel {
 		let disposable: Disposable | undefined = undefined;
 
 		waitForLoadedMonaco().then((m) => {
+			this.dispose.track(
+				monaco.editor.addEditorAction({
+					id: "reload",
+					label: "Reload",
+					run: (editor, ...args) => {
+						this.reload();
+					},
+					keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+				})
+			);
+
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
