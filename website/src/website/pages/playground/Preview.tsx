@@ -48,6 +48,21 @@ export class Preview
 				targetOrigin: "*",
 			});
 		});
+		window.addEventListener("message", (e) => {
+			if (e.source !== iframe.contentWindow) {
+				return;
+			}
+			const data = e.data as
+				| {
+						kind: "update-code-string";
+						codeStringName: string;
+						value: string;
+				  }
+				| { kind: "" };
+			if (data.kind === "update-code-string") {
+				this.props.model.setCodeString(data.codeStringName, data.value);
+			}
+		});
 	};
 
 	componentDidMount() {

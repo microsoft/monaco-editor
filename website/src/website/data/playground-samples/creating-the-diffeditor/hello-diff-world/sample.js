@@ -1,8 +1,18 @@
-var originalModel = monaco.editor.createModel("heLLo world!", "text/plain");
-var modifiedModel = monaco.editor.createModel("hello orlando!", "text/plain");
+const originalModel = monaco.editor.createModel(
+	/* set from `originalModel`: */ `hello world`,
+	"text/plain"
+);
+const modifiedModel = monaco.editor.createModel(
+	/* set from `modifiedModel`: */ `Hello World!`,
+	"text/plain"
+);
 
-var diffEditor = monaco.editor.createDiffEditor(
-	document.getElementById("container")
+const diffEditor = monaco.editor.createDiffEditor(
+	document.getElementById("container"),
+	{
+		originalEditable: true,
+		automaticLayout: true,
+	}
 );
 diffEditor.setModel({
 	original: originalModel,

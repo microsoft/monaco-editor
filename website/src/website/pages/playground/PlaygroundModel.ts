@@ -222,6 +222,26 @@ export class PlaygroundModel {
 		});
 	}
 
+	setCodeString(codeStringName: string, value: string) {
+		function escapeRegexpChars(str: string) {
+			return str.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
+		}
+
+		const regexp = new RegExp(
+			"(\\b" +
+				escapeRegexpChars(codeStringName) +
+				":[^\\w`]*`)([^`\\\\]|\\n|\\\\\\\\|\\\\`)*`"
+		);
+		debugger;
+		const js = this.js;
+		const str = value.replaceAll("\\", "\\\\").replaceAll("`", "\\`");
+		const newJs = js.replace(regexp, "$1" + str + "`");
+		const autoReload = this.settings.autoReload;
+		this.settings.autoReload = false;
+		this.js = newJs;
+		this.settings.autoReload = autoReload;
+	}
+
 	public showSettingsDialog(): void {
 		this.settingsDialogModel = new SettingsDialogModel(
 			this.settings.settings
