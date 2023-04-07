@@ -989,6 +989,8 @@ export class FormatAdapter
 	extends FormatHelper
 	implements languages.DocumentRangeFormattingEditProvider
 {
+	readonly canFormatMultipleRanges = false;
+
 	public async provideDocumentRangeFormattingEdits(
 		model: editor.ITextModel,
 		range: Range,

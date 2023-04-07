@@ -9,36 +9,16 @@ declare var AMD: any;
 declare var require: any;
 
 registerLanguage({
-	id: 'xml',
-	extensions: [
-		'.xml',
-		'.xsd',
-		'.dtd',
-		'.ascx',
-		'.csproj',
-		'.config',
-		'.props',
-		'.targets',
-		'.wxi',
-		'.wxl',
-		'.wxs',
-		'.xaml',
-		'.svg',
-		'.svgz',
-		'.opf',
-		'.xslt',
-		'.xsl'
-	],
-	firstLine: '(\\<\\?xml.*)|(\\<svg)|(\\<\\!doctype\\s+svg)',
-	aliases: ['XML', 'xml'],
-	mimetypes: ['text/xml', 'application/xml', 'application/xaml+xml', 'application/xml-dtd'],
+	id: 'wgsl',
+	extensions: ['.wgsl'],
+	aliases: ['WebGPU Shading Language', 'WGSL', 'wgsl'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/xml/xml'], resolve, reject);
+				require(['vs/basic-languages/wgsl/wgsl'], resolve, reject);
 			});
 		} else {
-			return import('./xml');
+			return import('./wgsl');
 		}
 	}
 });

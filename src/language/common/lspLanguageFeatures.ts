@@ -803,6 +803,8 @@ export class DocumentFormattingEditProvider<T extends ILanguageWorkerWithFormat>
 export class DocumentRangeFormattingEditProvider<T extends ILanguageWorkerWithFormat>
 	implements languages.DocumentRangeFormattingEditProvider
 {
+	readonly canFormatMultipleRanges = false;
+
 	constructor(private _worker: WorkerAccessor<T>) {}
 
 	public provideDocumentRangeFormattingEdits(
