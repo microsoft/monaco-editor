@@ -448,7 +448,16 @@ class Editor extends React.Component<{
 				() => {
 					const value = this.props.value.get();
 					if (!this.ignoreChange) {
-						this.editor!.setValue(value);
+						this.model.pushEditOperations(
+							null,
+							[
+								{
+									range: this.model.getFullModelRange(),
+									text: value,
+								},
+							],
+							() => null
+						);
 					}
 				},
 				{ name: "update text" }
@@ -458,6 +467,7 @@ class Editor extends React.Component<{
 
 	componentWillUnmount() {
 		this.disposables.forEach((d) => d.dispose());
+		this.model.dispose();
 	}
 }
 

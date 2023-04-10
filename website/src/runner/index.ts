@@ -51,8 +51,10 @@ async function initialize(state: IPreviewState) {
 
 	document.body.innerHTML += state.html;
 
+	const js = massageJs(state.js);
+
 	try {
-		eval(state.js);
+		eval(js);
 	} catch (err) {
 		const pre = document.createElement("pre");
 		pre.appendChild(
@@ -60,4 +62,36 @@ async function initialize(state: IPreviewState) {
 		);
 		document.body.insertBefore(pre, document.body.firstChild);
 	}
+}
+
+(globalThis as any).bindModelToCodeStr = function bindModel(
+	model: any,
+	codeStringName: string
+) {
+	model.onDidChangeContent(() => {
+		const value = model.getValue();
+		window.parent.postMessage(
+			{ kind: "update-code-string", codeStringName, value },
+			"*"
+		);
+	});
+};
+
+function massageJs(js: string) {
+	/*
+	Alternate experimental syntax: // bind to code string: `editor.getModel()` -> codeString
+
+	const bindToCodeStringRegexp = /\/\/ bind to code string: `(.*?)` -> (.*?)(\n|$)/g;
+	js = js.replaceAll(bindToCodeStringRegexp, (match, p1, p2) => {
+		return `globalThis.bindModelToCodeStr(${p1}, ${JSON.stringify(p2)})\n`;
+	});
+	*/
+
+	const setFromRegexp = /\/*\Wset from `(.*?)`:\W*\//g;
+	for (const m of js.matchAll(setFromRegexp)) {
+		const p1 = m[1];
+		const target = JSON.stringify("set from `" + p1 + "`");
+		js += `\n try { globalThis.bindModelToCodeStr(${p1}, ${target}); } catch (e) { console.error(e); }`;
+	}
+	return js;
 }

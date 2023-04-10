@@ -162,13 +162,19 @@ export class PlaygroundModel {
 							return;
 						}
 					}
-					this.debouncer.run(() => {
+					const action = () => {
 						this.isDirty = false;
 						lastState = state;
 						for (const handler of this._previewHandlers) {
 							handler.handlePreview(state);
 						}
-					});
+					};
+
+					if (state.key !== lastState.key) {
+						action(); // sync update
+					} else {
+						this.debouncer.run(action);
+					}
 				},
 				{ name: "update preview" }
 			),
@@ -178,6 +184,17 @@ export class PlaygroundModel {
 		let disposable: Disposable | undefined = undefined;
 
 		waitForLoadedMonaco().then((m) => {
+			this.dispose.track(
+				monaco.editor.addEditorAction({
+					id: "reload",
+					label: "Reload",
+					run: (editor, ...args) => {
+						this.reload();
+					},
+					keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+				})
+			);
+
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
@@ -220,6 +237,26 @@ export class PlaygroundModel {
 				{ name: "update types" }
 			),
 		});
+	}
+
+	setCodeString(codeStringName: string, value: string) {
+		function escapeRegexpChars(str: string) {
+			return str.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
+		}
+
+		const regexp = new RegExp(
+			"(\\b" +
+				escapeRegexpChars(codeStringName) +
+				":[^\\w`]*`)([^`\\\\]|\\n|\\\\\\\\|\\\\`)*`"
+		);
+		debugger;
+		const js = this.js;
+		const str = value.replaceAll("\\", "\\\\").replaceAll("`", "\\`");
+		const newJs = js.replace(regexp, "$1" + str + "`");
+		const autoReload = this.settings.autoReload;
+		this.settings.autoReload = false;
+		this.js = newJs;
+		this.settings.autoReload = autoReload;
 	}
 
 	public showSettingsDialog(): void {
