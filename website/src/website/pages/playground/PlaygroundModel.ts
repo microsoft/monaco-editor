@@ -251,7 +251,10 @@ export class PlaygroundModel {
 		);
 		debugger;
 		const js = this.js;
-		const str = value.replaceAll("\\", "\\\\").replaceAll("`", "\\`");
+		const str = value
+			.replaceAll("\\", "\\\\")
+			.replaceAll("$", "\\$")
+			.replaceAll("`", "\\`");
 		const newJs = js.replace(regexp, "$1" + str + "`");
 		const autoReload = this.settings.autoReload;
 		this.settings.autoReload = false;
