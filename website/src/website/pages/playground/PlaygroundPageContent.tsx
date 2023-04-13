@@ -18,7 +18,7 @@ import { PlaygroundModel } from "./PlaygroundModel";
 import { Preview } from "./Preview";
 import { SettingsDialog } from "./SettingsDialog";
 import { Button, Col, Row, Stack } from "../../components/bootstrap";
-import { ButtonGroup } from "react-bootstrap";
+import { ButtonGroup, FormCheck } from "react-bootstrap";
 
 @hotComponent(module)
 @observer
@@ -37,88 +37,122 @@ export class PlaygroundPageContent extends React.Component<
 						className="h-100 g-2"
 						style={{ flexWrap: "wrap-reverse" }}
 					>
-						<Col
-							md
-							className={
-								model.settings.previewFullScreen ? "d-none" : ""
-							}
-						>
-							<Vertical>
-								<div style={{ flex: 1 }}>
-									<LabeledEditor
-										label="JavaScript"
-										titleBarItems={
-											<div
-												className="hstack"
-												style={{ marginLeft: "auto" }}
-											>
-												<span
-													style={{ marginRight: 8 }}
+						{model.wasEverNonFullScreen && (
+							<Col
+								md
+								className={
+									model.settings.previewFullScreen
+										? "d-none"
+										: ""
+								}
+							>
+								<Vertical>
+									<div style={{ flex: 1 }}>
+										<LabeledEditor
+											label="JavaScript"
+											titleBarItems={
+												<div
+													className="hstack"
+													style={{
+														marginLeft: "auto",
+													}}
 												>
-													Example:
-												</span>
-												<Select<PlaygroundExample>
-													values={getPlaygroundExamples().map(
-														(e) => ({
-															groupTitle:
-																e.chapterTitle,
-															items: e.examples,
-														})
-													)}
-													value={ref(
-														model,
-														"selectedExample"
-													)}
-													getLabel={(i) => i.title}
-												/>
-											</div>
-										}
-									>
-										<Editor
-											language={"javascript"}
-											value={ref(model, "js")}
-										/>
-									</LabeledEditor>
-								</div>
+													<span
+														style={{
+															marginRight: 8,
+														}}
+													>
+														Example:
+													</span>
+													<Select<PlaygroundExample>
+														values={getPlaygroundExamples().map(
+															(e) => ({
+																groupTitle:
+																	e.chapterTitle,
+																items: e.examples,
+															})
+														)}
+														value={ref(
+															model,
+															"selectedExample"
+														)}
+														getLabel={(i) =>
+															i.title
+														}
+													/>
+												</div>
+											}
+										>
+											<Editor
+												language={"javascript"}
+												value={ref(model, "js")}
+											/>
+										</LabeledEditor>
+									</div>
 
-								<div>
-									<LabeledEditor label="HTML">
-										<Editor
-											height={{
-												kind: "dynamic",
-												maxHeight: 200,
-											}}
-											language={"html"}
-											value={ref(model, "html")}
-										/>
-									</LabeledEditor>
-								</div>
+									<div>
+										<LabeledEditor label="HTML">
+											<Editor
+												height={{
+													kind: "dynamic",
+													maxHeight: 200,
+												}}
+												language={"html"}
+												value={ref(model, "html")}
+											/>
+										</LabeledEditor>
+									</div>
 
-								<div>
-									<LabeledEditor label="CSS">
-										<Editor
-											height={{
-												kind: "dynamic",
-												maxHeight: 200,
-											}}
-											language={"css"}
-											value={ref(model, "css")}
-										/>
-									</LabeledEditor>
-								</div>
-							</Vertical>
-						</Col>
+									<div>
+										<LabeledEditor label="CSS">
+											<Editor
+												height={{
+													kind: "dynamic",
+													maxHeight: 200,
+												}}
+												language={"css"}
+												value={ref(model, "css")}
+											/>
+										</LabeledEditor>
+									</div>
+								</Vertical>
+							</Col>
+						)}
 						<Col md>
 							<LabeledEditor
 								label="Preview"
 								titleBarItems={
 									<div
 										style={{ marginLeft: "auto" }}
-										className="d-flex gap-2"
+										className="d-flex gap-2 align-items-center"
 									>
+										{model.settings.previewFullScreen || (
+											<FormCheck
+												label="Auto-Reload"
+												className="text-nowrap"
+												checked={
+													model.settings.autoReload
+												}
+												onChange={(e) => {
+													model.settings.autoReload =
+														e.target.checked;
+													if (
+														e.target.checked &&
+														model.isDirty
+													) {
+														model.reload();
+													}
+												}}
+											/>
+										)}
 										<Button
 											type="button"
-											className="btn btn-light settings bi-arrow-clockwise"
+											className={
+												"btn settings bi-arrow-clockwise " +
+												(model.isDirty
+													? "btn-primary"
+													: "btn-light")
+											}
 											style={{
 												fontSize: 20,
 												padding: "0px 4px",
@@ -414,7 +448,16 @@ class Editor extends React.Component<{
 				() => {
 					const value = this.props.value.get();
 					if (!this.ignoreChange) {
-						this.editor!.setValue(value);
+						this.model.pushEditOperations(
+							null,
+							[
+								{
+									range: this.model.getFullModelRange(),
+									text: value,
+								},
+							],
+							() => null
+						);
 					}
 				},
 				{ name: "update text" }
@@ -424,6 +467,7 @@ class Editor extends React.Component<{
 
 	componentWillUnmount() {
 		this.disposables.forEach((d) => d.dispose());
+		this.model.dispose();
 	}
 }
 

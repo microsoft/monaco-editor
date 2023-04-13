@@ -2,7 +2,11 @@ import * as React from "react";
 import { IPreviewHandler, PlaygroundModel } from "./PlaygroundModel";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
-import { IMessage, IPreviewState } from "../../../shared";
+import {
+	IMessageFromRunner,
+	IMessageToRunner,
+	IPreviewState,
+} from "../../../shared";
 
 @observer
 export class Preview
@@ -40,13 +44,24 @@ export class Preview
 				return;
 			}
 
-			const message: IMessage = {
+			const message: IMessageToRunner = {
 				kind: "initialize",
 				state: this.currentState,
 			};
 			iframe.contentWindow!.postMessage(message, {
 				targetOrigin: "*",
 			});
+		});
+		window.addEventListener("message", (e) => {
+			if (e.source !== iframe.contentWindow) {
+				return;
+			}
+			const data = e.data as IMessageFromRunner;
+			if (data.kind === "update-code-string") {
+				this.props.model.setCodeString(data.codeStringName, data.value);
+			} else if (data.kind === "reload") {
+				this.props.model.reload();
+			}
 		});
 	};
 
@@ -68,7 +83,7 @@ export class Preview
 				{
 					kind: "update-css",
 					css: state.css,
-				} as IMessage,
+				} as IMessageToRunner,
 				{
 					targetOrigin: "*",
 				}

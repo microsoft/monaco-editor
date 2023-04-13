@@ -12,7 +12,11 @@ import {
 	reaction,
 	runInAction,
 } from "mobx";
-import { IMonacoSetup, loadMonaco } from "../../../monaco-loader";
+import {
+	IMonacoSetup,
+	loadMonaco,
+	waitForLoadedMonaco,
+} from "../../../monaco-loader";
 import { IPlaygroundProject, IPreviewState } from "../../../shared";
 import { monacoEditorVersion } from "../../monacoEditorVersion";
 import { Debouncer } from "../../utils/Debouncer";
@@ -56,11 +60,22 @@ export class PlaygroundModel {
 
 	public readonly serializer = new StateUrlSerializer(this);
 
-	reload(): void {
+	public reload(): void {
 		this.reloadKey++;
 	}
 
 	private readonly _previewHandlers = new Set<IPreviewHandler>();
+
+	private _wasEverNonFullScreen = false;
+	public get wasEverNonFullScreen() {
+		if (this._wasEverNonFullScreen) {
+			return true;
+		}
+		if (!this.settings.previewFullScreen) {
+			this._wasEverNonFullScreen = true;
+		}
+		return this._wasEverNonFullScreen;
+	}
 
 	@computed.struct
 	get monacoSetup(): IMonacoSetup {
@@ -125,27 +140,61 @@ export class PlaygroundModel {
 		}
 	}
 
-	private readonly debouncer = new Debouncer(250);
+	private readonly debouncer = new Debouncer(700);
+
+	@observable
+	public isDirty = false;
 
 	constructor() {
+		let lastState = this.state;
+
 		this.dispose.track({
 			dispose: reaction(
 				() => ({ state: this.state }),
 				({ state }) => {
-					this.debouncer.run(() => {
+					if (!this.settings.autoReload) {
+						if (
+							JSON.stringify(state.monacoSetup) ===
+								JSON.stringify(lastState.monacoSetup) &&
+							state.key === lastState.key
+						) {
+							this.isDirty = true;
+							return;
+						}
+					}
+					const action = () => {
+						this.isDirty = false;
+						lastState = state;
 						for (const handler of this._previewHandlers) {
 							handler.handlePreview(state);
 						}
-					});
+					};
+
+					if (state.key !== lastState.key) {
+						action(); // sync update
+					} else {
+						this.debouncer.run(action);
+					}
 				},
 				{ name: "update preview" }
 			),
 		});
 
-		const observablePromise = new ObservablePromise(loadMonaco());
+		const observablePromise = new ObservablePromise(waitForLoadedMonaco());
 		let disposable: Disposable | undefined = undefined;
 
-		loadMonaco().then((m) => {
+		waitForLoadedMonaco().then((m) => {
+			this.dispose.track(
+				monaco.editor.addEditorAction({
+					id: "reload",
+					label: "Reload",
+					run: (editor, ...args) => {
+						this.reload();
+					},
+					keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+				})
+			);
+
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
@@ -188,6 +237,28 @@ export class PlaygroundModel {
 				{ name: "update types" }
 			),
 		});
+	}
+
+	setCodeString(codeStringName: string, value: string) {
+		function escapeRegexpChars(str: string) {
+			return str.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
+		}
+
+		const regexp = new RegExp(
+			"(\\b" +
+				escapeRegexpChars(codeStringName) +
+				":[^\\w`]*`)([^`\\\\]|\\n|\\\\\\\\|\\\\`)*`"
+		);
+		const js = this.js;
+		const str = value
+			.replaceAll("\\", "\\\\")
+			.replaceAll("$", "\\$")
+			.replaceAll("`", "\\`");
+		const newJs = js.replace(regexp, "$1" + str + "`");
+		const autoReload = this.settings.autoReload;
+		this.settings.autoReload = false;
+		this.js = newJs;
+		this.settings.autoReload = autoReload;
 	}
 
 	public showSettingsDialog(): void {
