@@ -5,7 +5,7 @@
 
 import { IMonacoSetup } from "./monaco-loader";
 
-export type IMessage =
+export type IMessageToRunner =
 	| {
 			kind: "initialize";
 			state: IPreviewState;
@@ -13,6 +13,16 @@ export type IMessage =
 	| {
 			kind: "update-css";
 			css: string;
+	  };
+
+export type IMessageFromRunner =
+	| {
+			kind: "update-code-string";
+			codeStringName: string;
+			value: string;
+	  }
+	| {
+			kind: "reload";
 	  };
 
 export interface IPlaygroundProject {

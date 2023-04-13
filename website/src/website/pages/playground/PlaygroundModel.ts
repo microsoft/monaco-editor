@@ -249,7 +249,6 @@ export class PlaygroundModel {
 				escapeRegexpChars(codeStringName) +
 				":[^\\w`]*`)([^`\\\\]|\\n|\\\\\\\\|\\\\`)*`"
 		);
-		debugger;
 		const js = this.js;
 		const str = value
 			.replaceAll("\\", "\\\\")
