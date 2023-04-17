@@ -227,7 +227,7 @@ export const language = {
 		common: [
 			// identifiers and keywords
 			[
-				/[a-z_$][\w$]*/,
+				/#?[a-z_$][\w$]*/,
 				{
 					cases: {
 						'@keywords': 'keyword',
