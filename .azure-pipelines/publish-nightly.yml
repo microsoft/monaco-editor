@@ -35,6 +35,7 @@ extends:
             displayName: Install NPM dependencies
 
           - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare nightly
+            retryCountOnTaskFailure: 5
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: next
@@ -50,6 +51,7 @@ extends:
             displayName: Install NPM dependencies
 
           - script: yarn ts-node ./scripts/ci/monaco-editor-prepare nightly
+            retryCountOnTaskFailure: 5
             displayName: Setup, Build & Test monaco-editor
 
         tag: next
