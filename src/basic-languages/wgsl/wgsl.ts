@@ -377,7 +377,7 @@ export const language = <languages.IMonarchLanguage>{
 	predeclared_intrinsics,
 	operators,
 
-	symbols: /[!%&*+\-\.\/:;<=>^|_~]+/,
+	symbols: /[!%&*+\-\.\/:;<=>^|_~,]+/,
 
 	tokenizer: {
 		root: [
@@ -402,8 +402,6 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@commentOrSpace' },
 			{ include: '@numbers' },
 
-			[/;:\./, 'delimiter'],
-			[/,/, 'delimiter'], // Hack: Should be in previous rule
 			[/[{}()\[\]]/, '@brackets'],
 			['@', 'annotation', '@attribute'],
 			[
