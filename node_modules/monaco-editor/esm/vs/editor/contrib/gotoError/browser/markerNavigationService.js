@@ -29,7 +29,7 @@ export class MarkerCoordinate {
         this.total = total;
     }
 }
-let MarkerList = class MarkerList {
+export let MarkerList = class MarkerList {
     constructor(resourceFilter, _markerService, _configService) {
         this._markerService = _markerService;
         this._configService = _configService;
@@ -166,7 +166,6 @@ MarkerList = __decorate([
     __param(1, IMarkerService),
     __param(2, IConfigurationService)
 ], MarkerList);
-export { MarkerList };
 export const IMarkerNavigationService = createDecorator('IMarkerNavigationService');
 let MarkerNavigationService = class MarkerNavigationService {
     constructor(_markerService, _configService) {

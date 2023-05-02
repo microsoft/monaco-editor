@@ -19,7 +19,7 @@ import { IInstantiationService } from '../../instantiation/common/instantiation.
 import { DefaultQuickAccessFilterValue, Extensions } from '../common/quickAccess.js';
 import { IQuickInputService, ItemActivation } from '../common/quickInput.js';
 import { Registry } from '../../registry/common/platform.js';
-let QuickAccessController = class QuickAccessController extends Disposable {
+export let QuickAccessController = class QuickAccessController extends Disposable {
     constructor(quickInputService, instantiationService) {
         super();
         this.quickInputService = quickInputService;
@@ -88,9 +88,6 @@ let QuickAccessController = class QuickAccessController extends Disposable {
         }
         picker.contextKey = descriptor === null || descriptor === void 0 ? void 0 : descriptor.contextKey;
         picker.filterValue = (value) => value.substring(descriptor ? descriptor.prefix.length : 0);
-        if (descriptor === null || descriptor === void 0 ? void 0 : descriptor.placeholder) {
-            picker.ariaLabel = descriptor === null || descriptor === void 0 ? void 0 : descriptor.placeholder;
-        }
         // Pick mode: setup a promise that can be resolved
         // with the selected items and prevent execution
         let pickPromise = undefined;
@@ -193,4 +190,3 @@ QuickAccessController = __decorate([
     __param(0, IQuickInputService),
     __param(1, IInstantiationService)
 ], QuickAccessController);
-export { QuickAccessController };

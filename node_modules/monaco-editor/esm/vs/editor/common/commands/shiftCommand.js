@@ -31,7 +31,7 @@ function cachedStringRepeat(str, count) {
     }
     return cache[count];
 }
-let ShiftCommand = class ShiftCommand {
+export let ShiftCommand = class ShiftCommand {
     static unshiftIndent(line, column, tabSize, indentSize, insertSpaces) {
         // Determine the visible column where the content starts
         const contentStartVisibleColumn = CursorColumns.visibleColumnFromColumn(line, column, tabSize);
@@ -235,4 +235,3 @@ let ShiftCommand = class ShiftCommand {
 ShiftCommand = __decorate([
     __param(2, ILanguageConfigurationService)
 ], ShiftCommand);
-export { ShiftCommand };

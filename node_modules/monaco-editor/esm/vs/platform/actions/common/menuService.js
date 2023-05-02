@@ -21,7 +21,7 @@ import { Separator, toAction } from '../../../base/common/actions.js';
 import { IStorageService } from '../../storage/common/storage.js';
 import { removeFastWithoutKeepingOrder } from '../../../base/common/arrays.js';
 import { localize } from '../../../nls.js';
-let MenuService = class MenuService {
+export let MenuService = class MenuService {
     constructor(_commandService, storageService) {
         this._commandService = _commandService;
         this._hiddenStates = new PersistedMenuHideState(storageService);
@@ -37,7 +37,6 @@ MenuService = __decorate([
     __param(0, ICommandService),
     __param(1, IStorageService)
 ], MenuService);
-export { MenuService };
 let PersistedMenuHideState = class PersistedMenuHideState {
     constructor(_storageService) {
         this._storageService = _storageService;

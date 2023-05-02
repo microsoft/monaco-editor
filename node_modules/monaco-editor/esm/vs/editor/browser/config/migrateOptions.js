@@ -2,7 +2,7 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-class EditorSettingMigration {
+export class EditorSettingMigration {
     constructor(key, migrate) {
         this.key = key;
         this.migrate = migrate;
@@ -36,7 +36,6 @@ class EditorSettingMigration {
     }
 }
 EditorSettingMigration.items = [];
-export { EditorSettingMigration };
 function registerEditorSettingMigration(key, migrate) {
     EditorSettingMigration.items.push(new EditorSettingMigration(key, migrate));
 }

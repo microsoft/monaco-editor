@@ -37,7 +37,7 @@ export class LanguageIdCodec {
         return this._languageIdToLanguage[languageId] || NULL_LANGUAGE_ID;
     }
 }
-class LanguagesRegistry extends Disposable {
+export class LanguagesRegistry extends Disposable {
     constructor(useModesRegistry = true, warnOnOverwrite = false) {
         super();
         this._onDidChange = this._register(new Emitter());
@@ -234,4 +234,3 @@ class LanguagesRegistry extends Disposable {
     }
 }
 LanguagesRegistry.instanceCount = 0;
-export { LanguagesRegistry };

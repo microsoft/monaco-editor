@@ -17,7 +17,7 @@ import { DisposableStore } from '../../../base/common/lifecycle.js';
 import { IKeybindingService } from '../../keybinding/common/keybinding.js';
 import { Extensions } from '../common/quickAccess.js';
 import { IQuickInputService } from '../common/quickInput.js';
-let HelpQuickAccessProvider = class HelpQuickAccessProvider {
+export let HelpQuickAccessProvider = class HelpQuickAccessProvider {
     constructor(quickInputService, keybindingService) {
         this.quickInputService = quickInputService;
         this.keybindingService = keybindingService;
@@ -70,4 +70,3 @@ HelpQuickAccessProvider = __decorate([
     __param(0, IQuickInputService),
     __param(1, IKeybindingService)
 ], HelpQuickAccessProvider);
-export { HelpQuickAccessProvider };

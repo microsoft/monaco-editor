@@ -26,7 +26,7 @@ class MouseWheelClassifierItem {
         this.score = 0;
     }
 }
-class MouseWheelClassifier {
+export class MouseWheelClassifier {
     constructor() {
         this._capacity = 5;
         this._memory = [];
@@ -118,7 +118,6 @@ class MouseWheelClassifier {
     }
 }
 MouseWheelClassifier.INSTANCE = new MouseWheelClassifier();
-export { MouseWheelClassifier };
 export class AbstractScrollableElement extends Widget {
     get options() {
         return this._options;

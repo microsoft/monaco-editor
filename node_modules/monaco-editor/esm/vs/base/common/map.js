@@ -9,7 +9,7 @@ class ResourceMapEntry {
         this.value = value;
     }
 }
-class ResourceMap {
+export class ResourceMap {
     constructor(mapOrKeyFn, toKey) {
         this[_a] = 'ResourceMap';
         if (mapOrKeyFn instanceof ResourceMap) {
@@ -71,7 +71,6 @@ class ResourceMap {
     }
 }
 ResourceMap.defaultToKey = (resource) => resource.toString();
-export { ResourceMap };
 export class LinkedMap {
     constructor() {
         this[_b] = 'LinkedMap';

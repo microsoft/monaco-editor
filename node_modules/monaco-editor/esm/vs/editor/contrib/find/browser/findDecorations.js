@@ -7,7 +7,7 @@ import { MinimapPosition, OverviewRulerLane } from '../../../common/model.js';
 import { ModelDecorationOptions } from '../../../common/model/textModel.js';
 import { minimapFindMatch, overviewRulerFindMatchForeground } from '../../../../platform/theme/common/colorRegistry.js';
 import { themeColorFromId } from '../../../../platform/theme/common/themeService.js';
-class FindDecorations {
+export class FindDecorations {
     constructor(editor) {
         this._editor = editor;
         this._decorations = [];
@@ -294,4 +294,3 @@ FindDecorations._FIND_SCOPE_DECORATION = ModelDecorationOptions.register({
     className: 'findScope',
     isWholeLine: true
 });
-export { FindDecorations };

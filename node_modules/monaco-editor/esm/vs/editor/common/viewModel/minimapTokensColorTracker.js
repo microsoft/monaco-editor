@@ -6,7 +6,7 @@ import { Emitter } from '../../../base/common/event.js';
 import { Disposable, markAsSingleton } from '../../../base/common/lifecycle.js';
 import { RGBA8 } from '../core/rgba.js';
 import { TokenizationRegistry } from '../languages.js';
-class MinimapTokensColorTracker extends Disposable {
+export class MinimapTokensColorTracker extends Disposable {
     static getInstance() {
         if (!this._INSTANCE) {
             this._INSTANCE = markAsSingleton(new MinimapTokensColorTracker());
@@ -53,4 +53,3 @@ class MinimapTokensColorTracker extends Disposable {
     }
 }
 MinimapTokensColorTracker._INSTANCE = null;
-export { MinimapTokensColorTracker };

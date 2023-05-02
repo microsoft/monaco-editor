@@ -28,6 +28,7 @@ export var AccessibilityHelpNLS;
     AccessibilityHelpNLS.openDocWinLinux = nls.localize("openDocWinLinux", "Press Control+H now to open a browser window with more information related to editor accessibility.");
     AccessibilityHelpNLS.outroMsg = nls.localize("outroMsg", "You can dismiss this tooltip and return to the editor by pressing Escape or Shift+Escape.");
     AccessibilityHelpNLS.showAccessibilityHelpAction = nls.localize("showAccessibilityHelpAction", "Show Accessibility Help");
+    AccessibilityHelpNLS.accessibilityHelpTitle = nls.localize('accessibilityHelpTitle', "Accessibility Help");
 })(AccessibilityHelpNLS || (AccessibilityHelpNLS = {}));
 export var InspectTokensNLS;
 (function (InspectTokensNLS) {

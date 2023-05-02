@@ -279,7 +279,7 @@ export class AbstractContextKeyService {
         return this.getContextValuesContainer(findContextAttr(target));
     }
 }
-let ContextKeyService = class ContextKeyService extends AbstractContextKeyService {
+export let ContextKeyService = class ContextKeyService extends AbstractContextKeyService {
     constructor(configurationService) {
         super(0);
         this._contexts = new Map();
@@ -327,7 +327,6 @@ let ContextKeyService = class ContextKeyService extends AbstractContextKeyServic
 ContextKeyService = __decorate([
     __param(0, IConfigurationService)
 ], ContextKeyService);
-export { ContextKeyService };
 class ScopedContextKeyService extends AbstractContextKeyService {
     constructor(parent, domNode) {
         super(parent.createChildContext());

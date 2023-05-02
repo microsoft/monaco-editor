@@ -274,6 +274,18 @@ export function asArray(x) {
     return Array.isArray(x) ? x : [x];
 }
 /**
+ * Returns the first mapped value of the array which is not undefined.
+ */
+export function mapFind(array, mapFn) {
+    for (const value of array) {
+        const mapped = mapFn(value);
+        if (mapped !== undefined) {
+            return mapped;
+        }
+    }
+    return undefined;
+}
+/**
  * Insert the new items in the array.
  * @param array The original array.
  * @param start The zero-based location in the array from which to start inserting elements.
@@ -442,7 +454,7 @@ export class ArrayQueue {
 /**
  * This class is faster than an iterator and array for lazy computed data.
 */
-class CallbackIterable {
+export class CallbackIterable {
     constructor(
     /**
      * Calls the callback for every item.
@@ -486,4 +498,3 @@ class CallbackIterable {
     }
 }
 CallbackIterable.empty = new CallbackIterable(_callback => { });
-export { CallbackIterable };

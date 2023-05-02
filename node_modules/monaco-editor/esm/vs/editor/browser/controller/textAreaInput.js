@@ -26,7 +26,7 @@ export const CopyOptions = {
  * Every time we read from the cipboard, if the text matches our last written text,
  * we can fetch the previous metadata.
  */
-class InMemoryClipboardMetadataManager {
+export class InMemoryClipboardMetadataManager {
     constructor() {
         this._lastState = null;
     }
@@ -43,7 +43,6 @@ class InMemoryClipboardMetadataManager {
     }
 }
 InMemoryClipboardMetadataManager.INSTANCE = new InMemoryClipboardMetadataManager();
-export { InMemoryClipboardMetadataManager };
 class CompositionContext {
     constructor() {
         this._lastTypeTextLength = 0;
@@ -110,7 +109,7 @@ export class TextAreaInput extends Disposable {
         let lastKeyDown = null;
         this._register(this._textArea.onKeyDown((_e) => {
             const e = new StandardKeyboardEvent(_e);
-            if (e.keyCode === 109 /* KeyCode.KEY_IN_COMPOSITION */
+            if (e.keyCode === 114 /* KeyCode.KEY_IN_COMPOSITION */
                 || (this._currentComposition && e.keyCode === 1 /* KeyCode.Backspace */)) {
                 // Stop propagation for keyDown events if the IME is processing key input
                 e.stopPropagation();
@@ -140,7 +139,7 @@ export class TextAreaInput extends Disposable {
             this._currentComposition = currentComposition;
             if (this._OS === 2 /* OperatingSystem.Macintosh */
                 && lastKeyDown
-                && lastKeyDown.equals(109 /* KeyCode.KEY_IN_COMPOSITION */)
+                && lastKeyDown.equals(114 /* KeyCode.KEY_IN_COMPOSITION */)
                 && this._textAreaState.selectionStart === this._textAreaState.selectionEnd
                 && this._textAreaState.selectionStart > 0
                 && this._textAreaState.value.substr(this._textAreaState.selectionStart - 1, 1) === e.data

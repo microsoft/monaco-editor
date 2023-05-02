@@ -191,6 +191,9 @@ export class Scrollable extends Disposable {
             this._performSmoothScrolling();
         });
     }
+    hasPendingScrollAnimation() {
+        return Boolean(this._smoothScrolling);
+    }
     _performSmoothScrolling() {
         if (!this._smoothScrolling) {
             return;

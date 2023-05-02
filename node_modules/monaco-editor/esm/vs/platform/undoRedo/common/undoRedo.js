@@ -10,7 +10,7 @@ export class ResourceEditStackSnapshot {
         this.elements = elements;
     }
 }
-class UndoRedoGroup {
+export class UndoRedoGroup {
     constructor() {
         this.id = UndoRedoGroup._ID++;
         this.order = 1;
@@ -24,8 +24,7 @@ class UndoRedoGroup {
 }
 UndoRedoGroup._ID = 0;
 UndoRedoGroup.None = new UndoRedoGroup();
-export { UndoRedoGroup };
-class UndoRedoSource {
+export class UndoRedoSource {
     constructor() {
         this.id = UndoRedoSource._ID++;
         this.order = 1;
@@ -39,4 +38,3 @@ class UndoRedoSource {
 }
 UndoRedoSource._ID = 0;
 UndoRedoSource.None = new UndoRedoSource();
-export { UndoRedoSource };

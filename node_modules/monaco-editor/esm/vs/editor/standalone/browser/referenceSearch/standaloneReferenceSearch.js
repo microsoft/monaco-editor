@@ -19,7 +19,7 @@ import { IContextKeyService } from '../../../../platform/contextkey/common/conte
 import { IInstantiationService } from '../../../../platform/instantiation/common/instantiation.js';
 import { INotificationService } from '../../../../platform/notification/common/notification.js';
 import { IStorageService } from '../../../../platform/storage/common/storage.js';
-let StandaloneReferencesController = class StandaloneReferencesController extends ReferencesController {
+export let StandaloneReferencesController = class StandaloneReferencesController extends ReferencesController {
     constructor(editor, contextKeyService, editorService, notificationService, instantiationService, storageService, configurationService) {
         super(true, editor, contextKeyService, editorService, notificationService, instantiationService, storageService, configurationService);
     }
@@ -32,5 +32,4 @@ StandaloneReferencesController = __decorate([
     __param(5, IStorageService),
     __param(6, IConfigurationService)
 ], StandaloneReferencesController);
-export { StandaloneReferencesController };
 registerEditorContribution(ReferencesController.ID, StandaloneReferencesController, 4 /* EditorContributionInstantiation.Lazy */);

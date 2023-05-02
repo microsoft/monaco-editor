@@ -25,7 +25,7 @@ import { IKeybindingService } from '../../../../../platform/keybinding/common/ke
 import { ILabelService } from '../../../../../platform/label/common/label.js';
 import { defaultCountBadgeStyles } from '../../../../../platform/theme/browser/defaultStyles.js';
 import { FileReferences, OneReference, ReferencesModel } from '../referencesModel.js';
-let DataSource = class DataSource {
+export let DataSource = class DataSource {
     constructor(_resolverService) {
         this._resolverService = _resolverService;
     }
@@ -58,7 +58,6 @@ let DataSource = class DataSource {
 DataSource = __decorate([
     __param(0, ITextModelService)
 ], DataSource);
-export { DataSource };
 //#endregion
 export class Delegate {
     getHeight() {
@@ -73,7 +72,7 @@ export class Delegate {
         }
     }
 }
-let StringRepresentationProvider = class StringRepresentationProvider {
+export let StringRepresentationProvider = class StringRepresentationProvider {
     constructor(_keybindingService) {
         this._keybindingService = _keybindingService;
     }
@@ -92,7 +91,6 @@ let StringRepresentationProvider = class StringRepresentationProvider {
 StringRepresentationProvider = __decorate([
     __param(0, IKeybindingService)
 ], StringRepresentationProvider);
-export { StringRepresentationProvider };
 export class IdentityProvider {
     getId(element) {
         return element instanceof OneReference ? element.id : element.uri;
@@ -125,7 +123,7 @@ let FileReferencesTemplate = class FileReferencesTemplate extends Disposable {
 FileReferencesTemplate = __decorate([
     __param(1, ILabelService)
 ], FileReferencesTemplate);
-let FileReferencesRenderer = class FileReferencesRenderer {
+export let FileReferencesRenderer = class FileReferencesRenderer {
     constructor(_instantiationService) {
         this._instantiationService = _instantiationService;
         this.templateId = FileReferencesRenderer.id;
@@ -144,7 +142,6 @@ FileReferencesRenderer.id = 'FileReferencesRenderer';
 FileReferencesRenderer = __decorate([
     __param(0, IInstantiationService)
 ], FileReferencesRenderer);
-export { FileReferencesRenderer };
 //#endregion
 //#region render: Reference
 class OneReferenceTemplate {
@@ -173,7 +170,7 @@ class OneReferenceTemplate {
         }
     }
 }
-class OneReferenceRenderer {
+export class OneReferenceRenderer {
     constructor() {
         this.templateId = OneReferenceRenderer.id;
     }
@@ -187,7 +184,6 @@ class OneReferenceRenderer {
     }
 }
 OneReferenceRenderer.id = 'OneReferenceRenderer';
-export { OneReferenceRenderer };
 //#endregion
 export class AccessibilityProvider {
     getWidgetAriaLabel() {

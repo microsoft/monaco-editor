@@ -20,6 +20,12 @@ function getNodeIsForValidation(node) {
 function setNodeIsForValidation(node, value) {
     node.metadata = ((node.metadata & 251 /* Constants.IsForValidationMaskInverse */) | ((value ? 1 : 0) << 2 /* Constants.IsForValidationOffset */));
 }
+function getNodeIsInGlyphMargin(node) {
+    return ((node.metadata & 64 /* Constants.IsMarginMask */) >>> 6 /* Constants.IsMarginOffset */) === 1;
+}
+function setNodeIsInGlyphMargin(node, value) {
+    node.metadata = ((node.metadata & 191 /* Constants.IsMarginMaskInverse */) | ((value ? 1 : 0) << 6 /* Constants.IsMarginOffset */));
+}
 function getNodeStickiness(node) {
     return ((node.metadata & 24 /* Constants.StickinessMask */) >>> 3 /* Constants.StickinessOffset */);
 }
@@ -48,6 +54,7 @@ export class IntervalNode {
         this.ownerId = 0;
         this.options = null;
         setNodeIsForValidation(this, false);
+        setNodeIsInGlyphMargin(this, false);
         _setNodeStickiness(this, 1 /* TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges */);
         setCollapseOnReplaceEdit(this, false);
         this.cachedVersionId = 0;
@@ -71,6 +78,7 @@ export class IntervalNode {
         setNodeIsForValidation(this, (className === "squiggly-error" /* ClassName.EditorErrorDecoration */
             || className === "squiggly-warning" /* ClassName.EditorWarningDecoration */
             || className === "squiggly-info" /* ClassName.EditorInfoDecoration */));
+        setNodeIsInGlyphMargin(this, this.options.glyphMarginClassName !== null);
         _setNodeStickiness(this, this.options.stickiness);
         setCollapseOnReplaceEdit(this, this.options.collapseOnReplaceEdit);
     }
@@ -98,17 +106,17 @@ export class IntervalTree {
         this.root = SENTINEL;
         this.requestNormalizeDelta = false;
     }
-    intervalSearch(start, end, filterOwnerId, filterOutValidation, cachedVersionId) {
+    intervalSearch(start, end, filterOwnerId, filterOutValidation, cachedVersionId, onlyMarginDecorations) {
         if (this.root === SENTINEL) {
             return [];
         }
-        return intervalSearch(this, start, end, filterOwnerId, filterOutValidation, cachedVersionId);
+        return intervalSearch(this, start, end, filterOwnerId, filterOutValidation, cachedVersionId, onlyMarginDecorations);
     }
-    search(filterOwnerId, filterOutValidation, cachedVersionId) {
+    search(filterOwnerId, filterOutValidation, cachedVersionId, onlyMarginDecorations) {
         if (this.root === SENTINEL) {
             return [];
         }
-        return search(this, filterOwnerId, filterOutValidation, cachedVersionId);
+        return search(this, filterOwnerId, filterOutValidation, cachedVersionId, onlyMarginDecorations);
     }
     /**
      * Will not set `cachedAbsoluteStart` nor `cachedAbsoluteEnd` on the returned nodes!
@@ -477,7 +485,7 @@ function collectNodesPostOrder(T) {
     setNodeIsVisited(T.root, false);
     return result;
 }
-function search(T, filterOwnerId, filterOutValidation, cachedVersionId) {
+function search(T, filterOwnerId, filterOutValidation, cachedVersionId, onlyMarginDecorations) {
     let node = T.root;
     let delta = 0;
     let nodeStart = 0;
@@ -511,6 +519,9 @@ function search(T, filterOwnerId, filterOutValidation, cachedVersionId) {
         if (filterOutValidation && getNodeIsForValidation(node)) {
             include = false;
         }
+        if (onlyMarginDecorations && !getNodeIsInGlyphMargin(node)) {
+            include = false;
+        }
         if (include) {
             result[resultLen++] = node;
         }
@@ -525,7 +536,7 @@ function search(T, filterOwnerId, filterOutValidation, cachedVersionId) {
     setNodeIsVisited(T.root, false);
     return result;
 }
-function intervalSearch(T, intervalStart, intervalEnd, filterOwnerId, filterOutValidation, cachedVersionId) {
+function intervalSearch(T, intervalStart, intervalEnd, filterOwnerId, filterOutValidation, cachedVersionId, onlyMarginDecorations) {
     // https://en.wikipedia.org/wiki/Interval_tree#Augmented_tree
     // Now, it is known that two intervals A and B overlap only when both
     // A.low <= B.high and A.high >= B.low. When searching the trees for
@@ -582,6 +593,9 @@ function intervalSearch(T, intervalStart, intervalEnd, filterOwnerId, filterOutV
                 include = false;
             }
             if (filterOutValidation && getNodeIsForValidation(node)) {
+                include = false;
+            }
+            if (onlyMarginDecorations && !getNodeIsInGlyphMargin(node)) {
                 include = false;
             }
             if (include) {

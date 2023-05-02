@@ -21,7 +21,7 @@ export var EventType;
     EventType.End = '-monaco-gesturesend';
     EventType.Contextmenu = '-monaco-gesturecontextmenu';
 })(EventType || (EventType = {}));
-class Gesture extends Disposable {
+export class Gesture extends Disposable {
     constructor() {
         super();
         this.dispatched = false;
@@ -251,4 +251,3 @@ Gesture.CLEAR_TAP_COUNT_TIME = 400; // ms
 __decorate([
     memoize
 ], Gesture, "isTouchDevice", null);
-export { Gesture };

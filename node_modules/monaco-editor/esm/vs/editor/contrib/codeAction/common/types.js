@@ -12,7 +12,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { onUnexpectedExternalError } from '../../../../base/common/errors.js';
-class CodeActionKind {
+export class CodeActionKind {
     constructor(value) {
         this.value = value;
     }
@@ -42,7 +42,6 @@ CodeActionKind.Source = new CodeActionKind('source');
 CodeActionKind.SourceOrganizeImports = CodeActionKind.Source.append('organizeImports');
 CodeActionKind.SourceFixAll = CodeActionKind.Source.append('fixAll');
 CodeActionKind.SurroundWith = CodeActionKind.Refactor.append('surround');
-export { CodeActionKind };
 export var CodeActionTriggerSource;
 (function (CodeActionTriggerSource) {
     CodeActionTriggerSource["Refactor"] = "refactor";

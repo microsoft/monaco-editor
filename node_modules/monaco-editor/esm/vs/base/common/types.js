@@ -123,3 +123,9 @@ export function validateConstraint(arg, constraint) {
 export function withNullAsUndefined(x) {
     return x === null ? undefined : x;
 }
+/**
+ * Converts undefined to null, passes all other values through.
+ */
+export function withUndefinedAsNull(x) {
+    return typeof x === 'undefined' ? null : x;
+}

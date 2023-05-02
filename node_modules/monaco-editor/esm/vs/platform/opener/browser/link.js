@@ -19,7 +19,7 @@ import { Event } from '../../../base/common/event.js';
 import { Disposable } from '../../../base/common/lifecycle.js';
 import { IOpenerService } from '../common/opener.js';
 import './link.css';
-let Link = class Link extends Disposable {
+export let Link = class Link extends Disposable {
     get enabled() {
         return this._enabled;
     }
@@ -80,4 +80,3 @@ let Link = class Link extends Disposable {
 Link = __decorate([
     __param(3, IOpenerService)
 ], Link);
-export { Link };

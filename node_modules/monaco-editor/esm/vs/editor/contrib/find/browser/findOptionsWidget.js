@@ -9,7 +9,7 @@ import { Widget } from '../../../../base/browser/ui/widget.js';
 import { RunOnceScheduler } from '../../../../base/common/async.js';
 import { FIND_IDS } from './findModel.js';
 import { asCssVariable, inputActiveOptionBackground, inputActiveOptionBorder, inputActiveOptionForeground } from '../../../../platform/theme/common/colorRegistry.js';
-class FindOptionsWidget extends Widget {
+export class FindOptionsWidget extends Widget {
     constructor(editor, state, keybindingService) {
         super();
         this._hideSoon = this._register(new RunOnceScheduler(() => this._hide(), 2000));
@@ -124,4 +124,3 @@ class FindOptionsWidget extends Widget {
     }
 }
 FindOptionsWidget.ID = 'editor.contrib.findOptionsWidget';
-export { FindOptionsWidget };

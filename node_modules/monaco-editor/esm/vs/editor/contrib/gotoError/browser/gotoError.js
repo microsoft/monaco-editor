@@ -34,7 +34,7 @@ import { IContextKeyService, RawContextKey } from '../../../../platform/contextk
 import { IInstantiationService } from '../../../../platform/instantiation/common/instantiation.js';
 import { registerIcon } from '../../../../platform/theme/common/iconRegistry.js';
 import { MarkerNavigationWidget } from './gotoErrorWidget.js';
-let MarkerController = class MarkerController {
+export let MarkerController = class MarkerController {
     static get(editor) {
         return editor.getContribution(MarkerController.ID);
     }
@@ -158,7 +158,6 @@ MarkerController = __decorate([
     __param(3, ICodeEditorService),
     __param(4, IInstantiationService)
 ], MarkerController);
-export { MarkerController };
 class MarkerNavigationAction extends EditorAction {
     constructor(_next, _multiFile, opts) {
         super(opts);
@@ -174,7 +173,7 @@ class MarkerNavigationAction extends EditorAction {
         });
     }
 }
-class NextMarkerAction extends MarkerNavigationAction {
+export class NextMarkerAction extends MarkerNavigationAction {
     constructor() {
         super(true, false, {
             id: NextMarkerAction.ID,
@@ -198,7 +197,6 @@ class NextMarkerAction extends MarkerNavigationAction {
 }
 NextMarkerAction.ID = 'editor.action.marker.next';
 NextMarkerAction.LABEL = nls.localize('markerAction.next.label', "Go to Next Problem (Error, Warning, Info)");
-export { NextMarkerAction };
 class PrevMarkerAction extends MarkerNavigationAction {
     constructor() {
         super(false, false, {

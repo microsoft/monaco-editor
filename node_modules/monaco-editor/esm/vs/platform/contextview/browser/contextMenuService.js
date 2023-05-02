@@ -23,7 +23,7 @@ import { INotificationService } from '../../notification/common/notification.js'
 import { ITelemetryService } from '../../telemetry/common/telemetry.js';
 import { ContextMenuHandler } from './contextMenuHandler.js';
 import { IContextViewService } from './contextView.js';
-let ContextMenuService = class ContextMenuService extends Disposable {
+export let ContextMenuService = class ContextMenuService extends Disposable {
     get contextMenuHandler() {
         if (!this._contextMenuHandler) {
             this._contextMenuHandler = new ContextMenuHandler(this.contextViewService, this.telemetryService, this.notificationService, this.keybindingService);
@@ -65,7 +65,6 @@ ContextMenuService = __decorate([
     __param(4, IMenuService),
     __param(5, IContextKeyService)
 ], ContextMenuService);
-export { ContextMenuService };
 export var ContextMenuMenuDelegate;
 (function (ContextMenuMenuDelegate) {
     function is(thing) {

@@ -133,19 +133,19 @@ export class USLayoutResolvedKeybinding extends BaseResolvedKeybinding {
             case 43 /* ScanCode.Digit8 */: return 29 /* KeyCode.Digit8 */;
             case 44 /* ScanCode.Digit9 */: return 30 /* KeyCode.Digit9 */;
             case 45 /* ScanCode.Digit0 */: return 21 /* KeyCode.Digit0 */;
-            case 51 /* ScanCode.Minus */: return 83 /* KeyCode.Minus */;
-            case 52 /* ScanCode.Equal */: return 81 /* KeyCode.Equal */;
-            case 53 /* ScanCode.BracketLeft */: return 87 /* KeyCode.BracketLeft */;
-            case 54 /* ScanCode.BracketRight */: return 89 /* KeyCode.BracketRight */;
-            case 55 /* ScanCode.Backslash */: return 88 /* KeyCode.Backslash */;
+            case 51 /* ScanCode.Minus */: return 88 /* KeyCode.Minus */;
+            case 52 /* ScanCode.Equal */: return 86 /* KeyCode.Equal */;
+            case 53 /* ScanCode.BracketLeft */: return 92 /* KeyCode.BracketLeft */;
+            case 54 /* ScanCode.BracketRight */: return 94 /* KeyCode.BracketRight */;
+            case 55 /* ScanCode.Backslash */: return 93 /* KeyCode.Backslash */;
             case 56 /* ScanCode.IntlHash */: return 0 /* KeyCode.Unknown */; // missing
-            case 57 /* ScanCode.Semicolon */: return 80 /* KeyCode.Semicolon */;
-            case 58 /* ScanCode.Quote */: return 90 /* KeyCode.Quote */;
-            case 59 /* ScanCode.Backquote */: return 86 /* KeyCode.Backquote */;
-            case 60 /* ScanCode.Comma */: return 82 /* KeyCode.Comma */;
-            case 61 /* ScanCode.Period */: return 84 /* KeyCode.Period */;
-            case 62 /* ScanCode.Slash */: return 85 /* KeyCode.Slash */;
-            case 106 /* ScanCode.IntlBackslash */: return 92 /* KeyCode.IntlBackslash */;
+            case 57 /* ScanCode.Semicolon */: return 85 /* KeyCode.Semicolon */;
+            case 58 /* ScanCode.Quote */: return 95 /* KeyCode.Quote */;
+            case 59 /* ScanCode.Backquote */: return 91 /* KeyCode.Backquote */;
+            case 60 /* ScanCode.Comma */: return 87 /* KeyCode.Comma */;
+            case 61 /* ScanCode.Period */: return 89 /* KeyCode.Period */;
+            case 62 /* ScanCode.Slash */: return 90 /* KeyCode.Slash */;
+            case 106 /* ScanCode.IntlBackslash */: return 97 /* KeyCode.IntlBackslash */;
         }
         return 0 /* KeyCode.Unknown */;
     }

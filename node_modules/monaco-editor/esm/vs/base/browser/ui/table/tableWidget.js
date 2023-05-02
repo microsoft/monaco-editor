@@ -93,7 +93,7 @@ class ColumnHeader {
         this._onDidLayout.fire([this.index, size]);
     }
 }
-class Table {
+export class Table {
     get onDidChangeFocus() { return this.list.onDidChangeFocus; }
     get onDidChangeSelection() { return this.list.onDidChangeSelection; }
     get onMouseDblClick() { return this.list.onMouseDblClick; }
@@ -163,4 +163,3 @@ class Table {
     }
 }
 Table.InstanceCount = 0;
-export { Table };

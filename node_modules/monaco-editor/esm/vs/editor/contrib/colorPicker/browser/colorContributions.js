@@ -9,7 +9,7 @@ import { ColorDecorationInjectedTextMarker } from './colorDetector.js';
 import { ColorHoverParticipant } from './colorHoverParticipant.js';
 import { ModesHoverController } from '../../hover/browser/hover.js';
 import { HoverParticipantRegistry } from '../../hover/browser/hoverTypes.js';
-class ColorContribution extends Disposable {
+export class ColorContribution extends Disposable {
     constructor(_editor) {
         super();
         this._editor = _editor;
@@ -43,6 +43,5 @@ class ColorContribution extends Disposable {
     }
 }
 ColorContribution.ID = 'editor.contrib.colorContribution'; // ms
-export { ColorContribution };
 registerEditorContribution(ColorContribution.ID, ColorContribution, 2 /* EditorContributionInstantiation.BeforeFirstInteraction */);
 HoverParticipantRegistry.register(ColorHoverParticipant);

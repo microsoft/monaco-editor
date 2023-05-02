@@ -40,7 +40,7 @@ export function layout(viewportSize, viewSize, anchor) {
         return 0; // sad case, lay it over the anchor
     }
 }
-class ContextView extends Disposable {
+export class ContextView extends Disposable {
     constructor(container, domPosition) {
         super();
         this.container = null;
@@ -236,7 +236,6 @@ class ContextView extends Disposable {
 }
 ContextView.BUBBLE_UP_EVENTS = ['click', 'keydown', 'focus', 'blur'];
 ContextView.BUBBLE_DOWN_EVENTS = ['click'];
-export { ContextView };
 const SHADOW_ROOT_CSS = /* css */ `
 	:host {
 		all: initial; /* 1st rule so subsequent properties are reset. */

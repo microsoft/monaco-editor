@@ -211,7 +211,7 @@ registerAction2(class extends Action2 {
             keybinding: {
                 weight,
                 primary: 3 /* KeyCode.Enter */,
-                secondary: [2048 /* KeyMod.CtrlCmd */ | 84 /* KeyCode.Period */],
+                secondary: [2048 /* KeyMod.CtrlCmd */ | 89 /* KeyCode.Period */],
             }
         });
     }

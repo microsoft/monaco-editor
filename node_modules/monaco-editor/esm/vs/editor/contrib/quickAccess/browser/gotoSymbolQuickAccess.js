@@ -34,7 +34,7 @@ import { AbstractEditorNavigationQuickAccessProvider } from './editorNavigationQ
 import { localize } from '../../../../nls.js';
 import { ILanguageFeaturesService } from '../../../common/services/languageFeatures.js';
 import { findLast } from '../../../../base/common/arrays.js';
-let AbstractGotoSymbolQuickAccessProvider = class AbstractGotoSymbolQuickAccessProvider extends AbstractEditorNavigationQuickAccessProvider {
+export let AbstractGotoSymbolQuickAccessProvider = class AbstractGotoSymbolQuickAccessProvider extends AbstractEditorNavigationQuickAccessProvider {
     constructor(_languageFeaturesService, _outlineModelService, options = Object.create(null)) {
         super(options);
         this._languageFeaturesService = _languageFeaturesService;
@@ -372,7 +372,6 @@ AbstractGotoSymbolQuickAccessProvider = __decorate([
     __param(0, ILanguageFeaturesService),
     __param(1, IOutlineModelService)
 ], AbstractGotoSymbolQuickAccessProvider);
-export { AbstractGotoSymbolQuickAccessProvider };
 // #region NLS Helpers
 const FALLBACK_NLS_SYMBOL_KIND = localize('property', "properties ({0})");
 const NLS_SYMBOL_KIND_CACHE = {

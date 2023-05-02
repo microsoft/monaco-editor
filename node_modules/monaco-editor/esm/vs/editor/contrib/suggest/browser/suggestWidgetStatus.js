@@ -34,7 +34,7 @@ class StatusBarViewItem extends MenuEntryActionViewItem {
         return (_a = kb.getLabel()) === null || _a === void 0 ? void 0 : _a.replace(/\benter\b/gi, '\u23CE');
     }
 }
-let SuggestWidgetStatus = class SuggestWidgetStatus {
+export let SuggestWidgetStatus = class SuggestWidgetStatus {
     constructor(container, _menuId, instantiationService, _menuService, _contextKeyService) {
         this._menuId = _menuId;
         this._menuService = _menuService;
@@ -83,4 +83,3 @@ SuggestWidgetStatus = __decorate([
     __param(3, IMenuService),
     __param(4, IContextKeyService)
 ], SuggestWidgetStatus);
-export { SuggestWidgetStatus };

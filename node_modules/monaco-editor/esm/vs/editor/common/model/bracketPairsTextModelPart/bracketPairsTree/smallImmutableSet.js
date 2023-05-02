@@ -7,7 +7,7 @@ const emptyArr = [];
  * Represents an immutable set that works best for a small number of elements (less than 32).
  * It uses bits to encode element membership efficiently.
 */
-class SmallImmutableSet {
+export class SmallImmutableSet {
     static create(items, additionalItems) {
         if (items <= 128 && additionalItems.length === 0) {
             // We create a cache of 128=2^7 elements to cover all sets with up to 7 (dense) elements.
@@ -81,7 +81,6 @@ class SmallImmutableSet {
 }
 SmallImmutableSet.cache = new Array(129);
 SmallImmutableSet.empty = SmallImmutableSet.create(0, emptyArr);
-export { SmallImmutableSet };
 export const identityKeyProvider = {
     getKey(value) {
         return value;

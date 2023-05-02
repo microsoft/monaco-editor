@@ -22,7 +22,7 @@ import { Link } from '../../../../platform/opener/browser/link.js';
 import { widgetClose } from '../../../../platform/theme/common/iconRegistry.js';
 import { ThemeIcon } from '../../../../base/common/themables.js';
 const BANNER_ELEMENT_HEIGHT = 26;
-let BannerController = class BannerController extends Disposable {
+export let BannerController = class BannerController extends Disposable {
     constructor(_editor, instantiationService) {
         super();
         this._editor = _editor;
@@ -45,7 +45,6 @@ let BannerController = class BannerController extends Disposable {
 BannerController = __decorate([
     __param(1, IInstantiationService)
 ], BannerController);
-export { BannerController };
 // TODO@hediet: Investigate if this can be reused by the workspace banner (bannerPart.ts).
 let Banner = class Banner extends Disposable {
     constructor(instantiationService) {

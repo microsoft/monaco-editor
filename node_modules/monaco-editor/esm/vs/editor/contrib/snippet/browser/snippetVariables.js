@@ -33,6 +33,7 @@ export const KnownSnippetVariableNames = Object.freeze({
     'CURRENT_MONTH_NAME': true,
     'CURRENT_MONTH_NAME_SHORT': true,
     'CURRENT_SECONDS_UNIX': true,
+    'CURRENT_TIMEZONE_OFFSET': true,
     'SELECTION': true,
     'CLIPBOARD': true,
     'TM_SELECTED_TEXT': true,
@@ -203,7 +204,7 @@ export class ClipboardBasedVariableResolver {
         return clipboardText;
     }
 }
-let CommentBasedVariableResolver = class CommentBasedVariableResolver {
+export let CommentBasedVariableResolver = class CommentBasedVariableResolver {
     constructor(_model, _selection, _languageConfigurationService) {
         this._model = _model;
         this._selection = _selection;
@@ -232,8 +233,7 @@ let CommentBasedVariableResolver = class CommentBasedVariableResolver {
 CommentBasedVariableResolver = __decorate([
     __param(2, ILanguageConfigurationService)
 ], CommentBasedVariableResolver);
-export { CommentBasedVariableResolver };
-class TimeBasedVariableResolver {
+export class TimeBasedVariableResolver {
     constructor() {
         this._date = new Date();
     }
@@ -275,6 +275,15 @@ class TimeBasedVariableResolver {
         else if (name === 'CURRENT_SECONDS_UNIX') {
             return String(Math.floor(this._date.getTime() / 1000));
         }
+        else if (name === 'CURRENT_TIMEZONE_OFFSET') {
+            const rawTimeOffset = this._date.getTimezoneOffset();
+            const sign = rawTimeOffset > 0 ? '-' : '+';
+            const hours = Math.trunc(Math.abs(rawTimeOffset / 60));
+            const hoursString = (hours < 10 ? '0' + hours : hours);
+            const minutes = Math.abs(rawTimeOffset) - hours * 60;
+            const minutesString = (minutes < 10 ? '0' + minutes : minutes);
+            return sign + hoursString + ':' + minutesString;
+        }
         return undefined;
     }
 }
@@ -282,7 +291,6 @@ TimeBasedVariableResolver.dayNames = [nls.localize('Sunday', "Sunday"), nls.loca
 TimeBasedVariableResolver.dayNamesShort = [nls.localize('SundayShort', "Sun"), nls.localize('MondayShort', "Mon"), nls.localize('TuesdayShort', "Tue"), nls.localize('WednesdayShort', "Wed"), nls.localize('ThursdayShort', "Thu"), nls.localize('FridayShort', "Fri"), nls.localize('SaturdayShort', "Sat")];
 TimeBasedVariableResolver.monthNames = [nls.localize('January', "January"), nls.localize('February', "February"), nls.localize('March', "March"), nls.localize('April', "April"), nls.localize('May', "May"), nls.localize('June', "June"), nls.localize('July', "July"), nls.localize('August', "August"), nls.localize('September', "September"), nls.localize('October', "October"), nls.localize('November', "November"), nls.localize('December', "December")];
 TimeBasedVariableResolver.monthNamesShort = [nls.localize('JanuaryShort', "Jan"), nls.localize('FebruaryShort', "Feb"), nls.localize('MarchShort', "Mar"), nls.localize('AprilShort', "Apr"), nls.localize('MayShort', "May"), nls.localize('JuneShort', "Jun"), nls.localize('JulyShort', "Jul"), nls.localize('AugustShort', "Aug"), nls.localize('SeptemberShort', "Sep"), nls.localize('OctoberShort', "Oct"), nls.localize('NovemberShort', "Nov"), nls.localize('DecemberShort', "Dec")];
-export { TimeBasedVariableResolver };
 export class WorkspaceBasedVariableResolver {
     constructor(_workspaceService) {
         this._workspaceService = _workspaceService;

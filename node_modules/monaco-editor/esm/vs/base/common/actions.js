@@ -127,7 +127,7 @@ export class ActionRunner extends Disposable {
         });
     }
 }
-class Separator {
+export class Separator {
     constructor() {
         this.id = Separator.ID;
         this.label = '';
@@ -159,7 +159,6 @@ class Separator {
     }
 }
 Separator.ID = 'vs.actions.separator';
-export { Separator };
 export class SubmenuAction {
     get actions() { return this._actions; }
     constructor(id, label, actions, cssClass) {
@@ -175,13 +174,12 @@ export class SubmenuAction {
         return __awaiter(this, void 0, void 0, function* () { });
     }
 }
-class EmptySubmenuAction extends Action {
+export class EmptySubmenuAction extends Action {
     constructor() {
         super(EmptySubmenuAction.ID, nls.localize('submenu.empty', '(empty)'), undefined, false);
     }
 }
 EmptySubmenuAction.ID = 'vs.actions.empty';
-export { EmptySubmenuAction };
 export function toAction(props) {
     var _a, _b;
     return {

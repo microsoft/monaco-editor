@@ -2,13 +2,11 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+import { BugIndicatingError } from '../../../../base/common/errors.js';
+import { DisposableStore } from '../../../../base/common/lifecycle.js';
+import { autorun } from '../../../../base/common/observable.js';
+import { Position } from '../../../common/core/position.js';
 import { Range } from '../../../common/core/range.js';
-export function createDisposableRef(object, disposable) {
-    return {
-        object,
-        dispose: () => disposable === null || disposable === void 0 ? void 0 : disposable.dispose(),
-    };
-}
 export function applyEdits(text, edits) {
     const transformer = new PositionOffsetTransformer(text);
     const offsetEdits = edits.map(e => {
@@ -42,4 +40,47 @@ class PositionOffsetTransformer {
 const array = [];
 export function getReadonlyEmptyArray() {
     return array;
+}
+export class ColumnRange {
+    constructor(startColumn, endColumnExclusive) {
+        this.startColumn = startColumn;
+        this.endColumnExclusive = endColumnExclusive;
+        if (startColumn > endColumnExclusive) {
+            throw new BugIndicatingError(`startColumn ${startColumn} cannot be after endColumnExclusive ${endColumnExclusive}`);
+        }
+    }
+    toRange(lineNumber) {
+        return new Range(lineNumber, this.startColumn, lineNumber, this.endColumnExclusive);
+    }
+}
+export function applyObservableDecorations(editor, decorations) {
+    const d = new DisposableStore();
+    const decorationsCollection = editor.createDecorationsCollection();
+    d.add(autorun(`Apply decorations from ${decorations.debugName}`, reader => {
+        const d = decorations.read(reader);
+        decorationsCollection.set(d);
+    }));
+    d.add({
+        dispose: () => {
+            decorationsCollection.clear();
+        }
+    });
+    return d;
+}
+export function addPositions(pos1, pos2) {
+    return new Position(pos1.lineNumber + pos2.lineNumber - 1, pos2.lineNumber === 1 ? pos1.column + pos2.column - 1 : pos2.column);
+}
+export function lengthOfText(text) {
+    let line = 1;
+    let column = 1;
+    for (const c of text) {
+        if (c === '\n') {
+            line++;
+            column = 1;
+        }
+        else {
+            column++;
+        }
+    }
+    return new Position(line, column);
 }
