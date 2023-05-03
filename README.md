@@ -37,7 +37,7 @@ It is recommended to develop against the `dev` version, and in production to use
   - [Integrate the AMD version](./docs/integrate-amd.md).
   - [Integrate the ESM version](./docs/integrate-esm.md)
 - Learn how to use the editor API and try out your own customizations in the [playground](https://microsoft.github.io/monaco-editor/playground.html).
-- Explore the [API docs](https://microsoft.github.io/monaco-editor/docs.html) or read them straight from [`monaco.d.ts`](https://github.com/microsoft/monaco-editor/blob/main/website/typedoc/monaco.d.ts).
+- Explore the [API docs](https://microsoft.github.io/monaco-editor/docs.html) or read them straight from [`monaco.d.ts`](https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/monaco.d.ts).
 - Read [this guide](https://github.com/microsoft/monaco-editor/wiki/Accessibility-Guide-for-Integrators) to ensure the editor is accessible to all your users!
 - Create a Monarch tokenizer for a new programming language [in the Monarch playground](https://microsoft.github.io/monaco-editor/monarch.html).
 - Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor)! Search open and closed issues, there are a lot of tips in there!
