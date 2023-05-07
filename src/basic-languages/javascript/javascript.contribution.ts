@@ -14,7 +14,7 @@ registerLanguage({
 	firstLine: '^#!.*\\bnode',
 	filenames: ['jakefile'],
 	aliases: ['JavaScript', 'javascript', 'js'],
-	mimetypes: ['text/javascript'],
+	mimetypes: ['text/javascript', 'application/javascript', 'application/x-javascript'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {

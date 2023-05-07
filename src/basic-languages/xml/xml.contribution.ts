@@ -31,7 +31,7 @@ registerLanguage({
 	],
 	firstLine: '(\\<\\?xml.*)|(\\<svg)|(\\<\\!doctype\\s+svg)',
 	aliases: ['XML', 'xml'],
-	mimetypes: ['text/xml', 'application/xml', 'application/xaml+xml', 'application/xml-dtd'],
+	mimetypes: ['text/xml', 'application/xml', 'application/xaml+xml', 'application/xml-dtd', 'application/xhtml+xml', 'image/svg+xml'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
