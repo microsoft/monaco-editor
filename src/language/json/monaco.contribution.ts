@@ -4,7 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './jsonMode';
-import { Emitter, IEvent, languages } from '../../fillers/monaco-editor-core';
+import { Emitter, IEvent, languages, Uri } from '../../fillers/monaco-editor-core';
+import type { JSONWorker } from './jsonWorker';
 
 // --- JSON configuration and defaults ---------
 
@@ -197,8 +198,12 @@ export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 	modeConfigurationDefault
 );
 
+export const getWorker = (): Promise<(...uris: Uri[]) => Promise<JSONWorker>> => {
+	return getMode().then((mode) => mode.getWorker());
+};
+
 // export to the global based API
-(<any>languages).json = { jsonDefaults };
+(<any>languages).json = { jsonDefaults, getWorker };
 
 // --- Registration to monaco editor ---
 
