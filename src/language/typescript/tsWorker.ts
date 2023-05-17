@@ -9,6 +9,7 @@ import {
 	Diagnostic,
 	DiagnosticRelatedInformation,
 	IExtraLibs,
+	IInstanceLib,
 	TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
@@ -35,15 +36,19 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	// --- model sync -----------------------
 
 	private _ctx: worker.IWorkerContext;
+	private _currentModel: string;
 	private _extraLibs: IExtraLibs = Object.create(null);
+	private _instanceLibs: Map<string, IInstanceLib[]>;
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 	private _inlayHintsOptions?: ts.UserPreferences;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
+		this._currentModel = '';
 		this._compilerOptions = createData.compilerOptions;
 		this._extraLibs = createData.extraLibs;
+		this._instanceLibs = createData.instanceLibs;
 		this._inlayHintsOptions = createData.inlayHintsOptions;
 	}
 
@@ -64,7 +69,18 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	getScriptFileNames(): string[] {
 		const allModels = this._ctx.getMirrorModels().map((model) => model.uri);
 		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString());
-		return models.concat(Object.keys(this._extraLibs));
+		let filenames = models.concat(Object.keys(this._extraLibs));
+		let instanceFiles: Array<string> | any = [];
+		if (this._instanceLibs.has(this._currentModel)) {
+			instanceFiles = this._instanceLibs.get(this._currentModel)?.map((lib) => {
+				return lib.filePath;
+			});
+		}
+		if (instanceFiles && instanceFiles.length) {
+			filenames = filenames.concat(instanceFiles);
+		}
+
+		return filenames;
 	}
 
 	private _getModel(fileName: string): worker.IMirrorModel | null {
@@ -98,6 +114,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	_getScriptText(fileName: string): string | undefined {
 		let text: string;
 		let model = this._getModel(fileName);
+		let allModels = this._ctx.getMirrorModels();
 		const libizedFileName = 'lib.' + fileName + '.d.ts';
 		if (model) {
 			// a true editor model
@@ -110,7 +127,18 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 			// extra lib
 			text = this._extraLibs[fileName].content;
 		} else {
-			return;
+			text = '';
+			if (this._instanceLibs.has(this._currentModel)) {
+				let libs = this._instanceLibs.get(this._currentModel);
+				libs?.forEach((lib) => {
+					if (lib.filePath === fileName) {
+						text = lib.content;
+					}
+				});
+			}
+			if (text === undefined) {
+				return;
+			}
 		}
 
 		return text;
@@ -259,6 +287,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+		this._currentModel = fileName;
 		return this._languageService.getCompletionsAtPosition(fileName, position, undefined);
 	}
 
@@ -437,6 +466,10 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		this._extraLibs = extraLibs;
 	}
 
+	async updateInstanceLibs(instanceLibs: Map<string, IInstanceLib[]>) {
+		this._instanceLibs = instanceLibs;
+	}
+
 	async provideInlayHints(
 		fileName: string,
 		start: number,
@@ -464,6 +497,7 @@ export interface ICreateData {
 	extraLibs: IExtraLibs;
 	customWorkerPath?: string;
 	inlayHintsOptions?: ts.UserPreferences;
+	instanceLibs: Map<string, IInstanceLib[]>;
 }
 
 /** The shape of the factory */

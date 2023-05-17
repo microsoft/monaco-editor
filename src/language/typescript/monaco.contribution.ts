@@ -187,6 +187,11 @@ export interface IExtraLibs {
 	[path: string]: IExtraLib;
 }
 
+export interface IInstanceLib {
+	content: string;
+	filePath: string;
+}
+
 /**
  * A linked list of formatted diagnostic messages to be used as part of a multiline message.
  * It is built from the bottom up, leaving the head to be the "main" diagnostic.
@@ -304,6 +309,8 @@ export interface LanguageServiceDefaults {
 	 */
 	readonly onDidExtraLibsChange: IEvent<void>;
 
+	readonly onDidInstanceLibsChange: IEvent<void>;
+
 	readonly workerOptions: WorkerOptions;
 
 	readonly inlayHintsOptions: InlayHintsOptions;
@@ -315,6 +322,11 @@ export interface LanguageServiceDefaults {
 	 * Get the current extra libs registered with the language service.
 	 */
 	getExtraLibs(): IExtraLibs;
+
+	/**
+	 * TODO add description
+	 */
+	getAllInstanceLibs(): Map<string, IInstanceLib[]>;
 
 	/**
 	 * Add an additional source file to the language service. Use this
@@ -549,8 +561,10 @@ export interface TypeScriptWorker {
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<void>();
 	private _onDidExtraLibsChange = new Emitter<void>();
+	private _onDidInstanceLibsChange = new Emitter<void>();
 
 	private _extraLibs: IExtraLibs;
+	private _instanceLibs: Map<string, IInstanceLib[]>;
 	private _removedExtraLibs: { [path: string]: number };
 	private _eagerModelSync: boolean;
 	private _compilerOptions!: CompilerOptions;
@@ -559,6 +573,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidExtraLibsChangeTimeout: number;
 	private _inlayHintsOptions!: InlayHintsOptions;
 	private _modeConfiguration!: ModeConfiguration;
+	private _onDidInstanceLibsChangeTimeout: number;
 
 	constructor(
 		compilerOptions: CompilerOptions,
@@ -568,6 +583,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		modeConfiguration: ModeConfiguration
 	) {
 		this._extraLibs = Object.create(null);
+		this._instanceLibs = new Map<string, IInstanceLib[]>();
 		this._removedExtraLibs = Object.create(null);
 		this._eagerModelSync = false;
 		this.setCompilerOptions(compilerOptions);
@@ -576,6 +592,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this.setInlayHintsOptions(inlayHintsOptions);
 		this.setModeConfiguration(modeConfiguration);
 		this._onDidExtraLibsChangeTimeout = -1;
+		this._onDidInstanceLibsChangeTimeout = -1;
 	}
 
 	get onDidChange(): IEvent<void> {
@@ -584,6 +601,10 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	get onDidExtraLibsChange(): IEvent<void> {
 		return this._onDidExtraLibsChange.event;
+	}
+
+	get onDidInstanceLibsChange(): IEvent<void> {
+		return this._onDidInstanceLibsChange.event;
 	}
 
 	get modeConfiguration(): ModeConfiguration {
@@ -674,6 +695,24 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this._fireOnDidExtraLibsChangeSoon();
 	}
 
+	setInstanceLibs(id: string, instanceLibs: IInstanceLib[]): IDisposable {
+		this._instanceLibs.set(id, instanceLibs);
+		this._fireOnDidInstanceLibsChangeSoon();
+		return {
+			dispose: () => {
+				if (!this._instanceLibs.has(id)) {
+					return;
+				}
+				this._instanceLibs.delete(id);
+				this._fireOnDidInstanceLibsChangeSoon();
+			}
+		};
+	}
+
+	getAllInstanceLibs(): Map<string, IInstanceLib[]> {
+		return this._instanceLibs;
+	}
+
 	private _fireOnDidExtraLibsChangeSoon(): void {
 		if (this._onDidExtraLibsChangeTimeout !== -1) {
 			// already scheduled
@@ -682,6 +721,17 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this._onDidExtraLibsChangeTimeout = window.setTimeout(() => {
 			this._onDidExtraLibsChangeTimeout = -1;
 			this._onDidExtraLibsChange.fire(undefined);
+		}, 0);
+	}
+
+	private _fireOnDidInstanceLibsChangeSoon(): void {
+		if (this._onDidInstanceLibsChangeTimeout !== -1) {
+			// already scheduled
+			return;
+		}
+		this._onDidInstanceLibsChangeTimeout = window.setTimeout(() => {
+			this._onDidInstanceLibsChangeTimeout = -1;
+			this._onDidInstanceLibsChange.fire(undefined);
 		}, 0);
 	}
 

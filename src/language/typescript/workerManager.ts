@@ -10,7 +10,9 @@ import { editor, Uri, IDisposable } from '../../fillers/monaco-editor-core';
 export class WorkerManager {
 	private _configChangeListener: IDisposable;
 	private _updateExtraLibsToken: number;
+	private _updateInstanceLibsToken: number;
 	private _extraLibsChangeListener: IDisposable;
+	private _instanceLibsChangeListener: IDisposable;
 
 	private _worker: editor.MonacoWebWorker<TypeScriptWorker> | null;
 	private _client: Promise<TypeScriptWorker> | null;
@@ -23,14 +25,19 @@ export class WorkerManager {
 		this._client = null;
 		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
 		this._updateExtraLibsToken = 0;
+		this._updateInstanceLibsToken = 0;
 		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(() =>
 			this._updateExtraLibs()
+		);
+		this._instanceLibsChangeListener = this._defaults.onDidInstanceLibsChange(() =>
+			this._updateInstanceLibs()
 		);
 	}
 
 	dispose(): void {
 		this._configChangeListener.dispose();
 		this._extraLibsChangeListener.dispose();
+		this._instanceLibsChangeListener.dispose();
 		this._stopWorker();
 	}
 
@@ -55,6 +62,19 @@ export class WorkerManager {
 		proxy.updateExtraLibs(this._defaults.getExtraLibs());
 	}
 
+	private async _updateInstanceLibs(): Promise<void> {
+		if (!this._worker) {
+			return;
+		}
+		const myToken = ++this._updateInstanceLibsToken;
+		const proxy = await this._worker.getProxy();
+		if (this._updateInstanceLibsToken !== myToken) {
+			// avoid multiple calls
+			return;
+		}
+		proxy.updateInstanceLibs(this._defaults.getAllInstanceLibs());
+	}
+
 	private _getClient(): Promise<TypeScriptWorker> {
 		if (!this._client) {
 			this._client = (async () => {
@@ -71,7 +91,8 @@ export class WorkerManager {
 						compilerOptions: this._defaults.getCompilerOptions(),
 						extraLibs: this._defaults.getExtraLibs(),
 						customWorkerPath: this._defaults.workerOptions.customWorkerPath,
-						inlayHintsOptions: this._defaults.inlayHintsOptions
+						inlayHintsOptions: this._defaults.inlayHintsOptions,
+						instanceLibs: this._defaults.getAllInstanceLibs()
 					}
 				});
 
