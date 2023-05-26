@@ -249,6 +249,7 @@ export class MonacoDiffEditor extends React.Component<
 			minimap: { enabled: false },
 			automaticLayout: false,
 			theme: this.props.theme,
+			originalEditable: true,
 		});
 		this.editor.setModel({
 			original: this.props.originalModel,
