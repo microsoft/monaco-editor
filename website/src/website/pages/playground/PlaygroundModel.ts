@@ -247,7 +247,7 @@ export class PlaygroundModel {
 		const regexp = new RegExp(
 			"(\\b" +
 				escapeRegexpChars(codeStringName) +
-				":[^\\w`]*`)([^`\\\\]|\\n|\\\\\\\\|\\\\`)*`"
+				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\|\\$`)*`"
 		);
 		const js = this.js;
 		const str = value
