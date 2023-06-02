@@ -247,12 +247,12 @@ export class PlaygroundModel {
 		const regexp = new RegExp(
 			"(\\b" +
 				escapeRegexpChars(codeStringName) +
-				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\|\\$`)*`"
+				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`"
 		);
 		const js = this.js;
 		const str = value
 			.replaceAll("\\", "\\\\")
-			.replaceAll("$", "\\$")
+			.replaceAll("$", "\\$$$$")
 			.replaceAll("`", "\\`");
 		const newJs = js.replace(regexp, "$1" + str + "`");
 		const autoReload = this.settings.autoReload;
