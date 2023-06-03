@@ -34,40 +34,7 @@ export * from './RenameAdapter';
 
 export * from './DocumentSymbolAdapter';
 
-//#region DocumentLinkAdapter
-
-export interface ILanguageWorkerWithDocumentLinks {
-	findDocumentLinks(uri: string): Promise<lsTypes.DocumentLink[]>;
-}
-
-export class DocumentLinkAdapter<T extends ILanguageWorkerWithDocumentLinks>
-	implements languages.LinkProvider
-{
-	constructor(private _worker: WorkerAccessor<T>) {}
-
-	public provideLinks(
-		model: editor.IReadOnlyModel,
-		token: CancellationToken
-	): Promise<languages.ILinksList | undefined> {
-		const resource = model.uri;
-
-		return this._worker(resource)
-			.then((worker) => worker.findDocumentLinks(resource.toString()))
-			.then((items) => {
-				if (!items) {
-					return;
-				}
-				return {
-					links: items.map((item) => ({
-						range: toRange(item.range),
-						url: item.target
-					}))
-				};
-			});
-	}
-}
-
-//#endregion
+export * from './DocumentLinkAdapter';
 
 //#region DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider
 
