@@ -37,6 +37,7 @@ export class DocumentHighlightAdapter<T extends ILanguageWorkerWithDocumentHighl
 			});
 	}
 }
+
 function toDocumentHighlightKind(
 	kind: lsTypes.DocumentHighlightKind | undefined
 ): languages.DocumentHighlightKind {

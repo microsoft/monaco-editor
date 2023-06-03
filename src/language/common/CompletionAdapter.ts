@@ -117,6 +117,7 @@ export function fromRange(range: IRange | undefined): lsTypes.Range | undefined 
 		end: { line: range.endLineNumber - 1, character: range.endColumn - 1 }
 	};
 }
+
 export function toRange(range: lsTypes.Range): Range;
 export function toRange(range: undefined): undefined;
 export function toRange(range: lsTypes.Range | undefined): Range | undefined;
@@ -131,6 +132,7 @@ export function toRange(range: lsTypes.Range | undefined): Range | undefined {
 		range.end.character + 1
 	);
 }
+
 function isInsertReplaceEdit(
 	edit: lsTypes.TextEdit | lsTypes.InsertReplaceEdit
 ): edit is lsTypes.InsertReplaceEdit {
@@ -139,6 +141,7 @@ function isInsertReplaceEdit(
 		typeof (<lsTypes.InsertReplaceEdit>edit).replace !== 'undefined'
 	);
 }
+
 function toCompletionItemKind(kind: number | undefined): languages.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
 
@@ -182,6 +185,7 @@ function toCompletionItemKind(kind: number | undefined): languages.CompletionIte
 	}
 	return mItemKind.Property;
 }
+
 function fromCompletionItemKind(kind: languages.CompletionItemKind): lsTypes.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
 
@@ -238,6 +242,7 @@ export function toTextEdit(textEdit: lsTypes.TextEdit | undefined): languages.Te
 		text: textEdit.newText
 	};
 }
+
 function toCommand(c: lsTypes.Command | undefined): languages.Command | undefined {
 	return c && c.command === 'editor.action.triggerSuggest'
 		? { id: c.command, title: c.title, arguments: c.arguments }

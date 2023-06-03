@@ -38,11 +38,13 @@ export class HoverAdapter<T extends ILanguageWorkerWithHover> implements languag
 			});
 	}
 }
+
 function isMarkupContent(thing: any): thing is lsTypes.MarkupContent {
 	return (
 		thing && typeof thing === 'object' && typeof (<lsTypes.MarkupContent>thing).kind === 'string'
 	);
 }
+
 function toMarkdownString(entry: lsTypes.MarkupContent | lsTypes.MarkedString): IMarkdownString {
 	if (typeof entry === 'string') {
 		return {
@@ -62,6 +64,7 @@ function toMarkdownString(entry: lsTypes.MarkupContent | lsTypes.MarkedString): 
 
 	return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
 }
+
 function toMarkedStringArray(
 	contents: lsTypes.MarkupContent | lsTypes.MarkedString | lsTypes.MarkedString[]
 ): IMarkdownString[] | undefined {
