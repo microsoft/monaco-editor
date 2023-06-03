@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import * as lsTypes from 'vscode-languageserver-types';
 import { languages, editor, Position, CancellationToken } from '../../fillers/monaco-editor-core';
 import { fromPosition } from './CompletionAdapter';
