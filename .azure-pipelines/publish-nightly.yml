@@ -23,6 +23,16 @@ resources:
       ref: main
       endpoint: Monaco
 
+parameters:
+  - name: vscodeRef
+    displayName: The VS Code commit id. When left empty, the main branched is used.
+    type: string
+    default: ''
+  - name: prereleaseVersion
+    displayName: The prerelease version. When left empty, dev-${today} is used.
+    type: string
+    default: ''
+
 extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
   parameters:
@@ -35,6 +45,9 @@ extends:
             displayName: Install NPM dependencies
 
           - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare nightly
+            env:
+              VSCODE_REF: ${{ parameters.vscodeRef }}
+              PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
             retryCountOnTaskFailure: 5
             displayName: Setup, Build & Test monaco-editor-core
 
@@ -51,6 +64,9 @@ extends:
             displayName: Install NPM dependencies
 
           - script: yarn ts-node ./scripts/ci/monaco-editor-prepare nightly
+            env:
+              VSCODE_REF: ${{ parameters.vscodeRef }}
+              PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
             retryCountOnTaskFailure: 5
             displayName: Setup, Build & Test monaco-editor
 
