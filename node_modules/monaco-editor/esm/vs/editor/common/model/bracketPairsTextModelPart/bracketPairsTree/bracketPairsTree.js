@@ -4,11 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 import { Emitter } from '../../../../../base/common/event.js';
 import { Disposable } from '../../../../../base/common/lifecycle.js';
-import { Range } from '../../../core/range.js';
 import { BracketInfo, BracketPairWithMinIndentationInfo } from '../../../textModelBracketPairs.js';
 import { TextEditInfo } from './beforeEditPositionMapper.js';
 import { LanguageAgnosticBracketTokens } from './brackets.js';
-import { lengthAdd, lengthGreaterThanEqual, lengthLessThan, lengthLessThanEqual, lengthOfString, lengthsToRange, lengthZero, positionToLength, toLength } from './length.js';
+import { lengthAdd, lengthGreaterThanEqual, lengthLessThan, lengthLessThanEqual, lengthsToRange, lengthZero, positionToLength, toLength } from './length.js';
 import { parseDocument } from './parser.js';
 import { DenseKeyProvider } from './smallImmutableSet.js';
 import { FastTokenizer, TextBufferTokenizer } from './tokenizer.js';
@@ -65,11 +64,7 @@ export class BracketPairsTree extends Disposable {
         }
     }
     handleContentChanged(change) {
-        // Must be sorted in ascending order
-        const edits = change.changes.map(c => {
-            const range = Range.lift(c.range);
-            return new TextEditInfo(positionToLength(range.getStartPosition()), positionToLength(range.getEndPosition()), lengthOfString(c.text));
-        }).reverse();
+        const edits = TextEditInfo.fromModelContentChanges(change.changes);
         this.handleEdits(edits, false);
     }
     handleEdits(edits, tokenChange) {

@@ -8,6 +8,7 @@ import { Emitter, Event } from '../../../base/common/event.js';
 import { IME } from '../../../base/common/ime.js';
 import { Disposable } from '../../../base/common/lifecycle.js';
 import * as nls from '../../../nls.js';
+import { NoMatchingKb } from './keybindingResolver.js';
 const HIGH_FREQ_COMMANDS = /^(cursor|delete|undo|redo|tab|editor\.action\.clipboard)/;
 export class AbstractKeybindingService extends Disposable {
     get onDidUpdateKeybindings() {
@@ -59,14 +60,14 @@ export class AbstractKeybindingService extends Disposable {
         this._log(`/ Soft dispatching keyboard event`);
         const keybinding = this.resolveKeyboardEvent(e);
         if (keybinding.hasMultipleChords()) {
-            console.warn('Unexpected keyboard event mapped to multiple chords');
-            return null;
+            console.warn('keyboard event should not be mapped to multiple chords');
+            return NoMatchingKb;
         }
         const [firstChord,] = keybinding.getDispatchChords();
         if (firstChord === null) {
             // cannot be dispatched, probably only modifier keys
             this._log(`\\ Keyboard event cannot be dispatched`);
-            return null;
+            return NoMatchingKb;
         }
         const contextValue = this._contextKeyService.getContext(target);
         const currentChords = this._currentChords.map((({ keypress }) => keypress));
@@ -212,14 +213,14 @@ export class AbstractKeybindingService extends Disposable {
             }
             case 2 /* ResultKind.KbFound */: {
                 this._logService.trace('KeybindingService#dispatch', keypressLabel, `[ Will dispatch command ${resolveResult.commandId} ]`);
-                if (resolveResult.commandId === null) {
+                if (resolveResult.commandId === null || resolveResult.commandId === '') {
                     if (this.inChordMode) {
                         const currentChordsLabel = this._currentChords.map(({ label }) => label).join(', ');
                         this._log(`+ Leaving chord mode: Nothing bound to "${currentChordsLabel}, ${keypressLabel}".`);
                         this._notificationService.status(nls.localize('missing.chord', "The key combination ({0}, {1}) is not a command.", currentChordsLabel, keypressLabel), { hideAfter: 10 * 1000 /* 10s */ });
                         this._leaveChordMode();
+                        shouldPreventDefault = true;
                     }
-                    shouldPreventDefault = true;
                 }
                 else {
                     if (this.inChordMode) {

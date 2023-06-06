@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { ContextView } from '../../../base/browser/ui/contextview/contextview.js';
 import { Disposable, toDisposable } from '../../../base/common/lifecycle.js';
 import { ILayoutService } from '../../layout/browser/layoutService.js';
-let ContextViewService = class ContextViewService extends Disposable {
+export let ContextViewService = class ContextViewService extends Disposable {
     constructor(layoutService) {
         super();
         this.layoutService = layoutService;
@@ -64,4 +64,3 @@ let ContextViewService = class ContextViewService extends Disposable {
 ContextViewService = __decorate([
     __param(0, ILayoutService)
 ], ContextViewService);
-export { ContextViewService };

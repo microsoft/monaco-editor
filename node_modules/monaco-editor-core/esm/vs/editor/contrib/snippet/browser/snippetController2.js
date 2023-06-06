@@ -32,7 +32,7 @@ const _defaultOptions = {
     clipboardText: undefined,
     overtypingCapturer: undefined
 };
-let SnippetController2 = class SnippetController2 {
+export let SnippetController2 = class SnippetController2 {
     static get(editor) {
         return editor.getContribution(SnippetController2.ID);
     }
@@ -227,7 +227,6 @@ SnippetController2 = __decorate([
     __param(3, IContextKeyService),
     __param(4, ILanguageConfigurationService)
 ], SnippetController2);
-export { SnippetController2 };
 registerEditorContribution(SnippetController2.ID, SnippetController2, 4 /* EditorContributionInstantiation.Lazy */);
 const CommandCtor = EditorCommand.bindToContribution(SnippetController2.get);
 registerEditorCommand(new CommandCtor({

@@ -34,7 +34,7 @@ import { IDialogService } from '../../../../platform/dialogs/common/dialogs.js';
 import { EditorAction, registerEditorAction } from '../../../browser/editorExtensions.js';
 import { EditorContextKeys } from '../../../common/editorContextKeys.js';
 import { IQuickInputService } from '../../../../platform/quickinput/common/quickInput.js';
-let StandaloneCommandsQuickAccessProvider = class StandaloneCommandsQuickAccessProvider extends AbstractEditorCommandsQuickAccessProvider {
+export let StandaloneCommandsQuickAccessProvider = class StandaloneCommandsQuickAccessProvider extends AbstractEditorCommandsQuickAccessProvider {
     get activeTextEditorControl() { return withNullAsUndefined(this.codeEditorService.getFocusedCodeEditor()); }
     constructor(instantiationService, codeEditorService, keybindingService, commandService, telemetryService, dialogService) {
         super({ showAlias: false }, instantiationService, keybindingService, commandService, telemetryService, dialogService);
@@ -43,6 +43,14 @@ let StandaloneCommandsQuickAccessProvider = class StandaloneCommandsQuickAccessP
     getCommandPicks() {
         return __awaiter(this, void 0, void 0, function* () {
             return this.getCodeEditorCommandPicks();
+        });
+    }
+    hasAdditionalCommandPicks() {
+        return false;
+    }
+    getAdditionalCommandPicks() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return [];
         });
     }
 };
@@ -54,8 +62,7 @@ StandaloneCommandsQuickAccessProvider = __decorate([
     __param(4, ITelemetryService),
     __param(5, IDialogService)
 ], StandaloneCommandsQuickAccessProvider);
-export { StandaloneCommandsQuickAccessProvider };
-class GotoLineAction extends EditorAction {
+export class GotoLineAction extends EditorAction {
     constructor() {
         super({
             id: GotoLineAction.ID,
@@ -78,7 +85,6 @@ class GotoLineAction extends EditorAction {
     }
 }
 GotoLineAction.ID = 'editor.action.quickCommand';
-export { GotoLineAction };
 registerEditorAction(GotoLineAction);
 Registry.as(Extensions.Quickaccess).registerQuickAccessProvider({
     ctor: StandaloneCommandsQuickAccessProvider,

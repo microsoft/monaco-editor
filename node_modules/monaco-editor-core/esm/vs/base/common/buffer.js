@@ -1,4 +1,10 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+import { Lazy } from './lazy.js';
 const hasBuffer = (typeof Buffer !== 'undefined');
+const indexOfTable = new Lazy(() => new Uint8Array(256));
 let textDecoder;
 export class VSBuffer {
     /**

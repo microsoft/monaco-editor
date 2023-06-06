@@ -2,7 +2,7 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-class BasicInplaceReplace {
+export class BasicInplaceReplace {
     constructor() {
         this._defaultValueSet = [
             ['true', 'false'],
@@ -83,4 +83,3 @@ class BasicInplaceReplace {
     }
 }
 BasicInplaceReplace.INSTANCE = new BasicInplaceReplace();
-export { BasicInplaceReplace };

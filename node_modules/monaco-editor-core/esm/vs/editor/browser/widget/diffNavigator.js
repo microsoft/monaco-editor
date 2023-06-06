@@ -28,7 +28,7 @@ const defaultOptions = {
 /**
  * Create a new diff navigator for the provided diff editor.
  */
-let DiffNavigator = class DiffNavigator extends Disposable {
+export let DiffNavigator = class DiffNavigator extends Disposable {
     constructor(editor, options = {}, _audioCueService, _codeEditorService, _accessibilityService) {
         super();
         this._audioCueService = _audioCueService;
@@ -42,8 +42,6 @@ let DiffNavigator = class DiffNavigator extends Disposable {
         this.ranges = [];
         this.ignoreSelectionChange = false;
         this.revealFirst = Boolean(this._options.alwaysRevealFirst);
-        // hook up to diff editor for diff, disposal, and caret move
-        this._register(this._editor.onDidDispose(() => this.dispose()));
         this._register(this._editor.onDidUpdateDiff(() => this._onDiffUpdated()));
         if (this._options.followsCaret) {
             this._register(this._editor.getModifiedEditor().onDidChangeCursorPosition((e) => {
@@ -52,11 +50,6 @@ let DiffNavigator = class DiffNavigator extends Disposable {
                 }
                 this._updateAccessibilityState(e.position.lineNumber);
                 this.nextIdx = -1;
-            }));
-        }
-        if (this._options.alwaysRevealFirst) {
-            this._register(this._editor.getModifiedEditor().onDidChangeModel((e) => {
-                this.revealFirst = true;
             }));
         }
         // init things
@@ -229,4 +222,3 @@ DiffNavigator = __decorate([
     __param(3, ICodeEditorService),
     __param(4, IAccessibilityService)
 ], DiffNavigator);
-export { DiffNavigator };

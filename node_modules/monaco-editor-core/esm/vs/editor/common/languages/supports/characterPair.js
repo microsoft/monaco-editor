@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { StandardAutoClosingPairConditional } from '../languageConfiguration.js';
-class CharacterPairSupport {
+export class CharacterPairSupport {
     constructor(config) {
         if (config.autoClosingPairs) {
             this._autoClosingPairs = config.autoClosingPairs.map(el => new StandardAutoClosingPairConditional(el));
@@ -35,4 +35,3 @@ class CharacterPairSupport {
 }
 CharacterPairSupport.DEFAULT_AUTOCLOSE_BEFORE_LANGUAGE_DEFINED_QUOTES = ';:.,=}])> \n\t';
 CharacterPairSupport.DEFAULT_AUTOCLOSE_BEFORE_LANGUAGE_DEFINED_BRACKETS = '\'"`;:.,=}])> \n\t';
-export { CharacterPairSupport };

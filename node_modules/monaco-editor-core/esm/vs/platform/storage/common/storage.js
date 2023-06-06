@@ -28,7 +28,7 @@ export function loadKeyTargets(storage) {
     }
     return Object.create(null);
 }
-class AbstractStorageService extends Disposable {
+export class AbstractStorageService extends Disposable {
     constructor(options = { flushInterval: AbstractStorageService.DEFAULT_FLUSH_INTERVAL }) {
         super();
         this.options = options;
@@ -166,7 +166,6 @@ class AbstractStorageService extends Disposable {
     }
 }
 AbstractStorageService.DEFAULT_FLUSH_INTERVAL = 60 * 1000; // every minute
-export { AbstractStorageService };
 export class InMemoryStorageService extends AbstractStorageService {
     constructor() {
         super();

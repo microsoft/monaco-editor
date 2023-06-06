@@ -180,7 +180,7 @@ export class PrefixMemory extends Memory {
         }
     }
 }
-let SuggestMemoryService = class SuggestMemoryService {
+export let SuggestMemoryService = class SuggestMemoryService {
     constructor(_storageService, _configService) {
         this._storageService = _storageService;
         this._configService = _configService;
@@ -246,6 +246,5 @@ SuggestMemoryService = __decorate([
     __param(0, IStorageService),
     __param(1, IConfigurationService)
 ], SuggestMemoryService);
-export { SuggestMemoryService };
 export const ISuggestMemoryService = createDecorator('ISuggestMemories');
 registerSingleton(ISuggestMemoryService, SuggestMemoryService, 1 /* InstantiationType.Delayed */);

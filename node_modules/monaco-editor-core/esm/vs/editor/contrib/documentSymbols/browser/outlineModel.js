@@ -205,7 +205,7 @@ export class OutlineModel extends TreeElement {
     }
 }
 export const IOutlineModelService = createDecorator('IOutlineModelService');
-let OutlineModelService = class OutlineModelService {
+export let OutlineModelService = class OutlineModelService {
     constructor(_languageFeaturesService, debounces, modelService) {
         this._languageFeaturesService = _languageFeaturesService;
         this._disposables = new DisposableStore();
@@ -270,5 +270,4 @@ OutlineModelService = __decorate([
     __param(1, ILanguageFeatureDebounceService),
     __param(2, IModelService)
 ], OutlineModelService);
-export { OutlineModelService };
 registerSingleton(IOutlineModelService, OutlineModelService, 1 /* InstantiationType.Delayed */);

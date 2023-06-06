@@ -15,7 +15,7 @@ import { Lazy } from '../../../../base/common/lazy.js';
 import { codeActionCommandId, fixAllCommandId, organizeImportsCommandId, refactorCommandId, sourceActionCommandId } from './codeAction.js';
 import { CodeActionCommandArgs, CodeActionKind } from '../common/types.js';
 import { IKeybindingService } from '../../../../platform/keybinding/common/keybinding.js';
-let CodeActionKeybindingResolver = class CodeActionKeybindingResolver {
+export let CodeActionKeybindingResolver = class CodeActionKeybindingResolver {
     constructor(keybindingService) {
         this.keybindingService = keybindingService;
     }
@@ -79,4 +79,3 @@ CodeActionKeybindingResolver.codeActionCommands = [
 CodeActionKeybindingResolver = __decorate([
     __param(0, IKeybindingService)
 ], CodeActionKeybindingResolver);
-export { CodeActionKeybindingResolver };

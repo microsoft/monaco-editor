@@ -14,7 +14,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { ThrottledDelayer } from '../../../common/async.js';
 import { Emitter, Event } from '../../../common/event.js';
 import { Disposable } from '../../../common/lifecycle.js';
-import { isUndefinedOrNull } from '../../../common/types.js';
+import { stringify } from '../../../common/marshalling.js';
+import { isObject, isUndefinedOrNull } from '../../../common/types.js';
 export var StorageHint;
 (function (StorageHint) {
     // A hint to the storage that the storage
@@ -32,7 +33,7 @@ export var StorageState;
     StorageState[StorageState["Initialized"] = 1] = "Initialized";
     StorageState[StorageState["Closed"] = 2] = "Closed";
 })(StorageState || (StorageState = {}));
-class Storage extends Disposable {
+export class Storage extends Disposable {
     constructor(database, options = Object.create(null)) {
         super();
         this.database = database;
@@ -111,7 +112,7 @@ class Storage extends Disposable {
                 return this.delete(key);
             }
             // Otherwise, convert to String and store
-            const valueStr = String(value);
+            const valueStr = isObject(value) || Array.isArray(value) ? stringify(value) : String(value);
             // Return early if value already set
             const currentValue = this.cache.get(key);
             if (currentValue === valueStr) {
@@ -183,7 +184,6 @@ class Storage extends Disposable {
     }
 }
 Storage.DEFAULT_FLUSH_DELAY = 100;
-export { Storage };
 export class InMemoryStorageDatabase {
     constructor() {
         this.onDidChangeItemsExternal = Event.None;

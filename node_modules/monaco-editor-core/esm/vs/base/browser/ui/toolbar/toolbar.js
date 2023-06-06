@@ -122,7 +122,7 @@ export class ToolBar extends Disposable {
         super.dispose();
     }
 }
-class ToggleMenuAction extends Action {
+export class ToggleMenuAction extends Action {
     constructor(toggleDropdownMenu, title) {
         title = title || nls.localize('moreActions', "More Actions...");
         super(ToggleMenuAction.ID, title, undefined, true);
@@ -142,4 +142,3 @@ class ToggleMenuAction extends Action {
     }
 }
 ToggleMenuAction.ID = 'toolbar.toggle.more';
-export { ToggleMenuAction };

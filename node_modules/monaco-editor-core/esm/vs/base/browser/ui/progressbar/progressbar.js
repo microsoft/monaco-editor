@@ -14,7 +14,7 @@ const CSS_DISCRETE = 'discrete';
 /**
  * A progress bar with support for infinite or discrete progress.
  */
-class ProgressBar extends Disposable {
+export class ProgressBar extends Disposable {
     constructor(container, options) {
         super();
         this.workedVal = 0;
@@ -98,4 +98,3 @@ class ProgressBar extends Disposable {
  * https://github.com/microsoft/vscode/issues/138396
  */
 ProgressBar.LONG_RUNNING_INFINITE_THRESHOLD = 10000;
-export { ProgressBar };

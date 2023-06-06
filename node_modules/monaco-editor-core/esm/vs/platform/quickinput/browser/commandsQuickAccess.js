@@ -35,7 +35,7 @@ import { IKeybindingService } from '../../keybinding/common/keybinding.js';
 import { PickerQuickAccessProvider } from './pickerQuickAccess.js';
 import { IStorageService } from '../../storage/common/storage.js';
 import { ITelemetryService } from '../../telemetry/common/telemetry.js';
-let AbstractCommandsQuickAccessProvider = class AbstractCommandsQuickAccessProvider extends PickerQuickAccessProvider {
+export let AbstractCommandsQuickAccessProvider = class AbstractCommandsQuickAccessProvider extends PickerQuickAccessProvider {
     constructor(options, instantiationService, keybindingService, commandService, telemetryService, dialogService) {
         super(AbstractCommandsQuickAccessProvider.PREFIX, options);
         this.instantiationService = instantiationService;
@@ -118,10 +118,6 @@ let AbstractCommandsQuickAccessProvider = class AbstractCommandsQuickAccessProvi
             let addCommonlyUsedSeparator = !!this.options.suggestedCommandIds;
             for (let i = 0; i < filteredCommandPicks.length; i++) {
                 const commandPick = filteredCommandPicks[i];
-                const keybinding = this.keybindingService.lookupKeybinding(commandPick.commandId);
-                const ariaLabel = keybinding ?
-                    localize('commandPickAriaLabelWithKeybinding', "{0}, {1}", commandPick.label, keybinding.getAriaLabel()) :
-                    commandPick.label;
                 // Separator: recently used
                 if (i === 0 && this.commandsHistory.peek(commandPick.commandId)) {
                     commandPicks.push({ type: 'separator', label: localize('recentlyUsed', "recently used") });
@@ -139,28 +135,50 @@ let AbstractCommandsQuickAccessProvider = class AbstractCommandsQuickAccessProvi
                     addOtherSeparator = false;
                 }
                 // Command
-                commandPicks.push(Object.assign(Object.assign({}, commandPick), { ariaLabel, detail: this.options.showAlias && commandPick.commandAlias !== commandPick.label ? commandPick.commandAlias : undefined, keybinding, accept: () => __awaiter(this, void 0, void 0, function* () {
-                        var _c;
-                        // Add to history
-                        this.commandsHistory.push(commandPick.commandId);
-                        // Telementry
-                        this.telemetryService.publicLog2('workbenchActionExecuted', {
-                            id: commandPick.commandId,
-                            from: (_c = runOptions === null || runOptions === void 0 ? void 0 : runOptions.from) !== null && _c !== void 0 ? _c : 'quick open'
-                        });
-                        // Run
-                        try {
-                            yield this.commandService.executeCommand(commandPick.commandId);
-                        }
-                        catch (error) {
-                            if (!isCancellationError(error)) {
-                                this.dialogService.error(localize('canNotRun', "Command '{0}' resulted in an error", commandPick.label), toErrorMessage(error));
-                            }
-                        }
-                    }) }));
+                commandPicks.push(this.toCommandPick(commandPick, runOptions));
             }
-            return commandPicks;
+            if (!this.hasAdditionalCommandPicks(filter, token)) {
+                return commandPicks;
+            }
+            return {
+                picks: commandPicks,
+                additionalPicks: (() => __awaiter(this, void 0, void 0, function* () {
+                    const additionalCommandPicks = yield this.getAdditionalCommandPicks(allCommandPicks, filteredCommandPicks, filter, token);
+                    if (token.isCancellationRequested) {
+                        return [];
+                    }
+                    return additionalCommandPicks.map(commandPick => this.toCommandPick(commandPick, runOptions));
+                }))()
+            };
         });
+    }
+    toCommandPick(commandPick, runOptions) {
+        if (commandPick.type === 'separator') {
+            return commandPick;
+        }
+        const keybinding = this.keybindingService.lookupKeybinding(commandPick.commandId);
+        const ariaLabel = keybinding ?
+            localize('commandPickAriaLabelWithKeybinding', "{0}, {1}", commandPick.label, keybinding.getAriaLabel()) :
+            commandPick.label;
+        return Object.assign(Object.assign({}, commandPick), { ariaLabel, detail: this.options.showAlias && commandPick.commandAlias !== commandPick.label ? commandPick.commandAlias : undefined, keybinding, accept: () => __awaiter(this, void 0, void 0, function* () {
+                var _a;
+                // Add to history
+                this.commandsHistory.push(commandPick.commandId);
+                // Telementry
+                this.telemetryService.publicLog2('workbenchActionExecuted', {
+                    id: commandPick.commandId,
+                    from: (_a = runOptions === null || runOptions === void 0 ? void 0 : runOptions.from) !== null && _a !== void 0 ? _a : 'quick open'
+                });
+                // Run
+                try {
+                    yield this.commandService.executeCommand(commandPick.commandId);
+                }
+                catch (error) {
+                    if (!isCancellationError(error)) {
+                        this.dialogService.error(localize('canNotRun', "Command '{0}' resulted in an error", commandPick.label), toErrorMessage(error));
+                    }
+                }
+            }) });
     }
 };
 AbstractCommandsQuickAccessProvider.PREFIX = '>';
@@ -172,8 +190,7 @@ AbstractCommandsQuickAccessProvider = __decorate([
     __param(4, ITelemetryService),
     __param(5, IDialogService)
 ], AbstractCommandsQuickAccessProvider);
-export { AbstractCommandsQuickAccessProvider };
-let CommandsHistory = class CommandsHistory extends Disposable {
+export let CommandsHistory = class CommandsHistory extends Disposable {
     constructor(storageService, configurationService) {
         super();
         this.storageService = storageService;
@@ -258,4 +275,3 @@ CommandsHistory = __decorate([
     __param(0, IStorageService),
     __param(1, IConfigurationService)
 ], CommandsHistory);
-export { CommandsHistory };

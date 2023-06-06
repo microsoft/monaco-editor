@@ -17,7 +17,7 @@ export const foldingCollapsedIcon = registerIcon('folding-collapsed', Codicon.ch
 export const foldingManualCollapsedIcon = registerIcon('folding-manual-collapsed', foldingCollapsedIcon, localize('foldingManualCollapedIcon', 'Icon for manually collapsed ranges in the editor glyph margin.'));
 export const foldingManualExpandedIcon = registerIcon('folding-manual-expanded', foldingExpandedIcon, localize('foldingManualExpandedIcon', 'Icon for manually expanded ranges in the editor glyph margin.'));
 const foldedBackgroundMinimap = { color: themeColorFromId(foldBackground), position: MinimapPosition.Inline };
-class FoldingDecorationProvider {
+export class FoldingDecorationProvider {
     constructor(editor) {
         this.editor = editor;
         this.showFoldingControls = 'mouseover';
@@ -131,4 +131,3 @@ FoldingDecorationProvider.HIDDEN_RANGE_DECORATION = ModelDecorationOptions.regis
     description: 'folding-hidden-range-decoration',
     stickiness: 1 /* TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges */
 });
-export { FoldingDecorationProvider };

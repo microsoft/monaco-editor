@@ -33,7 +33,7 @@ const hintDidYouForgetToEscapeSlash = localize('contextkey.scanner.hint.didYouFo
  * }
  * ```
  */
-class Scanner {
+export class Scanner {
     constructor() {
         this._input = '';
         this._start = 0;
@@ -282,4 +282,3 @@ Scanner._keywords = new Map([
     ['false', 12 /* TokenType.False */],
     ['true', 11 /* TokenType.True */],
 ]);
-export { Scanner };

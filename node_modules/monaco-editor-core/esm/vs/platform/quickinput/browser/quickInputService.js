@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 import { CancellationToken } from '../../../base/common/cancellation.js';
 import { Emitter } from '../../../base/common/event.js';
-import { IAccessibilityService } from '../../accessibility/common/accessibility.js';
 import { IContextKeyService, RawContextKey } from '../../contextkey/common/contextkey.js';
 import { IInstantiationService } from '../../instantiation/common/instantiation.js';
 import { ILayoutService } from '../../layout/browser/layoutService.js';
@@ -24,7 +23,7 @@ import { defaultButtonStyles, defaultCountBadgeStyles, defaultInputBoxStyles, de
 import { activeContrastBorder, asCssVariable, pickerGroupBorder, pickerGroupForeground, quickInputBackground, quickInputForeground, quickInputListFocusBackground, quickInputListFocusForeground, quickInputListFocusIconForeground, quickInputTitleBackground, widgetBorder, widgetShadow } from '../../theme/common/colorRegistry.js';
 import { IThemeService, Themable } from '../../theme/common/themeService.js';
 import { QuickInputController } from './quickInput.js';
-let QuickInputService = class QuickInputService extends Themable {
+export let QuickInputService = class QuickInputService extends Themable {
     get controller() {
         if (!this._controller) {
             this._controller = this._register(this.createController());
@@ -38,11 +37,10 @@ let QuickInputService = class QuickInputService extends Themable {
         }
         return this._quickAccess;
     }
-    constructor(instantiationService, contextKeyService, themeService, accessibilityService, layoutService) {
+    constructor(instantiationService, contextKeyService, themeService, layoutService) {
         super(themeService);
         this.instantiationService = instantiationService;
         this.contextKeyService = contextKeyService;
-        this.accessibilityService = accessibilityService;
         this.layoutService = layoutService;
         this._onShow = this._register(new Emitter());
         this._onHide = this._register(new Emitter());
@@ -53,7 +51,6 @@ let QuickInputService = class QuickInputService extends Themable {
             idPrefix: 'quickInput_',
             container: host.container,
             ignoreFocusOut: () => false,
-            isScreenReaderOptimized: () => this.accessibilityService.isScreenReaderOptimized(),
             backKeybindingLabel: () => undefined,
             setContextKey: (id) => this.setContextKey(id),
             linkOpenerDelegate: (content) => {
@@ -162,7 +159,5 @@ QuickInputService = __decorate([
     __param(0, IInstantiationService),
     __param(1, IContextKeyService),
     __param(2, IThemeService),
-    __param(3, IAccessibilityService),
-    __param(4, ILayoutService)
+    __param(3, ILayoutService)
 ], QuickInputService);
-export { QuickInputService };

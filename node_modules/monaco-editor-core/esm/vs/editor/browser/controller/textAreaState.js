@@ -5,7 +5,7 @@
 import * as strings from '../../../base/common/strings.js';
 import { Range } from '../../common/core/range.js';
 export const _debugComposition = false;
-class TextAreaState {
+export class TextAreaState {
     constructor(value, 
     /** the offset where selection starts inside `value` */
     selectionStart, 
@@ -171,7 +171,6 @@ class TextAreaState {
     }
 }
 TextAreaState.EMPTY = new TextAreaState('', 0, 0, null, undefined);
-export { TextAreaState };
 export class PagedScreenReaderStrategy {
     static _getPageOfLine(lineNumber, linesPerPage) {
         return Math.floor((lineNumber - 1) / linesPerPage);

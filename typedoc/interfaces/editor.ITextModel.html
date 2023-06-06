@@ -24,7 +24,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">ITextModel</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1847</li></ul></aside>
+<li>Defined in editor.api.d.ts:1943</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -56,6 +56,7 @@
 <a href="editor.ITextModel.html#findNextMatch" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>find<wbr/>Next<wbr/>Match</span></a>
 <a href="editor.ITextModel.html#findPreviousMatch" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>find<wbr/>Previous<wbr/>Match</span></a>
 <a href="editor.ITextModel.html#getAllDecorations" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>All<wbr/>Decorations</span></a>
+<a href="editor.ITextModel.html#getAllMarginDecorations" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>All<wbr/>Margin<wbr/>Decorations</span></a>
 <a href="editor.ITextModel.html#getAlternativeVersionId" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Alternative<wbr/>Version<wbr/>Id</span></a>
 <a href="editor.ITextModel.html#getCharacterCountInRange" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Character<wbr/>Count<wbr/>In<wbr/>Range</span></a>
 <a href="editor.ITextModel.html#getDecorationOptions" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Decoration<wbr/>Options</span></a>
@@ -109,14 +110,14 @@
 <div class="tsd-comment tsd-typography"><p>A unique identifier associated with this model.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1855</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:1951</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="uri" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>uri</span><a href="#uri" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">uri<span class="tsd-signature-symbol">:</span> <a href="../classes/Uri.html" class="tsd-signature-type" data-tsd-kind="Class">Uri</a></div>
 <div class="tsd-comment tsd-typography"><p>Gets the resource associated with this editor model.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1851</li></ul></aside></section></section>
+<li>Defined in editor.api.d.ts:1947</li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Events</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="onDidChangeAttached" class="tsd-anchor"></a>
@@ -125,42 +126,42 @@
 <div class="tsd-comment tsd-typography"><p>An event emitted when the model has been attached to the first editor or detached from the last editor.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2204</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:2307</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="onDidChangeDecorations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>on<wbr/>Did<wbr/>Change<wbr/>Decorations</span><a href="#onDidChangeDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">on<wbr/>Did<wbr/>Change<wbr/>Decorations<span class="tsd-signature-symbol">:</span> <a href="IEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="editor.IModelDecorationsChangedEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecorationsChangedEvent</a><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>An event emitted when decorations of the model have changed.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2184</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:2287</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="onDidChangeLanguage" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>on<wbr/>Did<wbr/>Change<wbr/>Language</span><a href="#onDidChangeLanguage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">on<wbr/>Did<wbr/>Change<wbr/>Language<span class="tsd-signature-symbol">:</span> <a href="IEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="editor.IModelLanguageChangedEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelLanguageChangedEvent</a><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>An event emitted when the language associated with the model has changed.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2194</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:2297</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="onDidChangeLanguageConfiguration" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>on<wbr/>Did<wbr/>Change<wbr/>Language<wbr/>Configuration</span><a href="#onDidChangeLanguageConfiguration" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">on<wbr/>Did<wbr/>Change<wbr/>Language<wbr/>Configuration<span class="tsd-signature-symbol">:</span> <a href="IEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="editor.IModelLanguageConfigurationChangedEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelLanguageConfigurationChangedEvent</a><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>An event emitted when the language configuration associated with the model has changed.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2199</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:2302</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="onDidChangeOptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>on<wbr/>Did<wbr/>Change<wbr/>Options</span><a href="#onDidChangeOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">on<wbr/>Did<wbr/>Change<wbr/>Options<span class="tsd-signature-symbol">:</span> <a href="IEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="editor.IModelOptionsChangedEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelOptionsChangedEvent</a><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>An event emitted when the model options have changed.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2189</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:2292</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="onWillDispose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>on<wbr/>Will<wbr/>Dispose</span><a href="#onWillDispose" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">on<wbr/>Will<wbr/>Dispose<span class="tsd-signature-symbol">:</span> <a href="IEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>An event emitted right before disposing the model.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2209</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:2312</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="onDidChangeContent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Did<wbr/>Change<wbr/>Content</span><a href="#onDidChangeContent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -186,7 +187,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="IDisposable.html" class="tsd-signature-type" data-tsd-kind="Interface">IDisposable</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2179</li></ul></aside></li></ul></section></section>
+<li>Defined in editor.api.d.ts:2282</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="applyEdits" class="tsd-anchor"></a>
@@ -210,7 +211,7 @@ This can have dire consequences on the undo stack! See</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2167</li></ul></aside></li>
+<li>Defined in editor.api.d.ts:2270</li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="applyEdits.applyEdits-2">apply<wbr/>Edits<span class="tsd-signature-symbol">(</span>operations<span class="tsd-signature-symbol">: </span><a href="editor.IIdentifiedSingleEditOperation.html" class="tsd-signature-type" data-tsd-kind="Interface">IIdentifiedSingleEditOperation</a><span class="tsd-signature-symbol">[]</span>, computeUndoEdits<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#applyEdits.applyEdits-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -222,7 +223,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5>computeUndoEdits: <span class="tsd-signature-type">false</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2168</li></ul></aside></li>
+<li>Defined in editor.api.d.ts:2271</li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="applyEdits.applyEdits-3">apply<wbr/>Edits<span class="tsd-signature-symbol">(</span>operations<span class="tsd-signature-symbol">: </span><a href="editor.IIdentifiedSingleEditOperation.html" class="tsd-signature-type" data-tsd-kind="Interface">IIdentifiedSingleEditOperation</a><span class="tsd-signature-symbol">[]</span>, computeUndoEdits<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="editor.IValidEditOperation.html" class="tsd-signature-type" data-tsd-kind="Interface">IValidEditOperation</a><span class="tsd-signature-symbol">[]</span><a href="#applyEdits.applyEdits-3" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -234,7 +235,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5>computeUndoEdits: <span class="tsd-signature-type">true</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IValidEditOperation.html" class="tsd-signature-type" data-tsd-kind="Interface">IValidEditOperation</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2169</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2272</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="createSnapshot" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create<wbr/>Snapshot</span><a href="#createSnapshot" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -251,7 +252,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> preserveBOM: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.ITextSnapshot.html" class="tsd-signature-type" data-tsd-kind="Interface">ITextSnapshot</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1888</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1984</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="deltaDecorations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delta<wbr/>Decorations</span><a href="#deltaDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -280,7 +281,7 @@ and returns the new identifiers associated with the resulting decorations.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2069</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2165</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="detectIndentation" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>detect<wbr/>Indentation</span><a href="#detectIndentation" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -297,7 +298,7 @@ and returns the new identifiers associated with the resulting decorations.</p>
 <h5>defaultTabSize: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2136</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2239</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="dispose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>dispose</span><a href="#dispose" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -307,7 +308,7 @@ and returns the new identifiers associated with the resulting decorations.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2213</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2316</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="findMatches" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Matches</span><a href="#findMatches" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -350,7 +351,7 @@ and returns the new identifiers associated with the resulting decorations.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/editor.FindMatch.html" class="tsd-signature-type" data-tsd-kind="Class">FindMatch</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2008</li></ul></aside></li>
+<li>Defined in editor.api.d.ts:2104</li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="findMatches.findMatches-2">find<wbr/>Matches<span class="tsd-signature-symbol">(</span>searchString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, searchScope<span class="tsd-signature-symbol">: </span><a href="IRange.html" class="tsd-signature-type" data-tsd-kind="Interface">IRange</a><span class="tsd-signature-symbol"> | </span><a href="IRange.html" class="tsd-signature-type" data-tsd-kind="Interface">IRange</a><span class="tsd-signature-symbol">[]</span>, isRegex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, matchCase<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, wordSeparators<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, captureMatches<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, limitResultCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/editor.FindMatch.html" class="tsd-signature-type" data-tsd-kind="Class">FindMatch</a><span class="tsd-signature-symbol">[]</span><a href="#findMatches.findMatches-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Search the model.</p>
@@ -390,7 +391,7 @@ and returns the new identifiers associated with the resulting decorations.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/editor.FindMatch.html" class="tsd-signature-type" data-tsd-kind="Class">FindMatch</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2020</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2116</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="findNextMatch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Next<wbr/>Match</span><a href="#findNextMatch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -429,7 +430,7 @@ and returns the new identifiers associated with the resulting decorations.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/editor.FindMatch.html" class="tsd-signature-type" data-tsd-kind="Class">FindMatch</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2031</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2127</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="findPreviousMatch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Previous<wbr/>Match</span><a href="#findPreviousMatch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -468,7 +469,7 @@ and returns the new identifiers associated with the resulting decorations.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/editor.FindMatch.html" class="tsd-signature-type" data-tsd-kind="Class">FindMatch</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2042</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2138</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getAllDecorations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>All<wbr/>Decorations</span><a href="#getAllDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -489,7 +490,24 @@ and returns the new identifiers associated with the resulting decorations.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2113</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2211</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getAllMarginDecorations" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>All<wbr/>Margin<wbr/>Decorations</span><a href="#getAllMarginDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="getAllMarginDecorations.getAllMarginDecorations-1">get<wbr/>All<wbr/>Margin<wbr/>Decorations<span class="tsd-signature-symbol">(</span>ownerId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span><a href="#getAllMarginDecorations.getAllMarginDecorations-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Gets all decorations that render in the glyph margin as an array.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> ownerId: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>If set, it will ignore decorations belonging to other owners.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in editor.api.d.ts:2216</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getAlternativeVersionId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Alternative<wbr/>Version<wbr/>Id</span><a href="#getAlternativeVersionId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -501,7 +519,7 @@ it will return the same values in the case of undo-redo.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1871</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1967</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getCharacterCountInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Character<wbr/>Count<wbr/>In<wbr/>Range</span><a href="#getCharacterCountInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -520,7 +538,7 @@ it will return the same values in the case of undo-redo.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> eol: <a href="../enums/editor.EndOfLinePreference.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EndOfLinePreference</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1910</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2006</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getDecorationOptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Decoration<wbr/>Options</span><a href="#getDecorationOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -539,7 +557,7 @@ it will return the same values in the case of undo-redo.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IModelDecorationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecorationOptions</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2075</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2171</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getDecorationRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Decoration<wbr/>Range</span><a href="#getDecorationRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -558,11 +576,11 @@ it will return the same values in the case of undo-redo.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Range.html" class="tsd-signature-type" data-tsd-kind="Class">Range</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2081</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2177</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getDecorationsInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Decorations<wbr/>In<wbr/>Range</span><a href="#getDecorationsInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-<li class="tsd-signature tsd-anchor-link" id="getDecorationsInRange.getDecorationsInRange-1">get<wbr/>Decorations<wbr/>In<wbr/>Range<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><a href="IRange.html" class="tsd-signature-type" data-tsd-kind="Interface">IRange</a>, ownerId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, filterOutValidation<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, onlyMinimapDecorations<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span><a href="#getDecorationsInRange.getDecorationsInRange-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="getDecorationsInRange.getDecorationsInRange-1">get<wbr/>Decorations<wbr/>In<wbr/>Range<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><a href="IRange.html" class="tsd-signature-type" data-tsd-kind="Interface">IRange</a>, ownerId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, filterOutValidation<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, onlyMinimapDecorations<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, onlyMarginDecorations<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span><a href="#getDecorationsInRange.getDecorationsInRange-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Gets all the decorations in a range as an array. Only <code>startLineNumber</code> and <code>endLineNumber</code> from <code>range</code> are used for filtering.
 So for now it returns all the decorations on the same line as <code>range</code>.</p>
@@ -585,10 +603,16 @@ So for now it returns all the decorations on the same line as <code>range</code>
 <div class="tsd-comment tsd-typography"><p>If set, it will ignore decorations specific to validation (i.e. warnings, errors).</p>
 </div></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> onlyMinimapDecorations: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> onlyMinimapDecorations: <span class="tsd-signature-type">boolean</span></h5>
+<div class="tsd-comment tsd-typography"><p>If set, it will return only decorations that render in the minimap.</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> onlyMarginDecorations: <span class="tsd-signature-type">boolean</span></h5>
+<div class="tsd-comment tsd-typography"><p>If set, it will return only decorations that render in the glyph margin.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2107</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2205</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getEOL" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>getEOL</span><a href="#getEOL" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -600,7 +624,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1931</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2027</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getEndOfLineSequence" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>End<wbr/>Of<wbr/>Line<wbr/>Sequence</span><a href="#getEndOfLineSequence" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -610,7 +634,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../enums/editor.EndOfLineSequence.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EndOfLineSequence</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1935</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2031</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getFullModelRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Full<wbr/>Model<wbr/>Range</span><a href="#getFullModelRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -620,7 +644,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Range.html" class="tsd-signature-type" data-tsd-kind="Class">Range</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1992</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2088</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getInjectedTextDecorations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Injected<wbr/>Text<wbr/>Decorations</span><a href="#getInjectedTextDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -637,7 +661,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2124</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2227</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLanguageId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Language<wbr/>Id</span><a href="#getLanguageId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -647,7 +671,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2046</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2142</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineContent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Content</span><a href="#getLineContent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -662,7 +686,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 <h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1918</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2014</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineCount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Count</span><a href="#getLineCount" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -672,7 +696,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1914</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2010</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineDecorations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Decorations</span><a href="#getLineDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -699,7 +723,7 @@ So for now it returns all the decorations on the same line as <code>range</code>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2089</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2185</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineFirstNonWhitespaceColumn" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>First<wbr/>Non<wbr/>Whitespace<wbr/>Column</span><a href="#getLineFirstNonWhitespaceColumn" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -715,7 +739,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1948</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2044</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineLastNonWhitespaceColumn" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Last<wbr/>Non<wbr/>Whitespace<wbr/>Column</span><a href="#getLineLastNonWhitespaceColumn" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -731,7 +755,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1953</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2049</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineLength" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Length</span><a href="#getLineLength" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -746,7 +770,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1922</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2018</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineMaxColumn" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Max<wbr/>Column</span><a href="#getLineMaxColumn" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -761,7 +785,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1943</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2039</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineMinColumn" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Min<wbr/>Column</span><a href="#getLineMinColumn" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -776,7 +800,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1939</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2035</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLinesContent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Lines<wbr/>Content</span><a href="#getLinesContent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -786,7 +810,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1926</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2022</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLinesDecorations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Lines<wbr/>Decorations</span><a href="#getLinesDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -817,7 +841,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2098</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2194</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getOffsetAt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Offset<wbr/>At</span><a href="#getOffsetAt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -837,7 +861,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1981</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2077</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getOptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Options</span><a href="#getOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -847,7 +871,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/editor.TextModelResolvedOptions.html" class="tsd-signature-type" data-tsd-kind="Class">TextModelResolvedOptions</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1859</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1955</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getOverviewRulerDecorations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Overview<wbr/>Ruler<wbr/>Decorations</span><a href="#getOverviewRulerDecorations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -868,7 +892,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IModelDecoration.html" class="tsd-signature-type" data-tsd-kind="Interface">IModelDecoration</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2119</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2222</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPositionAt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Position<wbr/>At</span><a href="#getPositionAt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -887,7 +911,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Position.html" class="tsd-signature-type" data-tsd-kind="Class">Position</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1988</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2084</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getValue" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Value</span><a href="#getValue" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -908,7 +932,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> preserveBOM: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1882</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1978</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getValueInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Value<wbr/>In<wbr/>Range</span><a href="#getValueInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -931,7 +955,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1899</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1995</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getValueLength" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Value<wbr/>Length</span><a href="#getValueLength" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -948,7 +972,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> preserveBOM: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1892</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1988</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getValueLengthInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Value<wbr/>Length<wbr/>In<wbr/>Range</span><a href="#getValueLengthInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -969,7 +993,7 @@ Returns 0 if line is empty or contains only whitespace.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> eol: <a href="../enums/editor.EndOfLinePreference.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EndOfLinePreference</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1905</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2001</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getVersionId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Version<wbr/>Id</span><a href="#getVersionId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -981,7 +1005,7 @@ the version id is incremented.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1865</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1961</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getWordAtPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Word<wbr/>At<wbr/>Position</span><a href="#getWordAtPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1000,7 +1024,7 @@ the version id is incremented.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IWordAtPosition.html" class="tsd-signature-type" data-tsd-kind="Interface">IWordAtPosition</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2052</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2148</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getWordUntilPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Word<wbr/>Until<wbr/>Position</span><a href="#getWordUntilPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1019,7 +1043,7 @@ the version id is incremented.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="editor.IWordAtPosition.html" class="tsd-signature-type" data-tsd-kind="Interface">IWordAtPosition</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2058</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2154</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="isAttachedToEditor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Attached<wbr/>To<wbr/>Editor</span><a href="#isAttachedToEditor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1029,7 +1053,7 @@ the version id is incremented.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2217</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2320</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="isDisposed" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Disposed</span><a href="#isDisposed" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1039,7 +1063,7 @@ the version id is incremented.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1996</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2092</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="modifyPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>modify<wbr/>Position</span><a href="#modifyPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1061,7 +1085,7 @@ line terminator, throws an exception.</p>
 <h5>offset: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Position.html" class="tsd-signature-type" data-tsd-kind="Class">Position</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1968</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2064</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="normalizeIndentation" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>normalize<wbr/>Indentation</span><a href="#normalizeIndentation" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1076,7 +1100,7 @@ line terminator, throws an exception.</p>
 <h5>str: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2128</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2231</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="popStackElement" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pop<wbr/>Stack<wbr/>Element</span><a href="#popStackElement" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1087,7 +1111,7 @@ This offers a way to remove the current undo/redo stop point.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2146</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2249</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="pushEOL" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pushEOL</span><a href="#pushEOL" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1103,7 +1127,7 @@ changing the eol sequence. This will land on the undo stack.</p>
 <h5>eol: <a href="../enums/editor.EndOfLineSequence.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EndOfLineSequence</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2160</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2263</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="pushEditOperations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>push<wbr/>Edit<wbr/>Operations</span><a href="#pushEditOperations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1131,7 +1155,7 @@ of editing the model. The edit operations will land on the undo stack.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Selection.html" class="tsd-signature-type" data-tsd-kind="Class">Selection</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2155</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2258</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="pushStackElement" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>push<wbr/>Stack<wbr/>Element</span><a href="#pushStackElement" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1142,7 +1166,7 @@ This offers a way to create an undo/redo stop point.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2141</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2244</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="setEOL" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>setEOL</span><a href="#setEOL" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1160,7 +1184,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5>eol: <a href="../enums/editor.EndOfLineSequence.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EndOfLineSequence</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2174</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2277</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="setValue" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Value</span><a href="#setValue" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1175,7 +1199,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5>newValue: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="editor.ITextSnapshot.html" class="tsd-signature-type" data-tsd-kind="Interface">ITextSnapshot</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1875</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:1971</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="updateOptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>Options</span><a href="#updateOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1190,7 +1214,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5>newOpts: <a href="editor.ITextModelUpdateOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ITextModelUpdateOptions</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:2132</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2235</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="validatePosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>validate<wbr/>Position</span><a href="#validatePosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1205,7 +1229,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5>position: <a href="IPosition.html" class="tsd-signature-type" data-tsd-kind="Interface">IPosition</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Position.html" class="tsd-signature-type" data-tsd-kind="Class">Position</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1957</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2053</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="validateRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>validate<wbr/>Range</span><a href="#validateRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1220,7 +1244,7 @@ This can have dire consequences on the undo stack! See</p>
 <h5>range: <a href="IRange.html" class="tsd-signature-type" data-tsd-kind="Interface">IRange</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Range.html" class="tsd-signature-type" data-tsd-kind="Class">Range</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:1972</li></ul></aside></li></ul></section></section></div>
+<li>Defined in editor.api.d.ts:2068</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -1271,6 +1295,7 @@ This can have dire consequences on the undo stack! See</p>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.ITextModel.html#findNextMatch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>find<wbr/>Next<wbr/>Match</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.ITextModel.html#findPreviousMatch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>find<wbr/>Previous<wbr/>Match</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.ITextModel.html#getAllDecorations" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>All<wbr/>Decorations</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.ITextModel.html#getAllMarginDecorations" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>All<wbr/>Margin<wbr/>Decorations</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.ITextModel.html#getAlternativeVersionId" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Alternative<wbr/>Version<wbr/>Id</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.ITextModel.html#getCharacterCountInRange" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Character<wbr/>Count<wbr/>In<wbr/>Range</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.ITextModel.html#getDecorationOptions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Decoration<wbr/>Options</a></li>

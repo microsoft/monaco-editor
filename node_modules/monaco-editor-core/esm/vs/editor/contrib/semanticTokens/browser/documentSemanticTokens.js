@@ -26,7 +26,7 @@ import { ILanguageFeaturesService } from '../../../common/services/languageFeatu
 import { ISemanticTokensStylingService } from '../../../common/services/semanticTokensStyling.js';
 import { registerEditorFeature } from '../../../common/editorFeatures.js';
 import { SEMANTIC_HIGHLIGHTING_SETTING_ID, isSemanticColoringEnabled } from '../common/semanticTokensConfig.js';
-let DocumentSemanticTokensFeature = class DocumentSemanticTokensFeature extends Disposable {
+export let DocumentSemanticTokensFeature = class DocumentSemanticTokensFeature extends Disposable {
     constructor(semanticTokensStylingService, modelService, themeService, configurationService, languageFeatureDebounceService, languageFeaturesService) {
         super();
         this._watchers = Object.create(null);
@@ -86,7 +86,6 @@ DocumentSemanticTokensFeature = __decorate([
     __param(4, ILanguageFeatureDebounceService),
     __param(5, ILanguageFeaturesService)
 ], DocumentSemanticTokensFeature);
-export { DocumentSemanticTokensFeature };
 let ModelSemanticColoring = class ModelSemanticColoring extends Disposable {
     constructor(model, _semanticTokensStylingService, themeService, languageFeatureDebounceService, languageFeaturesService) {
         super();
@@ -101,6 +100,11 @@ let ModelSemanticColoring = class ModelSemanticColoring extends Disposable {
         this._documentProvidersChangeListeners = [];
         this._providersChangedDuringRequest = false;
         this._register(this._model.onDidChangeContent(() => {
+            if (!this._fetchDocumentSemanticTokens.isScheduled()) {
+                this._fetchDocumentSemanticTokens.schedule(this._debounceInformation.get(this._model));
+            }
+        }));
+        this._register(this._model.onDidChangeAttached(() => {
             if (!this._fetchDocumentSemanticTokens.isScheduled()) {
                 this._fetchDocumentSemanticTokens.schedule(this._debounceInformation.get(this._model));
             }
@@ -170,6 +174,10 @@ let ModelSemanticColoring = class ModelSemanticColoring extends Disposable {
                 // there are semantic tokens set
                 this._model.tokenization.setSemanticTokens(null, false);
             }
+            return;
+        }
+        if (!this._model.isAttachedToEditor()) {
+            // this document is not visible, there is no need to fetch semantic tokens for it
             return;
         }
         const cancellationTokenSource = new CancellationTokenSource();

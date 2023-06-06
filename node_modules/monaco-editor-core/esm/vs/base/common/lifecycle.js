@@ -135,7 +135,7 @@ export function toDisposable(fn) {
  * `IDisposable[]` as it considers edge cases, such as registering the same value multiple times or adding an item to a
  * store that has already been disposed of.
  */
-class DisposableStore {
+export class DisposableStore {
     constructor() {
         this._toDispose = new Set();
         this._isDisposed = false;
@@ -197,13 +197,12 @@ class DisposableStore {
     }
 }
 DisposableStore.DISABLE_DISPOSED_WARNING = false;
-export { DisposableStore };
 /**
  * Abstract base class for a {@link IDisposable disposable} object.
  *
  * Subclasses can {@linkcode _register} disposables that will be automatically cleaned up when this object is disposed of.
  */
-class Disposable {
+export class Disposable {
     constructor() {
         this._store = new DisposableStore();
         trackDisposable(this);
@@ -229,7 +228,6 @@ class Disposable {
  * TODO: This should not be a static property.
  */
 Disposable.None = Object.freeze({ dispose() { } });
-export { Disposable };
 /**
  * Manages the lifecycle of a disposable value that may be changed.
  *
@@ -267,18 +265,6 @@ export class MutableDisposable {
         markAsDisposed(this);
         (_a = this._value) === null || _a === void 0 ? void 0 : _a.dispose();
         this._value = undefined;
-    }
-    /**
-     * Clears the value, but does not dispose it.
-     * The old value is returned.
-    */
-    clearAndLeak() {
-        const oldValue = this._value;
-        this._value = undefined;
-        if (oldValue) {
-            setParentOfDisposable(oldValue, null);
-        }
-        return oldValue;
     }
 }
 export class RefCountedDisposable {
@@ -373,6 +359,14 @@ export class DisposableMap {
             (_a = this._store.get(key)) === null || _a === void 0 ? void 0 : _a.dispose();
         }
         this._store.set(key, value);
+    }
+    /**
+     * Delete the value stored for `key` from this map and also dispose of it.
+     */
+    deleteAndDispose(key) {
+        var _a;
+        (_a = this._store.get(key)) === null || _a === void 0 ? void 0 : _a.dispose();
+        this._store.delete(key);
     }
     [Symbol.iterator]() {
         return this._store[Symbol.iterator]();

@@ -16,7 +16,7 @@ import { IThemeService } from '../../../platform/theme/common/themeService.js';
 import { ILogService, LogLevel } from '../../../platform/log/common/log.js';
 import { SparseMultilineTokens } from '../tokens/sparseMultilineTokens.js';
 import { ILanguageService } from '../languages/language.js';
-let SemanticTokensProviderStyling = class SemanticTokensProviderStyling {
+export let SemanticTokensProviderStyling = class SemanticTokensProviderStyling {
     constructor(_legend, _themeService, _languageService, _logService) {
         this._legend = _legend;
         this._themeService = _themeService;
@@ -122,7 +122,6 @@ SemanticTokensProviderStyling = __decorate([
     __param(2, ILanguageService),
     __param(3, ILogService)
 ], SemanticTokensProviderStyling);
-export { SemanticTokensProviderStyling };
 export function toMultilineTokens2(tokens, styling, languageId) {
     const srcData = tokens.data;
     const tokenCount = (tokens.data.length / 5) | 0;

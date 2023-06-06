@@ -8,7 +8,7 @@ import { LanguagesRegistry } from './languagesRegistry.js';
 import { firstOrDefault } from '../../../base/common/arrays.js';
 import { TokenizationRegistry } from '../languages.js';
 import { PLAINTEXT_LANGUAGE_ID } from '../languages/modesRegistry.js';
-class LanguageService extends Disposable {
+export class LanguageService extends Disposable {
     constructor(warnOnOverwrite = false) {
         super();
         this._onDidRequestBasicLanguageFeatures = this._register(new Emitter());
@@ -77,7 +77,6 @@ class LanguageService extends Disposable {
     }
 }
 LanguageService.instanceCount = 0;
-export { LanguageService };
 class LanguageSelection {
     constructor(_onDidChangeLanguages, _selector) {
         this._onDidChangeLanguages = _onDidChangeLanguages;

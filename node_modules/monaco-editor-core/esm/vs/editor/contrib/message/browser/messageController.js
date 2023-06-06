@@ -19,7 +19,7 @@ import { EditorCommand, registerEditorCommand, registerEditorContribution } from
 import { Range } from '../../../common/core/range.js';
 import * as nls from '../../../../nls.js';
 import { IContextKeyService, RawContextKey } from '../../../../platform/contextkey/common/contextkey.js';
-let MessageController = class MessageController {
+export let MessageController = class MessageController {
     static get(editor) {
         return editor.getContribution(MessageController.ID);
     }
@@ -77,7 +77,6 @@ MessageController.MESSAGE_VISIBLE = new RawContextKey('messageVisible', false, n
 MessageController = __decorate([
     __param(1, IContextKeyService)
 ], MessageController);
-export { MessageController };
 const MessageCommand = EditorCommand.bindToContribution(MessageController.get);
 registerEditorCommand(new MessageCommand({
     id: 'leaveEditorMessage',

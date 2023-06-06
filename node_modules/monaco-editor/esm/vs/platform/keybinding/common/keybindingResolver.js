@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import { implies, expressionsAreEqualWithConstantSubstitution } from '../../contextkey/common/contextkey.js';
 // util definitions to make working with the above types easier within this module:
-const NoMatchingKb = { kind: 0 /* ResultKind.NoMatchingKb */ };
+export const NoMatchingKb = { kind: 0 /* ResultKind.NoMatchingKb */ };
 const MoreChordsNeeded = { kind: 1 /* ResultKind.MoreChordsNeeded */ };
 function KbFound(commandId, commandArgs, isBubble) {
     return { kind: 2 /* ResultKind.KbFound */, commandId, commandArgs, isBubble };

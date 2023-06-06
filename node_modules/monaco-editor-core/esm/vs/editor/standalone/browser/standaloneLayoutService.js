@@ -47,7 +47,7 @@ let StandaloneLayoutService = class StandaloneLayoutService {
 StandaloneLayoutService = __decorate([
     __param(0, ICodeEditorService)
 ], StandaloneLayoutService);
-let EditorScopedLayoutService = class EditorScopedLayoutService extends StandaloneLayoutService {
+export let EditorScopedLayoutService = class EditorScopedLayoutService extends StandaloneLayoutService {
     get hasContainer() {
         return false;
     }
@@ -62,5 +62,4 @@ let EditorScopedLayoutService = class EditorScopedLayoutService extends Standalo
 EditorScopedLayoutService = __decorate([
     __param(1, ICodeEditorService)
 ], EditorScopedLayoutService);
-export { EditorScopedLayoutService };
 registerSingleton(ILayoutService, StandaloneLayoutService, 1 /* InstantiationType.Delayed */);

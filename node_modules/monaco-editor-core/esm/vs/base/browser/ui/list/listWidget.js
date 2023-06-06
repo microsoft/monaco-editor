@@ -336,8 +336,8 @@ export const DefaultKeyboardNavigationDelegate = new class {
         }
         return (event.keyCode >= 31 /* KeyCode.KeyA */ && event.keyCode <= 56 /* KeyCode.KeyZ */)
             || (event.keyCode >= 21 /* KeyCode.Digit0 */ && event.keyCode <= 30 /* KeyCode.Digit9 */)
-            || (event.keyCode >= 93 /* KeyCode.Numpad0 */ && event.keyCode <= 102 /* KeyCode.Numpad9 */)
-            || (event.keyCode >= 80 /* KeyCode.Semicolon */ && event.keyCode <= 90 /* KeyCode.Quote */);
+            || (event.keyCode >= 98 /* KeyCode.Numpad0 */ && event.keyCode <= 107 /* KeyCode.Numpad9 */)
+            || (event.keyCode >= 85 /* KeyCode.Semicolon */ && event.keyCode <= 95 /* KeyCode.Quote */);
     }
 };
 class TypeNavigationController {
@@ -554,6 +554,10 @@ export class MouseController {
         if (isInputElement(e.browserEvent.target) || isMonacoEditor(e.browserEvent.target)) {
             return;
         }
+        if (e.browserEvent.isHandledByList) {
+            return;
+        }
+        e.browserEvent.isHandledByList = true;
         const focus = e.index;
         if (typeof focus === 'undefined') {
             this.list.setFocus([], e.browserEvent);
@@ -581,6 +585,10 @@ export class MouseController {
         if (this.isSelectionChangeEvent(e)) {
             return;
         }
+        if (e.browserEvent.isHandledByList) {
+            return;
+        }
+        e.browserEvent.isHandledByList = true;
         const focus = this.list.getFocus();
         this.list.setSelection(focus, e.browserEvent);
     }

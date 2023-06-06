@@ -9,6 +9,7 @@ import { Range } from '../core/range.js';
 import { TextModelPart } from './textModelPart.js';
 import { computeIndentLevel } from './utils.js';
 import { HorizontalGuidesState, IndentGuide, IndentGuideHorizontalLine } from '../textModelGuides.js';
+import { BugIndicatingError } from '../../../base/common/errors.js';
 export class GuidesTextModelPart extends TextModelPart {
     constructor(textModel, languageConfigurationService) {
         super();
@@ -25,7 +26,7 @@ export class GuidesTextModelPart extends TextModelPart {
         this.assertNotDisposed();
         const lineCount = this.textModel.getLineCount();
         if (lineNumber < 1 || lineNumber > lineCount) {
-            throw new Error('Illegal value for lineNumber');
+            throw new BugIndicatingError('Illegal value for lineNumber');
         }
         const foldingRules = this.getLanguageConfiguration(this.textModel.getLanguageId()).foldingRules;
         const offSide = Boolean(foldingRules && foldingRules.offSide);

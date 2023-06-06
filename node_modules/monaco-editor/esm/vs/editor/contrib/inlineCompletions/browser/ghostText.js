@@ -16,6 +16,9 @@ export class GhostText {
         })));
         return text.substring(this.parts[0].column - 1);
     }
+    isEmpty() {
+        return this.parts.every(p => p.lines.length === 0);
+    }
     get lineCount() {
         return 1 + this.parts.reduce((r, p) => r + p.lines.length - 1, 0);
     }
@@ -40,5 +43,14 @@ export class GhostTextReplacement {
         this.parts = [
             new GhostTextPart(this.columnRange.endColumnExclusive, this.newLines, false),
         ];
+    }
+    renderForScreenReader(_lineText) {
+        return this.newLines.join('\n');
+    }
+    get lineCount() {
+        return this.newLines.length;
+    }
+    isEmpty() {
+        return this.parts.every(p => p.lines.length === 0);
     }
 }

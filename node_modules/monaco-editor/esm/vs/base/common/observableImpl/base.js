@@ -38,7 +38,6 @@ export class BaseObservable extends ConvenientObservable {
         super(...arguments);
         this.observers = new Set();
     }
-    /** @sealed */
     addObserver(observer) {
         const len = this.observers.size;
         this.observers.add(observer);
@@ -46,7 +45,6 @@ export class BaseObservable extends ConvenientObservable {
             this.onFirstObserverAdded();
         }
     }
-    /** @sealed */
     removeObserver(observer) {
         const deleted = this.observers.delete(observer);
         if (deleted && this.observers.size === 0) {
@@ -66,6 +64,14 @@ export function transaction(fn, getDebugName) {
     finally {
         tx.finish();
         (_b = getLogger()) === null || _b === void 0 ? void 0 : _b.handleEndTransaction();
+    }
+}
+export function subtransaction(tx, fn, getDebugName) {
+    if (!tx) {
+        transaction(fn, getDebugName);
+    }
+    else {
+        fn(tx);
     }
 }
 export class TransactionImpl {
@@ -101,6 +107,10 @@ export function getFunctionName(fn) {
     const result = match ? match[1] : undefined;
     return result === null || result === void 0 ? void 0 : result.trim();
 }
+/**
+ * Creates an observable value.
+ * Observers get informed when the value changes.
+ */
 export function observableValue(name, initialValue) {
     return new ObservableValue(name, initialValue);
 }

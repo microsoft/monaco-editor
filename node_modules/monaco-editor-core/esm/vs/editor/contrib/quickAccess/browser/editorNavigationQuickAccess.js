@@ -9,6 +9,7 @@ import { getCodeEditor, isDiffEditor } from '../../../browser/editorBrowser.js';
 import { OverviewRulerLane } from '../../../common/model.js';
 import { overviewRulerRangeHighlight } from '../../../common/core/editorColorRegistry.js';
 import { themeColorFromId } from '../../../../platform/theme/common/themeService.js';
+import { alert } from '../../../../base/browser/ui/aria/aria.js';
 /**
  * A reusable quick access provider for the editor with support
  * for adding decorations for navigating in the currently active file
@@ -88,6 +89,10 @@ export class AbstractEditorNavigationQuickAccessProvider {
         editor.revealRangeInCenter(options.range, 0 /* ScrollType.Smooth */);
         if (!options.preserveFocus) {
             editor.focus();
+        }
+        const model = editor.getModel();
+        if (model && 'getLineContent' in model) {
+            alert(`${model.getLineContent(options.range.startLineNumber)}`);
         }
     }
     getModel(editor) {

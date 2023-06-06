@@ -2,9 +2,9 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-var _a;
+import { createTrustedTypesPolicy } from './trustedTypes.js';
 import { logOnceWebWorkerWarning } from '../common/worker/simpleWorker.js';
-const ttPolicy = (_a = window.trustedTypes) === null || _a === void 0 ? void 0 : _a.createPolicy('defaultWorkerFactory', { createScriptURL: value => value });
+const ttPolicy = createTrustedTypesPolicy('defaultWorkerFactory', { createScriptURL: value => value });
 function getWorker(label) {
     const monacoEnvironment = globalThis.MonacoEnvironment;
     if (monacoEnvironment) {

@@ -48,7 +48,7 @@ class SelectListRenderer {
         // noop
     }
 }
-class SelectBoxList extends Disposable {
+export class SelectBoxList extends Disposable {
     constructor(options, selected, contextViewProvider, styles, selectBoxOptions) {
         super();
         this.options = [];
@@ -565,7 +565,7 @@ class SelectBoxList extends Disposable {
                     return label;
                 },
                 getWidgetAriaLabel: () => localize({ key: 'selectBox', comment: ['Behave like native select dropdown element.'] }, "Select Box"),
-                getRole: () => 'option',
+                getRole: () => isMacintosh ? '' : 'option',
                 getWidgetRole: () => 'listbox'
             }
         });
@@ -586,7 +586,7 @@ class SelectBoxList extends Disposable {
         this._register(onSelectDropDownKeyDown.filter(e => e.keyCode === 11 /* KeyCode.PageUp */).on(this.onPageUp, this));
         this._register(onSelectDropDownKeyDown.filter(e => e.keyCode === 14 /* KeyCode.Home */).on(this.onHome, this));
         this._register(onSelectDropDownKeyDown.filter(e => e.keyCode === 13 /* KeyCode.End */).on(this.onEnd, this));
-        this._register(onSelectDropDownKeyDown.filter(e => (e.keyCode >= 21 /* KeyCode.Digit0 */ && e.keyCode <= 56 /* KeyCode.KeyZ */) || (e.keyCode >= 80 /* KeyCode.Semicolon */ && e.keyCode <= 108 /* KeyCode.NumpadDivide */)).on(this.onCharacter, this));
+        this._register(onSelectDropDownKeyDown.filter(e => (e.keyCode >= 21 /* KeyCode.Digit0 */ && e.keyCode <= 56 /* KeyCode.KeyZ */) || (e.keyCode >= 85 /* KeyCode.Semicolon */ && e.keyCode <= 113 /* KeyCode.NumpadDivide */)).on(this.onCharacter, this));
         // SetUp list mouse controller - control navigation, disabled items, focus
         this._register(dom.addDisposableListener(this.selectList.getHTMLElement(), dom.EventType.POINTER_UP, e => this.onPointerUp(e)));
         this._register(this.selectList.onMouseOver(e => typeof e.index !== 'undefined' && this.selectList.setFocus([e.index])));
@@ -846,4 +846,3 @@ class SelectBoxList extends Disposable {
 SelectBoxList.DEFAULT_DROPDOWN_MINIMUM_BOTTOM_MARGIN = 32;
 SelectBoxList.DEFAULT_DROPDOWN_MINIMUM_TOP_MARGIN = 2;
 SelectBoxList.DEFAULT_MINIMUM_VISIBLE_OPTIONS = 3;
-export { SelectBoxList };

@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { DisposableStore } from '../../../../base/common/lifecycle.js';
-class OvertypingCapturer {
+export class OvertypingCapturer {
     constructor(editor, suggestModel) {
         this._disposables = new DisposableStore();
         this._lastOvertyped = [];
@@ -57,4 +57,3 @@ class OvertypingCapturer {
     }
 }
 OvertypingCapturer._maxSelectionLength = 51200;
-export { OvertypingCapturer };

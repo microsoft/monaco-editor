@@ -11,14 +11,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
+import { createTrustedTypesPolicy } from '../../../base/browser/trustedTypes.js';
 import * as strings from '../../../base/common/strings.js';
-import { LineTokens } from '../../common/tokens/lineTokens.js';
 import { TokenizationRegistry } from '../../common/languages.js';
+import { LineTokens } from '../../common/tokens/lineTokens.js';
 import { RenderLineInput, renderViewLine2 as renderViewLine } from '../../common/viewLayout/viewLineRenderer.js';
 import { ViewLineRenderingData } from '../../common/viewModel.js';
 import { MonarchTokenizer } from '../common/monarch/monarchLexer.js';
-const ttPolicy = (_a = window.trustedTypes) === null || _a === void 0 ? void 0 : _a.createPolicy('standaloneColorizer', { createHTML: value => value });
+const ttPolicy = createTrustedTypesPolicy('standaloneColorizer', { createHTML: value => value });
 export class Colorizer {
     static colorizeElement(themeService, languageService, domNode, options) {
         options = options || {};

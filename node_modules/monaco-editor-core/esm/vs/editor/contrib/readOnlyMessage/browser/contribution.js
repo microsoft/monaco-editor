@@ -6,7 +6,7 @@ import { Disposable } from '../../../../base/common/lifecycle.js';
 import { registerEditorContribution } from '../../../browser/editorExtensions.js';
 import { MessageController } from '../../message/browser/messageController.js';
 import * as nls from '../../../../nls.js';
-class ReadOnlyMessageController extends Disposable {
+export class ReadOnlyMessageController extends Disposable {
     constructor(editor) {
         super();
         this.editor = editor;
@@ -25,5 +25,4 @@ class ReadOnlyMessageController extends Disposable {
     }
 }
 ReadOnlyMessageController.ID = 'editor.contrib.readOnlyMessageController';
-export { ReadOnlyMessageController };
 registerEditorContribution(ReadOnlyMessageController.ID, ReadOnlyMessageController, 2 /* EditorContributionInstantiation.BeforeFirstInteraction */);

@@ -37,7 +37,7 @@ export class LanguageConfigurationServiceChangeEvent {
     }
 }
 export const ILanguageConfigurationService = createDecorator('languageConfigurationService');
-let LanguageConfigurationService = class LanguageConfigurationService extends Disposable {
+export let LanguageConfigurationService = class LanguageConfigurationService extends Disposable {
     constructor(configurationService, languageService) {
         super();
         this.configurationService = configurationService;
@@ -86,7 +86,6 @@ LanguageConfigurationService = __decorate([
     __param(0, IConfigurationService),
     __param(1, ILanguageService)
 ], LanguageConfigurationService);
-export { LanguageConfigurationService };
 function computeConfig(languageId, registry, configurationService, languageService) {
     let languageConfig = registry.getLanguageConfiguration(languageId);
     if (!languageConfig) {

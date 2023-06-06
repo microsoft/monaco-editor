@@ -83,7 +83,9 @@ function _findColorData(collector, colorProviderRegistry, model, token, isDefaul
             }
             else {
                 try {
-                    validDocumentColorProviderFound || (validDocumentColorProviderFound = yield collector.compute(provider, model, token, colorData));
+                    if (yield collector.compute(provider, model, token, colorData)) {
+                        validDocumentColorProviderFound = true;
+                    }
                 }
                 catch (e) {
                     onUnexpectedExternalError(e);

@@ -30,7 +30,7 @@ import { ITelemetryService } from '../../telemetry/common/telemetry.js';
  *
  * See {@link MenuWorkbenchToolBar} for a toolbar that is backed by a menu.
  */
-let WorkbenchToolBar = class WorkbenchToolBar extends ToolBar {
+export let WorkbenchToolBar = class WorkbenchToolBar extends ToolBar {
     constructor(container, _options, _menuService, _contextKeyService, _contextMenuService, keybindingService, telemetryService) {
         super(container, _contextMenuService, Object.assign(Object.assign({ 
             // defaults
@@ -176,4 +176,3 @@ WorkbenchToolBar = __decorate([
     __param(5, IKeybindingService),
     __param(6, ITelemetryService)
 ], WorkbenchToolBar);
-export { WorkbenchToolBar };

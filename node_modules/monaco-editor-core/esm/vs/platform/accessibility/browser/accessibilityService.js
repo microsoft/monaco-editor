@@ -18,7 +18,7 @@ import { CONTEXT_ACCESSIBILITY_MODE_ENABLED } from '../common/accessibility.js';
 import { IConfigurationService } from '../../configuration/common/configuration.js';
 import { IContextKeyService } from '../../contextkey/common/contextkey.js';
 import { ILayoutService } from '../../layout/browser/layoutService.js';
-let AccessibilityService = class AccessibilityService extends Disposable {
+export let AccessibilityService = class AccessibilityService extends Disposable {
     constructor(_contextKeyService, _layoutService, _configurationService) {
         super();
         this._contextKeyService = _contextKeyService;
@@ -89,4 +89,3 @@ AccessibilityService = __decorate([
     __param(1, ILayoutService),
     __param(2, IConfigurationService)
 ], AccessibilityService);
-export { AccessibilityService };

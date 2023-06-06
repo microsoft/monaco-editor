@@ -3,11 +3,26 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { VSBuffer } from './buffer.js';
+import { regExpFlags } from './strings.js';
 import { URI } from './uri.js';
+export function stringify(obj) {
+    return JSON.stringify(obj, replacer);
+}
 export function parse(text) {
     let data = JSON.parse(text);
     data = revive(data);
     return data;
+}
+function replacer(key, value) {
+    // URI is done via toJSON-member
+    if (value instanceof RegExp) {
+        return {
+            $mid: 2 /* MarshalledId.Regexp */,
+            source: value.source,
+            flags: regExpFlags(value),
+        };
+    }
+    return value;
 }
 export function revive(obj, depth = 0) {
     if (!obj || depth > 200) {

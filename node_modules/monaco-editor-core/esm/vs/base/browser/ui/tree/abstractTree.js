@@ -878,7 +878,7 @@ class Trait {
             }
             else {
                 const insertedNode = insertedNodesMap.get(id);
-                if (insertedNode) {
+                if (insertedNode && insertedNode.visible) {
                     nodes.push(insertedNode);
                 }
             }
@@ -910,6 +910,9 @@ class TreeNodeListMouseController extends MouseController {
             isMonacoEditor(e.browserEvent.target)) {
             return;
         }
+        if (e.browserEvent.isHandledByList) {
+            return;
+        }
         const node = e.element;
         if (!node) {
             return super.onViewPointer(e);
@@ -939,6 +942,8 @@ class TreeNodeListMouseController extends MouseController {
             this.tree.setFocus([location]);
             this.tree.toggleCollapsed(location, recursive);
             if (expandOnlyOnTwistieClick && onTwistie) {
+                // Do not set this before calling a handler on the super class, because it will reject it as handled
+                e.browserEvent.isHandledByList = true;
                 return;
             }
         }
@@ -947,6 +952,9 @@ class TreeNodeListMouseController extends MouseController {
     onDoubleClick(e) {
         const onTwistie = e.browserEvent.target.classList.contains('monaco-tl-twistie');
         if (onTwistie || !this.tree.expandOnDoubleClick) {
+            return;
+        }
+        if (e.browserEvent.isHandledByList) {
             return;
         }
         super.onDoubleClick(e);

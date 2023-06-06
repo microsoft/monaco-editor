@@ -211,17 +211,7 @@ export class ActionViewItem extends BaseActionViewItem {
             this.label = append(this.element, $('a.action-label'));
         }
         if (this.label) {
-            if (this._action.id === Separator.ID) {
-                this.label.setAttribute('role', 'presentation'); // A separator is a presentation item
-            }
-            else {
-                if (this.options.isMenu) {
-                    this.label.setAttribute('role', 'menuitem');
-                }
-                else {
-                    this.label.setAttribute('role', 'button');
-                }
-            }
+            this.label.setAttribute('role', this.getDefaultAriaRole());
         }
         if (this.options.label && this.options.keybinding && this.element) {
             append(this.element, $('span.keybinding')).textContent = this.options.keybinding;
@@ -231,6 +221,19 @@ export class ActionViewItem extends BaseActionViewItem {
         this.updateTooltip();
         this.updateEnabled();
         this.updateChecked();
+    }
+    getDefaultAriaRole() {
+        if (this._action.id === Separator.ID) {
+            return 'presentation'; // A separator is a presentation item
+        }
+        else {
+            if (this.options.isMenu) {
+                return 'menuitem';
+            }
+            else {
+                return 'button';
+            }
+        }
     }
     // Only set the tabIndex on the element once it is about to get focused
     // That way this element wont be a tab stop when it is not needed #106441
@@ -313,11 +316,15 @@ export class ActionViewItem extends BaseActionViewItem {
     }
     updateChecked() {
         if (this.label) {
-            if (this.action.checked) {
-                this.label.classList.add('checked');
+            if (this.action.checked !== undefined) {
+                this.label.classList.toggle('checked', this.action.checked);
+                this.label.setAttribute('aria-checked', this.action.checked ? 'true' : 'false');
+                this.label.setAttribute('role', 'checkbox');
             }
             else {
                 this.label.classList.remove('checked');
+                this.label.setAttribute('aria-checked', '');
+                this.label.setAttribute('role', this.getDefaultAriaRole());
             }
         }
     }

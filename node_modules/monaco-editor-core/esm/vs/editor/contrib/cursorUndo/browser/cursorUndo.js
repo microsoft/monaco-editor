@@ -31,7 +31,7 @@ class StackElement {
         this.scrollLeft = scrollLeft;
     }
 }
-class CursorUndoRedoController extends Disposable {
+export class CursorUndoRedoController extends Disposable {
     static get(editor) {
         return editor.getContribution(CursorUndoRedoController.ID);
     }
@@ -96,7 +96,6 @@ class CursorUndoRedoController extends Disposable {
     }
 }
 CursorUndoRedoController.ID = 'editor.contrib.cursorUndoRedoController';
-export { CursorUndoRedoController };
 export class CursorUndo extends EditorAction {
     constructor() {
         super({

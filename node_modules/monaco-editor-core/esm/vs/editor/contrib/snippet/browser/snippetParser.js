@@ -2,7 +2,7 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-class Scanner {
+export class Scanner {
     constructor() {
         this.value = '';
         this.pos = 0;
@@ -82,7 +82,6 @@ Scanner._table = {
     [45 /* CharCode.Dash */]: 12 /* TokenType.Dash */,
     [63 /* CharCode.QuestionMark */]: 13 /* TokenType.QuestionMark */,
 };
-export { Scanner };
 export class Marker {
     constructor() {
         this._children = [];

@@ -1106,7 +1106,7 @@ export function h(tag, ...args) {
             else if (typeof c === 'string') {
                 el.append(c);
             }
-            else {
+            else if ('root' in c) {
                 Object.assign(result, c);
                 el.appendChild(c.root);
             }

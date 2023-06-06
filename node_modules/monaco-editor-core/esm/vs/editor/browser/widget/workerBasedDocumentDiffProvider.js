@@ -21,13 +21,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Emitter } from '../../../base/common/event.js';
+import { StopWatch } from '../../../base/common/stopwatch.js';
+import { LineRange } from '../../common/core/lineRange.js';
+import { LineRangeMapping, RangeMapping } from '../../common/diff/linesDiffComputer.js';
 import { IEditorWorkerService } from '../../common/services/editorWorker.js';
-let WorkerBasedDocumentDiffProvider = class WorkerBasedDocumentDiffProvider {
-    constructor(options, editorWorkerService) {
+import { ITelemetryService } from '../../../platform/telemetry/common/telemetry.js';
+export let WorkerBasedDocumentDiffProvider = class WorkerBasedDocumentDiffProvider {
+    constructor(options, editorWorkerService, telemetryService) {
         this.editorWorkerService = editorWorkerService;
+        this.telemetryService = telemetryService;
         this.onDidChangeEventEmitter = new Emitter();
         this.onDidChange = this.onDidChangeEventEmitter.event;
-        this.diffAlgorithm = 'smart';
+        this.diffAlgorithm = 'advanced';
         this.diffAlgorithmOnDidChangeSubscription = undefined;
         this.setOptions(options);
     }
@@ -36,11 +41,30 @@ let WorkerBasedDocumentDiffProvider = class WorkerBasedDocumentDiffProvider {
         (_a = this.diffAlgorithmOnDidChangeSubscription) === null || _a === void 0 ? void 0 : _a.dispose();
     }
     computeDiff(original, modified, options) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             if (typeof this.diffAlgorithm !== 'string') {
                 return this.diffAlgorithm.computeDiff(original, modified, options);
             }
+            // This significantly speeds up the case when the original file is empty
+            if (original.getLineCount() === 1 && original.getLineMaxColumn(1) === 1) {
+                return {
+                    changes: [
+                        new LineRangeMapping(new LineRange(1, 1), new LineRange(1, modified.getLineCount()), [
+                            new RangeMapping(original.getFullModelRange(), modified.getFullModelRange())
+                        ])
+                    ],
+                    identical: false,
+                    quitEarly: false,
+                };
+            }
+            const sw = StopWatch.create(true);
             const result = yield this.editorWorkerService.computeDiff(original.uri, modified.uri, options, this.diffAlgorithm);
+            const timeMs = sw.elapsed();
+            this.telemetryService.publicLog2('diffEditor.computeDiff', {
+                timeMs,
+                timedOut: (_a = result === null || result === void 0 ? void 0 : result.quitEarly) !== null && _a !== void 0 ? _a : true,
+            });
             if (!result) {
                 throw new Error('no diff result available');
             }
@@ -67,6 +91,6 @@ let WorkerBasedDocumentDiffProvider = class WorkerBasedDocumentDiffProvider {
     }
 };
 WorkerBasedDocumentDiffProvider = __decorate([
-    __param(1, IEditorWorkerService)
+    __param(1, IEditorWorkerService),
+    __param(2, ITelemetryService)
 ], WorkerBasedDocumentDiffProvider);
-export { WorkerBasedDocumentDiffProvider };

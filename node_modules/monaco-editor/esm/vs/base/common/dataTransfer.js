@@ -16,17 +16,16 @@ import { Iterable } from './iterator.js';
 import { generateUuid } from './uuid.js';
 export function createStringDataTransferItem(stringOrPromise) {
     return {
-        id: generateUuid(),
         asString: () => __awaiter(this, void 0, void 0, function* () { return stringOrPromise; }),
         asFile: () => undefined,
         value: typeof stringOrPromise === 'string' ? stringOrPromise : undefined,
     };
 }
 export function createFileDataTransferItem(fileName, uri, data) {
+    const file = { id: generateUuid(), name: fileName, uri, data };
     return {
-        id: generateUuid(),
         asString: () => __awaiter(this, void 0, void 0, function* () { return ''; }),
-        asFile: () => ({ name: fileName, uri, data }),
+        asFile: () => file,
         value: undefined,
     };
 }
@@ -34,58 +33,23 @@ export class VSDataTransfer {
     constructor() {
         this._entries = new Map();
     }
-    /**
-     * Get the total number of entries in this data transfer.
-     */
     get size() {
         let size = 0;
-        this.forEach(() => size++);
+        for (const _ of this._entries) {
+            size++;
+        }
         return size;
     }
-    /**
-     * Check if this data transfer contains data for `mimeType`.
-     *
-     * This uses exact matching and does not support wildcards.
-     */
     has(mimeType) {
         return this._entries.has(this.toKey(mimeType));
     }
-    /**
-     * Check if this data transfer contains data matching `mimeTypeGlob`.
-     *
-     * This allows matching for wildcards, such as `image/*`.
-     *
-     * Use the special `files` mime type to match any file in the data transfer.
-     */
-    matches(mimeTypeGlob) {
-        // Exact match
-        if (this.has(mimeTypeGlob)) {
-            return true;
+    matches(pattern) {
+        const mimes = [...this._entries.keys()];
+        if (Iterable.some(this, ([_, item]) => item.asFile())) {
+            mimes.push('files');
         }
-        // Special `files` mime type matches any file
-        if (mimeTypeGlob.toLowerCase() === 'files') {
-            return Iterable.some(this.values(), item => item.asFile());
-        }
-        // Anything glob
-        if (mimeTypeGlob === '*/*') {
-            return this._entries.size > 0;
-        }
-        // Wildcard, such as `image/*`
-        const wildcard = this.toKey(mimeTypeGlob).match(/^([a-z]+)\/([a-z]+|\*)$/i);
-        if (!wildcard) {
-            return false;
-        }
-        const [_, type, subtype] = wildcard;
-        if (subtype === '*') {
-            return Iterable.some(this._entries.keys(), key => key.startsWith(type + '/'));
-        }
-        return false;
+        return matchesMimeType_normalized(normalizeMimeType(pattern), mimes);
     }
-    /**
-     * Retrieve the first entry for `mimeType`.
-     *
-     * Note that if want to find all entries for a given mime type, use {@link VSDataTransfer.entries} instead.
-     */
     get(mimeType) {
         var _a;
         return (_a = this._entries.get(this.toKey(mimeType))) === null || _a === void 0 ? void 0 : _a[0];
@@ -123,34 +87,42 @@ export class VSDataTransfer {
      *
      * There may be multiple entries for each mime type.
      */
-    *entries() {
-        for (const [mine, items] of this._entries.entries()) {
+    *[Symbol.iterator]() {
+        for (const [mine, items] of this._entries) {
             for (const item of items) {
                 yield [mine, item];
             }
         }
     }
-    /**
-     * Iterate over all items in this data transfer.
-     *
-     * There may be multiple entries for each mime type.
-     */
-    values() {
-        return Array.from(this._entries.values()).flat();
-    }
-    /**
-     * Call `f` for each item and mime in the data transfer.
-     *
-     * There may be multiple entries for each mime type.
-     */
-    forEach(f) {
-        for (const [mime, item] of this.entries()) {
-            f(item, mime);
-        }
-    }
     toKey(mimeType) {
-        return mimeType.toLowerCase();
+        return normalizeMimeType(mimeType);
     }
+}
+function normalizeMimeType(mimeType) {
+    return mimeType.toLowerCase();
+}
+export function matchesMimeType(pattern, mimeTypes) {
+    return matchesMimeType_normalized(normalizeMimeType(pattern), mimeTypes.map(normalizeMimeType));
+}
+function matchesMimeType_normalized(normalizedPattern, normalizedMimeTypes) {
+    // Anything wildcard
+    if (normalizedPattern === '*/*') {
+        return normalizedMimeTypes.length > 0;
+    }
+    // Exact match
+    if (normalizedMimeTypes.includes(normalizedPattern)) {
+        return true;
+    }
+    // Wildcard, such as `image/*`
+    const wildcard = normalizedPattern.match(/^([a-z]+)\/([a-z]+|\*)$/i);
+    if (!wildcard) {
+        return false;
+    }
+    const [_, type, subtype] = wildcard;
+    if (subtype === '*') {
+        return normalizedMimeTypes.some(mime => mime.startsWith(type + '/'));
+    }
+    return false;
 }
 export const UriList = Object.freeze({
     // http://amundsen.com/hypermedia/urilist/

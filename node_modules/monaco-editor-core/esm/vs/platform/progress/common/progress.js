@@ -5,7 +5,7 @@ export const emptyProgressRunner = Object.freeze({
     worked() { },
     done() { }
 });
-class Progress {
+export class Progress {
     constructor(callback) {
         this.callback = callback;
     }
@@ -15,5 +15,4 @@ class Progress {
     }
 }
 Progress.None = Object.freeze({ report() { } });
-export { Progress };
 export const IEditorProgressService = createDecorator('editorProgressService');

@@ -131,7 +131,7 @@ class ListViewAccessibilityProvider {
  * @remarks It is a low-level widget, not meant to be used directly. Refer to the
  * List widget instead.
  */
-class ListView {
+export class ListView {
     get contentHeight() { return this.rangeMap.size; }
     get horizontalScrolling() { return this._horizontalScrolling; }
     set horizontalScrolling(value) {
@@ -174,6 +174,7 @@ class ListView {
         this.onDragLeaveTimeout = Disposable.None;
         this.disposables = new DisposableStore();
         this._onDidChangeContentHeight = new Emitter();
+        this._onDidChangeContentWidth = new Emitter();
         this._horizontalScrolling = false;
         if (options.horizontalScrolling && options.supportDynamicHeights) {
             throw new Error('Horizontal scrolling and dynamic heights not supported simultaneously');
@@ -393,6 +394,7 @@ class ListView {
         }
         this.scrollWidth = scrollWidth;
         this.scrollableElement.setScrollDimensions({ scrollWidth: scrollWidth === 0 ? 0 : (scrollWidth + 10) });
+        this._onDidChangeContentWidth.fire(this.scrollWidth);
     }
     rerender() {
         if (!this.supportDynamicHeights) {
@@ -1055,4 +1057,3 @@ __decorate([
 __decorate([
     memoize
 ], ListView.prototype, "onTap", null);
-export { ListView };

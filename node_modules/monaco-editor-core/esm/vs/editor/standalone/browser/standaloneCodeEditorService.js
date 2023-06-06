@@ -27,7 +27,7 @@ import { ICodeEditorService } from '../../browser/services/codeEditorService.js'
 import { IContextKeyService } from '../../../platform/contextkey/common/contextkey.js';
 import { registerSingleton } from '../../../platform/instantiation/common/extensions.js';
 import { IThemeService } from '../../../platform/theme/common/themeService.js';
-let StandaloneCodeEditorService = class StandaloneCodeEditorService extends AbstractCodeEditorService {
+export let StandaloneCodeEditorService = class StandaloneCodeEditorService extends AbstractCodeEditorService {
     constructor(contextKeyService, themeService) {
         super(themeService);
         this.onCodeEditorAdd(() => this._checkContextKey());
@@ -99,5 +99,4 @@ StandaloneCodeEditorService = __decorate([
     __param(0, IContextKeyService),
     __param(1, IThemeService)
 ], StandaloneCodeEditorService);
-export { StandaloneCodeEditorService };
 registerSingleton(ICodeEditorService, StandaloneCodeEditorService, 0 /* InstantiationType.Eager */);

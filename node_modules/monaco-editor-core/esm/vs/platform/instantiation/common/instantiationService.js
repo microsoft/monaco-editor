@@ -282,7 +282,7 @@ export class InstantiationService {
         }
     }
 }
-class Trace {
+export class Trace {
     static traceInvocation(_enableTracing, ctor) {
         return !_enableTracing ? Trace._None : new Trace(2 /* TraceType.Invocation */, ctor.name || new Error().stack.split('\n').slice(3, 4).join('\n'));
     }
@@ -339,5 +339,4 @@ Trace._None = new class extends Trace {
     branch() { return this; }
 };
 Trace._totals = 0;
-export { Trace };
 //#endregion

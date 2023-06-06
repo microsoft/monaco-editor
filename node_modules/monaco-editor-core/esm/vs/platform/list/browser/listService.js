@@ -152,7 +152,7 @@ function toWorkbenchListOptions(accessor, options) {
     const result = Object.assign(Object.assign({}, options), { keyboardNavigationDelegate: { mightProducePrintableCharacter(e) { return keybindingService.mightProducePrintableCharacter(e); } }, smoothScrolling: Boolean(configurationService.getValue(listSmoothScrolling)), mouseWheelScrollSensitivity: configurationService.getValue(mouseWheelScrollSensitivityKey), fastScrollSensitivity: configurationService.getValue(fastScrollSensitivityKey), multipleSelectionController: (_a = options.multipleSelectionController) !== null && _a !== void 0 ? _a : disposables.add(new MultipleSelectionController(configurationService)), keyboardNavigationEventFilter: createKeyboardNavigationEventFilter(keybindingService), scrollByPage: Boolean(configurationService.getValue(scrollByPageKey)) });
     return [result, disposables];
 }
-let WorkbenchList = class WorkbenchList extends List {
+export let WorkbenchList = class WorkbenchList extends List {
     constructor(user, container, delegate, renderers, options, contextKeyService, listService, configurationService, instantiationService) {
         const horizontalScrolling = typeof options.horizontalScrolling !== 'undefined' ? options.horizontalScrolling : Boolean(configurationService.getValue(horizontalScrollingKey));
         const [workbenchListOptions, workbenchListOptionsDisposable] = instantiationService.invokeFunction(toWorkbenchListOptions, options);
@@ -236,8 +236,7 @@ WorkbenchList = __decorate([
     __param(7, IConfigurationService),
     __param(8, IInstantiationService)
 ], WorkbenchList);
-export { WorkbenchList };
-let WorkbenchPagedList = class WorkbenchPagedList extends PagedList {
+export let WorkbenchPagedList = class WorkbenchPagedList extends PagedList {
     constructor(user, container, delegate, renderers, options, contextKeyService, listService, configurationService, instantiationService) {
         const horizontalScrolling = typeof options.horizontalScrolling !== 'undefined' ? options.horizontalScrolling : Boolean(configurationService.getValue(horizontalScrollingKey));
         const [workbenchListOptions, workbenchListOptionsDisposable] = instantiationService.invokeFunction(toWorkbenchListOptions, options);
@@ -309,8 +308,7 @@ WorkbenchPagedList = __decorate([
     __param(7, IConfigurationService),
     __param(8, IInstantiationService)
 ], WorkbenchPagedList);
-export { WorkbenchPagedList };
-let WorkbenchTable = class WorkbenchTable extends Table {
+export let WorkbenchTable = class WorkbenchTable extends Table {
     constructor(user, container, delegate, columns, renderers, options, contextKeyService, listService, configurationService, instantiationService) {
         const horizontalScrolling = typeof options.horizontalScrolling !== 'undefined' ? options.horizontalScrolling : Boolean(configurationService.getValue(horizontalScrollingKey));
         const [workbenchListOptions, workbenchListOptionsDisposable] = instantiationService.invokeFunction(toWorkbenchListOptions, options);
@@ -398,7 +396,6 @@ WorkbenchTable = __decorate([
     __param(8, IConfigurationService),
     __param(9, IInstantiationService)
 ], WorkbenchTable);
-export { WorkbenchTable };
 class ResourceNavigator extends Disposable {
     constructor(widget, options) {
         var _a;
@@ -514,15 +511,15 @@ function createKeyboardNavigationEventFilter(keybindingService) {
             return false;
         }
         const result = keybindingService.softDispatch(event, event.target);
-        if (result === null || result === void 0 ? void 0 : result.enterMultiChord) {
+        if (result.kind === 1 /* ResultKind.MoreChordsNeeded */) {
             inMultiChord = true;
             return false;
         }
         inMultiChord = false;
-        return !result;
+        return result.kind === 0 /* ResultKind.NoMatchingKb */;
     };
 }
-let WorkbenchObjectTree = class WorkbenchObjectTree extends ObjectTree {
+export let WorkbenchObjectTree = class WorkbenchObjectTree extends ObjectTree {
     constructor(user, container, delegate, renderers, options, instantiationService, contextKeyService, listService, configurationService) {
         const { options: treeOptions, getTypeNavigationMode, disposable } = instantiationService.invokeFunction(workbenchTreeDataPreamble, options);
         super(user, container, delegate, renderers, treeOptions);
@@ -541,8 +538,7 @@ WorkbenchObjectTree = __decorate([
     __param(7, IListService),
     __param(8, IConfigurationService)
 ], WorkbenchObjectTree);
-export { WorkbenchObjectTree };
-let WorkbenchCompressibleObjectTree = class WorkbenchCompressibleObjectTree extends CompressibleObjectTree {
+export let WorkbenchCompressibleObjectTree = class WorkbenchCompressibleObjectTree extends CompressibleObjectTree {
     constructor(user, container, delegate, renderers, options, instantiationService, contextKeyService, listService, configurationService) {
         const { options: treeOptions, getTypeNavigationMode, disposable } = instantiationService.invokeFunction(workbenchTreeDataPreamble, options);
         super(user, container, delegate, renderers, treeOptions);
@@ -564,8 +560,7 @@ WorkbenchCompressibleObjectTree = __decorate([
     __param(7, IListService),
     __param(8, IConfigurationService)
 ], WorkbenchCompressibleObjectTree);
-export { WorkbenchCompressibleObjectTree };
-let WorkbenchDataTree = class WorkbenchDataTree extends DataTree {
+export let WorkbenchDataTree = class WorkbenchDataTree extends DataTree {
     constructor(user, container, delegate, renderers, dataSource, options, instantiationService, contextKeyService, listService, configurationService) {
         const { options: treeOptions, getTypeNavigationMode, disposable } = instantiationService.invokeFunction(workbenchTreeDataPreamble, options);
         super(user, container, delegate, renderers, dataSource, treeOptions);
@@ -587,8 +582,7 @@ WorkbenchDataTree = __decorate([
     __param(8, IListService),
     __param(9, IConfigurationService)
 ], WorkbenchDataTree);
-export { WorkbenchDataTree };
-let WorkbenchAsyncDataTree = class WorkbenchAsyncDataTree extends AsyncDataTree {
+export let WorkbenchAsyncDataTree = class WorkbenchAsyncDataTree extends AsyncDataTree {
     get onDidOpen() { return this.internals.onDidOpen; }
     constructor(user, container, delegate, renderers, dataSource, options, instantiationService, contextKeyService, listService, configurationService) {
         const { options: treeOptions, getTypeNavigationMode, disposable } = instantiationService.invokeFunction(workbenchTreeDataPreamble, options);
@@ -611,8 +605,7 @@ WorkbenchAsyncDataTree = __decorate([
     __param(8, IListService),
     __param(9, IConfigurationService)
 ], WorkbenchAsyncDataTree);
-export { WorkbenchAsyncDataTree };
-let WorkbenchCompressibleAsyncDataTree = class WorkbenchCompressibleAsyncDataTree extends CompressibleAsyncDataTree {
+export let WorkbenchCompressibleAsyncDataTree = class WorkbenchCompressibleAsyncDataTree extends CompressibleAsyncDataTree {
     constructor(user, container, virtualDelegate, compressionDelegate, renderers, dataSource, options, instantiationService, contextKeyService, listService, configurationService) {
         const { options: treeOptions, getTypeNavigationMode, disposable } = instantiationService.invokeFunction(workbenchTreeDataPreamble, options);
         super(user, container, virtualDelegate, compressionDelegate, renderers, dataSource, treeOptions);
@@ -631,7 +624,6 @@ WorkbenchCompressibleAsyncDataTree = __decorate([
     __param(9, IListService),
     __param(10, IConfigurationService)
 ], WorkbenchCompressibleAsyncDataTree);
-export { WorkbenchCompressibleAsyncDataTree };
 function getDefaultTreeFindMode(configurationService) {
     const value = configurationService.getValue(defaultFindModeSettingKey);
     if (value === 'highlight') {

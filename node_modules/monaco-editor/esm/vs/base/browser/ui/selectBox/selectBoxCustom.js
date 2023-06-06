@@ -565,7 +565,7 @@ export class SelectBoxList extends Disposable {
                     return label;
                 },
                 getWidgetAriaLabel: () => localize({ key: 'selectBox', comment: ['Behave like native select dropdown element.'] }, "Select Box"),
-                getRole: () => 'option',
+                getRole: () => isMacintosh ? '' : 'option',
                 getWidgetRole: () => 'listbox'
             }
         });

@@ -644,13 +644,13 @@ export class ViewModelLinesFromProjectedModel {
         const deltaLineNumber = 1 + this.projectedModelLineLineCounts.getPrefixSum(lineIndex);
         return this.modelLineProjections[lineIndex].getViewLineNumberOfModelPosition(deltaLineNumber, this.model.getLineMaxColumn(lineIndex + 1));
     }
-    getDecorationsInRange(range, ownerId, filterOutValidation, onlyMinimapDecorations) {
+    getDecorationsInRange(range, ownerId, filterOutValidation, onlyMinimapDecorations, onlyMarginDecorations) {
         const modelStart = this.convertViewPositionToModelPosition(range.startLineNumber, range.startColumn);
         const modelEnd = this.convertViewPositionToModelPosition(range.endLineNumber, range.endColumn);
         if (modelEnd.lineNumber - modelStart.lineNumber <= range.endLineNumber - range.startLineNumber) {
             // most likely there are no hidden lines => fast path
             // fetch decorations from column 1 to cover the case of wrapped lines that have whole line decorations at column 1
-            return this.model.getDecorationsInRange(new Range(modelStart.lineNumber, 1, modelEnd.lineNumber, modelEnd.column), ownerId, filterOutValidation, onlyMinimapDecorations);
+            return this.model.getDecorationsInRange(new Range(modelStart.lineNumber, 1, modelEnd.lineNumber, modelEnd.column), ownerId, filterOutValidation, onlyMinimapDecorations, onlyMarginDecorations);
         }
         let result = [];
         const modelStartLineIndex = modelStart.lineNumber - 1;
@@ -903,8 +903,8 @@ export class ViewModelLinesFromModelAsIs {
         }
         return result;
     }
-    getDecorationsInRange(range, ownerId, filterOutValidation, onlyMinimapDecorations) {
-        return this.model.getDecorationsInRange(range, ownerId, filterOutValidation, onlyMinimapDecorations);
+    getDecorationsInRange(range, ownerId, filterOutValidation, onlyMinimapDecorations, onlyMarginDecorations) {
+        return this.model.getDecorationsInRange(range, ownerId, filterOutValidation, onlyMinimapDecorations, onlyMarginDecorations);
     }
     normalizePosition(position, affinity) {
         return this.model.normalizePosition(position, affinity);

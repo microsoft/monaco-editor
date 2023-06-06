@@ -177,7 +177,7 @@ export class HSVA {
         return new RGBA(r, g, b, a);
     }
 }
-class Color {
+export class Color {
     static fromHex(hex) {
         return Color.Format.CSS.parseHex(hex) || Color.red;
     }
@@ -322,7 +322,6 @@ Color.green = new Color(new RGBA(0, 255, 0, 1));
 Color.cyan = new Color(new RGBA(0, 255, 255, 1));
 Color.lightgrey = new Color(new RGBA(211, 211, 211, 1));
 Color.transparent = new Color(new RGBA(0, 0, 0, 0));
-export { Color };
 (function (Color) {
     let Format;
     (function (Format) {
