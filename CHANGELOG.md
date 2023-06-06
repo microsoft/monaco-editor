@@ -1,5 +1,19 @@
 # Monaco Editor Changelog
 
+## [0.39.0]
+
+- New method `Environment.createTrustedTypesPolicy` to override trusted types handling.
+- Bugfixes
+
+Contributions to `monaco-editor`:
+
+- [@dlitsman (Dmitry Litsman)](https://github.com/dlitsman): Extend the "Rendering Glyphs In The Margin" example to include a transparent color note. [PR #3945](https://github.com/microsoft/monaco-editor/pull/3945)
+- [@dneto0 (David Neto)](https://github.com/dneto0): Avoid a hack in the WGSL lexer [PR #3887](https://github.com/microsoft/monaco-editor/pull/3887)
+- [@spahnke (Sebastian Pahnke)](https://github.com/spahnke)
+  - [JS, TS] Add Monarch support for private identifiers [PR #3919](https://github.com/microsoft/monaco-editor/pull/3919)
+  - [JS] Add static keyword [PR #3922](https://github.com/microsoft/monaco-editor/pull/3922)
+- [@titouanmathis (Titouan Mathis)](https://github.com/titouanmathis): [Webpack Plugin] Fix CJS being injected in ESM files [PR #3933](https://github.com/microsoft/monaco-editor/pull/3933)
+
 ## [0.38.0]
 
 - `diffAlgorithm` values changed: `smart` -> `legacy`, `experimental` -> `advanced`
