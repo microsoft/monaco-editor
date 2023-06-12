@@ -16,6 +16,12 @@
 			}
 		},
 		{
+			"name": "Website",
+			"type": "chrome",
+			"request": "launch",
+			"url": "http://localhost:8080/"
+		},
+		{
 			// Clone VS Code and make sure the task "Launch Http Server" runs.
 			// Then the editor is build from sources.
 			// We recommend to use the workspace feature for this.
