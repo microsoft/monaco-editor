@@ -322,10 +322,16 @@ function projectEquals(
 	project2: IPlaygroundProject
 ): boolean {
 	return (
-		project1.css === project2.css &&
-		project1.html === project2.html &&
-		project1.js === project2.js
+		normalizeLineEnding(project1.css) ===
+			normalizeLineEnding(project2.css) &&
+		normalizeLineEnding(project1.html) ===
+			normalizeLineEnding(project2.html) &&
+		normalizeLineEnding(project1.js) === normalizeLineEnding(project2.js)
 	);
+}
+
+function normalizeLineEnding(str: string): string {
+	return str.replace(/\r\n/g, "\n");
 }
 
 class StateUrlSerializer implements IHistoryModel {
@@ -443,16 +449,21 @@ class StateUrlSerializer implements IHistoryModel {
 			this._sourceOverride = source;
 		}
 
+		function findExample(hashValue: string): PlaygroundExample | undefined {
+			if (hashValue.startsWith("example-")) {
+				hashValue = hashValue.substring("example-".length);
+			}
+			return getPlaygroundExamples()
+				.flatMap((e) => e.examples)
+				.find((e) => e.id === hashValue);
+		}
+
+		let example: PlaygroundExample | undefined;
+
 		if (!hashValue) {
 			this.model.selectedExample = getPlaygroundExamples()[0].examples[0];
-		} else if (hashValue.startsWith("example-")) {
-			const exampleName = hashValue.substring("example-".length);
-			const example = getPlaygroundExamples()
-				.flatMap((e) => e.examples)
-				.find((e) => e.id === exampleName);
-			if (example) {
-				this.model.selectedExample = example;
-			}
+		} else if ((example = findExample(hashValue))) {
+			this.model.selectedExample = example;
 		} else {
 			let p: IPlaygroundProject | undefined = undefined;
 			if (this.cachedState?.hash === hashValue) {
