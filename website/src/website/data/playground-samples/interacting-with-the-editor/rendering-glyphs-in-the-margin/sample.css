@@ -2,5 +2,6 @@
 	background: red;
 }
 .myContentClass {
-	background: lightblue;
+	/* Make sure to use transparent colors for the selection to work */
+	background: rgba(173, 216, 230, 0.5);
 }

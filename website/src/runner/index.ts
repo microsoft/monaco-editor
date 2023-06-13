@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { loadMonaco } from "../monaco-loader";
-import { IMessage, IPreviewState } from "../shared";
+import { IMessageFromRunner, IMessageToRunner, IPreviewState } from "../shared";
 import "./style.scss";
 
 window.addEventListener("message", (event) => {
@@ -14,7 +14,7 @@ window.addEventListener("message", (event) => {
 		console.error("not in sandbox");
 		return;
 	}
-	const e = event.data as IMessage | { kind: undefined };
+	const e = event.data as IMessageToRunner | { kind: undefined };
 	if (e.kind === "initialize") {
 		initialize(e.state);
 	} else if (e.kind === "update-css") {
@@ -64,16 +64,23 @@ async function initialize(state: IPreviewState) {
 	}
 }
 
-(globalThis as any).bindModelToCodeStr = function bindModel(
+function sendMessageToParent(message: IMessageFromRunner) {
+	window.parent.postMessage(message, "*");
+}
+
+(globalThis as any).$sendMessageToParent = sendMessageToParent;
+
+(globalThis as any).$bindModelToCodeStr = function bindModel(
 	model: any,
 	codeStringName: string
 ) {
 	model.onDidChangeContent(() => {
 		const value = model.getValue();
-		window.parent.postMessage(
-			{ kind: "update-code-string", codeStringName, value },
-			"*"
-		);
+		sendMessageToParent({
+			kind: "update-code-string",
+			codeStringName,
+			value,
+		});
 	});
 };
 
@@ -91,7 +98,7 @@ function massageJs(js: string) {
 	for (const m of js.matchAll(setFromRegexp)) {
 		const p1 = m[1];
 		const target = JSON.stringify("set from `" + p1 + "`");
-		js += `\n try { globalThis.bindModelToCodeStr(${p1}, ${target}); } catch (e) { console.error(e); }`;
+		js += `\n try { globalThis.$bindModelToCodeStr(${p1}, ${target}); } catch (e) { console.error(e); }`;
 	}
 	return js;
 }

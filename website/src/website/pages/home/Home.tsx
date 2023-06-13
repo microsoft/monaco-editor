@@ -217,6 +217,7 @@ class EditorDemo extends React.Component {
 						value={this.currentSample.value || "loading..."}
 						language={this.currentLanguage?.id}
 						theme={this.currentTheme.id}
+						onDidValueChange={() => {}}
 					/>
 				</div>
 			</div>

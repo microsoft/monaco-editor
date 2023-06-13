@@ -39,6 +39,65 @@ testTokenization('typescript', [
 		}
 	],
 
+	// identifiers
+	[
+		{
+			line: 'foo;',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ts' },
+				{ startIndex: 3, type: 'delimiter.ts' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'foo() { return 1; }',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ts' },
+				{ startIndex: 3, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.bracket.ts' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'keyword.ts' },
+				{ startIndex: 14, type: '' },
+				{ startIndex: 15, type: 'number.ts' },
+				{ startIndex: 16, type: 'delimiter.ts' },
+				{ startIndex: 17, type: '' },
+				{ startIndex: 18, type: 'delimiter.bracket.ts' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '#foo;',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ts' },
+				{ startIndex: 4, type: 'delimiter.ts' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '#foo() { return 1; }',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ts' },
+				{ startIndex: 4, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'delimiter.bracket.ts' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'keyword.ts' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'number.ts' },
+				{ startIndex: 17, type: 'delimiter.ts' },
+				{ startIndex: 18, type: '' },
+				{ startIndex: 19, type: 'delimiter.bracket.ts' }
+			]
+		}
+	],
+
 	// Comments - single line
 	[
 		{

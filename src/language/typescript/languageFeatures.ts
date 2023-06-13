@@ -890,7 +890,7 @@ export class OutlineAdapter extends Adapter implements languages.DocumentSymbolP
 				range: this._textSpanToRange(model, item.spans[0]),
 				selectionRange: this._textSpanToRange(model, item.spans[0]),
 				tags: [],
-				children: item.childItems?.map((child) => convert(child, result.name)),
+				children: item.childItems?.map((child) => convert(child, item.text)),
 				containerName: containerLabel
 			};
 			return result;

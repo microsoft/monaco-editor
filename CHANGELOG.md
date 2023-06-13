@@ -1,5 +1,33 @@
 # Monaco Editor Changelog
 
+## [0.39.0]
+
+- New method `Environment.createTrustedTypesPolicy` to override trusted types handling.
+- Bugfixes
+
+Contributions to `monaco-editor`:
+
+- [@dlitsman (Dmitry Litsman)](https://github.com/dlitsman): Extend the "Rendering Glyphs In The Margin" example to include a transparent color note. [PR #3945](https://github.com/microsoft/monaco-editor/pull/3945)
+- [@dneto0 (David Neto)](https://github.com/dneto0): Avoid a hack in the WGSL lexer [PR #3887](https://github.com/microsoft/monaco-editor/pull/3887)
+- [@spahnke (Sebastian Pahnke)](https://github.com/spahnke)
+  - [JS, TS] Add Monarch support for private identifiers [PR #3919](https://github.com/microsoft/monaco-editor/pull/3919)
+  - [JS] Add static keyword [PR #3922](https://github.com/microsoft/monaco-editor/pull/3922)
+- [@titouanmathis (Titouan Mathis)](https://github.com/titouanmathis): [Webpack Plugin] Fix CJS being injected in ESM files [PR #3933](https://github.com/microsoft/monaco-editor/pull/3933)
+
+## [0.38.0]
+
+- `diffAlgorithm` values changed: `smart` -> `legacy`, `experimental` -> `advanced`
+- New `registerEditorOpener` API
+- New property `IViewZone.showInHiddenAreas` to show view zones in hidden areas
+- New properties `InlineCompletions.suppressSuggestions` and `InlineCompletions.enableForwardStability`
+- Bugfixes
+
+Contributions to `monaco-editor`:
+
+- [@dneto0 (David Neto)](https://github.com/dneto0): Add WebGPU Shading Language tokenizer, with tests [PR #3884](https://github.com/microsoft/monaco-editor/pull/3884)
+- [@kisstkondoros (Tamas Kiss)](https://github.com/kisstkondoros): Fix reference error in convert method of OutlineAdapter [PR #3924](https://github.com/microsoft/monaco-editor/pull/3924)
+- [@tamayika](https://github.com/tamayika): Change moduleResolution to node16 and adopt TS 5.0 [PR #3860](https://github.com/microsoft/monaco-editor/pull/3860)
+
 ## [0.37.1]
 
 - Fixes Inline Completions feature
