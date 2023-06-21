@@ -6,6 +6,7 @@
 import type * as mode from './tsMode';
 import { typescriptVersion as tsversion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
 import { languages, Emitter, IEvent, IDisposable, Uri } from '../../fillers/monaco-editor-core';
+import { CustomTSWebWorkerFactory } from './tsWorker';
 
 //#region enums copied from typescript to prevent loading the entire typescriptServices ---
 
@@ -166,6 +167,7 @@ export interface DiagnosticsOptions {
 export interface WorkerOptions {
 	/** A full HTTP path to a JavaScript file which adds a function `customTSWorkerFactory` to the self inside a web-worker */
 	customWorkerPath?: string;
+	customWorkerFactory?: CustomTSWebWorkerFactory;
 }
 
 interface InlayHintsOptions {

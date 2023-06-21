@@ -463,6 +463,7 @@ export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
 	extraLibs: IExtraLibs;
 	customWorkerPath?: string;
+	customWorkerFactory?: CustomTSWebWorkerFactory;
 	inlayHintsOptions?: ts.UserPreferences;
 }
 
@@ -497,9 +498,11 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 				);
 			}
 
-			TSWorkerClass = workerFactoryFunc(TypeScriptWorker, ts, libFileMap);
+			TSWorkerClass = workerFactoryFunc(TSWorkerClass, ts, libFileMap);
 		}
 	}
+	if (createData.customWorkerFactory)
+		TSWorkerClass = createData.customWorkerFactory(TSWorkerClass, ts, libFileMap);
 
 	return new TSWorkerClass(ctx, createData);
 }
