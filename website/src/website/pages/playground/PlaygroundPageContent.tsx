@@ -1,24 +1,24 @@
 import { autorun } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
+import { ButtonGroup, FormCheck } from "react-bootstrap";
 import { getLoadedMonaco } from "../../../monaco-loader";
-import { IPlaygroundProject, IPreviewState } from "../../../shared";
 import { Page } from "../../components/Page";
 import { Select } from "../../components/Select";
+import { Button, Col, Row, Stack } from "../../components/bootstrap";
 import {
 	MonacoEditor,
 	MonacoEditorHeight,
 } from "../../components/monaco/MonacoEditor";
 import { withLoadedMonaco } from "../../components/monaco/MonacoLoader";
+import { monacoEditorVersion } from "../../monacoEditorVersion";
 import { hotComponent } from "../../utils/hotComponent";
 import { IReference, ref } from "../../utils/ref";
-import { getNpmVersionsSync } from "./getNpmVersionsSync";
-import { getPlaygroundExamples, PlaygroundExample } from "./playgroundExamples";
 import { PlaygroundModel } from "./PlaygroundModel";
 import { Preview } from "./Preview";
 import { SettingsDialog } from "./SettingsDialog";
-import { Button, Col, Row, Stack } from "../../components/bootstrap";
-import { ButtonGroup, FormCheck } from "react-bootstrap";
+import { getNpmVersionsSync } from "./getNpmVersionsSync";
+import { PlaygroundExample, getPlaygroundExamples } from "./playgroundExamples";
 
 @hotComponent(module)
 @observer
@@ -258,13 +258,15 @@ export class VersionSelector extends React.Component<{
 				<Select
 					values={versions}
 					getLabel={(i) =>
-						`${i}${
-							{
-								["undefined"]: "",
-								["true"]: " ✓",
-								["false"]: " ✗",
-							}["" + model.bisectModel.getState(i)]
-						}`
+						i === latestValue
+							? `latest stable (${monacoEditorVersion})`
+							: `${i}${
+									{
+										["undefined"]: "",
+										["true"]: " ✓",
+										["false"]: " ✗",
+									}["" + model.bisectModel.getState(i)]
+							  }`
 					}
 					value={{
 						get() {
