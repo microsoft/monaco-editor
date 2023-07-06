@@ -84,7 +84,7 @@ function loadScript(path: string): Promise<void> {
 		script.onload = () => res();
 		script.async = true;
 		script.type = "text/javascript";
-		script.src = path;
+		script.src = path; // CodeQL [SM01507] This is safe because the runner (that allows for dynamic paths) runs in an isolated iframe. The hosting website uses a static path configuration. // CodeQL [SM03712] This is safe because the runner (that allows for dynamic paths) runs in an isolated iframe. The hosting website uses a static path configuration.
 		document.head.appendChild(script);
 	});
 }

@@ -39,7 +39,7 @@
 			'<ul><li>' +
 			renderLoadingOptions(true) +
 			(isRelease ? '' : `</li><li>${renderLoadingOptions(false)}`) +
-			'</li></ul>';
+			'</li></ul>'; // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
 
 		document.body.appendChild(div);
 
@@ -47,7 +47,7 @@
 		for (let i = 0; i < aElements.length; i++) {
 			let aElement = aElements[i];
 			if (aElement.className === 'loading-opts') {
-				aElement.href += window.location.search;
+				aElement.href += window.location.search; // CodeQL [SM01507] This code is not deployed and serves as local test code. No risk of malicious input.
 			}
 		}
 	})();
