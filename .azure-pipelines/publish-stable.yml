@@ -68,9 +68,11 @@ extends:
         buildSteps:
           - script: npm ci
             displayName: Install NPM dependencies
+            workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
 
           - script: npm run compile
             displayName: Build plugin
+            workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
 
         tag: latest
         ghCreateTag: false
