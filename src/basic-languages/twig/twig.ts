@@ -104,7 +104,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/(<)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
 			[/(<\/)((?:[\w\-]+:)?[\w\-]+)/, ['delimiter.html', { token: 'tag.html', next: '@otherTag' }]],
 			[/</, 'delimiter.html'],
-			[/[^<]+/] // text
+			[/[^<{]+/] // text
 		],
 
 		/**
