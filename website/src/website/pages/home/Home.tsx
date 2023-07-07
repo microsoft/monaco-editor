@@ -172,10 +172,9 @@ class EditorDemo extends React.Component {
 						<div>
 							<h2>IntelliSense, Validation</h2>
 							<p>
-								Paragraph of text beneath the heading to explain
-								the heading. We'll add onto it with another
-								sentence and probably just keep going until we
-								run out of words.
+								Get completions and errors directly in the
+								browser for supported languages. Or write your
+								own completion providers in JavaScript.
 							</p>
 						</div>
 					</div>
@@ -184,10 +183,9 @@ class EditorDemo extends React.Component {
 						<div>
 							<h2>Basic Syntax Colorization</h2>
 							<p>
-								Paragraph of text beneath the heading to explain
-								the heading. We'll add onto it with another
-								sentence and probably just keep going until we
-								run out of words.
+								Colorize code using our pre-built syntax
+								highlighting, or configure your own custom
+								colorization.
 							</p>
 						</div>
 					</div>
