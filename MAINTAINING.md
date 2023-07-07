@@ -9,7 +9,7 @@ Make sure every unassigned issue is labeled properly:
 ## Publishing a stable build monaco-editor build
 
 - Make sure there exists a nightly build from the VS Code commit the stable build should be built from
-- [Compare Last Stable With Nightly](https://microsoft.github.io/monaco-editor/playground.html?source=v0.39.0-dev.20230606#XQAAAAKzBQAAAAAAAABBqQkHQ5NjdMjwa-jY7SIQ9S7DNlzs5W-mwj0fe1ZCDRFc9ws9XQE0SJE1jc2VKxhaLFIw9vEWSxW3yscw9ajfg2SGxNmVfIdymzfNMmpU96miXJZvs8c7gcyo98bKVzbks7HoMVAZiOQjzsGSo4vYRPplxTKh4qJ5_s9m1RB0u1a8RPwJXtmqrYtToAekuwuDQ2im8_QvtfSt1HbJIiHVd2zPiTBSeoC03JVOCBfBsHUM0AOblitxr0yoEKp5yCNj9Xx68iP2xX6l7R-oQQP0QegyE5JU_S6OAtnV--nu4J_lwqYHYrlBXuqsqRU-cKhSqrbrcWCxKMEmQyZkUHmM75vxSD8qepWmGk7BA4eU4YQI7tZ6g74Y0LXfIckS_2A-xIQYChatES1wLXoLosL4FhDqugt7bJg6Lelf09SdwM_NgJuVqmU8jOyMkHaKZ4nkZt61mFhR3Wa4KUfFUTCro6cKL3tIHInvgOfg8gpWdNOKy19pICfKSDYlWkn6rPgZxR0b-KCbY8K3_B6h8_TU8JfXlva5OmzfgvNBQcN_UE95r5zuBUua8JDaVLTOUKDRsOj5DYNx9KGGgicA2qjH3IlyyuOfgPTmNssWQv496rVgpqm4Zpt3DGSDY-1vxbGQe7m135DxLbACD70fgH8-C-ou2umXUKDrJbZJI2EFFMvzvZVBZVEp7Fa2j7161WJ_oyFj1HvHtTMvvrE_0P2g-u--1zh_9OHJ_ybwLAA)
+- [Compare Last Stable With Nightly](https://microsoft.github.io/monaco-editor/playground.html?source=v0.40.0-dev.20230704#XQAAAAJWBgAAAAAAAABBqQkHQ5NjdMjwa-jY7SIQ9S7DNlzs5W-mwj0fe1ZCDRFc9ws9XQE0SJE1jc2VKxhaLFIw9vEWSxW3yscw_SM66BuzMt6m3zM8Thvb-XSMR_Da8IdBq3FOgly-7-xuaHSi_yUg58ZO9Mr-RKT7GyHzHoU8B9N7P-uTzmCdhT2Vv-4gNRbWSMQCUPrfmzFCkSH_WR2Vc8LGx2m0uRSFiJu82B1mS0RM-eriU9PTOqAgBrlPUMTU44VrHyVOqgs5BFrUuUHwGDzUHxeNuUk-kg2u70awQLQ83wD4o2EbSefqfIWkk2Yi0mnUS903tLA4V17MD_6OHIRArunMPL6E14ZCW0_Aql21F62Fmz--i_pNbqBIpSlBbZl6LzA1HzNsoDH7i2rn1qAw55L1MjwOU4QQMCJfffmJznAbGoZWkXK91OPYlOGNHNGG-MPUFsY5JSjLfvCWOvXypW9ZVkBZMo1qUbtE135CLqbaBiw52f3eOPBTru3IL_wT__ciAFI5NDiVOeN8V9zqkzbwiFNeQyZcjxmrDLjYTPJpao0dG61Um0w4FpVud8p77bjoAdEfG8JNO97W4cawj0HvMfvcZS81P7IsijZqA7KyVsdq79iCJQuMO31aS86cM4GTNT0TvdI7p62uiEmm9X6ZjF8oSLxW87Vt0oYAZ5wBePqdN6FwNO6BWACt2Ep9i5Q6h-mOy7_JWOiPTOH0Zz3v6SaNhjxJwZAqNG3FqvRTgLg-au-pfa8PD0No3U15UyWeqrVXSthGFghLJ16ppEwFCqFfQ6Vr0leZtSZXyk41-t5ZKMG-KQjzq1XE2PnuyOz60nV4GaYvGlMHrXz-XrEqb2kwNf_pBee0)
   - Update [package.json](./package.json)
     - set `version` to next stable
     - set `vscodeRef` to _vscodeCommitId_
@@ -17,7 +17,7 @@ Make sure every unassigned issue is labeled properly:
   - Run `npm install` to update lockfile
   - Update [CHANGELOG.md](./CHANGELOG.md)
     - API Changes / Breaking Changes / New and noteworthy
-    - Thank you ([use this tool](https://vscode-tools.azurewebsites.net/acknowledgement/))
+    - Thank you ([use this tool](https://tools.code.visualstudio.com/acknowledgement))
   - Commit
   - [Trigger build](https://dev.azure.com/monacotools/Monaco/_build?definitionId=416)
 

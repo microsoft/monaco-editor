@@ -1,5 +1,13 @@
 # Monaco Editor Changelog
 
+## [0.40.0]
+
+- Support for Glyph Margin Widgets
+- Removes `getDiffLineInformationForOriginal` and `getDiffLineInformationForModified` from `IDiffEditor`
+- `createTrustedTypesPolicy` is optional now
+- New option `IModelDecorationOptions.shouldFillLineOnLineBreak`
+- New option `EditorOptions.readOnlyMessage``
+
 ## [0.39.0]
 
 - New method `Environment.createTrustedTypesPolicy` to override trusted types handling.
