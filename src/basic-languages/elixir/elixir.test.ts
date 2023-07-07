@@ -303,6 +303,17 @@ testTokenization('elixir', [
 			]
 		}
 	],
+	// Sigils (multi-letter uppercase)
+	[
+		{
+			line: '~DX/foo/',
+			tokens: [
+				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
+				{ startIndex: 4, type: 'sigil.elixir' },
+				{ startIndex: 7, type: 'sigil.delimiter.elixir' }
+			]
+		}
+	],
 	// Sigils (no interpolation)
 	[
 		{
@@ -314,6 +325,17 @@ testTokenization('elixir', [
 			]
 		}
 	],
+	// Sigils (multi-letter uppercase no interpolation)
+	[
+		{
+			line: '~WW/foo#{1}/',
+			tokens: [
+				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
+				{ startIndex: 4, type: 'sigil.elixir' },
+				{ startIndex: 11, type: 'sigil.delimiter.elixir' }
+			]
+		}
+	],
 	// Sigils (modifiers)
 	[
 		{
@@ -322,6 +344,17 @@ testTokenization('elixir', [
 				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
 				{ startIndex: 3, type: 'sigil.elixir' },
 				{ startIndex: 9, type: 'sigil.delimiter.elixir' }
+			]
+		}
+	],
+	// Sigils (multi-letter uppercase with modifiers)
+	[
+		{
+			line: '~DX/custom/az09',
+			tokens: [
+				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
+				{ startIndex: 4, type: 'sigil.elixir' },
+				{ startIndex: 10, type: 'sigil.delimiter.elixir' }
 			]
 		}
 	],
@@ -381,6 +414,33 @@ testTokenization('elixir', [
 				{ startIndex: 11, type: 'punctuation.elixir' },
 				{ startIndex: 12, type: 'constant.language.elixir' },
 				{ startIndex: 15, type: 'delimiter.square.elixir' }
+			]
+		}
+	],
+	// Bitstrings
+	[
+		{
+			line: '<<height::32-integer, width::32-integer, data::binary>>',
+			tokens: [
+				{ startIndex: 0, type: 'delimiter.angle.special.elixir' },
+				{ startIndex: 2, type: 'identifier.elixir' },
+				{ startIndex: 8, type: 'operator.elixir' },
+				{ startIndex: 10, type: 'number.elixir' },
+				{ startIndex: 12, type: 'operator.elixir' },
+				{ startIndex: 13, type: 'identifier.elixir' },
+				{ startIndex: 20, type: 'punctuation.elixir' },
+				{ startIndex: 21, type: 'white.elixir' },
+				{ startIndex: 22, type: 'identifier.elixir' },
+				{ startIndex: 27, type: 'operator.elixir' },
+				{ startIndex: 29, type: 'number.elixir' },
+				{ startIndex: 31, type: 'operator.elixir' },
+				{ startIndex: 32, type: 'identifier.elixir' },
+				{ startIndex: 39, type: 'punctuation.elixir' },
+				{ startIndex: 40, type: 'white.elixir' },
+				{ startIndex: 41, type: 'identifier.elixir' },
+				{ startIndex: 45, type: 'operator.elixir' },
+				{ startIndex: 47, type: 'identifier.elixir' },
+				{ startIndex: 53, type: 'delimiter.angle.special.elixir' }
 			]
 		}
 	]

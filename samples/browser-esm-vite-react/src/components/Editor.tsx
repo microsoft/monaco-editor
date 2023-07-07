@@ -7,13 +7,15 @@ export const Editor: VFC = () => {
 	const monacoEl = useRef(null);
 
 	useEffect(() => {
-		if (monacoEl && !editor) {
-			setEditor(
-				monaco.editor.create(monacoEl.current!, {
+		if (monacoEl) {
+			setEditor((editor) => {
+				if (editor) return editor;
+
+				return monaco.editor.create(monacoEl.current!, {
 					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
 					language: 'typescript'
-				})
-			);
+				});
+			});
 		}
 
 		return () => editor?.dispose();

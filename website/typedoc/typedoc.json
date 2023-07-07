@@ -1,8 +1,11 @@
 {
-	"entryPoints": ["monaco.d.ts"],
-	"out": "../../../monaco-editor-website/api",
+	"$schema": "https://typedoc.org/schema.json",
+	"entryPoints": ["../../out/monaco-editor/esm/vs/editor/editor.api.d.ts"],
+
+	"out": "dist",
 	"theme": "default",
 	"name": "Monaco Editor API",
 	"readme": "none",
-	"hideGenerator": true
+	"hideGenerator": true,
+	"tsconfig": "./tsconfig.json"
 }

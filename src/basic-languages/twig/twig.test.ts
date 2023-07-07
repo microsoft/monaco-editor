@@ -736,6 +736,15 @@ testTokenization(
 		],
 		[
 			{
+				line: 'test {# Hello World! #}',
+				tokens: [
+					{ startIndex: 0, type: '' },
+					{ startIndex: 5, type: 'comment.twig' }
+				]
+			}
+		],
+		[
+			{
 				line: '{#Hello World!#}',
 				tokens: [{ startIndex: 0, type: 'comment.twig' }]
 			}
@@ -862,6 +871,19 @@ testTokenization(
 		],
 		[
 			{
+				line: 'test {{ foo }}',
+				tokens: [
+					{ startIndex: 0, type: '' },
+					{ startIndex: 5, type: 'delimiter.twig' },
+					{ startIndex: 7, type: '' },
+					{ startIndex: 8, type: 'variable.twig' },
+					{ startIndex: 11, type: '' },
+					{ startIndex: 12, type: 'delimiter.twig' }
+				]
+			}
+		],
+		[
+			{
 				line: '{{ foo(42) }}',
 				tokens: [
 					{ startIndex: 0, type: 'delimiter.twig' },
@@ -959,6 +981,17 @@ testTokenization(
 					{ startIndex: 0, type: 'delimiter.twig' },
 					{ startIndex: 2, type: '' },
 					{ startIndex: 3, type: 'delimiter.twig' }
+				]
+			}
+		],
+		[
+			{
+				line: 'test {% %}',
+				tokens: [
+					{ startIndex: 0, type: '' },
+					{ startIndex: 5, type: 'delimiter.twig' },
+					{ startIndex: 7, type: '' },
+					{ startIndex: 8, type: 'delimiter.twig' }
 				]
 			}
 		],

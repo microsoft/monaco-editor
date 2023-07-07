@@ -5,11 +5,8 @@
 	"main": "out/index.js",
 	"typings": "./out/index.d.ts",
 	"scripts": {
-		"package-for-smoketest": "node ./node_modules/webpack/bin/webpack.js --config smoketest/webpack.config.js --progress",
-		"smoketest-cross-origin": "node ./node_modules/webpack/bin/webpack.js --config smoketest/webpack-cross-origin.config.js --progress",
 		"watch": "tsc -w -p tsconfig.json",
 		"compile": "tsc -p tsconfig.json",
-		"import-editor": "node ./scripts/import-editor.js",
 		"prepublishOnly": "npm run compile"
 	},
 	"repository": {
@@ -38,7 +35,7 @@
 		"glob": "^7.2.0",
 		"monaco-editor": "^0.32.0",
 		"style-loader": "^3.3.1",
-		"typescript": "^4.5.5",
+		"typescript": "^5.0.2",
 		"webpack": "^5.68.0",
 		"webpack-cli": "^4.9.2"
 	},

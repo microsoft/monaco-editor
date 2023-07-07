@@ -1,0 +1,6 @@
+{
+	"name": "parcel-smoketest",
+	"scripts": {
+		"package-for-smoketest-parcel": "parcel build ./index.html --cache-dir ./.cache --public-url /test/smoke/parcel/dist/ --no-optimize"
+	}
+}

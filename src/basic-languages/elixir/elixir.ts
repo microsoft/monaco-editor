@@ -167,7 +167,7 @@ export const language = <languages.IMonarchLanguage>{
 		// Keyword list shorthand
 
 		keywordsShorthand: [
-			[/(@atomName)(:)/, ['constant', 'constant.punctuation']],
+			[/(@atomName)(:)(\s+)/, ['constant', 'constant.punctuation', 'white']],
 			// Use positive look-ahead to ensure the string is followed by :
 			// and should be considered a keyword.
 			[
@@ -333,7 +333,8 @@ export const language = <languages.IMonarchLanguage>{
 
 		// See https://elixir-lang.org/getting-started/sigils.html
 		// Sigils allow for typing values using their textual representation.
-		// All sigils start with ~ followed by a letter indicating sigil type
+		// All sigils start with ~ followed by a letter or
+		// multi-letter uppercase starting at Elixir v1.15.0, indicating sigil type
 		// and then a delimiter pair enclosing the textual representation.
 		// Optional modifiers are allowed after the closing delimiter.
 		// For instance a regular expressions can be written as:
@@ -353,16 +354,16 @@ export const language = <languages.IMonarchLanguage>{
 
 		sigils: [
 			[/~[a-z]@sigilStartDelimiter/, { token: '@rematch', next: '@sigil.interpol' }],
-			[/~[A-Z]@sigilStartDelimiter/, { token: '@rematch', next: '@sigil.noInterpol' }]
+			[/~([A-Z]+)@sigilStartDelimiter/, { token: '@rematch', next: '@sigil.noInterpol' }]
 		],
 
 		sigil: [
-			[/~([a-zA-Z])\{/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.{.}' }],
-			[/~([a-zA-Z])\[/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.[.]' }],
-			[/~([a-zA-Z])\(/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.(.)' }],
-			[/~([a-zA-Z])\</, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.<.>' }],
+			[/~([a-z]|[A-Z]+)\{/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.{.}' }],
+			[/~([a-z]|[A-Z]+)\[/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.[.]' }],
+			[/~([a-z]|[A-Z]+)\(/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.(.)' }],
+			[/~([a-z]|[A-Z]+)\</, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.<.>' }],
 			[
-				/~([a-zA-Z])(@sigilSymmetricDelimiter)/,
+				/~([a-z]|[A-Z]+)(@sigilSymmetricDelimiter)/,
 				{ token: '@rematch', switchTo: '@sigilStart.$S2.$1.$2.$2' }
 			]
 		],
@@ -475,7 +476,7 @@ export const language = <languages.IMonarchLanguage>{
 		// Fallback to the generic sigil by default
 		'sigilStart.interpol': [
 			[
-				/~([a-zA-Z])@sigilStartDelimiter/,
+				/~([a-z]|[A-Z]+)@sigilStartDelimiter/,
 				{
 					token: 'sigil.delimiter',
 					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
@@ -498,7 +499,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		'sigilStart.noInterpol': [
 			[
-				/~([a-zA-Z])@sigilStartDelimiter/,
+				/~([a-z]|[A-Z]+)@sigilStartDelimiter/,
 				{
 					token: 'sigil.delimiter',
 					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
@@ -533,10 +534,24 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 			[
+				/\@(module|type)?doc (~[sS])?'''/,
+				{
+					token: 'comment.block.documentation',
+					next: '@singleQuotedHeredocDocstring'
+				}
+			],
+			[
 				/\@(module|type)?doc (~[sS])?"/,
 				{
 					token: 'comment.block.documentation',
 					next: '@doubleQuotedStringDocstring'
+				}
+			],
+			[
+				/\@(module|type)?doc (~[sS])?'/,
+				{
+					token: 'comment.block.documentation',
+					next: '@singleQuotedStringDocstring'
 				}
 			],
 			[/\@(module|type)?doc false/, 'comment.block.documentation'],
@@ -549,8 +564,18 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@docstringContent' }
 		],
 
+		singleQuotedHeredocDocstring: [
+			[/'''/, { token: 'comment.block.documentation', next: '@pop' }],
+			{ include: '@docstringContent' }
+		],
+
 		doubleQuotedStringDocstring: [
 			[/"/, { token: 'comment.block.documentation', next: '@pop' }],
+			{ include: '@docstringContent' }
+		],
+
+		singleQuotedStringDocstring: [
+			[/'/, { token: 'comment.block.documentation', next: '@pop' }],
 			{ include: '@docstringContent' }
 		],
 

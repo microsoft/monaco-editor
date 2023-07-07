@@ -38,7 +38,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	private _extraLibs: IExtraLibs = Object.create(null);
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
-	private _inlayHintsOptions?: ts.InlayHintsOptions;
+	private _inlayHintsOptions?: ts.UserPreferences;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
@@ -63,7 +63,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	getScriptFileNames(): string[] {
 		const allModels = this._ctx.getMirrorModels().map((model) => model.uri);
-		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString(true));
+		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString());
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
@@ -299,14 +299,15 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getQuickInfoAtPosition(fileName, position);
 	}
 
-	async getOccurrencesAtPosition(
+	async getDocumentHighlights(
 		fileName: string,
-		position: number
-	): Promise<ReadonlyArray<ts.ReferenceEntry> | undefined> {
+		position: number,
+		filesToSearch: string[]
+	): Promise<ReadonlyArray<ts.DocumentHighlights> | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
-		return this._languageService.getOccurrencesAtPosition(fileName, position);
+		return this._languageService.getDocumentHighlights(fileName, position, filesToSearch);
 	}
 
 	async getDefinitionAtPosition(
@@ -329,11 +330,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getReferencesAtPosition(fileName, position);
 	}
 
-	async getNavigationBarItems(fileName: string): Promise<ts.NavigationBarItem[]> {
+	async getNavigationTree(fileName: string): Promise<ts.NavigationTree | undefined> {
 		if (fileNameIsLib(fileName)) {
-			return [];
+			return undefined;
 		}
-		return this._languageService.getNavigationBarItems(fileName);
+		return this._languageService.getNavigationTree(fileName);
 	}
 
 	async getFormattingEditsForDocument(
@@ -444,7 +445,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
-		const preferences: ts.InlayHintsOptions = this._inlayHintsOptions ?? {};
+		const preferences: ts.UserPreferences = this._inlayHintsOptions ?? {};
 		const span: ts.TextSpan = {
 			start,
 			length: end - start
@@ -462,7 +463,7 @@ export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
 	extraLibs: IExtraLibs;
 	customWorkerPath?: string;
-	inlayHintsOptions?: ts.InlayHintsOptions;
+	inlayHintsOptions?: ts.UserPreferences;
 }
 
 /** The shape of the factory */
@@ -487,7 +488,7 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 				'Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag'
 			);
 		} else {
-			importScripts(createData.customWorkerPath);
+			self.importScripts(createData.customWorkerPath);
 
 			const workerFactoryFunc: CustomTSWebWorkerFactory | undefined = self.customTSWorkerFactory;
 			if (!workerFactoryFunc) {
