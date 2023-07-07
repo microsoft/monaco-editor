@@ -37,6 +37,11 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 
 	let tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.js')).toString();
 
+	tsServices = tsServices.replace(
+		'const path = matchedStar ? subst.replace("*", matchedStar) : subst;',
+		'const path = matchedStar ? subst.replace("*", matchedStar) : subst; // CodeQL [SM02383] This is a false positive, the code is from the TypeScript compiler'
+	);
+
 	// The output from this build will only be accessible via ESM; rather than removing
 	// references to require/module, define them as dummy variables that bundlers will ignore.
 	// The TS code can figure out that it's not running under Node even with these defined.

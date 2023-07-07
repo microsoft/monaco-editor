@@ -21,7 +21,7 @@ window.addEventListener("message", (event) => {
 		const style = document.getElementById(
 			"custom-style"
 		) as HTMLStyleElement;
-		style.innerHTML = e.css;
+		style.innerHTML = e.css; // CodeQL [SM03712] This is safe because the runner runs in an isolated iframe.
 	}
 });
 
@@ -54,7 +54,7 @@ async function initialize(state: IPreviewState) {
 	const js = massageJs(state.js);
 
 	try {
-		eval(js);
+		eval(js); // CodeQL [SM01632] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground. // CodeQL [SM02688] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground.
 	} catch (err) {
 		const pre = document.createElement("pre");
 		pre.appendChild(
