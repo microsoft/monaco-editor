@@ -172,7 +172,8 @@ export const language = <languages.IMonarchLanguage>{
 		'vendor',
 		'common_source',
 		'from',
-		'extends'
+		'extends',
+		'implements'
 	],
 
 	constant: ['false', 'true', 'null'],
