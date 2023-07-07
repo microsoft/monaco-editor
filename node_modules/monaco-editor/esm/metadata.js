@@ -1,10 +1,6 @@
 
 exports.features = [
   {
-    "label": "accessibilityHelp",
-    "entry": "vs/editor/standalone/browser/accessibilityHelp/accessibilityHelp"
-  },
-  {
     "label": "anchorSelect",
     "entry": "vs/editor/contrib/anchorSelect/browser/anchorSelect"
   },

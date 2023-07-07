@@ -13,8 +13,8 @@ const autoCloseNever = () => false;
 const autoCloseBeforeWhitespace = (chr) => (chr === ' ' || chr === '\t');
 export class CursorConfiguration {
     static shouldRecreate(e) {
-        return (e.hasChanged(140 /* EditorOption.layoutInfo */)
-            || e.hasChanged(126 /* EditorOption.wordSeparators */)
+        return (e.hasChanged(141 /* EditorOption.layoutInfo */)
+            || e.hasChanged(127 /* EditorOption.wordSeparators */)
             || e.hasChanged(35 /* EditorOption.emptySelectionClipboard */)
             || e.hasChanged(74 /* EditorOption.multiCursorMergeOverlapping */)
             || e.hasChanged(76 /* EditorOption.multiCursorPaste */)
@@ -24,7 +24,7 @@ export class CursorConfiguration {
             || e.hasChanged(7 /* EditorOption.autoClosingDelete */)
             || e.hasChanged(8 /* EditorOption.autoClosingOvertype */)
             || e.hasChanged(12 /* EditorOption.autoSurround */)
-            || e.hasChanged(124 /* EditorOption.useTabStops */)
+            || e.hasChanged(125 /* EditorOption.useTabStops */)
             || e.hasChanged(48 /* EditorOption.fontInfo */)
             || e.hasChanged(88 /* EditorOption.readOnly */));
     }
@@ -33,18 +33,18 @@ export class CursorConfiguration {
         this._cursorMoveConfigurationBrand = undefined;
         this._languageId = languageId;
         const options = configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         const fontInfo = options.get(48 /* EditorOption.fontInfo */);
         this.readOnly = options.get(88 /* EditorOption.readOnly */);
         this.tabSize = modelOptions.tabSize;
         this.indentSize = modelOptions.indentSize;
         this.insertSpaces = modelOptions.insertSpaces;
-        this.stickyTabStops = options.get(112 /* EditorOption.stickyTabStops */);
+        this.stickyTabStops = options.get(113 /* EditorOption.stickyTabStops */);
         this.lineHeight = fontInfo.lineHeight;
         this.typicalHalfwidthCharacterWidth = fontInfo.typicalHalfwidthCharacterWidth;
         this.pageSize = Math.max(1, Math.floor(layoutInfo.height / this.lineHeight) - 2);
-        this.useTabStops = options.get(124 /* EditorOption.useTabStops */);
-        this.wordSeparators = options.get(126 /* EditorOption.wordSeparators */);
+        this.useTabStops = options.get(125 /* EditorOption.useTabStops */);
+        this.wordSeparators = options.get(127 /* EditorOption.wordSeparators */);
         this.emptySelectionClipboard = options.get(35 /* EditorOption.emptySelectionClipboard */);
         this.copyWithSyntaxHighlighting = options.get(23 /* EditorOption.copyWithSyntaxHighlighting */);
         this.multiCursorMergeOverlapping = options.get(74 /* EditorOption.multiCursorMergeOverlapping */);

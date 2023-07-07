@@ -324,7 +324,7 @@ export let MenuItemAction = class MenuItemAction {
             if (this.checked && ThemeIcon.isThemeIcon(toggled.icon)) {
                 icon = toggled.icon;
             }
-            if (toggled.title) {
+            if (this.checked && toggled.title) {
                 this.label = typeof toggled.title === 'string' ? toggled.title : toggled.title.value;
             }
         }

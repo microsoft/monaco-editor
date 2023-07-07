@@ -76,7 +76,7 @@ export function showGoToContextMenu(accessor, editor, anchor, part) {
             })));
         }
         // show context menu
-        const useShadowDOM = editor.getOption(123 /* EditorOption.useShadowDOM */);
+        const useShadowDOM = editor.getOption(124 /* EditorOption.useShadowDOM */);
         contextMenuService.showContextMenu({
             domForShadowRoot: useShadowDOM ? (_a = editor.getDomNode()) !== null && _a !== void 0 ? _a : undefined : undefined,
             getAnchor: () => {

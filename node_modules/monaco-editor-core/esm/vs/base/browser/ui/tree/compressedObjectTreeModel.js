@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import { ObjectTreeModel } from './objectTreeModel.js';
 import { TreeError, WeakMapper } from './tree.js';
+import { equals } from '../../../common/arrays.js';
 import { Event } from '../../../common/event.js';
 import { Iterable } from '../../../common/iterator.js';
 function noCompress(element) {
@@ -93,7 +94,7 @@ export class CompressedObjectTreeModel {
         this.identityProvider = options.identityProvider;
     }
     setChildren(element, children = Iterable.empty(), options) {
-        // Diffs must be deem, since the compression can affect nested elements.
+        // Diffs must be deep, since the compression can affect nested elements.
         // @see https://github.com/microsoft/vscode/pull/114237#issuecomment-759425034
         const diffIdentityProvider = options.diffIdentityProvider && wrapIdentityProvider(options.diffIdentityProvider);
         if (element === null) {
@@ -111,6 +112,15 @@ export class CompressedObjectTreeModel {
         const decompressedElement = decompress(node);
         const splicedElement = splice(decompressedElement, element, children);
         const recompressedElement = (this.enabled ? compress : noCompress)(splicedElement);
+        // If the recompressed node is identical to the original, just set its children.
+        // Saves work and churn diffing the parent element.
+        const elementComparator = options.diffIdentityProvider
+            ? ((a, b) => options.diffIdentityProvider.getId(a) === options.diffIdentityProvider.getId(b))
+            : undefined;
+        if (equals(recompressedElement.element.elements, node.element.elements, elementComparator)) {
+            this._setChildren(compressedNode, recompressedElement.children || Iterable.empty(), { diffIdentityProvider, diffDepth: 1 });
+            return;
+        }
         const parentChildren = parent.children
             .map(child => child === node ? recompressedElement : child);
         this._setChildren(parent.element, parentChildren, {

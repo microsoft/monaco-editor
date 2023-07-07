@@ -98,16 +98,23 @@ export function raceCancellation(promise, token, defaultValue) {
  */
 export class Throttler {
     constructor() {
+        this.isDisposed = false;
         this.activePromise = null;
         this.queuedPromise = null;
         this.queuedPromiseFactory = null;
     }
     queue(promiseFactory) {
+        if (this.isDisposed) {
+            throw new Error('Throttler is disposed');
+        }
         if (this.activePromise) {
             this.queuedPromiseFactory = promiseFactory;
             if (!this.queuedPromise) {
                 const onComplete = () => {
                     this.queuedPromise = null;
+                    if (this.isDisposed) {
+                        return;
+                    }
                     const result = this.queue(this.queuedPromiseFactory);
                     this.queuedPromiseFactory = null;
                     return result;
@@ -130,6 +137,9 @@ export class Throttler {
                 reject(err);
             });
         });
+    }
+    dispose() {
+        this.isDisposed = true;
     }
 }
 const timeoutDeferred = (timeout, fn) => {

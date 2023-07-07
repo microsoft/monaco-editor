@@ -69,7 +69,7 @@ export class ViewController {
     }
     dispatchMouse(data) {
         const options = this.configuration.options;
-        const selectionClipboardIsOn = (platform.isLinux && options.get(103 /* EditorOption.selectionClipboard */));
+        const selectionClipboardIsOn = (platform.isLinux && options.get(104 /* EditorOption.selectionClipboard */));
         const columnSelection = options.get(20 /* EditorOption.columnSelection */);
         if (data.middleButton && !selectionClipboardIsOn) {
             this._columnSelect(data.position, data.mouseColumn, data.inSelectionMode);

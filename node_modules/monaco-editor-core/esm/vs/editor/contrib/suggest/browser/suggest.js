@@ -84,30 +84,34 @@ export class CompletionItem {
         // create the suggestion resolver
         if (typeof provider.resolveCompletionItem !== 'function') {
             this._resolveCache = Promise.resolve();
-            this._isResolved = true;
+            this._resolveDuration = 0;
         }
     }
     // ---- resolving
     get isResolved() {
-        return !!this._isResolved;
+        return this._resolveDuration !== undefined;
+    }
+    get resolveDuration() {
+        return this._resolveDuration !== undefined ? this._resolveDuration : -1;
     }
     resolve(token) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this._resolveCache) {
                 const sub = token.onCancellationRequested(() => {
                     this._resolveCache = undefined;
-                    this._isResolved = false;
+                    this._resolveDuration = undefined;
                 });
+                const sw = new StopWatch(true);
                 this._resolveCache = Promise.resolve(this.provider.resolveCompletionItem(this.completion, token)).then(value => {
                     Object.assign(this.completion, value);
-                    this._isResolved = true;
+                    this._resolveDuration = sw.elapsed();
                     sub.dispose();
                 }, err => {
                     if (isCancellationError(err)) {
                         // the IPC queue will reject the request with the
                         // cancellation error -> reset cached
                         this._resolveCache = undefined;
-                        this._isResolved = false;
+                        this._resolveDuration = undefined;
                     }
                 });
             }
@@ -139,7 +143,7 @@ export class CompletionItemModel {
 }
 export function provideSuggestionItems(registry, model, position, options = CompletionOptions.default, context = { triggerKind: 0 /* languages.CompletionTriggerKind.Invoke */ }, token = CancellationToken.None) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sw = new StopWatch(true);
+        const sw = new StopWatch();
         position = position.clone();
         const word = model.getWordAtPosition(position);
         const defaultReplaceRange = word ? new Range(position.lineNumber, word.startColumn, position.lineNumber, word.endColumn) : Range.fromPositions(position);
@@ -198,7 +202,7 @@ export function provideSuggestionItems(registry, model, position, options = Comp
             if (options.providerFilter.size > 0 && !options.providerFilter.has(_snippetSuggestSupport)) {
                 return;
             }
-            const sw = new StopWatch(true);
+            const sw = new StopWatch();
             const list = yield _snippetSuggestSupport.provideCompletionItems(model, position, context, token);
             onCompletionList(_snippetSuggestSupport, list, sw);
         }))();
@@ -221,7 +225,7 @@ export function provideSuggestionItems(registry, model, position, options = Comp
                     return;
                 }
                 try {
-                    const sw = new StopWatch(true);
+                    const sw = new StopWatch();
                     const list = yield provider.provideCompletionItems(model, position, context, token);
                     didAddResult = onCompletionList(provider, list, sw) || didAddResult;
                 }

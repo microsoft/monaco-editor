@@ -12,7 +12,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { ThrottledDelayer } from '../../../common/async.js';
-import { Emitter, Event } from '../../../common/event.js';
+import { Event, PauseableEmitter } from '../../../common/event.js';
 import { Disposable } from '../../../common/lifecycle.js';
 import { stringify } from '../../../common/marshalling.js';
 import { isObject, isUndefinedOrNull } from '../../../common/types.js';
@@ -38,7 +38,7 @@ export class Storage extends Disposable {
         super();
         this.database = database;
         this.options = options;
-        this._onDidChangeStorage = this._register(new Emitter());
+        this._onDidChangeStorage = this._register(new PauseableEmitter());
         this.onDidChangeStorage = this._onDidChangeStorage.event;
         this.state = StorageState.None;
         this.cache = new Map();
@@ -53,13 +53,19 @@ export class Storage extends Disposable {
     }
     onDidChangeItemsExternal(e) {
         var _a, _b;
-        // items that change external require us to update our
-        // caches with the values. we just accept the value and
-        // emit an event if there is a change.
-        (_a = e.changed) === null || _a === void 0 ? void 0 : _a.forEach((value, key) => this.accept(key, value));
-        (_b = e.deleted) === null || _b === void 0 ? void 0 : _b.forEach(key => this.accept(key, undefined));
+        this._onDidChangeStorage.pause();
+        try {
+            // items that change external require us to update our
+            // caches with the values. we just accept the value and
+            // emit an event if there is a change.
+            (_a = e.changed) === null || _a === void 0 ? void 0 : _a.forEach((value, key) => this.acceptExternal(key, value));
+            (_b = e.deleted) === null || _b === void 0 ? void 0 : _b.forEach(key => this.acceptExternal(key, undefined));
+        }
+        finally {
+            this._onDidChangeStorage.resume();
+        }
     }
-    accept(key, value) {
+    acceptExternal(key, value) {
         if (this.state === StorageState.Closed) {
             return; // Return early if we are already closed
         }
@@ -78,7 +84,7 @@ export class Storage extends Disposable {
         }
         // Signal to outside listeners
         if (changed) {
-            this._onDidChangeStorage.fire(key);
+            this._onDidChangeStorage.fire({ key, external: true });
         }
     }
     get(key, fallbackValue) {
@@ -102,14 +108,14 @@ export class Storage extends Disposable {
         }
         return parseInt(value, 10);
     }
-    set(key, value) {
+    set(key, value, external = false) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.state === StorageState.Closed) {
                 return; // Return early if we are already closed
             }
             // We remove the key for undefined/null values
             if (isUndefinedOrNull(value)) {
-                return this.delete(key);
+                return this.delete(key, external);
             }
             // Otherwise, convert to String and store
             const valueStr = isObject(value) || Array.isArray(value) ? stringify(value) : String(value);
@@ -123,12 +129,12 @@ export class Storage extends Disposable {
             this.pendingInserts.set(key, valueStr);
             this.pendingDeletes.delete(key);
             // Event
-            this._onDidChangeStorage.fire(key);
+            this._onDidChangeStorage.fire({ key, external });
             // Accumulate work by scheduling after timeout
             return this.doFlush();
         });
     }
-    delete(key) {
+    delete(key, external = false) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.state === StorageState.Closed) {
                 return; // Return early if we are already closed
@@ -143,7 +149,7 @@ export class Storage extends Disposable {
             }
             this.pendingInserts.delete(key);
             // Event
-            this._onDidChangeStorage.fire(key);
+            this._onDidChangeStorage.fire({ key, external });
             // Accumulate work by scheduling after timeout
             return this.doFlush();
         });

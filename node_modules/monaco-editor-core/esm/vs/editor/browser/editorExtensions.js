@@ -86,8 +86,8 @@ export class MultiCommand extends Command {
     /**
      * A higher priority gets to be looked at first
      */
-    addImplementation(priority, name, implementation) {
-        this._implementations.push({ priority, name, implementation });
+    addImplementation(priority, name, implementation, when) {
+        this._implementations.push({ priority, name, implementation, when });
         this._implementations.sort((a, b) => b.priority - a.priority);
         return {
             dispose: () => {
@@ -102,8 +102,16 @@ export class MultiCommand extends Command {
     }
     runCommand(accessor, args) {
         const logService = accessor.get(ILogService);
+        const contextKeyService = accessor.get(IContextKeyService);
         logService.trace(`Executing Command '${this.id}' which has ${this._implementations.length} bound.`);
         for (const impl of this._implementations) {
+            if (impl.when) {
+                const context = contextKeyService.getContext(document.activeElement);
+                const value = impl.when.evaluate(context);
+                if (!value) {
+                    continue;
+                }
+            }
             const result = impl.implementation(accessor, args);
             if (result) {
                 logService.trace(`Command '${this.id}' was handled by '${impl.name}'.`);

@@ -42,6 +42,7 @@ export const findReplaceIcon = registerIcon('find-replace', Codicon.replace, nls
 export const findReplaceAllIcon = registerIcon('find-replace-all', Codicon.replaceAll, nls.localize('findReplaceAllIcon', 'Icon for \'Replace All\' in the editor find widget.'));
 export const findPreviousMatchIcon = registerIcon('find-previous-match', Codicon.arrowUp, nls.localize('findPreviousMatchIcon', 'Icon for \'Find Previous\' in the editor find widget.'));
 export const findNextMatchIcon = registerIcon('find-next-match', Codicon.arrowDown, nls.localize('findNextMatchIcon', 'Icon for \'Find Next\' in the editor find widget.'));
+const NLS_FIND_DIALOG_LABEL = nls.localize('label.findDialog', "Find / Replace");
 const NLS_FIND_INPUT_LABEL = nls.localize('label.find', "Find");
 const NLS_FIND_INPUT_PLACEHOLDER = nls.localize('placeholder.find', "Find");
 const NLS_PREVIOUS_MATCH_BTN_LABEL = nls.localize('label.previousMatchButton', "Previous Match");
@@ -119,7 +120,7 @@ export class FindWidget extends Widget {
                 }
                 this._updateButtons();
             }
-            if (e.hasChanged(140 /* EditorOption.layoutInfo */)) {
+            if (e.hasChanged(141 /* EditorOption.layoutInfo */)) {
                 this._tryUpdateWidgetWidth();
             }
             if (e.hasChanged(2 /* EditorOption.accessibilitySupport */)) {
@@ -898,7 +899,6 @@ export class FindWidget extends Widget {
                 }
             }
         }));
-        actionsContainer.appendChild(this._closeBtn.domNode);
         // Replace input
         this._replaceInput = this._register(new ContextScopedReplaceInput(null, undefined, {
             label: NLS_REPLACE_INPUT_LABEL,
@@ -992,10 +992,13 @@ export class FindWidget extends Widget {
         this._domNode = document.createElement('div');
         this._domNode.className = 'editor-widget find-widget';
         this._domNode.setAttribute('aria-hidden', 'true');
+        this._domNode.ariaLabel = NLS_FIND_DIALOG_LABEL;
+        this._domNode.role = 'dialog';
         // We need to set this explicitly, otherwise on IE11, the width inheritence of flex doesn't work.
         this._domNode.style.width = `${FIND_WIDGET_INITIAL_WIDTH}px`;
         this._domNode.appendChild(this._toggleReplaceBtn.domNode);
         this._domNode.appendChild(findPart);
+        this._domNode.appendChild(this._closeBtn.domNode);
         this._domNode.appendChild(replacePart);
         this._resizeSash = new Sash(this._domNode, this, { orientation: 0 /* Orientation.VERTICAL */, size: 2 });
         this._resized = false;

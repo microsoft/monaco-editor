@@ -164,9 +164,9 @@ class AdditionalLinesWidget extends Disposable {
         this.lines = lines;
         this._viewZoneId = undefined;
         this.editorOptionsChanged = observableSignalFromEvent('editorOptionChanged', Event.filter(this.editor.onDidChangeConfiguration, e => e.hasChanged(31 /* EditorOption.disableMonospaceOptimizations */)
-            || e.hasChanged(113 /* EditorOption.stopRenderingLineAfter */)
-            || e.hasChanged(95 /* EditorOption.renderWhitespace */)
-            || e.hasChanged(90 /* EditorOption.renderControlCharacters */)
+            || e.hasChanged(114 /* EditorOption.stopRenderingLineAfter */)
+            || e.hasChanged(96 /* EditorOption.renderWhitespace */)
+            || e.hasChanged(91 /* EditorOption.renderControlCharacters */)
             || e.hasChanged(49 /* EditorOption.fontLigatures */)
             || e.hasChanged(48 /* EditorOption.fontInfo */)
             || e.hasChanged(64 /* EditorOption.lineHeight */)));
@@ -220,10 +220,10 @@ class AdditionalLinesWidget extends Disposable {
 }
 function renderLines(domNode, tabSize, lines, opts, languageIdCodec) {
     const disableMonospaceOptimizations = opts.get(31 /* EditorOption.disableMonospaceOptimizations */);
-    const stopRenderingLineAfter = opts.get(113 /* EditorOption.stopRenderingLineAfter */);
+    const stopRenderingLineAfter = opts.get(114 /* EditorOption.stopRenderingLineAfter */);
     // To avoid visual confusion, we don't want to render visible whitespace
     const renderWhitespace = 'none';
-    const renderControlCharacters = opts.get(90 /* EditorOption.renderControlCharacters */);
+    const renderControlCharacters = opts.get(91 /* EditorOption.renderControlCharacters */);
     const fontLigatures = opts.get(49 /* EditorOption.fontLigatures */);
     const fontInfo = opts.get(48 /* EditorOption.fontInfo */);
     const lineHeight = opts.get(64 /* EditorOption.lineHeight */);

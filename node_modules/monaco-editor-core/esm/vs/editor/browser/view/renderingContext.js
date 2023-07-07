@@ -44,10 +44,15 @@ export class RenderingContext extends RestrictedRenderingContext {
     }
 }
 export class LineVisibleRanges {
-    constructor(outsideRenderedLine, lineNumber, ranges) {
+    constructor(outsideRenderedLine, lineNumber, ranges, 
+    /**
+     * Indicates if the requested range does not end in this line, but continues on the next line.
+     */
+    continuesOnNextLine) {
         this.outsideRenderedLine = outsideRenderedLine;
         this.lineNumber = lineNumber;
         this.ranges = ranges;
+        this.continuesOnNextLine = continuesOnNextLine;
     }
 }
 export class HorizontalRange {

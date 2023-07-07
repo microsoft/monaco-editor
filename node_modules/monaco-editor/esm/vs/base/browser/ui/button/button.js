@@ -30,6 +30,7 @@ export class Button extends Disposable {
         this._element.classList.add('monaco-button');
         this._element.tabIndex = 0;
         this._element.setAttribute('role', 'button');
+        this._element.classList.toggle('secondary', !!options.secondary);
         const background = options.secondary ? options.buttonSecondaryBackground : options.buttonBackground;
         const foreground = options.secondary ? options.buttonSecondaryForeground : options.buttonForeground;
         this._element.style.color = foreground || '';
@@ -85,6 +86,10 @@ export class Button extends Disposable {
         this._register(this.focusTracker.onDidBlur(() => { if (this.enabled) {
             this.updateBackground(false);
         } }));
+    }
+    dispose() {
+        super.dispose();
+        this._element.remove();
     }
     getContentElements(content) {
         const elements = [];

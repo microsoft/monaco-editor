@@ -15,11 +15,12 @@ import { ArrayQueue, pushMany } from '../../../base/common/arrays.js';
 import { Color } from '../../../base/common/color.js';
 import { BugIndicatingError, illegalArgument, onUnexpectedError } from '../../../base/common/errors.js';
 import { Emitter } from '../../../base/common/event.js';
-import { combinedDisposable, Disposable, MutableDisposable } from '../../../base/common/lifecycle.js';
+import { Disposable, MutableDisposable, combinedDisposable } from '../../../base/common/lifecycle.js';
 import * as strings from '../../../base/common/strings.js';
 import { URI } from '../../../base/common/uri.js';
 import { countEOL } from '../core/eolCounter.js';
 import { normalizeIndentation } from '../core/indentation.js';
+import { LineRange } from '../core/lineRange.js';
 import { Position } from '../core/position.js';
 import { Range } from '../core/range.js';
 import { Selection } from '../core/selection.js';
@@ -39,7 +40,6 @@ import { SearchParams, TextModelSearch } from './textModelSearch.js';
 import { TokenizationTextModelPart } from './tokenizationTextModelPart.js';
 import { InternalModelContentChangeEvent, LineInjectedText, ModelInjectedTextChangedEvent, ModelRawContentChangedEvent, ModelRawEOLChanged, ModelRawFlush, ModelRawLineChanged, ModelRawLinesDeleted, ModelRawLinesInserted } from '../textModelEvents.js';
 import { IUndoRedoService } from '../../../platform/undoRedo/common/undoRedo.js';
-import { LineRange } from '../core/lineRange.js';
 export function createTextBufferFactory(text) {
     const builder = new PieceTreeTextBufferBuilder();
     builder.acceptChunk(text);
@@ -1707,7 +1707,7 @@ export class ModelDecorationOptions {
         return new ModelDecorationOptions(options);
     }
     constructor(options) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         this.description = options.description;
         this.blockClassName = options.blockClassName ? cleanClassName(options.blockClassName) : null;
         this.blockDoesNotCollapse = (_a = options.blockDoesNotCollapse) !== null && _a !== void 0 ? _a : null;
@@ -1716,6 +1716,7 @@ export class ModelDecorationOptions {
         this.stickiness = options.stickiness || 0 /* model.TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges */;
         this.zIndex = options.zIndex || 0;
         this.className = options.className ? cleanClassName(options.className) : null;
+        this.shouldFillLineOnLineBreak = (_d = options.shouldFillLineOnLineBreak) !== null && _d !== void 0 ? _d : null;
         this.hoverMessage = options.hoverMessage || null;
         this.glyphMarginHoverMessage = options.glyphMarginHoverMessage || null;
         this.isWholeLine = options.isWholeLine || false;
@@ -1734,8 +1735,8 @@ export class ModelDecorationOptions {
         this.afterContentClassName = options.afterContentClassName ? cleanClassName(options.afterContentClassName) : null;
         this.after = options.after ? ModelDecorationInjectedTextOptions.from(options.after) : null;
         this.before = options.before ? ModelDecorationInjectedTextOptions.from(options.before) : null;
-        this.hideInCommentTokens = (_d = options.hideInCommentTokens) !== null && _d !== void 0 ? _d : false;
-        this.hideInStringTokens = (_e = options.hideInStringTokens) !== null && _e !== void 0 ? _e : false;
+        this.hideInCommentTokens = (_e = options.hideInCommentTokens) !== null && _e !== void 0 ? _e : false;
+        this.hideInStringTokens = (_f = options.hideInStringTokens) !== null && _f !== void 0 ? _f : false;
     }
 }
 ModelDecorationOptions.EMPTY = ModelDecorationOptions.register({ description: 'empty' });

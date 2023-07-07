@@ -108,6 +108,12 @@ export var Sizing;
     function Split(index) { return { type: 'split', index }; }
     Sizing.Split = Split;
     /**
+     * When adding a view, use DistributeSizing when all pre-existing views are
+     * distributed evenly, otherwise use SplitSizing.
+     */
+    function Auto(index) { return { type: 'auto', index }; }
+    Sizing.Auto = Auto;
+    /**
      * When adding or removing views, assume the view is invisible.
      */
     function Invisible(cachedVisibleSize) { return { type: 'invisible', cachedVisibleSize }; }
@@ -515,14 +521,24 @@ export class SplitView extends Disposable {
         if (typeof size === 'number') {
             viewSize = size;
         }
-        else if (size.type === 'split') {
-            viewSize = this.getViewSize(size.index) / 2;
-        }
-        else if (size.type === 'invisible') {
-            viewSize = { cachedVisibleSize: size.cachedVisibleSize };
-        }
         else {
-            viewSize = view.minimumSize;
+            if (size.type === 'auto') {
+                if (this.areViewsDistributed()) {
+                    size = { type: 'distribute' };
+                }
+                else {
+                    size = { type: 'split', index: size.index };
+                }
+            }
+            if (size.type === 'split') {
+                viewSize = this.getViewSize(size.index) / 2;
+            }
+            else if (size.type === 'invisible') {
+                viewSize = { cachedVisibleSize: size.cachedVisibleSize };
+            }
+            else {
+                viewSize = view.minimumSize;
+            }
         }
         const item = this.orientation === 0 /* Orientation.VERTICAL */
             ? new VerticalViewItem(container, view, viewSize, disposable)
@@ -770,6 +786,17 @@ export class SplitView extends Disposable {
             }
         }
         return undefined;
+    }
+    areViewsDistributed() {
+        let min = undefined, max = undefined;
+        for (const view of this.viewItems) {
+            min = min === undefined ? view.size : Math.min(min, view.size);
+            max = max === undefined ? view.size : Math.max(max, view.size);
+            if (max - min > 2) {
+                return false;
+            }
+        }
+        return true;
     }
     dispose() {
         var _a;

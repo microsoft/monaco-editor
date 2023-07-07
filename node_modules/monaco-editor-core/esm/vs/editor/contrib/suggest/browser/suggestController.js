@@ -101,7 +101,6 @@ export let SuggestController = class SuggestController {
         this._lineSuffix = new MutableDisposable();
         this._toDispose = new DisposableStore();
         this._selectors = new PriorityRegistry(s => s.priority);
-        this._telemetryGate = 0;
         this.editor = editor;
         this.model = _instantiationService.createInstance(SuggestModel, this.editor);
         // default selector
@@ -111,8 +110,8 @@ export let SuggestController = class SuggestController {
         });
         // context key: update insert/replace mode
         const ctxInsertMode = SuggestContext.InsertMode.bindTo(_contextKeyService);
-        ctxInsertMode.set(editor.getOption(114 /* EditorOption.suggest */).insertMode);
-        this.model.onDidTrigger(() => ctxInsertMode.set(editor.getOption(114 /* EditorOption.suggest */).insertMode));
+        ctxInsertMode.set(editor.getOption(115 /* EditorOption.suggest */).insertMode);
+        this.model.onDidTrigger(() => ctxInsertMode.set(editor.getOption(115 /* EditorOption.suggest */).insertMode));
         this.widget = this._toDispose.add(new IdleValue(() => {
             const widget = this._instantiationService.createInstance(SuggestWidget, this.editor);
             this._toDispose.add(widget);
@@ -196,7 +195,7 @@ export let SuggestController = class SuggestController {
             let noFocus = false;
             if (e.triggerOptions.auto) {
                 // don't "focus" item when configured to do
-                const options = this.editor.getOption(114 /* EditorOption.suggest */);
+                const options = this.editor.getOption(115 /* EditorOption.suggest */);
                 if (options.selectionMode === 'never' || options.selectionMode === 'always') {
                     // simple: always or never
                     noFocus = options.selectionMode === 'never';
@@ -268,6 +267,10 @@ export let SuggestController = class SuggestController {
         const info = this.getOverwriteInfo(item, Boolean(flags & 8 /* InsertFlags.AlternativeOverwriteConfig */));
         // keep item in memory
         this._memoryService.memorize(model, this.editor.getPosition(), item);
+        const isResolved = item.isResolved;
+        // telemetry data points: duration of command execution, info about async additional edits (-1=n/a, -2=none, 1=success, 0=failed)
+        let _commandExectionDuration = -1;
+        let _additionalEditsAppliedAsync = -1;
         if (Array.isArray(item.completion.additionalTextEdits)) {
             // cancel -> stops all listening and closes widget
             this.model.cancel();
@@ -276,9 +279,9 @@ export let SuggestController = class SuggestController {
             this.editor.executeEdits('suggestController.additionalTextEdits.sync', item.completion.additionalTextEdits.map(edit => EditOperation.replaceMove(Range.lift(edit.range), edit.text)));
             scrollState.restoreRelativeVerticalPositionOfCursor(this.editor);
         }
-        else if (!item.isResolved) {
+        else if (!isResolved) {
             // async additional edits
-            const sw = new StopWatch(true);
+            const sw = new StopWatch();
             let position;
             const docListener = model.onDidChangeContent(e => {
                 if (e.isFlush) {
@@ -305,7 +308,7 @@ export let SuggestController = class SuggestController {
             });
             tasks.push(item.resolve(cts.token).then(() => {
                 if (!item.completion.additionalTextEdits || cts.token.isCancellationRequested) {
-                    return false;
+                    return undefined;
                 }
                 if (position && item.completion.additionalTextEdits.some(edit => Position.isBefore(position, Range.getStartPosition(edit.range)))) {
                     return false;
@@ -322,6 +325,8 @@ export let SuggestController = class SuggestController {
                 return true;
             }).then(applied => {
                 this._logService.trace('[suggest] async resolving of edits DONE (ms, applied?)', sw.elapsed(), applied);
+                _additionalEditsAppliedAsync = applied === true ? 1 : applied === false ? 0 : -2;
+            }).finally(() => {
                 docListener.dispose();
                 typeListener.dispose();
             }));
@@ -351,6 +356,7 @@ export let SuggestController = class SuggestController {
             }
             else {
                 // exec command, done
+                const sw = new StopWatch();
                 tasks.push(this._commandService.executeCommand(item.completion.command.id, ...(item.completion.command.arguments ? [...item.completion.command.arguments] : [])).catch(e => {
                     if (item.completion.extensionId) {
                         onUnexpectedExternalError(e);
@@ -358,6 +364,8 @@ export let SuggestController = class SuggestController {
                     else {
                         onUnexpectedError(e);
                     }
+                }).finally(() => {
+                    _commandExectionDuration = sw.elapsed();
                 }));
             }
         }
@@ -380,30 +388,33 @@ export let SuggestController = class SuggestController {
         this._alertCompletionItem(item);
         // clear only now - after all tasks are done
         Promise.all(tasks).finally(() => {
-            this._reportSuggestionAcceptedTelemetry(item, model, event);
+            this._reportSuggestionAcceptedTelemetry(item, model, isResolved, _commandExectionDuration, _additionalEditsAppliedAsync);
             this.model.clear();
             cts.dispose();
         });
     }
-    _reportSuggestionAcceptedTelemetry(item, model, acceptedSuggestion) {
-        var _a;
-        if (this._telemetryGate++ % 100 !== 0) {
+    _reportSuggestionAcceptedTelemetry(item, model, itemResolved, commandExectionDuration, additionalEditsAppliedAsync) {
+        var _a, _b, _c;
+        if (Math.floor(Math.random() * 100) === 0) {
+            // throttle telemetry event because accepting completions happens a lot
             return;
         }
-        // _debugDisplayName looks like `vscode.css-language-features(/-:)`, where the last bit is the trigger chars
-        // normalize it to just the extension ID and lowercase
-        const providerId = item.extensionId ? item.extensionId.value : ((_a = acceptedSuggestion.item.provider._debugDisplayName) !== null && _a !== void 0 ? _a : 'unknown').split('(', 1)[0].toLowerCase();
         this._telemetryService.publicLog2('suggest.acceptedSuggestion', {
-            providerId,
+            extensionId: (_b = (_a = item.extensionId) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : 'unknown',
+            providerId: (_c = item.provider._debugDisplayName) !== null && _c !== void 0 ? _c : 'unknown',
             kind: item.completion.kind,
             basenameHash: hash(basename(model.uri)).toString(16),
             languageId: model.getLanguageId(),
             fileExtension: extname(model.uri),
+            resolveInfo: !item.provider.resolveCompletionItem ? -1 : itemResolved ? 1 : 0,
+            resolveDuration: item.resolveDuration,
+            commandDuration: commandExectionDuration,
+            additionalEditsAsync: additionalEditsAppliedAsync
         });
     }
     getOverwriteInfo(item, toggleMode) {
         assertType(this.editor.hasModel());
-        let replace = this.editor.getOption(114 /* EditorOption.suggest */).insertMode === 'replace';
+        let replace = this.editor.getOption(115 /* EditorOption.suggest */).insertMode === 'replace';
         if (toggleMode) {
             replace = !replace;
         }

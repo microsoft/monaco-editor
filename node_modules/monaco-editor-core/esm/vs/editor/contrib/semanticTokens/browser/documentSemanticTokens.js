@@ -159,6 +159,8 @@ let ModelSemanticColoring = class ModelSemanticColoring extends Disposable {
             this._currentDocumentRequestCancellationTokenSource.cancel();
             this._currentDocumentRequestCancellationTokenSource = null;
         }
+        dispose(this._documentProvidersChangeListeners);
+        this._documentProvidersChangeListeners = [];
         this._setDocumentSemanticTokens(null, null, null, []);
         this._isDisposed = true;
         super.dispose();

@@ -135,13 +135,21 @@ export let PostEditWidgetManager = class PostEditWidgetManager extends Disposabl
             if (!edit) {
                 return;
             }
+            let insertTextEdit = [];
+            if (typeof edit.insertText === 'string' ? edit.insertText === '' : edit.insertText.snippet === '') {
+                insertTextEdit = [];
+            }
+            else {
+                insertTextEdit = ranges.map(range => new ResourceTextEdit(model.uri, typeof edit.insertText === 'string'
+                    ? { range, text: edit.insertText, insertAsSnippet: false }
+                    : { range, text: edit.insertText.snippet, insertAsSnippet: true }));
+            }
+            const allEdits = [
+                ...insertTextEdit,
+                ...((_b = (_a = edit.additionalEdit) === null || _a === void 0 ? void 0 : _a.edits) !== null && _b !== void 0 ? _b : [])
+            ];
             const combinedWorkspaceEdit = {
-                edits: [
-                    ...ranges.map(range => new ResourceTextEdit(model.uri, typeof edit.insertText === 'string'
-                        ? { range, text: edit.insertText, insertAsSnippet: false }
-                        : { range, text: edit.insertText.snippet, insertAsSnippet: true })),
-                    ...((_b = (_a = edit.additionalEdit) === null || _a === void 0 ? void 0 : _a.edits) !== null && _b !== void 0 ? _b : [])
-                ]
+                edits: allEdits
             };
             // Use a decoration to track edits around the trigger range
             const primaryRange = ranges[0];

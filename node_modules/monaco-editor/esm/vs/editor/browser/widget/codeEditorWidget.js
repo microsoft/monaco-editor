@@ -25,7 +25,7 @@ import './media/editor.css';
 import * as nls from '../../../nls.js';
 import * as dom from '../../../base/browser/dom.js';
 import { onUnexpectedError } from '../../../base/common/errors.js';
-import { Emitter, EventDeliveryQueue } from '../../../base/common/event.js';
+import { Emitter, createEventDeliveryQueue } from '../../../base/common/event.js';
 import { Disposable, dispose } from '../../../base/common/lifecycle.js';
 import { Schemas } from '../../../base/common/network.js';
 import { EditorConfiguration } from '../config/editorConfiguration.js';
@@ -89,7 +89,7 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
         super();
         this.languageConfigurationService = languageConfigurationService;
         //#region Eventing
-        this._deliveryQueue = new EventDeliveryQueue();
+        this._deliveryQueue = createEventDeliveryQueue();
         this._contributions = this._register(new CodeEditorContributions());
         this._onDidDispose = this._register(new Emitter());
         this.onDidDispose = this._onDidDispose.event;
@@ -181,8 +181,8 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
         this._register(this._configuration.onDidChange((e) => {
             this._onDidChangeConfiguration.fire(e);
             const options = this._configuration.options;
-            if (e.hasChanged(140 /* EditorOption.layoutInfo */)) {
-                const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+            if (e.hasChanged(141 /* EditorOption.layoutInfo */)) {
+                const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
                 this._onDidLayoutChange.fire(layoutInfo);
             }
         }));
@@ -201,6 +201,7 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
         }));
         this._contentWidgets = {};
         this._overlayWidgets = {};
+        this._glyphMarginWidgets = {};
         let contributions;
         if (Array.isArray(codeEditorWidgetOptions.contributions)) {
             contributions = codeEditorWidgetOptions.contributions;
@@ -304,7 +305,7 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
         if (!this._modelData) {
             return null;
         }
-        return WordOperations.getWordAtPosition(this._modelData.model, this._configuration.options.get(126 /* EditorOption.wordSeparators */), position);
+        return WordOperations.getWordAtPosition(this._modelData.model, this._configuration.options.get(127 /* EditorOption.wordSeparators */), position);
     }
     getValue(options = null) {
         if (!this._modelData) {
@@ -945,7 +946,7 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
     }
     getLayoutInfo() {
         const options = this._configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         return layoutInfo;
     }
     createOverviewRuler(cssClassName) {
@@ -1060,6 +1061,39 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
             }
         }
     }
+    addGlyphMarginWidget(widget) {
+        const widgetData = {
+            widget: widget,
+            position: widget.getPosition()
+        };
+        if (this._glyphMarginWidgets.hasOwnProperty(widget.getId())) {
+            console.warn('Overwriting a glyph margin widget with the same id.');
+        }
+        this._glyphMarginWidgets[widget.getId()] = widgetData;
+        if (this._modelData && this._modelData.hasRealView) {
+            this._modelData.view.addGlyphMarginWidget(widgetData);
+        }
+    }
+    layoutGlyphMarginWidget(widget) {
+        const widgetId = widget.getId();
+        if (this._glyphMarginWidgets.hasOwnProperty(widgetId)) {
+            const widgetData = this._glyphMarginWidgets[widgetId];
+            widgetData.position = widget.getPosition();
+            if (this._modelData && this._modelData.hasRealView) {
+                this._modelData.view.layoutGlyphMarginWidget(widgetData);
+            }
+        }
+    }
+    removeGlyphMarginWidget(widget) {
+        const widgetId = widget.getId();
+        if (this._glyphMarginWidgets.hasOwnProperty(widgetId)) {
+            const widgetData = this._glyphMarginWidgets[widgetId];
+            delete this._glyphMarginWidgets[widgetId];
+            if (this._modelData && this._modelData.hasRealView) {
+                this._modelData.view.removeGlyphMarginWidget(widgetData);
+            }
+        }
+    }
     changeViewZones(callback) {
         if (!this._modelData || !this._modelData.hasRealView) {
             return;
@@ -1078,7 +1112,7 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
         }
         const position = this._modelData.model.validatePosition(rawPosition);
         const options = this._configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         const top = CodeEditorWidget._getVerticalOffsetForPosition(this._modelData, position.lineNumber, position.column) - this.getScrollTop();
         const left = this._modelData.view.getOffsetForColumn(position.lineNumber, position.column) + layoutInfo.glyphMarginWidth + layoutInfo.lineNumbersWidth + layoutInfo.decorationsWidth - this.getScrollLeft();
         return {
@@ -1228,6 +1262,11 @@ export let CodeEditorWidget = class CodeEditorWidget extends Disposable {
             for (let i = 0, len = keys.length; i < len; i++) {
                 const widgetId = keys[i];
                 view.addOverlayWidget(this._overlayWidgets[widgetId]);
+            }
+            keys = Object.keys(this._glyphMarginWidgets);
+            for (let i = 0, len = keys.length; i < len; i++) {
+                const widgetId = keys[i];
+                view.addGlyphMarginWidget(this._glyphMarginWidgets[widgetId]);
             }
             view.render(false, true);
             view.domNode.domNode.setAttribute('data-uri', model.uri.toString());

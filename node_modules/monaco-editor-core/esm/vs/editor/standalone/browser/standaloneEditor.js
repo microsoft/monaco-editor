@@ -30,7 +30,7 @@ import { IModelService } from '../../common/services/model.js';
 import { createWebWorker as actualCreateWebWorker } from '../../browser/services/webWorker.js';
 import * as standaloneEnums from '../../common/standalone/standaloneEnums.js';
 import { Colorizer } from './colorizer.js';
-import { createTextModel, StandaloneDiffEditor, StandaloneEditor } from './standaloneCodeEditor.js';
+import { createTextModel, StandaloneDiffEditor, StandaloneDiffEditor2, StandaloneEditor } from './standaloneCodeEditor.js';
 import { StandaloneKeybindingService, StandaloneServices } from './standaloneServices.js';
 import { IStandaloneThemeService } from '../common/standaloneTheme.js';
 import { CommandsRegistry } from '../../../platform/commands/common/commands.js';
@@ -40,7 +40,7 @@ import { EditorCommand } from '../../browser/editorExtensions.js';
 import { MenuRegistry, MenuId } from '../../../platform/actions/common/actions.js';
 import { ContextKeyExpr } from '../../../platform/contextkey/common/contextkey.js';
 import { PLAINTEXT_LANGUAGE_ID } from '../../common/languages/modesRegistry.js';
-import { LineRangeMapping, RangeMapping } from '../../common/diff/linesDiffComputer.js';
+import { LineRangeMapping, MovedText, RangeMapping, SimpleLineRangeMapping } from '../../common/diff/linesDiffComputer.js';
 import { LineRange } from '../../common/core/lineRange.js';
 import { EditorZoom } from '../../common/config/editorZoom.js';
 import { IOpenerService } from '../../../platform/opener/common/opener.js';
@@ -94,7 +94,11 @@ export function getDiffEditors() {
  * The editor will read the size of `domElement`.
  */
 export function createDiffEditor(domElement, options, override) {
+    var _a;
     const instantiationService = StandaloneServices.initialize(override || {});
+    if ((_a = options === null || options === void 0 ? void 0 : options.experimental) === null || _a === void 0 ? void 0 : _a.useVersion2) {
+        return instantiationService.createInstance(StandaloneDiffEditor2, domElement, options);
+    }
     return instantiationService.createInstance(StandaloneDiffEditor, domElement, options);
 }
 export function createDiffNavigator(diffEditor, opts) {
@@ -485,6 +489,8 @@ export function createMonacoEditorAPI() {
         LineRangeMapping: LineRangeMapping,
         RangeMapping: RangeMapping,
         EditorZoom: EditorZoom,
+        MovedText: MovedText,
+        SimpleLineRangeMapping: SimpleLineRangeMapping,
         // vars
         EditorType: EditorType,
         EditorOptions: EditorOptions

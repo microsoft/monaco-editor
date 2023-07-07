@@ -276,6 +276,10 @@ export class AbstractScrollableElement extends Widget {
         }
     }
     _onMouseWheel(e) {
+        var _a;
+        if ((_a = e.browserEvent) === null || _a === void 0 ? void 0 : _a.defaultPrevented) {
+            return;
+        }
         const classifier = MouseWheelClassifier.INSTANCE;
         if (SCROLL_WHEEL_SMOOTH_SCROLL_ENABLED) {
             classifier.acceptStandardWheelEvent(e);

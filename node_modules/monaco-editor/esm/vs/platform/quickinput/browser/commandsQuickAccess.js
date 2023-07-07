@@ -161,7 +161,7 @@ export let AbstractCommandsQuickAccessProvider = class AbstractCommandsQuickAcce
             localize('commandPickAriaLabelWithKeybinding', "{0}, {1}", commandPick.label, keybinding.getAriaLabel()) :
             commandPick.label;
         return Object.assign(Object.assign({}, commandPick), { ariaLabel, detail: this.options.showAlias && commandPick.commandAlias !== commandPick.label ? commandPick.commandAlias : undefined, keybinding, accept: () => __awaiter(this, void 0, void 0, function* () {
-                var _a;
+                var _a, _b;
                 // Add to history
                 this.commandsHistory.push(commandPick.commandId);
                 // Telementry
@@ -171,7 +171,9 @@ export let AbstractCommandsQuickAccessProvider = class AbstractCommandsQuickAcce
                 });
                 // Run
                 try {
-                    yield this.commandService.executeCommand(commandPick.commandId);
+                    ((_b = commandPick.args) === null || _b === void 0 ? void 0 : _b.length)
+                        ? yield this.commandService.executeCommand(commandPick.commandId, ...commandPick.args)
+                        : yield this.commandService.executeCommand(commandPick.commandId);
                 }
                 catch (error) {
                     if (!isCancellationError(error)) {

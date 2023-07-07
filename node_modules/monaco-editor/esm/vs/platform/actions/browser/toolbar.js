@@ -36,15 +36,16 @@ export let WorkbenchToolBar = class WorkbenchToolBar extends ToolBar {
             // defaults
             getKeyBinding: (action) => { var _a; return (_a = keybindingService.lookupKeybinding(action.id)) !== null && _a !== void 0 ? _a : undefined; } }, _options), { 
             // mandatory (overide options)
-            allowContextMenu: true }));
+            allowContextMenu: true, skipTelemetry: typeof (_options === null || _options === void 0 ? void 0 : _options.telemetrySource) === 'string' }));
         this._options = _options;
         this._menuService = _menuService;
         this._contextKeyService = _contextKeyService;
         this._contextMenuService = _contextMenuService;
         this._sessionDisposables = this._store.add(new DisposableStore());
         // telemetry logic
-        if (_options === null || _options === void 0 ? void 0 : _options.telemetrySource) {
-            this._store.add(this.actionBar.onDidRun(e => telemetryService.publicLog2('workbenchActionExecuted', { id: e.action.id, from: _options.telemetrySource })));
+        const telemetrySource = _options === null || _options === void 0 ? void 0 : _options.telemetrySource;
+        if (telemetrySource) {
+            this._store.add(this.actionBar.onDidRun(e => telemetryService.publicLog2('workbenchActionExecuted', { id: e.action.id, from: telemetrySource })));
         }
     }
     setActions(_primary, _secondary = [], menuIds) {
@@ -102,7 +103,7 @@ export let WorkbenchToolBar = class WorkbenchToolBar extends ToolBar {
         // add context menu for toggle actions
         if (toggleActions.length > 0) {
             this._sessionDisposables.add(addDisposableListener(this.getElement(), 'contextmenu', e => {
-                var _a, _b, _c, _d;
+                var _a, _b, _c, _d, _e;
                 const action = this.getItemAction(e.target);
                 if (!(action)) {
                     return;
@@ -163,6 +164,7 @@ export let WorkbenchToolBar = class WorkbenchToolBar extends ToolBar {
                     // add context menu actions (iff appicable)
                     menuId: (_c = this._options) === null || _c === void 0 ? void 0 : _c.contextMenu,
                     menuActionOptions: Object.assign({ renderShortTitle: true }, (_d = this._options) === null || _d === void 0 ? void 0 : _d.menuOptions),
+                    skipTelemetry: typeof ((_e = this._options) === null || _e === void 0 ? void 0 : _e.telemetrySource) === 'string',
                     contextKeyService: this._contextKeyService,
                 });
             }));

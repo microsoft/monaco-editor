@@ -434,6 +434,7 @@ export class SimpleWorkerServer {
 }
 /**
  * Called on the worker side
+ * @skipMangle
  */
 export function create(postMessage) {
     return new SimpleWorkerServer(postMessage, null);

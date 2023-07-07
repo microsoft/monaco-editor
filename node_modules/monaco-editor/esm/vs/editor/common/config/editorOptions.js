@@ -2,12 +2,12 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import * as nls from '../../../nls.js';
-import * as platform from '../../../base/common/platform.js';
-import { USUAL_WORD_SEPARATORS } from '../core/wordHelper.js';
 import * as arrays from '../../../base/common/arrays.js';
 import * as objects from '../../../base/common/objects.js';
+import * as platform from '../../../base/common/platform.js';
 import { EDITOR_MODEL_DEFAULTS } from '../core/textModelDefaults.js';
+import { USUAL_WORD_SEPARATORS } from '../core/wordHelper.js';
+import * as nls from '../../../nls.js';
 /**
  * @internal
  * The width of the minimap gutter, in pixels.
@@ -416,7 +416,7 @@ function _cursorStyleFromString(cursorStyle) {
 //#region editorClassName
 class EditorClassName extends ComputedEditorOption {
     constructor() {
-        super(137 /* EditorOption.editorClassName */);
+        super(138 /* EditorOption.editorClassName */);
     }
     compute(env, options, _) {
         const classNames = ['monaco-editor'];
@@ -432,10 +432,10 @@ class EditorClassName extends ComputedEditorOption {
         else if (options.get(71 /* EditorOption.mouseStyle */) === 'copy') {
             classNames.push('mouse-copy');
         }
-        if (options.get(107 /* EditorOption.showUnused */)) {
+        if (options.get(108 /* EditorOption.showUnused */)) {
             classNames.push('showUnused');
         }
-        if (options.get(135 /* EditorOption.showDeprecated */)) {
+        if (options.get(136 /* EditorOption.showDeprecated */)) {
             classNames.push('showDeprecated');
         }
         return classNames.join(' ');
@@ -827,7 +827,7 @@ class EditorHover extends BaseEditorOption {
  */
 export class EditorLayoutInfoComputer extends ComputedEditorOption {
     constructor() {
-        super(140 /* EditorOption.layoutInfo */);
+        super(141 /* EditorOption.layoutInfo */);
     }
     compute(env, options, _) {
         return EditorLayoutInfoComputer.computeLayout(options, {
@@ -1026,24 +1026,24 @@ export class EditorLayoutInfoComputer extends ComputedEditorOption {
         const maxDigitWidth = env.maxDigitWidth;
         const pixelRatio = env.pixelRatio;
         const viewLineCount = env.viewLineCount;
-        const wordWrapOverride2 = options.get(132 /* EditorOption.wordWrapOverride2 */);
-        const wordWrapOverride1 = (wordWrapOverride2 === 'inherit' ? options.get(131 /* EditorOption.wordWrapOverride1 */) : wordWrapOverride2);
-        const wordWrap = (wordWrapOverride1 === 'inherit' ? options.get(127 /* EditorOption.wordWrap */) : wordWrapOverride1);
-        const wordWrapColumn = options.get(130 /* EditorOption.wordWrapColumn */);
+        const wordWrapOverride2 = options.get(133 /* EditorOption.wordWrapOverride2 */);
+        const wordWrapOverride1 = (wordWrapOverride2 === 'inherit' ? options.get(132 /* EditorOption.wordWrapOverride1 */) : wordWrapOverride2);
+        const wordWrap = (wordWrapOverride1 === 'inherit' ? options.get(128 /* EditorOption.wordWrap */) : wordWrapOverride1);
+        const wordWrapColumn = options.get(131 /* EditorOption.wordWrapColumn */);
         const isDominatedByLongLines = env.isDominatedByLongLines;
         const showGlyphMargin = options.get(55 /* EditorOption.glyphMargin */);
         const showLineNumbers = (options.get(65 /* EditorOption.lineNumbers */).renderType !== 0 /* RenderLineNumbersType.Off */);
         const lineNumbersMinChars = options.get(66 /* EditorOption.lineNumbersMinChars */);
-        const scrollBeyondLastLine = options.get(101 /* EditorOption.scrollBeyondLastLine */);
+        const scrollBeyondLastLine = options.get(102 /* EditorOption.scrollBeyondLastLine */);
         const padding = options.get(81 /* EditorOption.padding */);
         const minimap = options.get(70 /* EditorOption.minimap */);
-        const scrollbar = options.get(99 /* EditorOption.scrollbar */);
+        const scrollbar = options.get(100 /* EditorOption.scrollbar */);
         const verticalScrollbarWidth = scrollbar.verticalScrollbarSize;
         const verticalScrollbarHasArrows = scrollbar.verticalHasArrows;
         const scrollbarArrowSize = scrollbar.arrowSize;
         const horizontalScrollbarHeight = scrollbar.horizontalScrollbarSize;
         const folding = options.get(41 /* EditorOption.folding */);
-        const showFoldingDecoration = options.get(106 /* EditorOption.showFoldingControls */) !== 'never';
+        const showFoldingDecoration = options.get(107 /* EditorOption.showFoldingControls */) !== 'never';
         let lineDecorationsWidth = options.get(63 /* EditorOption.lineDecorationsWidth */);
         if (folding && showFoldingDecoration) {
             lineDecorationsWidth += 16;
@@ -1141,7 +1141,7 @@ export class EditorLayoutInfoComputer extends ComputedEditorOption {
 //#region WrappingStrategy
 class WrappingStrategy extends BaseEditorOption {
     constructor() {
-        super(134 /* EditorOption.wrappingStrategy */, 'wrappingStrategy', 'simple', {
+        super(135 /* EditorOption.wrappingStrategy */, 'wrappingStrategy', 'simple', {
             'editor.wrappingStrategy': {
                 enumDescriptions: [
                     nls.localize('wrappingStrategy.simple', "Assumes that all characters are of the same width. This is a fast algorithm that works correctly for monospace fonts and certain scripts (like Latin characters) where glyphs are of equal width."),
@@ -1191,7 +1191,7 @@ class EditorLightbulb extends BaseEditorOption {
 class EditorStickyScroll extends BaseEditorOption {
     constructor() {
         const defaults = { enabled: false, maxLineCount: 5, defaultModel: 'outlineModel' };
-        super(111 /* EditorOption.stickyScroll */, 'stickyScroll', defaults, {
+        super(112 /* EditorOption.stickyScroll */, 'stickyScroll', defaults, {
             'editor.stickyScroll.enabled': {
                 type: 'boolean',
                 default: defaults.enabled,
@@ -1227,7 +1227,7 @@ class EditorStickyScroll extends BaseEditorOption {
 class EditorInlayHints extends BaseEditorOption {
     constructor() {
         const defaults = { enabled: 'on', fontSize: 0, fontFamily: '', padding: false };
-        super(136 /* EditorOption.inlayHints */, 'inlayHints', defaults, {
+        super(137 /* EditorOption.inlayHints */, 'inlayHints', defaults, {
             'editor.inlayHints.enabled': {
                 type: 'string',
                 default: defaults.enabled,
@@ -1466,7 +1466,7 @@ class EditorParameterHints extends BaseEditorOption {
 //#region pixelRatio
 class EditorPixelRatio extends ComputedEditorOption {
     constructor() {
-        super(138 /* EditorOption.pixelRatio */);
+        super(139 /* EditorOption.pixelRatio */);
     }
     compute(env, options, _) {
         return env.pixelRatio;
@@ -1600,7 +1600,7 @@ class EditorRenderLineNumbersOption extends BaseEditorOption {
  * @internal
  */
 export function filterValidationDecorations(options) {
-    const renderValidationDecorations = options.get(94 /* EditorOption.renderValidationDecorations */);
+    const renderValidationDecorations = options.get(95 /* EditorOption.renderValidationDecorations */);
     if (renderValidationDecorations === 'editable') {
         return options.get(88 /* EditorOption.readOnly */);
     }
@@ -1610,7 +1610,7 @@ class EditorRulers extends BaseEditorOption {
     constructor() {
         const defaults = [];
         const columnSchema = { type: 'number', description: nls.localize('rulers.size', "Number of monospace characters at which this editor ruler will render.") };
-        super(98 /* EditorOption.rulers */, 'rulers', defaults, {
+        super(99 /* EditorOption.rulers */, 'rulers', defaults, {
             type: 'array',
             items: {
                 anyOf: [
@@ -1658,6 +1658,23 @@ class EditorRulers extends BaseEditorOption {
         return this.defaultValue;
     }
 }
+//#endregion
+//#region readonly
+/**
+ * Configuration options for readonly message
+ */
+class ReadonlyMessage extends BaseEditorOption {
+    constructor() {
+        const defaults = undefined;
+        super(89 /* EditorOption.readOnlyMessage */, 'readOnlyMessage', defaults);
+    }
+    validate(_input) {
+        if (!_input || typeof _input !== 'object') {
+            return this.defaultValue;
+        }
+        return _input;
+    }
+}
 function _scrollbarVisibilityFromString(visibility, defaultValue) {
     if (typeof visibility !== 'string') {
         return defaultValue;
@@ -1685,7 +1702,7 @@ class EditorScrollbar extends BaseEditorOption {
             alwaysConsumeMouseWheel: true,
             scrollByPage: false
         };
-        super(99 /* EditorOption.scrollbar */, 'scrollbar', defaults, {
+        super(100 /* EditorOption.scrollbar */, 'scrollbar', defaults, {
             'editor.scrollbar.vertical': {
                 type: 'string',
                 enum: ['auto', 'visible', 'hidden'],
@@ -1776,7 +1793,7 @@ class UnicodeHighlight extends BaseEditorOption {
             allowedCharacters: {},
             allowedLocales: { _os: true, _vscode: true },
         };
-        super(121 /* EditorOption.unicodeHighlighting */, 'unicodeHighlight', defaults, {
+        super(122 /* EditorOption.unicodeHighlighting */, 'unicodeHighlight', defaults, {
             [unicodeHighlightConfigKeys.nonBasicASCII]: {
                 restricted: true,
                 type: ['boolean', 'string'],
@@ -2085,7 +2102,7 @@ class EditorSuggest extends BaseEditorOption {
             showUsers: true,
             showIssues: true,
         };
-        super(114 /* EditorOption.suggest */, 'suggest', defaults, {
+        super(115 /* EditorOption.suggest */, 'suggest', defaults, {
             'editor.suggest.insertMode': {
                 type: 'string',
                 enum: ['insert', 'replace'],
@@ -2359,11 +2376,17 @@ class EditorSuggest extends BaseEditorOption {
 }
 class SmartSelect extends BaseEditorOption {
     constructor() {
-        super(109 /* EditorOption.smartSelect */, 'smartSelect', {
-            selectLeadingAndTrailingWhitespace: true
+        super(110 /* EditorOption.smartSelect */, 'smartSelect', {
+            selectLeadingAndTrailingWhitespace: true,
+            selectSubwords: true,
         }, {
             'editor.smartSelect.selectLeadingAndTrailingWhitespace': {
                 description: nls.localize('selectLeadingAndTrailingWhitespace', "Whether leading and trailing whitespace should always be selected."),
+                default: true,
+                type: 'boolean'
+            },
+            'editor.smartSelect.selectSubwords': {
+                description: nls.localize('selectSubwords', "Whether subwords (like 'foo' in 'fooBar' or 'foo_bar') should be selected."),
                 default: true,
                 type: 'boolean'
             }
@@ -2374,13 +2397,14 @@ class SmartSelect extends BaseEditorOption {
             return this.defaultValue;
         }
         return {
-            selectLeadingAndTrailingWhitespace: boolean(input.selectLeadingAndTrailingWhitespace, this.defaultValue.selectLeadingAndTrailingWhitespace)
+            selectLeadingAndTrailingWhitespace: boolean(input.selectLeadingAndTrailingWhitespace, this.defaultValue.selectLeadingAndTrailingWhitespace),
+            selectSubwords: boolean(input.selectSubwords, this.defaultValue.selectSubwords),
         };
     }
 }
 class WrappingIndentOption extends BaseEditorOption {
     constructor() {
-        super(133 /* EditorOption.wrappingIndent */, 'wrappingIndent', 1 /* WrappingIndent.Same */, {
+        super(134 /* EditorOption.wrappingIndent */, 'wrappingIndent', 1 /* WrappingIndent.Same */, {
             'editor.wrappingIndent': {
                 type: 'string',
                 enum: ['none', 'same', 'indent', 'deepIndent'],
@@ -2416,10 +2440,10 @@ class WrappingIndentOption extends BaseEditorOption {
 }
 class EditorWrappingInfoComputer extends ComputedEditorOption {
     constructor() {
-        super(141 /* EditorOption.wrappingInfo */);
+        super(142 /* EditorOption.wrappingInfo */);
     }
     compute(env, options, _) {
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         return {
             isDominatedByLongLines: env.isDominatedByLongLines,
             isWordWrapMinified: layoutInfo.isWordWrapMinified,
@@ -2596,7 +2620,7 @@ export const EditorOptions = {
     })),
     bracketPairColorization: register(new BracketPairColorization()),
     bracketPairGuides: register(new GuideOptions()),
-    stickyTabStops: register(new EditorBooleanOption(112 /* EditorOption.stickyTabStops */, 'stickyTabStops', false, { description: nls.localize('stickyTabStops', "Emulate selection behavior of tab characters when using spaces for indentation. Selection will stick to tab stops.") })),
+    stickyTabStops: register(new EditorBooleanOption(113 /* EditorOption.stickyTabStops */, 'stickyTabStops', false, { description: nls.localize('stickyTabStops', "Emulate selection behavior of tab characters when using spaces for indentation. Selection will stick to tab stops.") })),
     codeLens: register(new EditorBooleanOption(15 /* EditorOption.codeLens */, 'codeLens', true, { description: nls.localize('codeLens', "Controls whether the editor shows CodeLens.") })),
     codeLensFontFamily: register(new EditorStringOption(16 /* EditorOption.codeLensFontFamily */, 'codeLensFontFamily', '', { description: nls.localize('codeLensFontFamily', "Controls the font family for CodeLens.") })),
     codeLensFontSize: register(new EditorIntOption(17 /* EditorOption.codeLensFontSize */, 'codeLensFontSize', 0, 0, 100, {
@@ -2607,6 +2631,14 @@ export const EditorOptions = {
         markdownDescription: nls.localize('codeLensFontSize', "Controls the font size in pixels for CodeLens. When set to 0, 90% of `#editor.fontSize#` is used.")
     })),
     colorDecorators: register(new EditorBooleanOption(18 /* EditorOption.colorDecorators */, 'colorDecorators', true, { description: nls.localize('colorDecorators', "Controls whether the editor should render the inline color decorators and color picker.") })),
+    colorDecoratorActivatedOn: register(new EditorStringEnumOption(144 /* EditorOption.colorDecoratorsActivatedOn */, 'colorDecoratorsActivatedOn', 'clickAndHover', ['clickAndHover', 'hover', 'click'], {
+        enumDescriptions: [
+            nls.localize('editor.colorDecoratorActivatedOn.clickAndHover', "Make the color picker appear both on click and hover of the color decorator"),
+            nls.localize('editor.colorDecoratorActivatedOn.hover', "Make the color picker appear on hover of the color decorator"),
+            nls.localize('editor.colorDecoratorActivatedOn.click', "Make the color picker appear on click of the color decorator")
+        ],
+        description: nls.localize('colorDecoratorActivatedOn', "Controls the condition to make a color picker appear from a color decorator")
+    })),
     colorDecoratorsLimit: register(new EditorIntOption(19 /* EditorOption.colorDecoratorsLimit */, 'colorDecoratorsLimit', 500, 1, 1000000, {
         markdownDescription: nls.localize('colorDecoratorsLimit', "Controls the max number of color decorators that can be rendered in an editor at once.")
     })),
@@ -2732,10 +2764,11 @@ export const EditorOptions = {
     quickSuggestions: register(new EditorQuickSuggestions()),
     quickSuggestionsDelay: register(new EditorIntOption(87 /* EditorOption.quickSuggestionsDelay */, 'quickSuggestionsDelay', 10, 0, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */, { description: nls.localize('quickSuggestionsDelay', "Controls the delay in milliseconds after which quick suggestions will show up.") })),
     readOnly: register(new EditorBooleanOption(88 /* EditorOption.readOnly */, 'readOnly', false)),
-    renameOnType: register(new EditorBooleanOption(89 /* EditorOption.renameOnType */, 'renameOnType', false, { description: nls.localize('renameOnType', "Controls whether the editor auto renames on type."), markdownDeprecationMessage: nls.localize('renameOnTypeDeprecate', "Deprecated, use `editor.linkedEditing` instead.") })),
-    renderControlCharacters: register(new EditorBooleanOption(90 /* EditorOption.renderControlCharacters */, 'renderControlCharacters', true, { description: nls.localize('renderControlCharacters', "Controls whether the editor should render control characters."), restricted: true })),
-    renderFinalNewline: register(new EditorStringEnumOption(91 /* EditorOption.renderFinalNewline */, 'renderFinalNewline', (platform.isLinux ? 'dimmed' : 'on'), ['off', 'on', 'dimmed'], { description: nls.localize('renderFinalNewline', "Render last line number when the file ends with a newline.") })),
-    renderLineHighlight: register(new EditorStringEnumOption(92 /* EditorOption.renderLineHighlight */, 'renderLineHighlight', 'line', ['none', 'gutter', 'line', 'all'], {
+    readOnlyMessage: register(new ReadonlyMessage()),
+    renameOnType: register(new EditorBooleanOption(90 /* EditorOption.renameOnType */, 'renameOnType', false, { description: nls.localize('renameOnType', "Controls whether the editor auto renames on type."), markdownDeprecationMessage: nls.localize('renameOnTypeDeprecate', "Deprecated, use `editor.linkedEditing` instead.") })),
+    renderControlCharacters: register(new EditorBooleanOption(91 /* EditorOption.renderControlCharacters */, 'renderControlCharacters', true, { description: nls.localize('renderControlCharacters', "Controls whether the editor should render control characters."), restricted: true })),
+    renderFinalNewline: register(new EditorStringEnumOption(92 /* EditorOption.renderFinalNewline */, 'renderFinalNewline', (platform.isLinux ? 'dimmed' : 'on'), ['off', 'on', 'dimmed'], { description: nls.localize('renderFinalNewline', "Render last line number when the file ends with a newline.") })),
+    renderLineHighlight: register(new EditorStringEnumOption(93 /* EditorOption.renderLineHighlight */, 'renderLineHighlight', 'line', ['none', 'gutter', 'line', 'all'], {
         enumDescriptions: [
             '',
             '',
@@ -2744,9 +2777,9 @@ export const EditorOptions = {
         ],
         description: nls.localize('renderLineHighlight', "Controls how the editor should render the current line highlight.")
     })),
-    renderLineHighlightOnlyWhenFocus: register(new EditorBooleanOption(93 /* EditorOption.renderLineHighlightOnlyWhenFocus */, 'renderLineHighlightOnlyWhenFocus', false, { description: nls.localize('renderLineHighlightOnlyWhenFocus', "Controls if the editor should render the current line highlight only when the editor is focused.") })),
-    renderValidationDecorations: register(new EditorStringEnumOption(94 /* EditorOption.renderValidationDecorations */, 'renderValidationDecorations', 'editable', ['editable', 'on', 'off'])),
-    renderWhitespace: register(new EditorStringEnumOption(95 /* EditorOption.renderWhitespace */, 'renderWhitespace', 'selection', ['none', 'boundary', 'selection', 'trailing', 'all'], {
+    renderLineHighlightOnlyWhenFocus: register(new EditorBooleanOption(94 /* EditorOption.renderLineHighlightOnlyWhenFocus */, 'renderLineHighlightOnlyWhenFocus', false, { description: nls.localize('renderLineHighlightOnlyWhenFocus', "Controls if the editor should render the current line highlight only when the editor is focused.") })),
+    renderValidationDecorations: register(new EditorStringEnumOption(95 /* EditorOption.renderValidationDecorations */, 'renderValidationDecorations', 'editable', ['editable', 'on', 'off'])),
+    renderWhitespace: register(new EditorStringEnumOption(96 /* EditorOption.renderWhitespace */, 'renderWhitespace', 'selection', ['none', 'boundary', 'selection', 'trailing', 'all'], {
         enumDescriptions: [
             '',
             nls.localize('renderWhitespace.boundary', "Render whitespace characters except for single spaces between words."),
@@ -2756,20 +2789,20 @@ export const EditorOptions = {
         ],
         description: nls.localize('renderWhitespace', "Controls how the editor should render whitespace characters.")
     })),
-    revealHorizontalRightPadding: register(new EditorIntOption(96 /* EditorOption.revealHorizontalRightPadding */, 'revealHorizontalRightPadding', 15, 0, 1000)),
-    roundedSelection: register(new EditorBooleanOption(97 /* EditorOption.roundedSelection */, 'roundedSelection', true, { description: nls.localize('roundedSelection', "Controls whether selections should have rounded corners.") })),
+    revealHorizontalRightPadding: register(new EditorIntOption(97 /* EditorOption.revealHorizontalRightPadding */, 'revealHorizontalRightPadding', 15, 0, 1000)),
+    roundedSelection: register(new EditorBooleanOption(98 /* EditorOption.roundedSelection */, 'roundedSelection', true, { description: nls.localize('roundedSelection', "Controls whether selections should have rounded corners.") })),
     rulers: register(new EditorRulers()),
     scrollbar: register(new EditorScrollbar()),
-    scrollBeyondLastColumn: register(new EditorIntOption(100 /* EditorOption.scrollBeyondLastColumn */, 'scrollBeyondLastColumn', 4, 0, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */, { description: nls.localize('scrollBeyondLastColumn', "Controls the number of extra characters beyond which the editor will scroll horizontally.") })),
-    scrollBeyondLastLine: register(new EditorBooleanOption(101 /* EditorOption.scrollBeyondLastLine */, 'scrollBeyondLastLine', true, { description: nls.localize('scrollBeyondLastLine', "Controls whether the editor will scroll beyond the last line.") })),
-    scrollPredominantAxis: register(new EditorBooleanOption(102 /* EditorOption.scrollPredominantAxis */, 'scrollPredominantAxis', true, { description: nls.localize('scrollPredominantAxis', "Scroll only along the predominant axis when scrolling both vertically and horizontally at the same time. Prevents horizontal drift when scrolling vertically on a trackpad.") })),
-    selectionClipboard: register(new EditorBooleanOption(103 /* EditorOption.selectionClipboard */, 'selectionClipboard', true, {
+    scrollBeyondLastColumn: register(new EditorIntOption(101 /* EditorOption.scrollBeyondLastColumn */, 'scrollBeyondLastColumn', 4, 0, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */, { description: nls.localize('scrollBeyondLastColumn', "Controls the number of extra characters beyond which the editor will scroll horizontally.") })),
+    scrollBeyondLastLine: register(new EditorBooleanOption(102 /* EditorOption.scrollBeyondLastLine */, 'scrollBeyondLastLine', true, { description: nls.localize('scrollBeyondLastLine', "Controls whether the editor will scroll beyond the last line.") })),
+    scrollPredominantAxis: register(new EditorBooleanOption(103 /* EditorOption.scrollPredominantAxis */, 'scrollPredominantAxis', true, { description: nls.localize('scrollPredominantAxis', "Scroll only along the predominant axis when scrolling both vertically and horizontally at the same time. Prevents horizontal drift when scrolling vertically on a trackpad.") })),
+    selectionClipboard: register(new EditorBooleanOption(104 /* EditorOption.selectionClipboard */, 'selectionClipboard', true, {
         description: nls.localize('selectionClipboard', "Controls whether the Linux primary clipboard should be supported."),
         included: platform.isLinux
     })),
-    selectionHighlight: register(new EditorBooleanOption(104 /* EditorOption.selectionHighlight */, 'selectionHighlight', true, { description: nls.localize('selectionHighlight', "Controls whether the editor should highlight matches similar to the selection.") })),
-    selectOnLineNumbers: register(new EditorBooleanOption(105 /* EditorOption.selectOnLineNumbers */, 'selectOnLineNumbers', true)),
-    showFoldingControls: register(new EditorStringEnumOption(106 /* EditorOption.showFoldingControls */, 'showFoldingControls', 'mouseover', ['always', 'never', 'mouseover'], {
+    selectionHighlight: register(new EditorBooleanOption(105 /* EditorOption.selectionHighlight */, 'selectionHighlight', true, { description: nls.localize('selectionHighlight', "Controls whether the editor should highlight matches similar to the selection.") })),
+    selectOnLineNumbers: register(new EditorBooleanOption(106 /* EditorOption.selectOnLineNumbers */, 'selectOnLineNumbers', true)),
+    showFoldingControls: register(new EditorStringEnumOption(107 /* EditorOption.showFoldingControls */, 'showFoldingControls', 'mouseover', ['always', 'never', 'mouseover'], {
         enumDescriptions: [
             nls.localize('showFoldingControls.always', "Always show the folding controls."),
             nls.localize('showFoldingControls.never', "Never show the folding controls and reduce the gutter size."),
@@ -2777,10 +2810,10 @@ export const EditorOptions = {
         ],
         description: nls.localize('showFoldingControls', "Controls when the folding controls on the gutter are shown.")
     })),
-    showUnused: register(new EditorBooleanOption(107 /* EditorOption.showUnused */, 'showUnused', true, { description: nls.localize('showUnused', "Controls fading out of unused code.") })),
-    showDeprecated: register(new EditorBooleanOption(135 /* EditorOption.showDeprecated */, 'showDeprecated', true, { description: nls.localize('showDeprecated', "Controls strikethrough deprecated variables.") })),
+    showUnused: register(new EditorBooleanOption(108 /* EditorOption.showUnused */, 'showUnused', true, { description: nls.localize('showUnused', "Controls fading out of unused code.") })),
+    showDeprecated: register(new EditorBooleanOption(136 /* EditorOption.showDeprecated */, 'showDeprecated', true, { description: nls.localize('showDeprecated', "Controls strikethrough deprecated variables.") })),
     inlayHints: register(new EditorInlayHints()),
-    snippetSuggestions: register(new EditorStringEnumOption(108 /* EditorOption.snippetSuggestions */, 'snippetSuggestions', 'inline', ['top', 'bottom', 'inline', 'none'], {
+    snippetSuggestions: register(new EditorStringEnumOption(109 /* EditorOption.snippetSuggestions */, 'snippetSuggestions', 'inline', ['top', 'bottom', 'inline', 'none'], {
         enumDescriptions: [
             nls.localize('snippetSuggestions.top', "Show snippet suggestions on top of other suggestions."),
             nls.localize('snippetSuggestions.bottom', "Show snippet suggestions below other suggestions."),
@@ -2790,14 +2823,14 @@ export const EditorOptions = {
         description: nls.localize('snippetSuggestions', "Controls whether snippets are shown with other suggestions and how they are sorted.")
     })),
     smartSelect: register(new SmartSelect()),
-    smoothScrolling: register(new EditorBooleanOption(110 /* EditorOption.smoothScrolling */, 'smoothScrolling', false, { description: nls.localize('smoothScrolling', "Controls whether the editor will scroll using an animation.") })),
-    stopRenderingLineAfter: register(new EditorIntOption(113 /* EditorOption.stopRenderingLineAfter */, 'stopRenderingLineAfter', 10000, -1, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */)),
+    smoothScrolling: register(new EditorBooleanOption(111 /* EditorOption.smoothScrolling */, 'smoothScrolling', false, { description: nls.localize('smoothScrolling', "Controls whether the editor will scroll using an animation.") })),
+    stopRenderingLineAfter: register(new EditorIntOption(114 /* EditorOption.stopRenderingLineAfter */, 'stopRenderingLineAfter', 10000, -1, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */)),
     suggest: register(new EditorSuggest()),
     inlineSuggest: register(new InlineEditorSuggest()),
-    suggestFontSize: register(new EditorIntOption(115 /* EditorOption.suggestFontSize */, 'suggestFontSize', 0, 0, 1000, { markdownDescription: nls.localize('suggestFontSize', "Font size for the suggest widget. When set to {0}, the value of {1} is used.", '`0`', '`#editor.fontSize#`') })),
-    suggestLineHeight: register(new EditorIntOption(116 /* EditorOption.suggestLineHeight */, 'suggestLineHeight', 0, 0, 1000, { markdownDescription: nls.localize('suggestLineHeight', "Line height for the suggest widget. When set to {0}, the value of {1} is used. The minimum value is 8.", '`0`', '`#editor.lineHeight#`') })),
-    suggestOnTriggerCharacters: register(new EditorBooleanOption(117 /* EditorOption.suggestOnTriggerCharacters */, 'suggestOnTriggerCharacters', true, { description: nls.localize('suggestOnTriggerCharacters', "Controls whether suggestions should automatically show up when typing trigger characters.") })),
-    suggestSelection: register(new EditorStringEnumOption(118 /* EditorOption.suggestSelection */, 'suggestSelection', 'first', ['first', 'recentlyUsed', 'recentlyUsedByPrefix'], {
+    suggestFontSize: register(new EditorIntOption(116 /* EditorOption.suggestFontSize */, 'suggestFontSize', 0, 0, 1000, { markdownDescription: nls.localize('suggestFontSize', "Font size for the suggest widget. When set to {0}, the value of {1} is used.", '`0`', '`#editor.fontSize#`') })),
+    suggestLineHeight: register(new EditorIntOption(117 /* EditorOption.suggestLineHeight */, 'suggestLineHeight', 0, 0, 1000, { markdownDescription: nls.localize('suggestLineHeight', "Line height for the suggest widget. When set to {0}, the value of {1} is used. The minimum value is 8.", '`0`', '`#editor.lineHeight#`') })),
+    suggestOnTriggerCharacters: register(new EditorBooleanOption(118 /* EditorOption.suggestOnTriggerCharacters */, 'suggestOnTriggerCharacters', true, { description: nls.localize('suggestOnTriggerCharacters', "Controls whether suggestions should automatically show up when typing trigger characters.") })),
+    suggestSelection: register(new EditorStringEnumOption(119 /* EditorOption.suggestSelection */, 'suggestSelection', 'first', ['first', 'recentlyUsed', 'recentlyUsedByPrefix'], {
         markdownEnumDescriptions: [
             nls.localize('suggestSelection.first', "Always select the first suggestion."),
             nls.localize('suggestSelection.recentlyUsed', "Select recent suggestions unless further typing selects one, e.g. `console.| -> console.log` because `log` has been completed recently."),
@@ -2805,7 +2838,7 @@ export const EditorOptions = {
         ],
         description: nls.localize('suggestSelection', "Controls how suggestions are pre-selected when showing the suggest list.")
     })),
-    tabCompletion: register(new EditorStringEnumOption(119 /* EditorOption.tabCompletion */, 'tabCompletion', 'off', ['on', 'off', 'onlySnippets'], {
+    tabCompletion: register(new EditorStringEnumOption(120 /* EditorOption.tabCompletion */, 'tabCompletion', 'off', ['on', 'off', 'onlySnippets'], {
         enumDescriptions: [
             nls.localize('tabCompletion.on', "Tab complete will insert the best matching suggestion when pressing tab."),
             nls.localize('tabCompletion.off', "Disable tab completions."),
@@ -2813,9 +2846,9 @@ export const EditorOptions = {
         ],
         description: nls.localize('tabCompletion', "Enables tab completions.")
     })),
-    tabIndex: register(new EditorIntOption(120 /* EditorOption.tabIndex */, 'tabIndex', 0, -1, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */)),
+    tabIndex: register(new EditorIntOption(121 /* EditorOption.tabIndex */, 'tabIndex', 0, -1, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */)),
     unicodeHighlight: register(new UnicodeHighlight()),
-    unusualLineTerminators: register(new EditorStringEnumOption(122 /* EditorOption.unusualLineTerminators */, 'unusualLineTerminators', 'prompt', ['auto', 'off', 'prompt'], {
+    unusualLineTerminators: register(new EditorStringEnumOption(123 /* EditorOption.unusualLineTerminators */, 'unusualLineTerminators', 'prompt', ['auto', 'off', 'prompt'], {
         enumDescriptions: [
             nls.localize('unusualLineTerminators.auto', "Unusual line terminators are automatically removed."),
             nls.localize('unusualLineTerminators.off', "Unusual line terminators are ignored."),
@@ -2823,17 +2856,17 @@ export const EditorOptions = {
         ],
         description: nls.localize('unusualLineTerminators', "Remove unusual line terminators that might cause problems.")
     })),
-    useShadowDOM: register(new EditorBooleanOption(123 /* EditorOption.useShadowDOM */, 'useShadowDOM', true)),
-    useTabStops: register(new EditorBooleanOption(124 /* EditorOption.useTabStops */, 'useTabStops', true, { description: nls.localize('useTabStops', "Inserting and deleting whitespace follows tab stops.") })),
-    wordBreak: register(new EditorStringEnumOption(125 /* EditorOption.wordBreak */, 'wordBreak', 'normal', ['normal', 'keepAll'], {
+    useShadowDOM: register(new EditorBooleanOption(124 /* EditorOption.useShadowDOM */, 'useShadowDOM', true)),
+    useTabStops: register(new EditorBooleanOption(125 /* EditorOption.useTabStops */, 'useTabStops', true, { description: nls.localize('useTabStops', "Inserting and deleting whitespace follows tab stops.") })),
+    wordBreak: register(new EditorStringEnumOption(126 /* EditorOption.wordBreak */, 'wordBreak', 'normal', ['normal', 'keepAll'], {
         markdownEnumDescriptions: [
             nls.localize('wordBreak.normal', "Use the default line break rule."),
             nls.localize('wordBreak.keepAll', "Word breaks should not be used for Chinese/Japanese/Korean (CJK) text. Non-CJK text behavior is the same as for normal."),
         ],
         description: nls.localize('wordBreak', "Controls the word break rules used for Chinese/Japanese/Korean (CJK) text.")
     })),
-    wordSeparators: register(new EditorStringOption(126 /* EditorOption.wordSeparators */, 'wordSeparators', USUAL_WORD_SEPARATORS, { description: nls.localize('wordSeparators', "Characters that will be used as word separators when doing word related navigations or operations.") })),
-    wordWrap: register(new EditorStringEnumOption(127 /* EditorOption.wordWrap */, 'wordWrap', 'off', ['off', 'on', 'wordWrapColumn', 'bounded'], {
+    wordSeparators: register(new EditorStringOption(127 /* EditorOption.wordSeparators */, 'wordSeparators', USUAL_WORD_SEPARATORS, { description: nls.localize('wordSeparators', "Characters that will be used as word separators when doing word related navigations or operations.") })),
+    wordWrap: register(new EditorStringEnumOption(128 /* EditorOption.wordWrap */, 'wordWrap', 'off', ['off', 'on', 'wordWrapColumn', 'bounded'], {
         markdownEnumDescriptions: [
             nls.localize('wordWrap.off', "Lines will never wrap."),
             nls.localize('wordWrap.on', "Lines will wrap at the viewport width."),
@@ -2859,13 +2892,13 @@ export const EditorOptions = {
             ]
         }, "Controls how lines should wrap.")
     })),
-    wordWrapBreakAfterCharacters: register(new EditorStringOption(128 /* EditorOption.wordWrapBreakAfterCharacters */, 'wordWrapBreakAfterCharacters', 
+    wordWrapBreakAfterCharacters: register(new EditorStringOption(129 /* EditorOption.wordWrapBreakAfterCharacters */, 'wordWrapBreakAfterCharacters', 
     // allow-any-unicode-next-line
     ' \t})]?|/&.,;¢°′″‰℃、。｡､￠，．：；？！％・･ゝゞヽヾーァィゥェォッャュョヮヵヶぁぃぅぇぉっゃゅょゎゕゖㇰㇱㇲㇳㇴㇵㇶㇷㇸㇹㇺㇻㇼㇽㇾㇿ々〻ｧｨｩｪｫｬｭｮｯｰ”〉》」』】〕）］｝｣')),
-    wordWrapBreakBeforeCharacters: register(new EditorStringOption(129 /* EditorOption.wordWrapBreakBeforeCharacters */, 'wordWrapBreakBeforeCharacters', 
+    wordWrapBreakBeforeCharacters: register(new EditorStringOption(130 /* EditorOption.wordWrapBreakBeforeCharacters */, 'wordWrapBreakBeforeCharacters', 
     // allow-any-unicode-next-line
     '([{‘“〈《「『【〔（［｛｢£¥＄￡￥+＋')),
-    wordWrapColumn: register(new EditorIntOption(130 /* EditorOption.wordWrapColumn */, 'wordWrapColumn', 80, 1, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */, {
+    wordWrapColumn: register(new EditorIntOption(131 /* EditorOption.wordWrapColumn */, 'wordWrapColumn', 80, 1, 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */, {
         markdownDescription: nls.localize({
             key: 'wordWrapColumn',
             comment: [
@@ -2874,13 +2907,13 @@ export const EditorOptions = {
             ]
         }, "Controls the wrapping column of the editor when `#editor.wordWrap#` is `wordWrapColumn` or `bounded`.")
     })),
-    wordWrapOverride1: register(new EditorStringEnumOption(131 /* EditorOption.wordWrapOverride1 */, 'wordWrapOverride1', 'inherit', ['off', 'on', 'inherit'])),
-    wordWrapOverride2: register(new EditorStringEnumOption(132 /* EditorOption.wordWrapOverride2 */, 'wordWrapOverride2', 'inherit', ['off', 'on', 'inherit'])),
+    wordWrapOverride1: register(new EditorStringEnumOption(132 /* EditorOption.wordWrapOverride1 */, 'wordWrapOverride1', 'inherit', ['off', 'on', 'inherit'])),
+    wordWrapOverride2: register(new EditorStringEnumOption(133 /* EditorOption.wordWrapOverride2 */, 'wordWrapOverride2', 'inherit', ['off', 'on', 'inherit'])),
     // Leave these at the end (because they have dependencies!)
     editorClassName: register(new EditorClassName()),
-    defaultColorDecorators: register(new EditorBooleanOption(142 /* EditorOption.defaultColorDecorators */, 'defaultColorDecorators', false, { markdownDescription: nls.localize('defaultColorDecorators', "Controls whether inline color decorations should be shown using the default document color provider") })),
+    defaultColorDecorators: register(new EditorBooleanOption(143 /* EditorOption.defaultColorDecorators */, 'defaultColorDecorators', false, { markdownDescription: nls.localize('defaultColorDecorators', "Controls whether inline color decorations should be shown using the default document color provider") })),
     pixelRatio: register(new EditorPixelRatio()),
-    tabFocusMode: register(new EditorBooleanOption(139 /* EditorOption.tabFocusMode */, 'tabFocusMode', false, { markdownDescription: nls.localize('tabFocusMode', "Controls whether the editor receives tabs or defers them to the workbench for navigation.") })),
+    tabFocusMode: register(new EditorBooleanOption(140 /* EditorOption.tabFocusMode */, 'tabFocusMode', false, { markdownDescription: nls.localize('tabFocusMode', "Controls whether the editor receives tabs or defers them to the workbench for navigation.") })),
     layoutInfo: register(new EditorLayoutInfoComputer()),
     wrappingInfo: register(new EditorWrappingInfoComputer()),
     wrappingIndent: register(new WrappingIndentOption()),

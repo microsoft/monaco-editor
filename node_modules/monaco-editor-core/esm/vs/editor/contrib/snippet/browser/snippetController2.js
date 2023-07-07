@@ -11,7 +11,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { DisposableStore } from '../../../../base/common/lifecycle.js';
+import { Disposable, DisposableStore } from '../../../../base/common/lifecycle.js';
 import { assertType } from '../../../../base/common/types.js';
 import { EditorCommand, registerEditorCommand, registerEditorContribution } from '../../../browser/editorExtensions.js';
 import { Position } from '../../../common/core/position.js';
@@ -99,7 +99,8 @@ export let SnippetController2 = class SnippetController2 {
         }
         // regster completion item provider when there is any choice element
         if ((_a = this._session) === null || _a === void 0 ? void 0 : _a.hasChoice) {
-            this._choiceCompletionItemProvider = {
+            const provider = {
+                _debugDisplayName: 'snippetChoiceCompletions',
                 provideCompletionItems: (model, position) => {
                     if (!this._session || model !== this._editor.getModel() || !Position.equals(this._editor.getPosition(), position)) {
                         return undefined;
@@ -126,13 +127,26 @@ export let SnippetController2 = class SnippetController2 {
                     return { suggestions };
                 }
             };
-            const registration = this._languageFeaturesService.completionProvider.register({
-                language: this._editor.getModel().getLanguageId(),
-                pattern: this._editor.getModel().uri.fsPath,
-                scheme: this._editor.getModel().uri.scheme,
-                exclusive: true
-            }, this._choiceCompletionItemProvider);
+            const model = this._editor.getModel();
+            let registration = Disposable.None;
+            let isRegistered = false;
+            const disable = () => {
+                registration.dispose();
+                isRegistered = false;
+            };
+            const enable = () => {
+                if (!isRegistered) {
+                    registration = this._languageFeaturesService.completionProvider.register({
+                        language: model.getLanguageId(),
+                        pattern: model.uri.fsPath,
+                        scheme: model.uri.scheme,
+                        exclusive: true
+                    }, provider);
+                    isRegistered = true;
+                }
+            };
             this._snippetListener.add(registration);
+            this._choiceCompletions = { provider, enable, disable };
         }
         this._updateState();
         this._snippetListener.add(this._editor.onDidChangeModelContent(e => e.isFlush && this.cancel()));
@@ -164,20 +178,23 @@ export let SnippetController2 = class SnippetController2 {
         this._handleChoice();
     }
     _handleChoice() {
+        var _a;
         if (!this._session || !this._editor.hasModel()) {
             this._currentChoice = undefined;
             return;
         }
         const { activeChoice } = this._session;
-        if (!activeChoice || !this._choiceCompletionItemProvider) {
+        if (!activeChoice || !this._choiceCompletions) {
+            (_a = this._choiceCompletions) === null || _a === void 0 ? void 0 : _a.disable();
             this._currentChoice = undefined;
             return;
         }
         if (this._currentChoice !== activeChoice.choice) {
             this._currentChoice = activeChoice.choice;
+            this._choiceCompletions.enable();
             // trigger suggest with the special choice completion provider
             queueMicrotask(() => {
-                showSimpleSuggestions(this._editor, this._choiceCompletionItemProvider);
+                showSimpleSuggestions(this._editor, this._choiceCompletions.provider);
             });
         }
     }

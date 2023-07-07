@@ -8,7 +8,7 @@ import { LineInjectedText } from '../textModelEvents.js';
 import { ModelLineProjectionData } from '../modelLineProjectionData.js';
 export class MonospaceLineBreaksComputerFactory {
     static create(options) {
-        return new MonospaceLineBreaksComputerFactory(options.get(129 /* EditorOption.wordWrapBreakBeforeCharacters */), options.get(128 /* EditorOption.wordWrapBreakAfterCharacters */));
+        return new MonospaceLineBreaksComputerFactory(options.get(130 /* EditorOption.wordWrapBreakBeforeCharacters */), options.get(129 /* EditorOption.wordWrapBreakAfterCharacters */));
     }
     constructor(breakBeforeChars, breakAfterChars) {
         this.classifier = new WrappingCharacterClassifier(breakBeforeChars, breakAfterChars);

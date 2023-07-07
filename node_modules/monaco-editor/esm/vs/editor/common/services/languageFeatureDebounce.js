@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { doHash } from '../../../base/common/hash.js';
 import { LRUCache } from '../../../base/common/map.js';
 import { clamp, MovingAverage, SlidingWindowAverage } from '../../../base/common/numbers.js';
+import { IEnvironmentService } from '../../../platform/environment/common/environment.js';
 import { registerSingleton } from '../../../platform/instantiation/common/extensions.js';
 import { createDecorator } from '../../../platform/instantiation/common/instantiation.js';
 import { ILogService } from '../../../platform/log/common/log.js';
@@ -33,6 +34,20 @@ var IdentityHash;
     }
     IdentityHash.of = of;
 })(IdentityHash || (IdentityHash = {}));
+class NullDebounceInformation {
+    constructor(_default) {
+        this._default = _default;
+    }
+    get(_model) {
+        return this._default;
+    }
+    update(_model, _value) {
+        return this._default;
+    }
+    default() {
+        return this._default;
+    }
+}
 class FeatureDebounceInformation {
     constructor(_logService, _name, _registry, _default, _min, _max) {
         this._logService = _logService;
@@ -79,9 +94,10 @@ class FeatureDebounceInformation {
     }
 }
 export let LanguageFeatureDebounceService = class LanguageFeatureDebounceService {
-    constructor(_logService) {
+    constructor(_logService, envService) {
         this._logService = _logService;
         this._data = new Map();
+        this._isDev = envService.isExtensionDevelopment || !envService.isBuilt;
     }
     for(feature, name, config) {
         var _a, _b, _c;
@@ -91,8 +107,14 @@ export let LanguageFeatureDebounceService = class LanguageFeatureDebounceService
         const key = `${IdentityHash.of(feature)},${min}${extra ? ',' + extra : ''}`;
         let info = this._data.get(key);
         if (!info) {
-            info = new FeatureDebounceInformation(this._logService, name, feature, (this._overallAverage() | 0) || (min * 1.5), // default is overall default or derived from min-value
-            min, max);
+            if (!this._isDev) {
+                this._logService.debug(`[DEBOUNCE: ${name}] is disabled in developed mode`);
+                info = new NullDebounceInformation(min * 1.5);
+            }
+            else {
+                info = new FeatureDebounceInformation(this._logService, name, feature, (this._overallAverage() | 0) || (min * 1.5), // default is overall default or derived from min-value
+                min, max);
+            }
             this._data.set(key, info);
         }
         return info;
@@ -107,6 +129,7 @@ export let LanguageFeatureDebounceService = class LanguageFeatureDebounceService
     }
 };
 LanguageFeatureDebounceService = __decorate([
-    __param(0, ILogService)
+    __param(0, ILogService),
+    __param(1, IEnvironmentService)
 ], LanguageFeatureDebounceService);
 registerSingleton(ILanguageFeatureDebounceService, LanguageFeatureDebounceService, 1 /* InstantiationType.Delayed */);

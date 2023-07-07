@@ -45,7 +45,7 @@ export class ViewModelDecorations {
             const options = modelDecoration.options;
             let viewRange;
             if (options.isWholeLine) {
-                const start = this._coordinatesConverter.convertModelPositionToViewPosition(new Position(modelRange.startLineNumber, 1), 0 /* PositionAffinity.Left */);
+                const start = this._coordinatesConverter.convertModelPositionToViewPosition(new Position(modelRange.startLineNumber, 1), 0 /* PositionAffinity.Left */, false, true);
                 const end = this._coordinatesConverter.convertModelPositionToViewPosition(new Position(modelRange.endLineNumber, this.model.getLineMaxColumn(modelRange.endLineNumber)), 1 /* PositionAffinity.Right */);
                 viewRange = new Range(start.lineNumber, start.column, end.lineNumber, end.column);
             }

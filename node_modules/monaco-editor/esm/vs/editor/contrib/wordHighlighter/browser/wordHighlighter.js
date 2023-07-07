@@ -25,6 +25,7 @@ import * as nls from '../../../../nls.js';
 import { IContextKeyService, RawContextKey } from '../../../../platform/contextkey/common/contextkey.js';
 import { ILanguageFeaturesService } from '../../../common/services/languageFeatures.js';
 import { getHighlightDecorationOptions } from './highlightDecorations.js';
+import { Iterable } from '../../../../base/common/iterator.js';
 const ctxHasWordHighlights = new RawContextKey('hasWordHighlights', false);
 export function getOccurrencesAtPosition(registry, model, position, token) {
     const orderedByScore = registry.ordered(model);
@@ -130,7 +131,7 @@ registerModelAndPositionCommand('_executeDocumentHighlights', (accessor, model, 
     return getOccurrencesAtPosition(languageFeaturesService.documentHighlightProvider, model, position, CancellationToken.None);
 });
 class WordHighlighter {
-    constructor(editor, providers, contextKeyService) {
+    constructor(editor, providers, linkedHighlighters, contextKeyService) {
         this.toUnhook = new DisposableStore();
         this.workerRequestTokenId = 0;
         this.workerRequestCompleted = false;
@@ -139,6 +140,7 @@ class WordHighlighter {
         this.renderDecorationsTimer = -1;
         this.editor = editor;
         this.providers = providers;
+        this.linkedHighlighters = linkedHighlighters;
         this._hasWordHighlights = ctxHasWordHighlights.bindTo(contextKeyService);
         this._ignorePositionChangeEvent = false;
         this.occurrencesHighlight = this.editor.getOption(78 /* EditorOption.occurrencesHighlight */);
@@ -314,7 +316,7 @@ class WordHighlighter {
             this._stopAll();
             const myRequestId = ++this.workerRequestTokenId;
             this.workerRequestCompleted = false;
-            this.workerRequest = computeOccurencesAtPosition(this.providers, this.model, this.editor.getSelection(), this.editor.getOption(126 /* EditorOption.wordSeparators */));
+            this.workerRequest = computeOccurencesAtPosition(this.providers, this.model, this.editor.getSelection(), this.editor.getOption(127 /* EditorOption.wordSeparators */));
             this.workerRequest.result.then(data => {
                 if (myRequestId === this.workerRequestTokenId) {
                     this.workerRequestCompleted = true;
@@ -352,6 +354,14 @@ class WordHighlighter {
         }
         this.decorations.set(decorations);
         this._hasWordHighlights.set(this.hasDecorations());
+        // update decorators of friends
+        for (const other of this.linkedHighlighters()) {
+            if ((other === null || other === void 0 ? void 0 : other.editor.getModel()) === this.editor.getModel()) {
+                other._stopAll();
+                other.decorations.set(decorations);
+                other._hasWordHighlights.set(other.hasDecorations());
+            }
+        }
     }
     dispose() {
         this._stopAll();
@@ -365,9 +375,10 @@ export let WordHighlighterContribution = class WordHighlighterContribution exten
     constructor(editor, contextKeyService, languageFeaturesService) {
         super();
         this.wordHighlighter = null;
+        this.linkedContributions = new Set();
         const createWordHighlighterIfPossible = () => {
             if (editor.hasModel()) {
-                this.wordHighlighter = new WordHighlighter(editor, languageFeaturesService.documentHighlightProvider, contextKeyService);
+                this.wordHighlighter = new WordHighlighter(editor, languageFeaturesService.documentHighlightProvider, () => Iterable.map(this.linkedContributions, c => c.wordHighlighter), contextKeyService);
             }
         };
         this._register(editor.onDidChangeModel((e) => {

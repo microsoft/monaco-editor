@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import './editor.all.js';
-import './standalone/browser/accessibilityHelp/accessibilityHelp.js';
 import './standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js';
 import './standalone/browser/inspectTokens/inspectTokens.js';
 import './standalone/browser/quickAccess/standaloneHelpQuickAccess.js';

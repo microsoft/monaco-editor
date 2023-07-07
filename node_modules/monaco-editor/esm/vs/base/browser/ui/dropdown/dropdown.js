@@ -91,14 +91,11 @@ class BaseDropdown extends ActionRunner {
     }
 }
 export class DropdownMenu extends BaseDropdown {
-    constructor(container, options) {
-        super(container, options);
+    constructor(container, _options) {
+        super(container, _options);
+        this._options = _options;
         this._actions = [];
-        this._contextMenuProvider = options.contextMenuProvider;
-        this.actions = options.actions || [];
-        this.actionProvider = options.actionProvider;
-        this.menuClassName = options.menuClassName || '';
-        this.menuAsChild = !!options.menuAsChild;
+        this.actions = _options.actions || [];
     }
     set menuOptions(options) {
         this._menuOptions = options;
@@ -107,8 +104,8 @@ export class DropdownMenu extends BaseDropdown {
         return this._menuOptions;
     }
     get actions() {
-        if (this.actionProvider) {
-            return this.actionProvider.getActions();
+        if (this._options.actionProvider) {
+            return this._options.actionProvider.getActions();
         }
         return this._actions;
     }
@@ -118,17 +115,18 @@ export class DropdownMenu extends BaseDropdown {
     show() {
         super.show();
         this.element.classList.add('active');
-        this._contextMenuProvider.showContextMenu({
+        this._options.contextMenuProvider.showContextMenu({
             getAnchor: () => this.element,
             getActions: () => this.actions,
             getActionsContext: () => this.menuOptions ? this.menuOptions.context : null,
             getActionViewItem: (action, options) => this.menuOptions && this.menuOptions.actionViewItemProvider ? this.menuOptions.actionViewItemProvider(action, options) : undefined,
             getKeyBinding: action => this.menuOptions && this.menuOptions.getKeyBinding ? this.menuOptions.getKeyBinding(action) : undefined,
-            getMenuClassName: () => this.menuClassName,
+            getMenuClassName: () => this._options.menuClassName || '',
             onHide: () => this.onHide(),
             actionRunner: this.menuOptions ? this.menuOptions.actionRunner : undefined,
             anchorAlignment: this.menuOptions ? this.menuOptions.anchorAlignment : 0 /* AnchorAlignment.LEFT */,
-            domForShadowRoot: this.menuAsChild ? this.element : undefined
+            domForShadowRoot: this._options.menuAsChild ? this.element : undefined,
+            skipTelemetry: this._options.skipTelemetry
         });
     }
     hide() {

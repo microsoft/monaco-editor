@@ -88,7 +88,7 @@ export class TextAreaHandler extends ViewPart {
         this._scrollLeft = 0;
         this._scrollTop = 0;
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._setAccessibilityOptions(options);
         this._contentLeft = layoutInfo.contentLeft;
         this._contentWidth = layoutInfo.contentWidth;
@@ -113,7 +113,7 @@ export class TextAreaHandler extends ViewPart {
         this.textArea.setAttribute('autocomplete', 'off');
         this.textArea.setAttribute('spellcheck', 'false');
         this.textArea.setAttribute('aria-label', this._getAriaLabel(options));
-        this.textArea.setAttribute('tabindex', String(options.get(120 /* EditorOption.tabIndex */)));
+        this.textArea.setAttribute('tabindex', String(options.get(121 /* EditorOption.tabIndex */)));
         this.textArea.setAttribute('role', 'textbox');
         this.textArea.setAttribute('aria-roledescription', nls.localize('editor', "editor"));
         this.textArea.setAttribute('aria-multiline', 'true');
@@ -219,7 +219,12 @@ export class TextAreaHandler extends ViewPart {
             }
         };
         const textAreaWrapper = this._register(new TextAreaWrapper(this.textArea.domNode));
-        this._textAreaInput = this._register(new TextAreaInput(textAreaInputHost, textAreaWrapper, platform.OS, browser));
+        this._textAreaInput = this._register(new TextAreaInput(textAreaInputHost, textAreaWrapper, platform.OS, {
+            isAndroid: browser.isAndroid,
+            isChrome: browser.isChrome,
+            isFirefox: browser.isFirefox,
+            isSafari: browser.isSafari,
+        }));
         this._register(this._textAreaInput.onKeyDown((e) => {
             this._viewController.emitKeyDown(e);
         }));
@@ -393,7 +398,7 @@ export class TextAreaHandler extends ViewPart {
     }
     _getWordBeforePosition(position) {
         const lineContent = this._context.viewModel.getLineContent(position.lineNumber);
-        const wordSeparators = getMapForWordSeparators(this._context.configuration.options.get(126 /* EditorOption.wordSeparators */));
+        const wordSeparators = getMapForWordSeparators(this._context.configuration.options.get(127 /* EditorOption.wordSeparators */));
         let column = position.column;
         let distance = 0;
         while (column > 1) {
@@ -438,7 +443,7 @@ export class TextAreaHandler extends ViewPart {
         // we will size the textarea to match the width used for wrapping points computation (see `domLineBreaksComputer.ts`).
         // This is because screen readers will read the text in the textarea and we'd like that the
         // wrapping points in the textarea match the wrapping points in the editor.
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         const wrappingColumn = layoutInfo.wrappingColumn;
         if (wrappingColumn !== -1 && this._accessibilitySupport !== 1 /* AccessibilitySupport.Disabled */) {
             const fontInfo = options.get(48 /* EditorOption.fontInfo */);
@@ -453,7 +458,7 @@ export class TextAreaHandler extends ViewPart {
     // --- begin event handlers
     onConfigurationChanged(e) {
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._setAccessibilityOptions(options);
         this._contentLeft = layoutInfo.contentLeft;
         this._contentWidth = layoutInfo.contentWidth;
@@ -466,7 +471,7 @@ export class TextAreaHandler extends ViewPart {
         const { tabSize } = this._context.viewModel.model.getOptions();
         this.textArea.domNode.style.tabSize = `${tabSize * this._fontInfo.spaceWidth}px`;
         this.textArea.setAttribute('aria-label', this._getAriaLabel(options));
-        this.textArea.setAttribute('tabindex', String(options.get(120 /* EditorOption.tabIndex */)));
+        this.textArea.setAttribute('tabindex', String(options.get(121 /* EditorOption.tabIndex */)));
         if (e.hasChanged(32 /* EditorOption.domReadOnly */) || e.hasChanged(88 /* EditorOption.readOnly */)) {
             this._ensureReadOnlyAttribute();
         }

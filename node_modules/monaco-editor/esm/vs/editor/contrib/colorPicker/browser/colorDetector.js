@@ -59,9 +59,9 @@ export let ColorDetector = class ColorDetector extends Disposable {
         this._register(_editor.onDidChangeConfiguration((e) => {
             const prevIsEnabled = this._isColorDecoratorsEnabled;
             this._isColorDecoratorsEnabled = this.isEnabled();
-            this._isDefaultColorDecoratorsEnabled = this._editor.getOption(142 /* EditorOption.defaultColorDecorators */);
+            this._isDefaultColorDecoratorsEnabled = this._editor.getOption(143 /* EditorOption.defaultColorDecorators */);
             const updatedColorDecoratorsSetting = prevIsEnabled !== this._isColorDecoratorsEnabled || e.hasChanged(19 /* EditorOption.colorDecoratorsLimit */);
-            const updatedDefaultColorDecoratorsSetting = e.hasChanged(142 /* EditorOption.defaultColorDecorators */);
+            const updatedDefaultColorDecoratorsSetting = e.hasChanged(143 /* EditorOption.defaultColorDecorators */);
             if (updatedColorDecoratorsSetting || updatedDefaultColorDecoratorsSetting) {
                 if (this._isColorDecoratorsEnabled) {
                     this.updateColors();
@@ -74,7 +74,7 @@ export let ColorDetector = class ColorDetector extends Disposable {
         this._timeoutTimer = null;
         this._computePromise = null;
         this._isColorDecoratorsEnabled = this.isEnabled();
-        this._isDefaultColorDecoratorsEnabled = this._editor.getOption(142 /* EditorOption.defaultColorDecorators */);
+        this._isDefaultColorDecoratorsEnabled = this._editor.getOption(143 /* EditorOption.defaultColorDecorators */);
         this.updateColors();
     }
     isEnabled() {

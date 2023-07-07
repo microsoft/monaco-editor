@@ -163,14 +163,14 @@ export class ContentViewOverlays extends ViewOverlays {
     constructor(context) {
         super(context);
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._contentWidth = layoutInfo.contentWidth;
         this.domNode.setHeight(0);
     }
     // --- begin event handlers
     onConfigurationChanged(e) {
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._contentWidth = layoutInfo.contentWidth;
         return super.onConfigurationChanged(e) || true;
     }
@@ -187,7 +187,7 @@ export class MarginViewOverlays extends ViewOverlays {
     constructor(context) {
         super(context);
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._contentLeft = layoutInfo.contentLeft;
         this.domNode.setClassName('margin-view-overlays');
         this.domNode.setWidth(1);
@@ -196,7 +196,7 @@ export class MarginViewOverlays extends ViewOverlays {
     onConfigurationChanged(e) {
         const options = this._context.configuration.options;
         applyFontInfo(this.domNode, options.get(48 /* EditorOption.fontInfo */));
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._contentLeft = layoutInfo.contentLeft;
         return super.onConfigurationChanged(e) || true;
     }

@@ -62,7 +62,7 @@ export let StickyScrollController = class StickyScrollController extends Disposa
         this._widgetState = new StickyScrollWidgetState([], 0);
         this._readConfiguration();
         this._register(this._editor.onDidChangeConfiguration(e => {
-            if (e.hasChanged(111 /* EditorOption.stickyScroll */)) {
+            if (e.hasChanged(112 /* EditorOption.stickyScroll */)) {
                 this._readConfiguration();
             }
         }));
@@ -250,7 +250,7 @@ export let StickyScrollController = class StickyScrollController extends Disposa
         });
     }
     _readConfiguration() {
-        const options = this._editor.getOption(111 /* EditorOption.stickyScroll */);
+        const options = this._editor.getOption(112 /* EditorOption.stickyScroll */);
         if (options.enabled === false) {
             this._editor.removeOverlayWidget(this._stickyScrollWidget);
             this._sessionStore.clear();
@@ -339,7 +339,7 @@ export let StickyScrollController = class StickyScrollController extends Disposa
     }
     findScrollWidgetState() {
         const lineHeight = this._editor.getOption(64 /* EditorOption.lineHeight */);
-        const maxNumberStickyLines = Math.min(this._maxStickyLines, this._editor.getOption(111 /* EditorOption.stickyScroll */).maxLineCount);
+        const maxNumberStickyLines = Math.min(this._maxStickyLines, this._editor.getOption(112 /* EditorOption.stickyScroll */).maxLineCount);
         const scrollTop = this._editor.getScrollTop();
         let lastLineRelativePosition = 0;
         const lineNumbers = [];

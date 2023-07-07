@@ -17,7 +17,7 @@ export let WordContextKey = class WordContextKey {
         this._editor = _editor;
         this._enabled = false;
         this._ckAtEnd = WordContextKey.AtEnd.bindTo(contextKeyService);
-        this._configListener = this._editor.onDidChangeConfiguration(e => e.hasChanged(119 /* EditorOption.tabCompletion */) && this._update());
+        this._configListener = this._editor.onDidChangeConfiguration(e => e.hasChanged(120 /* EditorOption.tabCompletion */) && this._update());
         this._update();
     }
     dispose() {
@@ -28,7 +28,7 @@ export let WordContextKey = class WordContextKey {
     }
     _update() {
         // only update this when tab completions are enabled
-        const enabled = this._editor.getOption(119 /* EditorOption.tabCompletion */) === 'on';
+        const enabled = this._editor.getOption(120 /* EditorOption.tabCompletion */) === 'on';
         if (this._enabled === enabled) {
             return;
         }

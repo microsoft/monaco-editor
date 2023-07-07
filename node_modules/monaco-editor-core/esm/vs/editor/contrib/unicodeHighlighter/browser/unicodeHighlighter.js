@@ -106,13 +106,13 @@ export let UnicodeHighlighter = class UnicodeHighlighter extends Disposable {
             this._bannerClosed = false;
             this._updateHighlighter();
         }));
-        this._options = _editor.getOption(121 /* EditorOption.unicodeHighlighting */);
+        this._options = _editor.getOption(122 /* EditorOption.unicodeHighlighting */);
         this._register(_workspaceTrustService.onDidChangeTrust(e => {
             this._updateHighlighter();
         }));
         this._register(_editor.onDidChangeConfiguration(e => {
-            if (e.hasChanged(121 /* EditorOption.unicodeHighlighting */)) {
-                this._options = _editor.getOption(121 /* EditorOption.unicodeHighlighting */);
+            if (e.hasChanged(122 /* EditorOption.unicodeHighlighting */)) {
+                this._options = _editor.getOption(122 /* EditorOption.unicodeHighlighting */);
                 this._updateHighlighter();
             }
         }));

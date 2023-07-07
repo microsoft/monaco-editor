@@ -5,12 +5,17 @@
 import { isLowerAsciiLetter, isUpperAsciiLetter } from '../../../../base/common/strings.js';
 import { Range } from '../../../common/core/range.js';
 export class WordSelectionRangeProvider {
+    constructor(selectSubwords = true) {
+        this.selectSubwords = selectSubwords;
+    }
     provideSelectionRanges(model, positions) {
         const result = [];
         for (const position of positions) {
             const bucket = [];
             result.push(bucket);
-            this._addInWordRanges(bucket, model, position);
+            if (this.selectSubwords) {
+                this._addInWordRanges(bucket, model, position);
+            }
             this._addWordRanges(bucket, model, position);
             this._addWhitespaceLine(bucket, model, position);
             bucket.push({ range: model.getFullModelRange() });

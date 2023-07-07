@@ -103,6 +103,7 @@ import { IAudioCueService } from '../../../platform/audioCues/browser/audioCueSe
 import { LogService } from '../../../platform/log/common/logService.js';
 import { getEditorFeatures } from '../../common/editorFeatures.js';
 import { onUnexpectedError } from '../../../base/common/errors.js';
+import { IEnvironmentService } from '../../../platform/environment/common/environment.js';
 class SimpleModel {
     constructor(model) {
         this.disposed = false;
@@ -152,6 +153,12 @@ class StandaloneProgressService {
         return task({
             report: () => { },
         });
+    }
+}
+class StandaloneEnvironmentService {
+    constructor() {
+        this.isExtensionDevelopment = false;
+        this.isBuilt = false;
     }
 }
 class StandaloneDialogService {
@@ -659,6 +666,7 @@ registerSingleton(IWorkspaceContextService, StandaloneWorkspaceContextService, 0
 registerSingleton(ILabelService, StandaloneUriLabelService, 0 /* InstantiationType.Eager */);
 registerSingleton(ITelemetryService, StandaloneTelemetryService, 0 /* InstantiationType.Eager */);
 registerSingleton(IDialogService, StandaloneDialogService, 0 /* InstantiationType.Eager */);
+registerSingleton(IEnvironmentService, StandaloneEnvironmentService, 0 /* InstantiationType.Eager */);
 registerSingleton(INotificationService, StandaloneNotificationService, 0 /* InstantiationType.Eager */);
 registerSingleton(IMarkerService, MarkerService, 0 /* InstantiationType.Eager */);
 registerSingleton(ILanguageService, StandaloneLanguageService, 0 /* InstantiationType.Eager */);

@@ -9,7 +9,7 @@ class LongLinesHelper extends Disposable {
         super();
         this._editor = _editor;
         this._register(this._editor.onMouseDown((e) => {
-            const stopRenderingLineAfter = this._editor.getOption(113 /* EditorOption.stopRenderingLineAfter */);
+            const stopRenderingLineAfter = this._editor.getOption(114 /* EditorOption.stopRenderingLineAfter */);
             if (stopRenderingLineAfter >= 0 && e.target.type === 6 /* MouseTargetType.CONTENT_TEXT */ && e.target.position.column >= stopRenderingLineAfter) {
                 this._editor.updateOptions({
                     stopRenderingLineAfter: -1

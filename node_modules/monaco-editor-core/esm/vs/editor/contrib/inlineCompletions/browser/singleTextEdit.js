@@ -51,7 +51,11 @@ export class SingleTextEdit {
             //                         ^^ suggestionAddedIndentationLength
             const suggestionAddedIndentationLength = getLeadingWhitespace(edit.text).length;
             const replacedIndentation = sourceLine.substring(edit.range.startColumn - 1, sourceIndentationLength);
-            const rangeThatDoesNotReplaceIndentation = Range.fromPositions(edit.range.getStartPosition().delta(0, replacedIndentation.length), edit.range.getEndPosition());
+            const [startPosition, endPosition] = [edit.range.getStartPosition(), edit.range.getEndPosition()];
+            const newStartPosition = startPosition.column + replacedIndentation.length <= endPosition.column
+                ? startPosition.delta(0, replacedIndentation.length)
+                : endPosition;
+            const rangeThatDoesNotReplaceIndentation = Range.fromPositions(newStartPosition, endPosition);
             const suggestionWithoutIndentationChange = edit.text.startsWith(replacedIndentation)
                 // Adds more indentation without changing existing indentation: We can add ghost text for this
                 ? edit.text.substring(replacedIndentation.length)

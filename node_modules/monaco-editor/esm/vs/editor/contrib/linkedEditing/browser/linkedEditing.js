@@ -71,7 +71,7 @@ export let LinkedEditingContribution = class LinkedEditingContribution extends D
         this._currentRequestModelVersion = null;
         this._register(this._editor.onDidChangeModel(() => this.reinitialize(true)));
         this._register(this._editor.onDidChangeConfiguration(e => {
-            if (e.hasChanged(67 /* EditorOption.linkedEditing */) || e.hasChanged(89 /* EditorOption.renameOnType */)) {
+            if (e.hasChanged(67 /* EditorOption.linkedEditing */) || e.hasChanged(90 /* EditorOption.renameOnType */)) {
                 this.reinitialize(false);
             }
         }));
@@ -81,7 +81,7 @@ export let LinkedEditingContribution = class LinkedEditingContribution extends D
     }
     reinitialize(forceRefresh) {
         const model = this._editor.getModel();
-        const isEnabled = model !== null && (this._editor.getOption(67 /* EditorOption.linkedEditing */) || this._editor.getOption(89 /* EditorOption.renameOnType */)) && this._providers.has(model);
+        const isEnabled = model !== null && (this._editor.getOption(67 /* EditorOption.linkedEditing */) || this._editor.getOption(90 /* EditorOption.renameOnType */)) && this._providers.has(model);
         if (isEnabled === this._enabled && !forceRefresh) {
             return;
         }

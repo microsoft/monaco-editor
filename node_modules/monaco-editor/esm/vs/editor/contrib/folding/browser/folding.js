@@ -85,7 +85,7 @@ export let FoldingController = class FoldingController extends Disposable {
         this.cursorChangedScheduler = null;
         this.mouseDownInfo = null;
         this.foldingDecorationProvider = new FoldingDecorationProvider(editor);
-        this.foldingDecorationProvider.showFoldingControls = options.get(106 /* EditorOption.showFoldingControls */);
+        this.foldingDecorationProvider.showFoldingControls = options.get(107 /* EditorOption.showFoldingControls */);
         this.foldingDecorationProvider.showFoldingHighlights = options.get(43 /* EditorOption.foldingHighlight */);
         this.foldingEnabled = CONTEXT_FOLDING_ENABLED.bindTo(this.contextKeyService);
         this.foldingEnabled.set(this._isEnabled);
@@ -99,9 +99,9 @@ export let FoldingController = class FoldingController extends Disposable {
             if (e.hasChanged(45 /* EditorOption.foldingMaximumRegions */)) {
                 this.onModelChanged();
             }
-            if (e.hasChanged(106 /* EditorOption.showFoldingControls */) || e.hasChanged(43 /* EditorOption.foldingHighlight */)) {
+            if (e.hasChanged(107 /* EditorOption.showFoldingControls */) || e.hasChanged(43 /* EditorOption.foldingHighlight */)) {
                 const options = this.editor.getOptions();
-                this.foldingDecorationProvider.showFoldingControls = options.get(106 /* EditorOption.showFoldingControls */);
+                this.foldingDecorationProvider.showFoldingControls = options.get(107 /* EditorOption.showFoldingControls */);
                 this.foldingDecorationProvider.showFoldingHighlights = options.get(43 /* EditorOption.foldingHighlight */);
                 this.triggerFoldingModelChanged();
             }
@@ -235,7 +235,7 @@ export let FoldingController = class FoldingController extends Disposable {
                 if (!foldingModel) { // null if editor has been disposed, or folding turned off
                     return null;
                 }
-                const sw = new StopWatch(true);
+                const sw = new StopWatch();
                 const provider = this.getRangeProvider(foldingModel.textModel);
                 const foldingRegionPromise = this.foldingRegionPromise = createCancelablePromise(token => provider.compute(token));
                 return foldingRegionPromise.then(foldingRanges => {
@@ -324,7 +324,7 @@ export let FoldingController = class FoldingController extends Disposable {
                 const gutterOffsetX = data.offsetX - offsetLeftInGutter;
                 // const gutterOffsetX = data.offsetX - data.glyphMarginWidth - data.lineNumbersWidth - data.glyphMarginLeft;
                 // TODO@joao TODO@alex TODO@martin this is such that we don't collide with dirty diff
-                if (gutterOffsetX < 5) { // the whitespace between the border and the real folding icon border is 5px
+                if (gutterOffsetX < 4) { // the whitespace between the border and the real folding icon border is 4px
                     return;
                 }
                 iconClicked = true;

@@ -11,6 +11,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import * as dom from '../../../base/browser/dom.js';
 import { createFastDomNode } from '../../../base/browser/fastDomNode.js';
 import { createTrustedTypesPolicy } from '../../../base/browser/trustedTypes.js';
@@ -102,6 +111,7 @@ class VisualEditorState {
             for (let i = 0, length = newDecorations.zones.length; i < length; i++) {
                 const viewZone = newDecorations.zones[i];
                 viewZone.suppressMouseDown = true;
+                viewZone.showInHiddenAreas = true;
                 const zoneId = viewChangeAccessor.addZone(viewZone);
                 this._zones.push(zoneId);
                 this._zonesMap[String(zoneId)] = true;
@@ -126,7 +136,7 @@ class VisualEditorState {
 let DIFF_EDITOR_ID = 0;
 const diffInsertIcon = registerIcon('diff-insert', Codicon.add, nls.localize('diffInsertIcon', 'Line decoration for inserts in the diff editor.'));
 const diffRemoveIcon = registerIcon('diff-remove', Codicon.remove, nls.localize('diffRemoveIcon', 'Line decoration for removals in the diff editor.'));
-const ttPolicy = createTrustedTypesPolicy('diffEditorWidget', { createHTML: value => value });
+export const diffEditorWidgetTtPolicy = createTrustedTypesPolicy('diffEditorWidget', { createHTML: value => value });
 const ariaNavigationTip = nls.localize('diff-aria-navigation-tip', ' use Shift + F7 to navigate changes');
 export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
     constructor(domElement, options, codeEditorWidgetOptions, clipboardService, contextKeyService, instantiationService, codeEditorService, themeService, notificationService, contextMenuService, _editorProgressService) {
@@ -173,6 +183,7 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
             experimental: {
                 collapseUnchangedRegions: false,
             },
+            isInEmbeddedEditor: false,
         });
         this.isEmbeddedDiffEditorKey = EditorContextKeys.isEmbeddedDiffEditor.bindTo(this._contextKeyService);
         this.isEmbeddedDiffEditorKey.set(typeof options.isInEmbeddedEditor !== 'undefined' ? options.isInEmbeddedEditor : false);
@@ -335,7 +346,7 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
             if (e.hasChanged(48 /* EditorOption.fontInfo */)) {
                 this._updateDecorationsRunner.schedule();
             }
-            if (e.hasChanged(141 /* EditorOption.wrappingInfo */)) {
+            if (e.hasChanged(142 /* EditorOption.wrappingInfo */)) {
                 this._updateDecorationsRunner.cancel();
                 this._updateDecorations();
             }
@@ -391,7 +402,7 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
             if (e.hasChanged(48 /* EditorOption.fontInfo */)) {
                 this._updateDecorationsRunner.schedule();
             }
-            if (e.hasChanged(141 /* EditorOption.wrappingInfo */)) {
+            if (e.hasChanged(142 /* EditorOption.wrappingInfo */)) {
                 this._updateDecorationsRunner.cancel();
                 this._updateDecorations();
             }
@@ -591,7 +602,20 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
             modified: this._modifiedEditor.getModel()
         };
     }
+    createViewModel(model) {
+        return {
+            model,
+            waitForDiff() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    // noop
+                });
+            },
+        };
+    }
     setModel(model) {
+        if (model && 'model' in model) {
+            model = model.model;
+        }
         // Guard us against partial null model
         if (model && (!model.original || !model.modified)) {
             throw new Error(!model.original ? 'DiffEditorWidget.setModel: Original model is null' : 'DiffEditorWidget.setModel: Modified model is null');
@@ -725,7 +749,7 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
         const modifiedViewState = this._modifiedEditor.saveViewState();
         return {
             original: originalViewState,
-            modified: modifiedViewState
+            modified: modifiedViewState,
         };
     }
     restoreViewState(s) {
@@ -833,6 +857,7 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
         this._documentDiffProvider.computeDiff(currentOriginalModel, currentModifiedModel, {
             ignoreTrimWhitespace: this._options.ignoreTrimWhitespace,
             maxComputationTimeMs: this._options.maxComputationTime,
+            computeMoves: false,
         }).then(result => {
             if (currentToken === this._diffComputationToken
                 && currentOriginalModel === this._originalEditor.getModel()
@@ -944,6 +969,7 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
             // never wrap hidden editor
             result.wordWrapOverride1 = 'off';
             result.wordWrapOverride2 = 'off';
+            result.stickyScroll = { enabled: false };
         }
         else {
             result.wordWrapOverride1 = this._options.diffWordWrap;
@@ -1082,80 +1108,6 @@ export let DiffEditorWidget = class DiffEditorWidget extends Disposable {
         // Just do a layout, the strategy might need it
         this._doLayout();
     }
-    _getLineChangeAtOrBeforeLineNumber(lineNumber, startLineNumberExtractor) {
-        const lineChanges = (this._diffComputationResult ? this._diffComputationResult.changes : []);
-        if (lineChanges.length === 0 || lineNumber < startLineNumberExtractor(lineChanges[0])) {
-            // There are no changes or `lineNumber` is before the first change
-            return null;
-        }
-        let min = 0;
-        let max = lineChanges.length - 1;
-        while (min < max) {
-            const mid = Math.floor((min + max) / 2);
-            const midStart = startLineNumberExtractor(lineChanges[mid]);
-            const midEnd = (mid + 1 <= max ? startLineNumberExtractor(lineChanges[mid + 1]) : 1073741824 /* Constants.MAX_SAFE_SMALL_INTEGER */);
-            if (lineNumber < midStart) {
-                max = mid - 1;
-            }
-            else if (lineNumber >= midEnd) {
-                min = mid + 1;
-            }
-            else {
-                // HIT!
-                min = mid;
-                max = mid;
-            }
-        }
-        return lineChanges[min];
-    }
-    _getEquivalentLineForOriginalLineNumber(lineNumber) {
-        const lineChange = this._getLineChangeAtOrBeforeLineNumber(lineNumber, (lineChange) => lineChange.originalStartLineNumber);
-        if (!lineChange) {
-            return lineNumber;
-        }
-        const originalEquivalentLineNumber = lineChange.originalStartLineNumber + (lineChange.originalEndLineNumber > 0 ? -1 : 0);
-        const modifiedEquivalentLineNumber = lineChange.modifiedStartLineNumber + (lineChange.modifiedEndLineNumber > 0 ? -1 : 0);
-        const lineChangeOriginalLength = (lineChange.originalEndLineNumber > 0 ? (lineChange.originalEndLineNumber - lineChange.originalStartLineNumber + 1) : 0);
-        const lineChangeModifiedLength = (lineChange.modifiedEndLineNumber > 0 ? (lineChange.modifiedEndLineNumber - lineChange.modifiedStartLineNumber + 1) : 0);
-        const delta = lineNumber - originalEquivalentLineNumber;
-        if (delta <= lineChangeOriginalLength) {
-            return modifiedEquivalentLineNumber + Math.min(delta, lineChangeModifiedLength);
-        }
-        return modifiedEquivalentLineNumber + lineChangeModifiedLength - lineChangeOriginalLength + delta;
-    }
-    _getEquivalentLineForModifiedLineNumber(lineNumber) {
-        const lineChange = this._getLineChangeAtOrBeforeLineNumber(lineNumber, (lineChange) => lineChange.modifiedStartLineNumber);
-        if (!lineChange) {
-            return lineNumber;
-        }
-        const originalEquivalentLineNumber = lineChange.originalStartLineNumber + (lineChange.originalEndLineNumber > 0 ? -1 : 0);
-        const modifiedEquivalentLineNumber = lineChange.modifiedStartLineNumber + (lineChange.modifiedEndLineNumber > 0 ? -1 : 0);
-        const lineChangeOriginalLength = (lineChange.originalEndLineNumber > 0 ? (lineChange.originalEndLineNumber - lineChange.originalStartLineNumber + 1) : 0);
-        const lineChangeModifiedLength = (lineChange.modifiedEndLineNumber > 0 ? (lineChange.modifiedEndLineNumber - lineChange.modifiedStartLineNumber + 1) : 0);
-        const delta = lineNumber - modifiedEquivalentLineNumber;
-        if (delta <= lineChangeModifiedLength) {
-            return originalEquivalentLineNumber + Math.min(delta, lineChangeOriginalLength);
-        }
-        return originalEquivalentLineNumber + lineChangeOriginalLength - lineChangeModifiedLength + delta;
-    }
-    getDiffLineInformationForOriginal(lineNumber) {
-        if (!this._diffComputationResult) {
-            // Cannot answer that which I don't know
-            return null;
-        }
-        return {
-            equivalentLineNumber: this._getEquivalentLineForOriginalLineNumber(lineNumber)
-        };
-    }
-    getDiffLineInformationForModified(lineNumber) {
-        if (!this._diffComputationResult) {
-            // Cannot answer that which I don't know
-            return null;
-        }
-        return {
-            equivalentLineNumber: this._getEquivalentLineForModifiedLineNumber(lineNumber)
-        };
-    }
 };
 DiffEditorWidget.ONE_OVERVIEW_WIDTH = 15;
 DiffEditorWidget.ENTIRE_DIFF_OVERVIEW_WIDTH = 30;
@@ -1251,8 +1203,8 @@ class ViewZonesComputer {
     getViewZones() {
         const originalLineHeight = this._originalEditor.getOption(64 /* EditorOption.lineHeight */);
         const modifiedLineHeight = this._modifiedEditor.getOption(64 /* EditorOption.lineHeight */);
-        const originalHasWrapping = (this._originalEditor.getOption(141 /* EditorOption.wrappingInfo */).wrappingColumn !== -1);
-        const modifiedHasWrapping = (this._modifiedEditor.getOption(141 /* EditorOption.wrappingInfo */).wrappingColumn !== -1);
+        const originalHasWrapping = (this._originalEditor.getOption(142 /* EditorOption.wrappingInfo */).wrappingColumn !== -1);
+        const modifiedHasWrapping = (this._modifiedEditor.getOption(142 /* EditorOption.wrappingInfo */).wrappingColumn !== -1);
         const hasWrapping = (originalHasWrapping || modifiedHasWrapping);
         const originalModel = this._originalEditor.getModel();
         const originalCoordinatesConverter = this._originalEditor._getViewModel().coordinatesConverter;
@@ -1941,15 +1893,15 @@ class InlineViewZonesComputer extends ViewZonesComputer {
         const fontInfo = modifiedEditorOptions.get(48 /* EditorOption.fontInfo */);
         const disableMonospaceOptimizations = modifiedEditorOptions.get(31 /* EditorOption.disableMonospaceOptimizations */);
         const typicalHalfwidthCharacterWidth = fontInfo.typicalHalfwidthCharacterWidth;
-        const scrollBeyondLastColumn = modifiedEditorOptions.get(100 /* EditorOption.scrollBeyondLastColumn */);
+        const scrollBeyondLastColumn = modifiedEditorOptions.get(101 /* EditorOption.scrollBeyondLastColumn */);
         const mightContainNonBasicASCII = this._originalModel.mightContainNonBasicASCII();
         const mightContainRTL = this._originalModel.mightContainRTL();
         const lineHeight = modifiedEditorOptions.get(64 /* EditorOption.lineHeight */);
-        const layoutInfo = modifiedEditorOptions.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = modifiedEditorOptions.get(141 /* EditorOption.layoutInfo */);
         const lineDecorationsWidth = layoutInfo.decorationsWidth;
-        const stopRenderingLineAfter = modifiedEditorOptions.get(113 /* EditorOption.stopRenderingLineAfter */);
-        const renderWhitespace = modifiedEditorOptions.get(95 /* EditorOption.renderWhitespace */);
-        const renderControlCharacters = modifiedEditorOptions.get(90 /* EditorOption.renderControlCharacters */);
+        const stopRenderingLineAfter = modifiedEditorOptions.get(114 /* EditorOption.stopRenderingLineAfter */);
+        const renderWhitespace = modifiedEditorOptions.get(96 /* EditorOption.renderWhitespace */);
+        const renderControlCharacters = modifiedEditorOptions.get(91 /* EditorOption.renderControlCharacters */);
         const fontLigatures = modifiedEditorOptions.get(49 /* EditorOption.fontLigatures */);
         const lineBreaks = this._lineBreaksComputer.finalize();
         let lineBreakIndex = 0;
@@ -2012,7 +1964,7 @@ class InlineViewZonesComputer extends ViewZonesComputer {
             }
             maxCharsPerLine += scrollBeyondLastColumn;
             const html = sb.build();
-            const trustedhtml = ttPolicy ? ttPolicy.createHTML(html) : html;
+            const trustedhtml = diffEditorWidgetTtPolicy ? diffEditorWidgetTtPolicy.createHTML(html) : html;
             domNode.innerHTML = trustedhtml;
             viewZone.minWidthInPx = (maxCharsPerLine * typicalHalfwidthCharacterWidth);
             if (viewLineCounts) {
@@ -2107,6 +2059,7 @@ function validateDiffEditorOptions(options, defaults) {
         experimental: {
             collapseUnchangedRegions: false,
         },
+        isInEmbeddedEditor: validateBooleanOption(options.isInEmbeddedEditor, defaults.isInEmbeddedEditor),
     };
 }
 function changedDiffEditorOptions(a, b) {

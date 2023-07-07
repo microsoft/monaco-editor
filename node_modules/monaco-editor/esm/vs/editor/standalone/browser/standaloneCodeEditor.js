@@ -38,6 +38,7 @@ import { StandaloneCodeEditorService } from './standaloneCodeEditorService.js';
 import { PLAINTEXT_LANGUAGE_ID } from '../../common/languages/modesRegistry.js';
 import { ILanguageConfigurationService } from '../../common/languages/languageConfigurationRegistry.js';
 import { ILanguageFeaturesService } from '../../common/services/languageFeatures.js';
+import { DiffEditorWidget2 } from '../../browser/widget/diffEditorWidget2/diffEditorWidget2.js';
 let LAST_GENERATED_COMMAND_ID = 0;
 let ariaDomNodeCreated = false;
 /**
@@ -295,6 +296,65 @@ StandaloneDiffEditor = __decorate([
     __param(9, IEditorProgressService),
     __param(10, IClipboardService)
 ], StandaloneDiffEditor);
+export let StandaloneDiffEditor2 = class StandaloneDiffEditor2 extends DiffEditorWidget2 {
+    constructor(domElement, _options, instantiationService, contextKeyService, codeEditorService, themeService, notificationService, configurationService, contextMenuService, editorProgressService, clipboardService) {
+        const options = Object.assign({}, _options);
+        updateConfigurationService(configurationService, options, true);
+        const themeDomRegistration = themeService.registerEditorContainer(domElement);
+        if (typeof options.theme === 'string') {
+            themeService.setTheme(options.theme);
+        }
+        if (typeof options.autoDetectHighContrast !== 'undefined') {
+            themeService.setAutoDetectHighContrast(Boolean(options.autoDetectHighContrast));
+        }
+        super(domElement, options, {}, contextKeyService, instantiationService, codeEditorService);
+        this._configurationService = configurationService;
+        this._standaloneThemeService = themeService;
+        this._register(themeDomRegistration);
+    }
+    dispose() {
+        super.dispose();
+    }
+    updateOptions(newOptions) {
+        updateConfigurationService(this._configurationService, newOptions, true);
+        if (typeof newOptions.theme === 'string') {
+            this._standaloneThemeService.setTheme(newOptions.theme);
+        }
+        if (typeof newOptions.autoDetectHighContrast !== 'undefined') {
+            this._standaloneThemeService.setAutoDetectHighContrast(Boolean(newOptions.autoDetectHighContrast));
+        }
+        super.updateOptions(newOptions);
+    }
+    _createInnerEditor(instantiationService, container, options) {
+        return instantiationService.createInstance(StandaloneCodeEditor, container, options);
+    }
+    getOriginalEditor() {
+        return super.getOriginalEditor();
+    }
+    getModifiedEditor() {
+        return super.getModifiedEditor();
+    }
+    addCommand(keybinding, handler, context) {
+        return this.getModifiedEditor().addCommand(keybinding, handler, context);
+    }
+    createContextKey(key, defaultValue) {
+        return this.getModifiedEditor().createContextKey(key, defaultValue);
+    }
+    addAction(descriptor) {
+        return this.getModifiedEditor().addAction(descriptor);
+    }
+};
+StandaloneDiffEditor2 = __decorate([
+    __param(2, IInstantiationService),
+    __param(3, IContextKeyService),
+    __param(4, ICodeEditorService),
+    __param(5, IStandaloneThemeService),
+    __param(6, INotificationService),
+    __param(7, IConfigurationService),
+    __param(8, IContextMenuService),
+    __param(9, IEditorProgressService),
+    __param(10, IClipboardService)
+], StandaloneDiffEditor2);
 /**
  * @internal
  */

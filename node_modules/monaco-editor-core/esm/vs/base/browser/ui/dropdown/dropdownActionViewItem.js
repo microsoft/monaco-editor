@@ -45,7 +45,8 @@ export class DropdownMenuActionViewItem extends BaseActionViewItem {
             labelRenderer: labelRenderer,
             menuAsChild: this.options.menuAsChild,
             actions: isActionsArray ? this.menuActionsOrProvider : undefined,
-            actionProvider: isActionsArray ? undefined : this.menuActionsOrProvider
+            actionProvider: isActionsArray ? undefined : this.menuActionsOrProvider,
+            skipTelemetry: this.options.skipTelemetry
         };
         this.dropdownMenu = this._register(new DropdownMenu(container, options));
         this._register(this.dropdownMenu.onDidChangeVisibility(visible => {

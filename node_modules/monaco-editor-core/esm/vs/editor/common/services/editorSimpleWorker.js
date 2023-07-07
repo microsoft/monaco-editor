@@ -267,15 +267,13 @@ export class EditorSimpleWorker {
         });
     }
     static computeDiff(originalTextModel, modifiedTextModel, options, algorithm) {
-        const diffAlgorithm = algorithm === 'advanced' ? linesDiffComputers.advanced : linesDiffComputers.legacy;
+        const diffAlgorithm = algorithm === 'advanced' ? linesDiffComputers.getAdvanced() : linesDiffComputers.getLegacy();
         const originalLines = originalTextModel.getLinesContent();
         const modifiedLines = modifiedTextModel.getLinesContent();
         const result = diffAlgorithm.computeDiff(originalLines, modifiedLines, options);
         const identical = (result.changes.length > 0 ? false : this._modelsAreIdentical(originalTextModel, modifiedTextModel));
-        return {
-            identical,
-            quitEarly: result.hitTimeout,
-            changes: result.changes.map(m => {
+        function getLineChanges(changes) {
+            return changes.map(m => {
                 var _a;
                 return ([m.originalRange.startLineNumber, m.originalRange.endLineNumberExclusive, m.modifiedRange.startLineNumber, m.modifiedRange.endLineNumberExclusive, (_a = m.innerChanges) === null || _a === void 0 ? void 0 : _a.map(m => [
                         m.originalRange.startLineNumber,
@@ -287,7 +285,19 @@ export class EditorSimpleWorker {
                         m.modifiedRange.endLineNumber,
                         m.modifiedRange.endColumn,
                     ])]);
-            })
+            });
+        }
+        return {
+            identical,
+            quitEarly: result.hitTimeout,
+            changes: getLineChanges(result.changes),
+            moves: result.moves.map(m => ([
+                m.lineRangeMapping.originalRange.startLineNumber,
+                m.lineRangeMapping.originalRange.endLineNumberExclusive,
+                m.lineRangeMapping.modifiedRange.startLineNumber,
+                m.lineRangeMapping.modifiedRange.endLineNumberExclusive,
+                getLineChanges(m.changes)
+            ])),
         };
     }
     static _modelsAreIdentical(original, modified) {
@@ -384,7 +394,7 @@ export class EditorSimpleWorker {
     }
     textualSuggest(modelUrls, leadingWord, wordDef, wordDefFlags) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sw = new StopWatch(true);
+            const sw = new StopWatch();
             const wordDefRegExp = new RegExp(wordDef, wordDefFlags);
             const seen = new Set();
             outer: for (const url of modelUrls) {

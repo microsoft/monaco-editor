@@ -26,7 +26,7 @@ export class WhitespaceOverlay extends DynamicViewOverlay {
     onConfigurationChanged(e) {
         const newOptions = new WhitespaceOptions(this._context.configuration);
         if (this._options.equals(newOptions)) {
-            return e.hasChanged(140 /* EditorOption.layoutInfo */);
+            return e.hasChanged(141 /* EditorOption.layoutInfo */);
         }
         this._options = newOptions;
         return true;
@@ -241,11 +241,11 @@ class WhitespaceOptions {
             this.renderWithSVG = false;
         }
         else if (experimentalWhitespaceRendering === 'svg') {
-            this.renderWhitespace = options.get(95 /* EditorOption.renderWhitespace */);
+            this.renderWhitespace = options.get(96 /* EditorOption.renderWhitespace */);
             this.renderWithSVG = true;
         }
         else {
-            this.renderWhitespace = options.get(95 /* EditorOption.renderWhitespace */);
+            this.renderWhitespace = options.get(96 /* EditorOption.renderWhitespace */);
             this.renderWithSVG = false;
         }
         this.spaceWidth = fontInfo.spaceWidth;
@@ -253,7 +253,7 @@ class WhitespaceOptions {
         this.wsmiddotWidth = fontInfo.wsmiddotWidth;
         this.canUseHalfwidthRightwardsArrow = fontInfo.canUseHalfwidthRightwardsArrow;
         this.lineHeight = options.get(64 /* EditorOption.lineHeight */);
-        this.stopRenderingLineAfter = options.get(113 /* EditorOption.stopRenderingLineAfter */);
+        this.stopRenderingLineAfter = options.get(114 /* EditorOption.stopRenderingLineAfter */);
     }
     equals(other) {
         return (this.renderWhitespace === other.renderWhitespace

@@ -23,7 +23,7 @@ import * as nls from '../../../../nls.js';
 import { ContextKeyExpr } from '../../../../platform/contextkey/common/contextkey.js';
 import { IInstantiationService } from '../../../../platform/instantiation/common/instantiation.js';
 import { ParameterHintsWidget } from './parameterHintsWidget.js';
-let ParameterHintsController = class ParameterHintsController extends Disposable {
+export let ParameterHintsController = class ParameterHintsController extends Disposable {
     static get(editor) {
         return editor.getContribution(ParameterHintsController.ID);
     }

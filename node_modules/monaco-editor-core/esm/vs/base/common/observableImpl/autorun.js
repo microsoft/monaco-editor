@@ -8,6 +8,9 @@ import { getLogger } from './logging.js';
 export function autorun(debugName, fn) {
     return new AutorunObserver(debugName, fn, undefined, undefined);
 }
+export function autorunHandleChanges(debugName, options, fn) {
+    return new AutorunObserver(debugName, fn, options.createEmptyChangeSummary, options.handleChange);
+}
 // TODO@hediet rename to autorunWithStore
 export function autorunWithStore2(debugName, fn) {
     return autorunWithStore(fn, debugName);

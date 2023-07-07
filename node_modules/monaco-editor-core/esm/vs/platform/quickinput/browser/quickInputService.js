@@ -151,7 +151,8 @@ export let QuickInputService = class QuickInputService extends Themable {
             pickerGroup: {
                 pickerGroupBorder: asCssVariable(pickerGroupBorder),
                 pickerGroupForeground: asCssVariable(pickerGroupForeground),
-            }
+            },
+            colorScheme: this.themeService.getColorTheme().type
         };
     }
 };

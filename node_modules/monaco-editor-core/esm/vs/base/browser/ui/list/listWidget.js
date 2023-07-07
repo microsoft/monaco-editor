@@ -108,11 +108,19 @@ class Trait {
         deleteCount = Math.max(0, Math.min(deleteCount, this.length - start));
         const diff = elements.length - deleteCount;
         const end = start + deleteCount;
-        const sortedIndexes = [
-            ...this.sortedIndexes.filter(i => i < start),
-            ...elements.map((hasTrait, i) => hasTrait ? i + start : -1).filter(i => i !== -1),
-            ...this.sortedIndexes.filter(i => i >= end).map(i => i + diff)
-        ];
+        const sortedIndexes = [];
+        let i = 0;
+        while (i < this.sortedIndexes.length && this.sortedIndexes[i] < start) {
+            sortedIndexes.push(this.sortedIndexes[i++]);
+        }
+        for (let j = 0; j < elements.length; j++) {
+            if (elements[j]) {
+                sortedIndexes.push(j + start);
+            }
+        }
+        while (i < this.sortedIndexes.length && this.sortedIndexes[i] >= end) {
+            sortedIndexes.push(this.sortedIndexes[i++] + diff);
+        }
         const length = this.length + diff;
         if (this.sortedIndexes.length > 0 && sortedIndexes.length === 0 && length > 0) {
             const first = (_a = this.sortedIndexes.find(index => index >= start)) !== null && _a !== void 0 ? _a : length - 1;
@@ -190,10 +198,14 @@ class TraitSpliceable {
     }
     splice(start, deleteCount, elements) {
         if (!this.identityProvider) {
-            return this.trait.splice(start, deleteCount, elements.map(() => false));
+            return this.trait.splice(start, deleteCount, new Array(elements.length).fill(false));
         }
         const pastElementsWithTrait = this.trait.get().map(i => this.identityProvider.getId(this.view.element(i)).toString());
-        const elementsWithTrait = elements.map(e => pastElementsWithTrait.indexOf(this.identityProvider.getId(e).toString()) > -1);
+        if (pastElementsWithTrait.length === 0) {
+            return this.trait.splice(start, deleteCount, new Array(elements.length).fill(false));
+        }
+        const pastElementsWithTraitSet = new Set(pastElementsWithTrait);
+        const elementsWithTrait = elements.map(e => pastElementsWithTraitSet.has(this.identityProvider.getId(e).toString()));
         this.trait.splice(start, deleteCount, elementsWithTrait);
     }
 }

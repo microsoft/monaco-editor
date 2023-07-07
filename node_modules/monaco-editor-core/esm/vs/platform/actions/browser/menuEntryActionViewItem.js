@@ -141,32 +141,20 @@ export let MenuEntryActionViewItem = class MenuEntryActionViewItem extends Actio
         if (this.options.icon) {
             this._updateItemClass(this._menuItemAction.item);
         }
-        let mouseOver = false;
-        let alternativeKeyDown = this._altKey.keyStatus.altKey || ((isWindows || isLinux) && this._altKey.keyStatus.shiftKey);
-        const updateAltState = () => {
-            var _a;
-            const wantsAltCommand = mouseOver && alternativeKeyDown && !!((_a = this._commandAction.alt) === null || _a === void 0 ? void 0 : _a.enabled);
-            if (wantsAltCommand !== this._wantsAltCommand) {
-                this._wantsAltCommand = wantsAltCommand;
-                this.updateLabel();
-                this.updateTooltip();
-                this.updateClass();
-            }
-        };
         if (this._menuItemAction.alt) {
-            this._register(this._altKey.event(value => {
-                alternativeKeyDown = value.altKey || ((isWindows || isLinux) && value.shiftKey);
-                updateAltState();
-            }));
+            const updateAltState = (keyStatus) => {
+                var _a;
+                const wantsAltCommand = !!((_a = this._commandAction.alt) === null || _a === void 0 ? void 0 : _a.enabled) && (keyStatus.altKey || ((isWindows || isLinux) && keyStatus.shiftKey));
+                if (wantsAltCommand !== this._wantsAltCommand) {
+                    this._wantsAltCommand = wantsAltCommand;
+                    this.updateLabel();
+                    this.updateTooltip();
+                    this.updateClass();
+                }
+            };
+            this._register(this._altKey.event(updateAltState));
+            updateAltState(this._altKey.keyStatus);
         }
-        this._register(addDisposableListener(container, 'mouseleave', _ => {
-            mouseOver = false;
-            updateAltState();
-        }));
-        this._register(addDisposableListener(container, 'mouseenter', _ => {
-            mouseOver = true;
-            updateAltState();
-        }));
     }
     updateLabel() {
         if (this.options.label && this.label) {

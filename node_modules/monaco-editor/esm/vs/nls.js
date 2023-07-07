@@ -72,19 +72,29 @@ function createScopedLocalize(scope) {
         return _format(scope[idx], restArgs);
     };
 }
+/**
+ * @skipMangle
+ */
 export function localize(data, message, ...args) {
     return _format(message, args);
 }
+/**
+ * @skipMangle
+ */
 export function getConfiguredDefaultLocale(_) {
     // This returns undefined because this implementation isn't used and is overwritten by the loader
     // when loaded.
     return undefined;
 }
+/**
+ * @skipMangle
+ */
 export function setPseudoTranslation(value) {
     isPseudo = value;
 }
 /**
  * Invoked in a built product at run-time
+ * @skipMangle
  */
 export function create(key, data) {
     var _a;
@@ -95,11 +105,13 @@ export function create(key, data) {
 }
 /**
  * Invoked by the loader at run-time
+ * @skipMangle
  */
 export function load(name, req, load, config) {
     var _a;
     const pluginConfig = (_a = config['vs/nls']) !== null && _a !== void 0 ? _a : {};
     if (!name || name.length === 0) {
+        // TODO: We need to give back the mangled names here
         return load({
             localize: localize,
             getConfiguredDefaultLocale: () => { var _a; return (_a = pluginConfig.availableLanguages) === null || _a === void 0 ? void 0 : _a['*']; }

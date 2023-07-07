@@ -23,7 +23,7 @@ export class MouseHandler extends ViewEventHandler {
         this.mouseTargetFactory = new MouseTargetFactory(this._context, viewHelper);
         this._mouseDownOperation = this._register(new MouseDownOperation(this._context, this.viewController, this.viewHelper, this.mouseTargetFactory, (e, testEventTarget) => this._createMouseTarget(e, testEventTarget), (e) => this._getMouseColumn(e)));
         this.lastMouseLeaveTime = -1;
-        this._height = this._context.configuration.options.get(140 /* EditorOption.layoutInfo */).height;
+        this._height = this._context.configuration.options.get(141 /* EditorOption.layoutInfo */).height;
         const mouseEvents = new EditorMouseEventFactory(this.viewHelper.viewDomNode);
         this._register(mouseEvents.onContextMenu(this.viewHelper.viewDomNode, (e) => this._onContextMenu(e, true)));
         this._register(mouseEvents.onMouseMove(this.viewHelper.viewDomNode, (e) => {
@@ -125,9 +125,9 @@ export class MouseHandler extends ViewEventHandler {
     }
     // --- begin event handlers
     onConfigurationChanged(e) {
-        if (e.hasChanged(140 /* EditorOption.layoutInfo */)) {
+        if (e.hasChanged(141 /* EditorOption.layoutInfo */)) {
             // layout change
-            const height = this._context.configuration.options.get(140 /* EditorOption.layoutInfo */).height;
+            const height = this._context.configuration.options.get(141 /* EditorOption.layoutInfo */).height;
             if (this._height !== height) {
                 this._height = height;
                 this._mouseDownOperation.onHeightChanged();
@@ -213,7 +213,7 @@ export class MouseHandler extends ViewEventHandler {
         const targetIsContent = (t.type === 6 /* MouseTargetType.CONTENT_TEXT */ || t.type === 7 /* MouseTargetType.CONTENT_EMPTY */);
         const targetIsGutter = (t.type === 2 /* MouseTargetType.GUTTER_GLYPH_MARGIN */ || t.type === 3 /* MouseTargetType.GUTTER_LINE_NUMBERS */ || t.type === 4 /* MouseTargetType.GUTTER_LINE_DECORATIONS */);
         const targetIsLineNumbers = (t.type === 3 /* MouseTargetType.GUTTER_LINE_NUMBERS */);
-        const selectOnLineNumbers = this._context.configuration.options.get(105 /* EditorOption.selectOnLineNumbers */);
+        const selectOnLineNumbers = this._context.configuration.options.get(106 /* EditorOption.selectOnLineNumbers */);
         const targetIsViewZone = (t.type === 8 /* MouseTargetType.CONTENT_VIEW_ZONE */ || t.type === 5 /* MouseTargetType.GUTTER_VIEW_ZONE */);
         const targetIsWidget = (t.type === 9 /* MouseTargetType.CONTENT_WIDGET */);
         let shouldHandle = e.leftButton || e.middleButton;
@@ -515,7 +515,7 @@ class TopBottomDragScrollingOperation extends Disposable {
      */
     _getScrollSpeed() {
         const lineHeight = this._context.configuration.options.get(64 /* EditorOption.lineHeight */);
-        const viewportInLines = this._context.configuration.options.get(140 /* EditorOption.layoutInfo */).height / lineHeight;
+        const viewportInLines = this._context.configuration.options.get(141 /* EditorOption.layoutInfo */).height / lineHeight;
         const outsideDistanceInLines = this._position.outsideDistance / lineHeight;
         if (outsideDistanceInLines <= 1.5) {
             return Math.max(30, viewportInLines * (1 + outsideDistanceInLines));
@@ -539,7 +539,7 @@ class TopBottomDragScrollingOperation extends Disposable {
         let mouseTarget;
         {
             const editorPos = createEditorPagePosition(this._viewHelper.viewDomNode);
-            const horizontalScrollbarHeight = this._context.configuration.options.get(140 /* EditorOption.layoutInfo */).horizontalScrollbarHeight;
+            const horizontalScrollbarHeight = this._context.configuration.options.get(141 /* EditorOption.layoutInfo */).horizontalScrollbarHeight;
             const pos = new PageCoordinates(this._mouseEvent.pos.x, editorPos.y + editorPos.height - horizontalScrollbarHeight - 0.1);
             const relativePos = createCoordinatesRelativeToEditor(this._viewHelper.viewDomNode, editorPos, pos);
             mouseTarget = this._mouseTargetFactory.createMouseTarget(this._viewHelper.getLastRenderData(), editorPos, pos, relativePos, null);

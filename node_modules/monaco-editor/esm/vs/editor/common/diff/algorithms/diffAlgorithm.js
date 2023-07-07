@@ -35,6 +35,12 @@ export class SequenceDiff {
     join(other) {
         return new SequenceDiff(this.seq1Range.join(other.seq1Range), this.seq2Range.join(other.seq2Range));
     }
+    delta(offset) {
+        if (offset === 0) {
+            return this;
+        }
+        return new SequenceDiff(this.seq1Range.delta(offset), this.seq2Range.delta(offset));
+    }
 }
 export class InfiniteTimeout {
     isValid() {

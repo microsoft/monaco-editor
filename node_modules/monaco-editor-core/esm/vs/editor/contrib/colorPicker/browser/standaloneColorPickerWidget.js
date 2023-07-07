@@ -99,6 +99,7 @@ export let StandaloneColorPickerWidget = class StandaloneColorPickerWidget exten
         this._keybindingService = _keybindingService;
         this._languageFeaturesService = _languageFeaturesService;
         this._languageConfigurationService = _languageConfigurationService;
+        this.allowEditorOverflow = true;
         this.body = document.createElement('div');
         this._position = undefined;
         this._colorHover = null;
@@ -107,7 +108,7 @@ export let StandaloneColorPickerWidget = class StandaloneColorPickerWidget exten
         this.onResult = this._onResult.event;
         this._standaloneColorPickerVisible.set(true);
         this._standaloneColorPickerParticipant = _instantiationService.createInstance(StandaloneColorPickerParticipant, this._editor);
-        this._position = (_a = this._editor._getViewModel()) === null || _a === void 0 ? void 0 : _a.getPrimaryCursorState().viewState.position;
+        this._position = (_a = this._editor._getViewModel()) === null || _a === void 0 ? void 0 : _a.getPrimaryCursorState().modelState.position;
         const editorSelection = this._editor.getSelection();
         const selection = editorSelection ?
             {

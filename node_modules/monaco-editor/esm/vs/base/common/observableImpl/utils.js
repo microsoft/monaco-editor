@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { toDisposable } from '../lifecycle.js';
-import { BaseObservable, transaction, ConvenientObservable, getFunctionName } from './base.js';
+import { autorun } from './autorun.js';
+import { BaseObservable, ConvenientObservable, getFunctionName, transaction } from './base.js';
 import { getLogger } from './logging.js';
 export function constObservable(value) {
     return new ConstObservable(value);
@@ -28,6 +29,28 @@ class ConstObservable extends ConvenientObservable {
     toString() {
         return `Const: ${this.value}`;
     }
+}
+export function waitForState(observable, predicate) {
+    return new Promise(resolve => {
+        let didRun = false;
+        let shouldDispose = false;
+        const d = autorun('waitForState', reader => {
+            const currentState = observable.read(reader);
+            if (predicate(currentState)) {
+                if (!didRun) {
+                    shouldDispose = true;
+                }
+                else {
+                    d.dispose();
+                }
+                resolve(currentState);
+            }
+        });
+        didRun = true;
+        if (shouldDispose) {
+            d.dispose();
+        }
+    });
 }
 export function observableFromEvent(event, getValue) {
     return new FromEventObservable(event, getValue);

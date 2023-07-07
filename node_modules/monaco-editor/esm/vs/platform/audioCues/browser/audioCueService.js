@@ -1,3 +1,4 @@
+var _a;
 import { createDecorator } from '../../instantiation/common/instantiation.js';
 import { localize } from '../../../nls.js';
 export const IAudioCueService = createDecorator('audioCue');
@@ -24,18 +25,26 @@ Sound.terminalBell = Sound.register({ fileName: 'terminalBell.mp3' });
 Sound.diffLineInserted = Sound.register({ fileName: 'diffLineInserted.mp3' });
 Sound.diffLineDeleted = Sound.register({ fileName: 'diffLineDeleted.mp3' });
 Sound.diffLineModified = Sound.register({ fileName: 'diffLineModified.mp3' });
+Sound.chatRequestSent = Sound.register({ fileName: 'chatRequestSent.mp3' });
+Sound.chatResponsePending = Sound.register({ fileName: 'chatResponsePending.mp3' });
+Sound.chatResponseReceived1 = Sound.register({ fileName: 'chatResponseReceived1.mp3' });
+Sound.chatResponseReceived2 = Sound.register({ fileName: 'chatResponseReceived2.mp3' });
+Sound.chatResponseReceived3 = Sound.register({ fileName: 'chatResponseReceived3.mp3' });
+Sound.chatResponseReceived4 = Sound.register({ fileName: 'chatResponseReceived4.mp3' });
 export class AudioCue {
     static register(options) {
-        const audioCue = new AudioCue(options.sound, options.name, options.settingsKey);
+        const audioCue = new AudioCue(options.sound, options.name, options.settingsKey, options.groupId);
         AudioCue._audioCues.add(audioCue);
         return audioCue;
     }
-    constructor(sound, name, settingsKey) {
+    constructor(sound, name, settingsKey, groupId) {
         this.sound = sound;
         this.name = name;
         this.settingsKey = settingsKey;
+        this.groupId = groupId;
     }
 }
+_a = AudioCue;
 AudioCue._audioCues = new Set();
 AudioCue.error = AudioCue.register({
     name: localize('audioCues.lineHasError.name', 'Error on Line'),
@@ -121,4 +130,23 @@ AudioCue.diffLineModified = AudioCue.register({
     name: localize('audioCues.diffLineModified', 'Diff Line Modified'),
     sound: Sound.diffLineModified,
     settingsKey: 'audioCues.diffLineModified'
+});
+AudioCue.chatRequestSent = AudioCue.register({
+    name: localize('audioCues.chatRequestSent', 'Chat Request Sent'),
+    sound: Sound.chatRequestSent,
+    settingsKey: 'audioCues.chatRequestSent'
+});
+AudioCue.chatResponseReceived = {
+    name: localize('audioCues.chatResponseReceived', 'Chat Response Received'),
+    settingsKey: 'audioCues.chatResponseReceived',
+    groupId: "chatResponseReceived" /* AudioCueGroupId.chatResponseReceived */
+};
+AudioCue.chatResponseReceived1 = AudioCue.register(Object.assign({ sound: Sound.chatResponseReceived1 }, _a.chatResponseReceived));
+AudioCue.chatResponseReceived2 = AudioCue.register(Object.assign({ sound: Sound.chatResponseReceived2 }, _a.chatResponseReceived));
+AudioCue.chatResponseReceived3 = AudioCue.register(Object.assign({ sound: Sound.chatResponseReceived3 }, _a.chatResponseReceived));
+AudioCue.chatResponseReceived4 = AudioCue.register(Object.assign({ sound: Sound.chatResponseReceived4 }, _a.chatResponseReceived));
+AudioCue.chatResponsePending = AudioCue.register({
+    name: localize('audioCues.chatResponsePending', 'Chat Response Pending'),
+    sound: Sound.chatResponsePending,
+    settingsKey: 'audioCues.chatResponsePending'
 });

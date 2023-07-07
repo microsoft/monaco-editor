@@ -28,7 +28,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="editor.IStandaloneDiffEditor.html" class="tsd-signature-type" data-tsd-kind="Interface">IStandaloneDiffEditor</a></li></ul></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5973</li></ul></aside>
+<li>Defined in editor.api.d.ts:6074</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -43,11 +43,12 @@
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
 <div class="tsd-index-list"><a href="editor.IDiffEditor.html#createDecorationsCollection" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>create<wbr/>Decorations<wbr/>Collection</span></a>
+<a href="editor.IDiffEditor.html#createViewModel" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>create<wbr/>View<wbr/>Model</span></a>
+<a href="editor.IDiffEditor.html#diffReviewNext" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>diff<wbr/>Review<wbr/>Next</span></a>
+<a href="editor.IDiffEditor.html#diffReviewPrev" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>diff<wbr/>Review<wbr/>Prev</span></a>
 <a href="editor.IDiffEditor.html#dispose" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>dispose</span></a>
 <a href="editor.IDiffEditor.html#focus" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>focus</span></a>
 <a href="editor.IDiffEditor.html#getContainerDomNode" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Container<wbr/>Dom<wbr/>Node</span></a>
-<a href="editor.IDiffEditor.html#getDiffLineInformationForModified" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Modified</span></a>
-<a href="editor.IDiffEditor.html#getDiffLineInformationForOriginal" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Original</span></a>
 <a href="editor.IDiffEditor.html#getEditorType" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Editor<wbr/>Type</span></a>
 <a href="editor.IDiffEditor.html#getId" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Id</span></a>
 <a href="editor.IDiffEditor.html#getLineChanges" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Line<wbr/>Changes</span></a>
@@ -96,14 +97,14 @@
 <div class="tsd-comment tsd-typography"><p>An event emitted when the diff model is changed (i.e. the diff editor shows new content).</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5987</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:6088</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="onDidUpdateDiff" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>on<wbr/>Did<wbr/>Update<wbr/>Diff</span><a href="#onDidUpdateDiff" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">on<wbr/>Did<wbr/>Update<wbr/>Diff<span class="tsd-signature-symbol">:</span> <a href="IEvent.html" class="tsd-signature-type" data-tsd-kind="Interface">IEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>An event emitted when the diff information computed by this diff editor has been updated.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5982</li></ul></aside></section>
+<li>Defined in editor.api.d.ts:6083</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="onDidDispose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Did<wbr/>Dispose</span><a href="#onDidDispose" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -125,7 +126,7 @@
 <h4 class="tsd-returns-title">Returns <a href="IDisposable.html" class="tsd-signature-type" data-tsd-kind="Interface">IDisposable</a></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#onDidDispose">onDidDispose</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2695</li></ul></aside></li></ul></section></section>
+<li>Defined in editor.api.d.ts:2739</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="createDecorationsCollection" class="tsd-anchor"></a>
@@ -145,7 +146,36 @@ These decorations will be automatically cleared when the editor&#39;s model chan
 <h4 class="tsd-returns-title">Returns <a href="editor.IEditorDecorationsCollection.html" class="tsd-signature-type" data-tsd-kind="Interface">IEditorDecorationsCollection</a></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#createDecorationsCollection">createDecorationsCollection</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2895</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2939</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="createViewModel" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>create<wbr/>View<wbr/>Model</span><a href="#createViewModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="createViewModel.createViewModel-1">create<wbr/>View<wbr/>Model<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="editor.IDiffEditorModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorModel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="editor.IDiffEditorViewModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorViewModel</a><a href="#createViewModel.createViewModel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>model: <a href="editor.IDiffEditorModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorModel</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="editor.IDiffEditorViewModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorViewModel</a></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in editor.api.d.ts:6101</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="diffReviewNext" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>diff<wbr/>Review<wbr/>Next</span><a href="#diffReviewNext" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="diffReviewNext.diffReviewNext-1">diff<wbr/>Review<wbr/>Next<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#diffReviewNext.diffReviewNext-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in editor.api.d.ts:6127</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="diffReviewPrev" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>diff<wbr/>Review<wbr/>Prev</span><a href="#diffReviewPrev" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="diffReviewPrev.diffReviewPrev-1">diff<wbr/>Review<wbr/>Prev<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#diffReviewPrev.diffReviewPrev-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in editor.api.d.ts:6128</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="dispose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>dispose</span><a href="#dispose" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -156,7 +186,7 @@ These decorations will be automatically cleared when the editor&#39;s model chan
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#dispose">dispose</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2699</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2743</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="focus" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>focus</span><a href="#focus" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -167,7 +197,7 @@ These decorations will be automatically cleared when the editor&#39;s model chan
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#focus">focus</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2723</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2767</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getContainerDomNode" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Container<wbr/>Dom<wbr/>Node</span><a href="#getContainerDomNode" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -178,39 +208,7 @@ These decorations will be automatically cleared when the editor&#39;s model chan
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:5977</li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getDiffLineInformationForModified" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Modified</span><a href="#getDiffLineInformationForModified" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-<li class="tsd-signature tsd-anchor-link" id="getDiffLineInformationForModified.getDiffLineInformationForModified-1">get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Modified<span class="tsd-signature-symbol">(</span>lineNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="editor.IDiffLineInformation.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffLineInformation</a><a href="#getDiffLineInformationForModified.getDiffLineInformationForModified-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get information based on computed diff about a line number from the modified model.
-If the diff computation is not finished or the model is missing, will return null.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="editor.IDiffLineInformation.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffLineInformation</a></h4><aside class="tsd-sources">
-<ul>
-<li>Defined in editor.api.d.ts:6030</li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getDiffLineInformationForOriginal" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Original</span><a href="#getDiffLineInformationForOriginal" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-<li class="tsd-signature tsd-anchor-link" id="getDiffLineInformationForOriginal.getDiffLineInformationForOriginal-1">get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Original<span class="tsd-signature-symbol">(</span>lineNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="editor.IDiffLineInformation.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffLineInformation</a><a href="#getDiffLineInformationForOriginal.getDiffLineInformationForOriginal-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get information based on computed diff about a line number from the original model.
-If the diff computation is not finished or the model is missing, will return null.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5>lineNumber: <span class="tsd-signature-type">number</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="editor.IDiffLineInformation.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffLineInformation</a></h4><aside class="tsd-sources">
-<ul>
-<li>Defined in editor.api.d.ts:6025</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6078</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="getEditorType" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Editor<wbr/>Type</span><a href="#getEditorType" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -222,7 +220,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getEditorType">getEditorType</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2708</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2752</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="getId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Id</span><a href="#getId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -233,7 +231,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getId">getId</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2703</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2747</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getLineChanges" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Line<wbr/>Changes</span><a href="#getLineChanges" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -243,7 +241,7 @@ This is to avoid an instanceof check</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="editor.ILineChange.html" class="tsd-signature-type" data-tsd-kind="Interface">ILineChange</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:6020</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6122</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getModel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Model</span><a href="#getModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -254,7 +252,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <a href="editor.IDiffEditorModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorModel</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getModel">getModel</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:5999</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6100</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getModifiedEditor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Modified<wbr/>Editor</span><a href="#getModifiedEditor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -264,7 +262,7 @@ This is to avoid an instanceof check</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="editor.ICodeEditor.html" class="tsd-signature-type" data-tsd-kind="Interface">ICodeEditor</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:6016</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6118</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getOriginalEditor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Original<wbr/>Editor</span><a href="#getOriginalEditor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -274,7 +272,7 @@ This is to avoid an instanceof check</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="editor.ICodeEditor.html" class="tsd-signature-type" data-tsd-kind="Interface">ICodeEditor</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in editor.api.d.ts:6012</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6114</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="getPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Position</span><a href="#getPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -285,7 +283,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Position.html" class="tsd-signature-type" data-tsd-kind="Class">Position</a></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getPosition">getPosition</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2747</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2791</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="getSelection" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Selection</span><a href="#getSelection" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -296,7 +294,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Selection.html" class="tsd-signature-type" data-tsd-kind="Class">Selection</a></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getSelection">getSelection</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2791</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2835</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="getSelections" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Selections</span><a href="#getSelections" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -307,7 +305,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Selection.html" class="tsd-signature-type" data-tsd-kind="Class">Selection</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getSelections">getSelections</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2795</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2839</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="getSupportedActions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Supported<wbr/>Actions</span><a href="#getSupportedActions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -318,7 +316,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <a href="editor.IEditorAction.html" class="tsd-signature-type" data-tsd-kind="Interface">IEditorAction</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getSupportedActions">getSupportedActions</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2731</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2775</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="getVisibleColumnFromPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Visible<wbr/>Column<wbr/>From<wbr/>Position</span><a href="#getVisibleColumnFromPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -334,7 +332,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#getVisibleColumnFromPosition">getVisibleColumnFromPosition</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2743</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2787</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="hasTextFocus" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>has<wbr/>Text<wbr/>Focus</span><a href="#hasTextFocus" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -345,7 +343,7 @@ This is to avoid an instanceof check</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#hasTextFocus">hasTextFocus</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2727</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2771</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="layout" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>layout</span><a href="#layout" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -363,7 +361,7 @@ be called when the container of the editor gets resized.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#layout">layout</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2719</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2763</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="restoreViewState" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>restore<wbr/>View<wbr/>State</span><a href="#restoreViewState" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -379,7 +377,7 @@ be called when the container of the editor gets resized.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#restoreViewState">restoreViewState</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:5995</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6096</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLine" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Line</span><a href="#revealLine" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -397,7 +395,7 @@ be called when the container of the editor gets resized.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLine">revealLine</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2757</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2801</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLineInCenter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Line<wbr/>In<wbr/>Center</span><a href="#revealLineInCenter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -415,7 +413,7 @@ be called when the container of the editor gets resized.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLineInCenter">revealLineInCenter</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2761</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2805</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLineInCenterIfOutsideViewport" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Line<wbr/>In<wbr/>Center<wbr/>If<wbr/>Outside<wbr/>Viewport</span><a href="#revealLineInCenterIfOutsideViewport" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -433,7 +431,7 @@ be called when the container of the editor gets resized.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLineInCenterIfOutsideViewport">revealLineInCenterIfOutsideViewport</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2765</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2809</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLineNearTop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Line<wbr/>Near<wbr/>Top</span><a href="#revealLineNearTop" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -452,7 +450,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLineNearTop">revealLineNearTop</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2770</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2814</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLines" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Lines</span><a href="#revealLines" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -472,7 +470,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLines">revealLines</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2830</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2874</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLinesInCenter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Lines<wbr/>In<wbr/>Center</span><a href="#revealLinesInCenter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -492,7 +490,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLinesInCenter">revealLinesInCenter</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2834</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2878</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLinesInCenterIfOutsideViewport" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Lines<wbr/>In<wbr/>Center<wbr/>If<wbr/>Outside<wbr/>Viewport</span><a href="#revealLinesInCenterIfOutsideViewport" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -512,7 +510,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLinesInCenterIfOutsideViewport">revealLinesInCenterIfOutsideViewport</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2838</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2882</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealLinesNearTop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Lines<wbr/>Near<wbr/>Top</span><a href="#revealLinesNearTop" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -533,7 +531,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealLinesNearTop">revealLinesNearTop</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2843</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2887</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Position</span><a href="#revealPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -551,7 +549,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealPosition">revealPosition</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2774</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2818</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealPositionInCenter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Position<wbr/>In<wbr/>Center</span><a href="#revealPositionInCenter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -569,7 +567,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealPositionInCenter">revealPositionInCenter</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2778</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2822</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealPositionInCenterIfOutsideViewport" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Position<wbr/>In<wbr/>Center<wbr/>If<wbr/>Outside<wbr/>Viewport</span><a href="#revealPositionInCenterIfOutsideViewport" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -587,7 +585,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealPositionInCenterIfOutsideViewport">revealPositionInCenterIfOutsideViewport</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2782</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2826</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealPositionNearTop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Position<wbr/>Near<wbr/>Top</span><a href="#revealPositionNearTop" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -606,7 +604,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealPositionNearTop">revealPositionNearTop</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2787</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2831</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Range</span><a href="#revealRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -624,7 +622,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealRange">revealRange</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2847</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2891</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealRangeAtTop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Range<wbr/>At<wbr/>Top</span><a href="#revealRangeAtTop" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -642,7 +640,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealRangeAtTop">revealRangeAtTop</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2855</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2899</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealRangeInCenter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Range<wbr/>In<wbr/>Center</span><a href="#revealRangeInCenter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -660,7 +658,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealRangeInCenter">revealRangeInCenter</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2851</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2895</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealRangeInCenterIfOutsideViewport" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Range<wbr/>In<wbr/>Center<wbr/>If<wbr/>Outside<wbr/>Viewport</span><a href="#revealRangeInCenterIfOutsideViewport" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -678,7 +676,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealRangeInCenterIfOutsideViewport">revealRangeInCenterIfOutsideViewport</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2859</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2903</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealRangeNearTop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Range<wbr/>Near<wbr/>Top</span><a href="#revealRangeNearTop" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -697,7 +695,7 @@ optimized for viewing a code definition.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealRangeNearTop">revealRangeNearTop</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2864</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2908</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="revealRangeNearTopIfOutsideViewport" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reveal<wbr/>Range<wbr/>Near<wbr/>Top<wbr/>If<wbr/>Outside<wbr/>Viewport</span><a href="#revealRangeNearTopIfOutsideViewport" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -716,7 +714,7 @@ optimized for viewing a code definition. Only if it lies outside the viewport.</
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#revealRangeNearTopIfOutsideViewport">revealRangeNearTopIfOutsideViewport</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2869</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2913</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="saveViewState" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>save<wbr/>View<wbr/>State</span><a href="#saveViewState" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -727,11 +725,11 @@ optimized for viewing a code definition. Only if it lies outside the viewport.</
 <h4 class="tsd-returns-title">Returns <a href="editor.IDiffEditorViewState.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorViewState</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#saveViewState">saveViewState</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:5991</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6092</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="setModel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Model</span><a href="#setModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-<li class="tsd-signature tsd-anchor-link" id="setModel.setModel-1">set<wbr/>Model<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="editor.IDiffEditorModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorModel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setModel.setModel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="setModel.setModel-1">set<wbr/>Model<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="editor.IDiffEditorModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorModel</a><span class="tsd-signature-symbol"> | </span><a href="editor.IDiffEditorViewModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorViewModel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setModel.setModel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Sets the current model attached to this editor.
 If the previous model was created by the editor via the value key in the options
@@ -744,11 +742,11 @@ It is safe to call setModel(null) to simply detach the current model from the ed
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>model: <a href="editor.IDiffEditorModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorModel</a></h5></li></ul></div>
+<h5>model: <a href="editor.IDiffEditorModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorModel</a><span class="tsd-signature-symbol"> | </span><a href="editor.IDiffEditorViewModel.html" class="tsd-signature-type" data-tsd-kind="Interface">IDiffEditorViewModel</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#setModel">setModel</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:6008</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:6110</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="setPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Position</span><a href="#setPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -770,7 +768,7 @@ It is safe to call setModel(null) to simply detach the current model from the ed
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#setPosition">setPosition</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2753</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2797</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="setSelection" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Selection</span><a href="#setSelection" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -792,7 +790,7 @@ It is safe to call setModel(null) to simply detach the current model from the ed
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#setSelection">setSelection</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2801</li></ul></aside></li>
+<li>Defined in editor.api.d.ts:2845</li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="setSelection.setSelection-2">set<wbr/>Selection<span class="tsd-signature-symbol">(</span>selection<span class="tsd-signature-symbol">: </span><a href="../classes/Range.html" class="tsd-signature-type" data-tsd-kind="Class">Range</a>, source<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setSelection.setSelection-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Set the primary selection of the editor. This will remove any secondary cursors.</p>
@@ -811,7 +809,7 @@ It is safe to call setModel(null) to simply detach the current model from the ed
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#setSelection">setSelection</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2807</li></ul></aside></li>
+<li>Defined in editor.api.d.ts:2851</li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="setSelection.setSelection-3">set<wbr/>Selection<span class="tsd-signature-symbol">(</span>selection<span class="tsd-signature-symbol">: </span><a href="ISelection.html" class="tsd-signature-type" data-tsd-kind="Interface">ISelection</a>, source<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setSelection.setSelection-3" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Set the primary selection of the editor. This will remove any secondary cursors.</p>
@@ -830,7 +828,7 @@ It is safe to call setModel(null) to simply detach the current model from the ed
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#setSelection">setSelection</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2813</li></ul></aside></li>
+<li>Defined in editor.api.d.ts:2857</li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="setSelection.setSelection-4">set<wbr/>Selection<span class="tsd-signature-symbol">(</span>selection<span class="tsd-signature-symbol">: </span><a href="../classes/Selection.html" class="tsd-signature-type" data-tsd-kind="Class">Selection</a>, source<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setSelection.setSelection-4" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Set the primary selection of the editor. This will remove any secondary cursors.</p>
@@ -849,7 +847,7 @@ It is safe to call setModel(null) to simply detach the current model from the ed
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#setSelection">setSelection</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2819</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2863</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="setSelections" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Selections</span><a href="#setSelections" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -872,7 +870,7 @@ Cursors will be removed or added, as necessary.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#setSelections">setSelections</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2826</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2870</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a id="trigger" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>trigger</span><a href="#trigger" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
@@ -898,7 +896,7 @@ Cursors will be removed or added, as necessary.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#trigger">trigger</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:2876</li></ul></aside></li></ul></section>
+<li>Defined in editor.api.d.ts:2920</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="updateOptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>Options</span><a href="#updateOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -914,7 +912,7 @@ Cursors will be removed or added, as necessary.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="editor.IEditor.html">IEditor</a>.<a href="editor.IEditor.html#updateOptions">updateOptions</a></p>
 <ul>
-<li>Defined in editor.api.d.ts:6034</li></ul></aside></li></ul></section></section></div>
+<li>Defined in editor.api.d.ts:6126</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -951,11 +949,12 @@ Cursors will be removed or added, as necessary.</p>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#onDidChangeModel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>on<wbr/>Did<wbr/>Change<wbr/>Model</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#onDidUpdateDiff" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>on<wbr/>Did<wbr/>Update<wbr/>Diff</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="editor.IDiffEditor.html#createDecorationsCollection" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create<wbr/>Decorations<wbr/>Collection</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#createViewModel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create<wbr/>View<wbr/>Model</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#diffReviewNext" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>diff<wbr/>Review<wbr/>Next</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#diffReviewPrev" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>diff<wbr/>Review<wbr/>Prev</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="editor.IDiffEditor.html#dispose" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>dispose</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="editor.IDiffEditor.html#focus" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>focus</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#getContainerDomNode" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Container<wbr/>Dom<wbr/>Node</a></li>
-<li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#getDiffLineInformationForModified" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Modified</a></li>
-<li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#getDiffLineInformationForOriginal" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Diff<wbr/>Line<wbr/>Information<wbr/>For<wbr/>Original</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="editor.IDiffEditor.html#getEditorType" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Editor<wbr/>Type</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="editor.IDiffEditor.html#getId" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Id</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="editor.IDiffEditor.html#getLineChanges" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Line<wbr/>Changes</a></li>

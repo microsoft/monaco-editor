@@ -59,11 +59,11 @@ export class MarginViewLineDecorationsOverlay extends DedupOverlay {
     prepareRender(ctx) {
         const visibleStartLineNumber = ctx.visibleRange.startLineNumber;
         const visibleEndLineNumber = ctx.visibleRange.endLineNumber;
-        const toRender = this._render(visibleStartLineNumber, visibleEndLineNumber, this._getDecorations(ctx), 1);
+        const toRender = this._render(visibleStartLineNumber, visibleEndLineNumber, this._getDecorations(ctx));
         const output = [];
         for (let lineNumber = visibleStartLineNumber; lineNumber <= visibleEndLineNumber; lineNumber++) {
             const lineIndex = lineNumber - visibleStartLineNumber;
-            const decorations = toRender[lineIndex].getLaneDecorations(1); // there is only one lane, see _render call above
+            const decorations = toRender[lineIndex].getDecorations();
             let lineOutput = '';
             for (const decoration of decorations) {
                 lineOutput += '<div class="cmdr ' + decoration.className + '" style=""></div>';

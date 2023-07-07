@@ -13,7 +13,7 @@ class Settings {
     constructor(config, theme) {
         const options = config.options;
         this.lineHeight = options.get(64 /* EditorOption.lineHeight */);
-        this.pixelRatio = options.get(138 /* EditorOption.pixelRatio */);
+        this.pixelRatio = options.get(139 /* EditorOption.pixelRatio */);
         this.overviewRulerLanes = options.get(80 /* EditorOption.overviewRulerLanes */);
         this.renderBorder = options.get(79 /* EditorOption.overviewRulerBorder */);
         const borderColor = theme.getColor(editorOverviewRulerBorder);
@@ -36,7 +36,7 @@ class Settings {
         else {
             this.backgroundColor = null;
         }
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         const position = layoutInfo.overviewRuler;
         this.top = position.top;
         this.right = position.right;

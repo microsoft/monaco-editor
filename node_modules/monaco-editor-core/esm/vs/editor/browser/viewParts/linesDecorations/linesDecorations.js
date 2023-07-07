@@ -9,7 +9,7 @@ export class LinesDecorationsOverlay extends DedupOverlay {
         super();
         this._context = context;
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._decorationsLeft = layoutInfo.decorationsLeft;
         this._decorationsWidth = layoutInfo.decorationsWidth;
         this._renderResult = null;
@@ -23,7 +23,7 @@ export class LinesDecorationsOverlay extends DedupOverlay {
     // --- begin event handlers
     onConfigurationChanged(e) {
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this._decorationsLeft = layoutInfo.decorationsLeft;
         this._decorationsWidth = layoutInfo.decorationsWidth;
         return true;
@@ -71,14 +71,14 @@ export class LinesDecorationsOverlay extends DedupOverlay {
     prepareRender(ctx) {
         const visibleStartLineNumber = ctx.visibleRange.startLineNumber;
         const visibleEndLineNumber = ctx.visibleRange.endLineNumber;
-        const toRender = this._render(visibleStartLineNumber, visibleEndLineNumber, this._getDecorations(ctx), 1);
+        const toRender = this._render(visibleStartLineNumber, visibleEndLineNumber, this._getDecorations(ctx));
         const left = this._decorationsLeft.toString();
         const width = this._decorationsWidth.toString();
         const common = '" style="left:' + left + 'px;width:' + width + 'px;"></div>';
         const output = [];
         for (let lineNumber = visibleStartLineNumber; lineNumber <= visibleEndLineNumber; lineNumber++) {
             const lineIndex = lineNumber - visibleStartLineNumber;
-            const decorations = toRender[lineIndex].getLaneDecorations(1); // there is only one lane, see _render call above
+            const decorations = toRender[lineIndex].getDecorations();
             let lineOutput = '';
             for (const decoration of decorations) {
                 lineOutput += '<div class="cldr ' + decoration.className + common;

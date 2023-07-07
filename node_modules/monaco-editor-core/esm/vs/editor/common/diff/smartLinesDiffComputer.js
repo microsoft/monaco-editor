@@ -58,7 +58,7 @@ export class SmartLinesDiffComputer {
                 m1.originalRange.endLineNumberExclusive < m2.originalRange.startLineNumber &&
                 m1.modifiedRange.endLineNumberExclusive < m2.modifiedRange.startLineNumber);
         });
-        return new LinesDiff(changes, result.quitEarly);
+        return new LinesDiff(changes, [], result.quitEarly);
     }
 }
 function computeDiff(originalSequence, modifiedSequence, continueProcessingPredicate, pretty) {

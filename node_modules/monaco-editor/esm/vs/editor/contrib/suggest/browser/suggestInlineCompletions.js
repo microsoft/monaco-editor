@@ -154,7 +154,7 @@ export let SuggestInlineCompletions = class SuggestInlineCompletions {
                 if (completions.needsClipboard) {
                     clipboardText = yield this._clipboardService.readText();
                 }
-                const completionModel = new CompletionModel(completions.items, position.column, new LineContext(leadingLineContents, 0), WordDistance.None, this._getEditorOption(114 /* EditorOption.suggest */, model), this._getEditorOption(108 /* EditorOption.snippetSuggestions */, model), { boostFullMatch: false, firstMatchCanBeWeak: false }, clipboardText);
+                const completionModel = new CompletionModel(completions.items, position.column, new LineContext(leadingLineContents, 0), WordDistance.None, this._getEditorOption(115 /* EditorOption.suggest */, model), this._getEditorOption(109 /* EditorOption.snippetSuggestions */, model), { boostFullMatch: false, firstMatchCanBeWeak: false }, clipboardText);
                 result = new InlineCompletionResults(model, position.lineNumber, wordInfo, completionModel, completions, this._suggestMemoryService);
             }
             this._lastResult = result;

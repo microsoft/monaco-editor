@@ -3,26 +3,35 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { BugIndicatingError } from '../errors.js';
+import { DisposableStore } from '../lifecycle.js';
 import { BaseObservable, _setDerived } from './base.js';
 import { getLogger } from './logging.js';
 export function derived(debugName, computeFn) {
-    return new Derived(debugName, computeFn, undefined, undefined);
+    return new Derived(debugName, computeFn, undefined, undefined, undefined);
 }
 export function derivedHandleChanges(debugName, options, computeFn) {
-    return new Derived(debugName, computeFn, options.createEmptyChangeSummary, options.handleChange);
+    return new Derived(debugName, computeFn, options.createEmptyChangeSummary, options.handleChange, undefined);
+}
+export function derivedWithStore(name, computeFn) {
+    const store = new DisposableStore();
+    return new Derived(name, r => {
+        store.clear();
+        return computeFn(r, store);
+    }, undefined, undefined, () => store.dispose());
 }
 _setDerived(derived);
 export class Derived extends BaseObservable {
     get debugName() {
         return typeof this._debugName === 'function' ? this._debugName() : this._debugName;
     }
-    constructor(_debugName, computeFn, createChangeSummary, _handleChange) {
+    constructor(_debugName, computeFn, createChangeSummary, _handleChange, _handleLastObserverRemoved = undefined) {
         var _a, _b;
         super();
         this._debugName = _debugName;
         this.computeFn = computeFn;
         this.createChangeSummary = createChangeSummary;
         this._handleChange = _handleChange;
+        this._handleLastObserverRemoved = _handleLastObserverRemoved;
         this.state = 0 /* DerivedState.initial */;
         this.value = undefined;
         this.updateCount = 0;
@@ -33,6 +42,7 @@ export class Derived extends BaseObservable {
         (_b = getLogger()) === null || _b === void 0 ? void 0 : _b.handleDerivedCreated(this);
     }
     onLastObserverRemoved() {
+        var _a;
         /**
          * We are not tracking changes anymore, thus we have to assume
          * that our cache is invalid.
@@ -43,6 +53,7 @@ export class Derived extends BaseObservable {
             d.removeObserver(this);
         }
         this.dependencies.clear();
+        (_a = this._handleLastObserverRemoved) === null || _a === void 0 ? void 0 : _a.call(this);
     }
     get() {
         var _a;

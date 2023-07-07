@@ -11,6 +11,26 @@ export class LineRange {
     static fromRange(range) {
         return new LineRange(range.startLineNumber, range.endLineNumber);
     }
+    static subtract(a, b) {
+        if (!b) {
+            return [a];
+        }
+        if (a.startLineNumber < b.startLineNumber && b.endLineNumberExclusive < a.endLineNumberExclusive) {
+            return [
+                new LineRange(a.startLineNumber, b.startLineNumber),
+                new LineRange(b.endLineNumberExclusive, a.endLineNumberExclusive)
+            ];
+        }
+        else if (b.startLineNumber <= a.startLineNumber && a.endLineNumberExclusive <= b.endLineNumberExclusive) {
+            return [];
+        }
+        else if (b.endLineNumberExclusive < a.endLineNumberExclusive) {
+            return [new LineRange(Math.max(b.endLineNumberExclusive, a.startLineNumber), a.endLineNumberExclusive)];
+        }
+        else {
+            return [new LineRange(a.startLineNumber, Math.min(b.startLineNumber, a.endLineNumberExclusive))];
+        }
+    }
     /**
      * @param lineRanges An array of sorted line ranges.
      */
@@ -84,6 +104,12 @@ export class LineRange {
     static ofLength(startLineNumber, length) {
         return new LineRange(startLineNumber, startLineNumber + length);
     }
+    /**
+     * @internal
+     */
+    static deserialize(lineRange) {
+        return new LineRange(lineRange[0], lineRange[1]);
+    }
     constructor(startLineNumber, endLineNumberExclusive) {
         if (startLineNumber > endLineNumberExclusive) {
             throw new BugIndicatingError(`startLineNumber ${startLineNumber} cannot be after endLineNumberExclusive ${endLineNumberExclusive}`);
@@ -153,5 +179,21 @@ export class LineRange {
     }
     toExclusiveRange() {
         return new Range(this.startLineNumber, 1, this.endLineNumberExclusive, 1);
+    }
+    mapToLineArray(f) {
+        const result = [];
+        for (let lineNumber = this.startLineNumber; lineNumber < this.endLineNumberExclusive; lineNumber++) {
+            result.push(f(lineNumber));
+        }
+        return result;
+    }
+    /**
+     * @internal
+     */
+    serialize() {
+        return [this.startLineNumber, this.endLineNumberExclusive];
+    }
+    includes(lineNumber) {
+        return this.startLineNumber <= lineNumber && lineNumber < this.endLineNumberExclusive;
     }
 }

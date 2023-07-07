@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import * as dom from '../../base/browser/dom.js';
 import { Selection } from '../common/core/selection.js';
+import { Range } from '../common/core/range.js';
 import { createFastDomNode } from '../../base/browser/fastDomNode.js';
 import { onUnexpectedError } from '../../base/common/errors.js';
 import { PointerHandler } from './controller/pointerHandler.js';
@@ -16,7 +17,6 @@ import { ViewContentWidgets } from './viewParts/contentWidgets/contentWidgets.js
 import { CurrentLineHighlightOverlay, CurrentLineMarginHighlightOverlay } from './viewParts/currentLineHighlight/currentLineHighlight.js';
 import { DecorationsOverlay } from './viewParts/decorations/decorations.js';
 import { EditorScrollbar } from './viewParts/editorScrollbar/editorScrollbar.js';
-import { GlyphMarginOverlay } from './viewParts/glyphMargin/glyphMargin.js';
 import { IndentGuidesOverlay } from './viewParts/indentGuides/indentGuides.js';
 import { LineNumbersOverlay } from './viewParts/lineNumbers/lineNumbers.js';
 import { ViewLines } from './viewParts/lines/viewLines.js';
@@ -42,9 +42,13 @@ import { PointerHandlerLastRenderData } from './controller/mouseTarget.js';
 import { BlockDecorations } from './viewParts/blockDecorations/blockDecorations.js';
 import { inputLatency } from '../../base/browser/performance.js';
 import { WhitespaceOverlay } from './viewParts/whitespace/whitespace.js';
+import { GlyphMarginWidgets } from './viewParts/glyphMargin/glyphMargin.js';
+import { GlyphMarginLane } from '../common/model.js';
 export class View extends ViewEventHandler {
     constructor(commandDelegate, configuration, colorTheme, model, userInputEvents, overflowWidgetsDomNode) {
         super();
+        // Actual mutable state
+        this._shouldRecomputeGlyphMarginLanes = false;
         this._selections = [new Selection(1, 1, 1, 1)];
         this._renderAnimationFrame = null;
         const viewController = new ViewController(configuration, model, userInputEvents, commandDelegate);
@@ -89,13 +93,16 @@ export class View extends ViewEventHandler {
         const marginViewOverlays = new MarginViewOverlays(this._context);
         this._viewParts.push(marginViewOverlays);
         marginViewOverlays.addDynamicOverlay(new CurrentLineMarginHighlightOverlay(this._context));
-        marginViewOverlays.addDynamicOverlay(new GlyphMarginOverlay(this._context));
         marginViewOverlays.addDynamicOverlay(new MarginViewLineDecorationsOverlay(this._context));
         marginViewOverlays.addDynamicOverlay(new LinesDecorationsOverlay(this._context));
         marginViewOverlays.addDynamicOverlay(new LineNumbersOverlay(this._context));
+        // Glyph margin widgets
+        this._glyphMarginWidgets = new GlyphMarginWidgets(this._context);
+        this._viewParts.push(this._glyphMarginWidgets);
         const margin = new Margin(this._context);
         margin.getDomNode().appendChild(this._viewZones.marginDomNode);
         margin.getDomNode().appendChild(marginViewOverlays.getDomNode());
+        margin.getDomNode().appendChild(this._glyphMarginWidgets.domNode);
         this._viewParts.push(margin);
         // Content widgets
         this._contentWidgets = new ViewContentWidgets(this._context, this.domNode);
@@ -142,8 +149,56 @@ export class View extends ViewEventHandler {
         this._pointerHandler = this._register(new PointerHandler(this._context, viewController, this._createPointerHandlerHelper()));
     }
     _flushAccumulatedAndRenderNow() {
+        if (this._shouldRecomputeGlyphMarginLanes) {
+            this._shouldRecomputeGlyphMarginLanes = false;
+            this._context.configuration.setGlyphMarginDecorationLaneCount(this._computeGlyphMarginLaneCount());
+        }
         inputLatency.onRenderStart();
         this._renderNow();
+    }
+    _computeGlyphMarginLaneCount() {
+        const model = this._context.viewModel.model;
+        let glyphs = [];
+        // Add all margin decorations
+        glyphs = glyphs.concat(model.getAllMarginDecorations().map((decoration) => {
+            var _a, _b;
+            const lane = (_b = (_a = decoration.options.glyphMargin) === null || _a === void 0 ? void 0 : _a.position) !== null && _b !== void 0 ? _b : GlyphMarginLane.Left;
+            return { range: decoration.range, lane };
+        }));
+        // Add all glyph margin widgets
+        glyphs = glyphs.concat(this._glyphMarginWidgets.getWidgets().map((widget) => {
+            const range = model.validateRange(widget.preference.range);
+            return { range, lane: widget.preference.lane };
+        }));
+        // Sorted by their start position
+        glyphs.sort((a, b) => Range.compareRangesUsingStarts(a.range, b.range));
+        let leftDecRange = null;
+        let rightDecRange = null;
+        for (const decoration of glyphs) {
+            if (decoration.lane === GlyphMarginLane.Left && (!leftDecRange || Range.compareRangesUsingEnds(leftDecRange, decoration.range) < 0)) {
+                // assign only if the range of `decoration` ends after, which means it has a higher chance to overlap with the other lane
+                leftDecRange = decoration.range;
+            }
+            if (decoration.lane === GlyphMarginLane.Right && (!rightDecRange || Range.compareRangesUsingEnds(rightDecRange, decoration.range) < 0)) {
+                // assign only if the range of `decoration` ends after, which means it has a higher chance to overlap with the other lane
+                rightDecRange = decoration.range;
+            }
+            if (leftDecRange && rightDecRange) {
+                if (leftDecRange.endLineNumber < rightDecRange.startLineNumber) {
+                    // there's no chance for `leftDecRange` to ever intersect something going further
+                    leftDecRange = null;
+                    continue;
+                }
+                if (rightDecRange.endLineNumber < leftDecRange.startLineNumber) {
+                    // there's no chance for `rightDecRange` to ever intersect something going further
+                    rightDecRange = null;
+                    continue;
+                }
+                // leftDecRange and rightDecRange are intersecting or touching => we need two lanes
+                return 2;
+            }
+        }
+        return 1;
     }
     _createPointerHandlerHelper() {
         return {
@@ -194,7 +249,7 @@ export class View extends ViewEventHandler {
     }
     _applyLayout() {
         const options = this._context.configuration.options;
-        const layoutInfo = options.get(140 /* EditorOption.layoutInfo */);
+        const layoutInfo = options.get(141 /* EditorOption.layoutInfo */);
         this.domNode.setWidth(layoutInfo.width);
         this.domNode.setHeight(layoutInfo.height);
         this._overflowGuardContainer.setWidth(layoutInfo.width);
@@ -204,7 +259,7 @@ export class View extends ViewEventHandler {
     }
     _getEditorClassName() {
         const focused = this._textAreaHandler.isFocused() ? ' focused' : '';
-        return this._context.configuration.options.get(137 /* EditorOption.editorClassName */) + ' ' + getThemeTypeSelector(this._context.theme.type) + focused;
+        return this._context.configuration.options.get(138 /* EditorOption.editorClassName */) + ' ' + getThemeTypeSelector(this._context.theme.type) + focused;
     }
     // --- begin event handlers
     handleEvents(events) {
@@ -218,6 +273,12 @@ export class View extends ViewEventHandler {
     }
     onCursorStateChanged(e) {
         this._selections = e.selections;
+        return false;
+    }
+    onDecorationsChanged(e) {
+        if (e.affectsGlyphMargin) {
+            this._shouldRecomputeGlyphMarginLanes = true;
+        }
         return false;
     }
     onFocusChanged(e) {
@@ -394,6 +455,24 @@ export class View extends ViewEventHandler {
     }
     removeOverlayWidget(widgetData) {
         this._overlayWidgets.removeWidget(widgetData.widget);
+        this._scheduleRender();
+    }
+    addGlyphMarginWidget(widgetData) {
+        this._glyphMarginWidgets.addWidget(widgetData.widget);
+        this._shouldRecomputeGlyphMarginLanes = true;
+        this._scheduleRender();
+    }
+    layoutGlyphMarginWidget(widgetData) {
+        const newPreference = widgetData.position;
+        const shouldRender = this._glyphMarginWidgets.setWidgetPosition(widgetData.widget, newPreference);
+        if (shouldRender) {
+            this._shouldRecomputeGlyphMarginLanes = true;
+            this._scheduleRender();
+        }
+    }
+    removeGlyphMarginWidget(widgetData) {
+        this._glyphMarginWidgets.removeWidget(widgetData.widget);
+        this._shouldRecomputeGlyphMarginLanes = true;
         this._scheduleRender();
     }
 }

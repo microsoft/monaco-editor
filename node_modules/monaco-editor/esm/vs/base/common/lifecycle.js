@@ -118,6 +118,8 @@ export function combinedDisposable(...disposables) {
 }
 /**
  * Turn a function that implements dispose into an {@link IDisposable}.
+ *
+ * @param fn Clean up function, guaranteed to be called only **once**.
  */
 export function toDisposable(fn) {
     const self = trackDisposable({
@@ -280,31 +282,6 @@ export class RefCountedDisposable {
         if (--this._counter === 0) {
             this._disposable.dispose();
         }
-        return this;
-    }
-}
-/**
- * A safe disposable can be `unset` so that a leaked reference (listener)
- * can be cut-off.
- */
-export class SafeDisposable {
-    constructor() {
-        this.dispose = () => { };
-        this.unset = () => { };
-        this.isset = () => false;
-        trackDisposable(this);
-    }
-    set(fn) {
-        let callback = fn;
-        this.unset = () => callback = undefined;
-        this.isset = () => callback !== undefined;
-        this.dispose = () => {
-            if (callback) {
-                callback();
-                callback = undefined;
-                markAsDisposed(this);
-            }
-        };
         return this;
     }
 }

@@ -40,13 +40,13 @@ export class ViewLineOptions {
         const fontInfo = options.get(48 /* EditorOption.fontInfo */);
         const experimentalWhitespaceRendering = options.get(36 /* EditorOption.experimentalWhitespaceRendering */);
         if (experimentalWhitespaceRendering === 'off') {
-            this.renderWhitespace = options.get(95 /* EditorOption.renderWhitespace */);
+            this.renderWhitespace = options.get(96 /* EditorOption.renderWhitespace */);
         }
         else {
             // whitespace is rendered in a different layer
             this.renderWhitespace = 'none';
         }
-        this.renderControlCharacters = options.get(90 /* EditorOption.renderControlCharacters */);
+        this.renderControlCharacters = options.get(91 /* EditorOption.renderControlCharacters */);
         this.spaceWidth = fontInfo.spaceWidth;
         this.middotWidth = fontInfo.middotWidth;
         this.wsmiddotWidth = fontInfo.wsmiddotWidth;
@@ -54,7 +54,7 @@ export class ViewLineOptions {
             && !options.get(31 /* EditorOption.disableMonospaceOptimizations */));
         this.canUseHalfwidthRightwardsArrow = fontInfo.canUseHalfwidthRightwardsArrow;
         this.lineHeight = options.get(64 /* EditorOption.lineHeight */);
-        this.stopRenderingLineAfter = options.get(113 /* EditorOption.stopRenderingLineAfter */);
+        this.stopRenderingLineAfter = options.get(114 /* EditorOption.stopRenderingLineAfter */);
         this.fontLigatures = options.get(49 /* EditorOption.fontLigatures */);
     }
     equals(other) {

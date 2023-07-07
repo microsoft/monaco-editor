@@ -106,7 +106,7 @@ export function markdownStringEqual(a, b) {
 }
 export function escapeMarkdownSyntaxTokens(text) {
     // escape markdown syntax tokens: http://daringfireball.net/projects/markdown/syntax#backslash
-    return text.replace(/[\\`*_{}[\]()#+\-!~]/g, '\\$&');
+    return text.replace(/[\\`*_{}[\]()#+\-!~]/g, '\\$&'); // CodeQL [SM02383] Backslash is escaped in the character class
 }
 export function escapeDoubleQuotes(input) {
     return input.replace(/"/g, '&quot;');

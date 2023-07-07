@@ -113,7 +113,7 @@ export class InlineDiffMargin extends Disposable {
                 }
             })));
         }
-        const useShadowDOM = editor.getOption(123 /* EditorOption.useShadowDOM */) && !isIOS; // Do not use shadow dom on IOS #122035
+        const useShadowDOM = editor.getOption(124 /* EditorOption.useShadowDOM */) && !isIOS; // Do not use shadow dom on IOS #122035
         const showContextMenu = (x, y) => {
             var _a;
             this._contextMenuService.showContextMenu({

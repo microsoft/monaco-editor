@@ -17,7 +17,7 @@ import { BracketSelectionRangeProvider } from '../../smartSelect/browser/bracket
 export class WordDistance {
     static create(service, editor) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!editor.getOption(114 /* EditorOption.suggest */).localityBonus) {
+            if (!editor.getOption(115 /* EditorOption.suggest */).localityBonus) {
                 return WordDistance.None;
             }
             if (!editor.hasModel()) {

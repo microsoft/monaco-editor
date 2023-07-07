@@ -5,6 +5,6 @@
 import { SmartLinesDiffComputer } from './smartLinesDiffComputer.js';
 import { StandardLinesDiffComputer } from './standardLinesDiffComputer.js';
 export const linesDiffComputers = {
-    legacy: new SmartLinesDiffComputer(),
-    advanced: new StandardLinesDiffComputer(),
+    getLegacy: () => new SmartLinesDiffComputer(),
+    getAdvanced: () => new StandardLinesDiffComputer(),
 };

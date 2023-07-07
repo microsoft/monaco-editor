@@ -41,7 +41,8 @@ export class AbstractStorageService extends Disposable {
         this._profileKeyTargets = undefined;
         this._applicationKeyTargets = undefined;
     }
-    emitDidChangeValue(scope, key) {
+    emitDidChangeValue(scope, event) {
+        const { key, external } = event;
         // Specially handle `TARGET_KEY`
         if (key === TARGET_KEY) {
             // Clear our cached version which is now out of date
@@ -61,7 +62,7 @@ export class AbstractStorageService extends Disposable {
         }
         // Emit any other key to outside
         else {
-            this._onDidChangeValue.fire({ scope, key, target: this.getKeyTargets(scope)[key] });
+            this._onDidChangeValue.fire({ scope, key, target: this.getKeyTargets(scope)[key], external });
         }
     }
     get(key, scope, fallbackValue) {
@@ -76,10 +77,10 @@ export class AbstractStorageService extends Disposable {
         var _a;
         return (_a = this.getStorage(scope)) === null || _a === void 0 ? void 0 : _a.getNumber(key, fallbackValue);
     }
-    store(key, value, scope, target) {
+    store(key, value, scope, target, external = false) {
         // We remove the key for undefined/null values
         if (isUndefinedOrNull(value)) {
-            this.remove(key, scope);
+            this.remove(key, scope, external);
             return;
         }
         // Update our datastructures but send events only after
@@ -88,17 +89,17 @@ export class AbstractStorageService extends Disposable {
             // Update key-target map
             this.updateKeyTarget(key, scope, target);
             // Store actual value
-            (_a = this.getStorage(scope)) === null || _a === void 0 ? void 0 : _a.set(key, value);
+            (_a = this.getStorage(scope)) === null || _a === void 0 ? void 0 : _a.set(key, value, external);
         });
     }
-    remove(key, scope) {
+    remove(key, scope, external = false) {
         // Update our datastructures but send events only after
         this.withPausedEmitters(() => {
             var _a;
             // Update key-target map
             this.updateKeyTarget(key, scope, undefined);
             // Remove actual key
-            (_a = this.getStorage(scope)) === null || _a === void 0 ? void 0 : _a.delete(key);
+            (_a = this.getStorage(scope)) === null || _a === void 0 ? void 0 : _a.delete(key, external);
         });
     }
     withPausedEmitters(fn) {
@@ -114,21 +115,21 @@ export class AbstractStorageService extends Disposable {
             this._onDidChangeTarget.resume();
         }
     }
-    updateKeyTarget(key, scope, target) {
+    updateKeyTarget(key, scope, target, external = false) {
         var _a, _b;
         // Add
         const keyTargets = this.getKeyTargets(scope);
         if (typeof target === 'number') {
             if (keyTargets[key] !== target) {
                 keyTargets[key] = target;
-                (_a = this.getStorage(scope)) === null || _a === void 0 ? void 0 : _a.set(TARGET_KEY, JSON.stringify(keyTargets));
+                (_a = this.getStorage(scope)) === null || _a === void 0 ? void 0 : _a.set(TARGET_KEY, JSON.stringify(keyTargets), external);
             }
         }
         // Remove
         else {
             if (typeof keyTargets[key] === 'number') {
                 delete keyTargets[key];
-                (_b = this.getStorage(scope)) === null || _b === void 0 ? void 0 : _b.set(TARGET_KEY, JSON.stringify(keyTargets));
+                (_b = this.getStorage(scope)) === null || _b === void 0 ? void 0 : _b.set(TARGET_KEY, JSON.stringify(keyTargets), external);
             }
         }
     }
@@ -172,9 +173,9 @@ export class InMemoryStorageService extends AbstractStorageService {
         this.applicationStorage = this._register(new Storage(new InMemoryStorageDatabase(), { hint: StorageHint.STORAGE_IN_MEMORY }));
         this.profileStorage = this._register(new Storage(new InMemoryStorageDatabase(), { hint: StorageHint.STORAGE_IN_MEMORY }));
         this.workspaceStorage = this._register(new Storage(new InMemoryStorageDatabase(), { hint: StorageHint.STORAGE_IN_MEMORY }));
-        this._register(this.workspaceStorage.onDidChangeStorage(key => this.emitDidChangeValue(1 /* StorageScope.WORKSPACE */, key)));
-        this._register(this.profileStorage.onDidChangeStorage(key => this.emitDidChangeValue(0 /* StorageScope.PROFILE */, key)));
-        this._register(this.applicationStorage.onDidChangeStorage(key => this.emitDidChangeValue(-1 /* StorageScope.APPLICATION */, key)));
+        this._register(this.workspaceStorage.onDidChangeStorage(e => this.emitDidChangeValue(1 /* StorageScope.WORKSPACE */, e)));
+        this._register(this.profileStorage.onDidChangeStorage(e => this.emitDidChangeValue(0 /* StorageScope.PROFILE */, e)));
+        this._register(this.applicationStorage.onDidChangeStorage(e => this.emitDidChangeValue(-1 /* StorageScope.APPLICATION */, e)));
     }
     getStorage(scope) {
         switch (scope) {

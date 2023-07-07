@@ -33,7 +33,7 @@ export class SelectionsOverlay extends DynamicViewOverlay {
         this._context = context;
         const options = this._context.configuration.options;
         this._lineHeight = options.get(64 /* EditorOption.lineHeight */);
-        this._roundedSelection = options.get(97 /* EditorOption.roundedSelection */);
+        this._roundedSelection = options.get(98 /* EditorOption.roundedSelection */);
         this._typicalHalfwidthCharacterWidth = options.get(48 /* EditorOption.fontInfo */).typicalHalfwidthCharacterWidth;
         this._selections = [];
         this._renderResult = null;
@@ -48,7 +48,7 @@ export class SelectionsOverlay extends DynamicViewOverlay {
     onConfigurationChanged(e) {
         const options = this._context.configuration.options;
         this._lineHeight = options.get(64 /* EditorOption.lineHeight */);
-        this._roundedSelection = options.get(97 /* EditorOption.roundedSelection */);
+        this._roundedSelection = options.get(98 /* EditorOption.roundedSelection */);
         this._typicalHalfwidthCharacterWidth = options.get(48 /* EditorOption.fontInfo */).typicalHalfwidthCharacterWidth;
         return true;
     }

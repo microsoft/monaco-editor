@@ -31,8 +31,6 @@ import { Disposable } from '../../../base/common/lifecycle.js';
 import { ThemeIcon } from '../../../base/common/themables.js';
 import './media/diffReview.css';
 import { applyFontInfo } from '../config/domFontInfo.js';
-import { EditorAction, registerEditorAction } from '../editorExtensions.js';
-import { ICodeEditorService } from '../services/codeEditorService.js';
 import { EditorFontLigatures } from '../../common/config/editorOptions.js';
 import { Position } from '../../common/core/position.js';
 import { ILanguageService } from '../../common/languages/language.js';
@@ -42,7 +40,6 @@ import { ViewLineRenderingData } from '../../common/viewModel.js';
 import * as nls from '../../../nls.js';
 import { AudioCue, IAudioCueService } from '../../../platform/audioCues/browser/audioCueService.js';
 import { IConfigurationService } from '../../../platform/configuration/common/configuration.js';
-import { ContextKeyExpr } from '../../../platform/contextkey/common/contextkey.js';
 import { registerIcon } from '../../../platform/theme/common/iconRegistry.js';
 const DIFF_LINES_PADDING = 3;
 class DiffEntry {
@@ -560,9 +557,9 @@ export let DiffReview = class DiffReview extends Disposable {
         const modifiedLineStart = diffEntry.modifiedLineStart;
         const modifiedLineEnd = diffEntry.modifiedLineEnd;
         const cnt = Math.max(modifiedLineEnd - modifiedLineStart, originalLineEnd - originalLineStart);
-        const originalLayoutInfo = originalOptions.get(140 /* EditorOption.layoutInfo */);
+        const originalLayoutInfo = originalOptions.get(141 /* EditorOption.layoutInfo */);
         const originalLineNumbersWidth = originalLayoutInfo.glyphMarginWidth + originalLayoutInfo.lineNumbersWidth;
-        const modifiedLayoutInfo = modifiedOptions.get(140 /* EditorOption.layoutInfo */);
+        const modifiedLayoutInfo = modifiedOptions.get(141 /* EditorOption.layoutInfo */);
         const modifiedLineNumbersWidth = 10 + modifiedLayoutInfo.glyphMarginWidth + modifiedLayoutInfo.lineNumbersWidth;
         for (let i = 0; i <= cnt; i++) {
             const originalLine = (originalLineStart === 0 ? 0 : originalLineStart + i);
@@ -661,7 +658,7 @@ export let DiffReview = class DiffReview extends Disposable {
         const lineTokens = LineTokens.createEmpty(lineContent, languageIdCodec);
         const isBasicASCII = ViewLineRenderingData.isBasicASCII(lineContent, model.mightContainNonBasicASCII());
         const containsRTL = ViewLineRenderingData.containsRTL(lineContent, isBasicASCII, model.mightContainRTL());
-        const r = renderViewLine(new RenderLineInput((fontInfo.isMonospace && !options.get(31 /* EditorOption.disableMonospaceOptimizations */)), fontInfo.canUseHalfwidthRightwardsArrow, lineContent, false, isBasicASCII, containsRTL, 0, lineTokens, [], tabSize, 0, fontInfo.spaceWidth, fontInfo.middotWidth, fontInfo.wsmiddotWidth, options.get(113 /* EditorOption.stopRenderingLineAfter */), options.get(95 /* EditorOption.renderWhitespace */), options.get(90 /* EditorOption.renderControlCharacters */), options.get(49 /* EditorOption.fontLigatures */) !== EditorFontLigatures.OFF, null));
+        const r = renderViewLine(new RenderLineInput((fontInfo.isMonospace && !options.get(31 /* EditorOption.disableMonospaceOptimizations */)), fontInfo.canUseHalfwidthRightwardsArrow, lineContent, false, isBasicASCII, containsRTL, 0, lineTokens, [], tabSize, 0, fontInfo.spaceWidth, fontInfo.middotWidth, fontInfo.wsmiddotWidth, options.get(114 /* EditorOption.stopRenderingLineAfter */), options.get(96 /* EditorOption.renderWhitespace */), options.get(91 /* EditorOption.renderControlCharacters */), options.get(49 /* EditorOption.fontLigatures */) !== EditorFontLigatures.OFF, null));
         return r.html;
     }
 };
@@ -672,59 +669,3 @@ DiffReview = __decorate([
     __param(3, IConfigurationService)
 ], DiffReview);
 // theming
-class DiffReviewNext extends EditorAction {
-    constructor() {
-        super({
-            id: 'editor.action.diffReview.next',
-            label: nls.localize('editor.action.diffReview.next', "Go to Next Difference"),
-            alias: 'Go to Next Difference',
-            precondition: ContextKeyExpr.has('isInDiffEditor'),
-            kbOpts: {
-                kbExpr: null,
-                primary: 65 /* KeyCode.F7 */,
-                weight: 100 /* KeybindingWeight.EditorContrib */
-            }
-        });
-    }
-    run(accessor, editor) {
-        const diffEditor = findFocusedDiffEditor(accessor);
-        diffEditor === null || diffEditor === void 0 ? void 0 : diffEditor.diffReviewNext();
-    }
-}
-class DiffReviewPrev extends EditorAction {
-    constructor() {
-        super({
-            id: 'editor.action.diffReview.prev',
-            label: nls.localize('editor.action.diffReview.prev', "Go to Previous Difference"),
-            alias: 'Go to Previous Difference',
-            precondition: ContextKeyExpr.has('isInDiffEditor'),
-            kbOpts: {
-                kbExpr: null,
-                primary: 1024 /* KeyMod.Shift */ | 65 /* KeyCode.F7 */,
-                weight: 100 /* KeybindingWeight.EditorContrib */
-            }
-        });
-    }
-    run(accessor, editor) {
-        const diffEditor = findFocusedDiffEditor(accessor);
-        diffEditor === null || diffEditor === void 0 ? void 0 : diffEditor.diffReviewPrev();
-    }
-}
-function findFocusedDiffEditor(accessor) {
-    var _a;
-    const codeEditorService = accessor.get(ICodeEditorService);
-    const diffEditors = codeEditorService.listDiffEditors();
-    const activeCodeEditor = (_a = codeEditorService.getFocusedCodeEditor()) !== null && _a !== void 0 ? _a : codeEditorService.getActiveCodeEditor();
-    if (!activeCodeEditor) {
-        return null;
-    }
-    for (let i = 0, len = diffEditors.length; i < len; i++) {
-        const diffEditor = diffEditors[i];
-        if (diffEditor.getModifiedEditor().getId() === activeCodeEditor.getId() || diffEditor.getOriginalEditor().getId() === activeCodeEditor.getId()) {
-            return diffEditor;
-        }
-    }
-    return null;
-}
-registerEditorAction(DiffReviewNext);
-registerEditorAction(DiffReviewPrev);

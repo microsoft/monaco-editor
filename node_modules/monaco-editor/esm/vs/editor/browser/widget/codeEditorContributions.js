@@ -5,6 +5,7 @@
 import { runWhenIdle } from '../../../base/common/async.js';
 import { onUnexpectedError } from '../../../base/common/errors.js';
 import { Disposable, DisposableMap } from '../../../base/common/lifecycle.js';
+import './diffEditor.contribution.js';
 export class CodeEditorContributions extends Disposable {
     constructor() {
         super();

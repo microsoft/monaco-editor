@@ -28,6 +28,9 @@ export class LogService extends Disposable {
     info(message, ...args) {
         this.logger.info(message, ...args);
     }
+    warn(message, ...args) {
+        this.logger.warn(message, ...args);
+    }
     error(message, ...args) {
         this.logger.error(message, ...args);
     }

@@ -92,8 +92,8 @@ export let ItemRenderer = class ItemRenderer {
             const fontInfo = options.get(48 /* EditorOption.fontInfo */);
             const fontFamily = fontInfo.getMassagedFontFamily();
             const fontFeatureSettings = fontInfo.fontFeatureSettings;
-            const fontSize = options.get(115 /* EditorOption.suggestFontSize */) || fontInfo.fontSize;
-            const lineHeight = options.get(116 /* EditorOption.suggestLineHeight */) || fontInfo.lineHeight;
+            const fontSize = options.get(116 /* EditorOption.suggestFontSize */) || fontInfo.fontSize;
+            const lineHeight = options.get(117 /* EditorOption.suggestLineHeight */) || fontInfo.lineHeight;
             const fontWeight = fontInfo.fontWeight;
             const letterSpacing = fontInfo.letterSpacing;
             const fontSizePx = `${fontSize}px`;
@@ -112,7 +112,7 @@ export let ItemRenderer = class ItemRenderer {
         };
         configureFont();
         disposables.add(this._editor.onDidChangeConfiguration(e => {
-            if (e.hasChanged(48 /* EditorOption.fontInfo */) || e.hasChanged(115 /* EditorOption.suggestFontSize */) || e.hasChanged(116 /* EditorOption.suggestLineHeight */)) {
+            if (e.hasChanged(48 /* EditorOption.fontInfo */) || e.hasChanged(116 /* EditorOption.suggestFontSize */) || e.hasChanged(117 /* EditorOption.suggestLineHeight */)) {
                 configureFont();
             }
         }));
@@ -171,7 +171,7 @@ export let ItemRenderer = class ItemRenderer {
             data.detailsLabel.textContent = stripNewLines(completion.label.description || '');
             data.root.classList.remove('string-label');
         }
-        if (this._editor.getOption(114 /* EditorOption.suggest */).showInlineDetails) {
+        if (this._editor.getOption(115 /* EditorOption.suggest */).showInlineDetails) {
             show(data.detailsLabel);
         }
         else {

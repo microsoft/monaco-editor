@@ -27,7 +27,7 @@ export class MoveWordCommand extends EditorCommand {
         if (!editor.hasModel()) {
             return;
         }
-        const wordSeparators = getMapForWordSeparators(editor.getOption(126 /* EditorOption.wordSeparators */));
+        const wordSeparators = getMapForWordSeparators(editor.getOption(127 /* EditorOption.wordSeparators */));
         const model = editor.getModel();
         const selections = editor.getSelections();
         const result = selections.map((sel) => {
@@ -275,7 +275,7 @@ export class DeleteWordCommand extends EditorCommand {
         if (!editor.hasModel()) {
             return;
         }
-        const wordSeparators = getMapForWordSeparators(editor.getOption(126 /* EditorOption.wordSeparators */));
+        const wordSeparators = getMapForWordSeparators(editor.getOption(127 /* EditorOption.wordSeparators */));
         const model = editor.getModel();
         const selections = editor.getSelections();
         const autoClosingBrackets = editor.getOption(5 /* EditorOption.autoClosingBrackets */);
@@ -406,7 +406,7 @@ export class DeleteInsideWord extends EditorAction {
         if (!editor.hasModel()) {
             return;
         }
-        const wordSeparators = getMapForWordSeparators(editor.getOption(126 /* EditorOption.wordSeparators */));
+        const wordSeparators = getMapForWordSeparators(editor.getOption(127 /* EditorOption.wordSeparators */));
         const model = editor.getModel();
         const selections = editor.getSelections();
         const commands = selections.map((sel) => {

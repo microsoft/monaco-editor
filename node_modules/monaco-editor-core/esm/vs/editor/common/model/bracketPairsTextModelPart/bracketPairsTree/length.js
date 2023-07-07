@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { splitLines } from '../../../../../base/common/strings.js';
+import { Position } from '../../../core/position.js';
 import { Range } from '../../../core/range.js';
 /**
  * Represents a non-negative length in terms of line and column count.
@@ -12,6 +13,9 @@ export class LengthObj {
     constructor(lineCount, columnCount) {
         this.lineCount = lineCount;
         this.columnCount = columnCount;
+    }
+    toLength() {
+        return toLength(this.lineCount, this.columnCount);
     }
     toString() {
         return `${this.lineCount},${this.columnCount}`;
@@ -107,6 +111,12 @@ export function lengthLessThanEqual(length1, length2) {
 export function lengthGreaterThanEqual(length1, length2) {
     return length1 >= length2;
 }
+export function lengthToPosition(length) {
+    const l = length;
+    const lineCount = Math.floor(l / factor);
+    const colCount = l - lineCount * factor;
+    return new Position(lineCount + 1, colCount + 1);
+}
 export function positionToLength(position) {
     return toLength(position.lineNumber - 1, position.column - 1);
 }
@@ -118,6 +128,14 @@ export function lengthsToRange(lengthStart, lengthEnd) {
     const lineCount2 = Math.floor(l2 / factor);
     const colCount2 = l2 - lineCount2 * factor;
     return new Range(lineCount + 1, colCount + 1, lineCount2 + 1, colCount2 + 1);
+}
+export function lengthOfRange(range) {
+    if (range.startLineNumber === range.endLineNumber) {
+        return new LengthObj(0, range.endColumn - range.startColumn);
+    }
+    else {
+        return new LengthObj(range.endLineNumber - range.startLineNumber, range.endColumn - 1);
+    }
 }
 export function lengthOfString(str) {
     const lines = splitLines(str);

@@ -52,7 +52,8 @@ export class ToolBar extends Disposable {
                         keybindingProvider: this.options.getKeyBinding,
                         classNames: ThemeIcon.asClassNameArray((_a = options.moreIcon) !== null && _a !== void 0 ? _a : Codicon.toolBarMore),
                         anchorAlignmentProvider: this.options.anchorAlignmentProvider,
-                        menuAsChild: !!this.options.renderDropdownAsChildElement
+                        menuAsChild: !!this.options.renderDropdownAsChildElement,
+                        skipTelemetry: this.options.skipTelemetry
                     });
                     this.toggleMenuActionViewItem.setActionContext(this.actionBar.context);
                     this.disposables.add(this._onDidChangeDropdownVisibility.add(this.toggleMenuActionViewItem.onDidChangeVisibility));
@@ -71,7 +72,8 @@ export class ToolBar extends Disposable {
                         keybindingProvider: this.options.getKeyBinding,
                         classNames: action.class,
                         anchorAlignmentProvider: this.options.anchorAlignmentProvider,
-                        menuAsChild: !!this.options.renderDropdownAsChildElement
+                        menuAsChild: !!this.options.renderDropdownAsChildElement,
+                        skipTelemetry: this.options.skipTelemetry
                     });
                     result.setActionContext(this.actionBar.context);
                     this.submenuActionViewItems.push(result);
