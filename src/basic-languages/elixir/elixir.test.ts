@@ -303,6 +303,17 @@ testTokenization('elixir', [
 			]
 		}
 	],
+	// Sigils (multi-letter uppercase)
+	[
+		{
+			line: '~DX/foo/',
+			tokens: [
+				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
+				{ startIndex: 4, type: 'sigil.elixir' },
+				{ startIndex: 7, type: 'sigil.delimiter.elixir' }
+			]
+		}
+	],
 	// Sigils (no interpolation)
 	[
 		{
@@ -314,6 +325,17 @@ testTokenization('elixir', [
 			]
 		}
 	],
+	// Sigils (multi-letter uppercase no interpolation)
+	[
+		{
+			line: '~WW/foo#{1}/',
+			tokens: [
+				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
+				{ startIndex: 4, type: 'sigil.elixir' },
+				{ startIndex: 11, type: 'sigil.delimiter.elixir' }
+			]
+		}
+	],
 	// Sigils (modifiers)
 	[
 		{
@@ -322,6 +344,17 @@ testTokenization('elixir', [
 				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
 				{ startIndex: 3, type: 'sigil.elixir' },
 				{ startIndex: 9, type: 'sigil.delimiter.elixir' }
+			]
+		}
+	],
+	// Sigils (multi-letter uppercase with modifiers)
+	[
+		{
+			line: '~DX/custom/az09',
+			tokens: [
+				{ startIndex: 0, type: 'sigil.delimiter.elixir' },
+				{ startIndex: 4, type: 'sigil.elixir' },
+				{ startIndex: 10, type: 'sigil.delimiter.elixir' }
 			]
 		}
 	],
