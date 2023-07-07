@@ -43,6 +43,7 @@ export const language = <languages.IMonarchLanguage>{
 		'null',
 		'return',
 		'set',
+		'static',
 		'super',
 		'switch',
 		'symbol',

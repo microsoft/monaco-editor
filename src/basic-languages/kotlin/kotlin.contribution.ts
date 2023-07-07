@@ -10,7 +10,7 @@ declare var require: any;
 
 registerLanguage({
 	id: 'kotlin',
-	extensions: ['.kt'],
+	extensions: ['.kt', '.kts'],
 	aliases: ['Kotlin', 'kotlin'],
 	mimetypes: ['text/x-kotlin-source', 'text/x-kotlin'],
 	loader: () => {

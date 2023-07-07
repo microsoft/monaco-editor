@@ -23,3 +23,16 @@ body:
     attributes:
       label: Description
       description: Please describe your feature request.
+
+  - type: textarea
+    id: relevantCodePlaygroundLink
+    attributes:
+      label: Monaco Editor Playground Link
+      description: If applicable, please share the link to a relevant [monaco editor playground sample](https://microsoft.github.io/monaco-editor/playground.html)
+
+  - type: textarea
+    id: releveantCode
+    attributes:
+      label: Monaco Editor Playground Code
+      description: If applicable, please share the code from the monaco editor playground sample.
+      render: typescript

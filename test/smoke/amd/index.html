@@ -5,11 +5,11 @@
 	</head>
 	<body>
 		<div id="editor-container" style="position: absolute; width: 500px; height: 400px"></div>
-		<script src="../../../release/dev/vs/loader.js"></script>
+		<script src="../../../out/monaco-editor/dev/vs/loader.js"></script>
 		<script>
 			require.config({
 				paths: {
-					vs: '../../../release/dev/vs'
+					vs: '../../../out/monaco-editor/dev/vs'
 				}
 			});
 			require(['vs/editor/editor.main'], () => {

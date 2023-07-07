@@ -37,7 +37,12 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 
 	let tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.js')).toString();
 
-	// The output from this build will only be accessible via AMD or ESM; rather than removing
+	tsServices = tsServices.replace(
+		'const path = matchedStar ? subst.replace("*", matchedStar) : subst;',
+		'const path = matchedStar ? subst.replace("*", matchedStar) : subst; // CodeQL [SM02383] This is a false positive, the code is from the TypeScript compiler'
+	);
+
+	// The output from this build will only be accessible via ESM; rather than removing
 	// references to require/module, define them as dummy variables that bundlers will ignore.
 	// The TS code can figure out that it's not running under Node even with these defined.
 	tsServices =
@@ -47,21 +52,6 @@ var require = undefined;
 var module = { exports: {} };
 /* END MONACOCHANGE */
 ` + tsServices;
-
-	const tsServices_amd =
-		generatedNote +
-		tsServices +
-		`
-// MONACOCHANGE
-// Defining the entire module name because r.js has an issue and cannot bundle this file
-// correctly with an anonymous define call
-define("vs/language/typescript/lib/typescriptServices", [], function() { return ts; });
-// END MONACOCHANGE
-`;
-	fs.writeFileSync(
-		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices-amd.js'),
-		stripSourceMaps(tsServices_amd)
-	);
 
 	const tsServices_esm =
 		generatedNote +

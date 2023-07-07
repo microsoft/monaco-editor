@@ -1,9 +1,104 @@
 # Monaco Editor Changelog
 
-## [0.35.1]
+## [0.40.0]
+
+- Support for Glyph Margin Widgets
+- Removes `getDiffLineInformationForOriginal` and `getDiffLineInformationForModified` from `IDiffEditor`
+- `createTrustedTypesPolicy` is optional now
+- New option `IModelDecorationOptions.shouldFillLineOnLineBreak`
+- New option `EditorOptions.readOnlyMessage``
+
+## [0.39.0]
+
+- New method `Environment.createTrustedTypesPolicy` to override trusted types handling.
+- Bugfixes
+
+Contributions to `monaco-editor`:
+
+- [@dlitsman (Dmitry Litsman)](https://github.com/dlitsman): Extend the "Rendering Glyphs In The Margin" example to include a transparent color note. [PR #3945](https://github.com/microsoft/monaco-editor/pull/3945)
+- [@dneto0 (David Neto)](https://github.com/dneto0): Avoid a hack in the WGSL lexer [PR #3887](https://github.com/microsoft/monaco-editor/pull/3887)
+- [@spahnke (Sebastian Pahnke)](https://github.com/spahnke)
+  - [JS, TS] Add Monarch support for private identifiers [PR #3919](https://github.com/microsoft/monaco-editor/pull/3919)
+  - [JS] Add static keyword [PR #3922](https://github.com/microsoft/monaco-editor/pull/3922)
+- [@titouanmathis (Titouan Mathis)](https://github.com/titouanmathis): [Webpack Plugin] Fix CJS being injected in ESM files [PR #3933](https://github.com/microsoft/monaco-editor/pull/3933)
+
+## [0.38.0]
+
+- `diffAlgorithm` values changed: `smart` -> `legacy`, `experimental` -> `advanced`
+- New `registerEditorOpener` API
+- New property `IViewZone.showInHiddenAreas` to show view zones in hidden areas
+- New properties `InlineCompletions.suppressSuggestions` and `InlineCompletions.enableForwardStability`
+- Bugfixes
+
+Contributions to `monaco-editor`:
+
+- [@dneto0 (David Neto)](https://github.com/dneto0): Add WebGPU Shading Language tokenizer, with tests [PR #3884](https://github.com/microsoft/monaco-editor/pull/3884)
+- [@kisstkondoros (Tamas Kiss)](https://github.com/kisstkondoros): Fix reference error in convert method of OutlineAdapter [PR #3924](https://github.com/microsoft/monaco-editor/pull/3924)
+- [@tamayika](https://github.com/tamayika): Change moduleResolution to node16 and adopt TS 5.0 [PR #3860](https://github.com/microsoft/monaco-editor/pull/3860)
+
+## [0.37.1]
+
+- Fixes Inline Completions feature
+
+## [0.37.0]
+
+- New `registerLinkOpener` API
+- New `onLanguageEncountered` event for when a language is encountered during tokenization.
+- Updated TypeScript to 5.0
+- New required field `canFormatMultipleRanges` on `DocumentRangeFormattingEditProvider`
+- Bugfixes
+
+Contributions to `monaco-editor`:
+
+- [@danboo (Dan Boorstein)](https://github.com/danboo): add perl module (.pm) extension [PR #3258](https://github.com/microsoft/monaco-editor/pull/3258)
+- [@miloush (Jan Kučera)](https://github.com/miloush): Include .xsd and .xslt as an XML extension [PR #3866](https://github.com/microsoft/monaco-editor/pull/3866)
+- [@nnnnoel (Noel Kim (김민혁))](https://github.com/nnnnoel): Add CommonJS, ESM extension for TS [PR #3264](https://github.com/microsoft/monaco-editor/pull/3264)
+- [@PmcFizz (Fizz)](https://github.com/PmcFizz): opt example [PR #3726](https://github.com/microsoft/monaco-editor/pull/3726)
+- [@tamayika](https://github.com/tamayika)
+  - Fix playground samples type errors and add CI test [PR #3722](https://github.com/microsoft/monaco-editor/pull/3722)
+  - Add custom keybinding example [PR #3848](https://github.com/microsoft/monaco-editor/pull/3848)
+- [@yuri1969 (yuri)](https://github.com/yuri1969): Various YAML improvements [PR #3864](https://github.com/microsoft/monaco-editor/pull/3864)
+
+## [0.36.1]
+
+- Marks unneeded dependencies as dev dependencies.
+
+## [0.36.0]
+
+- Maintenance release
+
+## [0.35.0]
 
 - Adds sticky scrolling
+- Support for custom diff algorithms
+
+### Breaking Changes
+
 - Renamed the option `enableDropIntoEditor` to `dropIntoEditor`
+- Changed `IContentWidgetPosition.range: Range` to `IContentWidgetPosition.secondaryPosition: Position`
+- `renderFinalNewline` config: is now of type `'on' | 'off' | 'dimmed'` (was `boolean`).
+- `cursorSmoothCaretAnimation` config: is now of type `'off' | 'explicit' | 'on'` (was `boolean`)
+
+Contributions to `monaco-editor`:
+
+- [@andrewimcclement](https://github.com/andrewimcclement): Add .props & .targets as XML extensions [PR #3510](https://github.com/microsoft/monaco-editor/pull/3510)
+- [@DetachHead](https://github.com/DetachHead): add `satisfies` keyword to typescript [PR #3337](https://github.com/microsoft/monaco-editor/pull/3337)
+- [@jeremy-rifkin (Jeremy Rifkin)](https://github.com/jeremy-rifkin): Add AVX 512 types to C++ syntax highlighting [PR #3286](https://github.com/microsoft/monaco-editor/pull/3286)
+- [@joecarl (José Carlos)](https://github.com/joecarl): Add setModeConfiguration for monaco.languages.typescript.[typescript|javascript]Defaults [PR #3489](https://github.com/microsoft/monaco-editor/pull/3489)
+- [@jonatanklosko (Jonatan Kłosko)](https://github.com/jonatanklosko): Update Elixir tokenizer [PR #3453](https://github.com/microsoft/monaco-editor/pull/3453)
+- [@JoyceZhu (Joyce Zhu)](https://github.com/JoyceZhu): Update import path for `browser-esm-webpack-small` [PR #3402](https://github.com/microsoft/monaco-editor/pull/3402)
+- [@Jozebel11 (Joseph Hardwicke)](https://github.com/Jozebel11): Add position styling to playground container to equal 'relative' [PR #3446](https://github.com/microsoft/monaco-editor/pull/3446)
+- [@kirjs (Kirill Cherkashin)](https://github.com/kirjs): Fix broken link in the changelog [PR #3382](https://github.com/microsoft/monaco-editor/pull/3382)
+- [@LeoDog896 (Tristan F.)](https://github.com/LeoDog896)
+  - Ignore dist from vite/parcel in prettier [PR #3466](https://github.com/microsoft/monaco-editor/pull/3466)
+  - Add .kts as a file extension [PR #3467](https://github.com/microsoft/monaco-editor/pull/3467)
+- [@MasterOdin (Matthew Peveler)](https://github.com/MasterOdin): Add new pgsql 15 functions [PR #3363](https://github.com/microsoft/monaco-editor/pull/3363)
+- [@mofux (Thomas Zilz)](https://github.com/mofux): Resolve URIs with special characters correctly [PR #3392](https://github.com/microsoft/monaco-editor/pull/3392)
+- [@nnnnoel (Noel Kim (김민혁))](https://github.com/nnnnoel): fix(mysql/tokenizer): Fix single quoted string escape [PR #3232](https://github.com/microsoft/monaco-editor/pull/3232)
+- [@rcjsuen (Remy Suen)](https://github.com/rcjsuen): Fix the color provider's columns [PR #3348](https://github.com/microsoft/monaco-editor/pull/3348)
+- [@RubenRBS (Rubén Rincón Blanco)](https://github.com/RubenRBS): Recognize \0 as an escape sequence [PR #3443](https://github.com/microsoft/monaco-editor/pull/3443)
+- [@sekedus (Sekedus)](https://github.com/sekedus): add homepage url [PR #3497](https://github.com/microsoft/monaco-editor/pull/3497)
+- [@tr3ysmith (Trey Smith)](https://github.com/tr3ysmith): Fix possible duplicate of editors in vite sample [PR #3390](https://github.com/microsoft/monaco-editor/pull/3390)
 
 ## [0.34.1]
 
@@ -501,7 +596,7 @@ Contributions to `monaco-typescript`:
 - Many improvements in `monaco-typescript`: support for "deprecated" tags, API to participate in the web worker, improved lib.d.ts resolving.
 - New tokenization support for: Julia, Scala, Lexon, Terraform HCL, Dart, Systemverilog.
 - New semantic tokens provider [sample on the playground](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-semantic-tokens-provider-example).
-- New [shadow dom sample](https://github.com/microsoft/monaco-editor-samples/tree/master/browser-amd-shadow-dom)
+- New [shadow dom sample](https://github.com/microsoft/monaco-editor/tree/main/samples/browser-amd-shadow-dom)
 - New `overflowWidgetsDomNode` constructor option to pass in a parent for overflowing widgets.
 - New `minimap.size` option: `proportional`, `fill`, `fit`.
 - New `OnTypeRename` provider and option `renameOnType`.

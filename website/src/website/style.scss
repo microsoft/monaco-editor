@@ -1,0 +1,93 @@
+.navbar {
+	background-color: #68217a !important;
+}
+
+.download-dropdown .dropdown-toggle::after {
+	display: none;
+}
+
+.code-oss-icon {
+	width: 24px;
+	height: 24px;
+	margin: 3px;
+	margin-right: 8px;
+	background-image: url(./code-oss.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+@media (min-width: 992px) {
+	.hidden-text {
+		display: none;
+	}
+
+	.nav-icon {
+		font-size: 20px;
+	}
+}
+
+.main {
+	flex: 1;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.page {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	box-sizing: border-box;
+}
+
+html,
+body,
+.root {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	min-height: 0;
+}
+
+.monaco-editor-react {
+	box-sizing: border-box;
+}
+
+//.monaco-editor-react,
+.editor-container,
+.preview {
+	border: 1px solid #ced4da;
+}
+
+.preview {
+	height: 100%;
+
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.monaco-editor {
+	position: absolute !important;
+}
+
+button.settings {
+	padding: 0px;
+	margin: 0px;
+}
+
+.full-iframe {
+	line-height: 0;
+	display: block;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+
+	box-sizing: border-box;
+}

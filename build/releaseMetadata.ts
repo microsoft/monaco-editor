@@ -26,7 +26,7 @@ const customFeatureLabels = {
 function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 	return new Promise((resolve, reject) => {
 		glob(
-			'./release/esm/vs/basic-languages/*/*.contribution.js',
+			'./out/monaco-editor/esm/vs/basic-languages/*/*.contribution.js',
 			{ cwd: path.dirname(__dirname) },
 			(err, files) => {
 				if (err) {
@@ -36,7 +36,7 @@ function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 
 				resolve(
 					files.map((file) => {
-						const entry = file.substring('./release/esm/'.length).replace(/\.js$/, '');
+						const entry = file.substring('./out/monaco-editor/esm/'.length).replace(/\.js$/, '');
 						const label = path.basename(file).replace(/\.contribution\.js$/, '');
 						return {
 							label: label,
@@ -52,7 +52,7 @@ function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 function readAdvancedLanguages(): Promise<string[]> {
 	return new Promise((resolve, reject) => {
 		glob(
-			'./release/esm/vs/language/*/monaco.contribution.js',
+			'./out/monaco-editor/esm/vs/language/*/monaco.contribution.js',
 			{ cwd: path.dirname(__dirname) },
 			(err, files) => {
 				if (err) {
@@ -62,7 +62,7 @@ function readAdvancedLanguages(): Promise<string[]> {
 
 				resolve(
 					files
-						.map((file) => file.substring('./release/esm/vs/language/'.length))
+						.map((file) => file.substring('./out/monaco-editor/esm/vs/language/'.length))
 						.map((file) => file.substring(0, file.length - '/monaco.contribution.js'.length))
 				);
 			}
@@ -95,7 +95,7 @@ function getAdvancedLanguages(): Promise<
 	});
 
 	function checkFileExists(moduleName) {
-		const filePath = path.join(REPO_ROOT, 'release/esm', `${moduleName}.js`);
+		const filePath = path.join(REPO_ROOT, 'out/monaco-editor/esm', `${moduleName}.js`);
 		if (!fs.existsSync(filePath)) {
 			console.error(`Could not find ${filePath}.`);
 			process.exit(1);
@@ -174,7 +174,7 @@ export type EditorFeature = ${features.map((el) => `'${el.label}'`).join(' | ')}
 export type NegatedEditorFeature = ${features.map((el) => `'!${el.label}'`).join(' | ')};
 
 `;
-			const dtsDestination = path.join(REPO_ROOT, 'release/esm/metadata.d.ts');
+			const dtsDestination = path.join(REPO_ROOT, 'out/monaco-editor/esm/metadata.d.ts');
 			ensureDir(path.dirname(dtsDestination));
 			fs.writeFileSync(dtsDestination, dtsContents.replace(/\r\n/g, '\n'));
 
@@ -182,9 +182,18 @@ export type NegatedEditorFeature = ${features.map((el) => `'!${el.label}'`).join
 exports.features = ${JSON.stringify(features, null, '  ')};
 exports.languages = ${JSON.stringify(languages, null, '  ')};
 `;
-			const jsDestination = path.join(REPO_ROOT, 'release/esm/metadata.js');
+			const jsDestination = path.join(REPO_ROOT, 'out/monaco-editor/esm/metadata.js');
 			ensureDir(path.dirname(jsDestination));
 			fs.writeFileSync(jsDestination, jsContents.replace(/\r\n/g, '\n'));
+
+			for (const feature of [...features, ...languages]) {
+				const entries = [].concat(feature.entry);
+				for (const entry of entries) {
+					const dtsDestination = path.join(REPO_ROOT, 'out/monaco-editor/esm', entry) + '.d.ts';
+					ensureDir(path.dirname(dtsDestination));
+					fs.writeFileSync(dtsDestination, 'export {}\n');
+				}
+			}
 		}
 	);
 }
@@ -213,8 +222,12 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 
 	let features: string[] = [];
 	const files =
-		fs.readFileSync(path.join(REPO_ROOT, 'release/esm/vs/editor/edcore.main.js')).toString() +
-		fs.readFileSync(path.join(REPO_ROOT, 'release/esm/vs/editor/editor.all.js')).toString();
+		fs
+			.readFileSync(path.join(REPO_ROOT, 'out/monaco-editor/esm/vs/editor/edcore.main.js'))
+			.toString() +
+		fs
+			.readFileSync(path.join(REPO_ROOT, 'out/monaco-editor/esm/vs/editor/editor.all.js'))
+			.toString();
 	files.split(/\r\n|\n/).forEach((line) => {
 		const m = line.match(/import '([^']+)'/);
 		if (m) {
