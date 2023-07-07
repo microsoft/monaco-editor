@@ -7,17 +7,30 @@ on:
   # enable users to manually trigger with workflow_dispatch
   workflow_dispatch: {}
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
 jobs:
-  publish-website:
-    name: Publish Website
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6 # pin@v2
-
+      - name: Checkout
+        uses: actions/checkout@v3
       - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # pin@v2
         with:
           node-version: 16
-
       - name: Cache node modules
         id: cacheNodeModules
         uses: actions/cache@v2
@@ -25,11 +38,9 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-cacheNodeModules2-
-
       - name: execute `npm ci` (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci
-
       - name: Build
         run: npm run build-monaco-editor
 
@@ -45,8 +56,13 @@ jobs:
         working-directory: website
         run: yarn run build
 
-      - name: Upload website to github pages
-        uses: peaceiris/actions-gh-pages@bd8c6b06eba6b3d25d72b7a1767993c0aeee42e7 # pin@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/dist
+          # Upload entire repository
+          path: './website/dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
