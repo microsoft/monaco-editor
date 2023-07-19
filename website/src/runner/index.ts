@@ -46,7 +46,7 @@ async function initialize(state: IPreviewState) {
 
 	const style = document.createElement("style");
 	style.id = "custom-style";
-	style.innerHTML = state.css;
+	style.innerHTML = state.css; // CodeQL [SM03712] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground. // CodeQL [SM02688] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground.
 	document.body.appendChild(style);
 
 	document.body.innerHTML += state.html;
