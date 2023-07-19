@@ -35,10 +35,10 @@
 		div.style.padding = '5px 20px 5px 5px';
 		div.style.zIndex = '1000';
 
-		div.innerHTML =
-			'<ul><li>' +
-			renderLoadingOptions(true) +
-			(isRelease ? '' : `</li><li>${renderLoadingOptions(false)}`) +
+		div.innerHTML = // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
+			'<ul><li>' + // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
+			renderLoadingOptions(true) + // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
+			(isRelease ? '' : `</li><li>${renderLoadingOptions(false)}`) + // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
 			'</li></ul>'; // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
 
 		document.body.appendChild(div);
