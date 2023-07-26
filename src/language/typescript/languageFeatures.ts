@@ -1246,6 +1246,9 @@ export class InlayHintsAdapter extends Adapter implements languages.InlayHintsPr
 
 		const tsHints = await worker.provideInlayHints(fileName, start, end);
 		const hints: languages.InlayHint[] = tsHints.map((hint) => {
+			if (typeof hint.text !== 'string') {
+				throw new Error('hint.text may only be a string');
+			}
 			return {
 				...hint,
 				label: hint.text,
