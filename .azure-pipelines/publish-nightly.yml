@@ -42,7 +42,6 @@ extends:
         testPlatforms: []
         buildSteps:
           - name: Install libkrb5-dev
-            if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
             run: sudo apt install -y libkrb5-dev
 
           - script: npm ci
