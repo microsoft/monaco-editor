@@ -1,5 +1,5 @@
 import React = require("react");
-import { Page } from "../components/Page";
+import { Page } from "../../components/Page";
 
 export class MonarchPage extends React.Component<{}, {}> {
 	render() {

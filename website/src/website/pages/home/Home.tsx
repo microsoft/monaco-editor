@@ -232,14 +232,8 @@ class DiffEditorDemo extends React.Component {
 				box.
 				<div className="mt-2 editor-container" style={{ height: 500 }}>
 					<ControlledMonacoDiffEditor
-						originalValue={
-							require("../../data/diff-sample/original.txt")
-								.default
-						}
-						modifiedValue={
-							require("../../data/diff-sample/modified.txt")
-								.default
-						}
+						originalValue={require("../../data/diff-sample/original.txt")}
+						modifiedValue={require("../../data/diff-sample/modified.txt")}
 						language="typescript"
 					/>
 				</div>

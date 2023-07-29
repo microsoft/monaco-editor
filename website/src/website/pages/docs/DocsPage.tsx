@@ -1,10 +1,10 @@
 import { observable } from "mobx";
-import { Page } from "../components/Page";
+import { Page } from "../../components/Page";
 import {
 	HistoryController,
 	IHistoryModel,
 	ILocation,
-} from "../utils/ObservableHistory";
+} from "../../utils/ObservableHistory";
 import React = require("react");
 
 export class DocsPage extends React.Component implements IHistoryModel {

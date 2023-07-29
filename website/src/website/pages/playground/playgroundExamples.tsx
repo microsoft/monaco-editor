@@ -6,8 +6,8 @@ const descriptions = require.context<{ title: string; sortingKey?: number }>(
 	/json$/
 );
 
-const files = require.context<{ default: string }>(
-	"!!raw-loader!../../data/playground-samples/",
+const files = require.context<string>(
+	"../../data/playground-samples/?raw",
 	true,
 	/(html|css|js)$/,
 	"lazy"
@@ -67,9 +67,9 @@ export function getPlaygroundExamples(): PlaygroundExampleChapter[] {
 							files(path + "/sample.html"),
 						]);
 						return {
-							css: css.default,
-							html: html.default,
-							js: js.default,
+							css,
+							html,
+							js,
 						};
 					},
 				};

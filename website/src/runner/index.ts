@@ -5,7 +5,6 @@
 
 import { loadMonaco } from "../monaco-loader";
 import { IMessageFromRunner, IMessageToRunner, IPreviewState } from "../shared";
-import "./style.scss";
 
 window.addEventListener("message", (event) => {
 	const isInSandbox = window.origin === "null";

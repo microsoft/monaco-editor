@@ -5,19 +5,13 @@
 
 import * as webpack from "webpack";
 import * as path from "path";
-import * as HtmlWebpackPlugin from "html-webpack-plugin";
+import * as HtmlBundlerPlugin from "html-bundler-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 import * as CopyPlugin from "copy-webpack-plugin";
 
 const r = (file: string) => path.resolve(__dirname, file);
 
 module.exports = {
-	entry: {
-		index: r("src/website/index.tsx"),
-		playgroundRunner: r("src/runner/index.ts"),
-		monacoLoader: r("src/website/monaco-loader-chunk.ts"),
-	},
 	optimization: {
 		runtimeChunk: "single",
 	},
@@ -43,30 +37,34 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.css$/,
-				use: [
-					/*"style-loader"*/ MiniCssExtractPlugin.loader,
-					"css-loader",
+				oneOf: [
+					{
+						resourceQuery: /raw/,
+						type: "asset/source",
+					},
+					{
+						test: /\.css$/,
+						use: ["css-loader"],
+					},
+					{
+						test: /\.scss$/,
+						use: ["css-loader", "sass-loader"],
+					},
+					{
+						test: /\.tsx?$/,
+						loader: "ts-loader",
+						options: { transpileOnly: true },
+					},
 				],
 			},
-			{
-				test: /\.scss$/,
-				use: [
-					/*"style-loader",*/ MiniCssExtractPlugin.loader,
-					"css-loader",
-					"sass-loader",
-				],
-			},
+			{ test: /\.txt$/i, type: "asset/source" },
 			{
 				test: /\.(jpe?g|png|gif|eot|ttf|svg|woff|woff2|md)$/i,
-				loader: "file-loader",
+				type: "asset/resource",
+				generator: {
+					filename: "asset/[name][ext]",
+				},
 			},
-			{
-				test: /\.tsx?$/,
-				loader: "ts-loader",
-				options: { transpileOnly: true },
-			},
-			{ test: /\.txt$/i, use: "raw-loader" },
 		],
 	},
 	plugins: [
@@ -76,34 +74,25 @@ module.exports = {
 			},
 		}),
 		new CleanWebpackPlugin(),
-		new MiniCssExtractPlugin({
-			filename: "[name].css",
-			chunkFilename: "[id].css",
-		}),
-		new HtmlWebpackPlugin({
-			chunks: ["monacoLoader", "index"],
-			templateContent: getHtml(),
-			chunksSortMode: "manual",
-		}),
-		new HtmlWebpackPlugin({
-			chunks: ["index"],
-			filename: "playground.html",
-			templateContent: getHtml(),
-		}),
-		new HtmlWebpackPlugin({
-			chunks: ["playgroundRunner"],
-			filename: "playgroundRunner.html",
-			templateContent: getHtml(),
-		}),
-		new HtmlWebpackPlugin({
-			chunks: ["index"],
-			filename: "docs.html",
-			templateContent: getHtml(),
-		}),
-		new HtmlWebpackPlugin({
-			chunks: ["index"],
-			filename: "monarch.html",
-			templateContent: getHtml(),
+		new HtmlBundlerPlugin({
+			entry: {
+				// define templates as entry points here,
+				// all source script and style files are referenced in html
+				index: "src/website/pages/home/index.html",
+				playground: "src/website/pages/playground/index.html",
+				playgroundRunner:
+					"src/website/pages/playground/playgroundRunner.html",
+				docs: "src/website/pages/docs/index.html",
+				monarch: "src/website/pages/monarch/index.html",
+			},
+			js: {
+				filename: "js/[name].[contenthash:8].js",
+				//inline: true, // inline compiled JS into HTML
+			},
+			css: {
+				filename: "css/[name].[contenthash:8].css",
+				//inline: true, // inline compiled CSS into HTML
+			},
 		}),
 		new CopyPlugin({
 			patterns: [{ from: "./static", to: "./" }],
@@ -136,16 +125,3 @@ module.exports = {
 		}),
 	],
 } as webpack.Configuration;
-
-function getHtml(): string {
-	return `
-<!DOCTYPE html>
-<html>
-	<head>
-	<meta charset="utf-8">
-	<title>Monaco Editor</title>
-	</head>
-	<body>
-	</body>
-</html>`;
-}
