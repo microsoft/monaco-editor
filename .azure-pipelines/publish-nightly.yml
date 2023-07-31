@@ -28,10 +28,12 @@ parameters:
     displayName: The VS Code commit id. When left empty, the main branched is used.
     type: string
     default: ''
+    required: false
   - name: prereleaseVersion
     displayName: The prerelease version. When left empty, dev-${today} is used.
     type: string
     default: ''
+    required: false
 
 extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
@@ -41,8 +43,8 @@ extends:
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
         testPlatforms: []
         buildSteps:
-          - name: Install libkrb5-dev
-            run: sudo apt install -y libkrb5-dev
+          - script: sudo apt install -y libkrb5-dev
+            displayName: Install libkrb5-dev
 
           - script: npm ci
             displayName: Install NPM dependencies

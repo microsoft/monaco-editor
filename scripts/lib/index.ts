@@ -81,7 +81,9 @@ export function getNightlyVersion(version: string, prerelease: string | undefine
 	const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
 	const dd = String(date.getUTCDate()).padStart(2, '0');
 
-	prerelease = prerelease || `dev.${yyyy}${mm}${dd}`;
+	prerelease = prerelease || "dev-${today}";
+	prerelease = prerelease.replace("${today}", `${yyyy}${mm}${dd}`);
+
 	return `0.${minor + 1}.0-${prerelease}`;
 }
 
