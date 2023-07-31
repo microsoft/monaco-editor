@@ -25,15 +25,13 @@ resources:
 
 parameters:
   - name: vscodeRef
-    displayName: The VS Code commit id. When left empty, the main branched is used.
+    displayName: The VS Code commit id.
     type: string
-    default: ''
-    required: false
+    default: 'main'
   - name: prereleaseVersion
-    displayName: The prerelease version. When left empty, dev-${today} is used.
+    displayName: The prerelease version.
     type: string
-    default: ''
-    required: false
+    default: 'dev-${today}'
 
 extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
