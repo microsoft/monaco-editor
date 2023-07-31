@@ -37,6 +37,9 @@ extends:
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
         testPlatforms: []
         buildSteps:
+          - script: sudo apt install -y libkrb5-dev
+            displayName: Install libkrb5-dev
+
           - script: npm ci
             displayName: Install NPM dependencies
 
