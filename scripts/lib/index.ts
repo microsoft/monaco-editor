@@ -73,7 +73,7 @@ export async function writeJsonFile(filePath: string, jsonData: unknown): Promis
 	await writeFile(filePath, JSON.stringify(jsonData, null, '\t') + '\n');
 }
 
-export function getNightlyVersion(version: string, prerelease: string | undefined): string {
+export function getNightlyVersion(version: string, prerelease: string): string {
 	const pieces = version.split('.');
 	const minor = parseInt(pieces[1], 10);
 	const date = new Date();
@@ -81,7 +81,8 @@ export function getNightlyVersion(version: string, prerelease: string | undefine
 	const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
 	const dd = String(date.getUTCDate()).padStart(2, '0');
 
-	prerelease = prerelease || `dev.${yyyy}${mm}${dd}`;
+	prerelease = prerelease.replace('${today}', `${yyyy}${mm}${dd}`);
+
 	return `0.${minor + 1}.0-${prerelease}`;
 }
 

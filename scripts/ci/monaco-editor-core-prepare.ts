@@ -1,7 +1,7 @@
 import { mkdir, rm } from 'fs/promises';
 import { join, resolve } from 'path';
 import { PackageJson, group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
-import { getEnv } from './env';
+import { getNightlyEnv } from './env';
 
 const selfPath = __dirname;
 const rootPath = join(selfPath, '..', '..');
@@ -22,8 +22,11 @@ async function prepareMonacoEditorCoreReleaseStableOrNightly() {
 		version = monacoEditorPackageJson.version;
 		ref = monacoEditorPackageJson.vscodeRef;
 	} else if (arg === 'nightly') {
-		version = getNightlyVersion(monacoEditorPackageJson.version, getEnv().PRERELEASE_VERSION);
-		ref = getEnv().VSCODE_REF || 'main';
+		version = getNightlyVersion(
+			monacoEditorPackageJson.version,
+			getNightlyEnv().PRERELEASE_VERSION
+		);
+		ref = getNightlyEnv().VSCODE_REF;
 	} else {
 		throw new Error('Invalid argument');
 	}
