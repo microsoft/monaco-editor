@@ -666,6 +666,20 @@ class Source {
 		sourceStr: string | undefined,
 		sourceLanguagesStr: string | undefined
 	): Source {
+		if (sourceStr === "latest-dev") {
+			// The versions are already loaded
+			const versions = getNpmVersionsSync(undefined);
+			const version = versions.find((v) => v.indexOf("-dev-") !== -1);
+			return new Source(version, undefined, sourceLanguagesStr);
+		}
+		if (sourceStr === "latest") {
+			return new Source(
+				monacoEditorVersion,
+				undefined,
+				sourceLanguagesStr
+			);
+		}
+
 		if (sourceStr && sourceStr.startsWith("v")) {
 			return new Source(
 				sourceStr.substring(1),
