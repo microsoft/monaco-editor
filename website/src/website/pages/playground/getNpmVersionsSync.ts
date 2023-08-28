@@ -20,6 +20,8 @@ export async function getNpmVersions(): Promise<string[]> {
 	return npmVersionsPromise!;
 }
 
+getNpmVersions();
+
 async function loadNpmVersions(): Promise<string[]> {
 	if (npmVersionsPromise === undefined) {
 		npmVersionsPromise = _getNpmVersions();
