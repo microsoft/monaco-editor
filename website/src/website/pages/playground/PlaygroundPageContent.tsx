@@ -196,6 +196,15 @@ export class PlaygroundPageContent extends React.Component<
 													type="button"
 													className="btn btn-secondary"
 													onClick={() =>
+														model.serializer.useLatestDev()
+													}
+												>
+													Use latest dev
+												</button>
+												<button
+													type="button"
+													className="btn btn-secondary"
+													onClick={() =>
 														model.serializer.saveSourceOverride()
 													}
 												>
