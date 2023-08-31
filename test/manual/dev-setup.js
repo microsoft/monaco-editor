@@ -6,8 +6,8 @@
 		'npm/dev': 'node_modules/monaco-editor-core/dev/vs',
 		'npm/min': 'node_modules/monaco-editor-core/min/vs',
 		built: '/vscode/out-monaco-editor-core/min/vs',
-		releaseDev: 'release/dev/vs',
-		releaseMin: 'release/min/vs'
+		releaseDev: 'out/monaco-editor/dev/vs',
+		releaseMin: 'out/monaco-editor/min/vs'
 	};
 	const pluginPaths = {
 		src: 'out/amd',
