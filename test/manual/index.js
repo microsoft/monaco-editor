@@ -1,4 +1,4 @@
-/// <reference path="../../release/monaco.d.ts" />
+/// <reference path="../../out/monaco-editor/monaco.d.ts" />
 define(['require', './samples'], function (require, SAMPLES) {
 	const domutils = require('vs/base/browser/dom');
 
@@ -20,16 +20,10 @@ define(['require', './samples'], function (require, SAMPLES) {
 		renderWhitespace: true
 	});
 
-	editor.addCommand(
-		{
-			ctrlCmd: true,
-			key: 'F9'
-		},
-		function (ctx, args) {
-			alert('Command Running!!');
-			console.log(ctx);
-		}
-	);
+	editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9, function (ctx, args) {
+		alert('Command Running!!');
+		console.log(ctx);
+	});
 
 	editor.addAction({
 		id: 'my-unique-id',
