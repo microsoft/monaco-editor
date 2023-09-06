@@ -1,27 +1,53 @@
 import * as React from "react";
-import { IPreviewHandler, PlaygroundModel } from "./PlaygroundModel";
+import { PlaygroundModel } from "./PlaygroundModel";
 import { observer } from "mobx-react";
-import { observable } from "mobx";
+import { autorun, observable, reaction } from "mobx";
 import {
 	IMessageFromRunner,
 	IMessageToRunner,
 	IPreviewState,
 } from "../../../shared";
+import { Button } from "react-bootstrap";
 
 @observer
-export class Preview
-	extends React.Component<{ model: PlaygroundModel }>
-	implements IPreviewHandler
-{
+export class Preview extends React.Component<{
+	model: PlaygroundModel;
+	getPreviewState: () => IPreviewState | undefined;
+}> {
 	private disposables: monaco.IDisposable[] = [];
-	@observable
-	private counter = 0;
-	private currentState: IPreviewState | undefined;
+	@observable private counter = 0;
+	@observable.ref private currentState: IPreviewState | undefined;
 	private iframe: HTMLIFrameElement | null = null;
 
 	render() {
 		return (
 			<div className="preview">
+				{this.currentState ? null : (
+					<div
+						style={{
+							width: "100%",
+							height: "100%",
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+						}}
+					>
+						<div>
+							Load{" "}
+							<Button
+								type="button"
+								className={
+									"btn settings bi-arrow-clockwise btn-primary"
+								}
+								style={{
+									fontSize: 20,
+									padding: "0px 4px",
+								}}
+								onClick={() => this.props.model.reload()}
+							/>
+						</div>
+					</div>
+				)}
 				<iframe
 					className="full-iframe"
 					key={this.counter}
@@ -66,27 +92,33 @@ export class Preview
 	};
 
 	componentDidMount() {
-		this.disposables.push(this.props.model.setPreviewHandler(this));
+		this.disposables.push({
+			dispose: reaction(
+				() => this.props.getPreviewState(),
+				(state) => {
+					if (state) {
+						console.log("handlePreview", state);
+						this.handlePreview(state);
+					}
+				},
+				{ fireImmediately: true }
+			),
+		});
 	}
 
 	componentWillUnmount() {
 		this.disposables.forEach((d) => d.dispose());
 	}
 
-	handlePreview(state: IPreviewState): void {
+	private handlePreview(state: IPreviewState): void {
 		if (
 			JSON.stringify({ ...state, css: "" }) ===
 			JSON.stringify({ ...this.currentState, css: "" })
 		) {
 			// only css changed
 			this.iframe?.contentWindow!.postMessage(
-				{
-					kind: "update-css",
-					css: state.css,
-				} as IMessageToRunner,
-				{
-					targetOrigin: "*",
-				}
+				{ kind: "update-css", css: state.css } as IMessageToRunner,
+				{ targetOrigin: "*" }
 			);
 			this.currentState = state;
 		} else {

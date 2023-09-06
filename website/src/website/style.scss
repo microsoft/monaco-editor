@@ -74,6 +74,9 @@ body,
 
 .monaco-editor {
 	position: absolute !important;
+	a {
+		text-decoration: none;
+	}
 }
 
 button.settings {

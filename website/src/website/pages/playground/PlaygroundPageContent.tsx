@@ -19,6 +19,7 @@ import { Preview } from "./Preview";
 import { SettingsDialog } from "./SettingsDialog";
 import { getNpmVersionsSync } from "./getNpmVersionsSync";
 import { PlaygroundExample, getPlaygroundExamples } from "./playgroundExamples";
+import { getDefaultSettings, toLoaderConfig } from "./SettingsModel";
 
 @hotComponent(module)
 @observer
@@ -41,7 +42,7 @@ export class PlaygroundPageContent extends React.Component<
 							<Col
 								md
 								className={
-									model.settings.previewFullScreen
+									model.previewShouldBeFullScreen
 										? "d-none"
 										: ""
 								}
@@ -118,15 +119,24 @@ export class PlaygroundPageContent extends React.Component<
 								</Vertical>
 							</Col>
 						)}
-						<Col md>
+						<Col
+							md
+							style={{ display: "flex", flexDirection: "column" }}
+						>
 							<LabeledEditor
-								label="Preview"
+								label={`Preview${
+									model.historyModel.compareWith &&
+									model.historyModel.sourceOverride
+										? " " +
+										  model.historyModel.sourceOverride.toString()
+										: ""
+								}:`}
 								titleBarItems={
 									<div
 										style={{ marginLeft: "auto" }}
 										className="d-flex gap-2 align-items-center"
 									>
-										{model.settings.previewFullScreen || (
+										{model.previewShouldBeFullScreen || (
 											<FormCheck
 												label="Auto-Reload"
 												className="text-nowrap"
@@ -177,64 +187,116 @@ export class PlaygroundPageContent extends React.Component<
 											}
 										/>
 
-										{model.serializer.sourceOverride ? (
+										{!model.historyModel.compareWith ? (
+											model.historyModel
+												.sourceOverride ? (
+												<ButtonGroup>
+													<button
+														type="button"
+														className="btn btn-primary"
+														onClick={() =>
+															model.historyModel.disableSourceOverride()
+														}
+													>
+														Disable{" "}
+														{model.historyModel
+															.sourceOverride
+															.version ??
+															"url"}{" "}
+														override
+													</button>
+													<button
+														type="button"
+														className="btn btn-secondary"
+														onClick={() =>
+															model.compareWithLatestDev()
+														}
+													>
+														Compare with latest dev
+													</button>
+													<button
+														type="button"
+														className="btn btn-secondary"
+														onClick={() =>
+															model.historyModel.saveSourceOverride()
+														}
+													>
+														Save
+													</button>
+												</ButtonGroup>
+											) : (
+												<>
+													<VersionSelector
+														model={model}
+													/>
+
+													<button
+														type="button"
+														className="btn btn-light settings bi-gear"
+														style={{
+															fontSize: 20,
+															padding: "0px 4px",
+														}}
+														onClick={() =>
+															model.showSettingsDialog()
+														}
+													/>
+												</>
+											)
+										) : (
 											<ButtonGroup>
 												<button
 													type="button"
 													className="btn btn-primary"
 													onClick={() =>
-														model.serializer.disableSourceOverride()
+														model.historyModel.exitCompare()
 													}
 												>
-													Disable{" "}
-													{model.serializer
-														.sourceOverride
-														.version ?? "url"}{" "}
-													override
-												</button>
-												<button
-													type="button"
-													className="btn btn-secondary"
-													onClick={() =>
-														model.serializer.useLatestDev()
-													}
-												>
-													Use latest dev
-												</button>
-												<button
-													type="button"
-													className="btn btn-secondary"
-													onClick={() =>
-														model.serializer.saveSourceOverride()
-													}
-												>
-													Save
+													Exit Compare
 												</button>
 											</ButtonGroup>
-										) : (
-											<>
-												<VersionSelector
-													model={model}
-												/>
-
-												<button
-													type="button"
-													className="btn btn-light settings bi-gear"
-													style={{
-														fontSize: 20,
-														padding: "0px 4px",
-													}}
-													onClick={() =>
-														model.showSettingsDialog()
-													}
-												/>
-											</>
 										)}
 									</div>
 								}
 							>
-								<Preview model={model} />
+								<Preview
+									model={model}
+									getPreviewState={model.getPreviewState}
+								/>
 							</LabeledEditor>
+							{model.historyModel.compareWith && (
+								<>
+									<div style={{ height: "10px" }} />
+									<LabeledEditor
+										label={`Preview ${model.historyModel.compareWith.toString()}:`}
+										titleBarItems={
+											<div
+												style={{ marginLeft: "auto" }}
+												className="d-flex gap-2 align-items-center"
+											>
+												<ButtonGroup>
+													<button
+														type="button"
+														className="btn btn-primary"
+														onClick={() =>
+															model.historyModel.saveCompareWith()
+														}
+													>
+														Save
+													</button>
+												</ButtonGroup>
+											</div>
+										}
+									>
+										<Preview
+											model={model}
+											getPreviewState={
+												model.getCompareWithPreviewState
+											}
+										/>
+									</LabeledEditor>
+								</>
+							)}
 						</Col>
 					</Row>
 				</div>

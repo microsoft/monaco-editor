@@ -32,6 +32,6 @@ export interface IPlaygroundProject {
 }
 
 export interface IPreviewState extends IPlaygroundProject {
-	key: number;
+	reloadKey: number;
 	monacoSetup: IMonacoSetup;
 }
