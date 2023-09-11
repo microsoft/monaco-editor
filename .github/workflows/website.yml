@@ -1,10 +1,8 @@
 name: Publish Website
 
 on:
-  push:
-    tags:
-      - 'v*'
-  # enable users to manually trigger with workflow_dispatch
+  schedule:
+    - cron: 0 23 * * *
   workflow_dispatch: {}
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
