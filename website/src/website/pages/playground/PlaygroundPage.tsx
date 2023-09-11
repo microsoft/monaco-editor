@@ -7,9 +7,10 @@ import { withLoader } from "../../components/Loader";
 import { getNpmVersions } from "./getNpmVersionsSync";
 
 @withLoader(async () => {
+	const search = new URLSearchParams(window.location.search);
 	if (
-		new URLSearchParams(window.location.search).get("source") ===
-		"latest-dev"
+		search.get("source") === "latest-dev" ||
+		search.get("compareWith") === "latest-dev"
 	) {
 		// So that the source class can resolve that value
 		await getNpmVersions();
