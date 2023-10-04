@@ -58,7 +58,7 @@ function createLangModel(languageId, text) {
 	var update = function () {
 		var def = null;
 		try {
-			def = eval("(function(){ " + langModel.getValue() + "; })()");
+			def = eval("(function(){ " + langModel.getValue() + "; })()"); // CodeQL [SM01632] langModel.getValue() is a default value with volatile user modifications. This is an essential functionality for the monarch playground and safe, as no injection is possible.
 		} catch (err) {
 			setInnerText(outputPane, err + "\n");
 			return;

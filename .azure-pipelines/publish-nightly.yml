@@ -23,6 +23,16 @@ resources:
       ref: main
       endpoint: Monaco
 
+parameters:
+  - name: vscodeRef
+    displayName: The VS Code commit id.
+    type: string
+    default: 'main'
+  - name: prereleaseVersion
+    displayName: The prerelease version.
+    type: string
+    default: 'dev-${today}'
+
 extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
   parameters:
@@ -31,10 +41,17 @@ extends:
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
         testPlatforms: []
         buildSteps:
+          - script: sudo apt install -y libkrb5-dev
+            displayName: Install libkrb5-dev
+
           - script: npm ci
             displayName: Install NPM dependencies
 
           - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare nightly
+            env:
+              VSCODE_REF: ${{ parameters.vscodeRef }}
+              PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
+            retryCountOnTaskFailure: 5
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: next
@@ -50,6 +67,10 @@ extends:
             displayName: Install NPM dependencies
 
           - script: yarn ts-node ./scripts/ci/monaco-editor-prepare nightly
+            env:
+              VSCODE_REF: ${{ parameters.vscodeRef }}
+              PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
+            retryCountOnTaskFailure: 5
             displayName: Setup, Build & Test monaco-editor
 
         tag: next

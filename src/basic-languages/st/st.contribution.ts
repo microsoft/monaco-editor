@@ -10,7 +10,7 @@ declare var require: any;
 
 registerLanguage({
 	id: 'st',
-	extensions: ['.st', '.iecst', '.iecplc', '.lc3lib'],
+	extensions: ['.st', '.iecst', '.iecplc', '.lc3lib', '.TcPOU', '.TcDUT', '.TcGVL', '.TcIO'],
 	aliases: ['StructuredText', 'scl', 'stl'],
 	loader: () => {
 		if (AMD) {

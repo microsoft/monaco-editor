@@ -26,6 +26,7 @@ export class MonacoLoader extends React.Component<
 		return this.props.children(this.state.monaco);
 	}
 }
+
 /**
  * Decorates a component so that it only gets mounted when monaco is loaded.
  */

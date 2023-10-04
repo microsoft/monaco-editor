@@ -5,7 +5,7 @@
 
 import { IMonacoSetup } from "./monaco-loader";
 
-export type IMessage =
+export type IMessageToRunner =
 	| {
 			kind: "initialize";
 			state: IPreviewState;
@@ -15,6 +15,16 @@ export type IMessage =
 			css: string;
 	  };
 
+export type IMessageFromRunner =
+	| {
+			kind: "update-code-string";
+			codeStringName: string;
+			value: string;
+	  }
+	| {
+			kind: "reload";
+	  };
+
 export interface IPlaygroundProject {
 	js: string;
 	css: string;
@@ -22,6 +32,6 @@ export interface IPlaygroundProject {
 }
 
 export interface IPreviewState extends IPlaygroundProject {
-	key: number;
+	reloadKey: number;
 	monacoSetup: IMonacoSetup;
 }

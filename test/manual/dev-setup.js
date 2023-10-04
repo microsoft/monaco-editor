@@ -6,8 +6,8 @@
 		'npm/dev': 'node_modules/monaco-editor-core/dev/vs',
 		'npm/min': 'node_modules/monaco-editor-core/min/vs',
 		built: '/vscode/out-monaco-editor-core/min/vs',
-		releaseDev: 'release/dev/vs',
-		releaseMin: 'release/min/vs'
+		releaseDev: 'out/monaco-editor/dev/vs',
+		releaseMin: 'out/monaco-editor/min/vs'
 	};
 	const pluginPaths = {
 		src: 'out/amd',
@@ -35,11 +35,11 @@
 		div.style.padding = '5px 20px 5px 5px';
 		div.style.zIndex = '1000';
 
-		div.innerHTML =
-			'<ul><li>' +
-			renderLoadingOptions(true) +
-			(isRelease ? '' : `</li><li>${renderLoadingOptions(false)}`) +
-			'</li></ul>';
+		div.innerHTML = // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
+			'<ul><li>' + // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
+			renderLoadingOptions(true) + // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
+			(isRelease ? '' : `</li><li>${renderLoadingOptions(false)}`) + // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
+			'</li></ul>'; // CodeQL [SM03712] This code is not deployed and serves as local test code. No risk of malicious input.
 
 		document.body.appendChild(div);
 
@@ -47,7 +47,7 @@
 		for (let i = 0; i < aElements.length; i++) {
 			let aElement = aElements[i];
 			if (aElement.className === 'loading-opts') {
-				aElement.href += window.location.search;
+				aElement.href += window.location.search; // CodeQL [SM01507] This code is not deployed and serves as local test code. No risk of malicious input.
 			}
 		}
 	})();

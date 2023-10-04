@@ -6,7 +6,7 @@ export function getNpmVersionsSync(
 	currentVersion: string | undefined
 ): string[] {
 	if (!npmVersionsObservable) {
-		npmVersionsObservable = new ObservablePromise(getNpmVersions());
+		npmVersionsObservable = new ObservablePromise(loadNpmVersions());
 	}
 	return (
 		npmVersionsObservable.value || (currentVersion ? [currentVersion] : [])
@@ -16,6 +16,13 @@ export function getNpmVersionsSync(
 let npmVersionsPromise: Promise<string[]> | undefined;
 
 export async function getNpmVersions(): Promise<string[]> {
+	getNpmVersionsSync(undefined);
+	return npmVersionsPromise!;
+}
+
+getNpmVersions();
+
+async function loadNpmVersions(): Promise<string[]> {
 	if (npmVersionsPromise === undefined) {
 		npmVersionsPromise = _getNpmVersions();
 	}

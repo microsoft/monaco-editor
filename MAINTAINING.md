@@ -2,29 +2,26 @@
 
 (For maintainers only)
 
-- [P1 Inbox Queue](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+is%3Aopen+-label%3Afeature-request+-label%3Aquestion+-label%3Aupstream+-label%3A%22help+wanted%22+-label%3A%22info-needed%22+-label%3A%22as-designed%22+-label%3Abug+-label%3A*question+)
-- [Inbox Queue](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+is%3Aopen+no%3Aassignee+-label%3Afeature-request+-label%3Aquestion+-label%3Aupstream+-label%3A%22help+wanted%22+-label%3A%22info-needed%22+-label%3A%22as-designed%22+)
+Make sure every unassigned issue is labeled properly:
 
-## Updating TypeScript
+- [Inbox Queue](https://github.com/microsoft/monaco-editor/issues?q=is%3Aissue+is%3Aopen+no%3Aassignee+-label%3Afeature-request+-label%3Aupstream+-label%3A%22info-needed%22++-label%3Abug+)
 
-- change typescript's version in `package.json`.
-- execute `npm install .`
-- execute `npm run import-typescript`
-- adopt new APIs
+## Publishing a stable build monaco-editor build
 
-## Shipping a new monaco-editor npm module
+- Make sure there exists a nightly build from the VS Code commit the stable build should be built from
+- [Compare Last Stable With Nightly](https://microsoft.github.io/monaco-editor/playground.html?source=v0.40.0-dev.20230704#XQAAAAJWBgAAAAAAAABBqQkHQ5NjdMjwa-jY7SIQ9S7DNlzs5W-mwj0fe1ZCDRFc9ws9XQE0SJE1jc2VKxhaLFIw9vEWSxW3yscw_SM66BuzMt6m3zM8Thvb-XSMR_Da8IdBq3FOgly-7-xuaHSi_yUg58ZO9Mr-RKT7GyHzHoU8B9N7P-uTzmCdhT2Vv-4gNRbWSMQCUPrfmzFCkSH_WR2Vc8LGx2m0uRSFiJu82B1mS0RM-eriU9PTOqAgBrlPUMTU44VrHyVOqgs5BFrUuUHwGDzUHxeNuUk-kg2u70awQLQ83wD4o2EbSefqfIWkk2Yi0mnUS903tLA4V17MD_6OHIRArunMPL6E14ZCW0_Aql21F62Fmz--i_pNbqBIpSlBbZl6LzA1HzNsoDH7i2rn1qAw55L1MjwOU4QQMCJfffmJznAbGoZWkXK91OPYlOGNHNGG-MPUFsY5JSjLfvCWOvXypW9ZVkBZMo1qUbtE135CLqbaBiw52f3eOPBTru3IL_wT__ciAFI5NDiVOeN8V9zqkzbwiFNeQyZcjxmrDLjYTPJpao0dG61Um0w4FpVud8p77bjoAdEfG8JNO97W4cawj0HvMfvcZS81P7IsijZqA7KyVsdq79iCJQuMO31aS86cM4GTNT0TvdI7p62uiEmm9X6ZjF8oSLxW87Vt0oYAZ5wBePqdN6FwNO6BWACt2Ep9i5Q6h-mOy7_JWOiPTOH0Zz3v6SaNhjxJwZAqNG3FqvRTgLg-au-pfa8PD0No3U15UyWeqrVXSthGFghLJ16ppEwFCqFfQ6Vr0leZtSZXyk41-t5ZKMG-KQjzq1XE2PnuyOz60nV4GaYvGlMHrXz-XrEqb2kwNf_pBee0)
+  - Update [package.json](./package.json)
+    - set `version` to next stable
+    - set `vscodeRef` to _vscodeCommitId_
+    - update `devDependencies.monaco-editor-core` to _version_
+  - Run `npm install` to update lockfile
+  - Update [CHANGELOG.md](./CHANGELOG.md)
+    - API Changes / Breaking Changes / New and noteworthy
+    - Thank you ([use this tool](https://tools.code.visualstudio.com/acknowledgement))
+  - Commit
+  - [Trigger build](https://dev.azure.com/monacotools/Monaco/_build?definitionId=416)
 
-- update `package.json` and bump `"version"` as necessary
-- update `package.json` and edit `"vscode"` to point to the vscode repo commit that should be shipped at `monaco-editor-core` (both `monaco-editor-core` and `monaco-editor` will be published under the same version defined in `package.json`).
-- write entry in `CHANGELOG.md`
-  - API Changes / Breaking Changes / New and noteworthy
-  - Thank you ([use this tool](https://vscode-tools.azurewebsites.net/acknowledgement/))
-- trigger a build using [`Publish to npm`](https://github.com/microsoft/monaco-editor/actions/workflows/publish.yml) and type false when asked "is nightly?"
-- if the publish succeeded, run `git tag 0.x.y` and `git push origin 0.x.y`
-- edit `package.json` and update the `"monaco-editor-core"` dev dependency.
-- run `npm install`
-
-#### 8. Publish new webpack plugin
+#### Publish new webpack plugin
 
 - **TBD**
 - https://github.com/microsoft/monaco-editor/tree/main/webpack-plugin
@@ -41,3 +38,10 @@
   - use `npm version major`
   - publish using `npm publish`
 - remember to push tags upstream
+
+## Updating TypeScript
+
+- change typescript's version in `package.json`.
+- execute `npm install .`
+- execute `npm run import-typescript`
+- adopt new APIs

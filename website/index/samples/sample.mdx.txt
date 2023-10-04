@@ -1,0 +1,92 @@
+---
+frontmatter: data
+yaml: true
+---
+
+[link](https://example.com)
+
+~~~
+aasd
+asd
+asd
+~~~
+
+# Hello MDX {1+2}
+
+import { MyComponent } from './MyComponent'
+
+This is **bold {'foo' + 1} text**
+
+This is _emphasis {'foo' + 1} text_
+
+This is *emphasis {'foo' + 1} text too*
+
+    This is an indented *code* block
+
+export function foo() {
+  console.log('asd', 1)
+  if(true) {
+    return 'yep'
+  }
+  return 'nope'
+}
+
+
+This is regular content
+
+- this is a list
+
+* this is also a list
+
++ me too!
+
+1. pizza
+2. fries
+3. ice cream
+
+----
+
+_________
+
+***\
+~~~css
+body {
+  color: red;
+}
+~~~
+
+> - this is a list
+>
+> * this is also a list
+>
+> + me too!
+>
+> 1. pizza
+> 2. fries
+> 3. ice cream
+>
+> ---
+>
+> _________
+>
+> ***
+>
+> ```css
+> body {
+>   color: red;
+> }
+> ```
+
+> This is a blockquote
+>
+>> This is a nested {'blockquote'}
+
+{'foo' + 1 + 2 + {} + 12}
+
+{/* this is a comment */}
+
+<MyComponent contenteditable className="text-green-700" id='foo' width={100 + 100}>
+
+  This is **also** markdown.
+
+</MyComponent>
