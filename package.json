@@ -72,7 +72,8 @@
 		"vscode-languageserver-types": "3.16.0",
 		"vscode-uri": "3.0.3",
 		"webpack": "^5.76.0",
-		"yaserver": "^0.4.0"
+		"yaserver": "^0.4.0",
+		"node-gyp": "^9.4.0"
 	},
 	"alias": {
 		"process": false,
