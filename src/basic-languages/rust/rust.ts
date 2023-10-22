@@ -40,10 +40,11 @@ export const language = <languages.IMonarchLanguage>{
 	tokenPostfix: '.rust',
 	defaultToken: 'invalid',
 	keywords: [
+		// https://doc.rust-lang.org/reference/keywords.html
+		// Strict keywords
 		'as',
 		'async',
 		'await',
-		'box',
 		'break',
 		'const',
 		'continue',
@@ -73,24 +74,27 @@ export const language = <languages.IMonarchLanguage>{
 		'super',
 		'trait',
 		'true',
-		'try',
 		'type',
 		'unsafe',
 		'use',
 		'where',
 		'while',
-		'union',
+		// Reserved keywords
 		'abstract',
 		'become',
+		'box',
 		'do',
 		'final',
 		'macro',
 		'override',
 		'priv',
+		'try',
 		'typeof',
 		'unsized',
 		'virtual',
-		'yield'
+		'yield',
+		// Weak keywords
+		'union'
 	],
 
 	typeKeywords: [
