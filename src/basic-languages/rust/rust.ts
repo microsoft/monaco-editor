@@ -130,6 +130,7 @@ export const language = <languages.IMonarchLanguage>{
 		'isize',
 		'str',
 		'Option',
+		'Result',
 		'Either',
 		'c_float',
 		'c_double',
