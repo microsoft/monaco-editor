@@ -125,7 +125,6 @@ export const language = <languages.IMonarchLanguage>{
 		'str',
 		'Option',
 		'Result',
-		'Either',
 		'c_float',
 		'c_double',
 		'c_void',
@@ -158,7 +157,7 @@ export const language = <languages.IMonarchLanguage>{
 		'ssize_t'
 	],
 
-	constants: ['true', 'false', 'Some', 'None', 'Left', 'Right', 'Ok', 'Err'],
+	constants: ['true', 'false', 'Some', 'None', 'Ok', 'Err'],
 
 	supportConstants: [
 		'EXIT_FAILURE',
