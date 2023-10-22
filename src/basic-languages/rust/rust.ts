@@ -69,6 +69,7 @@ export const language = <languages.IMonarchLanguage>{
 		'ref',
 		'return',
 		'self',
+		'Self',
 		'static',
 		'struct',
 		'super',
@@ -94,7 +95,9 @@ export const language = <languages.IMonarchLanguage>{
 		'virtual',
 		'yield',
 		// Weak keywords
-		'union'
+		'macro_rules',
+		'union',
+		'\'static'
 	],
 
 	typeKeywords: [
