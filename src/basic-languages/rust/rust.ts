@@ -103,12 +103,6 @@ export const language = <languages.IMonarchLanguage>{
 
 	typeKeywords: [
 		'Self',
-		'm32',
-		'm64',
-		'm128',
-		'f80',
-		'f16',
-		'f128',
 		'int',
 		'uint',
 		'float',
