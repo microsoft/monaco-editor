@@ -5,6 +5,7 @@
   - [Option 2: Using plain webpack](#option-2-using-plain-webpack)
 - [Parcel](#using-parcel)
 - [Vite](#using-vite)
+- [Rspack](#using-rspack)
 
 ### Using webpack
 
@@ -227,3 +228,9 @@ monaco.editor.create(document.getElementById('container'), {
 	language: 'javascript'
 });
 ```
+
+### Using Rspack
+
+A full working sample is available at https://github.com/microsoft/monaco-editor/tree/main/samples/browser-esm-rspack
+
+Thanks to the strong interoperability between [Rspack](https://www.rspack.dev/) and the webpack ecosystem, its configuration is consistent with that of [webpack](#option-2-using-plain-webpack). Additionally, it also fully supports the [Monaco Editor WebPack Plugin](../webpack-plugin/).
