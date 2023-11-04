@@ -1,13 +1,13 @@
 {
-  "name": "browser-esm-rspack",
-  "private": true,
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "rspack serve",
-    "build": "rspack build"
-  },
-  "devDependencies": {
-    "@rspack/cli": "^0.3.10",
-    "monaco-editor-webpack-plugin": "^7.1.0"
-  }
+	"name": "browser-esm-rspack",
+	"private": true,
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "rspack serve",
+		"build": "rspack build"
+	},
+	"devDependencies": {
+		"@rspack/cli": "^0.3.10",
+		"monaco-editor-webpack-plugin": "^7.1.0"
+	}
 }

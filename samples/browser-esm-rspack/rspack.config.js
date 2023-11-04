@@ -6,12 +6,12 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 module.exports = {
 	context: __dirname,
 	entry: {
-		main: "./index.js"
+		main: './index.js'
 	},
 	builtins: {
 		html: [
 			{
-				template: "./index.html"
+				template: './index.html'
 			}
 		]
 	},
