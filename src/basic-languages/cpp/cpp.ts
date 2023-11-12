@@ -312,8 +312,7 @@ export const language = <languages.IMonarchLanguage>{
 			// [[ attributes ]].
 			[/\[\s*\[/, { token: 'annotation', next: '@annotation' }],
 			// delimiters and operators
-			[/[{}()\[\]]/, '@brackets'],
-			[/[<>](?!@symbols)/, '@brackets'],
+			[/[{}()<>\[\]]/, '@brackets'],
 			[
 				/@symbols/,
 				{
