@@ -400,7 +400,6 @@ export const language = <languages.IMonarchLanguage>{
 
 		annotation: [
 			{ include: '@whitespace' },
-			[/using|alignas/, 'keyword'],
 			[/[a-zA-Z0-9_]+/, 'annotation'],
 			[/[,:]/, 'delimiter'],
 			[/[()]/, '@brackets'],
