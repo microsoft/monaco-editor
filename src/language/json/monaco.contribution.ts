@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './jsonMode';
-import { Emitter, IEvent, languages, Uri } from '../../fillers/monaco-editor-core';
-import type { JSONWorker } from './jsonWorker';
+import { Emitter, IEvent, languages, Uri } from 'monaco-editor-core';
+import * as jsonService from 'vscode-json-languageservice';
 
 // --- JSON configuration and defaults ---------
 
@@ -198,9 +198,27 @@ export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 	modeConfigurationDefault
 );
 
-export const getWorker = (): Promise<(...uris: Uri[]) => Promise<JSONWorker>> => {
-	return getMode().then((mode) => mode.getWorker());
-};
+export interface IJSONWorker {
+	findDocumentSymbols(uri: string): Promise<jsonService.SymbolInformation[]>;
+	getColorPresentations(
+		uri: string,
+		color: jsonService.Color,
+		range: jsonService.Range
+	): Promise<jsonService.ColorPresentation[]>;
+	getFoldingRanges(
+		uri: string,
+		context?: { rangeLimit?: number }
+	): Promise<jsonService.FoldingRange[]>;
+	getSelectionRanges(
+		uri: string,
+		positions: jsonService.Position[]
+	): Promise<jsonService.SelectionRange[]>;
+	parseJSONDocument(uri: string): Promise<jsonService.JSONDocument | null>;
+	getMatchingSchemas(uri: string): Promise<jsonService.MatchingSchema[]>;
+}
+
+export const getWorker = (): Promise<(...uris: Uri[]) => Promise<IJSONWorker>> =>
+	getMode().then((mode) => mode.getWorker());
 
 // export to the global based API
 (<any>languages).json = { jsonDefaults, getWorker };
