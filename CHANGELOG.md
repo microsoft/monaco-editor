@@ -1,5 +1,19 @@
 # Monaco Editor Changelog
 
+## [0.45.0]
+
+### Breaking Changes
+
+- `wordBasedSuggestions: boolean` -> `'off' | 'currentDocument' | 'matchingDocuments' | 'allDocuments'`
+- `occurrencesHighlight: boolean` -> `'off' | 'singleFile' | 'multiFile'`
+
+### Additions
+
+- Many bug fixes
+- `IEditorScrollbarOptions.ignoreHorizontalScrollbarInContentHeight`
+- `IDiffEditor.goToDiff`
+- `IDiffEditor.revealFirstDiff`
+
 ## [0.44.0]
 
 - Removes old diff editor implementation.

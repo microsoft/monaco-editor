@@ -93,6 +93,7 @@ export const language = <languages.IMonarchLanguage>{
 		'raise',
 		'return',
 		'try',
+		'type', // new in Python 3.12
 		'while',
 		'with',
 		'yield',
