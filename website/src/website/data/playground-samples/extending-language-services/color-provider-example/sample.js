@@ -43,27 +43,27 @@ monaco.languages.registerColorProvider("colorLanguage", {
 				color: { red: 1, blue: 0, green: 0, alpha: 1 },
 				range: {
 					startLineNumber: 1,
-					startColumn: 0,
+					startColumn: 1,
 					endLineNumber: 1,
-					endColumn: 0,
+					endColumn: 4,
 				},
 			},
 			{
 				color: { red: 0, blue: 1, green: 0, alpha: 1 },
 				range: {
 					startLineNumber: 2,
-					startColumn: 0,
+					startColumn: 1,
 					endLineNumber: 2,
-					endColumn: 0,
+					endColumn: 5,
 				},
 			},
 			{
 				color: { red: 0, blue: 0, green: 1, alpha: 1 },
 				range: {
 					startLineNumber: 3,
-					startColumn: 0,
+					startColumn: 1,
 					endLineNumber: 3,
-					endColumn: 0,
+					endColumn: 6,
 				},
 			},
 		];

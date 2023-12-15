@@ -11,7 +11,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"css-loader": "^5.2.7",
-		"electron": "^19.1.8",
+		"electron": "^22.3.25",
 		"file-loader": "^6.2.0",
 		"glob": "^7.2.0",
 		"html-webpack-plugin": "^5.5.0",

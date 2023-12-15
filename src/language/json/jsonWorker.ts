@@ -32,7 +32,10 @@ export class JSONWorker {
 					return resolvePath(base, relativePath);
 				}
 			},
-			schemaRequestService: createData.enableSchemaRequest ? defaultSchemaRequestService : undefined
+			schemaRequestService: createData.enableSchemaRequest
+				? defaultSchemaRequestService
+				: undefined,
+			clientCapabilities: jsonService.ClientCapabilities.LATEST
 		});
 		this._languageService.configure(this._languageSettings);
 	}
