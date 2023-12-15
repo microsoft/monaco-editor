@@ -5,8 +5,405 @@
 
 import * as mode from './jsonMode';
 import { Emitter, IEvent, languages, Uri } from 'monaco-editor-core';
-import * as jsonService from 'vscode-json-languageservice';
 
+// ---- JSON service types ----
+/**
+ * Defines a decimal number. Since decimal numbers are very
+ * rare in the language server specification we denote the
+ * exact range with every decimal using the mathematics
+ * interval notations (e.g. [0, 1] denotes all decimals d with
+ * 0 <= d <= 1.
+ */
+export type decimal = number;
+
+/**
+ * Represents a color in RGBA space.
+ */
+export interface Color {
+	/**
+	 * The red component of this color in the range [0-1].
+	 */
+	readonly red: decimal;
+	/**
+	 * The green component of this color in the range [0-1].
+	 */
+	readonly green: decimal;
+	/**
+	 * The blue component of this color in the range [0-1].
+	 */
+	readonly blue: decimal;
+	/**
+	 * The alpha component of this color in the range [0-1].
+	 */
+	readonly alpha: decimal;
+}
+
+/**
+ * Defines an unsigned integer in the range of 0 to 2^31 - 1.
+ */
+export type uinteger = number;
+
+/**
+ * Position in a text document expressed as zero-based line and character offset.
+ * The offsets are based on a UTF-16 string representation. So a string of the form
+ * `a𐐀b` the character offset of the character `a` is 0, the character offset of `𐐀`
+ * is 1 and the character offset of b is 3 since `𐐀` is represented using two code
+ * units in UTF-16.
+ *
+ * Positions are line end character agnostic. So you can not specify a position that
+ * denotes `\r|\n` or `\n|` where `|` represents the character offset.
+ */
+export interface Position {
+	/**
+	 * Line position in a document (zero-based).
+	 */
+	line: uinteger;
+	/**
+	 * Character offset on a line in a document (zero-based). Assuming that the line is
+	 * represented as a string, the `character` value represents the gap between the
+	 * `character` and `character + 1`.
+	 *
+	 * If the character value is greater than the line length it defaults back to the
+	 * line length.
+	 */
+	character: uinteger;
+}
+
+/**
+ * A range in a text document expressed as (zero-based) start and end positions.
+ *
+ * If you want to specify a range that contains a line including the line ending
+ * character(s) then use an end position denoting the start of the next line.
+ * For example:
+ * ```ts
+ * {
+ *     start: { line: 5, character: 23 }
+ *     end : { line 6, character : 0 }
+ * }
+ * ```
+ */
+export interface Range {
+	/**
+	 * The range's start position
+	 */
+	start: Position;
+	/**
+	 * The range's end position.
+	 */
+	end: Position;
+}
+
+/**
+ * A text edit applicable to a text document.
+ */
+export interface TextEdit {
+	/**
+	 * The range of the text document to be manipulated. To insert
+	 * text into a document create a range where start === end.
+	 */
+	range: Range;
+	/**
+	 * The string to be inserted. For delete operations use an
+	 * empty string.
+	 */
+	newText: string;
+}
+
+export interface ColorPresentation {
+	/**
+	 * The label of this color presentation. It will be shown on the color
+	 * picker header. By default this is also the text that is inserted when selecting
+	 * this color presentation.
+	 */
+	label: string;
+	/**
+	 * An [edit](#TextEdit) which is applied to a document when selecting
+	 * this presentation for the color.  When `falsy` the [label](#ColorPresentation.label)
+	 * is used.
+	 */
+	textEdit?: TextEdit;
+	/**
+	 * An optional array of additional [text edits](#TextEdit) that are applied when
+	 * selecting this color presentation. Edits must not overlap with the main [edit](#ColorPresentation.textEdit) nor with themselves.
+	 */
+	additionalTextEdits?: TextEdit[];
+}
+
+/**
+ * Represents a folding range. To be valid, start and end line must be bigger than zero and smaller
+ * than the number of lines in the document. Clients are free to ignore invalid ranges.
+ */
+export interface FoldingRange {
+	/**
+	 * The zero-based start line of the range to fold. The folded area starts after the line's last character.
+	 * To be valid, the end must be zero or larger and smaller than the number of lines in the document.
+	 */
+	startLine: uinteger;
+	/**
+	 * The zero-based character offset from where the folded range starts. If not defined, defaults to the length of the start line.
+	 */
+	startCharacter?: uinteger;
+	/**
+	 * The zero-based end line of the range to fold. The folded area ends with the line's last character.
+	 * To be valid, the end must be zero or larger and smaller than the number of lines in the document.
+	 */
+	endLine: uinteger;
+	/**
+	 * The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line.
+	 */
+	endCharacter?: uinteger;
+	/**
+	 * Describes the kind of the folding range such as `comment' or 'region'. The kind
+	 * is used to categorize folding ranges and used by commands like 'Fold all comments'. See
+	 * [FoldingRangeKind](#FoldingRangeKind) for an enumeration of standardized kinds.
+	 */
+	kind?: string;
+}
+
+export interface BaseASTNode {
+	readonly type: 'object' | 'array' | 'property' | 'string' | 'number' | 'boolean' | 'null';
+	readonly parent?: ASTNode;
+	readonly offset: number;
+	readonly length: number;
+	readonly children?: ASTNode[];
+	readonly value?: string | boolean | number | null;
+}
+export interface ObjectASTNode extends BaseASTNode {
+	readonly type: 'object';
+	readonly properties: PropertyASTNode[];
+	readonly children: ASTNode[];
+}
+export interface PropertyASTNode extends BaseASTNode {
+	readonly type: 'property';
+	readonly keyNode: StringASTNode;
+	readonly valueNode?: ASTNode;
+	readonly colonOffset?: number;
+	readonly children: ASTNode[];
+}
+export interface ArrayASTNode extends BaseASTNode {
+	readonly type: 'array';
+	readonly items: ASTNode[];
+	readonly children: ASTNode[];
+}
+export interface StringASTNode extends BaseASTNode {
+	readonly type: 'string';
+	readonly value: string;
+}
+export interface NumberASTNode extends BaseASTNode {
+	readonly type: 'number';
+	readonly value: number;
+	readonly isInteger: boolean;
+}
+export interface BooleanASTNode extends BaseASTNode {
+	readonly type: 'boolean';
+	readonly value: boolean;
+}
+export interface NullASTNode extends BaseASTNode {
+	readonly type: 'null';
+	readonly value: null;
+}
+
+export type ASTNode =
+	| ObjectASTNode
+	| PropertyASTNode
+	| ArrayASTNode
+	| StringASTNode
+	| NumberASTNode
+	| BooleanASTNode
+	| NullASTNode;
+
+export type JSONDocument = {
+	root: ASTNode | undefined;
+	getNodeFromOffset(offset: number, includeRightBound?: boolean): ASTNode | undefined;
+};
+
+export type JSONSchemaRef = JSONSchema | boolean;
+
+export interface JSONSchemaMap {
+	[name: string]: JSONSchemaRef;
+}
+
+export interface JSONSchema {
+	id?: string;
+	$id?: string;
+	$schema?: string;
+	type?: string | string[];
+	title?: string;
+	default?: any;
+	definitions?: {
+		[name: string]: JSONSchema;
+	};
+	description?: string;
+	properties?: JSONSchemaMap;
+	patternProperties?: JSONSchemaMap;
+	additionalProperties?: boolean | JSONSchemaRef;
+	minProperties?: number;
+	maxProperties?: number;
+	dependencies?:
+		| JSONSchemaMap
+		| {
+				[prop: string]: string[];
+		  };
+	items?: JSONSchemaRef | JSONSchemaRef[];
+	minItems?: number;
+	maxItems?: number;
+	uniqueItems?: boolean;
+	additionalItems?: boolean | JSONSchemaRef;
+	pattern?: string;
+	minLength?: number;
+	maxLength?: number;
+	minimum?: number;
+	maximum?: number;
+	exclusiveMinimum?: boolean | number;
+	exclusiveMaximum?: boolean | number;
+	multipleOf?: number;
+	required?: string[];
+	$ref?: string;
+	anyOf?: JSONSchemaRef[];
+	allOf?: JSONSchemaRef[];
+	oneOf?: JSONSchemaRef[];
+	not?: JSONSchemaRef;
+	enum?: any[];
+	format?: string;
+	const?: any;
+	contains?: JSONSchemaRef;
+	propertyNames?: JSONSchemaRef;
+	examples?: any[];
+	$comment?: string;
+	if?: JSONSchemaRef;
+	then?: JSONSchemaRef;
+	else?: JSONSchemaRef;
+	defaultSnippets?: {
+		label?: string;
+		description?: string;
+		markdownDescription?: string;
+		body?: any;
+		bodyText?: string;
+	}[];
+	errorMessage?: string;
+	patternErrorMessage?: string;
+	deprecationMessage?: string;
+	enumDescriptions?: string[];
+	markdownEnumDescriptions?: string[];
+	markdownDescription?: string;
+	doNotSuggest?: boolean;
+	suggestSortText?: string;
+	allowComments?: boolean;
+	allowTrailingCommas?: boolean;
+}
+
+export interface MatchingSchema {
+	node: ASTNode;
+	schema: JSONSchema;
+}
+
+/**
+ * A selection range represents a part of a selection hierarchy. A selection range
+ * may have a parent selection range that contains it.
+ */
+export interface SelectionRange {
+	/**
+	 * The [range](#Range) of this selection range.
+	 */
+	range: Range;
+	/**
+	 * The parent selection range containing this range. Therefore `parent.range` must contain `this.range`.
+	 */
+	parent?: SelectionRange;
+}
+
+/**
+ * A tagging type for string properties that are actually document URIs.
+ */
+export type DocumentUri = string;
+
+/**
+ * Represents a location inside a resource, such as a line
+ * inside a text file.
+ */
+export interface Location {
+	uri: DocumentUri;
+	range: Range;
+}
+
+export type SymbolKind =
+	| 1
+	| 2
+	| 3
+	| 4
+	| 5
+	| 6
+	| 7
+	| 8
+	| 9
+	| 10
+	| 11
+	| 12
+	| 13
+	| 14
+	| 15
+	| 16
+	| 17
+	| 18
+	| 19
+	| 20
+	| 21
+	| 22
+	| 23
+	| 24
+	| 25
+	| 26;
+
+/**
+ * Symbol tags are extra annotations that tweak the rendering of a symbol.
+ * @since 3.16
+ */
+export type SymbolTag = 1;
+/**
+ * Represents information about programming constructs like variables, classes,
+ * interfaces etc.
+ */
+export interface SymbolInformation {
+	/**
+	 * The name of this symbol.
+	 */
+	name: string;
+	/**
+	 * The kind of this symbol.
+	 */
+	kind: SymbolKind;
+	/**
+	 * Tags for this completion item.
+	 *
+	 * @since 3.16.0
+	 */
+	tags?: SymbolTag[];
+	/**
+	 * Indicates if this symbol is deprecated.
+	 *
+	 * @deprecated Use tags instead
+	 */
+	deprecated?: boolean;
+	/**
+	 * The location of this symbol. The location's range is used by a tool
+	 * to reveal the location in the editor. If the symbol is selected in the
+	 * tool the range's start information is used to position the cursor. So
+	 * the range usually spans more than the actual symbol's name and does
+	 * normally include thinks like visibility modifiers.
+	 *
+	 * The range doesn't have to denote a node range in the sense of a abstract
+	 * syntax tree. It can therefore not be used to re-construct a hierarchy of
+	 * the symbols.
+	 */
+	location: Location;
+	/**
+	 * The name of the symbol containing this symbol. This information is for
+	 * user interface purposes (e.g. to render a qualifier in the user interface
+	 * if necessary). It can't be used to re-infer a hierarchy for the document
+	 * symbols.
+	 */
+	containerName?: string;
+}
 // --- JSON configuration and defaults ---------
 
 export interface DiagnosticsOptions {
@@ -199,22 +596,12 @@ export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 );
 
 export interface IJSONWorker {
-	findDocumentSymbols(uri: string): Promise<jsonService.SymbolInformation[]>;
-	getColorPresentations(
-		uri: string,
-		color: jsonService.Color,
-		range: jsonService.Range
-	): Promise<jsonService.ColorPresentation[]>;
-	getFoldingRanges(
-		uri: string,
-		context?: { rangeLimit?: number }
-	): Promise<jsonService.FoldingRange[]>;
-	getSelectionRanges(
-		uri: string,
-		positions: jsonService.Position[]
-	): Promise<jsonService.SelectionRange[]>;
-	parseJSONDocument(uri: string): Promise<jsonService.JSONDocument | null>;
-	getMatchingSchemas(uri: string): Promise<jsonService.MatchingSchema[]>;
+	findDocumentSymbols(uri: string): Promise<SymbolInformation[]>;
+	getColorPresentations(uri: string, color: Color, range: Range): Promise<ColorPresentation[]>;
+	getFoldingRanges(uri: string, context?: { rangeLimit?: number }): Promise<FoldingRange[]>;
+	getSelectionRanges(uri: string, positions: Position[]): Promise<SelectionRange[]>;
+	parseJSONDocument(uri: string): Promise<JSONDocument | null>;
+	getMatchingSchemas(uri: string): Promise<MatchingSchema[]>;
 }
 
 export const getWorker = (): Promise<(...uris: Uri[]) => Promise<IJSONWorker>> =>
