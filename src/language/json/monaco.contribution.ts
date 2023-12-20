@@ -17,28 +17,6 @@ import { Emitter, IEvent, languages, Uri } from 'monaco-editor-core';
 export type decimal = number;
 
 /**
- * Represents a color in RGBA space.
- */
-export interface Color {
-	/**
-	 * The red component of this color in the range [0-1].
-	 */
-	readonly red: decimal;
-	/**
-	 * The green component of this color in the range [0-1].
-	 */
-	readonly green: decimal;
-	/**
-	 * The blue component of this color in the range [0-1].
-	 */
-	readonly blue: decimal;
-	/**
-	 * The alpha component of this color in the range [0-1].
-	 */
-	readonly alpha: decimal;
-}
-
-/**
  * Defines an unsigned integer in the range of 0 to 2^31 - 1.
  */
 export type uinteger = number;
@@ -92,74 +70,6 @@ export interface Range {
 	 */
 	end: Position;
 }
-
-/**
- * A text edit applicable to a text document.
- */
-export interface TextEdit {
-	/**
-	 * The range of the text document to be manipulated. To insert
-	 * text into a document create a range where start === end.
-	 */
-	range: Range;
-	/**
-	 * The string to be inserted. For delete operations use an
-	 * empty string.
-	 */
-	newText: string;
-}
-
-export interface ColorPresentation {
-	/**
-	 * The label of this color presentation. It will be shown on the color
-	 * picker header. By default this is also the text that is inserted when selecting
-	 * this color presentation.
-	 */
-	label: string;
-	/**
-	 * An [edit](#TextEdit) which is applied to a document when selecting
-	 * this presentation for the color.  When `falsy` the [label](#ColorPresentation.label)
-	 * is used.
-	 */
-	textEdit?: TextEdit;
-	/**
-	 * An optional array of additional [text edits](#TextEdit) that are applied when
-	 * selecting this color presentation. Edits must not overlap with the main [edit](#ColorPresentation.textEdit) nor with themselves.
-	 */
-	additionalTextEdits?: TextEdit[];
-}
-
-/**
- * Represents a folding range. To be valid, start and end line must be bigger than zero and smaller
- * than the number of lines in the document. Clients are free to ignore invalid ranges.
- */
-export interface FoldingRange {
-	/**
-	 * The zero-based start line of the range to fold. The folded area starts after the line's last character.
-	 * To be valid, the end must be zero or larger and smaller than the number of lines in the document.
-	 */
-	startLine: uinteger;
-	/**
-	 * The zero-based character offset from where the folded range starts. If not defined, defaults to the length of the start line.
-	 */
-	startCharacter?: uinteger;
-	/**
-	 * The zero-based end line of the range to fold. The folded area ends with the line's last character.
-	 * To be valid, the end must be zero or larger and smaller than the number of lines in the document.
-	 */
-	endLine: uinteger;
-	/**
-	 * The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line.
-	 */
-	endCharacter?: uinteger;
-	/**
-	 * Describes the kind of the folding range such as `comment' or 'region'. The kind
-	 * is used to categorize folding ranges and used by commands like 'Fold all comments'. See
-	 * [FoldingRangeKind](#FoldingRangeKind) for an enumeration of standardized kinds.
-	 */
-	kind?: string;
-}
-
 export interface BaseASTNode {
 	readonly type: 'object' | 'array' | 'property' | 'string' | 'number' | 'boolean' | 'null';
 	readonly parent?: ASTNode;
@@ -296,22 +206,6 @@ export interface MatchingSchema {
 	node: ASTNode;
 	schema: JSONSchema;
 }
-
-/**
- * A selection range represents a part of a selection hierarchy. A selection range
- * may have a parent selection range that contains it.
- */
-export interface SelectionRange {
-	/**
-	 * The [range](#Range) of this selection range.
-	 */
-	range: Range;
-	/**
-	 * The parent selection range containing this range. Therefore `parent.range` must contain `this.range`.
-	 */
-	parent?: SelectionRange;
-}
-
 /**
  * A tagging type for string properties that are actually document URIs.
  */
@@ -324,85 +218,6 @@ export type DocumentUri = string;
 export interface Location {
 	uri: DocumentUri;
 	range: Range;
-}
-
-export type SymbolKind =
-	| 1
-	| 2
-	| 3
-	| 4
-	| 5
-	| 6
-	| 7
-	| 8
-	| 9
-	| 10
-	| 11
-	| 12
-	| 13
-	| 14
-	| 15
-	| 16
-	| 17
-	| 18
-	| 19
-	| 20
-	| 21
-	| 22
-	| 23
-	| 24
-	| 25
-	| 26;
-
-/**
- * Symbol tags are extra annotations that tweak the rendering of a symbol.
- * @since 3.16
- */
-export type SymbolTag = 1;
-/**
- * Represents information about programming constructs like variables, classes,
- * interfaces etc.
- */
-export interface SymbolInformation {
-	/**
-	 * The name of this symbol.
-	 */
-	name: string;
-	/**
-	 * The kind of this symbol.
-	 */
-	kind: SymbolKind;
-	/**
-	 * Tags for this completion item.
-	 *
-	 * @since 3.16.0
-	 */
-	tags?: SymbolTag[];
-	/**
-	 * Indicates if this symbol is deprecated.
-	 *
-	 * @deprecated Use tags instead
-	 */
-	deprecated?: boolean;
-	/**
-	 * The location of this symbol. The location's range is used by a tool
-	 * to reveal the location in the editor. If the symbol is selected in the
-	 * tool the range's start information is used to position the cursor. So
-	 * the range usually spans more than the actual symbol's name and does
-	 * normally include thinks like visibility modifiers.
-	 *
-	 * The range doesn't have to denote a node range in the sense of a abstract
-	 * syntax tree. It can therefore not be used to re-construct a hierarchy of
-	 * the symbols.
-	 */
-	location: Location;
-	/**
-	 * The name of the symbol containing this symbol. This information is for
-	 * user interface purposes (e.g. to render a qualifier in the user interface
-	 * if necessary). It can't be used to re-infer a hierarchy for the document
-	 * symbols.
-	 */
-	containerName?: string;
 }
 // --- JSON configuration and defaults ---------
 
@@ -596,10 +411,6 @@ export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 );
 
 export interface IJSONWorker {
-	findDocumentSymbols(uri: string): Promise<SymbolInformation[]>;
-	getColorPresentations(uri: string, color: Color, range: Range): Promise<ColorPresentation[]>;
-	getFoldingRanges(uri: string, context?: { rangeLimit?: number }): Promise<FoldingRange[]>;
-	getSelectionRanges(uri: string, positions: Position[]): Promise<SelectionRange[]>;
 	parseJSONDocument(uri: string): Promise<JSONDocument | null>;
 	getMatchingSchemas(uri: string): Promise<MatchingSchema[]>;
 }
