@@ -85,13 +85,13 @@ export class JSONWorker {
 	async resetSchema(uri: string): Promise<boolean> {
 		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
-	async findDocumentSymbols(uri: string): Promise<jsonService.SymbolInformation[]> {
+	async findDocumentSymbols(uri: string): Promise<jsonService.DocumentSymbol[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
+		let symbols = this._languageService.findDocumentSymbols2(document, jsonDocument);
 		return Promise.resolve(symbols);
 	}
 	async findDocumentColors(uri: string): Promise<jsonService.ColorInformation[]> {
