@@ -29,7 +29,7 @@ parameters:
     type: boolean
     default: true
   - name: publishMonacoEditor
-    displayName: 🚀 Publish Editor Core
+    displayName: 🚀 Publish Monaco Editor
     type: boolean
     default: true
   - name: vscodeRef
