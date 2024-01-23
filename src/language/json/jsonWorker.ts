@@ -144,6 +144,22 @@ export class JSONWorker {
 		let ranges = this._languageService.getSelectionRanges(document, positions, jsonDocument);
 		return Promise.resolve(ranges);
 	}
+	async parseJSONDocument(uri: string): Promise<jsonService.JSONDocument | null> {
+		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
+		let jsonDocument = this._languageService.parseJSONDocument(document);
+		return Promise.resolve(jsonDocument);
+	}
+	async getMatchingSchemas(uri: string): Promise<jsonService.MatchingSchema[]> {
+		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
+		let jsonDocument = this._languageService.parseJSONDocument(document);
+		return Promise.resolve(this._languageService.getMatchingSchemas(document, jsonDocument));
+	}
 	private _getTextDocument(uri: string): jsonService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
 		for (let model of models) {

@@ -26,6 +26,10 @@ global.UIEvent = tmp.window.UIEvent;
 global.window = {
 	location: {},
 	navigator: tmp.window.navigator,
+	document: {
+		body: tmp.window.document.body,
+		addEventListener: (...args) => tmp.window.document.addEventListener(...args)
+	},
 	matchMedia: function () {
 		return {
 			matches: false,
