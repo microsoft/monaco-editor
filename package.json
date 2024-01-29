@@ -1,5 +1,5 @@
 {
-	"name": "monaco-editor",
+	"name": "@notluks/monaco-editor",
 	"version": "0.45.0",
 	"vscodeRef": "af28b32d7e553898b2a91af498b1fb666fdebe0c",
 	"private": true,

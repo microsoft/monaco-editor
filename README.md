@@ -1,3 +1,7 @@
+# Forked from [microsoft/monaco-editor](https://github.com/microsoft/monaco-editor), with the following changes:
+
+- [x] Upgrade typescript to latest version
+
 # Monaco Editor
 
 [![Versions](https://img.shields.io/npm/v/monaco-editor)](https://www.npmjs.com/package/monaco-editor)
