@@ -12,6 +12,7 @@ import {
 	TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
+import { replaceVariablesWithMarkers, shouldWrapWithCircleBrackets } from '../../common/utils';
 
 /**
  * Loading a default lib as a source file will mess up TS completely.
@@ -116,8 +117,24 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return text;
 	}
 
+	// TASK-2524: Replace CodeMirror with Monaco editor.
+	// Replace variables with valid markers before validation.
+	// In some cases, like defining "Custom Javascript" variables, we need to have a script containing single unnamed functions like "function() {...}".
+	// Alternatively, the script can contain just a single JS object without assigning it to a variable.
+	// The syntax diagnostic recognizes it as an error, so simply wrap it with circular brackets.
+	private _convertToValidJS(input?: string) {
+		if (input === undefined) return;
+		let text = replaceVariablesWithMarkers(input);
+
+		if (shouldWrapWithCircleBrackets(text)) {
+			text = `(${text})`;
+		}
+		return text;
+	}
+
 	getScriptSnapshot(fileName: string): ts.IScriptSnapshot | undefined {
-		const text = this._getScriptText(fileName);
+		const text = this._convertToValidJS(this._getScriptText(fileName));
+
 		if (text === undefined) {
 			return;
 		}

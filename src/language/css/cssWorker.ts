@@ -6,6 +6,12 @@
 import type { worker } from '../../fillers/monaco-editor-core';
 import * as cssService from 'vscode-css-languageservice';
 import { Options } from './monaco.contribution';
+import {
+	INLINE_CSS_ID,
+	isInlineConfig,
+	replaceMarkersWithVariables,
+	replaceVariablesWithMarkers
+} from '../../common/utils';
 
 export class CSSWorker {
 	// --- model sync -----------------------
@@ -211,18 +217,45 @@ export class CSSWorker {
 		}
 		const settings = { ...this._languageSettings.format, ...options };
 		const textEdits = this._languageService.format(document, range! /* TODO */, settings);
-		return Promise.resolve(textEdits);
+
+		const updatedEdits = textEdits.map((edit) => {
+			return {
+				...edit,
+				// TASK-2524: Replace CodeMirror with Monaco editor.
+				// Replace markers with variables after validation
+				// Remove inline styles id
+				newText: replaceMarkersWithVariables(edit.newText.replace(INLINE_CSS_ID, '').trim())
+			};
+		});
+		return Promise.resolve(updatedEdits);
 	}
+
+	// TASK-2524: Replace CodeMirror with Monaco editor.
+	// Replace variables with valid markers before validation.
+	// In some cases we need to define inline styles.
+	// E.g.
+	// {
+	// 	width: 16px;
+	// 	color: {{ Brand Color }};
+	// 	border-radius: 5px;
+	// }
+	// It does not contain any class name or identifier
+	// Diagnostic recognizes it as invalid syntax. And all IntelliSense features broke.
+	// Simply add #inline-styles-configuration id before validation
+	private _convertToValidCSS(modelValue: string) {
+		let result = replaceVariablesWithMarkers(modelValue);
+		if (isInlineConfig(result)) {
+			result = `${INLINE_CSS_ID}${result}`;
+		}
+		return result;
+	}
+
 	private _getTextDocument(uri: string): cssService.TextDocument | null {
 		const models = this._ctx.getMirrorModels();
 		for (const model of models) {
 			if (model.uri.toString() === uri) {
-				return cssService.TextDocument.create(
-					uri,
-					this._languageId,
-					model.version,
-					model.getValue()
-				);
+				const cssString = this._convertToValidCSS(model.getValue());
+				return cssService.TextDocument.create(uri, this._languageId, model.version, cssString);
 			}
 		}
 		return null;

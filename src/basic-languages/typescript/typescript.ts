@@ -15,7 +15,9 @@ export const conf: languages.LanguageConfiguration = {
 	},
 
 	brackets: [
-		['{', '}'],
+		// TASK-2524: Replace CodeMirror with Monaco editor.
+		// Disable brackets as they have a higher priority in the tokenization process compared to custom variables, e.g., {{ var1 }}, and affect bracket coloring.
+		// ['{', '}'],
 		['[', ']'],
 		['(', ')']
 	],
@@ -57,7 +59,10 @@ export const conf: languages.LanguageConfiguration = {
 	],
 
 	autoClosingPairs: [
-		{ open: '{', close: '}' },
+		// TASK-2524: Replace CodeMirror with Monaco editor.
+		// Prevent auto-closing for curly brackets. It creates issues and affects search functionality for variables when autosuggestion is triggered.
+		// Requires deep investigation
+		// { open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
 		{ open: '"', close: '"', notIn: ['string'] },
@@ -222,7 +227,13 @@ export const language = {
 
 	// The main tokenizer for our languages
 	tokenizer: {
-		root: [[/[{}]/, 'delimiter.bracket'], { include: 'common' }],
+		root: [
+			// TASK-2524: Replace CodeMirror with Monaco editor.
+			// Added token regexp for coloring variables e.g. {{ var1 }}
+			[/\{\{\s(([_a-zA-Z0-9][_a-zA-Z0-9 ]*[_a-zA-Z0-9])|[_a-zA-Z0-9])\s\}\}/, 'keyword'],
+			[/[{}]/, 'delimiter.bracket'],
+			{ include: 'common' }
+		],
 
 		common: [
 			// identifiers and keywords

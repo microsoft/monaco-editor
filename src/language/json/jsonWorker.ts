@@ -7,6 +7,7 @@ import * as jsonService from 'vscode-json-languageservice';
 import type { worker } from '../../fillers/monaco-editor-core';
 import { URI } from 'vscode-uri';
 import { DiagnosticsOptions } from './monaco.contribution';
+import { wrapPlaceholdersAndVariablesWithQuotes } from '../../common/utils';
 
 let defaultSchemaRequestService: ((url: string) => Promise<string>) | undefined;
 if (typeof fetch !== 'undefined') {
@@ -160,16 +161,20 @@ export class JSONWorker {
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		return Promise.resolve(this._languageService.getMatchingSchemas(document, jsonDocument));
 	}
+
+	// TASK-2524: Replace CodeMirror with Monaco editor.
+	// Replace variables and placeholder with valid JSON values before validation.
+	// Simply wrap them with quotes e.g. "{{ var1 }}" "[[ placeholder1 ]]"
+	private _convertToValidJSON(text: string) {
+		return wrapPlaceholdersAndVariablesWithQuotes(text);
+	}
+
 	private _getTextDocument(uri: string): jsonService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {
-				return jsonService.TextDocument.create(
-					uri,
-					this._languageId,
-					model.version,
-					model.getValue()
-				);
+				const text = this._convertToValidJSON(model.getValue());
+				return jsonService.TextDocument.create(uri, this._languageId, model.version, text);
 			}
 		}
 		return null;

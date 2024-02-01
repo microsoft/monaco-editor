@@ -13,13 +13,18 @@ export const conf: languages.LanguageConfiguration = {
 	},
 
 	brackets: [
-		['{', '}'],
+		// TASK-2524: Replace CodeMirror with Monaco editor.
+		// Disable brackets as they have a higher priority in the tokenization process compared to custom variables, e.g., {{ var1 }}, and affect bracket coloring.
+		// ['{', '}'],
 		['[', ']'],
 		['(', ')']
 	],
 
 	autoClosingPairs: [
-		{ open: '{', close: '}', notIn: ['string', 'comment'] },
+		// TASK-2524: Replace CodeMirror with Monaco editor.
+		// Prevent auto-closing for curly brackets. It creates issues and affects search functionality for variables when autosuggestion is triggered.
+		// Requires deep investigation
+		// { open: '{', close: '}', notIn: ['string', 'comment'] },
 		{ open: '[', close: ']', notIn: ['string', 'comment'] },
 		{ open: '(', close: ')', notIn: ['string', 'comment'] },
 		{ open: '"', close: '"', notIn: ['string', 'comment'] },
@@ -48,7 +53,9 @@ export const language = <languages.IMonarchLanguage>{
 
 	ws: '[ \t\n\r\f]*', // whitespaces (referenced in several rules)
 	identifier:
-		'-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
+		// TASK-2524: Replace CodeMirror with Monaco editor.
+		// Added identifier regexp for coloring variables e.g. {{ var1 }}
+		'-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*|(\\{\\{\\s(([_a-zA-Z0-9][_a-zA-Z0-9 ]*[_a-zA-Z0-9])|[_a-zA-Z0-9])\\s\\}\\})',
 
 	brackets: [
 		{ open: '{', close: '}', token: 'delimiter.bracket' },

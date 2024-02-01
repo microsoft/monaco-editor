@@ -1,8 +1,8 @@
 {
-	"name": "monaco-editor",
-	"version": "0.45.0",
+	"name": "ay-test-code-editor",
+	"version": "0.45.16",
 	"vscodeRef": "af28b32d7e553898b2a91af498b1fb666fdebe0c",
-	"private": true,
+	"private": false,
 	"description": "A browser based code editor",
 	"homepage": "https://github.com/microsoft/monaco-editor",
 	"author": "Microsoft Corporation",

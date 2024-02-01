@@ -108,8 +108,19 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 			.then((diagnostics) => {
 				const markers = diagnostics.map((d) => toDiagnostics(resource, d));
 				let model = editor.getModel(resource);
+
+				// TASK-2524: Replace CodeMirror with Monaco editor.
+				// We need to track when validation is finished.
+				// However, "onDidChangeMarkers" only runs when the marker count is greater than 0.
+				// There is not possibility to add handler like "onValidationSuccess/onValidationFailure," etc.
+				// Simply provide an empty marker object to trigger the event.
 				if (model && model.getLanguageId() === languageId) {
-					editor.setModelMarkers(model, languageId, markers);
+					editor.setModelMarkers(model, languageId, [
+						{
+							// Provide empty marker data to fire "monaco.editor.onDidChangeMarkers" listener
+						} as any,
+						...markers
+					]);
 				}
 			})
 			.then(undefined, (err) => {

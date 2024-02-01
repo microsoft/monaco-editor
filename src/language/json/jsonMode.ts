@@ -170,13 +170,18 @@ const richEditConfiguration: languages.LanguageConfiguration = {
 	},
 
 	brackets: [
-		['{', '}'],
-		['[', ']']
+		// TASK-2524: Replace CodeMirror with Monaco editor.
+		// Disable brackets as they have a higher priority in the tokenization process compared to custom variables and placeholders, e.g., {{ var1 }} or [[ placeholder1 ]], and affect bracket coloring.
+		// ['{', '}'],
+		// ['[', ']']
 	],
 
 	autoClosingPairs: [
-		{ open: '{', close: '}', notIn: ['string'] },
-		{ open: '[', close: ']', notIn: ['string'] },
+		// TASK-2524: Replace CodeMirror with Monaco editor.
+		// Prevent auto-closing for curly and square brackets. It creates issues and affects search functionality for variables when autosuggestion is triggered.
+		// Requires deep investigation
+		// { open: '{', close: '}', notIn: ['string'] },
+		// { open: '[', close: ']', notIn: ['string'] },
 		{ open: '"', close: '"', notIn: ['string'] }
 	]
 };
