@@ -32,7 +32,10 @@ export class JSONWorker {
 					return resolvePath(base, relativePath);
 				}
 			},
-			schemaRequestService: createData.enableSchemaRequest ? defaultSchemaRequestService : undefined
+			schemaRequestService: createData.enableSchemaRequest
+				? defaultSchemaRequestService
+				: undefined,
+			clientCapabilities: jsonService.ClientCapabilities.LATEST
 		});
 		this._languageService.configure(this._languageSettings);
 	}
@@ -82,13 +85,13 @@ export class JSONWorker {
 	async resetSchema(uri: string): Promise<boolean> {
 		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
-	async findDocumentSymbols(uri: string): Promise<jsonService.SymbolInformation[]> {
+	async findDocumentSymbols(uri: string): Promise<jsonService.DocumentSymbol[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
 		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let symbols = this._languageService.findDocumentSymbols(document, jsonDocument);
+		let symbols = this._languageService.findDocumentSymbols2(document, jsonDocument);
 		return Promise.resolve(symbols);
 	}
 	async findDocumentColors(uri: string): Promise<jsonService.ColorInformation[]> {
@@ -140,6 +143,22 @@ export class JSONWorker {
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 		let ranges = this._languageService.getSelectionRanges(document, positions, jsonDocument);
 		return Promise.resolve(ranges);
+	}
+	async parseJSONDocument(uri: string): Promise<jsonService.JSONDocument | null> {
+		let document = this._getTextDocument(uri);
+		if (!document) {
+			return null;
+		}
+		let jsonDocument = this._languageService.parseJSONDocument(document);
+		return Promise.resolve(jsonDocument);
+	}
+	async getMatchingSchemas(uri: string): Promise<jsonService.MatchingSchema[]> {
+		let document = this._getTextDocument(uri);
+		if (!document) {
+			return [];
+		}
+		let jsonDocument = this._languageService.parseJSONDocument(document);
+		return Promise.resolve(this._languageService.getMatchingSchemas(document, jsonDocument));
 	}
 	private _getTextDocument(uri: string): jsonService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
