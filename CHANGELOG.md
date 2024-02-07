@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.46.0]
+
+- Bug fixes
+
 ## [0.45.0]
 
 ### Breaking Changes
