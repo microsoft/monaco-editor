@@ -313,7 +313,7 @@ function createLoaderRules(
 	};
 	return [
 		{
-			test: /esm[/\\]vs[/\\]editor[/\\]editor.(api|main).js/,
+			test: /esm[/\\]vs[/\\]editor[/\\]editor.main.js/,
 			use: [
 				{
 					loader: INCLUDE_LOADER_PATH,
