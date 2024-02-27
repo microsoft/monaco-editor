@@ -38,6 +38,7 @@ extends:
         testPlatforms: []
         buildSteps:
           - script: sudo apt install -y libkrb5-dev
+            condition: eq(variables['Agent.OS'], 'Linux')
             displayName: Install libkrb5-dev
 
           - script: npm ci
