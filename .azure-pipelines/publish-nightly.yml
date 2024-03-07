@@ -24,6 +24,14 @@ resources:
       endpoint: Monaco
 
 parameters:
+  - name: publishMonacoEditorCore
+    displayName: 🚀 Publish Monaco Editor Core
+    type: boolean
+    default: true
+  - name: publishMonacoEditor
+    displayName: 🚀 Publish Monaco Editor
+    type: boolean
+    default: true
   - name: vscodeRef
     displayName: The VS Code commit id.
     type: string
@@ -56,7 +64,7 @@ extends:
 
         tag: next
         ghCreateTag: false
-        publishPackage: true
+        publishPackage: ${{ parameters.publishMonacoEditorCore }}
         publishRequiresApproval: false
 
       - name: monaco-editor
@@ -74,5 +82,5 @@ extends:
             displayName: Setup, Build & Test monaco-editor
 
         tag: next
-        publishPackage: true
+        publishPackage: ${{ parameters.publishMonacoEditor }}
         publishRequiresApproval: false

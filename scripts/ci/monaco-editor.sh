@@ -20,7 +20,8 @@ npm run package-for-smoketest-esbuild
 # Package using vite
 npm run package-for-smoketest-vite
 # Package using parcel
-npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+# npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+# Disabled for now, as the parcel bundler cannot deal with VS Code process variable
 
 # Run smoke test
 npm run smoketest

@@ -21,7 +21,7 @@ parameters:
     type: boolean
     default: false
   - name: publishMonacoEditor
-    displayName: 🚀 Publish Editor Core
+    displayName: 🚀 Publish Monaco Editor
     type: boolean
     default: false
   - name: publishWebpackPlugin

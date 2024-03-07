@@ -10,6 +10,18 @@ import * as languageFeatures from '../common/lspLanguageFeatures';
 import { createTokenizationSupport } from './tokenization';
 import { Uri, IDisposable, languages, editor } from '../../fillers/monaco-editor-core';
 
+let worker: languageFeatures.WorkerAccessor<JSONWorker>;
+
+export function getWorker(): Promise<(...uris: Uri[]) => Promise<JSONWorker>> {
+	return new Promise((resolve, reject) => {
+		if (!worker) {
+			return reject('JSON not registered!');
+		}
+
+		resolve(worker);
+	});
+}
+
 class JSONDiagnosticsAdapter extends languageFeatures.DiagnosticsAdapter<JSONWorker> {
 	constructor(
 		languageId: string,
@@ -44,9 +56,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const client = new WorkerManager(defaults);
 	disposables.push(client);
 
-	const worker: languageFeatures.WorkerAccessor<JSONWorker> = (
-		...uris: Uri[]
-	): Promise<JSONWorker> => {
+	worker = (...uris: Uri[]): Promise<JSONWorker> => {
 		return client.getLanguageServiceWorker(...uris);
 	};
 
