@@ -414,22 +414,37 @@ export interface TypeScriptWorker {
 
 	/**
 	 * Get code completions for the given file and position.
+	 * @param options `typescript.GetCompletionsAtPositionOptions | undefined`
+	 * @param formattingSettings `typescript.FormatCodeSettings`
 	 * @returns `Promise<typescript.CompletionInfo | undefined>`
 	 */
-	getCompletionsAtPosition(fileName: string, position: number): Promise<any | undefined>;
+	getCompletionsAtPosition(
+		fileName: string,
+		position: number,
+		options: any,
+		formattingSettings?: any
+	): Promise<any | undefined>;
 
 	/**
 	 * Get code completion details for the given file, position, and entry.
+	 * @param formatOptions `typescript.FormatCodeOptions | typescript.FormatCodeSettings | undefined`
+	 * @param preferences `typescript.UserPreferences | undefined`
+	 * @param data `typescript.CompletionEntryData | undefined`
 	 * @returns `Promise<typescript.CompletionEntryDetails | undefined>`
 	 */
 	getCompletionEntryDetails(
 		fileName: string,
 		position: number,
-		entry: string
+		entryName: string,
+		formatOptions: any,
+		source: string | undefined,
+		preferences: any,
+		data: any
 	): Promise<any | undefined>;
 
 	/**
 	 * Get signature help items for the item at the given file and position.
+	 * @param options `typescript.SignatureHelpItemsOptions | undefined`
 	 * @returns `Promise<typescript.SignatureHelpItems | undefined>`
 	 */
 	getSignatureHelpItems(fileName: string, position: number, options: any): Promise<any | undefined>;
@@ -526,6 +541,7 @@ export interface TypeScriptWorker {
 	/**
 	 * Get possible code fixes at the given position in the file.
 	 * @param formatOptions `typescript.FormatCodeOptions`
+	 * @param preferences `typescript.UserPreferences`
 	 * @returns `Promise<ReadonlyArray<typescript.CodeFixAction>>`
 	 */
 	getCodeFixesAtPosition(
@@ -533,7 +549,8 @@ export interface TypeScriptWorker {
 		start: number,
 		end: number,
 		errorCodes: number[],
-		formatOptions: any
+		formatOptions: any,
+		preferences: any
 	): Promise<ReadonlyArray<any>>;
 
 	/**
