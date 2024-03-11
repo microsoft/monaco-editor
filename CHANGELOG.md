@@ -1,5 +1,13 @@
 # Monaco Editor Changelog
 
+## [0.47.0]
+
+### Additions
+
+- Bug fixes
+- `registerNewSymbolNameProvider`
+- Experimental `registerInlineEditProvider`
+
 ## [0.46.0]
 
 - Bug fixes
