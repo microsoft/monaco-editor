@@ -56,8 +56,9 @@ jobs:
       - name: Package using vite
         run: npm run package-for-smoketest-vite
 
-      - name: Package using parcel
-        run: npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+      #      - name: Package using parcel
+      #        run: npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+      # Disabled for now, as the parcel bundler cannot deal with VS Code process variable
 
       - name: Run smoke test
         run: npm run smoketest
