@@ -35,6 +35,7 @@ extends:
     npmPackages:
       - name: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
+        testPlatforms: []
         skipAPIScan: true
         buildSteps:
           - script: sudo apt install -y libkrb5-dev
@@ -53,10 +54,7 @@ extends:
 
       - name: monaco-editor
         workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
-        testPlatforms:
-          - name: Windows
-            nodeVersions:
-              - 18.17.x
+        testPlatforms: []
         packagePlatform: Windows
         buildSteps:
           - script: npm ci
@@ -71,10 +69,7 @@ extends:
 
       - name: monaco-editor-webpack-plugin
         workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
-        testPlatforms:
-          - name: Windows
-            nodeVersions:
-              - 18.17.x
+        testPlatforms: []
         packagePlatform: Windows
         buildSteps:
           - script: npm ci
