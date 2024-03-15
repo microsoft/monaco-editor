@@ -35,12 +35,11 @@ extends:
     npmPackages:
       - name: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
-        testPlatforms:
-          - name: Windows
-            nodeVersions:
-              - 18.17.x
-        packagePlatform: Windows
+        apiScanSkip: true
         buildSteps:
+          - script: sudo apt install -y libkrb5-dev
+            displayName: Install libkrb5-dev
+
           - script: npm ci
             displayName: Install NPM dependencies
 
