@@ -41,9 +41,6 @@ extends:
               - 18.17.x
         packagePlatform: Windows
         buildSteps:
-          - script: sudo apt install -y libkrb5-dev
-            displayName: Install libkrb5-dev
-
           - script: npm ci
             displayName: Install NPM dependencies
 
