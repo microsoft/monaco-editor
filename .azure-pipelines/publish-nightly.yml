@@ -48,6 +48,7 @@ extends:
       - name: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
         testPlatforms: []
+        skipAPIScan: true # package build requires Linux
         buildSteps:
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
