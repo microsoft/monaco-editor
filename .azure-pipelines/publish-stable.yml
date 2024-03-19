@@ -32,10 +32,12 @@ parameters:
 extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
   parameters:
+    cgIgnoreDirectories: $(Build.SourcesDirectory)/dependencies/vscode/extensions
     npmPackages:
       - name: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
         testPlatforms: []
+        skipAPIScan: true # package build requires Linux
         buildSteps:
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
@@ -54,6 +56,7 @@ extends:
       - name: monaco-editor
         workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
         testPlatforms: []
+        skipAPIScan: true # package build requires Linux
         buildSteps:
           - script: npm ci
             displayName: Install NPM dependencies
@@ -68,6 +71,7 @@ extends:
       - name: monaco-editor-webpack-plugin
         workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
         testPlatforms: []
+        packagePlatform: Windows
         buildSteps:
           - script: npm ci
             displayName: Install NPM dependencies
