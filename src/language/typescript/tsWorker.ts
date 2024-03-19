@@ -254,27 +254,38 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	async getCompletionsAtPosition(
 		fileName: string,
-		position: number
-	): Promise<ts.CompletionInfo | undefined> {
+		position: number,
+		options: ts.GetCompletionsAtPositionOptions | undefined,
+		formattingSettings?: ts.FormatCodeSettings
+	): Promise<ts.WithMetadata<ts.CompletionInfo> | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
-		return this._languageService.getCompletionsAtPosition(fileName, position, undefined);
+		return this._languageService.getCompletionsAtPosition(
+			fileName,
+			position,
+			options,
+			formattingSettings
+		);
 	}
 
 	async getCompletionEntryDetails(
 		fileName: string,
 		position: number,
-		entry: string
+		entryName: string,
+		formatOptions: ts.FormatCodeOptions | ts.FormatCodeSettings | undefined,
+		source: string | undefined,
+		preferences: ts.UserPreferences | undefined,
+		data: ts.CompletionEntryData | undefined
 	): Promise<ts.CompletionEntryDetails | undefined> {
 		return this._languageService.getCompletionEntryDetails(
 			fileName,
 			position,
-			entry,
-			undefined,
-			undefined,
-			undefined,
-			undefined
+			entryName,
+			formatOptions,
+			source,
+			preferences,
+			data
 		);
 	}
 
@@ -339,7 +350,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	async getFormattingEditsForDocument(
 		fileName: string,
-		options: ts.FormatCodeOptions
+		options: ts.FormatCodeOptions | ts.FormatCodeSettings
 	): Promise<ts.TextChange[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -351,7 +362,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		fileName: string,
 		start: number,
 		end: number,
-		options: ts.FormatCodeOptions
+		options: ts.FormatCodeOptions | ts.FormatCodeSettings
 	): Promise<ts.TextChange[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -363,7 +374,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		fileName: string,
 		postion: number,
 		ch: string,
-		options: ts.FormatCodeOptions
+		options: ts.FormatCodeOptions | ts.FormatCodeSettings
 	): Promise<ts.TextChange[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -413,12 +424,12 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		start: number,
 		end: number,
 		errorCodes: number[],
-		formatOptions: ts.FormatCodeOptions
+		formatOptions: ts.FormatCodeOptions | ts.FormatCodeSettings,
+		preferences: ts.UserPreferences
 	): Promise<ReadonlyArray<ts.CodeFixAction>> {
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
-		const preferences = {};
 		try {
 			return this._languageService.getCodeFixesAtPosition(
 				fileName,
