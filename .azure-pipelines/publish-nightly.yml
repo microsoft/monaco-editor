@@ -71,6 +71,7 @@ extends:
       - name: monaco-editor
         workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
         testPlatforms: []
+        skipAPIScan: true # package build requires Linux
         buildSteps:
           - script: npm ci
             displayName: Install NPM dependencies
