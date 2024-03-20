@@ -378,20 +378,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		raw: [
-			[
-				/(.*)(\))(?:([^ ()\\\t"]*))(\")/,
-				{
-					cases: {
-						'$3==$S2': [
-							'string.raw',
-							'string.raw.end',
-							'string.raw.end',
-							{ token: 'string.raw.end', next: '@pop' }
-						],
-						'@default': ['string.raw', 'string.raw', 'string.raw', 'string.raw']
-					}
-				}
-			],
+			[/.*\)$S2\"/, 'string.raw', '@pop'],
 			[/.*/, 'string.raw']
 		],
 
