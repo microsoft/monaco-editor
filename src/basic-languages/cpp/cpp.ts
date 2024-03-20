@@ -378,8 +378,9 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		raw: [
-			[/.*\)$S2\"/, 'string.raw', '@pop'],
-			[/.*/, 'string.raw']
+			[/[^)]+/, 'string.raw'],
+			[/\)$S2\"/, { token: 'string.raw.end', next: '@pop' }],
+			[/\)/, 'string.raw']
 		],
 
 		annotation: [
