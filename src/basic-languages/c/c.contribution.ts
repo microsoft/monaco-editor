@@ -9,16 +9,16 @@ declare var AMD: any;
 declare var require: any;
 
 registerLanguage({
-	id: 'cpp',
-	extensions: ['.cpp', '.cc', '.cxx', '.hpp', '.hh', '.hxx'],
-	aliases: ['C++', 'Cpp', 'cpp'],
+	id: 'c',
+	extensions: ['.c', '.h'],
+	aliases: ['C', 'c'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/cpp/cpp'], resolve, reject);
+				require(['vs/basic-languages/c/c'], resolve, reject);
 			});
 		} else {
-			return import('./cpp');
+			return import('./c');
 		}
 	}
 });

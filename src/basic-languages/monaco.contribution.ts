@@ -12,6 +12,7 @@ import './cameligo/cameligo.contribution';
 import './clojure/clojure.contribution';
 import './coffee/coffee.contribution';
 import './cpp/cpp.contribution';
+import './c/c.contribution';
 import './csharp/csharp.contribution';
 import './csp/csp.contribution';
 import './css/css.contribution';
