@@ -34,6 +34,7 @@ export const conf: languages.LanguageConfiguration = {
 	brackets: [
 		['<!--', '-->'],
 		['<', '>'],
+		['{{{', '}}}'],
 		['{{', '}}'],
 		['{', '}'],
 		['(', ')']
