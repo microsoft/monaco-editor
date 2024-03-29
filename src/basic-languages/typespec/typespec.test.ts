@@ -3,9 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-// To generate an initial baseline from a .bicep file, uncomment:
-
 import { testTokenization } from '../test/testRunner';
+
+// Those test were auto generated from the test in the https://github.com/microsoft/typespec repo
+// to keep in sync you can follow the instruction in https://github.com/microsoft/typespec/blob/main/packages/monarch/README.md
 
 testTokenization('typespec', [
 	[
