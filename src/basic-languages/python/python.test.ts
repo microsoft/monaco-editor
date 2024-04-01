@@ -196,11 +196,11 @@ testTokenization('python', [
 		{
 			line: 'f"str {var} str"',
 			tokens: [
-				{startIndex: 0, type: 'string.escape.python'},
-				{startIndex: 2, type: 'string.python'},
-				{startIndex: 6, type: 'identifier.python'},
-				{startIndex: 11, type: 'string.python'},
-				{startIndex: 15, type: 'string.escape.python'}
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'string.python' },
+				{ startIndex: 6, type: 'identifier.python' },
+				{ startIndex: 11, type: 'string.python' },
+				{ startIndex: 15, type: 'string.escape.python' }
 			]
 		}
 	],
@@ -208,11 +208,11 @@ testTokenization('python', [
 		{
 			line: `f'''str {var} str'''`,
 			tokens: [
-				{startIndex: 0, type: 'string.escape.python'},
-				{startIndex: 4, type: 'string.python'},
-				{startIndex: 8, type: 'identifier.python'},
-				{startIndex: 13, type: 'string.python'},
-				{startIndex: 17, type: 'string.escape.python'}
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 4, type: 'string.python' },
+				{ startIndex: 8, type: 'identifier.python' },
+				{ startIndex: 13, type: 'string.python' },
+				{ startIndex: 17, type: 'string.escape.python' }
 			]
 		}
 	],
@@ -220,15 +220,15 @@ testTokenization('python', [
 		{
 			line: 'f"{var:.3f}{var!r}{var=}"',
 			tokens: [
-				{startIndex: 0, type: 'string.escape.python'},
-				{startIndex: 2, type: 'identifier.python'},
-				{startIndex: 6, type: 'string.python'},
-				{startIndex: 10, type: 'identifier.python'},
-				{startIndex: 15, type: 'string.python'},
-				{startIndex: 17, type: 'identifier.python'},
-				{startIndex: 22, type: 'string.python'},
-				{startIndex: 23, type: 'identifier.python'},
-				{startIndex: 24, type: 'string.escape.python'}
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'identifier.python' },
+				{ startIndex: 6, type: 'string.python' },
+				{ startIndex: 10, type: 'identifier.python' },
+				{ startIndex: 15, type: 'string.python' },
+				{ startIndex: 17, type: 'identifier.python' },
+				{ startIndex: 22, type: 'string.python' },
+				{ startIndex: 23, type: 'identifier.python' },
+				{ startIndex: 24, type: 'string.escape.python' }
 			]
 		}
 	],
@@ -253,5 +253,5 @@ testTokenization('python', [
 				{ startIndex: 6, type: 'string.escape.python' }
 			]
 		}
-	],
+	]
 ]);

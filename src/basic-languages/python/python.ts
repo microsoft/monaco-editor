@@ -288,7 +288,7 @@ export const language = <languages.IMonarchLanguage>{
 		],
 		fStringDetail: [
 			[/[:][^}]+/, 'string'],
-			[/[!][ars]/, 'string'],  // only !a, !r, !s are supported by f-strings: https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals
+			[/[!][ars]/, 'string'], // only !a, !r, !s are supported by f-strings: https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals
 			[/=/, 'string'],
 			[/\}/, 'identifier', '@pop']
 		]
