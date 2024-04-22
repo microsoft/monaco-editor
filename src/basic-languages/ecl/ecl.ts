@@ -415,7 +415,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/@typesone/, 'type'],
 
 			[
-				/[a-zA-Z_$][\w-$]*/,
+				/[a-zA-Z_$][\w$-]*/,
 				{
 					cases: {
 						'@functions': 'keyword.function',

@@ -204,7 +204,7 @@ export const language = <languages.IMonarchLanguage>{
 		'__owned'
 	],
 
-	symbols: /[=(){}\[\].,:;@#\_&\-<>`?!+*\\\/]/,
+	symbols: /[=(){}\[\].,:;@#_&\-<>`?!+*\\\/]/,
 
 	// Moved . to operatorstart so it can be a delimiter
 	operatorstart:

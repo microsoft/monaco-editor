@@ -173,7 +173,7 @@ export const language = <languages.IMonarchLanguage>{
 
 			// Integer- and real literals
 			[/[0-9]+\.[0-9]+(?:[DdEeXx][\+\-]?[0-9]+)?/, 'number.float'],
-			[/[0-9]+(?:\_[0-9a-fA-F]+)?L?/, 'number'],
+			[/[0-9]+(?:_[0-9a-fA-F]+)?L?/, 'number'],
 
 			// Operators, relations, and delimiters
 			[

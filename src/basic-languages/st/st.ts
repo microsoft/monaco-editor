@@ -355,12 +355,12 @@ export const language = <languages.IMonarchLanguage>{
 		root: [
 			[/(\.\.)/, 'delimiter'],
 
-			[/\b(16#[0-9A-Fa-f\_]*)+\b/, 'number.hex'],
-			[/\b(2#[01\_]+)+\b/, 'number.binary'],
-			[/\b(8#[0-9\_]*)+\b/, 'number.octal'],
+			[/\b(16#[0-9A-Fa-f_]*)+\b/, 'number.hex'],
+			[/\b(2#[01_]+)+\b/, 'number.binary'],
+			[/\b(8#[0-9_]*)+\b/, 'number.octal'],
 			[/\b\d*\.\d+([eE][\-+]?\d+)?\b/, 'number.float'],
-			[/\b(L?REAL)#[0-9\_\.e]+\b/, 'number.float'],
-			[/\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#[0-9\_]+\b/, 'number'],
+			[/\b(L?REAL)#[0-9_\.e]+\b/, 'number.float'],
+			[/\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#[0-9_]+\b/, 'number'],
 			[/\d+/, 'number'],
 
 			[/\b(T|DT|TOD)#[0-9:-_shmyd]+\b/, 'tag'],

@@ -10,5 +10,6 @@
 		"sourceMap": true,
 		"allowJs": true,
 		"checkJs": false
-	}
+	},
+	"exclude": ["language/typescript/lib/typescriptServices.js"]
 }
