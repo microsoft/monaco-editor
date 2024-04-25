@@ -216,9 +216,10 @@ export interface DiagnosticRelatedInformation {
 	messageText: string | DiagnosticMessageChain;
 }
 
-interface EmitOutput {
+export interface EmitOutput {
 	outputFiles: OutputFile[];
 	emitSkipped: boolean;
+	diagnostics?: Diagnostic[];
 }
 interface OutputFile {
 	name: string;
