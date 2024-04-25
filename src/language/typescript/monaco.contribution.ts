@@ -522,7 +522,11 @@ export interface TypeScriptWorker {
 	 * Get transpiled output for the given file.
 	 * @returns `typescript.EmitOutput`
 	 */
-	getEmitOutput(fileName: string): Promise<EmitOutput>;
+	getEmitOutput(
+		fileName: string,
+		emitOnlyDtsFiles?: boolean,
+		forceDtsEmit?: boolean
+	): Promise<EmitOutput>;
 
 	/**
 	 * Get possible code fixes at the given position in the file.

@@ -402,12 +402,20 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getRenameInfo(fileName, position, options);
 	}
 
-	async getEmitOutput(fileName: string): Promise<EmitOutput> {
+	async getEmitOutput(
+		fileName: string,
+		emitOnlyDtsFiles?: boolean,
+		forceDtsEmit?: boolean
+	): Promise<EmitOutput> {
 		if (fileNameIsLib(fileName)) {
 			return { outputFiles: [], emitSkipped: true };
 		}
 		// The diagnostics property is internal, returning it without clearing breaks message serialization.
-		const emitOutput = this._languageService.getEmitOutput(fileName) as ts.EmitOutput & {
+		const emitOutput = this._languageService.getEmitOutput(
+			fileName,
+			emitOnlyDtsFiles,
+			forceDtsEmit
+		) as ts.EmitOutput & {
 			diagnostics?: ts.Diagnostic[];
 		};
 		const diagnostics = emitOutput.diagnostics
