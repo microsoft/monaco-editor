@@ -1,5 +1,18 @@
 # Monaco Editor Changelog
 
+## [0.48.0]
+
+### Additions
+
+- Various bug fixes
+- Minimap Section Headers (see config option `showRegionSectionHeaders`)
+- Diff Editor Gutter Menu (see config option `renderGutterMenu`)
+- `InlineCompletionsProvider.handlePartialAccept` has `PartialAcceptInfo`
+
+Contributions to `monaco-editor`:
+
+- [@jeremy-rifkin (Jeremy Rifkin)](https://github.com/jeremy-rifkin): Fix bug with highlighting of C++ raw string literals [PR #4436](https://github.com/microsoft/monaco-editor/pull/4436)
+
 ## [0.47.0]
 
 ### Additions
