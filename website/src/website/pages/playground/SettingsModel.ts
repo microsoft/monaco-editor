@@ -42,7 +42,12 @@ export class SettingsModel {
 	}
 
 	constructor() {
-		const settingsStr = localStorage.getItem(this.settingsKey);
+		const settingsStr = "";
+		try {
+			localStorage.getItem(this.settingsKey);
+		} catch (e) {
+			console.error("Failed to load settings from localStorage", e);
+		}
 		if (settingsStr) {
 			this._settings = JSON.parse(settingsStr);
 		} else {
@@ -54,7 +59,11 @@ export class SettingsModel {
 	setSettings(settings: Settings): void {
 		const settingsJson = JSON.stringify(toJS(settings));
 		this._settings = JSON.parse(settingsJson);
-		localStorage.setItem(this.settingsKey, settingsJson);
+		try {
+			localStorage.setItem(this.settingsKey, settingsJson);
+		} catch (e) {
+			console.error("Failed to save settings to localStorage", e);
+		}
 	}
 }
 

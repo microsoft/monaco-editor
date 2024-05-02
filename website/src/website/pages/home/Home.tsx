@@ -8,7 +8,7 @@ import {
 	ControlledMonacoEditor,
 } from "../../components/monaco/MonacoEditor";
 import { ObservablePromise } from "../../utils/ObservablePromise";
-import React = require("react");
+import * as React from "react";
 import { ref } from "../../utils/ref";
 import { monacoEditorVersion } from "../../monacoEditorVersion";
 
