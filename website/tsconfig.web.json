@@ -1,16 +1,19 @@
 {
 	"compilerOptions": {
 		"target": "esnext",
-		"module": "commonjs",
-		"moduleResolution": "Node",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
 		"strict": true,
 		"outDir": "dist",
 		"skipLibCheck": true,
+		"rootDir": "./src",
 		"resolveJsonModule": true,
 		"newLine": "LF",
 		"sourceMap": true,
+		"jsx": "react",
+		"experimentalDecorators": true,
 		"useDefineForClassFields": false,
 		"noEmit": true
 	},
-	"exclude": ["src/**/*", "./node_modules/monaco-editor/monaco.d.ts"]
+	"include": ["src/**/*", "./node_modules/monaco-editor/monaco.d.ts"]
 }

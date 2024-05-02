@@ -487,6 +487,10 @@
   dependencies:
     "@types/node" "*"
 
+"@vscode/web-editors@./vscode-web-editors.tgz":
+  version "0.1.0"
+  resolved "./vscode-web-editors.tgz#657c1b47d50dfd1a457f660e3184fb88121f8b24"
+
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.6.tgz#db046555d3c413f8966ca50a95176a0e2c642e24"
