@@ -6,7 +6,7 @@
 		"strict": true,
 		"outDir": "dist",
 		"skipLibCheck": true,
-		"rootDir": "./src",
+		"rootDir": ".",
 		"resolveJsonModule": true,
 		"newLine": "LF",
 		"sourceMap": true,
@@ -15,5 +15,5 @@
 		"useDefineForClassFields": false,
 		"noEmit": true
 	},
-	"include": ["src/**/*", "./node_modules/monaco-editor/monaco.d.ts"]
+	"include": ["**/*", "../node_modules/monaco-editor/monaco.d.ts"]
 }
