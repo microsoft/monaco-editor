@@ -5,10 +5,21 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Monaco Editor Playground",
+			"name": "Monaco Editor Playground (Languages from source, needs 'npm run watch', no JSON/CSS/... workers!)",
 			"type": "chrome",
 			"request": "launch",
 			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Flanguages%2Famd-tsc",
+			"preLaunchTask": "Launch Http Server",
+			"presentation": {
+				"group": "monaco",
+				"order": 1
+			}
+		},
+		{
+			"name": "Monaco Editor Playground (Languages locally bundled, needs 'npm run build')",
+			"type": "chrome",
+			"request": "launch",
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Flanguages%2Fbundled%2Famd-dev%2Fvs",
 			"preLaunchTask": "Launch Http Server",
 			"presentation": {
 				"group": "monaco",

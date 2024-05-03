@@ -1,4 +1,3 @@
-import { normalizeLineEnding } from "./utils";
 import { IPlaygroundProject } from "../../../shared";
 
 export function findLastIndex<T>(

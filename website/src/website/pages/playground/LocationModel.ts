@@ -38,13 +38,18 @@ export class LocationModel implements IHistoryModel {
 	 */
 	@observable historyId: number = 0;
 
-	constructor(private readonly model: PlaygroundModel) {
-		this.dispose.track(
-			new HistoryController((initialLocation) => {
-				this.updateLocation(initialLocation);
-				return this;
-			})
-		);
+	constructor(
+		private readonly model: PlaygroundModel,
+		createHistoryController = true
+	) {
+		if (createHistoryController) {
+			this.dispose.track(
+				new HistoryController((initialLocation) => {
+					this.updateLocation(initialLocation);
+					return this;
+				})
+			);
+		}
 	}
 
 	get location(): ILocation {
