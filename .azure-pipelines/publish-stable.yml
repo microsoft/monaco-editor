@@ -39,6 +39,9 @@ extends:
         testPlatforms: []
         skipAPIScan: true # package build requires Linux
         buildSteps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '18.17.x'
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
 
