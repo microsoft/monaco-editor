@@ -1,5 +1,14 @@
 # Monaco Editor Changelog
 
+## [0.49.0]
+
+- New proposed `editorHoverVerbosityLevel` API
+- New proposed `newSymbolNamesProvider` API
+
+Contributions to `monaco-editor`:
+
+- [@timotheeguerin (Timothee Guerin)](https://github.com/timotheeguerin): Add support for TypeSpec language [PR #4450](https://github.com/microsoft/monaco-editor/pull/4450)
+
 ## [0.48.0]
 
 ### Additions
