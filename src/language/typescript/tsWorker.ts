@@ -405,7 +405,16 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		if (fileNameIsLib(fileName)) {
 			return { outputFiles: [], emitSkipped: true };
 		}
-		return this._languageService.getEmitOutput(fileName);
+		const emitOutput = this._languageService.getEmitOutput(fileName);
+
+		// 'diagnostics' object is internal in ts.EmitOutput
+		if ('diagnostics' in emitOutput) {
+			emitOutput.diagnostics = TypeScriptWorker.clearFiles(
+				emitOutput.diagnostics as ts.Diagnostic[]
+			);
+		}
+
+		return emitOutput;
 	}
 
 	async getCodeFixesAtPosition(
