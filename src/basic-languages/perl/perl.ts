@@ -534,7 +534,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		stringBody: [
 			[/'/, 'string', '@popall'],
-			[/\\'/, 'string.escape'],
+			[/\\'|\\\\/, 'string.escape'],
 			[/./, 'string']
 		],
 
