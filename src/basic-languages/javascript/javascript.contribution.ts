@@ -11,7 +11,7 @@ declare var require: any;
 registerLanguage({
 	id: 'javascript',
 	extensions: ['.js', '.es6', '.jsx', '.mjs', '.cjs'],
-	firstLine: '^#!.*\\bnode',
+	firstLine: "^#!.*\\b(node|gjs)",
 	filenames: ['jakefile'],
 	aliases: ['JavaScript', 'javascript', 'js'],
 	mimetypes: ['text/javascript'],
