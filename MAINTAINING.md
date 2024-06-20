@@ -25,7 +25,9 @@ Make sure every unassigned issue is labeled properly:
   - API Changes / Breaking Changes / New and noteworthy (use the diff from the compare step)
   - Add thank you mentions ([use this tool](https://tools.code.visualstudio.com/acknowledgement) and select only the monaco-editor)
 - Commit & Create PR
-- [Trigger build](https://dev.azure.com/monacotools/Monaco/_build?definitionId=416) once merged
+- [Trigger build](https://dev.azure.com/monacotools/Monaco/_build?definitionId=416) once merged. Tick the following checkboxes:
+  - Publish Monaco Editor Core
+  - Publish Monaco Editor
 
 #### Publish new webpack plugin
 
