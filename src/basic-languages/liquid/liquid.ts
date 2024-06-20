@@ -79,7 +79,7 @@ export const language = <languages.IMonarchLanguage>{
 	builtinTags: [
 		'if',
 		'else',
-		'elseif',
+		'elsif',
 		'endif',
 		'render',
 		'assign',
