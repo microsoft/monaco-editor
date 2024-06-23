@@ -272,7 +272,7 @@ function ESM_addPluginContribs(files: IFile[]) {
 	});
 
 	const mainFileContents =
-		mainFileImports.map((name) => `import '${name}';`).join('\n') +
+		mainFileImports.map((name) => `import '${name}.js';`).join('\n') +
 		`\n\nexport * from './edcore.main';`;
 
 	files.push({
