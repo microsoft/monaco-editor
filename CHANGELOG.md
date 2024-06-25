@@ -1,5 +1,23 @@
 # Monaco Editor Changelog
 
+## [0.50.0]
+
+- New field `IEditorMinimapOptions.sectionHeaderLetterSpacing`
+- New field `IOverlayWidgetPosition.stackOridinal`
+- New field `EmitOutput.diagnostics`
+- New event `IOverlayWidget.onDidLayout`
+- New events `ICodeEditor.onBeginUpdate` and `ICodeEditor.onEndUpdate`
+- `HoverVerbosityRequest.action` -> `HoverVerbosityRequest.verbosityDelta`
+- `MultiDocumentHighlightProvider.selector` changed from `LanguageFilter` to `LanguageSelector`
+- New optional parameters in `getEmitOutput`: `emitOnlyDtsFiles` and `forceDtsEmit`
+
+Contributions to `monaco-editor`:
+
+- [@htcfreek (Heiko)](https://github.com/htcfreek): Add extension to `csp.contribution.ts` [PR #4504](https://github.com/microsoft/monaco-editor/pull/4504)
+- [@jakebailey (Jake Bailey)](https://github.com/jakebailey): Call clearFiles on internal EmitOutput diagnostics, pass args down [PR #4482](https://github.com/microsoft/monaco-editor/pull/4482)
+- [@johnyanarella (John Yanarella)](https://github.com/johnyanarella): Update TypeScript to TS 5.4.5 in all projects, vendored files [PR #4305](https://github.com/microsoft/monaco-editor/pull/4305)
+- [@samstrohkorbatt](https://github.com/samstrohkorbatt): Adding Python f-string syntax support [PR #4401](https://github.com/microsoft/monaco-editor/pull/4401)
+
 ## [0.49.0]
 
 - New proposed `editorHoverVerbosityLevel` API
