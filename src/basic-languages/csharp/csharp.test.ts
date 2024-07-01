@@ -972,5 +972,42 @@ testTokenization('csharp', [
 				{ startIndex: 45, type: 'delimiter.cs' }
 			]
 		}
+	],
+
+	// Raw String Literals
+	[
+		{
+			line: 'var singleLine = """This is a "raw string literal". It can contain characters like , \' and ".""";',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.var.cs' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.cs' },
+				{ startIndex: 14, type: '' },
+				{ startIndex: 15, type: 'delimiter.cs' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'string.quote.cs' },
+				{ startIndex: 20, type: 'string.cs' },
+				{ startIndex: 93, type: 'string.quote.cs' },
+				{ startIndex: 96, type: 'delimiter.cs' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'var moreQuotes = """" As you can see,"""Raw string literals""" can start and end with more than three double-quotes when needed."""";',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.var.cs' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.cs' },
+				{ startIndex: 14, type: '' },
+				{ startIndex: 15, type: 'delimiter.cs' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'string.quote.cs' },
+				{ startIndex: 21, type: 'string.cs' },
+				{ startIndex: 128, type: 'string.quote.cs' },
+				{ startIndex: 132, type: 'delimiter.cs' }
+			]
+		}
 	]
 ]);
