@@ -33,12 +33,15 @@ export const language = <languages.IMonarchLanguage>{
 	keywords: [
 		'namespace',
 		'open',
+		'import',
+		'export',
 		'as',
 		'operation',
 		'function',
 		'body',
 		'adjoint',
 		'newtype',
+		'struct',
 		'controlled',
 		'if',
 		'elif',
@@ -141,7 +144,6 @@ export const language = <languages.IMonarchLanguage>{
 		'stackalloc',
 		'static',
 		'string',
-		'struct',
 		'switch',
 		'this',
 		'throw',
@@ -202,6 +204,7 @@ export const language = <languages.IMonarchLanguage>{
 		'^=',
 		':',
 		'::',
+		'.',
 		'..',
 		'==',
 		'...',
@@ -241,6 +244,8 @@ export const language = <languages.IMonarchLanguage>{
 
 	namespaceFollows: ['namespace', 'open'],
 
+	importsFollows: ['import'],
+
 	symbols: /[=><!~?:&|+\-*\/\^%@._]+/,
 
 	escapes: /\\[\s\S]/,
@@ -256,6 +261,10 @@ export const language = <languages.IMonarchLanguage>{
 						'@namespaceFollows': {
 							token: 'keyword.$0',
 							next: '@namespace'
+						},
+						'@importsFollows': {
+							token: 'keyword.$0',
+							next: '@imports'
 						},
 						'@typeKeywords': 'type',
 						'@keywords': 'keyword',
@@ -282,7 +291,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			//[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+			//[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-terminated string
 			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }]
 		],
 
@@ -295,7 +304,16 @@ export const language = <languages.IMonarchLanguage>{
 		namespace: [
 			{ include: '@whitespace' },
 			[/[A-Za-z]\w*/, 'namespace'],
-			[/[\.=]/, 'delimiter'],
+			[/[\.]/, 'delimiter'],
+			['', '', '@pop']
+		],
+
+		imports: [
+			{ include: '@whitespace' },
+			[/[A-Za-z]\w*(?=\.)/, 'namespace'],
+			[/[A-Za-z]\w*/, 'identifier'],
+			[/\*/, 'wildcard'],
+			[/[\.,]/, 'delimiter'],
 			['', '', '@pop']
 		],
 

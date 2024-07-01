@@ -6,7 +6,6 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('qsharp', [
-	// Generated from sample: https://github.com/microsoft/Quantum/blob/main/samples/azure-quantum/parallel-qrng/ParallelQrng.ipynb
 	[
 		{
 			line: 'open Microsoft.Quantum.Arrays;',
@@ -19,19 +18,6 @@ testTokenization('qsharp', [
 				{ startIndex: 22, type: 'delimiter.qsharp' },
 				{ startIndex: 23, type: 'namespace.qsharp' },
 				{ startIndex: 29, type: 'delimiter.qsharp' }
-			]
-		},
-		{
-			line: 'open Microsoft.Quantum.Measurement;',
-			tokens: [
-				{ startIndex: 0, type: 'keyword.open.qsharp' },
-				{ startIndex: 4, type: 'white.qsharp' },
-				{ startIndex: 5, type: 'namespace.qsharp' },
-				{ startIndex: 14, type: 'delimiter.qsharp' },
-				{ startIndex: 15, type: 'namespace.qsharp' },
-				{ startIndex: 22, type: 'delimiter.qsharp' },
-				{ startIndex: 23, type: 'namespace.qsharp' },
-				{ startIndex: 34, type: 'delimiter.qsharp' }
 			]
 		},
 		{
@@ -68,20 +54,6 @@ testTokenization('qsharp', [
 			]
 		},
 		{
-			line: '	// superposition state, such that when we measure,',
-			tokens: [
-				{ startIndex: 0, type: 'white.qsharp' },
-				{ startIndex: 1, type: 'comment.qsharp' }
-			]
-		},
-		{
-			line: '	// all bitstrings occur with equal probability.',
-			tokens: [
-				{ startIndex: 0, type: 'white.qsharp' },
-				{ startIndex: 1, type: 'comment.qsharp' }
-			]
-		},
-		{
 			line: '	use register = Qubit[nQubits] {',
 			tokens: [
 				{ startIndex: 0, type: 'white.qsharp' },
@@ -100,13 +72,6 @@ testTokenization('qsharp', [
 			]
 		},
 		{
-			line: '		// Set qubits in superposition.',
-			tokens: [
-				{ startIndex: 0, type: 'white.qsharp' },
-				{ startIndex: 2, type: 'comment.qsharp' }
-			]
-		},
-		{
 			line: '		ApplyToEachA(H, register);',
 			tokens: [
 				{ startIndex: 0, type: 'white.qsharp' },
@@ -118,17 +83,6 @@ testTokenization('qsharp', [
 				{ startIndex: 18, type: 'identifier.qsharp' },
 				{ startIndex: 26, type: 'delimiter.parenthesis.qsharp' },
 				{ startIndex: 27, type: 'delimiter.qsharp' }
-			]
-		},
-		{
-			line: '',
-			tokens: []
-		},
-		{
-			line: '		// Measure all qubits and return.',
-			tokens: [
-				{ startIndex: 0, type: 'white.qsharp' },
-				{ startIndex: 2, type: 'comment.qsharp' }
 			]
 		},
 		{
@@ -157,6 +111,76 @@ testTokenization('qsharp', [
 		{
 			line: '}',
 			tokens: [{ startIndex: 0, type: 'delimiter.curly.qsharp' }]
+		},
+		{
+			line: 'struct Foo { First : Int, Second : Int }',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.qsharp' },
+				{ startIndex: 6, type: 'white.qsharp' },
+				{ startIndex: 7, type: 'identifier.qsharp' },
+				{ startIndex: 10, type: 'white.qsharp' },
+				{ startIndex: 11, type: 'delimiter.curly.qsharp' },
+				{ startIndex: 12, type: 'white.qsharp' },
+				{ startIndex: 13, type: 'identifier.qsharp' },
+				{ startIndex: 18, type: 'white.qsharp' },
+				{ startIndex: 19, type: 'operator.qsharp' },
+				{ startIndex: 20, type: 'white.qsharp' },
+				{ startIndex: 21, type: 'type.qsharp' },
+				{ startIndex: 24, type: 'delimiter.qsharp' },
+				{ startIndex: 25, type: 'white.qsharp' },
+				{ startIndex: 26, type: 'identifier.qsharp' },
+				{ startIndex: 32, type: 'white.qsharp' },
+				{ startIndex: 33, type: 'operator.qsharp' },
+				{ startIndex: 34, type: 'white.qsharp' },
+				{ startIndex: 35, type: 'type.qsharp' },
+				{ startIndex: 38, type: 'white.qsharp' },
+				{ startIndex: 39, type: 'delimiter.curly.qsharp' }
+			]
+		},
+		{
+			line: 'Foo.First',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.qsharp' },
+				{ startIndex: 3, type: 'operator.qsharp' },
+				{ startIndex: 4, type: 'identifier.qsharp' }
+			]
+		},
+		{
+			line: 'import Microsoft.Quantum.Math, Microsoft.Quantum.Diagnostics.*;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.import.qsharp' },
+				{ startIndex: 6, type: 'white.qsharp' },
+				{ startIndex: 7, type: 'namespace.qsharp' },
+				{ startIndex: 16, type: 'delimiter.qsharp' },
+				{ startIndex: 17, type: 'namespace.qsharp' },
+				{ startIndex: 24, type: 'delimiter.qsharp' },
+				{ startIndex: 25, type: 'identifier.qsharp' },
+				{ startIndex: 29, type: 'delimiter.qsharp' },
+				{ startIndex: 30, type: 'white.qsharp' },
+				{ startIndex: 31, type: 'namespace.qsharp' },
+				{ startIndex: 40, type: 'delimiter.qsharp' },
+				{ startIndex: 41, type: 'namespace.qsharp' },
+				{ startIndex: 48, type: 'delimiter.qsharp' },
+				{ startIndex: 49, type: 'namespace.qsharp' },
+				{ startIndex: 60, type: 'delimiter.qsharp' },
+				{ startIndex: 61, type: 'wildcard.qsharp' },
+				{ startIndex: 62, type: 'delimiter.qsharp' }
+			]
+		},
+		{
+			line: 'export A, B, C;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.qsharp' },
+				{ startIndex: 6, type: 'white.qsharp' },
+				{ startIndex: 7, type: 'identifier.qsharp' },
+				{ startIndex: 8, type: 'delimiter.qsharp' },
+				{ startIndex: 9, type: 'white.qsharp' },
+				{ startIndex: 10, type: 'identifier.qsharp' },
+				{ startIndex: 11, type: 'delimiter.qsharp' },
+				{ startIndex: 12, type: 'white.qsharp' },
+				{ startIndex: 13, type: 'identifier.qsharp' },
+				{ startIndex: 14, type: 'delimiter.qsharp' }
+			]
 		}
 	]
 ]);
