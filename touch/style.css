@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    scrollbar-width: 0;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+.hidden {
+    display: none!important;
+}
+#editor {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.selections {
+    position: absolute;
+    top: 0;
+    z-index: 9999;
+}
+
+.selctos {
+    width: 25px;
+    height: 25px;
+    background: #7a77ff;
+    position: absolute;
+    border-radius: 50%;
+    margin-top: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.selctos.right-selector {
+    border-top-left-radius: 0;
+    margin-left: -8px;
+}
+
+.selctos.left-selector {
+    border-top-right-radius: 0;
+    margin-left: -35px;
+}
+
+.menu-selector {
+    position: absolute;
+    display: flex;
+    height: 45px;
+    background: #fff;
+    border-radius: 18px;
+    max-width: 75vw;
+    width: fit-content;
+    z-index: 999;
+}
+
+.inset-menu {
+    display: flex;
+    width: fit-content;
+    padding-left: 5px;
+}
+
+.mnc {
+    position: relative;
+    display: flex;
+    padding: 0 16px;
+    align-items: center;
+    height: 100%;
+    font-size: 14px;
+    color: #000;
+    white-space: nowrap;
+    line-height: 20px;
+    transition: 0.2s;
+}
+
+.mnc:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    height: 20px;
+    opacity: 0.1;
+    border-right: 1px solid #000;
+    visibility: hidden;
+}
+
+.outset-shit-select {
+    display: flex;
+    height: 100%;
+    -webkit-mask-image: linear-gradient(to right, black 95%, transparent 100%);
+    width: calc(100% - 50px);
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.right-arrow-mnc {
+    position: absolute;
+    right: 0;
+    width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+}
+
+.right-arrow-mnc:after {
+    content: '';
+    display: flex;
+    height: 40px;
+    width: 100%;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 24px;
+    -webkit-mask-image: url(assets/arrow.svg?sad);
+    background: #000;
+    -webkit-mask-repeat: no-repeat;
+    transform: rotate(-90deg);
+}
+
+.right-arrow-mnc:before {
+    content: '';
+    height: 25px;
+}
+
+.hovered {
+    background: rgb(0 0 0 / 25%);
+}
+
+.right-arrow-mnc.left {
+    left: 0;
+    display: none;
+}
+
+.right-arrow-mnc.left:after {
+    transform: rotate(90deg);
+}
+.menu-selector.scrolled {
+    padding-left: 45px;
+}
+
+.menu-selector.scrolled .right-arrow-mnc.left {
+    display: flex;
+}
+
+.menu-selector.scrolled .inset-menu {
+    padding-left: 0;
+}
