@@ -32,7 +32,7 @@ parameters:
 extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
   parameters:
-    cgIgnoreDirectories: $(Build.SourcesDirectory)/dependencies/vscode/extensions
+    cgIgnoreDirectories: $(Build.SourcesDirectory)/dependencies/vscode
     npmPackages:
       - name: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core

@@ -17,6 +17,10 @@ export class ControlledMonacoEditor extends React.Component<{
 
 	private lastSubscription: monaco.IDisposable | undefined;
 
+	componentDidMount(): void {
+		this.componentDidUpdate({ value: "" });
+	}
+
 	componentDidUpdate(lastProps: this["props"]) {
 		const newOnDidValueChange = this.props.onDidValueChange;
 		if (newOnDidValueChange !== lastProps.onDidValueChange) {
