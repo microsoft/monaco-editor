@@ -1,7 +1,7 @@
 {
 	"name": "monaco-editor",
-	"version": "0.50.0",
-	"vscodeRef": "5437499feb04f7a586f677b155b039bc2b3669eb",
+	"version": "0.51.0",
+	"vscodeRef": "1dffd5cef7f833b16c0588fb5b9cfa95063af7cf",
 	"private": true,
 	"description": "A browser based code editor",
 	"homepage": "https://github.com/microsoft/monaco-editor",
@@ -52,7 +52,7 @@
 		"jsdom": "^19.0.0",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^9.2.0",
-		"monaco-editor-core": "0.51.0-rc2",
+		"monaco-editor-core": "0.51.0-rc3",
 		"parcel": "^2.7.0",
 		"pin-github-action": "^1.8.0",
 		"playwright": "^1.32.2",
