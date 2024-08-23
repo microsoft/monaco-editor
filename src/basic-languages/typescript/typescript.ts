@@ -104,6 +104,8 @@ export const language = {
 		'type'
 	],
 
+	alwaysKeyword: ['constructor', 'super'],
+
 	keywords: [
 		// Should match the keys of textToKeywordObj in
 		// https://github.com/microsoft/TypeScript/blob/master/src/compiler/scanner.ts
@@ -111,7 +113,6 @@ export const language = {
 		'asserts',
 		'class',
 		'const',
-		'constructor',
 		'debugger',
 		'declare',
 		'delete',
@@ -145,7 +146,6 @@ export const language = {
 		'satisfies',
 		'set',
 		'static',
-		'super',
 		'switch',
 		'symbol',
 		'this',
@@ -285,10 +285,11 @@ export const language = {
 					{
 						cases: {
 							'@typeKeywords': 'type.identifier',
-							'@ctrlKeywords': 'keyword.flow',
-							'@keywords': 'keyword',
+							'@alwaysKeyword': 'keyword',
 							'$1~#?[A-Z].*': 'type.identifier',
 							$2: 'method',
+							'@ctrlKeywords': 'keyword.flow',
+							'@keywords': 'keyword',
 							'@default': 'identifier'
 						}
 					},
