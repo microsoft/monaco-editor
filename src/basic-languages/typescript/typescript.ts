@@ -75,9 +75,10 @@ export const conf: languages.LanguageConfiguration = {
 };
 
 export const language = {
-	// Set defaultToken to invalid to see what you do not tokenize yet
 	defaultToken: 'invalid',
 	tokenPostfix: '.ts',
+
+	typeKeywords: ['any', 'bigint', 'boolean', 'number', 'object', 'string', 'unknown', 'void'],
 
 	ctrlKeywords: [
 		'export',
@@ -107,10 +108,7 @@ export const language = {
 		// Should match the keys of textToKeywordObj in
 		// https://github.com/microsoft/TypeScript/blob/master/src/compiler/scanner.ts
 		'abstract',
-		'any',
 		'asserts',
-		'bigint',
-		'boolean',
 		'class',
 		'const',
 		'constructor',
@@ -135,8 +133,6 @@ export const language = {
 		'never',
 		'new',
 		'null',
-		'number',
-		'object',
 		'out',
 		'package',
 		'private',
@@ -149,7 +145,6 @@ export const language = {
 		'satisfies',
 		'set',
 		'static',
-		'string',
 		'super',
 		'switch',
 		'symbol',
@@ -158,9 +153,7 @@ export const language = {
 		'typeof',
 		'undefined',
 		'unique',
-		'unknown',
 		'var',
-		'void',
 		'while',
 		'async',
 		'of'
@@ -291,6 +284,7 @@ export const language = {
 				[
 					{
 						cases: {
+							'@typeKeywords': 'type.identifier',
 							'@ctrlKeywords': 'keyword.flow',
 							'@keywords': 'keyword',
 							'$1~#?[A-Z].*': 'type.identifier',
