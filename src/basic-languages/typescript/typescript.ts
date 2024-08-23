@@ -79,40 +79,50 @@ export const language = {
 	defaultToken: 'invalid',
 	tokenPostfix: '.ts',
 
+	ctrlKeywords: [
+		'export',
+		'default',
+		'return',
+		'as',
+		'if',
+		'break',
+		'case',
+		'catch',
+		'continue',
+		'do',
+		'else',
+		'finally',
+		'for',
+		'throw',
+		'try',
+		'with',
+		'yield',
+		'await',
+		'import',
+		'from',
+		'type'
+	],
+
 	keywords: [
 		// Should match the keys of textToKeywordObj in
 		// https://github.com/microsoft/TypeScript/blob/master/src/compiler/scanner.ts
 		'abstract',
 		'any',
-		'as',
 		'asserts',
 		'bigint',
 		'boolean',
-		'break',
-		'case',
-		'catch',
 		'class',
-		'continue',
 		'const',
 		'constructor',
 		'debugger',
 		'declare',
-		'default',
 		'delete',
-		'do',
-		'else',
 		'enum',
-		'export',
 		'extends',
 		'false',
-		'finally',
-		'for',
-		'from',
 		'function',
 		'get',
-		'if',
 		'implements',
-		'import',
 		'in',
 		'infer',
 		'instanceof',
@@ -136,7 +146,6 @@ export const language = {
 		'readonly',
 		'require',
 		'global',
-		'return',
 		'satisfies',
 		'set',
 		'static',
@@ -145,10 +154,7 @@ export const language = {
 		'switch',
 		'symbol',
 		'this',
-		'throw',
 		'true',
-		'try',
-		'type',
 		'typeof',
 		'undefined',
 		'unique',
@@ -156,10 +162,7 @@ export const language = {
 		'var',
 		'void',
 		'while',
-		'with',
-		'yield',
 		'async',
-		'await',
 		'of'
 	],
 
@@ -222,21 +225,87 @@ export const language = {
 
 	// The main tokenizer for our languages
 	tokenizer: {
-		root: [[/[{}]/, 'delimiter.bracket'], { include: 'common' }],
+		root: [
+			[
+				/}/,
+				{
+					cases: {
+						'$S2==INJSX': { token: '@brackets', next: '@pop' },
+						'@default': '@brackets'
+					}
+				}
+			],
+
+			[/{/, 'delimiter.bracket'],
+
+			// highlight class field-properties
+			[/^\s+#?[\w$]+(?=\s*[;=:])/, 'variable.property'],
+
+			// highlight function/class defs
+			[
+				/(function|class|new)(\s+)(#?[\w$]+)(\s*)([<(]?)/,
+				[
+					'keyword',
+					'',
+					{
+						cases: {
+							'$1==function': 'method',
+							'$1==class': 'type.identifier',
+							'$1==new': 'type.identifier'
+						}
+					},
+					'',
+					{
+						cases: {
+							'<': { token: '@brackets', next: '@typeparams' },
+							'@default': '@rematch'
+						}
+					}
+				]
+			],
+
+			// highlight var/const/let defs
+			[
+				/(const|let|var)(\s+)(#?[\w$]+)/,
+				[
+					'keyword',
+					'',
+					{
+						cases: {
+							'$1==const': 'constant',
+							'@default': 'variable'
+						}
+					}
+				]
+			],
+
+			{ include: 'jsxReady' },
+
+			{ include: 'common' }
+		],
 
 		common: [
 			// identifiers and keywords
 			[
-				/#?[a-z_$][\w$]*/,
-				{
-					cases: {
-						'@keywords': 'keyword',
-						'@default': 'identifier'
+				/(#?[a-zA-Z_$][\w$]*)([<(]?)/,
+				[
+					{
+						cases: {
+							'@ctrlKeywords': 'keyword.flow',
+							'@keywords': 'keyword',
+							'$1~#?[A-Z].*': 'type.identifier',
+							$2: 'method',
+							'@default': 'identifier'
+						}
+					},
+					{
+						cases: {
+							'$2==<': { token: '@rematch', next: '@typeparams' },
+							'@default': '@rematch'
+						}
 					}
-				}
+				]
 			],
-			[/[A-Z][\w\$]*/, 'type.identifier'], // to show class names nicely
-			// [/[A-Z][\w\$]*/, 'identifier'],
 
 			// whitespace
 			{ include: '@whitespace' },
@@ -261,6 +330,8 @@ export const language = {
 				}
 			],
 
+			[/\.\.\./, 'keyword'],
+
 			// numbers
 			[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
 			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
@@ -278,6 +349,60 @@ export const language = {
 			[/"/, 'string', '@string_double'],
 			[/'/, 'string', '@string_single'],
 			[/`/, 'string', '@string_backtick']
+		],
+
+		typeparams: [[/>/, '@brackets', '@pop'], { include: 'common' }],
+
+		jsxReady: [
+			[/<>/, 'delimiter.html', '@jsxText.FRAGMENT'],
+			[/(<)(\s*)([\w$])/, ['delimiter.html', '', { token: '@rematch', next: '@jsxIdent.jsxOpen.' }]]
+		],
+
+		jsxIdent: [
+			[/\./, { token: 'delimiter', switchTo: '$S0^' }],
+			[/[A-Z][\w$]*/, { token: 'type.identifier', switchTo: '$S0$0' }],
+			[/[\w$]+/, { token: 'tag', switchTo: '$S0$0' }],
+			[/.+/, { token: '@rematch', switchTo: '@$S2.$S3.$S4' }]
+		],
+
+		jsxOpen: [
+			[/>/, { token: 'delimiter.html', switchTo: '@jsxText.$S2' }],
+			[/\/>/, { token: 'delimiter.html', next: '@pop' }],
+			[/ +([\w-$]+)/, 'attribute.name'],
+			[/(=)(')/, ['delimiter', { token: 'string', next: '@string_single' }]],
+			[/(=)(")/, ['delimiter', { token: 'string', next: '@string_double' }]],
+			[/(=)({)/, ['delimiter', { token: '@brackets', next: '@root.INJSX' }]]
+		],
+
+		jsxText: [
+			[/{/, { token: 'keyword', next: '@root.INJSX', bracket: '@open' }],
+			[
+				/<\/>/,
+				{
+					cases: {
+						'$S2==FRAGMENT': { token: 'delimiter.html', next: '@pop' },
+						'@default': { token: 'invalid', next: '@pop' }
+					}
+				}
+			],
+			[
+				/(<\/)(\s*)([\w$])/,
+				['delimiter.html', '', { token: '@rematch', switchTo: '@jsxIdent.jsxClose.$S2.' }]
+			],
+			{ include: 'jsxReady' },
+			[/./, 'string']
+		],
+
+		jsxClose: [
+			[
+				/>/,
+				{
+					cases: {
+						'$S2==$S3': { token: 'delimiter.html', next: '@pop' },
+						'@default': { token: 'invalid', next: '@pop' }
+					}
+				}
+			]
 		],
 
 		whitespace: [
