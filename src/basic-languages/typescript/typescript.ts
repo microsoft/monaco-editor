@@ -295,7 +295,7 @@ export const language = {
 					},
 					{
 						cases: {
-							'$2==<': { token: '@rematch', next: '@typeparams' },
+							'$2==<': { token: '@brackets', next: '@typeparams' },
 							'@default': '@rematch'
 						}
 					}
@@ -350,6 +350,10 @@ export const language = {
 
 		jsxReady: [
 			[/<>/, 'delimiter.html', '@jsxText.FRAGMENT'],
+			[
+				/(<)([A-Z][\w$]*\s*(?:,|extends|implements))/,
+				['@brackets', { token: '@rematch', next: '@typeparams' }]
+			],
 			[/(<)(\s*)([\w$])/, ['delimiter.html', '', { token: '@rematch', next: '@jsxIdent.jsxOpen.' }]]
 		],
 
