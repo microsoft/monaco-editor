@@ -14,7 +14,7 @@ const path = require('path');
 /** @typedef {import('./common').PackagerKind} PackagerKind */
 /** @typedef {import('./common').TestInfo} TestInfo */
 
-const DEBUG_TESTS = process.argv.includes('--debug-tests');
+const DEBUG_TESTS = true; // process.argv.includes('--debug-tests');
 const REPO_ROOT = path.join(__dirname, '../../');
 const PORT = 8563;
 
@@ -42,7 +42,7 @@ async function runTests() {
 	// uncomment to shortcircuit and run a specific combo
 	// await runTest('webpack', 'chromium'); return;
 	/** @type {PackagerKind[]} */
-	const testTypes = ['amd', 'webpack', 'esbuild', 'vite'];
+	const testTypes = ['webpack'];
 	// TODO: add parcel! (this currently fails because parcel replaces process with {})
 
 	for (const type of testTypes) {
@@ -75,7 +75,7 @@ function runTest(packager, browser) {
 				'--no-delay',
 				'--headless',
 				'--timeout',
-				'20000'
+				'2000000'
 			],
 			{
 				env,

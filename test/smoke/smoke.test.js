@@ -113,17 +113,24 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 	});
 
 	test('should be able to create plaintext editor', async function () {
+		console.log('inside of test');
+		console.log('REPO_ROOT : ', __dirname + '../../');
+
 		await createEditor('hello world', 'plaintext');
 
 		// type a link in it
 		await setEditorPosition(1, 12);
 		await triggerEditorCommand('type', { text: '\nhttps://www.microsoft.com' });
 
+		console.log('triggerEditorCommand');
+
 		// check that the link gets highlighted, which indicates that the web worker is healthy
 		await page.waitForSelector('.detected-link');
 	});
 
 	test('css smoke test', async function () {
+		console.log('css smoke test');
+
 		await createEditor('.sel1 { background: red; }\\n.sel2 {}', 'css');
 
 		// check that a squiggle appears, which indicates that the language service is up and running

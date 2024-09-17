@@ -22,6 +22,7 @@ global.document.queryCommandSupported = function () {
 	return false;
 };
 global.UIEvent = tmp.window.UIEvent;
+global._VSCODE_FILE_ROOT = '';
 
 global.window = {
 	location: {},
