@@ -35,7 +35,9 @@ global.window = {
 			matches: false,
 			addEventListener: function () {}
 		};
-	}
+	},
+	setInterval: function () {},
+	setTimeout: function () {}
 };
 
 requirejs(
