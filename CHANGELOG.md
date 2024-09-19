@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.52.0]
+
+- Comment added inside of `IModelContentChangedEvent`
+
 ## [0.51.0]
 
 - New fields `IEditorOptions.placeholder` and `IEditorOptions.compactMode`
