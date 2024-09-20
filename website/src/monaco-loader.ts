@@ -62,6 +62,10 @@ async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 	return new Promise((res) => {
 		// First load editor.main. If it inlines the plugins, we don't want to try to load them from the server.
 		req(["vs/editor/editor.main"], () => {
+			if ((setup as any).onlyCore) {
+				res(monaco);
+				return;
+			}
 			req(
 				[
 					"vs/basic-languages/monaco.contribution",

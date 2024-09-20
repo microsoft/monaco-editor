@@ -1,5 +1,21 @@
 # Monaco Editor Changelog
 
+## [0.52.0]
+
+- Comment added inside of `IModelContentChangedEvent`
+
+## [0.51.0]
+
+- New fields `IEditorOptions.placeholder` and `IEditorOptions.compactMode`
+- New fields `IGotoLocationOptions.multipleTests` and `IGotoLocationOptions.alternativeTestsCommand`
+- New field `IInlineEditOptions.backgroundColoring`
+- New experimental field `IEditorOptions.experimental.useTrueInlineView`
+- New options `CommentThreadRevealOptions` for comments
+
+Contributions to `monaco-editor`:
+
+- [@ScottCarda-MS (Scott Carda)](https://github.com/ScottCarda-MS): Update Q# Keywords [PR #4586](https://github.com/microsoft/monaco-editor/pull/4586)
+
 ## [0.50.0]
 
 - New field `IEditorMinimapOptions.sectionHeaderLetterSpacing`

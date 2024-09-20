@@ -186,16 +186,22 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 		await page.waitForSelector(`text=addEventListener`);
 
 		// find the TypeScript worker
-		const tsWorker = page.workers().find((worker) => {
-			const url = worker.url();
-			return /ts\.worker(\.[a-f0-9]+)?\.js$/.test(url) || /workerMain.js#typescript$/.test(url);
-		});
-		if (!tsWorker) {
-			assert.fail('Could not find TypeScript worker');
+
+		function findAsync(arr, fn) {
+			return Promise.all(arr.map(fn)).then((results) => {
+				return arr.find((_, i) => results[i]);
+			});
 		}
 
 		// check that the TypeScript worker exposes `ts` as a global
-		assert.strictEqual(await tsWorker.evaluate(`typeof ts`), 'object');
+		const tsWorker = await findAsync(
+			page.workers(),
+			async (page) => await page.evaluate(`typeof ts !== 'undefined'`)
+		);
+
+		if (!tsWorker) {
+			assert.fail('Could not find TypeScript worker');
+		}
 
 		// check that the TypeScript worker exposes the full `ts` as a global
 		assert.strictEqual(await tsWorker.evaluate(`typeof ts.optionDeclarations`), 'object');
