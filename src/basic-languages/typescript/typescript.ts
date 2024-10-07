@@ -10,7 +10,7 @@ export const conf: languages.LanguageConfiguration = {
 		/(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 
 	comments: {
-		lineComment: '//',
+		lineComment: ['//', '<!--'],
 		blockComment: ['/*', '*/']
 	},
 
