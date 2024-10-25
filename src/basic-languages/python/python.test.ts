@@ -216,6 +216,57 @@ testTokenization('python', [
 			]
 		}
 	],
+
+	// https://github.com/microsoft/monaco-editor/issues/4601
+	[
+		{
+			line: `f'''str `,
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 4, type: 'string.python' }
+			]
+		},
+		{
+			line: ` str "{var}" {{ {{ }} `,
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 6, type: 'identifier.python' },
+				{ startIndex: 11, type: 'string.python' }
+			]
+		},
+		{
+			line: `str'''`,
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 3, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: `f"""str `,
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 4, type: 'string.python' }
+			]
+		},
+		{
+			line: ` str '{var}' {{ {{ }} `,
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 6, type: 'identifier.python' },
+				{ startIndex: 11, type: 'string.python' }
+			]
+		},
+		{
+			line: `str"""`,
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 3, type: 'string.escape.python' }
+			]
+		}
+	],
+
 	[
 		{
 			line: 'f"{var:.3f}{var!r}{var=}"',
