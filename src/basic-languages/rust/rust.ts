@@ -261,7 +261,7 @@ export const language = <languages.IMonarchLanguage>{
 		'#'
 	],
 
-	escapes: /\\([nrt0\"''\\]|x\h{2}|u\{\h{1,6}\})/,
+	escapes: /\\([nrt0\"''\\]|x[0-9a-fA-F]{2}|u\{[0-9a-fA-F]{1,6}\})/,
 	delimiters: /[,]/,
 	symbols: /[\#\!\%\&\*\+\-\.\/\:\;\<\=\>\@\^\|_\?]+/,
 	intSuffixes: /[iu](8|16|32|64|128|size)/,

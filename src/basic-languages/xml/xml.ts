@@ -23,7 +23,7 @@ export const conf: languages.LanguageConfiguration = {
 	onEnterRules: [
 		{
 			beforeText: new RegExp(`<([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`, 'i'),
-			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
+			afterText: /^<\/([_:\w][_:\w.\d-]*)\s*>$/i,
 			action: {
 				indentAction: languages.IndentAction.IndentOutdent
 			}
