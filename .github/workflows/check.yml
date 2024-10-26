@@ -1,0 +1,33 @@
+name: Check
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  build:
+    if: github.repository_owner == 'Effect-Ts'
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/actions/setup
+      - run: npm run build-monaco-editor
+      - run: npm run import-typescript
+      - run: npm run build-monaco-editor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

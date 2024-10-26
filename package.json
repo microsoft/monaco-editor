@@ -1,12 +1,18 @@
 {
   "name": "@effect/monaco-editor",
-  "version": "0.52.0",
+  "version": "0.0.0",
   "vscodeRef": "493330cdc6475247184ea459c66776c3da12cd2d",
-  "private": true,
-  "description": "A browser based code editor",
+  "description": "A custom fork of Monaco Editor maintained for the Effect Playground",
   "homepage": "https://github.com/microsoft/monaco-editor",
   "author": "Microsoft Corporation",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "out/monaco-editor"
+  ],
   "scripts": {
     "import-typescript": "ts-node ./build/importTypescript",
     "playwright-install": "node ./node_modules/playwright/install.js",
@@ -28,15 +34,19 @@
     "update-actions": "pin-github-action ./.github/workflows/website.yml",
     "watch": "tsc -w -p ./src",
     "build": "ts-node ./build/build-languages",
-    "build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor"
+    "build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
+    "changeset-version": "changeset version",
+    "changeset-publish": "npm run build-monaco-editor && npm run import-typescript && npm run build-monaco-editor && changeset publish"
   },
   "typings": "./esm/vs/editor/editor.api.d.ts",
   "module": "./esm/vs/editor/editor.main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/monaco-editor"
+    "url": "git+https://github.com/Effect-TS/monaco-editor.git"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.9",
     "@types/mocha": "^9.1.0",
     "@types/shelljs": "^0.8.11",
     "@typescript/vfs": "^1.3.5",
@@ -63,7 +73,7 @@
     "style-loader": "^3.3.1",
     "terser": "^5.14.2",
     "ts-node": "^10.6.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.6.3",
     "vite": "^3.2.8",
     "vscode-css-languageservice": "6.2.14",
     "vscode-html-languageservice": "5.2.0",
