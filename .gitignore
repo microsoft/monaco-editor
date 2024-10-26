@@ -6,3 +6,4 @@
 /test/smoke/parcel/.cache/**
 **/dist/
 **/out/
+.direnv/
