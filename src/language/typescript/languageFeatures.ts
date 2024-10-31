@@ -459,7 +459,7 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 			return;
 		}
 
-		const info = await worker.getCompletionsAtPosition(resource.toString(), offset);
+		const info = await worker.getCompletionsAtPosition(resource.toString(), offset, undefined);
 
 		if (!info || model.isDisposed()) {
 			return;
@@ -509,7 +509,11 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 		const details = await worker.getCompletionEntryDetails(
 			resource.toString(),
 			offset,
-			myItem.label
+			myItem.label,
+			undefined,
+			undefined,
+			undefined,
+			undefined
 		);
 		if (!details) {
 			return myItem;
@@ -1099,7 +1103,8 @@ export class CodeActionAdaptor extends FormatHelper implements languages.CodeAct
 			start,
 			end,
 			errorCodes,
-			formatOptions
+			formatOptions,
+			{}
 		);
 
 		if (!codeFixes || model.isDisposed()) {
