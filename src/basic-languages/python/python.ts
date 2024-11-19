@@ -250,9 +250,19 @@ export const language = <languages.IMonarchLanguage>{
 		// Recognize strings, including those broken across lines with \ (but not without)
 		strings: [
 			[/'$/, 'string.escape', '@popall'],
+			[/f'{1,3}/, 'string.escape', '@fStringBody'],
 			[/'/, 'string.escape', '@stringBody'],
 			[/"$/, 'string.escape', '@popall'],
+			[/f"{1,3}/, 'string.escape', '@fDblStringBody'],
 			[/"/, 'string.escape', '@dblStringBody']
+		],
+		fStringBody: [
+			[/[^\\'\{\}]+$/, 'string', '@popall'],
+			[/[^\\'\{\}]+/, 'string'],
+			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
+			[/\\./, 'string'],
+			[/'/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
 		],
 		stringBody: [
 			[/[^\\']+$/, 'string', '@popall'],
@@ -261,12 +271,26 @@ export const language = <languages.IMonarchLanguage>{
 			[/'/, 'string.escape', '@popall'],
 			[/\\$/, 'string']
 		],
+		fDblStringBody: [
+			[/[^\\"\{\}]+$/, 'string', '@popall'],
+			[/[^\\"\{\}]+/, 'string'],
+			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
+			[/\\./, 'string'],
+			[/"/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
+		],
 		dblStringBody: [
 			[/[^\\"]+$/, 'string', '@popall'],
 			[/[^\\"]+/, 'string'],
 			[/\\./, 'string'],
 			[/"/, 'string.escape', '@popall'],
 			[/\\$/, 'string']
+		],
+		fStringDetail: [
+			[/[:][^}]+/, 'string'],
+			[/[!][ars]/, 'string'], // only !a, !r, !s are supported by f-strings: https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals
+			[/=/, 'string'],
+			[/\}/, 'identifier', '@pop']
 		]
 	}
 };

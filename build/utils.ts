@@ -268,16 +268,18 @@ export function readFiles(
 	});
 
 	const base = options.base;
+	return files.map((file) => readFile(file, base));
+}
+
+export function readFile(file: string, base: string = '') {
 	const baseLength = base === '' ? 0 : base.endsWith('/') ? base.length : base.length + 1;
-	return files.map((file) => {
-		const fullPath = path.join(REPO_ROOT, file);
-		const contents = fs.readFileSync(fullPath);
-		const relativePath = file.substring(baseLength);
-		return {
-			path: relativePath,
-			contents
-		};
-	});
+	const fullPath = path.join(REPO_ROOT, file);
+	const contents = fs.readFileSync(fullPath);
+	const relativePath = file.substring(baseLength);
+	return {
+		path: relativePath,
+		contents
+	};
 }
 
 export function writeFiles(files: IFile[], dest: string) {

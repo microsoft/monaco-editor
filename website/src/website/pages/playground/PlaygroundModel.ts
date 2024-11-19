@@ -30,6 +30,7 @@ import {
 } from "./SettingsModel";
 import { BisectModel } from "./BisectModel";
 import { LocationModel } from "./LocationModel";
+import { createJsonWebEditorClient, vObj, vString } from "@vscode/web-editors";
 
 export class PlaygroundModel {
 	public readonly dispose = Disposable.fn();
@@ -47,7 +48,25 @@ export class PlaygroundModel {
 	@observable
 	public reloadKey = 0;
 
-	public readonly historyModel = new LocationModel(this);
+	private readonly webEditorClient = createJsonWebEditorClient(
+		vObj({
+			js: vString(),
+			html: vString(),
+			css: vString(),
+		}),
+		(data) => {
+			runInAction(() => {
+				this.html = data.html;
+				this.js = data.js;
+				this.css = data.css;
+			});
+		}
+	);
+
+	public readonly historyModel = new LocationModel(
+		this,
+		this.webEditorClient === undefined
+	);
 
 	public reload(): void {
 		this.reloadKey++;
@@ -162,6 +181,17 @@ export class PlaygroundModel {
 
 	constructor() {
 		let lastState: IPreviewState | undefined = undefined;
+
+		this.webEditorClient?.onDidConnect.then(() => {
+			autorun(() => {
+				const state = this.playgroundProject;
+				this.webEditorClient!.updateContent({
+					js: state.js,
+					html: state.html,
+					css: state.css,
+				});
+			});
+		});
 
 		this.dispose.track({
 			dispose: reaction(

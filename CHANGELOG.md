@@ -1,5 +1,73 @@
 # Monaco Editor Changelog
 
+## [0.52.0]
+
+- Comment added inside of `IModelContentChangedEvent`
+
+## [0.51.0]
+
+- New fields `IEditorOptions.placeholder` and `IEditorOptions.compactMode`
+- New fields `IGotoLocationOptions.multipleTests` and `IGotoLocationOptions.alternativeTestsCommand`
+- New field `IInlineEditOptions.backgroundColoring`
+- New experimental field `IEditorOptions.experimental.useTrueInlineView`
+- New options `CommentThreadRevealOptions` for comments
+
+Contributions to `monaco-editor`:
+
+- [@ScottCarda-MS (Scott Carda)](https://github.com/ScottCarda-MS): Update Q# Keywords [PR #4586](https://github.com/microsoft/monaco-editor/pull/4586)
+
+## [0.50.0]
+
+- New field `IEditorMinimapOptions.sectionHeaderLetterSpacing`
+- New field `IOverlayWidgetPosition.stackOridinal`
+- New field `EmitOutput.diagnostics`
+- New event `IOverlayWidget.onDidLayout`
+- New events `ICodeEditor.onBeginUpdate` and `ICodeEditor.onEndUpdate`
+- `HoverVerbosityRequest.action` -> `HoverVerbosityRequest.verbosityDelta`
+- `MultiDocumentHighlightProvider.selector` changed from `LanguageFilter` to `LanguageSelector`
+- New optional parameters in `getEmitOutput`: `emitOnlyDtsFiles` and `forceDtsEmit`
+
+Contributions to `monaco-editor`:
+
+- [@htcfreek (Heiko)](https://github.com/htcfreek): Add extension to `csp.contribution.ts` [PR #4504](https://github.com/microsoft/monaco-editor/pull/4504)
+- [@jakebailey (Jake Bailey)](https://github.com/jakebailey): Call clearFiles on internal EmitOutput diagnostics, pass args down [PR #4482](https://github.com/microsoft/monaco-editor/pull/4482)
+- [@johnyanarella (John Yanarella)](https://github.com/johnyanarella): Update TypeScript to TS 5.4.5 in all projects, vendored files [PR #4305](https://github.com/microsoft/monaco-editor/pull/4305)
+- [@samstrohkorbatt](https://github.com/samstrohkorbatt): Adding Python f-string syntax support [PR #4401](https://github.com/microsoft/monaco-editor/pull/4401)
+
+## [0.49.0]
+
+- New proposed `editorHoverVerbosityLevel` API
+- New proposed `newSymbolNamesProvider` API
+
+Contributions to `monaco-editor`:
+
+- [@timotheeguerin (Timothee Guerin)](https://github.com/timotheeguerin): Add support for TypeSpec language [PR #4450](https://github.com/microsoft/monaco-editor/pull/4450)
+
+## [0.48.0]
+
+### Additions
+
+- Various bug fixes
+- Minimap Section Headers (see config option `showRegionSectionHeaders`)
+- Diff Editor Gutter Menu (see config option `renderGutterMenu`)
+- `InlineCompletionsProvider.handlePartialAccept` has `PartialAcceptInfo`
+
+Contributions to `monaco-editor`:
+
+- [@jeremy-rifkin (Jeremy Rifkin)](https://github.com/jeremy-rifkin): Fix bug with highlighting of C++ raw string literals [PR #4436](https://github.com/microsoft/monaco-editor/pull/4436)
+
+## [0.47.0]
+
+### Additions
+
+- Bug fixes
+- `registerNewSymbolNameProvider`
+- Experimental `registerInlineEditProvider`
+
+## [0.46.0]
+
+- Bug fixes
+
 ## [0.45.0]
 
 ### Breaking Changes

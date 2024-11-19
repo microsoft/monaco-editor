@@ -8,6 +8,7 @@
 		<script src="../../../out/monaco-editor/dev/vs/loader.js"></script>
 		<script>
 			require.config({
+				baseUrl: new URL('..', document.baseURI).toString(),
 				paths: {
 					vs: '../../../out/monaco-editor/dev/vs'
 				}

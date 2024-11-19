@@ -1,4 +1,4 @@
-import React = require("react");
+import * as React from "react";
 import { Page } from "../components/Page";
 
 export class MonarchPage extends React.Component<{}, {}> {

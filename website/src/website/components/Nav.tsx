@@ -1,4 +1,4 @@
-import React = require("react");
+import * as React from "react";
 import { home, playground, docs, monarch } from "../pages/routes";
 import { Container, Navbar, Nav, NavDropdown } from "./bootstrap";
 
