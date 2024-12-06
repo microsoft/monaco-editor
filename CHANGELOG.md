@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.52.1]
+
+- Fixes [#4738](https://github.com/microsoft/monaco-editor/issues/4738): Updates dompurify dependency of monaco-editor-core
+
 ## [0.52.0]
 
 - Comment added inside of `IModelContentChangedEvent`
