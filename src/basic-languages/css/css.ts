@@ -165,7 +165,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		units: [
 			[
-				'(em|ex|ch|rem|fr|vmin|vmax|vw|vh|vm|cm|mm|in|px|pt|pc|deg|grad|rad|turn|s|ms|Hz|kHz|%)?',
+				'(em|ex|cap|ch|ic|rem|lh|rlh|fr|vmin|svmin|lvmin|dvmin|vmax|svmax|lvmax|dvmax|vi|vb|vw|vh|svw|lvw|dvw|svh|lvh|dvh|svi|lvi|dvi|svb|lvb|dvb|vm|cm|mm|Q|in|px|pt|pc|dpi|dpcm|dppx|deg|grad|rad|turn|s|ms|Hz|kHz|%)?',
 				'attribute.value.unit',
 				'@pop'
 			]
