@@ -473,6 +473,21 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 			return [];
 		}
 	}
+
+	async getEncodedSemanticClassifications(
+		fileName: string,
+		start: number,
+		end: number
+	): Promise<ts.Classifications | undefined> {
+		if (fileNameIsLib(fileName)) {
+			return undefined;
+		}
+		return this._languageService.getEncodedSemanticClassifications(
+			fileName,
+			{ start, length: end - start },
+			'2020' as ts.SemanticClassificationFormat
+		);
+	}
 }
 
 export interface ICreateData {
