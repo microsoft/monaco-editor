@@ -54,6 +54,7 @@ extends:
         publishRequiresApproval: false
 
       - name: monaco-editor
+        dependsOn: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
         testPlatforms: []
         skipAPIScan: true # package build requires Linux
@@ -69,6 +70,7 @@ extends:
         publishRequiresApproval: false
 
       - name: monaco-editor-webpack-plugin
+        dependsOn: monaco-editor
         workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
         testPlatforms: []
         packagePlatform: Windows
