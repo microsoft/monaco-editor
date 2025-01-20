@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React = require("react");
+import * as React from "react";
 import { IReference } from "../utils/ref";
 import { Form } from "./bootstrap";
 
