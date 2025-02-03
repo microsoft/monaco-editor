@@ -65,12 +65,12 @@ jobs:
 
       - name: Install website node modules
         working-directory: website
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Build website
         working-directory: website
-        run: yarn run build
+        run: npm run build
 
       - name: Test website
         working-directory: website
-        run: yarn test
+        run: npm run test

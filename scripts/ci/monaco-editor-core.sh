@@ -3,18 +3,18 @@ set -e
 
 # cwd must be the vscode repository.
 
-yarn --frozen-lockfile --network-timeout 180000
-yarn playwright-install
-yarn gulp hygiene
-yarn valid-layers-check
-yarn --cwd build compile
-yarn eslint
-yarn monaco-compile-check
-yarn --max_old_space_size=4095 compile
+npm ci
+npm run playwright-install
+npm run gulp hygiene
+npm run valid-layers-check
+cd build && npm run compile && cd -
+npm run eslint
+npm run monaco-compile-check
+npm run compile
 
-yarn test-browser --browser chromium
+npm run test-browser --browser chromium
 
-yarn gulp editor-distro
+npm run gulp editor-distro
 mkdir typings-test
 
 cd typings-test
@@ -25,10 +25,10 @@ echo "import '../out-monaco-editor-core';" > a.ts
 cd ..
 
 cd test/monaco
-yarn run esm-check
-yarn run bundle-webpack
-yarn run compile
-yarn test
+npm run esm-check
+npm run bundle-webpack
+npm run compile
+npm test
 cd ../..
 
 # npm package is now in dependencies/vscode/out-monaco-editor-core, ready to be published

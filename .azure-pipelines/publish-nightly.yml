@@ -57,7 +57,7 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare nightly
+          - script: npm run ts-node ./scripts/ci/monaco-editor-core-prepare nightly
             env:
               VSCODE_REF: ${{ parameters.vscodeRef }}
               PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
@@ -78,7 +78,7 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/monaco-editor-prepare nightly
+          - script: npm run ts-node ./scripts/ci/monaco-editor-prepare nightly
             env:
               VSCODE_REF: ${{ parameters.vscodeRef }}
               PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}

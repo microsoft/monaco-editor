@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v3
       - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # pin@v2
         with:
-          node-version: 16
+          node-version: 20
       - name: Cache node modules
         id: cacheNodeModules
         uses: actions/cache@v2
