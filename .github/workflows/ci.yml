@@ -15,7 +15,7 @@ jobs:
 
       - name: Cache node modules
         id: cacheNodeModules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json', '**/package.json') }}
@@ -65,7 +65,7 @@ jobs:
 
       - name: Install website node modules
         working-directory: website
-        run: npm ci
+        run: npm i
 
       - name: Build website
         working-directory: website
