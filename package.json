@@ -28,7 +28,11 @@
 		"update-actions": "pin-github-action ./.github/workflows/website.yml",
 		"watch": "tsc -w -p ./src",
 		"build": "ts-node ./build/build-languages",
-		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor"
+		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
+		"prepare-nightly": "ts-node ./scripts/ci/monaco-editor-prepare nightly",
+		"prepare-stable": "ts-node ./scripts/ci/monaco-editor-prepare stable",
+		"prepare-nightly-core": "ts-node ./scripts/ci/monaco-editor-core-prepare nightly",
+		"prepare-stable-core": "ts-node ./scripts/ci/monaco-editor-core-prepare stable"
 	},
 	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"module": "./esm/vs/editor/editor.main.js",
