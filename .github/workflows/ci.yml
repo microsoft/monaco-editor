@@ -7,15 +7,15 @@ jobs:
     name: CI
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # pin@v2
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Cache node modules
         id: cacheNodeModules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json', '**/package.json') }}
