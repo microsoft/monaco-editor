@@ -296,7 +296,14 @@ function createLoaderRules(
               if(/^(\\/\\/)/.test(result)) {
                 result = window.location.protocol + result
               }
-              var js = '/*' + label + '*/importScripts("' + result + '");';
+              var js = '/*' + label + '*/';
+              if (typeof import.meta !== 'undefined') {
+                // module worker
+                js += 'import "' + result + '";';
+              } else {
+                // classic worker
+                js += 'importScripts("' + result + '");';
+              }
               var blob = new Blob([js], { type: 'application/javascript' });
               return URL.createObjectURL(blob);
             }
