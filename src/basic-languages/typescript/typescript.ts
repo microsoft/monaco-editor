@@ -75,138 +75,47 @@ export const conf: languages.LanguageConfiguration = {
 };
 
 export const language = {
-	// Set defaultToken to invalid to see what you do not tokenize yet
+
 	defaultToken: 'invalid',
 	tokenPostfix: '.ts',
 
+	typeKeywords: [
+	  'any', 'bigint', 'boolean', 'number', 'object', 'string', 'unknown', 'void',
+	],
+
+	ctrlKeywords: [
+	  'export', 'default', 'return', 'as', 'if', 'break', 'case', 'catch', 'continue',
+	  'do', 'else', 'finally', 'for', 'throw', 'try', 'with', 'yield', 'await',
+	  'import', 'from', 'type',
+	],
+
+	alwaysKeyword: [
+	  'constructor', 'super',
+	],
+
 	keywords: [
-		// Should match the keys of textToKeywordObj in
-		// https://github.com/microsoft/TypeScript/blob/master/src/compiler/scanner.ts
-		'abstract',
-		'any',
-		'as',
-		'asserts',
-		'bigint',
-		'boolean',
-		'break',
-		'case',
-		'catch',
-		'class',
-		'continue',
-		'const',
-		'constructor',
-		'debugger',
-		'declare',
-		'default',
-		'delete',
-		'do',
-		'else',
-		'enum',
-		'export',
-		'extends',
-		'false',
-		'finally',
-		'for',
-		'from',
-		'function',
-		'get',
-		'if',
-		'implements',
-		'import',
-		'in',
-		'infer',
-		'instanceof',
-		'interface',
-		'is',
-		'keyof',
-		'let',
-		'module',
-		'namespace',
-		'never',
-		'new',
-		'null',
-		'number',
-		'object',
-		'out',
-		'package',
-		'private',
-		'protected',
-		'public',
-		'override',
-		'readonly',
-		'require',
-		'global',
-		'return',
-		'satisfies',
-		'set',
-		'static',
-		'string',
-		'super',
-		'switch',
-		'symbol',
-		'this',
-		'throw',
-		'true',
-		'try',
-		'type',
-		'typeof',
-		'undefined',
-		'unique',
-		'unknown',
-		'var',
-		'void',
-		'while',
-		'with',
-		'yield',
-		'async',
-		'await',
-		'of'
+	  // Should match the keys of textToKeywordObj in
+	  // https://github.com/microsoft/TypeScript/blob/master/src/compiler/scanner.ts
+	  'abstract', 'asserts',
+	  'class', 'const', 'debugger',
+	  'declare', 'delete', 'enum',
+	  'extends', 'false', 'function', 'get',
+	  'implements', 'in', 'infer', 'instanceof', 'interface',
+	  'is', 'keyof', 'let', 'module', 'namespace', 'never', 'new',
+	  'null', 'out', 'package', 'private', 'protected',
+	  'public', 'override', 'readonly', 'require', 'global', 'satisfies',
+	  'set', 'static', 'switch', 'symbol', 'this',
+	  'true', 'typeof', 'undefined', 'unique',
+	  'var', 'while', 'async', 'of'
 	],
 
 	operators: [
-		'<=',
-		'>=',
-		'==',
-		'!=',
-		'===',
-		'!==',
-		'=>',
-		'+',
-		'-',
-		'**',
-		'*',
-		'/',
-		'%',
-		'++',
-		'--',
-		'<<',
-		'</',
-		'>>',
-		'>>>',
-		'&',
-		'|',
-		'^',
-		'!',
-		'~',
-		'&&',
-		'||',
-		'??',
-		'?',
-		':',
-		'=',
-		'+=',
-		'-=',
-		'*=',
-		'**=',
-		'/=',
-		'%=',
-		'<<=',
-		'>>=',
-		'>>>=',
-		'&=',
-		'|=',
-		'^=',
-		'@'
+	  '<=', '>=', '==', '!=', '===', '!==', '=>',
+	  '+', '-', '**', '*', '/', '%', '++',
+	  '--', '<<', '</', '>>', '>>>', '&', '|',
+	  '^', '!', '~', '&&', '||', '??', '?',
+	  ':', '=', '+=', '-=', '*=', '**=', '/=',
+	  '%=', '<<=', '>>=', '>>>=', '&=', '|=', '^=', '@'
 	],
 
 	// we include these common regular expressions
@@ -222,143 +131,249 @@ export const language = {
 
 	// The main tokenizer for our languages
 	tokenizer: {
-		root: [[/[{}]/, 'delimiter.bracket'], { include: 'common' }],
+	  root: [
+		[/}/, {
+		  cases: {
+			'$S2==INJSX': { token: '@brackets', next: '@pop' },
+			'@default': '@brackets',
+		  }
+		}],
 
-		common: [
-			// identifiers and keywords
-			[
-				/#?[a-z_$][\w$]*/,
-				{
-					cases: {
-						'@keywords': 'keyword',
-						'@default': 'identifier'
-					}
-				}
-			],
-			[/[A-Z][\w\$]*/, 'type.identifier'], // to show class names nicely
-			// [/[A-Z][\w\$]*/, 'identifier'],
+		[/{/, 'delimiter.bracket'],
 
-			// whitespace
-			{ include: '@whitespace' },
+		// highlight class field-properties
+		[/^\s+#?[\w$]+(?=\s*[;=:])/, 'variable.property'],
 
-			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
-			[
-				/\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
-				{ token: 'regexp', bracket: '@open', next: '@regexp' }
-			],
+		// highlight function/class defs
+		[/(function|class|new)(\s+)(#?[\w$]+)(\s*)([<(]?)/, ['keyword', '',
+		  {
+			cases: {
+			  '$1==function': 'method',
+			  '$1==class': 'type.identifier',
+			  '$1==new': 'type.identifier',
+			}
+		  }, '', {
+			cases: {
+			  '<': { token: '@brackets', next: '@typeparams' },
+			  '@default': '@rematch',
+			}
+		  },
+		]],
 
-			// delimiters and operators
-			[/[()\[\]]/, '@brackets'],
-			[/[<>](?!@symbols)/, '@brackets'],
-			[/!(?=([^=]|$))/, 'delimiter'],
-			[
-				/@symbols/,
-				{
-					cases: {
-						'@operators': 'delimiter',
-						'@default': ''
-					}
-				}
-			],
+		// highlight var/const/let defs
+		[/(const|let|var)(\s+)(#?[\w$]+)/, ['keyword', '', {
+		  cases: {
+			'$1==const': 'constant',
+			'@default': 'variable',
+		  }
+		}]],
 
-			// numbers
-			[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
-			[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
-			[/0[xX](@hexdigits)n?/, 'number.hex'],
-			[/0[oO]?(@octaldigits)n?/, 'number.octal'],
-			[/0[bB](@binarydigits)n?/, 'number.binary'],
-			[/(@digits)n?/, 'number'],
+		{ include: 'jsxReady' },
 
-			// delimiter: after number because of .\d floats
-			[/[;,.]/, 'delimiter'],
+		{ include: 'common' },
+	  ],
 
-			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
-			[/'([^'\\]|\\.)*$/, 'string.invalid'], // non-teminated string
-			[/"/, 'string', '@string_double'],
-			[/'/, 'string', '@string_single'],
-			[/`/, 'string', '@string_backtick']
+	  common: [
+
+		// identifiers and keywords
+		[/(#?[a-zA-Z_$][\w$]*)([<(]?)/, [
+		  {
+			cases: {
+			  '@typeKeywords': 'type.identifier',
+			  '@alwaysKeyword': 'keyword',
+			  '$1~#?[A-Z].*': 'type.identifier',
+			  '$2': 'method',
+			  '@ctrlKeywords': 'keyword.flow',
+			  '@keywords': 'keyword',
+			  '@default': 'identifier',
+			}
+		  },
+		  {
+			cases: {
+			  '$2==<': { token: '@brackets', next: '@typeparams' },
+			  '@default': '@rematch',
+			}
+		  },
+		]],
+
+		// whitespace
+		{ include: '@whitespace' },
+
+		// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
+		[
+		  /\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
+		  { token: 'regexp', bracket: '@open', next: '@regexp' }
 		],
 
-		whitespace: [
-			[/[ \t\r\n]+/, ''],
-			[/\/\*\*(?!\/)/, 'comment.doc', '@jsdoc'],
-			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment']
+		// delimiters and operators
+		[/[()\[\]]/, '@brackets'],
+		[/[<>](?!@symbols)/, '@brackets'],
+		[/!(?=([^=]|$))/, 'delimiter'],
+		[
+		  /@symbols/,
+		  {
+			cases: {
+			  '@operators': 'delimiter',
+			  '@default': ''
+			}
+		  }
 		],
 
-		comment: [
-			[/[^\/*]+/, 'comment'],
-			[/\*\//, 'comment', '@pop'],
-			[/[\/*]/, 'comment']
-		],
+		[/\.\.\./, 'keyword'],
 
-		jsdoc: [
-			[/[^\/*]+/, 'comment.doc'],
-			[/\*\//, 'comment.doc', '@pop'],
-			[/[\/*]/, 'comment.doc']
-		],
+		// numbers
+		[/(@digits)[eE]([\-+]?(@digits))?/, 'number.float'],
+		[/(@digits)\.(@digits)([eE][\-+]?(@digits))?/, 'number.float'],
+		[/0[xX](@hexdigits)n?/, 'number.hex'],
+		[/0[oO]?(@octaldigits)n?/, 'number.octal'],
+		[/0[bB](@binarydigits)n?/, 'number.binary'],
+		[/(@digits)n?/, 'number'],
 
-		// We match regular expression quite precisely
-		regexp: [
-			[
-				/(\{)(\d+(?:,\d*)?)(\})/,
-				['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']
-			],
-			[
-				/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
-				['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]
-			],
-			[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
-			[/[()]/, 'regexp.escape.control'],
-			[/@regexpctl/, 'regexp.escape.control'],
-			[/[^\\\/]/, 'regexp'],
-			[/@regexpesc/, 'regexp.escape'],
-			[/\\\./, 'regexp.invalid'],
-			[/(\/)([dgimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
-		],
+		// delimiter: after number because of .\d floats
+		[/[;,.]/, 'delimiter'],
 
-		regexrange: [
-			[/-/, 'regexp.escape.control'],
-			[/\^/, 'regexp.invalid'],
-			[/@regexpesc/, 'regexp.escape'],
-			[/[^\]]/, 'regexp'],
-			[
-				/\]/,
-				{
-					token: 'regexp.escape.control',
-					next: '@pop',
-					bracket: '@close'
-				}
-			]
-		],
+		// strings
+		[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+		[/'([^'\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+		[/"/, 'string', '@string_double'],
+		[/'/, 'string', '@string_single'],
+		[/`/, 'string', '@string_backtick']
+	  ],
 
-		string_double: [
-			[/[^\\"]+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/"/, 'string', '@pop']
-		],
+	  typeparams: [
+		[/>/, '@brackets', '@pop'],
+		{ include: 'common' }
+	  ],
 
-		string_single: [
-			[/[^\\']+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/'/, 'string', '@pop']
-		],
+	  jsxReady: [
+		[/<>/, 'delimiter.html', '@jsxText.FRAGMENT'],
+		[/(<)([A-Z][\w$]*\s*(?:,|extends|implements))/, ['@brackets', { token: '@rematch', next: '@typeparams' }]],
+		[/(<)(\s*)([\w$])/, ['delimiter.html', '',
+		  { token: '@rematch', next: '@jsxIdent.jsxOpen.' },
+		]],
+	  ],
 
-		string_backtick: [
-			[/\$\{/, { token: 'delimiter.bracket', next: '@bracketCounting' }],
-			[/[^\\`$]+/, 'string'],
-			[/@escapes/, 'string.escape'],
-			[/\\./, 'string.escape.invalid'],
-			[/`/, 'string', '@pop']
-		],
+	  jsxIdent: [
+		[/\./, { token: 'delimiter', switchTo: '$S0^' }],
+		[/[A-Z][\w$]*/, { token: 'type.identifier', switchTo: '$S0$0' }],
+		[/[\w$-]+/, { token: 'tag', switchTo: '$S0$0' }],
+		[/.+/, { token: '@rematch', switchTo: '@$S2.$S3.$S4' }],
+	  ],
 
-		bracketCounting: [
-			[/\{/, 'delimiter.bracket', '@bracketCounting'],
-			[/\}/, 'delimiter.bracket', '@pop'],
-			{ include: 'common' }
+	  jsxOpen: [
+		[/{/, { token: 'keyword', next: '@root.INJSX', bracket: '@open' }],
+		[/>/, { token: 'delimiter.html', switchTo: '@jsxText.$S2' }],
+		[/\/>/, { token: 'delimiter.html', next: '@pop' }],
+		[/ +([\w-$]+)/, 'attribute.name'],
+		[/(=)(')/, ['delimiter', { token: 'string', next: '@string_single' }]],
+		[/(=)(")/, ['delimiter', { token: 'string', next: '@string_double' }]],
+		[/(=)({)/, ['delimiter', { token: '@brackets', next: '@root.INJSX' }]],
+	  ],
+
+	  jsxText: [
+		[/{/, { token: 'keyword', next: '@root.INJSX', bracket: '@open' }],
+		[/<\/>/, {
+		  cases: {
+			'$S2==FRAGMENT': { token: 'delimiter.html', next: '@pop' },
+			'@default': { token: 'invalid', next: '@pop' },
+		  }
+		}],
+		[/(<\/)(\s*)([\w$])/, ['delimiter.html', '',
+		  { token: '@rematch', switchTo: '@jsxIdent.jsxClose.$S2.' },
+		]],
+		{ include: 'jsxReady' },
+		[/./, 'string'],
+	  ],
+
+	  jsxClose: [
+		[/>/, {
+		  cases: {
+			'$S2==$S3': { token: 'delimiter.html', next: '@pop' },
+			'@default': { token: 'invalid', next: '@pop' },
+		  }
+		}],
+	  ],
+
+	  whitespace: [
+		[/[ \t\r\n]+/, ''],
+		[/\/\*\*(?!\/)/, 'comment.doc', '@jsdoc'],
+		[/\/\*/, 'comment', '@comment'],
+		[/\/\/.*$/, 'comment']
+	  ],
+
+	  comment: [
+		[/[^\/*]+/, 'comment'],
+		[/\*\//, 'comment', '@pop'],
+		[/[\/*]/, 'comment']
+	  ],
+
+	  jsdoc: [
+		[/[^\/*]+/, 'comment.doc'],
+		[/\*\//, 'comment.doc', '@pop'],
+		[/[\/*]/, 'comment.doc']
+	  ],
+
+	  // We match regular expression quite precisely
+	  regexp: [
+		[
+		  /(\{)(\d+(?:,\d*)?)(\})/,
+		  ['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']
+		],
+		[
+		  /(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
+		  ['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]
+		],
+		[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
+		[/[()]/, 'regexp.escape.control'],
+		[/@regexpctl/, 'regexp.escape.control'],
+		[/[^\\\/]/, 'regexp'],
+		[/@regexpesc/, 'regexp.escape'],
+		[/\\\./, 'regexp.invalid'],
+		[/(\/)([dgimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
+	  ],
+
+	  regexrange: [
+		[/-/, 'regexp.escape.control'],
+		[/\^/, 'regexp.invalid'],
+		[/@regexpesc/, 'regexp.escape'],
+		[/[^\]]/, 'regexp'],
+		[
+		  /\]/,
+		  {
+			token: 'regexp.escape.control',
+			next: '@pop',
+			bracket: '@close'
+		  }
 		]
+	  ],
+
+	  string_double: [
+		[/[^\\"]+/, 'string'],
+		[/@escapes/, 'string.escape'],
+		[/\\./, 'string.escape.invalid'],
+		[/"/, 'string', '@pop']
+	  ],
+
+	  string_single: [
+		[/[^\\']+/, 'string'],
+		[/@escapes/, 'string.escape'],
+		[/\\./, 'string.escape.invalid'],
+		[/'/, 'string', '@pop']
+	  ],
+
+	  string_backtick: [
+		[/\$\{/, { token: 'delimiter.bracket', next: '@bracketCounting' }],
+		[/[^\\`$]+/, 'string'],
+		[/@escapes/, 'string.escape'],
+		[/\\./, 'string.escape.invalid'],
+		[/`/, 'string', '@pop']
+	  ],
+
+	  bracketCounting: [
+		[/\{/, 'delimiter.bracket', '@bracketCounting'],
+		[/\}/, 'delimiter.bracket', '@pop'],
+		{ include: 'common' }
+	  ]
 	}
+
 };
