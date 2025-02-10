@@ -226,8 +226,6 @@ testTokenization('python', [
 				{ startIndex: 10, type: 'identifier.python' },
 				{ startIndex: 15, type: 'string.python' },
 				{ startIndex: 17, type: 'identifier.python' },
-				// { startIndex: 22, type: 'string.python' },
-				// { startIndex: 23, type: 'identifier.python' },
 				{ startIndex: 24, type: 'string.escape.python' }
 			]
 		}

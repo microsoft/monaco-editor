@@ -250,12 +250,10 @@ export const language = <languages.IMonarchLanguage>{
 		// Recognize strings, including those broken across lines with \ (but not without)
 		strings: [
 			[/'$/, 'string.escape', '@popall'],
-			// [/f'{1,3}/, 'string.escape', '@fStringBody'],
 			[/f'{3}/, 'string.escape', '@fStringBody3'],
 			[/f'{1}/, 'string.escape', '@fStringBody1'],
 			[/'/, 'string.escape', '@stringBody'],
 			[/"$/, 'string.escape', '@popall'],
-			// [/f"{1,3}/, 'string.escape', '@fDblStringBody'],
 			[/f"{3}/, 'string.escape', '@fDblStringBody3'],
 			[/f"{1}/, 'string.escape', '@fDblStringBody1'],
 			[/"/, 'string.escape', '@dblStringBody']
