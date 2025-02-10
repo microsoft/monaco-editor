@@ -226,8 +226,8 @@ testTokenization('python', [
 				{ startIndex: 10, type: 'identifier.python' },
 				{ startIndex: 15, type: 'string.python' },
 				{ startIndex: 17, type: 'identifier.python' },
-				{ startIndex: 22, type: 'string.python' },
-				{ startIndex: 23, type: 'identifier.python' },
+				// { startIndex: 22, type: 'string.python' },
+				// { startIndex: 23, type: 'identifier.python' },
 				{ startIndex: 24, type: 'string.escape.python' }
 			]
 		}
@@ -251,6 +251,135 @@ testTokenization('python', [
 				{ startIndex: 0, type: 'string.escape.python' },
 				{ startIndex: 1, type: 'string.python' },
 				{ startIndex: 6, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'f"{greet(\'Alice\')}"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'identifier.python' },
+				{ startIndex: 9, type: 'string.python' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'identifier.python' },
+				{ startIndex: 18, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: "f\"Name: {data['name']}, Age: {data['age']}\"",
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'string.python' },
+				{ startIndex: 8, type: 'identifier.python' },
+				{ startIndex: 14, type: 'string.python' },
+				{ startIndex: 20, type: '' },
+				{ startIndex: 21, type: 'identifier.python' },
+				{ startIndex: 22, type: 'string.python' },
+				{ startIndex: 29, type: 'identifier.python' },
+				{ startIndex: 35, type: 'string.python' },
+				{ startIndex: 40, type: '' },
+				{ startIndex: 41, type: 'identifier.python' },
+				{ startIndex: 42, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'f"First item: {items[0]}"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'string.python' },
+				{ startIndex: 14, type: 'identifier.python' },
+				{ startIndex: 24, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'f"{{ Hello }}"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'string.python' },
+				{ startIndex: 13, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'f"{name.capitalize()}"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'identifier.python' },
+				{ startIndex: 21, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'f"{(lambda x: x * 2)(5)}"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'identifier.python' },
+				{ startIndex: 24, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'f"Result: {f\'Value is {value}\'}"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'string.python' },
+				{ startIndex: 22, type: 'identifier.python' },
+				{ startIndex: 29, type: 'string.escape.python' },
+				{ startIndex: 30, type: 'delimiter.curly.python' },
+				{ startIndex: 31, type: 'string.escape.python' }
+			]
+		}
+	],
+
+	// https://github.com/microsoft/monaco-editor/issues/4601
+	[
+		{
+			line: 'multi_line_f_string = f"""first line looks fine',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 19, type: 'white.python' },
+				{ startIndex: 20, type: '' },
+				{ startIndex: 21, type: 'white.python' },
+				{ startIndex: 22, type: 'string.escape.python' },
+				{ startIndex: 26, type: 'string.python' }
+			]
+		},
+		{
+			line: "{'uh oh'}",
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 1, type: 'string.python' },
+				{ startIndex: 8, type: '' }
+			]
+		},
+		{
+			line: 'now the highlighting is broken down here :(',
+			tokens: [{ startIndex: 0, type: 'string.python' }]
+		},
+		{
+			line: '"""',
+			tokens: [{ startIndex: 0, type: 'string.escape.python' }]
+		},
+		{
+			line: 'also = "it\'s broken highlighting for everything after"',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 4, type: 'white.python' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'white.python' },
+				{ startIndex: 7, type: 'string.escape.python' },
+				{ startIndex: 8, type: 'string.python' },
+				{ startIndex: 53, type: 'string.escape.python' }
 			]
 		}
 	]

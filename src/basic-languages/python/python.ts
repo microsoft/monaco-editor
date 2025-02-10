@@ -250,16 +250,34 @@ export const language = <languages.IMonarchLanguage>{
 		// Recognize strings, including those broken across lines with \ (but not without)
 		strings: [
 			[/'$/, 'string.escape', '@popall'],
-			[/f'{1,3}/, 'string.escape', '@fStringBody'],
+			// [/f'{1,3}/, 'string.escape', '@fStringBody'],
+			[/f'{3}/, 'string.escape', '@fStringBody3'],
+			[/f'{1}/, 'string.escape', '@fStringBody1'],
 			[/'/, 'string.escape', '@stringBody'],
 			[/"$/, 'string.escape', '@popall'],
-			[/f"{1,3}/, 'string.escape', '@fDblStringBody'],
+			// [/f"{1,3}/, 'string.escape', '@fDblStringBody'],
+			[/f"{3}/, 'string.escape', '@fDblStringBody3'],
+			[/f"{1}/, 'string.escape', '@fDblStringBody1'],
 			[/"/, 'string.escape', '@dblStringBody']
 		],
-		fStringBody: [
+		fStringBody3: [
+			[/[^\\'\{\}]+/, 'string'],
+			[/\{\{[^}]+\}\}/, 'string'],
+			[/\{f"{3}/, 'string', '@fDblStringBody3'], // for nested f-strings
+			[/\{f"{1}/, 'string', '@fDblStringBody1'], // for nested f-strings
+			[/\{[^\}'":!=]+/, 'identifier', '@fStringDetail'],
+			[/\\./, 'string'],
+			[/'''/, 'string.escape', '@popall'],
+			[/'/, 'string.escape'],
+			[/\\$/, 'string']
+		],
+		fStringBody1: [
 			[/[^\\'\{\}]+$/, 'string', '@popall'],
 			[/[^\\'\{\}]+/, 'string'],
-			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
+			[/\{\{[^}]+\}\}/, 'string'],
+			[/\{f"{3}/, 'string', '@fDblStringBody3'], // for nested f-strings
+			[/\{f"{1}/, 'string', '@fDblStringBody1'], // for nested f-strings
+			[/\{[^\}'":!=]+/, 'identifier', '@fStringDetail'],
 			[/\\./, 'string'],
 			[/'/, 'string.escape', '@popall'],
 			[/\\$/, 'string']
@@ -271,10 +289,24 @@ export const language = <languages.IMonarchLanguage>{
 			[/'/, 'string.escape', '@popall'],
 			[/\\$/, 'string']
 		],
-		fDblStringBody: [
+		fDblStringBody3: [
+			[/[^\\"\{\}]+/, 'string'],
+			[/\{\{[^}]+\}\}/, 'string'],
+			[/\{f'{3}/, 'string', '@fStringBody3'], // for nested f-strings
+			[/\{f'{1}/, 'string', '@fStringBody1'], // for nested f-strings
+			[/\{[^\}'":!=]+/, 'identifier', '@fStringDetail'],
+			[/\\./, 'string'],
+			[/"""/, 'string.escape', '@popall'],
+			[/"/, 'string.escape'],
+			[/\\$/, 'string']
+		],
+		fDblStringBody1: [
 			[/[^\\"\{\}]+$/, 'string', '@popall'],
 			[/[^\\"\{\}]+/, 'string'],
-			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
+			[/\{\{[^}]+\}\}/, 'string'],
+			[/\{f'{3}/, 'string', '@fStringBody3'], // for nested f-strings
+			[/\{f'{1}/, 'string', '@fStringBody1'], // for nested f-strings
+			[/\{[^\}'":!=]+/, 'identifier', '@fStringDetail'],
 			[/\\./, 'string'],
 			[/"/, 'string.escape', '@popall'],
 			[/\\$/, 'string']
@@ -287,9 +319,13 @@ export const language = <languages.IMonarchLanguage>{
 			[/\\$/, 'string']
 		],
 		fStringDetail: [
-			[/[:][^}]+/, 'string'],
+			[/:=[^}]+/, 'identifier'], // walrus operator
+			[/: [^}]+/, 'identifier'], // for lambda functions
+			[/:[^}]+/, 'string'], // for numeric formatting
 			[/[!][ars]/, 'string'], // only !a, !r, !s are supported by f-strings: https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals
-			[/=/, 'string'],
+			[/=/, 'identifier'],
+			[/'[^\']+'/, 'string'],
+			[/"[^\""]+"/, 'string'],
 			[/\}/, 'identifier', '@pop']
 		]
 	}
