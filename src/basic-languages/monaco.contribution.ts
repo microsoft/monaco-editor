@@ -77,6 +77,7 @@ import './st/st.contribution';
 import './swift/swift.contribution';
 import './systemverilog/systemverilog.contribution';
 import './tcl/tcl.contribution';
+import './toml/toml.contribution';
 import './twig/twig.contribution';
 import './typescript/typescript.contribution';
 import './typespec/typespec.contribution';
