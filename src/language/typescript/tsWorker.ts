@@ -37,6 +37,8 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 
 	private _ctx: worker.IWorkerContext;
 	private _extraLibs: IExtraLibs = Object.create(null);
+	/** Extra libs may have been opened as models, so we track previously removed libs to ensure they are not considered */
+	private _removedExtraLibs: { uri: string; version: number }[] = [];
 	private _languageService = ts.createLanguageService(this);
 	private _compilerOptions: ts.CompilerOptions;
 	private _inlayHintsOptions?: ts.UserPreferences;
@@ -63,8 +65,48 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	}
 
 	getScriptFileNames(): string[] {
-		const allModels = this._ctx.getMirrorModels().map((model) => model.uri);
-		const models = allModels.filter((uri) => !fileNameIsLib(uri)).map((uri) => uri.toString());
+		const allModels = this._ctx.getMirrorModels();
+		const models = allModels
+			// remove default libs
+			.filter((model) => !fileNameIsLib(model.uri))
+			// remove extra libs
+			.filter((model) => {
+				const modelUri = model.uri.toString();
+				if (this._extraLibs[modelUri]) {
+					return false;
+				}
+				// Extra libs passed with no schema get a file:/// prefix from the model but not in the _extraLibs map
+				if (
+					modelUri.startsWith('file:///') &&
+					this._extraLibs[modelUri.replace('file:///', '')]?.version
+				) {
+					return false;
+				}
+				return true;
+			})
+			// remove previously removed libs
+			.filter((model) => {
+				const modelUri = model.uri.toString();
+				if (
+					this._removedExtraLibs.some(
+						(removed) => removed.uri === modelUri && removed.version === model.version
+					)
+				) {
+					return false;
+				}
+				// if the extra lib was passed with no schema, it gets a file:/// prefix from the model
+				if (
+					modelUri.startsWith('file:///') &&
+					this._removedExtraLibs.some(
+						(removed) =>
+							removed.uri === modelUri.replace('file:///', '') && removed.version === model.version
+					)
+				) {
+					return false;
+				}
+				return true;
+			})
+			.map((model) => model.uri.toString());
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
@@ -450,6 +492,9 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 	}
 
 	async updateExtraLibs(extraLibs: IExtraLibs): Promise<void> {
+		this._removedExtraLibs.push(
+			...Object.entries(this._extraLibs).map(([uri, lib]) => ({ uri, version: lib.version }))
+		);
 		this._extraLibs = extraLibs;
 	}
 
