@@ -547,6 +547,18 @@ export interface TypeScriptWorker {
 	 * @returns `Promise<typescript.InlayHint[]>`
 	 */
 	provideInlayHints(fileName: string, start: number, end: number): Promise<ReadonlyArray<any>>;
+
+	/**
+	 * Get encoded semantic classifications in the range of the file.
+	 *
+	 * The returned number array is encoded as triples of [start, length, ClassificationType, ...].
+	 * @returns `Promise<typescript.Classifications | undefined>`
+	 */
+	getEncodedSemanticClassifications(
+		fileName: string,
+		start: number,
+		end: number
+	): Promise<{ spans: number[] } | undefined>;
 }
 
 // --- TypeScript configuration and defaults ---------
