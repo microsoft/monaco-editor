@@ -257,7 +257,8 @@ export const language = <languages.IMonarchLanguage>{
 			[/"/, 'string.escape', '@dblStringBody']
 		],
 		fStringBody: [
-			[/[^\\'\{\}]+$/, 'string', '@popall'],
+			[/\{\{/, 'string'],
+			[/\}\}/, 'string'],
 			[/[^\\'\{\}]+/, 'string'],
 			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
 			[/\\./, 'string'],
@@ -272,7 +273,8 @@ export const language = <languages.IMonarchLanguage>{
 			[/\\$/, 'string']
 		],
 		fDblStringBody: [
-			[/[^\\"\{\}]+$/, 'string', '@popall'],
+			[/\{\{/, 'string'],
+			[/\}\}/, 'string'],
 			[/[^\\"\{\}]+/, 'string'],
 			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
 			[/\\./, 'string'],
