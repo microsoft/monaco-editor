@@ -7,6 +7,7 @@ const keywordsSet = new Set();
 
 addArrToSet(keywordsSet, getMicrosoftSQLKeywords());
 addArrToSet(keywordsSet, getSQLiteKeywords());
+addArrToSet(keywordsSet, getSnowflakeSQLKeywords());
 
 const keywords = setToArr(keywordsSet);
 keywords.sort();
@@ -605,6 +606,107 @@ function getSQLiteKeywords() {
 		WINDOW
 		WITH
 		WITHOUT
+	`
+		.split(/\r\n|\r|\n/)
+		.map((t) => t.trim())
+		.filter((t) => !!t);
+}
+
+function getSnowflakeSQLKeywords() {
+	// https://docs.snowflake.com/en/sql-reference/reserved-keywords
+	return `
+		ACCOUNT
+		ALL
+		ALTER
+		AND
+		ANY
+		AS
+		BETWEEN
+		BY
+		CASE
+		CAST
+		CHECK
+		COLUMN
+		CONNECT
+		CONNECTION
+		CONSTRAINT
+		CREATE
+		CROSS
+		CURRENT
+		CURRENT_DATE
+		CURRENT_TIME
+		CURRENT_TIMESTAMP
+		CURRENT_USER
+		DATABASE
+		DELETE
+		DISTINCT
+		DROP
+		ELSE
+		EXISTS
+		FALSE
+		FOLLOWING
+		FOR
+		FROM
+		FULL
+		GRANT
+		GROUP
+		GSCLUSTER
+		HAVING
+		ILIKE
+		IN
+		INCREMENT
+		INNER
+		INSERT
+		INTERSECT
+		INTO
+		IS
+		ISSUE
+		JOIN
+		LATERAL
+		LEFT
+		LIKE
+		LOCALTIME
+		LOCALTIMESTAMP
+		MINUS
+		NATURAL
+		NOT
+		NULL
+		OF
+		ON
+		OR
+		ORDER
+		ORGANIZATION
+		QUALIFY
+		REGEXP
+		REVOKE
+		RIGHT
+		RLIKE
+		ROW
+		ROWS
+		SAMPLE
+		SCHEMA
+		SELECT
+		SET
+		SOME
+		START
+		TABLE
+		TABLESAMPLE
+		THEN
+		TO
+		TRIGGER
+		TRUE
+		TRY_CAST
+		UNION
+		UNIQUE
+		UPDATE
+		USING
+		VALUES
+		VIEW
+		WHEN
+		WHENEVER
+		WHERE
+		WINDOW
+		WITH
 	`
 		.split(/\r\n|\r|\n/)
 		.map((t) => t.trim())
