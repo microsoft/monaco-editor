@@ -22,7 +22,7 @@
 		"ts-loader": "^9.2.6",
 		"typescript": "^5.4.5",
 		"webpack-cli": "^4.9.2",
-		"webpack-dev-server": "^4.7.4",
+		"webpack-dev-server": "^5.2.1",
 		"webpack": "^5.76.0",
 		"yaserver": "^0.4.0"
 	},
