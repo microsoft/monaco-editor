@@ -19,7 +19,6 @@ import { Preview } from "./Preview";
 import { SettingsDialog } from "./SettingsDialog";
 import { getNpmVersionsSync } from "./getNpmVersionsSync";
 import { PlaygroundExample, getPlaygroundExamples } from "./playgroundExamples";
-import { getDefaultSettings, toLoaderConfig } from "./SettingsModel";
 
 @hotComponent(module)
 @observer
@@ -85,6 +84,7 @@ export class PlaygroundPageContent extends React.Component<
 											}
 										>
 											<Editor
+												label="JavaScript Input"
 												language={"javascript"}
 												value={ref(model, "js")}
 											/>
@@ -94,6 +94,7 @@ export class PlaygroundPageContent extends React.Component<
 									<div>
 										<LabeledEditor label="HTML">
 											<Editor
+												label="HTML Input"
 												height={{
 													kind: "dynamic",
 													maxHeight: 200,
@@ -107,6 +108,7 @@ export class PlaygroundPageContent extends React.Component<
 									<div>
 										<LabeledEditor label="CSS">
 											<Editor
+												label="CSS Input"
 												height={{
 													kind: "dynamic",
 													maxHeight: 200,
@@ -480,6 +482,7 @@ class Editor extends React.Component<{
 	language: string;
 	value: IReference<string>;
 	height?: MonacoEditorHeight;
+	label: string;
 }> {
 	private editor: monaco.editor.IStandaloneCodeEditor | undefined = undefined;
 	private disposables: monaco.IDisposable[] = [];
@@ -504,6 +507,9 @@ class Editor extends React.Component<{
 
 	initializeEditor(editor: monaco.editor.IStandaloneCodeEditor) {
 		this.editor = editor;
+		editor.updateOptions({
+			ariaLabel: this.props.label,
+		});
 		this.disposables.push(this.editor);
 		this.disposables.push(
 			this.editor.onDidChangeModelContent((e) => {
