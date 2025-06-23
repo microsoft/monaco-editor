@@ -136,9 +136,10 @@ buildESM({
 	entryPoints: [
 		'src/language/typescript/monaco.contribution.ts',
 		'src/language/typescript/tsMode.ts',
-		'src/language/typescript/ts.worker.ts'
+		'src/language/typescript/ts.worker.ts',
+		'src/language/typescript/lib/typescriptServices.js'
 	],
-	external: ['monaco-editor-core', '*/tsMode', '*/monaco.contribution']
+	external: ['monaco-editor-core', '*/tsMode', '*/monaco.contribution', '*/lib/typescriptServices']
 });
 buildAMD({
 	base: 'language/typescript',
