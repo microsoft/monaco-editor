@@ -90,7 +90,7 @@ export class Home extends React.Component {
 					<p className="text-center">
 						<a href="https://microsoft.com" title="Microsoft">
 							<img
-								src="https://opensource.microsoft.com/assets/images/Microsoft_logo.svg"
+								src="/assets/images/Microsoft_logo.svg"
 								alt="Microsoft"
 								style={{
 									maxHeight: "23px",
