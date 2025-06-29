@@ -11,22 +11,14 @@ const REPO_ROOT = path.join(__dirname, '../');
 const existingDirCache = new Set();
 
 export function ensureDir(dirname: string) {
-	/** @type {string[]} */
-	const dirs = [];
-
-	while (dirname.length > REPO_ROOT.length) {
-		dirs.push(dirname);
-		dirname = path.dirname(dirname);
+	// Node.js ≥10 supports the recursive option for mkdirSync, which creates all
+	// parent folders that do not yet exist. This is more robust than the manual
+	// loop above and avoids race-conditions when multiple processes attempt to
+	// create the same directory tree concurrently.
+	if (!existingDirCache.has(dirname)) {
+		fs.mkdirSync(dirname, { recursive: true });
+		existingDirCache.add(dirname);
 	}
-	dirs.reverse();
-	dirs.forEach((dir) => {
-		if (!existingDirCache.has(dir)) {
-			try {
-				fs.mkdirSync(dir);
-			} catch (err) {}
-			existingDirCache.add(dir);
-		}
-	});
 }
 
 /**
@@ -73,7 +65,10 @@ export function removeDir(_dirPath: string, keep?: (filename: string) => boolean
 			}
 		}
 		if (!keepsFiles) {
-			fs.rmdirSync(dirPath);
+			// fs.rmdirSync is deprecated for non-empty directories and removed in
+			// future Node.js versions. fs.rmSync with { recursive: true, force: true }
+			// is the recommended API.
+			fs.rmSync(dirPath, { recursive: true, force: true });
 		}
 		return keepsFiles;
 	}
