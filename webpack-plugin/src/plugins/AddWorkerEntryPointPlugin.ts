@@ -13,11 +13,17 @@ function getCompilerHook(
 	{ id, entry, filename, chunkFilename, plugins }: IAddWorkerEntryPointPluginOptions
 ) {
 	const webpack = compiler.webpack ?? require('webpack');
+	let alreadyCompiled = false;
 
 	return function (
 		compilation: webpack.Compilation,
 		callback: (error?: Error | null | false) => void
 	) {
+		if (alreadyCompiled) {
+			callback();
+			return;
+		}
+
 		const outputOptions = {
 			filename,
 			chunkFilename,
@@ -33,7 +39,14 @@ function getCompilerHook(
 		new SingleEntryPlugin(compiler.context, entry, 'main').apply(childCompiler);
 		plugins.forEach((plugin) => plugin.apply(childCompiler));
 
-		childCompiler.runAsChild((err?: Error | null) => callback(err));
+		childCompiler.runAsChild((err?: Error | null) => {
+			if (err) {
+				callback(err);
+			} else {
+				alreadyCompiled = true;
+				callback();
+			}
+		});
 	};
 }
 
