@@ -19,8 +19,14 @@ self.MonacoEnvironment = {
 		if (label === 'typescript' || label === 'javascript') {
 			return './out/vs/language/typescript/ts.worker.js';
 		}
-		return './out/vs/editor/editor.worker.js';
+		//return './out/vs/editor/editor.worker.js';
+		return './out/vs/editor/common/services/editorWebWorkerMain.js';
 	}
 };
 
 window.monacoAPI = monaco;
+
+window.ed = monacoAPI.editor.create(document.getElementById('editor-container'), {
+	value: '.test { color: blue; }',
+	language: 'javascript'
+});

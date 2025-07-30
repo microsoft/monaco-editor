@@ -6,6 +6,6 @@
 // Resolves with the global monaco API
 
 /// <reference path="./editor.api.d.ts" />
-import * as api from 'vs/editor/editor.api';
 
-export = api;
+// export = api;
+export * from 'monaco-editor-core';
