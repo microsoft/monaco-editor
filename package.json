@@ -77,5 +77,8 @@
 	"alias": {
 		"process": false,
 		"buffer": false
+	},
+	"dependencies": {
+		"@types/trusted-types": "^1.0.6"
 	}
 }

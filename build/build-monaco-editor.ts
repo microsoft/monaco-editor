@@ -7,16 +7,16 @@ import path = require('path');
 import fs = require('fs');
 import { REPO_ROOT, readFiles, writeFiles, IFile, readFile } from '../build/utils';
 import { removeDir } from '../build/fs';
-import ts = require('typescript');
 import { generateMetadata } from './releaseMetadata';
+import ts = require('typescript');
 
 removeDir(`out/monaco-editor`);
 
-// dev folder
-AMD_releaseOne('dev');
+// // dev folder
+// AMD_releaseOne('dev');
 
-// min folder
-AMD_releaseOne('min');
+// // min folder
+// AMD_releaseOne('min');
 
 // esm folder
 ESM_release();

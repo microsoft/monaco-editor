@@ -14,7 +14,8 @@ const workerEntryPoints = [
 	'vs/language/css/css.worker.js',
 	'vs/language/html/html.worker.js',
 	'vs/language/typescript/ts.worker.js',
-	'vs/editor/editor.worker.js'
+	//'vs/editor/editor.worker.js'
+	'vs/editor/common/services/editorWebWorkerMain.js'
 ];
 
 build({
