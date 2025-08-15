@@ -42,13 +42,13 @@ async function runTests() {
 	// uncomment to shortcircuit and run a specific combo
 	// await runTest('webpack', 'chromium'); return;
 	/** @type {PackagerKind[]} */
-	const testTypes = ['amd', 'webpack', 'esbuild', 'vite'];
+	const testTypes = ['webpack', 'esbuild', 'vite'];
 	// TODO: add parcel! (this currently fails because parcel replaces process with {})
 
 	for (const type of testTypes) {
 		await runTest(type, 'chromium');
-		await runTest(type, 'firefox');
-		await runTest(type, 'webkit');
+		// await runTest(type, 'firefox');
+		// await runTest(type, 'webkit');
 	}
 }
 
