@@ -62,6 +62,7 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 			assert.fail('Failed to load page');
 		}
 		assert.strictEqual(response.status(), 200);
+		await timeout(1000000);
 	});
 
 	teardown(async () => {
@@ -77,6 +78,7 @@ suite(`Smoke Test '${testInfo.packager}' on '${testInfo.browser}'`, () => {
 	 * @returns Promise<void>
 	 */
 	async function createEditor(text, language) {
+		await timeout(1000000);
 		return await page.evaluate(
 			`window.ed = monacoAPI.editor.create(document.getElementById('editor-container'), { value: '${text}', language: '${language}' })`
 		);

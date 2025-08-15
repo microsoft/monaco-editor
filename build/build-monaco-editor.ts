@@ -5,18 +5,26 @@
 
 import path = require('path');
 import fs = require('fs');
-import { REPO_ROOT, readFiles, writeFiles, IFile, readFile } from '../build/utils';
+import {
+	REPO_ROOT,
+	readFiles,
+	writeFiles,
+	IFile,
+	readFile,
+	build,
+	bundledFileHeader
+} from '../build/utils';
 import { removeDir } from '../build/fs';
-import ts = require('typescript');
 import { generateMetadata } from './releaseMetadata';
+import ts = require('typescript');
 
 removeDir(`out/monaco-editor`);
 
-// dev folder
-AMD_releaseOne('dev');
+// // dev folder
+// AMD_releaseOne('dev');
 
-// min folder
-AMD_releaseOne('min');
+// // min folder
+// AMD_releaseOne('min');
 
 // esm folder
 ESM_release();
@@ -181,6 +189,47 @@ function ESM_release() {
 	writeFiles(coreFiles, `out/monaco-editor/esm`);
 
 	ESM_releasePlugins();
+
+	build({
+		entryPoints: ['src/editor/editor.main.ts', 'src/editor/editor.worker.ts'],
+		bundle: true,
+		target: 'esnext',
+		format: 'esm',
+		drop: ['debugger'],
+		define: {
+			AMD: 'false'
+		},
+		banner: {
+			js: bundledFileHeader
+		},
+		external: [
+			/*'./src/language/*', */ './src/basic-languages/*',
+			'./edcore.main.js',
+			'./editor.worker',
+			'./editor.worker.start',
+			'./out/*'
+		],
+		alias: {
+			'monaco-editor-core/language/common/services/editorWebWorkerMain': './editor.worker',
+			'monaco-editor-core/esm/vs/editor/editor.worker.start': './editor.worker.start',
+			'monaco-editor-core': './edcore.main.js'
+		},
+		outbase: `src/`,
+		outdir: `out/monaco-editor/esm/vs/`,
+		plugins: [
+			{
+				name: 'example',
+				setup(build) {
+					build.onResolve({ filter: /\/language\/|\/basic-languages\// }, (args) => {
+						if (args.path.includes('monaco-editor-core')) {
+							return undefined;
+						}
+						return { external: true };
+					});
+				}
+			}
+		]
+	});
 }
 
 /**
@@ -290,32 +339,6 @@ function ESM_addPluginContribs(files: IFile[]) {
 		}
 		file.path = file.path.replace(/editor\.main/, 'edcore.main');
 	}
-
-	const mainFileDestPath = 'vs/editor/editor.main.js';
-
-	const mainFileImports = readFiles(`out/languages/bundled/esm/**/monaco.contribution.js`, {
-		base: `out/languages/bundled/esm`
-	}).map((file) => {
-		let relativePath = path
-			.relative(path.dirname(mainFileDestPath), file.path)
-			.replace(/\\/g, '/')
-			.replace(/\.js$/, '');
-
-		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-			relativePath = './' + relativePath;
-		}
-
-		return relativePath;
-	});
-
-	const mainFileContents =
-		mainFileImports.map((name) => `import '${name}';`).join('\n') +
-		`\n\nexport * from './edcore.main';`;
-
-	files.push({
-		path: mainFileDestPath,
-		contents: Buffer.from(mainFileContents)
-	});
 }
 
 /**
@@ -328,6 +351,31 @@ function releaseDTS() {
 	})[0];
 
 	let contents = monacodts.contents.toString();
+
+	const additionalDtsFiles: Record<string, string> = {
+		'out/languages/tsc/common/workers.d.ts': 'editor'
+	};
+	Object.entries(additionalDtsFiles).forEach(([filePath, namespace]) => {
+		try {
+			const dtsFile = readFile(filePath);
+			let dtsContent = dtsFile.contents.toString();
+
+			// Remove imports
+			dtsContent = dtsContent.replace(/import .*\n/gm, '');
+
+			// Wrap in namespace if specified
+			if (namespace) {
+				dtsContent = `declare namespace ${namespace} {\n${dtsContent
+					.split('\n')
+					.map((line) => (line ? `    ${line}` : line))
+					.join('\n')}\n}`;
+			}
+
+			contents += '\n' + dtsContent;
+		} catch (error) {
+			console.warn(`Could not read d.ts file: ${filePath}`);
+		}
+	});
 
 	const extraContent = readFiles('out/languages/bundled/*.d.ts', {
 		base: 'out/languages/bundled/'

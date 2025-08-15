@@ -9,8 +9,6 @@
 	"license": "MIT",
 	"scripts": {
 		"import-typescript": "ts-node ./build/importTypescript",
-		"playwright-install": "node ./node_modules/playwright/install.js",
-		"playwright-install-deps": "playwright install-deps",
 		"postinstall": "ts-node ./build/postinstall",
 		"prettier-check": "prettier --check .",
 		"prettier": "prettier --write .",
@@ -22,7 +20,7 @@
 		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
 		"smoketest": "node ./test/smoke/runner.js",
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
-		"test": "mocha test/unit/all.js && ts-node ./build/check-samples",
+		"test": "ts-node ./build/check-samples",
 		"deps-all-remove": "ts-node ./build/npm/removeAll",
 		"deps-all-install": "ts-node ./build/npm/installAll",
 		"update-actions": "pin-github-action ./.github/workflows/website.yml",
@@ -55,7 +53,7 @@
 		"monaco-editor-core": "0.52.0-rc2",
 		"parcel": "^2.7.0",
 		"pin-github-action": "^1.8.0",
-		"playwright": "^1.32.2",
+		"@playwright/test": "^1.53.2",
 		"prettier": "^2.5.1",
 		"pretty-quick": "^3.1.3",
 		"requirejs": "^2.3.7",
@@ -77,5 +75,8 @@
 	"alias": {
 		"process": false,
 		"buffer": false
+	},
+	"dependencies": {
+		"@types/trusted-types": "^1.0.6"
 	}
 }

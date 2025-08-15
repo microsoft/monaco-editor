@@ -3,9 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-// Resolves with the global monaco API
+import { initialize } from '../common/initialize';
+import 'monaco-editor-core/language/common/services/editorWebWorkerMain';
 
-/// <reference path="./editor.api.d.ts" />
-import * as api from 'vs/editor/editor.api';
-
-export = api;
+export { initialize };
