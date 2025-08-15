@@ -240,6 +240,7 @@ function ESM_releasePlugins() {
 
 		let contents = file.contents.toString();
 
+		// WARNING: this only returns the first occurence of each imported file!
 		const info = ts.preProcessFile(contents);
 		for (let i = info.importedFiles.length - 1; i >= 0; i--) {
 			let importText = info.importedFiles[i].fileName;
