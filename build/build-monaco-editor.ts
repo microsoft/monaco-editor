@@ -202,15 +202,8 @@ function ESM_release() {
 		banner: {
 			js: bundledFileHeader
 		},
-		external: [
-			/*'./src/language/*', */ './src/basic-languages/*',
-			'./edcore.main.js',
-			'./editor.worker',
-			'./editor.worker.start',
-			'./out/*'
-		],
+		external: ['./src/basic-languages/*', './edcore.main.js', './editor.worker.start'],
 		alias: {
-			'monaco-editor-core/language/common/services/editorWebWorkerMain': './editor.worker',
 			'monaco-editor-core/esm/vs/editor/editor.worker.start': './editor.worker.start',
 			'monaco-editor-core': './edcore.main.js'
 		},

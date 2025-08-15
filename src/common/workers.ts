@@ -1,4 +1,4 @@
-import { editor } from '../fillers/monaco-editor-core';
+import { editor } from 'monaco-editor-core';
 
 function createTrustedTypesPolicy<Options extends TrustedTypePolicyOptions>(
 	policyName: string,
