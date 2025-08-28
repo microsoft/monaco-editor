@@ -1,7 +1,5 @@
 /// <reference path="../../out/monaco-editor/monaco.d.ts" />
 define(['require', './samples'], function (require, SAMPLES) {
-	const domutils = require('vs/base/browser/dom');
-
 	let model = monaco.editor.createModel('', 'plaintext');
 
 	monaco.languages.typescript.typescriptDefaults.setInlayHintsOptions({
@@ -167,7 +165,7 @@ define(['require', './samples'], function (require, SAMPLES) {
 						editor.setScrollTop(r);
 
 						if (speed >= 0) {
-							domutils.scheduleAtNextAnimationFrame(scroll);
+							requestAnimationFrame(scroll);
 						} else {
 							isRunning = false;
 						}
@@ -179,7 +177,7 @@ define(['require', './samples'], function (require, SAMPLES) {
 							isRunning = true;
 							r = editor.getScrollTop();
 							lastTime = new Date().getTime();
-							domutils.runAtThisOrScheduleAtNextAnimationFrame(scroll);
+							requestAnimationFrame(scroll);
 						}
 					};
 				})()

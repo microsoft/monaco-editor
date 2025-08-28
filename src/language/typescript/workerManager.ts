@@ -6,6 +6,7 @@
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { TypeScriptWorker } from './tsWorker';
 import { editor, Uri, IDisposable } from '../../fillers/monaco-editor-core';
+import { createWebWorker } from '../../common/workers';
 
 export class WorkerManager {
 	private _configChangeListener: IDisposable;
@@ -58,7 +59,7 @@ export class WorkerManager {
 	private _getClient(): Promise<TypeScriptWorker> {
 		if (!this._client) {
 			this._client = (async () => {
-				this._worker = editor.createWebWorker<TypeScriptWorker>({
+				this._worker = createWebWorker<TypeScriptWorker>({
 					// module that exports the create() method and returns a `TypeScriptWorker` instance
 					moduleId: 'vs/language/typescript/tsWorker',
 

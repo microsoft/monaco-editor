@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import glob from 'glob';
-import { runTsc, massageAndCopyDts, buildESM, buildAMD } from './utils';
-import { copyFile, removeDir } from './fs';
+import { runTsc, massageAndCopyDts, buildESM } from './utils';
+import { removeDir } from './fs';
 
 removeDir(`out/languages`);
 
@@ -14,22 +14,22 @@ runTsc(`src/tsconfig.json`);
 //#region Type Defintion
 
 massageAndCopyDts(
-	`out/languages/amd-tsc/language/css/monaco.contribution.d.ts`,
+	`out/languages/tsc/language/css/monaco.contribution.d.ts`,
 	`out/languages/bundled/css.d.ts`,
 	'monaco.languages.css'
 );
 massageAndCopyDts(
-	`out/languages/amd-tsc/language/html/monaco.contribution.d.ts`,
+	`out/languages/tsc/language/html/monaco.contribution.d.ts`,
 	`out/languages/bundled/html.d.ts`,
 	'monaco.languages.html'
 );
 massageAndCopyDts(
-	`out/languages/amd-tsc/language/json/monaco.contribution.d.ts`,
+	`out/languages/tsc/language/json/monaco.contribution.d.ts`,
 	`out/languages/bundled/json.d.ts`,
 	'monaco.languages.json'
 );
 massageAndCopyDts(
-	`out/languages/amd-tsc/language/typescript/monaco.contribution.d.ts`,
+	`out/languages/tsc/language/typescript/monaco.contribution.d.ts`,
 	`out/languages/bundled/typescript.d.ts`,
 	'monaco.languages.typescript'
 );
@@ -47,23 +47,6 @@ buildESM({
 	],
 	external: ['monaco-editor-core', '*/cssMode', '*/monaco.contribution']
 });
-buildAMD({
-	base: 'language/css',
-	entryPoint: 'src/language/css/monaco.contribution.ts',
-	amdModuleId: 'vs/language/css/monaco.contribution',
-	amdDependencies: ['vs/editor/editor.api']
-});
-buildAMD({
-	base: 'language/css',
-	entryPoint: 'src/language/css/cssMode.ts',
-	amdModuleId: 'vs/language/css/cssMode',
-	external: ['*/monaco.contribution']
-});
-buildAMD({
-	base: 'language/css',
-	entryPoint: 'src/language/css/cssWorker.ts',
-	amdModuleId: 'vs/language/css/cssWorker'
-});
 
 //#endregion
 
@@ -77,23 +60,6 @@ buildESM({
 		'src/language/html/html.worker.ts'
 	],
 	external: ['monaco-editor-core', '*/htmlMode', '*/monaco.contribution']
-});
-buildAMD({
-	base: 'language/html',
-	entryPoint: 'src/language/html/monaco.contribution.ts',
-	amdModuleId: 'vs/language/html/monaco.contribution',
-	amdDependencies: ['vs/editor/editor.api']
-});
-buildAMD({
-	base: 'language/html',
-	entryPoint: 'src/language/html/htmlMode.ts',
-	amdModuleId: 'vs/language/html/htmlMode',
-	external: ['*/monaco.contribution']
-});
-buildAMD({
-	base: 'language/html',
-	entryPoint: 'src/language/html/htmlWorker.ts',
-	amdModuleId: 'vs/language/html/htmlWorker'
 });
 
 //#endregion
@@ -109,23 +75,6 @@ buildESM({
 	],
 	external: ['monaco-editor-core', '*/jsonMode', '*/monaco.contribution']
 });
-buildAMD({
-	base: 'language/json',
-	entryPoint: 'src/language/json/monaco.contribution.ts',
-	amdModuleId: 'vs/language/json/monaco.contribution',
-	amdDependencies: ['vs/editor/editor.api']
-});
-buildAMD({
-	base: 'language/json',
-	entryPoint: 'src/language/json/jsonMode.ts',
-	amdModuleId: 'vs/language/json/jsonMode',
-	external: ['*/monaco.contribution']
-});
-buildAMD({
-	base: 'language/json',
-	entryPoint: 'src/language/json/jsonWorker.ts',
-	amdModuleId: 'vs/language/json/jsonWorker'
-});
 
 //#endregion
 
@@ -139,23 +88,6 @@ buildESM({
 		'src/language/typescript/ts.worker.ts'
 	],
 	external: ['monaco-editor-core', '*/tsMode', '*/monaco.contribution']
-});
-buildAMD({
-	base: 'language/typescript',
-	entryPoint: 'src/language/typescript/monaco.contribution.ts',
-	amdModuleId: 'vs/language/typescript/monaco.contribution',
-	amdDependencies: ['vs/editor/editor.api']
-});
-buildAMD({
-	base: 'language/typescript',
-	entryPoint: 'src/language/typescript/tsMode.ts',
-	amdModuleId: 'vs/language/typescript/tsMode',
-	external: ['*/monaco.contribution']
-});
-buildAMD({
-	base: 'language/typescript',
-	entryPoint: 'src/language/typescript/tsWorker.ts',
-	amdModuleId: 'vs/language/typescript/tsWorker'
 });
 
 //#endregion
@@ -189,23 +121,6 @@ glob('../src/basic-languages/*/*.contribution.ts', { cwd: __dirname }, function 
 			entryPoints,
 			external
 		});
-	}
-
-	// AMD
-	{
-		buildAMD({
-			base: 'basic-languages',
-			entryPoint: 'src/basic-languages/monaco.contribution.ts',
-			amdModuleId: 'vs/basic-languages/monaco.contribution',
-			amdDependencies: ['vs/editor/editor.api']
-		});
-		for (const language of languages) {
-			buildAMD({
-				base: 'basic-languages',
-				entryPoint: `src/basic-languages/${language}/${language}.ts`,
-				amdModuleId: `vs/basic-languages/${language}/${language}`
-			});
-		}
 	}
 });
 
