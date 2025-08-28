@@ -12,6 +12,17 @@ pipelines:
           lastModifiedDate: 2024-09-18
         armory:
           lastModifiedDate: 2024-09-18
+        policheck:
+          lastModifiedDate: 2025-08-28
+        accessibilityinsights:
+          lastModifiedDate: 2025-08-28
+      binary:
+        credscan:
+          lastModifiedDate: 2025-08-28
+        binskim:
+          lastModifiedDate: 2025-08-28
+        spotbugs:
+          lastModifiedDate: 2025-08-28
   416:
     retail:
       source:
