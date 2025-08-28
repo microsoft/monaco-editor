@@ -44,58 +44,59 @@ jobs:
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci --prefix webpack-plugin
 
-      # <building-from-source>
-      - name: Setup, Build & Test monaco-editor-core
-        run: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg nightly
-        env:
-          VSCODE_REF: 'main'
-          PRERELEASE_VERSION: 'dev-${today}'
+      # CI steps temporarily disabled (enable by end of august 2025)
+      # # <building-from-source>
+      # - name: Setup, Build & Test monaco-editor-core
+      #   run: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg nightly
+      #   env:
+      #     VSCODE_REF: 'main'
+      #     PRERELEASE_VERSION: 'dev-${today}'
 
-      - name: Link monaco-editor-core
-        run: npm link
-        working-directory: ./dependencies/vscode/out-monaco-editor-core
+      # - name: Link monaco-editor-core
+      #   run: npm link
+      #   working-directory: ./dependencies/vscode/out-monaco-editor-core
 
-      - name: Link monaco-editor-core
-        run: npm link monaco-editor-core
-      # </building-from-source>
+      # - name: Link monaco-editor-core
+      #   run: npm link monaco-editor-core
+      # # </building-from-source>
 
-      # TODO: prettier formatting
-      # - name: Check prettier
-      #   run: npm run prettier-check
+      # # TODO: prettier formatting
+      # # - name: Check prettier
+      # #   run: npm run prettier-check
 
-      - name: Build
-        run: npm run build
+      # - name: Build
+      #   run: npm run build
 
-      - name: Run unit tests
-        run: npm test
+      # - name: Run unit tests
+      #   run: npm test
 
-      - name: Compile webpack plugin
-        run: npm run compile --prefix webpack-plugin
+      # - name: Compile webpack plugin
+      #   run: npm run compile --prefix webpack-plugin
 
-      - name: Package using webpack plugin
-        run: npm run package-for-smoketest-webpack
+      # - name: Package using webpack plugin
+      #   run: npm run package-for-smoketest-webpack
 
-      - name: Package using esbuild
-        run: npm run package-for-smoketest-esbuild
+      # - name: Package using esbuild
+      #   run: npm run package-for-smoketest-esbuild
 
-      - name: Package using vite
-        run: npm run package-for-smoketest-vite
+      # - name: Package using vite
+      #   run: npm run package-for-smoketest-vite
 
-      #      - name: Package using parcel
-      #        run: npm run package-for-smoketest-parcel --prefix test/smoke/parcel
-      # Disabled for now, as the parcel bundler cannot deal with VS Code process variable
+      # #      - name: Package using parcel
+      # #        run: npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+      # # Disabled for now, as the parcel bundler cannot deal with VS Code process variable
 
-      - name: Run smoke test
-        run: npm run smoketest
+      # - name: Run smoke test
+      #   run: npm run smoketest
 
-      # - name: Install website node modules
-      #   working-directory: website
-      #   run: yarn install --frozen-lockfile
+      # # - name: Install website node modules
+      # #   working-directory: website
+      # #   run: yarn install --frozen-lockfile
 
-      # - name: Build website
-      #   working-directory: website
-      #   run: yarn run build
+      # # - name: Build website
+      # #   working-directory: website
+      # #   run: yarn run build
 
-      # - name: Test website
-      #   working-directory: website
-      #   run: yarn test
+      # # - name: Test website
+      # #   working-directory: website
+      # #   run: yarn test
