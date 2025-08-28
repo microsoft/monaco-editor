@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.60.0]
+
+- Deprecated `AMD` build.
+
 ## [0.52.0]
 
 - Comment added inside of `IModelContentChangedEvent`

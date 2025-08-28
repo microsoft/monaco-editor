@@ -44,19 +44,21 @@ jobs:
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci --prefix webpack-plugin
 
-      - name: Setup, Build & Test monaco-editor-core
-        run: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg nightly
-        env:
-          VSCODE_REF: 'main'
-          PRERELEASE_VERSION: 'dev-${today}'
+      # If you want to from source:
+      # - name: Setup, Build & Test monaco-editor-core
+      #   run: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg nightly
+      #   env:
+      #     VSCODE_REF: 'main'
+      #     PRERELEASE_VERSION: 'dev-${today}'
 
-      - name: Link monaco-editor-core
-        run: npm link
-        working-directory: ./dependencies/vscode/out-monaco-editor-core
+      # - name: Link monaco-editor-core
+      #   run: npm link
+      #   working-directory: ./dependencies/vscode/out-monaco-editor-core
 
-      - name: Link monaco-editor-core
-        run: npm link monaco-editor-core
+      # - name: Link monaco-editor-core
+      #   run: npm link monaco-editor-core
 
+      # TODO: prettier formatting
       # - name: Check prettier
       #   run: npm run prettier-check
 
