@@ -1,5 +1,11 @@
+import * as require_ from 'require';
+
 self.MonacoEnvironment = {
 	getWorker: function (_moduleId, label) {
+		const require = require_;
+		if (!require) {
+			label = label; // NOOP
+		}
 		if (label === 'json') {
 			return new Worker(new URL('../../../src/language/json/json.worker.ts', import.meta.url), {
 				type: 'module'
@@ -32,7 +38,6 @@ import '../../../src/language/css/monaco.contribution';
 import '../../../src/language/html/monaco.contribution';
 import '../../../src/language/json/monaco.contribution';
 import '../../../src/language/typescript/monaco.contribution';
-import * as require_ from 'require';
 
 const styleSheetUrl = require_.toUrl('vs/style.css');
 
