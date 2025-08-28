@@ -6,7 +6,6 @@
 	<body>
 		<div id="editor-container" style="position: absolute; width: 500px; height: 400px"></div>
 		<script src="../../../out/monaco-editor/dev/vs/loader.js"></script>
-
 		<script>
 			require.config({
 				baseUrl: new URL('..', document.baseURI).toString(),
@@ -14,20 +13,8 @@
 					vs: '../../../out/monaco-editor/dev/vs'
 				}
 			});
-			require.config({
-				'vs/nls': {
-					availableLanguages: {
-						'*': 'de'
-					}
-				}
-			});
-
 			require(['vs/editor/editor.main'], () => {
 				window.monacoAPI = monaco;
-				monaco.editor.create(document.getElementById('editor-container'), {
-					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-					language: 'javascript'
-				});
 			});
 		</script>
 	</body>
