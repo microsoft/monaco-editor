@@ -70,7 +70,7 @@
 		"vscode-languageserver-textdocument": "^1.0.11",
 		"vscode-languageserver-types": "3.17.5",
 		"vscode-uri": "3.0.8",
-		"webpack": "^5.76.0",
+		"webpack": "^5.94.0",
 		"yaserver": "^0.4.0"
 	},
 	"alias": {
