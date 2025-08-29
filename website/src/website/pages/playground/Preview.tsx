@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PlaygroundModel } from "./PlaygroundModel";
 import { observer } from "mobx-react";
-import { autorun, observable, reaction } from "mobx";
+import { observable, reaction } from "mobx";
 import {
 	IMessageFromRunner,
 	IMessageToRunner,

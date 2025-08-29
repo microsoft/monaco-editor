@@ -88,6 +88,8 @@ export interface Settings {
 
 	previewFullScreen: boolean;
 	autoReload: boolean | undefined;
+
+	language?: string;
 }
 
 export type JsonString<T> = string;
@@ -97,14 +99,18 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 		case "latest":
 			return {
 				...getMonacoSetup(
-					`node_modules/monaco-editor/${settings.latestStability}/vs`
+					`node_modules/monaco-editor/${settings.latestStability}/vs`,
+					settings.language
 				),
 				monacoTypesUrl: "node_modules/monaco-editor/monaco.d.ts",
 			};
 		case "npm":
 			const url = `https://cdn.jsdelivr.net/npm/monaco-editor@${settings.npmVersion}`;
 			return {
-				...getMonacoSetup(`${url}/${settings.npmStability}/vs`),
+				...getMonacoSetup(
+					`${url}/${settings.npmStability}/vs`,
+					settings.language
+				),
 				monacoTypesUrl: `${url}/monaco.d.ts`,
 			};
 		case "custom":
@@ -143,7 +149,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 					break;
 			}
 
-			const setup = { ...getMonacoSetup(coreUrl) };
+			const setup = { ...getMonacoSetup(coreUrl, settings.language) };
 			if (
 				!setup.monacoTypesUrl &&
 				setup.loaderConfigPaths["vs"] &&
@@ -186,6 +192,7 @@ export function getDefaultSettings(): Settings {
 		}),
 		previewFullScreen: false,
 		autoReload: true,
+		language: undefined,
 	};
 	return defaultSettings;
 }
