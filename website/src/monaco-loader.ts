@@ -19,6 +19,7 @@ export interface IMonacoSetup {
 	loaderConfigPaths: Record<string, string>;
 	codiconUrl: string;
 	monacoTypesUrl: string | undefined;
+	language?: string;
 }
 
 let loading = false;
@@ -57,7 +58,18 @@ async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 
 	/** @type {any} */
 	const req = global.require as any;
-	req.config({ paths: setup.loaderConfigPaths });
+
+	// Configure language if specified
+	const config: any = { paths: setup.loaderConfigPaths };
+	if (setup.language) {
+		config["vs/nls"] = {
+			availableLanguages: {
+				"*": setup.language,
+			},
+		};
+	}
+
+	req.config(config);
 
 	return new Promise((res) => {
 		// First load editor.main. If it inlines the plugins, we don't want to try to load them from the server.
@@ -97,7 +109,10 @@ export const prodMonacoSetup = getMonacoSetup(
 	"node_modules/monaco-editor/min/vs"
 );
 
-export function getMonacoSetup(corePath: string): IMonacoSetup {
+export function getMonacoSetup(
+	corePath: string,
+	language?: string
+): IMonacoSetup {
 	const loaderConfigPaths = {
 		vs: `${corePath}`,
 	};
@@ -107,5 +122,6 @@ export function getMonacoSetup(corePath: string): IMonacoSetup {
 		loaderConfigPaths,
 		codiconUrl: `${corePath}/base/browser/ui/codicons/codicon/codicon.ttf`,
 		monacoTypesUrl: undefined,
+		language,
 	};
 }

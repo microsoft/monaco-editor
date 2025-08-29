@@ -390,6 +390,72 @@ export class SettingsDialog extends React.Component<{
 								</Vertical>
 							</div>
 						</ListGroup.Item>
+
+						<ListGroup.Item>
+							<div className="d-flex gap-2">
+								<label className="d-flex gap-2">
+									<span>
+										Language/Localization
+										<small className="d-block text-muted">
+											Configure the Monaco Editor language
+											for UI elements. Leave unconfigured
+											to use default English.
+										</small>
+									</span>
+								</label>
+								<Select
+									value={ref(
+										modelSettings.settings,
+										"language"
+									)}
+									values={[
+										undefined,
+										"de",
+										"es",
+										"fr",
+										"it",
+										"ja",
+										"ko",
+										"ru",
+										"zh-cn",
+										"zh-tw",
+									]}
+									getLabel={(v) => {
+										switch (v) {
+											case undefined:
+												return "Unconfigured (English)";
+											case "de":
+												return "German (Deutsch)";
+											case "es":
+												return "Spanish (Español)";
+											case "fr":
+												return "French (Français)";
+											case "it":
+												return "Italian (Italiano)";
+											case "ja":
+												return "Japanese (日本語)";
+											case "ko":
+												return "Korean (한국어)";
+											case "ru":
+												return "Russian (Русский)";
+											case "zh-cn":
+												return "Chinese Simplified (简体中文)";
+											case "zh-tw":
+												return "Chinese Traditional (繁體中文)";
+											default:
+												return (
+													v ||
+													"Unconfigured (English)"
+												);
+										}
+									}}
+									style={{
+										width: 250,
+										marginLeft: "auto",
+									}}
+								/>
+							</div>
+						</ListGroup.Item>
 					</ListGroup>
 				</Modal.Body>
 				<Modal.Footer>
