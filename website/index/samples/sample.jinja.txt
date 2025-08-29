@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ page_title|default("Default Title") }}</title>
+</head>
+<body>
+    <h1>Hello, {{ user_name }}!</h1>
+
+    {% if items %}
+        <h2>Items:</h2>
+        <ul>
+            {% for item in items %}
+                <li>{{ item }}</li>
+            {% else %}
+                <li>No items found.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {# This is a comment #}
+    <p>Current year: {{ current_year }}</p>
+</body>
+</html>
