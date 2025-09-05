@@ -7,7 +7,7 @@
 			/* We must define the font face outside the shadowroot */
 			@font-face {
 				font-family: 'codicon';
-				src: url('../node_modules/monaco-editor/min/vs/base/browser/ui/codicons/codicon/codicon.ttf')
+				src: url('../../node_modules/monaco-editor/min/vs/base/browser/ui/codicons/codicon/codicon.ttf')
 					format('truetype');
 			}
 		</style>
@@ -17,10 +17,10 @@
 		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 
 		<!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
-		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+		<script src="../../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
 			require.config({
-				paths: { vs: '../node_modules/monaco-editor/min/vs' },
+				paths: { vs: '../../node_modules/monaco-editor/min/vs' },
 				'vs/css': { disabled: true }
 			});
 
@@ -36,7 +36,7 @@
 
 			const innerStyle = document.createElement('style');
 			innerStyle.innerText =
-				'@import "../node_modules/monaco-editor/min/vs/editor/editor.main.css";';
+				'@import "../../node_modules/monaco-editor/min/vs/editor/editor.main.css";';
 			shadowRoot.appendChild(innerStyle);
 
 			require(['vs/editor/editor.main'], function () {

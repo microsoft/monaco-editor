@@ -7,9 +7,9 @@
 		<h2>Monaco Diff Editor Sample</h2>
 		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 
-		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+		<script src="../../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
-			require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
+			require.config({ paths: { vs: '../../node_modules/monaco-editor/min/vs' } });
 
 			require(['vs/editor/editor.main'], function () {
 				var diffEditor = monaco.editor.createDiffEditor(document.getElementById('container'));
