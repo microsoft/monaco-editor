@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { initialize } from 'monaco-editor-core/esm/vs/editor/editor.worker';
+import { initialize } from '../../common/initialize';
 import * as ts from './lib/typescriptServices';
 import { ICreateData, TypeScriptWorker, create } from './tsWorker';
 import { worker } from '../../fillers/monaco-editor-core';

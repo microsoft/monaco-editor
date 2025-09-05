@@ -45,7 +45,7 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare stable
+          - script: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg stable
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: latest
@@ -62,7 +62,10 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/monaco-editor-prepare stable
+          - script: npx playwright install --with-deps
+            displayName: Install Playwright Dependencies
+
+          - script: yarn ts-node ./scripts/ci/build-monaco-editor-pkg stable
             displayName: Setup, Build & Test monaco-editor
 
         tag: latest

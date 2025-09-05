@@ -2,7 +2,7 @@
 // which can do work on a bg thread.
 
 // This version of the vfs edits the global scope (in the case of a webworker, this is 'self')
-importScripts('https://unpkg.com/@typescript/vfs@1.3.0/dist/vfs.globals.js');
+import 'https://unpkg.com/@typescript/vfs@1.3.0/dist/vfs.globals.js';
 
 /** @type { import("@typescript/vfs") } */
 const tsvfs = globalThis.tsvfs;

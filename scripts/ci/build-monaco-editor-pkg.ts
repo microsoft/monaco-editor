@@ -68,7 +68,16 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 	});
 
 	await group('Building & Testing', async () => {
-		await run(resolve(selfPath, './monaco-editor.sh'), { cwd: rootPath });
+		// TODO@hediet: await run('npm run prettier-check', { cwd: rootPath });
+
+		await run('npm run build', { cwd: rootPath });
+		await run('npm test', { cwd: rootPath });
+		await run('npm run compile', { cwd: resolve(rootPath, 'webpack-plugin') });
+		await run('npm run package-for-smoketest-webpack', { cwd: rootPath });
+		await run('npm run package-for-smoketest-esbuild', { cwd: rootPath });
+		await run('npm run package-for-smoketest-vite', { cwd: rootPath });
+		await run('npm run smoketest', { cwd: rootPath });
+		// npm package is now ready to be published in ./out/monaco-editor
 	});
 }
 
