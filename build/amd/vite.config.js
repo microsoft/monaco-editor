@@ -25,6 +25,7 @@ export default defineConfig(async (args) => {
 		},
 		build: {
 			lib: {
+				cssFileName: () => 'editor/editor.main.css',
 				entry: {
 					...nlsEntries,
 					'nls.messages-loader': resolve(__dirname, 'src/nls.messages-loader.js'),
@@ -62,7 +63,12 @@ export default defineConfig(async (args) => {
 			),
 			rollupOptions: {
 				external: ['require', 'vs/nls.messages-loader!'],
-				output: {}
+				output: {
+					amd: {
+						basePath: 'vs',
+						autoId: true
+					}
+				}
 			},
 			minify: args.mode !== 'development',
 			emptyOutDir: true
