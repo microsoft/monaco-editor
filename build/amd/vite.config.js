@@ -3,6 +3,7 @@ import { glob } from 'node:fs/promises';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
+import { urlToEsmPlugin } from './plugin';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -77,7 +78,8 @@ export default defineConfig(async (args) => {
 						source: readFileSync(resolve(__dirname, './src/loader.js'), 'utf-8')
 					});
 				}
-			}
+			},
+			urlToEsmPlugin()
 		]
 	};
 });

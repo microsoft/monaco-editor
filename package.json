@@ -52,7 +52,7 @@
 		"jsdom": "^19.0.0",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^9.2.0",
-		"monaco-editor-core": "^0.53.0-dev-20250828",
+		"monaco-editor-core": "^0.53.0-dev-20250905",
 		"parcel": "^2.7.0",
 		"pin-github-action": "^1.8.0",
 		"prettier": "^2.5.1",
