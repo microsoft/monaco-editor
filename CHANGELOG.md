@@ -1,8 +1,20 @@
 # Monaco Editor Changelog
 
-## [0.60.0]
+## [0.53.0]
 
-- Deprecated `AMD` build.
+- Deprecates AMD build. The AMD build will still be shipped for a while, but we don't offer support for it anymore. Please migrate to the ESM build.
+
+### New Features
+
+- Next Edit Suggestion support.
+- Scroll On Middle Click
+- Edit Context Support
+
+### Breaking Changes
+
+- Internal AMD modules are no longer accessible. Accessing internal AMD modules was never supported. While this is still possible in the ESM build, we don't encourage this usage pattern.
+- The [browser-script-editor scenario](https://github.com/microsoft/monaco-editor/blob/a4d7907bd439b06b24e334bdf2ab597bcae658b5/samples/browser-script-editor/index.html) for unbundled synchronous script import and editor creation no longer works. Instead, a the ESM build should be used with a bundler, such as vite or webpack.
+- Custom AMD workers don't work anymore out of the box.
 
 ## [0.52.0]
 
