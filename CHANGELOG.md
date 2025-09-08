@@ -2,7 +2,7 @@
 
 ## [0.53.0]
 
-- Deprecates AMD build. The AMD build will still be shipped for a while, but we don't offer support for it anymore. Please migrate to the ESM build.
+- :warning: This release deprecates the AMD build and ships with significant changes of the AMD build. The AMD build will still be shipped for a while, but we don't offer support for it anymore. Please migrate to the ESM build.
 
 ### New Features
 
