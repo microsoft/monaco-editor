@@ -36,3 +36,12 @@ pipelines:
           lastModifiedDate: 2024-09-19
         policheck:
           lastModifiedDate: 2024-12-09
+        accessibilityinsights:
+          lastModifiedDate: 2025-09-08
+      binary:
+        credscan:
+          lastModifiedDate: 2025-09-08
+        binskim:
+          lastModifiedDate: 2025-09-08
+        spotbugs:
+          lastModifiedDate: 2025-09-08
