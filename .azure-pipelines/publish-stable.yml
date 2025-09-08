@@ -39,6 +39,12 @@ extends:
         testPlatforms: []
         skipAPIScan: true # package build requires Linux
         buildSteps:
+          - task: NodeTool@0
+            inputs:
+              versionSource: fromFile
+              versionFilePath: .nvmrc
+              nodejsMirror: https://github.com/joaomoreno/node-mirror/releases/download
+
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
 
@@ -59,6 +65,12 @@ extends:
         testPlatforms: []
         skipAPIScan: true # package build requires Linux
         buildSteps:
+          - task: NodeTool@0
+            inputs:
+              versionSource: fromFile
+              versionFilePath: .nvmrc
+              nodejsMirror: https://github.com/joaomoreno/node-mirror/releases/download
+
           - script: npm ci
             displayName: Install NPM dependencies
 
