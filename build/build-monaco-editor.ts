@@ -231,7 +231,7 @@ function releaseDTS() {
 	let contents = monacodts.contents.toString();
 
 	const additionalDtsFiles: Record<string, string> = {
-		'out/languages/tsc/common/workers.d.ts': 'editor'
+		'out/languages/tsc/common/workers.d.ts': 'monaco.editor'
 	};
 	Object.entries(additionalDtsFiles).forEach(([filePath, namespace]) => {
 		try {
@@ -240,6 +240,7 @@ function releaseDTS() {
 
 			// Remove imports
 			dtsContent = dtsContent.replace(/import .*\n/gm, '');
+			dtsContent = dtsContent.replace(/export declare function/gm, 'export function');
 
 			// Wrap in namespace if specified
 			if (namespace) {
@@ -292,12 +293,13 @@ function releaseDTS() {
 /**
  * Transforms a .d.ts which uses internal modules (namespaces) to one which is usable with external modules
  * This function is duplicated in the `vscode` repo.
+ * @param {string} contents
  */
-function toExternalDTS(contents: string): string {
-	let lines = contents.split(/\r\n|\r|\n/);
+function toExternalDTS(contents) {
+	const lines = contents.split(/\r\n|\r|\n/);
 	let killNextCloseCurlyBrace = false;
 	for (let i = 0; i < lines.length; i++) {
-		let line = lines[i];
+		const line = lines[i];
 
 		if (killNextCloseCurlyBrace) {
 			if ('}' === line) {
@@ -325,20 +327,8 @@ function toExternalDTS(contents: string): string {
 			lines[i] = line.replace('declare namespace monaco.', 'export namespace ');
 		}
 
-		if (line.indexOf('declare let MonacoEnvironment') === 0) {
-			lines[i] = [
-				'declare global {',
-				'    let MonacoEnvironment: Environment | undefined;',
-				'',
-				'    interface Window {',
-				'        MonacoEnvironment?: Environment | undefined;',
-				'    }',
-				'}',
-				''
-			].join('\n');
-		}
-		if (line.indexOf('    MonacoEnvironment?') === 0) {
-			lines[i] = `    MonacoEnvironment?: Environment | undefined;`;
+		if (line.indexOf('declare var MonacoEnvironment') === 0) {
+			lines[i] = `declare global {\n    var MonacoEnvironment: Environment | undefined;\n}`;
 		}
 	}
 	return lines.join('\n').replace(/\n\n\n+/g, '\n\n');
