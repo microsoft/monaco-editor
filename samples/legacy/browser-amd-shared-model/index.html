@@ -8,9 +8,9 @@
 		<div id="container1" style="width: 400px; height: 200px; border: 1px solid grey"></div>
 		<div id="container2" style="width: 400px; height: 200px; border: 1px solid grey"></div>
 
-		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+		<script src="../../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
-			require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
+			require.config({ paths: { vs: '../../node_modules/monaco-editor/min/vs' } });
 
 			require(['vs/editor/editor.main'], function () {
 				var model = monaco.editor.createModel(

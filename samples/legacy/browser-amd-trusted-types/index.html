@@ -9,13 +9,13 @@
 		<h2>Monaco Editor with Trusted Types Sample</h2>
 		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
 
-		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+		<script src="../../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
 			// Allow monaco-editor to load scripts from its own paths only
 			var scriptLoadingPolicy = {
 				createScriptURL: function allowOnlyMonacoPaths(url) {
 					if (
-						url.indexOf('../node_modules/monaco-editor/min/vs/') === 0 &&
+						url.indexOf('../../node_modules/monaco-editor/min/vs/') === 0 &&
 						url.lastIndexOf('..') == 0
 					) {
 						return url;
@@ -27,7 +27,7 @@
 				scriptLoadingPolicy = trustedTypes.createPolicy('monaco-editor', scriptLoadingPolicy);
 			}
 			require.config({
-				paths: { vs: '../node_modules/monaco-editor/min/vs' },
+				paths: { vs: '../../node_modules/monaco-editor/min/vs' },
 				trustedTypesPolicy: scriptLoadingPolicy
 			});
 
