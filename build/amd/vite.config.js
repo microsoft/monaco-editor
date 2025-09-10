@@ -18,6 +18,7 @@ export default defineConfig(async (args) => {
 		nlsEntries[entryName] = path;
 	}
 
+	/** @type {import('vite').UserConfig} */
 	return {
 		base: './',
 		define: {
