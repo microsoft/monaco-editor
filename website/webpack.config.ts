@@ -7,8 +7,8 @@ import * as webpack from "webpack";
 import * as path from "path";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 import * as CopyPlugin from "copy-webpack-plugin";
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const r = (file: string) => path.resolve(__dirname, file);
 
@@ -130,9 +130,6 @@ module.exports = {
 					info: { minimized: true },
 				},
 			],
-		}),
-		new CopyPlugin({
-			patterns: [{ from: "../out/languages/", to: "./out/languages/" }],
 		}),
 	],
 } as webpack.Configuration;
