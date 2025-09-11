@@ -60,7 +60,7 @@ import '../../../src/language/html/monaco.contribution';
 import '../../../src/language/json/monaco.contribution';
 import '../../../src/language/typescript/monaco.contribution';
 
-const styleSheetUrl = require.toUrl('vs/style.css');
+const styleSheetUrl = require.toUrl('vs/editor/editor.main.css');
 
 const link = document.createElement('link');
 link.rel = 'stylesheet';
