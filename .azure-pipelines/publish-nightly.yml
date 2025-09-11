@@ -84,7 +84,6 @@ extends:
             inputs:
               versionSource: fromFile
               versionFilePath: .nvmrc
-              nodejsMirror: https://github.com/joaomoreno/node-mirror/releases/download
 
           - script: npm ci
             displayName: Install NPM dependencies
