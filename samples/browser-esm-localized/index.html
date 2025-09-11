@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<title>Monaco Editor ESM Localization Sample</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 20px;
+			}
+			.controls {
+				margin-bottom: 20px;
+			}
+			select,
+			button {
+				padding: 5px 10px;
+				margin-right: 10px;
+			}
+			#container {
+				width: 100%;
+				height: 600px;
+				border: 1px solid #ccc;
+			}
+			.info {
+				margin-top: 20px;
+				padding: 15px;
+				background-color: #f0f8ff;
+				border-left: 4px solid #0066cc;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Monaco Editor ESM Localization Sample</h2>
+
+		<div class="controls">
+			<label for="language-selector">Language:</label>
+			<select id="language-selector">
+				<option value="en">English</option>
+				<option value="de" selected>German (Deutsch)</option>
+				<option value="fr">French (Français)</option>
+				<option value="es">Spanish (Español)</option>
+				<option value="it">Italian (Italiano)</option>
+				<option value="ja">Japanese (日本語)</option>
+				<option value="ko">Korean (한국어)</option>
+				<option value="zh-cn">Chinese Simplified (简体中文)</option>
+				<option value="zh-tw">Chinese Traditional (繁體中文)</option>
+			</select>
+			<button id="reload-button">Apply Language</button>
+		</div>
+
+		<div id="container"></div>
+
+		<div class="info">
+			<h3>How to test localization:</h3>
+			<ul>
+				<li>Right-click in the editor to see the German context menu</li>
+				<li>Press F1 to open the command palette in German</li>
+				<li>Try using Ctrl+F to open the search box with German labels</li>
+				<li>
+					Select different languages from the dropdown and click "Apply Language" to reload with a
+					different localization
+				</li>
+			</ul>
+			<p>
+				<strong>Note:</strong> This demo shows German localization. To test other languages, you
+				would need to modify the import statement in index.js to import the corresponding language
+				file (e.g., 'monaco-editor/esm/nls.messages.fr.js' for French).
+			</p>
+		</div>
+
+		<script src="./app.bundle.js"></script>
+	</body>
+</html>
