@@ -89,17 +89,8 @@ export class Home extends React.Component {
 					<hr />
 					<p className="text-center">
 						<a href="https://microsoft.com" title="Microsoft">
-							<img
-								src="https://opensource.microsoft.com/assets/images/Microsoft_logo.svg"
-								alt="Microsoft"
-								style={{
-									maxHeight: "23px",
-									marginBottom: "12px",
-								}}
-							/>
+							<small>&copy; {process.env.YEAR} Microsoft</small>
 						</a>
-						<br />
-						<small>&copy; {process.env.YEAR} Microsoft</small>
 					</p>
 				</footer>
 			</Page>
