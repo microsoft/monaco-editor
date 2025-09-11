@@ -92,4 +92,5 @@ export interface PackageJson {
 	vscodeCommitId?: string;
 	monacoCommitId?: string;
 	devDependencies: Record<string, string>;
+	dependencies?: Record<string, string>;
 }
