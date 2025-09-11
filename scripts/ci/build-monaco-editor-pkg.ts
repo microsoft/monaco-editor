@@ -46,8 +46,26 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 		const packageJson = JSON.parse(
 			await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
 		) as PackageJson;
+
 		packageJson.version = monacoEditorCoreVersion;
 		packageJson.devDependencies['monaco-editor-core'] = monacoEditorCoreVersion;
+
+		const monacoEditorCorePackageJson = JSON.parse(
+			await readFile(monacoEditorCorePackageJsonPath, { encoding: 'utf-8' })
+		) as PackageJson;
+
+		if (monacoEditorCorePackageJson.dependencies) {
+			if (!packageJson.dependencies) {
+				packageJson.dependencies = {};
+			}
+
+			objectMergeThrowIfSet(
+				packageJson.dependencies,
+				monacoEditorCorePackageJson.dependencies,
+				'dependencies'
+			);
+		}
+
 		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
 	});
 
@@ -79,6 +97,21 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 		await run('npm run smoketest', { cwd: rootPath });
 		// npm package is now ready to be published in ./out/monaco-editor
 	});
+}
+
+function objectMergeThrowIfSet(
+	target: Record<string, any>,
+	source: Record<string, any>,
+	fieldName: string
+): void {
+	for (const [key, value] of Object.entries(source)) {
+		if (key in target) {
+			throw new Error(
+				`Cannot merge ${fieldName}: property '${key}' already exists in target with value '${target[key]}', would be overridden with '${value}'`
+			);
+		}
+		target[key] = value;
+	}
 }
 
 prepareMonacoEditorReleaseStableOrNightly();
