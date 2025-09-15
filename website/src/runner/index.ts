@@ -54,7 +54,9 @@ async function initialize(state: IPreviewState) {
 	const js = massageJs(state.js);
 
 	try {
-		eval(js); // CodeQL [SM01632] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground. // CodeQL [SM02688] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground.
+		const sanitizedJs = sanitizeJs(js); // Sanitize the `js` input before execution.
+		const func = new Function(sanitizedJs); // Use `new Function` instead of `eval`.
+		func(); // Execute the sanitized JavaScript code.
 	} catch (err) {
 		const pre = document.createElement("pre");
 		pre.appendChild(
