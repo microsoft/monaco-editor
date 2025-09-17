@@ -29,6 +29,12 @@ export class PageNav extends React.Component {
 							>
 								Monarch
 							</Nav.Link>
+							<Nav.Link
+								active={switchRoute.isActive}
+								href={switchRoute.href}
+							>
+								SWITCH
+							</Nav.Link>
 							<Nav.Link active={docs.isActive} href={docs.href}>
 								Documentation
 							</Nav.Link>
@@ -50,7 +56,7 @@ export class PageNav extends React.Component {
 							>
 								{/*<NavDropdown.Item href="#action/3.1">
 									Download 0.33.0
-							</NavDropdown.Item>*/}
+						</NavDropdown.Item>*/}
 								<NavDropdown.Item
 									href="https://www.npmjs.com/package/monaco-editor"
 									target="_blank"
