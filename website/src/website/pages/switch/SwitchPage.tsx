@@ -101,6 +101,12 @@ export function SwitchPage() {
     setEditorValue(content);
   }
 
+  async function refreshHistory(repoId: string, branchId: string) {
+    const b = branches.find(x=>x.id===branchId);
+    const list = await listCommitsReachable(repoId, b?.headCommitId);
+    setHistory(list);
+  }
+
   return (
     <div className="switch-shell">
       <div className="switch-activity-bar" aria-label="Activity Bar">
