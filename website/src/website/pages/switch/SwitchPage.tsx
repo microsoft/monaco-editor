@@ -110,6 +110,11 @@ export function SwitchPage() {
           <div className="switch-pane">
             <div className="switch-pane-header">Explorer</div>
             <div className="switch-pane-body">
+              <div style={{ marginBottom: 8 }}>
+                <button className="switch-secondary-btn" onClick={onNewFile}>New File</button>
+                <button className="switch-secondary-btn" onClick={onNewFolder}>New Folder</button>
+                <button className="switch-secondary-btn" onClick={onRefresh}>Refresh</button>
+              </div>
               {tree.length === 0 ? (
                 <div className="switch-empty">No files</div>
               ) : (
