@@ -130,6 +130,15 @@ export async function getAll<T>(store: StoreName): Promise<T[]> {
   });
 }
 
+export async function setSetting<T>(id: string, value: T): Promise<void> {
+  await put("settings", { id, value } as any);
+}
+
+export async function getSetting<T>(id: string): Promise<T | undefined> {
+  const rec = await get<any>("settings", id);
+  return rec?.value as T | undefined;
+}
+
 function requestAsPromise<T>(req: IDBRequest<T>): Promise<T> {
   return new Promise((resolve, reject) => {
     req.onsuccess = () => resolve(req.result as T);
