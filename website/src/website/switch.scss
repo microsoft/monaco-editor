@@ -1,0 +1,24 @@
+/* SWITCH layout (VS Code-like) */
+.switch-shell { display: flex; flex-direction: column; height: 100vh; }
+.switch-activity-bar { width: 48px; background: #1f1f1f; color: #ccc; display: flex; flex-direction: column; align-items: center; padding: 8px 0; gap: 8px; }
+.switch-activity-item { background: transparent; border: 0; color: inherit; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; }
+.switch-activity-item:hover { background: rgba(255,255,255,0.06); }
+.switch-main { flex: 1; display: flex; min-height: 0; }
+.switch-sidebar { width: 280px; background: #252526; color: #e0e0e0; overflow: auto; padding: 8px; }
+.switch-pane { margin-bottom: 12px; }
+.switch-pane-header { font-size: 12px; text-transform: uppercase; color: #9da5b4; padding: 6px 4px; }
+.switch-pane-body { padding: 4px; }
+.switch-empty { color: #858585; font-size: 12px; padding: 8px; }
+.switch-secondary-btn { display: inline-block; margin-right: 8px; margin-bottom: 8px; padding: 4px 8px; font-size: 12px; color: #e0e0e0; background: #3c3c3c; border: 1px solid #2d2d2d; border-radius: 4px; }
+.switch-editor { flex: 1; display: flex; flex-direction: column; min-width: 0; background: #1e1e1e; }
+.switch-tabbar { height: 36px; display: flex; align-items: center; gap: 8px; background: #252526; border-bottom: 1px solid #2d2d2d; padding: 0 8px; color: #ddd; }
+.switch-tab { padding: 6px 10px; border-radius: 4px 4px 0 0; }
+.switch-tab.active { background: #1e1e1e; }
+.switch-editor-inner { flex: 1; min-height: 0; }
+.switch-statusbar { height: 24px; background: #0e639c; color: #fff; display: flex; align-items: center; gap: 12px; padding: 0 10px; }
+.switch-status-item { font-size: 12px; }
+
+/* Place the activity bar left of sidebar */
+.switch-shell > .switch-activity-bar { position: fixed; top: 0; bottom: 24px; left: 0; }
+.switch-shell > .switch-main { margin-left: 48px; }
+.switch-shell > .switch-statusbar { position: fixed; bottom: 0; left: 0; right: 0; }
