@@ -15,10 +15,28 @@ export function SwitchPage() {
   const [tree, setTree] = React.useState<{ path: string; isDir: boolean; children?: any[] }[]>([]);
   const [openFile, setOpenFile] = React.useState<OpenFile | undefined>();
   const [editorValue, setEditorValue] = React.useState<string>("// SWITCH: Open a folder to get started\n");
+  const [branches, setBranches] = React.useState<BranchRecord[]>([]);
+  const [currentBranchId, setCurrentBranchIdState] = React.useState<string | undefined>(undefined);
+  const [commitMsg, setCommitMsg] = React.useState("");
+  const [history, setHistory] = React.useState<CommitRecord[]>([]);
+  const [issues, setIssues] = React.useState<IssueRecord[]>([]);
+  const [newIssueTitle, setNewIssueTitle] = React.useState("");
 
   React.useEffect(() => {
     refreshRepos();
   }, []);
+
+  React.useEffect(() => { (async () => {
+    if (!activeRepo) return;
+    const b = await listBranches(activeRepo.id);
+    setBranches(b);
+    const cur = await getCurrentBranchId(activeRepo.id) || b.find(x=>x.name===activeRepo.defaultBranch)?.id;
+    if (cur) {
+      setCurrentBranchIdState(cur);
+      await refreshHistory(activeRepo.id, cur);
+    }
+    setIssues(await listIssues(activeRepo.id));
+  })(); }, [activeRepo?.id]);
 
   async function refreshRepos() {
     const list = await listRepositories();
