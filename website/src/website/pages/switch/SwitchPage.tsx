@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ControlledMonacoEditor } from "../../components/monaco/MonacoEditor";
+import "../../switch.scss";
 
 export function SwitchPage() {
   const [value, setValue] = React.useState<string>(`// Welcome to SWITCH\n// Start coding, create repos and manage issues here.\n`);
