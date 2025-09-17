@@ -126,6 +126,12 @@ export function SwitchPage() {
         <section className="switch-editor" aria-label="Editor">
           <div className="switch-tabbar">
             <div className="switch-tab active">{openFile?.path || "welcome.txt"}</div>
+            <div style={{ marginLeft: "auto" }}>
+              <button className="switch-secondary-btn" onClick={onSave} disabled={!openFile}>Save</button>
+              <button className="switch-secondary-btn" onClick={onSaveAs} disabled={!activeRepo}>Save As</button>
+              <button className="switch-secondary-btn" onClick={onRename} disabled={!openFile}>Rename</button>
+              <button className="switch-secondary-btn" onClick={onDelete} disabled={!openFile}>Delete</button>
+            </div>
           </div>
           <div className="switch-editor-inner">
             <ControlledMonacoEditor value={editorValue} onDidValueChange={setEditorValue} language={openFile?.language || "plaintext"} theme="vs-dark" />
@@ -140,6 +146,71 @@ export function SwitchPage() {
       </footer>
     </div>
   );
+  async function onRefresh() {
+    if (activeRepo) await loadTree(activeRepo);
+  }
+
+  async function onNewFile() {
+    if (!activeRepo?.fsHandleId) return;
+    const name = prompt("New file path (relative):", "untitled.txt");
+    if (!name) return;
+    const dir = await getDirectoryHandle(activeRepo.fsHandleId);
+    if (!dir) return;
+    await (await import("../../switch/fs")).writeFileText(dir, name, "");
+    await onRefresh();
+  }
+
+  async function onNewFolder() {
+    if (!activeRepo?.fsHandleId) return;
+    const name = prompt("New folder path (relative):", "folder");
+    if (!name) return;
+    const dir = await getDirectoryHandle(activeRepo.fsHandleId);
+    if (!dir) return;
+    await (await import("../../switch/fs")).createDirectory(dir, name);
+    await onRefresh();
+  }
+
+  async function onSave() {
+    if (!activeRepo?.fsHandleId || !openFile) return;
+    const dir = await getDirectoryHandle(activeRepo.fsHandleId);
+    if (!dir) return;
+    await (await import("../../switch/fs")).writeFileText(dir, openFile.path, editorValue);
+  }
+
+  async function onSaveAs() {
+    if (!activeRepo?.fsHandleId) return;
+    const target = prompt("Save As path (relative):", openFile?.path || "untitled.txt");
+    if (!target) return;
+    const dir = await getDirectoryHandle(activeRepo.fsHandleId);
+    if (!dir) return;
+    await (await import("../../switch/fs")).writeFileText(dir, target, editorValue);
+    setOpenFile({ path: target, content: editorValue, language: languageFromPath(target) });
+    await onRefresh();
+  }
+
+  async function onRename() {
+    if (!activeRepo?.fsHandleId || !openFile) return;
+    const next = prompt("Rename to (relative):", openFile.path);
+    if (!next || next === openFile.path) return;
+    const dir = await getDirectoryHandle(activeRepo.fsHandleId);
+    if (!dir) return;
+    const fs = await import("../../switch/fs");
+    await fs.writeFileText(dir, next, editorValue);
+    await fs.deleteEntry(dir, openFile.path);
+    setOpenFile({ path: next, content: editorValue, language: languageFromPath(next) });
+    await onRefresh();
+  }
+
+  async function onDelete() {
+    if (!activeRepo?.fsHandleId || !openFile) return;
+    if (!confirm(`Delete ${openFile.path}?`)) return;
+    const dir = await getDirectoryHandle(activeRepo.fsHandleId);
+    if (!dir) return;
+    await (await import("../../switch/fs")).deleteEntry(dir, openFile.path);
+    setOpenFile(undefined);
+    setEditorValue("// File deleted\n");
+    await onRefresh();
+  }
 }
 
 async function getFileByPath(dir: FileSystemDirectoryHandle, path: string): Promise<File | undefined> {
