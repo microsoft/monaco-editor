@@ -127,6 +127,29 @@ export function SwitchPage() {
             </div>
           </div>
           <div className="switch-pane">
+            <div className="switch-pane-header">Branches</div>
+            <div className="switch-pane-body">
+              <div style={{ marginBottom: 8 }}>
+                <select value={currentBranchId || ""} onChange={async (e)=>{ if (!activeRepo) return; const id=e.target.value; setCurrentBranchIdState(id); await setCurrentBranchId(activeRepo.id, id); await refreshHistory(activeRepo.id, id); }}>
+                  <option value="" disabled>— Select branch —</option>
+                  {branches.map(b=> (<option key={b.id} value={b.id}>{b.name}</option>))}
+                </select>
+                <button className="switch-secondary-btn" onClick={async ()=>{ if (!activeRepo) return; const name=prompt("New branch name:", "feature"); if (!name) return; const from = branches.find(b=>b.id===currentBranchId)?.headCommitId; const b = await createBranch(activeRepo.id, name, from); const list=await listBranches(activeRepo.id); setBranches(list); setCurrentBranchIdState(b.id); await setCurrentBranchId(activeRepo.id, b.id); await refreshHistory(activeRepo.id, b.id); }}>New Branch</button>
+              </div>
+              <div>
+                <input placeholder="Commit message" value={commitMsg} onChange={(e)=>setCommitMsg(e.target.value)} />
+                <button className="switch-secondary-btn" onClick={async ()=>{ if (!activeRepo||!currentBranchId) return; await commitOnBranch(activeRepo.id, currentBranchId, commitMsg || "chore: update"); setCommitMsg(""); await refreshHistory(activeRepo.id, currentBranchId); }}>Commit</button>
+              </div>
+              <div style={{ marginTop: 8 }}>
+                <div className="switch-pane-header">History</div>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {history.map(c => (<li key={c.id}>• {new Date(c.timestamp).toLocaleString()} — {c.message}</li>))}
+                  {history.length===0 && <li className="switch-empty">No commits</li>}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="switch-pane">
             <div className="switch-pane-header">Explorer</div>
             <div className="switch-pane-body">
               <div style={{ marginBottom: 8 }}>
@@ -139,6 +162,19 @@ export function SwitchPage() {
               ) : (
                 <FileTree tree={tree} onOpen={onOpenFile} />
               )}
+            </div>
+          </div>
+          <div className="switch-pane">
+            <div className="switch-pane-header">Issues</div>
+            <div className="switch-pane-body">
+              <div style={{ display: "flex", gap: 8 }}>
+                <input placeholder="New issue title" value={newIssueTitle} onChange={(e)=>setNewIssueTitle(e.target.value)} />
+                <button className="switch-secondary-btn" onClick={async ()=>{ if(!activeRepo||!newIssueTitle) return; await createIssue(activeRepo.id, { title: newIssueTitle, branchId: currentBranchId, filePath: openFile?.path }); setNewIssueTitle(""); setIssues(await listIssues(activeRepo.id)); }}>Add</button>
+              </div>
+              <ul style={{ listStyle: "none", padding: 0, marginTop: 8 }}>
+                {issues.map(i => (<li key={i.id}>#{i.id.slice(-5)} {i.title} <span style={{ color: "#858585" }}>({i.status})</span></li>))}
+                {issues.length===0 && <li className="switch-empty">No issues</li>}
+              </ul>
             </div>
           </div>
         </aside>
