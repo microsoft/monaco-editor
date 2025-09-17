@@ -40,6 +40,16 @@ module.exports = {
 		allowedHosts: "all",
 		host: "0.0.0.0",
 		port: 8080,
+		client: {
+			// Ensure websocket connects to the expected host/port when proxied
+			webSocketURL: {
+				hostname: "localhost",
+				port: 8080,
+				protocol: "ws",
+				pathname: "/sockjs-node"
+			}
+		},
+		webSocketServer: "ws",
 		watchFiles: [],
 	},
 	module: {
