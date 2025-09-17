@@ -1,69 +1,70 @@
+
 # Monaco Editor with Vue.js and Vite
 
-这是一个使用Vue.js 3、Vite和Monaco Editor的示例项目。
+This is a sample project using Vue.js 3, Vite, and Monaco Editor.
 
-## 特性
+## Features
 
 - ✅ Vue.js 3 Composition API
-- ✅ TypeScript 支持
-- ✅ Vite 构建工具
-- ✅ Monaco Editor 集成
-- ✅ 语法高亮和代码补全
-- ✅ 多语言支持（TypeScript、JavaScript、JSON、CSS、HTML）
+- ✅ TypeScript support
+- ✅ Vite build tool
+- ✅ Monaco Editor integration
+- ✅ Syntax highlighting and code completion
+- ✅ Multi-language support (TypeScript, JavaScript, JSON, CSS, HTML)
 
-## 安装
+## Installation
 
 ```bash
 npm install
 ```
 
-## 运行
+## Usage
 
-开发模式：
+Development mode:
 ```bash
 npm run dev
 ```
 
-构建生产版本：
+Build for production:
 ```bash
 npm run build
 ```
 
-预览构建版本：
+Preview production build:
 ```bash
 npm run serve
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 src/
 ├── components/
-│   └── Editor.vue          # Monaco Editor 组件
-├── main.ts                 # Vue 应用入口
-├── userWorker.ts          # Monaco Editor Workers 配置
-└── vite-env.d.ts          # TypeScript 类型声明
+│   └── Editor.vue          # Monaco Editor component
+├── main.ts                 # Vue app entry
+├── userWorker.ts           # Monaco Editor Workers config
+└── vite-env.d.ts           # TypeScript type declarations
 ```
 
-## 技术栈
+## Tech Stack
 
 - Vue.js 3
 - TypeScript
 - Vite
 - Monaco Editor
 
-## 对比 React 版本
+## Comparison with React Version
 
-这个 Vue 版本与 React 版本功能相同，主要区别：
+This Vue version has the same features as the React version. Main differences:
 
-1. 使用 Vue 3 Composition API 替代 React Hooks
-2. 使用 `@vitejs/plugin-vue` 替代 `@vitejs/plugin-react`
-3. 使用 `.vue` 单文件组件替代 `.tsx` 文件
-4. 使用 `createApp` 替代 `ReactDOM.render`
+1. Uses Vue 3 Composition API instead of React Hooks
+2. Uses `@vitejs/plugin-vue` instead of `@vitejs/plugin-react`
+3. Uses `.vue` single file components instead of `.tsx` files
+4. Uses `createApp` instead of `ReactDOM.render`
 
-## Monaco Editor 配置
+## Monaco Editor Configuration
 
-Monaco Editor 通过 Web Workers 运行，支持以下语言：
+Monaco Editor runs via Web Workers and supports the following languages:
 - TypeScript/JavaScript
 - JSON
 - CSS/SCSS/Less
