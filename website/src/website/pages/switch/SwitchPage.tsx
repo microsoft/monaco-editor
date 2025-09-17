@@ -1,10 +1,11 @@
 import * as React from "react";
 import { ControlledMonacoEditor } from "../../components/monaco/MonacoEditor";
 import "../../switch.scss";
-import { createRepository, listRepositories } from "../../switch/models";
+import { createRepository, listRepositories, listBranches, createBranch } from "../../switch/models";
 import { pickDirectory, getDirectoryHandle, ensureReadPerm, walk } from "../../switch/fs";
-import type { RepoRecord } from "../../switch/db";
+import type { RepoRecord, BranchRecord, CommitRecord, IssueRecord } from "../../switch/db";
 import { FileTree } from "./FileTree";
+import { getCurrentBranchId, setCurrentBranchId, commitOnBranch, listCommitsReachable, listIssues, createIssue } from "../../switch/logic";
 
 interface OpenFile { path: string; content: string; language: string }
 
