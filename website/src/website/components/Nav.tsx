@@ -1,5 +1,5 @@
 import * as React from "react";
-import { home, playground, docs, monarch } from "../pages/routes";
+import { home, playground, docs, monarch, switchRoute } from "../pages/routes";
 import { Container, Navbar, Nav, NavDropdown } from "./bootstrap";
 
 export class PageNav extends React.Component {

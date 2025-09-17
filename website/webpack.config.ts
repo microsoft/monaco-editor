@@ -107,6 +107,11 @@ module.exports = {
 			filename: "monarch.html",
 			templateContent: getHtml(),
 		}),
+		new HtmlWebpackPlugin({
+			chunks: ["index"],
+			filename: "switch.html",
+			templateContent: getHtml(),
+		}),
 		new CopyPlugin({
 			patterns: [{ from: "./static", to: "./" }],
 		}),
