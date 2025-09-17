@@ -111,7 +111,9 @@ module.exports = {
 			patterns: [{ from: "./static", to: "./" }],
 		}),
 		new CopyPlugin({
-			patterns: [{ from: "./typedoc/dist", to: "./typedoc/" }],
+			patterns: [
+				{ from: "./typedoc/dist", to: "./typedoc/", noErrorOnMissing: true },
+			],
 		}),
 		new CopyPlugin({
 			patterns: [
