@@ -1,6 +1,7 @@
 {
 	"name": "my-application",
 	"version": "0.0.1",
+	"main": "electron-main.js",
 	"scripts": {
 		"dev": "webpack serve --hot --mode development",
 		"build-webpack": "webpack --mode production",
