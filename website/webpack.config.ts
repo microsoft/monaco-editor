@@ -38,6 +38,8 @@ module.exports = {
 				"X-Requested-With, content-type, Authorization",
 		},
 		allowedHosts: "all",
+		host: "0.0.0.0",
+		port: 8080,
 		watchFiles: [],
 	},
 	module: {
@@ -73,6 +75,10 @@ module.exports = {
 		new webpack.DefinePlugin({
 			"process.env": {
 				YEAR: JSON.stringify(new Date().getFullYear()),
+				SUPABASE_URL: JSON.stringify(process.env.SUPABASE_URL || ""),
+				SUPABASE_ANON_KEY: JSON.stringify(
+					process.env.SUPABASE_ANON_KEY || ""
+				),
 			},
 		}),
 		new CleanWebpackPlugin(),
@@ -105,11 +111,22 @@ module.exports = {
 			filename: "monarch.html",
 			templateContent: getHtml(),
 		}),
+		new HtmlWebpackPlugin({
+			chunks: ["index"],
+			filename: "switch.html",
+			templateContent: getHtml(),
+		}),
 		new CopyPlugin({
 			patterns: [{ from: "./static", to: "./" }],
 		}),
 		new CopyPlugin({
-			patterns: [{ from: "./typedoc/dist", to: "./typedoc/" }],
+			patterns: [
+				{
+					from: "./typedoc/dist",
+					to: "./typedoc/",
+					noErrorOnMissing: true,
+				},
+			],
 		}),
 		new CopyPlugin({
 			patterns: [
