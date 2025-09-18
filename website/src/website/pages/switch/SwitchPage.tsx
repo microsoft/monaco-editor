@@ -197,9 +197,33 @@ export function SwitchPage() {
                 <button className="switch-secondary-btn" onClick={async ()=>{ if(!activeRepo||!newIssueTitle) return; await createIssue(activeRepo.id, { title: newIssueTitle, branchId: currentBranchId, filePath: openFile?.path }); setNewIssueTitle(""); setIssues(await listIssues(activeRepo.id)); }}>Add</button>
               </div>
               <ul style={{ listStyle: "none", padding: 0, marginTop: 8 }}>
-                {issues.map(i => (<li key={i.id}>#{i.id.slice(-5)} {i.title} <span style={{ color: "#858585" }}>({i.status})</span></li>))}
+                {issues.map(i => (
+                  <li key={i.id} onClick={()=>selectIssue(i.id)} style={{ cursor: "pointer", padding: "2px 0", color: selectedIssueId===i.id? "#fff": undefined }}>
+                    #{i.id.slice(-5)} {i.title} <span style={{ color: "#858585" }}>({i.status})</span>
+                  </li>
+                ))}
                 {issues.length===0 && <li className="switch-empty">No issues</li>}
               </ul>
+              {selectedIssue && (
+                <div style={{ borderTop: "1px solid #2d2d2d", marginTop: 8, paddingTop: 8 }}>
+                  <div style={{ marginBottom: 6 }}>Edit Issue</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    <input placeholder="Title" value={issueTitle} onChange={e=>setIssueTitle(e.target.value)} />
+                    <select value={issueStatus} onChange={(e)=>setIssueStatus(e.target.value as any)}>
+                      <option value="open">open</option>
+                      <option value="closed">closed</option>
+                    </select>
+                    <input placeholder="labels (comma separated)" value={issueLabels} onChange={e=>setIssueLabels(e.target.value)} />
+                    <div style={{ height: 160 }}>
+                      <ControlledMonacoEditor value={issueBody} onDidValueChange={setIssueBody} language="markdown" theme="vs-dark" />
+                    </div>
+                    <div>
+                      <button className="switch-secondary-btn" onClick={onSaveIssue}>Save</button>
+                      <button className="switch-secondary-btn" onClick={onDeleteIssue}>Delete</button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </aside>
