@@ -41,8 +41,21 @@ export function SwitchPage() {
       setCurrentBranchIdState(cur);
       await refreshHistory(activeRepo.id, cur);
     }
-    setIssues(await listIssues(activeRepo.id));
+    const iss = await listIssues(activeRepo.id);
+    setIssues(iss);
+    if (iss.length) selectIssue(iss[0].id);
   })(); }, [activeRepo?.id]);
+
+  function selectIssue(id: string) {
+    setSelectedIssueId(id);
+    const it = issues.find(i=>i.id===id);
+    if (it) {
+      setIssueTitle(it.title);
+      setIssueBody(it.body);
+      setIssueLabels(it.labels.join(", "));
+      setIssueStatus(it.status);
+    }
+  }
 
   async function refreshRepos() {
     const list = await listRepositories();
