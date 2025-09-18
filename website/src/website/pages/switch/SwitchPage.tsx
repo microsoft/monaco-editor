@@ -389,6 +389,29 @@ export function SwitchPage() {
     setIssues(await listIssues(activeRepo.id));
     setSelectedIssueId(undefined);
   }
+
+  async function onPushToCloud() {
+    if (!activeRepo) return;
+    try {
+      const { pushRepoToSupabase } = await import("../../switch/sync");
+      await pushRepoToSupabase(activeRepo.id);
+      alert("Pushed to Supabase storage.");
+    } catch (e:any) {
+      alert("Cloud push failed: " + (e?.message || e));
+    }
+  }
+  async function onPullFromCloud() {
+    if (!activeRepo) return;
+    try {
+      const { pullRepoFromSupabase } = await import("../../switch/sync");
+      const bundle = await pullRepoFromSupabase(activeRepo.id);
+      if (!bundle) { alert("No bundle found."); return; }
+      // For now, just show summary; full import/merge logic can be added as next step
+      alert(`Fetched bundle exportedAt=${new Date(bundle.exportedAt).toLocaleString()}\nbranches=${bundle.branches.length}, commits=${bundle.commits.length}, issues=${bundle.issues.length}`);
+    } catch (e:any) {
+      alert("Cloud pull failed: " + (e?.message || e));
+    }
+  }
 }
 
 async function getFileByPath(dir: FileSystemDirectoryHandle, path: string): Promise<File | undefined> {
