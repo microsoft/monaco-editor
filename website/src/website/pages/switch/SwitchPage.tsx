@@ -307,6 +307,33 @@ export function SwitchPage() {
     await onRefresh();
   }
 
+  async function onSaveRepoAsTemplate() {
+    if (!activeRepo?.fsHandleId) return;
+    const name = prompt("Template name:", activeRepo.name + " template");
+    if (!name) return;
+    const { createRepoTemplate } = await import("../../switch/templates");
+    await createRepoTemplate(name, activeRepo.fsHandleId);
+    alert("Template saved.");
+  }
+
+  async function onCreateRepoFromTemplate() {
+    const { listRepoTemplates } = await import("../../switch/templates");
+    const list = await listRepoTemplates();
+    if (!list.length) { alert("No repo templates."); return; }
+    const names = list.map((t, i)=> `${i+1}. ${t.name}`).join("\n");
+    const idxStr = prompt(`Choose template:\n${names}`, "1");
+    if (!idxStr) return; const idx = parseInt(idxStr, 10) - 1; if (isNaN(idx) || idx<0 || idx>=list.length) return;
+    const tpl = list[idx];
+    const dest = await pickDirectory();
+    const srcHandle = await getDirectoryHandle(tpl.fsHandleId);
+    if (!srcHandle) { alert("Template folder permission required. Re-save the template."); return; }
+    await (await import("../../switch/fs")).copyDirectory(srcHandle, dest.handle);
+    const repo = await createRepository(dest.handle.name || "workspace", dest.id);
+    await refreshRepos();
+    setActiveRepo(repo);
+    await loadTree(repo);
+  }
+
   async function onRename() {
     if (!activeRepo?.fsHandleId || !openFile) return;
     const next = prompt("Rename to (relative):", openFile.path);
