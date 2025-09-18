@@ -75,6 +75,8 @@ module.exports = {
 		new webpack.DefinePlugin({
 			"process.env": {
 				YEAR: JSON.stringify(new Date().getFullYear()),
+				SUPABASE_URL: JSON.stringify(process.env.SUPABASE_URL || ""),
+				SUPABASE_ANON_KEY: JSON.stringify(process.env.SUPABASE_ANON_KEY || ""),
 			},
 		}),
 		new CleanWebpackPlugin(),
