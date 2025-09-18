@@ -44,6 +44,20 @@ export interface FsHandleRecord {
   handle: FileSystemDirectoryHandle;
 }
 
+export interface RepoTemplateRecord {
+  id: string;
+  name: string;
+  fsHandleId: string;
+}
+
+export interface IssueTemplateRecord {
+  id: string;
+  name: string;
+  title: string;
+  body: string;
+  labels: string[];
+}
+
 export async function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -71,6 +85,12 @@ export async function openDB(): Promise<IDBDatabase> {
       }
       if (!db.objectStoreNames.contains("settings")) {
         db.createObjectStore("settings", { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains("repoTemplates")) {
+        db.createObjectStore("repoTemplates", { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains("issueTemplates")) {
+        db.createObjectStore("issueTemplates", { keyPath: "id" });
       }
     };
     req.onsuccess = () => resolve(req.result);
