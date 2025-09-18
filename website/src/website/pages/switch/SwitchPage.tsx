@@ -315,6 +315,26 @@ export function SwitchPage() {
     setEditorValue("// File deleted\n");
     await onRefresh();
   }
+
+  async function onSaveIssue() {
+    if (!activeRepo || !selectedIssue) return;
+    const { updateIssue } = await import("../../switch/logic");
+    selectedIssue.title = issueTitle;
+    selectedIssue.body = issueBody;
+    selectedIssue.labels = issueLabels.split(",").map(s=>s.trim()).filter(Boolean);
+    selectedIssue.status = issueStatus;
+    await updateIssue(selectedIssue);
+    setIssues(await listIssues(activeRepo.id));
+  }
+
+  async function onDeleteIssue() {
+    if (!activeRepo || !selectedIssue) return;
+    if (!confirm(`Delete issue ${selectedIssue.title}?`)) return;
+    const { deleteIssue } = await import("../../switch/logic");
+    await deleteIssue(selectedIssue.id);
+    setIssues(await listIssues(activeRepo.id));
+    setSelectedIssueId(undefined);
+  }
 }
 
 async function getFileByPath(dir: FileSystemDirectoryHandle, path: string): Promise<File | undefined> {
