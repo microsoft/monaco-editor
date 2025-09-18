@@ -190,6 +190,18 @@ export function SwitchPage() {
             </div>
           </div>
           <div className="switch-pane">
+            <div className="switch-pane-header">Cloud Sync</div>
+            <div className="switch-pane-body">
+              <div style={{ marginBottom: 8, color: '#9da5b4' }}>
+                Supabase storage bucket "switch" is required (public read/write via RLS). URL and anon key are read from env.
+              </div>
+              <div>
+                <button className="switch-secondary-btn" onClick={onPushToCloud} disabled={!activeRepo}>Push</button>
+                <button className="switch-secondary-btn" onClick={onPullFromCloud} disabled={!activeRepo}>Pull</button>
+              </div>
+            </div>
+          </div>
+          <div className="switch-pane">
             <div className="switch-pane-header">Explorer</div>
             <div className="switch-pane-body">
               <div style={{ marginBottom: 8 }}>
