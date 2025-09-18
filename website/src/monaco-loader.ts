@@ -78,18 +78,24 @@ async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 				res(monaco);
 				return;
 			}
-			req(
-				[
-					"vs/basic-languages/monaco.contribution",
-					"vs/language/css/monaco.contribution",
-					"vs/language/html/monaco.contribution",
-					"vs/language/json/monaco.contribution",
-					"vs/language/typescript/monaco.contribution",
-				],
-				() => {
-					res(monaco);
-				}
-			);
+			try {
+				req(
+					[
+						"vs/basic-languages/monaco.contribution",
+						"vs/language/css/monaco.contribution",
+						"vs/language/html/monaco.contribution",
+						"vs/language/json/monaco.contribution",
+						"vs/language/typescript/monaco.contribution",
+					],
+					() => {
+						res(monaco);
+					}
+				);
+			} catch (e) {
+				// If loading optional language contributions fails, still resolve the editor to keep app functional.
+				console.error('Failed to load Monaco language contributions, continuing without them.', e);
+				res(monaco);
+			}
 		});
 	});
 }
