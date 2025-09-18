@@ -7,7 +7,8 @@
 		"build": "yarn typedoc && yarn build-webpack",
 		"dev-disk": "webpack --mode development --watch",
 		"typedoc": "typedoc --options ./typedoc/typedoc.json",
-		"test": "yarn ts-node scripts/check-playground-samples-js.ts"
+		"test": "yarn ts-node scripts/check-playground-samples-js.ts",
+		"electron": "electron ."
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.5",
@@ -32,6 +33,7 @@
 		"typedoc": "^0.25.12"
 	},
 	"devDependencies": {
+		"electron": "^22.3.25",
 		"@types/classnames": "^2.3.1",
 		"@types/glob": "^8.1.0",
 		"@types/html-webpack-plugin": "^3.2.2",
