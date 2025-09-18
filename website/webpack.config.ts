@@ -76,7 +76,9 @@ module.exports = {
 			"process.env": {
 				YEAR: JSON.stringify(new Date().getFullYear()),
 				SUPABASE_URL: JSON.stringify(process.env.SUPABASE_URL || ""),
-				SUPABASE_ANON_KEY: JSON.stringify(process.env.SUPABASE_ANON_KEY || ""),
+				SUPABASE_ANON_KEY: JSON.stringify(
+					process.env.SUPABASE_ANON_KEY || ""
+				),
 			},
 		}),
 		new CleanWebpackPlugin(),
@@ -119,7 +121,11 @@ module.exports = {
 		}),
 		new CopyPlugin({
 			patterns: [
-				{ from: "./typedoc/dist", to: "./typedoc/", noErrorOnMissing: true },
+				{
+					from: "./typedoc/dist",
+					to: "./typedoc/",
+					noErrorOnMissing: true,
+				},
 			],
 		}),
 		new CopyPlugin({

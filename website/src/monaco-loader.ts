@@ -93,7 +93,10 @@ async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 				);
 			} catch (e) {
 				// If loading optional language contributions fails, still resolve the editor to keep app functional.
-				console.error('Failed to load Monaco language contributions, continuing without them.', e);
+				console.error(
+					"Failed to load Monaco language contributions, continuing without them.",
+					e
+				);
 				res(monaco);
 			}
 		});
