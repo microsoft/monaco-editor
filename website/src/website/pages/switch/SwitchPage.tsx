@@ -175,6 +175,21 @@ export function SwitchPage() {
             </div>
           </div>
           <div className="switch-pane">
+            <div className="switch-pane-header">Templates</div>
+            <div className="switch-pane-body">
+              <div style={{ marginBottom: 8 }}>
+                <button className="switch-secondary-btn" onClick={onSaveRepoAsTemplate} disabled={!activeRepo}>Save Current Repo as Template</button>
+                <button className="switch-secondary-btn" onClick={onCreateRepoFromTemplate}>New Repo from Template</button>
+              </div>
+              <div>
+                <div style={{ fontSize: 12, color: '#9da5b4', margin: '6px 0' }}>Issue Templates</div>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 6 }}>
+                  <button className="switch-secondary-btn" onClick={onCreateIssueTemplate}>New Issue Template</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="switch-pane">
             <div className="switch-pane-header">Explorer</div>
             <div className="switch-pane-body">
               <div style={{ marginBottom: 8 }}>
