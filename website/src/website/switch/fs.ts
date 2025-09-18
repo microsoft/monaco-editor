@@ -93,3 +93,21 @@ export async function* walk(dir: FileSystemDirectoryHandle, pathPrefix = ""): As
     }
   }
 }
+
+export async function copyDirectory(src: FileSystemDirectoryHandle, dest: FileSystemDirectoryHandle): Promise<void> {
+  const ok = await ensureWritePerm(dest);
+  if (!ok) throw new Error("No write permission on destination");
+  // @ts-ignore
+  for await (const [name, entry] of (src as any).entries()) {
+    if (entry.kind === "directory") {
+      const sub = await (dest as any).getDirectoryHandle(name, { create: true });
+      await copyDirectory(entry as FileSystemDirectoryHandle, sub);
+    } else {
+      const file = await (entry as FileSystemFileHandle).getFile();
+      const fh = await (dest as any).getFileHandle(name, { create: true });
+      const w = await (fh as any).createWritable();
+      await w.write(await file.arrayBuffer());
+      await w.close();
+    }
+  }
+}
