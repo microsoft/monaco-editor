@@ -21,6 +21,12 @@ export function SwitchPage() {
   const [history, setHistory] = React.useState<CommitRecord[]>([]);
   const [issues, setIssues] = React.useState<IssueRecord[]>([]);
   const [newIssueTitle, setNewIssueTitle] = React.useState("");
+  const [selectedIssueId, setSelectedIssueId] = React.useState<string | undefined>(undefined);
+  const selectedIssue = issues.find(i=>i.id===selectedIssueId);
+  const [issueTitle, setIssueTitle] = React.useState("");
+  const [issueBody, setIssueBody] = React.useState("");
+  const [issueLabels, setIssueLabels] = React.useState<string>("");
+  const [issueStatus, setIssueStatus] = React.useState<"open"|"closed">("open");
 
   React.useEffect(() => {
     refreshRepos();
