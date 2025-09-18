@@ -1,7 +1,7 @@
 export type StoreName = "repos" | "branches" | "commits" | "issues" | "fsHandles" | "settings";
 
 const DB_NAME = "switch-db";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 export interface RepoRecord {
   id: string;
