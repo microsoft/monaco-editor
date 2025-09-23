@@ -71,13 +71,12 @@
 		"vscode-languageserver-types": "3.17.5",
 		"vscode-uri": "3.0.8",
 		"webpack": "^5.76.0",
-		"yaserver": "^0.4.0"
+		"yaserver": "^0.4.0",
+		"@types/trusted-types": "^1.0.6"
 	},
 	"alias": {
 		"process": false,
 		"buffer": false
 	},
-	"dependencies": {
-		"@types/trusted-types": "^1.0.6"
-	}
+	"dependencies": {}
 }
