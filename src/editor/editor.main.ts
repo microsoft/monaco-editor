@@ -1,9 +1,9 @@
-import { createWebWorker } from '../common/workers';
-import '../basic-languages/monaco.contribution';
-import '../language/css/monaco.contribution';
-import '../language/html/monaco.contribution';
-import '../language/json/monaco.contribution';
-import '../language/typescript/monaco.contribution';
+import { createWebWorker } from '../common/workers.js';
+import '../basic-languages/monaco.contribution.js';
+import '../language/css/monaco.contribution.js';
+import '../language/html/monaco.contribution.js';
+import '../language/json/monaco.contribution.js';
+import '../language/typescript/monaco.contribution.js';
 import * as monaco from 'monaco-editor-core';
 export * from 'monaco-editor-core';
 
