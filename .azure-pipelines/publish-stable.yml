@@ -39,13 +39,18 @@ extends:
         testPlatforms: []
         skipAPIScan: true # package build requires Linux
         buildSteps:
+          - task: NodeTool@0
+            inputs:
+              versionSource: fromFile
+              versionFilePath: .nvmrc
+
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
 
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare stable
+          - script: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg stable
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: latest
@@ -59,10 +64,18 @@ extends:
         testPlatforms: []
         skipAPIScan: true # package build requires Linux
         buildSteps:
+          - task: NodeTool@0
+            inputs:
+              versionSource: fromFile
+              versionFilePath: .nvmrc
+
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: yarn ts-node ./scripts/ci/monaco-editor-prepare stable
+          - script: npx playwright install --with-deps
+            displayName: Install Playwright Dependencies
+
+          - script: yarn ts-node ./scripts/ci/build-monaco-editor-pkg stable
             displayName: Setup, Build & Test monaco-editor
 
         tag: latest

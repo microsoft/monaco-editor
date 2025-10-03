@@ -2,9 +2,13 @@
 	"compilerOptions": {
 		"declaration": true,
 		"lib": ["dom", "es5", "es2015.collection", "es2015.promise", "es2015.iterable"],
-		"module": "amd",
+		"module": "esnext",
 		"moduleResolution": "node",
-		"outDir": "../out/languages/amd-tsc",
+		"outDir": "../out/languages/tsc",
+		"paths": {
+			"@/*": ["./*"]
+		},
+		"emitDeclarationOnly": true,
 		"strict": true,
 		"target": "es5",
 		"sourceMap": true,

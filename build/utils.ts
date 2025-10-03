@@ -122,66 +122,6 @@ export function buildESM(options: { base: string; entryPoints: string[]; externa
 	});
 }
 
-function buildOneAMD(
-	type: 'dev' | 'min',
-	options: {
-		base: string;
-		entryPoint: string;
-		amdModuleId: string;
-		amdDependencies?: string[];
-		external?: string[];
-	}
-) {
-	if (!options.amdDependencies) {
-		options.amdDependencies = [];
-	}
-	options.amdDependencies.unshift('require');
-
-	const opts: esbuild.BuildOptions = {
-		entryPoints: [options.entryPoint],
-		bundle: true,
-		target: 'esnext',
-		format: 'iife',
-		drop: ['debugger'],
-		define: {
-			AMD: 'true'
-		},
-		globalName: 'moduleExports',
-		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}", [${(options.amdDependencies || [])
-				.map((dep) => `"${dep}"`)
-				.join(',')}],(require)=>{`
-		},
-		footer: {
-			js: 'return moduleExports;\n});'
-		},
-		outbase: `src/${options.base}`,
-		outdir: `out/languages/bundled/amd-${type}/vs/${options.base}/`,
-		plugins: [
-			alias({
-				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
-				'monaco-editor-core': path.join(__dirname, '../src/fillers/monaco-editor-core-amd.ts')
-			})
-		],
-		external: ['vs/editor/editor.api', ...(options.external || [])]
-	};
-	if (type === 'min') {
-		opts.minify = true;
-	}
-	build(opts);
-}
-
-export function buildAMD(options: {
-	base: string;
-	entryPoint: string;
-	amdModuleId: string;
-	amdDependencies?: string[];
-	external?: string[];
-}) {
-	buildOneAMD('dev', options);
-	buildOneAMD('min', options);
-}
-
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');
 	const headPath = path.join(git, 'HEAD');
