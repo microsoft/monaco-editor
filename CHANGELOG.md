@@ -1,5 +1,10 @@
 # Monaco Editor Changelog
 
+## [0.54.0]
+
+- Adds option `editor.mouseMiddleClickAction`
+- Various bug fixes
+
 ## [0.53.0]
 
 - :warning: This release deprecates the AMD build and ships with significant changes of the AMD build. The AMD build will still be shipped for a while, but we don't offer support for it anymore. Please migrate to the ESM build.
