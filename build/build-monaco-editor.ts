@@ -124,35 +124,15 @@ function ESM_releasePlugins() {
 
 		let contents = file.contents.toString();
 
-		// WARNING: this only returns the first occurence of each imported file!
-		const info = ts.preProcessFile(contents);
-		for (let i = info.importedFiles.length - 1; i >= 0; i--) {
-			let importText = info.importedFiles[i].fileName;
-			const pos = info.importedFiles[i].pos;
-			const end = info.importedFiles[i].end;
+		// replace all `from "monaco-editor-core"` with from relativePath
+		let relativePath = path
+			.relative(path.dirname(file.path), 'vs/editor/editor.api')
+			.replace(/\\/g, '/');
 
-			if (!/(^\.\/)|(^\.\.\/)/.test(importText)) {
-				// non-relative import
-				if (!/^monaco-editor-core/.test(importText)) {
-					console.error(`Non-relative import for unknown module: ${importText} in ${file.path}`);
-					process.exit(1);
-				}
-
-				if (importText === 'monaco-editor-core') {
-					importText = 'monaco-editor-core/esm/vs/editor/editor.api';
-				}
-
-				const importFilePath = importText.substring('monaco-editor-core/esm/'.length);
-				let relativePath = path
-					.relative(path.dirname(file.path), importFilePath)
-					.replace(/\\/g, '/');
-				if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-					relativePath = './' + relativePath;
-				}
-
-				contents = contents.substring(0, pos + 1) + relativePath + contents.substring(end + 1);
-			}
-		}
+		contents = contents.replace(
+			/from "monaco-editor-core"/g,
+			`from ${JSON.stringify(relativePath)}`
+		);
 
 		file.contents = Buffer.from(contents);
 	}
