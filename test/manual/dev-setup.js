@@ -68,8 +68,6 @@
 		PATH_PREFIX = PATH_PREFIX || '';
 
 		loadScript(`${PATH_PREFIX}${corePath}/loader.js`, () => {
-			global.AMD = true;
-
 			/** @type {{[name:string]: string;}} */
 			const loaderPathsConfig = {};
 			if (isRelease) {

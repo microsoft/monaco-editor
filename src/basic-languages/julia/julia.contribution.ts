@@ -5,20 +5,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-declare var AMD: any;
-declare var require: any;
-
 registerLanguage({
 	id: 'julia',
 	extensions: ['.jl'],
 	aliases: ['julia', 'Julia'],
-	loader: () => {
-		if (AMD) {
-			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/julia/julia'], resolve, reject);
-			});
-		} else {
-			return import('./julia');
-		}
-	}
+	loader: () => import('./julia')
 });

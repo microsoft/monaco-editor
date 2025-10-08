@@ -347,17 +347,8 @@ export const getWorker = (): Promise<(...uris: Uri[]) => Promise<IJSONWorker>> =
 
 // --- Registration to monaco editor ---
 
-declare var AMD: any;
-declare var require: any;
-
 function getMode(): Promise<typeof mode> {
-	if (AMD) {
-		return new Promise((resolve, reject) => {
-			require(['vs/language/json/jsonMode'], resolve, reject);
-		});
-	} else {
-		return import('./jsonMode');
-	}
+	return import('./jsonMode');
 }
 
 languages.register({

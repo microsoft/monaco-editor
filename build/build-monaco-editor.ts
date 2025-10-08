@@ -80,9 +80,6 @@ function ESM_release() {
 		target: 'esnext',
 		format: 'esm',
 		drop: ['debugger'],
-		define: {
-			AMD: 'false'
-		},
 		banner: {
 			js: bundledFileHeader
 		},
