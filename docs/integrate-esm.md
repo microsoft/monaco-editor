@@ -228,10 +228,10 @@ monaco.editor.create(document.getElementById('container'), {
 > you will encounter cross-origin errors.
 > 
 > In this scenario, you can use a blob like this:
-> ```ts
+> ```js
 > self.MonacoEnvironment = {
 >		getWorker(_, label) {
->			function createBlobWorker(workerModule: any) {
+>			function createBlobWorker(workerModule) {
 >				const code = workerModule.toString();
 >				const blob = new Blob([code], { type: 'application/javascript' });
 >				const blobUrl = URL.createObjectURL(blob);
