@@ -7,7 +7,7 @@ import { WorkerManager } from './workerManager';
 import type { CSSWorker } from './cssWorker';
 import { LanguageServiceDefaults } from './monaco.contribution';
 import * as languageFeatures from '../common/lspLanguageFeatures';
-import { Uri, IDisposable, languages } from '../../fillers/monaco-editor-core';
+import { Uri, IDisposable, languages } from 'monaco-editor-core';
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const disposables: IDisposable[] = [];

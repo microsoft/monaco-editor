@@ -5,7 +5,7 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { HTMLWorker } from './htmlWorker';
-import { Uri, IDisposable, editor } from '../../fillers/monaco-editor-core';
+import { Uri, IDisposable, editor } from 'monaco-editor-core';
 import { createWebWorker } from '../../common/workers';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min

@@ -5,7 +5,7 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { JSONWorker } from './jsonWorker';
-import { IDisposable, Uri, editor } from '../../fillers/monaco-editor-core';
+import { IDisposable, Uri, editor } from 'monaco-editor-core';
 import { createWebWorker } from '../../common/workers';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
