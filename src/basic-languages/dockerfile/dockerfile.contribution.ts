@@ -5,21 +5,10 @@
 
 import { registerLanguage } from '../_.contribution';
 
-declare var AMD: any;
-declare var require: any;
-
 registerLanguage({
 	id: 'dockerfile',
 	extensions: ['.dockerfile'],
 	filenames: ['Dockerfile'],
 	aliases: ['Dockerfile'],
-	loader: () => {
-		if (AMD) {
-			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/dockerfile/dockerfile'], resolve, reject);
-			});
-		} else {
-			return import('./dockerfile');
-		}
-	}
+	loader: () => import('./dockerfile')
 });

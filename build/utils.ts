@@ -105,9 +105,6 @@ export function buildESM(options: { base: string; entryPoints: string[]; externa
 		target: 'esnext',
 		format: 'esm',
 		drop: ['debugger'],
-		define: {
-			AMD: 'false'
-		},
 		banner: {
 			js: bundledFileHeader
 		},

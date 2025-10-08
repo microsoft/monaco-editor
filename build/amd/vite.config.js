@@ -21,9 +21,6 @@ export default defineConfig(async (args) => {
 	/** @type {import('vite').UserConfig} */
 	return {
 		base: './',
-		define: {
-			AMD: false
-		},
 		build: {
 			lib: {
 				cssFileName: 'editor/editor.main',
