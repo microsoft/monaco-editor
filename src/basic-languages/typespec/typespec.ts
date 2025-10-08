@@ -1,4 +1,4 @@
-import type { languages } from '../../fillers/monaco-editor-core';
+import type { languages } from 'monaco-editor-core';
 
 const bounded = (text: string) => `\\b${text}\\b`;
 const notBefore = (regex: string) => `(?!${regex})`;

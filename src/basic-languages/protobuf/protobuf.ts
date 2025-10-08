@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { languages } from '../../fillers/monaco-editor-core';
+import type { languages } from 'monaco-editor-core';
 
 const namedLiterals = ['true', 'false'];
 

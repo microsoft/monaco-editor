@@ -75,9 +75,6 @@
 			if (isRelease) {
 				loaderPathsConfig['vs'] = `${PATH_PREFIX}${corePath}`;
 			} else {
-				loaderPathsConfig[
-					'vs/fillers/monaco-editor-core'
-				] = `${PATH_PREFIX}/monaco-editor/out/amd/fillers/monaco-editor-core-amd`;
 				loaderPathsConfig['vs/language'] = `${PATH_PREFIX}${pluginPath}/language`;
 				loaderPathsConfig['vs/basic-language'] = `${PATH_PREFIX}${pluginPath}/basic-language`;
 				loaderPathsConfig['vs'] = `${PATH_PREFIX}${corePath}`;
