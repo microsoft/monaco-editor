@@ -14,6 +14,7 @@
 		"prettier": "prettier --write .",
 		"pretty-quick": "pretty-quick --staged",
 		"simpleserver": "ts-node ./build/simpleserver",
+		"package-for-smoketest": "npm run package-for-smoketest-webpack && npm run package-for-smoketest-esbuild && npm run package-for-smoketest-vite",
 		"package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
 		"package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
 		"package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
