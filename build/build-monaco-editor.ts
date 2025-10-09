@@ -29,6 +29,13 @@ ESM_release();
 // monaco.d.ts, editor.api.d.ts
 releaseDTS();
 
+// copy types.d.ts from build/amd/out/ to out/monaco-editor/monaco.d.ts (and append `declare global { export import monaco = editor_main; }`)
+(() => {
+	let contents = fs.readFileSync('build/amd/out/types.d.ts', { encoding: 'utf8' });
+	contents += '\n\ndeclare global { export import monaco = editor_main; }\n';
+	fs.writeFileSync('out/monaco-editor/monaco.d.ts', contents);
+})();
+
 // ThirdPartyNotices.txt
 releaseThirdPartyNotices();
 
