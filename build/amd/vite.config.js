@@ -27,7 +27,7 @@ export default defineConfig(async (args) => {
 				entry: {
 					...nlsEntries,
 					'nls.messages-loader': resolve(__dirname, 'src/nls.messages-loader.js'),
-					'editor/editor.main': resolve(__dirname, 'src/editor.main.js'),
+					'editor/editor.main': resolve(__dirname, 'src/editor.main.ts'),
 					'basic-languages/monaco.contribution': resolve(
 						__dirname,
 						'../../src/basic-languages/monaco.contribution.ts'
