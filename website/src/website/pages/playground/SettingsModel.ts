@@ -162,7 +162,6 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 			}
 
 			Object.assign(setup.loaderConfigPaths, {
-				"vs/fillers/monaco-editor-core": `${root}/out/languages/amd-tsc/fillers/monaco-editor-core-amd`,
 				"vs/language": `${languagesUrl}/language`,
 				"vs/basic-language": `${languagesUrl}/basic-language`,
 			});
