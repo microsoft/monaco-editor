@@ -12,5 +12,6 @@
 	"typescript.tsdk": "./node_modules/typescript/lib",
 	"git.branchProtection": ["main", "release/*"],
 	"git.branchProtectionPrompt": "alwaysCommitToNewBranch",
-	"git.branchRandomName.enable": true
+	"git.branchRandomName.enable": true,
+	"editor.formatOnSave": true
 }
