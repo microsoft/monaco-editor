@@ -1,3 +1,4 @@
+/// @ts-ignore
 import * as require from 'require';
 
 self.MonacoEnvironment = {
@@ -5,6 +6,7 @@ self.MonacoEnvironment = {
 		if (label === 'json') {
 			return new Worker(
 				getWorkerBootstrapUrl(
+					/// @ts-ignore
 					new URL('../../../src/language/json/json.worker.ts?worker', import.meta.url)
 				)
 			);
@@ -12,6 +14,7 @@ self.MonacoEnvironment = {
 		if (label === 'css' || label === 'scss' || label === 'less') {
 			return new Worker(
 				getWorkerBootstrapUrl(
+					/// @ts-ignore
 					new URL('../../../src/language/css/css.worker.ts?worker', import.meta.url)
 				)
 			);
@@ -19,6 +22,7 @@ self.MonacoEnvironment = {
 		if (label === 'html' || label === 'handlebars' || label === 'razor') {
 			return new Worker(
 				getWorkerBootstrapUrl(
+					/// @ts-ignore
 					new URL('../../../src/language/html/html.worker.ts?worker', import.meta.url)
 				)
 			);
@@ -26,17 +30,22 @@ self.MonacoEnvironment = {
 		if (label === 'typescript' || label === 'javascript') {
 			return new Worker(
 				getWorkerBootstrapUrl(
+					/// @ts-ignore
 					new URL('../../../src/language/typescript/ts.worker.ts?worker', import.meta.url)
 				)
 			);
 		}
 		return new Worker(
+			/// @ts-ignore
 			getWorkerBootstrapUrl(new URL('../../../src/editor/editor.worker.ts?worker', import.meta.url))
 		);
 	}
 };
 
-function getWorkerBootstrapUrl(workerScriptUrl) {
+function getWorkerBootstrapUrl(workerScriptUrl: string | URL) {
+	if (typeof workerScriptUrl !== 'string') {
+		workerScriptUrl = workerScriptUrl.toString();
+	}
 	const blob = new Blob(
 		[
 			[
@@ -54,11 +63,7 @@ function getWorkerBootstrapUrl(workerScriptUrl) {
 }
 
 import 'vs/nls.messages-loader!';
-import '../../../src/basic-languages/monaco.contribution';
-import '../../../src/language/css/monaco.contribution';
-import '../../../src/language/html/monaco.contribution';
-import '../../../src/language/json/monaco.contribution';
-import '../../../src/language/typescript/monaco.contribution';
+export * from '../../../src/editor/editor.main';
 
 const styleSheetUrl = require.toUrl('vs/editor/editor.main.css');
 
@@ -66,5 +71,3 @@ const link = document.createElement('link');
 link.rel = 'stylesheet';
 link.href = styleSheetUrl;
 document.head.appendChild(link);
-
-export * as m from 'monaco-editor-core';
