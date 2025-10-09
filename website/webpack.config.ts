@@ -91,11 +91,6 @@ module.exports = {
 			templateContent: getHtml(),
 		}),
 		new HtmlWebpackPlugin({
-			chunks: ["playgroundRunner"],
-			filename: "playgroundRunner.html",
-			templateContent: getHtml(),
-		}),
-		new HtmlWebpackPlugin({
 			chunks: ["index"],
 			filename: "docs.html",
 			templateContent: getHtml(),

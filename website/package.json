@@ -25,7 +25,7 @@
 		"mini-css-extract-plugin": "^2.6.1",
 		"mobx": "^5.15.4",
 		"mobx-react": "^6.2.2",
-		"monaco-editor": "^0.53.0",
+		"monaco-editor": "^0.55.0-dev-20251008",
 		"react": "^17.0.2",
 		"react-bootstrap": "^2.4.0",
 		"react-dom": "^17.0.2",
