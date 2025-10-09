@@ -19,48 +19,57 @@ import { generateMetadata } from './releaseMetadata';
 import { buildAmdMinDev } from './amd/build.script';
 import ts = require('typescript');
 
-removeDir(`out/monaco-editor`);
+async function run() {
+	removeDir(`out/monaco-editor`);
 
-buildAmdMinDev();
+	await buildAmdMinDev();
 
-// esm folder
-ESM_release();
+	// esm folder
+	ESM_release();
 
-// monaco.d.ts, editor.api.d.ts
-releaseDTS();
+	// monaco.d.ts, editor.api.d.ts
+	releaseDTS();
 
-// ThirdPartyNotices.txt
-releaseThirdPartyNotices();
+	// copy types.d.ts from build/amd/out/ to out/monaco-editor/monaco.d.ts (and append `declare global { export import monaco = editor_main; }`)
+	(() => {
+		let contents = fs.readFileSync('build/amd/out/types.d.ts', { encoding: 'utf8' });
+		contents += '\n\ndeclare global { export import monaco = editor_main; }\n';
+		fs.writeFileSync('out/monaco-editor/monaco.d.ts', contents);
+	})();
 
-// esm/metadata.d.ts, esm/metadata.js
-generateMetadata();
+	// ThirdPartyNotices.txt
+	releaseThirdPartyNotices();
 
-// package.json
-(() => {
-	const packageJSON = readFiles('package.json', { base: '' })[0];
-	const json = JSON.parse(packageJSON.contents.toString());
+	// esm/metadata.d.ts, esm/metadata.js
+	generateMetadata();
 
-	json.private = false;
-	delete json.scripts['postinstall'];
+	// package.json
+	(() => {
+		const packageJSON = readFiles('package.json', { base: '' })[0];
+		const json = JSON.parse(packageJSON.contents.toString());
 
-	packageJSON.contents = Buffer.from(JSON.stringify(json, null, '  '));
-	writeFiles([packageJSON], `out/monaco-editor`);
-})();
+		json.private = false;
+		delete json.scripts['postinstall'];
 
-(() => {
-	/** @type {IFile[]} */
-	let otherFiles = [];
+		packageJSON.contents = Buffer.from(JSON.stringify(json, null, '  '));
+		writeFiles([packageJSON], `out/monaco-editor`);
+	})();
 
-	otherFiles = otherFiles.concat(readFiles('README.md', { base: '' }));
-	otherFiles = otherFiles.concat(readFiles('CHANGELOG.md', { base: '' }));
-	otherFiles = otherFiles.concat(
-		readFiles('node_modules/monaco-editor-core/LICENSE', {
-			base: 'node_modules/monaco-editor-core/'
-		})
-	);
+	(() => {
+		/** @type {IFile[]} */
+		let otherFiles = [];
 
-	writeFiles(otherFiles, `out/monaco-editor`);
-})();
+		otherFiles = otherFiles.concat(readFiles('README.md', { base: '' }));
+		otherFiles = otherFiles.concat(readFiles('CHANGELOG.md', { base: '' }));
+		otherFiles = otherFiles.concat(
+			readFiles('node_modules/monaco-editor-core/LICENSE', {
+				base: 'node_modules/monaco-editor-core/'
+			})
+		);
+
+		writeFiles(otherFiles, `out/monaco-editor`);
+	})();
+}
 
 function ESM_release() {
 	const coreFiles = readFiles(`node_modules/monaco-editor-core/esm/**/*`, {
@@ -354,3 +363,5 @@ function releaseThirdPartyNotices() {
 
 	writeFiles([tpn], `out/monaco-editor`);
 }
+
+run();
