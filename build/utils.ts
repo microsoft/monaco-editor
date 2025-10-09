@@ -7,7 +7,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as cp from 'child_process';
 import * as esbuild from 'esbuild';
-import alias from 'esbuild-plugin-alias';
 import * as glob from 'glob';
 import { ensureDir } from './fs';
 
@@ -110,12 +109,7 @@ export function buildESM(options: { base: string; entryPoints: string[]; externa
 		},
 		external: options.external,
 		outbase: `src/${options.base}`,
-		outdir: `out/languages/bundled/esm/vs/${options.base}/`,
-		plugins: [
-			alias({
-				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
-			})
-		]
+		outdir: `out/languages/bundled/esm/vs/${options.base}/`
 	});
 }
 
