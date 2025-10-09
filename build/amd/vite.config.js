@@ -21,6 +21,9 @@ export default defineConfig(async (args) => {
 	/** @type {import('vite').UserConfig} */
 	return {
 		base: './',
+		resolve: {
+			dedupe: ['monaco-editor-core']
+		},
 		build: {
 			lib: {
 				cssFileName: 'editor/editor.main',

@@ -65,6 +65,15 @@ function getWorkerBootstrapUrl(workerScriptUrl: string | URL) {
 import 'vs/nls.messages-loader!';
 export * from '../../../src/editor/editor.main';
 
+// for now, lsp is only available to amd build
+import * as lsp from '@vscode/monaco-lsp-client';
+export { lsp };
+
+// TODO@hediet get rid of the monaco global
+if ((globalThis as any).monaco) {
+	(globalThis as any).monaco.lsp = lsp;
+}
+
 const styleSheetUrl = require.toUrl('vs/editor/editor.main.css');
 
 const link = document.createElement('link');
