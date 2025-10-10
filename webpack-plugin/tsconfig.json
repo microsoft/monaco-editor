@@ -2,8 +2,9 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"outDir": "out",
-		"target": "es6",
+		"target": "es2015",
 		"declaration": true,
+		"skipLibCheck": true,
 		"strict": true
 	},
 	"include": ["src"],

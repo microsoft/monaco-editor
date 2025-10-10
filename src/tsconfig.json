@@ -10,7 +10,7 @@
 		},
 		"emitDeclarationOnly": true,
 		"strict": true,
-		"target": "es5",
+		"target": "es2015",
 		"sourceMap": true,
 		"allowJs": true,
 		"checkJs": false
