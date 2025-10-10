@@ -60,7 +60,7 @@ export default defineConfig({
 			compilerOptions: {
 				stripInternal: true
 			},
-			includeExternal: ['monaco-editor-core']
+			includeExternal: ['monaco-editor-core', '@vscode/monaco-lsp-client']
 		})
 	]
 });

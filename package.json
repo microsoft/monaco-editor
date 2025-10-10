@@ -30,7 +30,8 @@
 		"watch": "tsc -w -p ./src",
 		"build-languages": "ts-node ./build/build-languages",
 		"build-monaco-editor": "ts-node ./build/build-monaco-editor",
-		"build": "npm run build-languages && npm run build-monaco-editor"
+		"build-lsp": "cd monaco-lsp-client && npm install && npm run build",
+		"build": "npm run build-lsp && npm run build-languages && npm run build-monaco-editor"
 	},
 	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"module": "./esm/vs/editor/editor.main.js",
@@ -39,6 +40,7 @@
 		"url": "https://github.com/microsoft/monaco-editor"
 	},
 	"devDependencies": {
+		"@vscode/monaco-lsp-client": "file:./monaco-lsp-client",
 		"@playwright/test": "^1.53.2",
 		"@rollup/plugin-alias": "^5.1.1",
 		"@rollup/plugin-node-resolve": "^16.0.2",
