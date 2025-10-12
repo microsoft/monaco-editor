@@ -306,7 +306,7 @@ export class DiagnosticsAdapter extends Adapter {
 
 		const allDiagnostics = await Promise.all(promises);
 
-		if (!allDiagnostics || model.isDisposed()) {
+		if (!allDiagnostics.length || model.isDisposed()) {
 			// model was disposed in the meantime
 			return;
 		}
