@@ -90,5 +90,9 @@
 	"alias": {
 		"process": false,
 		"buffer": false
+	},
+	"browser": {
+		"process": false,
+		"buffer": false
 	}
 }
