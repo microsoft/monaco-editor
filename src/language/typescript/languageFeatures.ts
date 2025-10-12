@@ -467,9 +467,10 @@ export class SuggestAdapter extends Adapter implements languages.CompletionItemP
 
 		const suggestions: MyCompletionItem[] = info.entries.map((entry) => {
 			let range = wordRange;
-			if (entry.replacementSpan) {
-				const p1 = model.getPositionAt(entry.replacementSpan.start);
-				const p2 = model.getPositionAt(entry.replacementSpan.start + entry.replacementSpan.length);
+			const replacementSpan = entry.replacementSpan ?? info.optionalReplacementSpan;
+			if (replacementSpan) {
+				const p1 = model.getPositionAt(replacementSpan.start);
+				const p2 = model.getPositionAt(replacementSpan.start + replacementSpan.length);
 				range = new Range(p1.lineNumber, p1.column, p2.lineNumber, p2.column);
 			}
 
