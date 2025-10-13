@@ -59,7 +59,7 @@ export class WorkerManager {
 			this._worker = createWebWorker<CSSWorker>({
 				// module that exports the create() method and returns a `CSSWorker` instance
 				moduleId: 'vs/language/css/cssWorker',
-
+				createWorker: () => new Worker(new URL('./css.worker', import.meta.url), { type: 'module' }),
 				label: this._defaults.languageId,
 
 				// passed in to the create() method

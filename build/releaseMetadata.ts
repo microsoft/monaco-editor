@@ -103,7 +103,7 @@ function getAdvancedLanguages(): Promise<
 	}
 }
 
-export function generateMetadata() {
+export function generateEsmMetadataJsAndDTs() {
 	return Promise.all([getBasicLanguages(), getAdvancedLanguages()]).then(
 		([basicLanguages, advancedLanguages]) => {
 			basicLanguages.sort((a, b) => strcmp(a.entry, b.entry));

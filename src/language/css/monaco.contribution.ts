@@ -253,9 +253,6 @@ export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 	modeConfigurationDefault
 );
 
-// export to the global based API
-(<any>languages).css = { cssDefaults, lessDefaults, scssDefaults };
-
 // --- Registration to monaco editor ---
 
 function getMode(): Promise<typeof mode> {

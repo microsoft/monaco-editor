@@ -618,7 +618,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		if (this._extraLibs[filePath] && this._extraLibs[filePath].content === content) {
 			// no-op, there already exists an extra lib with this content
 			return {
-				dispose: () => {}
+				dispose: () => { }
 			};
 		}
 
@@ -718,7 +718,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this._onDidChange.fire(undefined);
 	}
 
-	setMaximumWorkerIdleTime(value: number): void {}
+	setMaximumWorkerIdleTime(value: number): void { }
 
 	setEagerModelSync(value: boolean) {
 		// doesn't fire an event since no
@@ -776,20 +776,6 @@ export const getTypeScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeS
 
 export const getJavaScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> => {
 	return getMode().then((mode) => mode.getJavaScriptWorker());
-};
-
-// export to the global based API
-(<any>languages).typescript = {
-	ModuleKind,
-	JsxEmit,
-	NewLineKind,
-	ScriptTarget,
-	ModuleResolutionKind,
-	typescriptVersion,
-	typescriptDefaults,
-	javascriptDefaults,
-	getTypeScriptWorker,
-	getJavaScriptWorker
 };
 
 // --- Registration to monaco editor ---

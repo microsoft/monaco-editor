@@ -1,6 +1,24 @@
 /// @ts-ignore
 import * as require from 'require';
 
+if (typeof (globalThis as any).require !== 'undefined' && typeof (globalThis as any).require.config === 'function') {
+	(globalThis as any).require.config({
+		ignoreDuplicateModules: [
+			'vscode-languageserver-types',
+			'vscode-languageserver-types/main',
+			'vscode-languageserver-textdocument',
+			'vscode-languageserver-textdocument/main',
+			'vscode-nls',
+			'vscode-nls/vscode-nls',
+			'jsonc-parser',
+			'jsonc-parser/main',
+			'vscode-uri',
+			'vscode-uri/index',
+			'vs/basic-languages/typescript/typescript'
+		]
+	});
+}
+
 self.MonacoEnvironment = {
 	getWorker: function (_moduleId, label) {
 		if (label === 'json') {
@@ -63,16 +81,10 @@ function getWorkerBootstrapUrl(workerScriptUrl: string | URL) {
 }
 
 import 'vs/nls.messages-loader!';
+import * as monaco from '../../../src/editor/editor.main';
 export * from '../../../src/editor/editor.main';
 
-// for now, lsp is only available to amd build
-import * as lsp from '@vscode/monaco-lsp-client';
-export { lsp };
-
-// TODO@hediet get rid of the monaco global
-if ((globalThis as any).monaco) {
-	(globalThis as any).monaco.lsp = lsp;
-}
+globalThis.monaco = monaco;
 
 const styleSheetUrl = require.toUrl('vs/editor/editor.main.css');
 

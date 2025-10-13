@@ -87,10 +87,10 @@ export interface JSONSchema {
 	minProperties?: number;
 	maxProperties?: number;
 	dependencies?:
-		| JSONSchemaMap
-		| {
-				[prop: string]: string[];
-		  };
+	| JSONSchemaMap
+	| {
+		[prop: string]: string[];
+	};
 	items?: JSONSchemaRef | JSONSchemaRef[];
 	minItems?: number;
 	maxItems?: number;
@@ -341,9 +341,6 @@ export interface IJSONWorker {
 
 export const getWorker = (): Promise<(...uris: Uri[]) => Promise<IJSONWorker>> =>
 	getMode().then((mode) => mode.getWorker());
-
-// export to the global based API
-(<any>languages).json = { jsonDefaults, getWorker };
 
 // --- Registration to monaco editor ---
 
