@@ -215,17 +215,6 @@ export const razorLanguageService = registerHTMLLanguageService(
 );
 export const razorDefaults = razorLanguageService.defaults;
 
-// export to the global based API
-(<any>languages).html = {
-	htmlDefaults,
-	razorDefaults,
-	handlebarDefaults,
-	htmlLanguageService,
-	handlebarLanguageService,
-	razorLanguageService,
-	registerHTMLLanguageService
-};
-
 // --- Registration to monaco editor ---
 
 function getMode(): Promise<typeof mode> {

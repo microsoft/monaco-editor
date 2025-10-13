@@ -6,9 +6,9 @@ function createTrustedTypesPolicy<Options extends TrustedTypePolicyOptions>(
 ):
 	| undefined
 	| Pick<
-			TrustedTypePolicy<Options>,
-			'name' | Extract<keyof Options, keyof TrustedTypePolicyOptions>
-	  > {
+		TrustedTypePolicy<Options>,
+		'name' | Extract<keyof Options, keyof TrustedTypePolicyOptions>
+	> {
 	interface IMonacoEnvironment {
 		createTrustedTypesPolicy<Options extends TrustedTypePolicyOptions>(
 			policyName: string,
@@ -16,9 +16,9 @@ function createTrustedTypesPolicy<Options extends TrustedTypePolicyOptions>(
 		):
 			| undefined
 			| Pick<
-					TrustedTypePolicy<Options>,
-					'name' | Extract<keyof Options, keyof TrustedTypePolicyOptions>
-			  >;
+				TrustedTypePolicy<Options>,
+				'name' | Extract<keyof Options, keyof TrustedTypePolicyOptions>
+			>;
 	}
 	const monacoEnvironment: IMonacoEnvironment | undefined = (globalThis as any).MonacoEnvironment;
 
@@ -52,7 +52,7 @@ if (
 	});
 }
 
-function getWorker(descriptor: { label: string; moduleId: string }): Worker | Promise<Worker> {
+function getWorker(descriptor: { label: string; moduleId: string; createWorker?: () => Worker }): Worker | Promise<Worker> {
 	const label = descriptor.label;
 	// Option for hosts to overwrite the worker script (used in the standalone editor)
 	interface IMonacoEnvironment {
@@ -73,6 +73,10 @@ function getWorker(descriptor: { label: string; moduleId: string }): Worker | Pr
 		}
 	}
 
+	if (descriptor.createWorker) {
+		return descriptor.createWorker();
+	}
+
 	// const esmWorkerLocation = descriptor.esmModuleLocation;
 	// if (esmWorkerLocation) {
 	// 	const workerUrl = getWorkerBootstrapUrl(label, esmWorkerLocation.toString(true));
@@ -91,7 +95,8 @@ export function createWebWorker<T extends object>(
 	const worker = Promise.resolve(
 		getWorker({
 			label: opts.label ?? 'monaco-editor-worker',
-			moduleId: opts.moduleId
+			moduleId: opts.moduleId,
+			createWorker: opts.createWorker,
 		})
 	).then((w) => {
 		w.postMessage('ignore');
@@ -111,6 +116,7 @@ export interface IWebWorkerOptions {
 	 * It should export a function `create` that should return the exported proxy.
 	 */
 	moduleId: string;
+	createWorker?: () => Worker,
 	/**
 	 * The data to send over when calling create on the module.
 	 */
