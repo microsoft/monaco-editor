@@ -1,25 +1,25 @@
-import { VFC, useRef, useState, useEffect } from 'react';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import styles from './Editor.module.css';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
+import { useEffect, useRef } from 'react'
 
-export const Editor: VFC = () => {
-	const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
-	const monacoEl = useRef(null);
+import styles from './Editor.module.css'
 
-	useEffect(() => {
-		if (monacoEl) {
-			setEditor((editor) => {
-				if (editor) return editor;
+export function Editor() {
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-				return monaco.editor.create(monacoEl.current!, {
-					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-					language: 'typescript'
-				});
-			});
-		}
+  useEffect(() => {
+    if (!containerRef.current) return
 
-		return () => editor?.dispose();
-	}, [monacoEl.current]);
+    editorRef.current = monaco.editor.create(
+      containerRef.current,
+      {
+        value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+        language: 'typescript',
+      },
+    )
 
-	return <div className={styles.Editor} ref={monacoEl}></div>;
-};
+    return editorRef.current.dispose.bind(editorRef.current)
+  }, [])
+
+  return <div ref={containerRef} className={styles.Editor} />
+}
