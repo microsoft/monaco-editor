@@ -40,7 +40,7 @@
 		"@types/webpack": "^4.41.10",
 		"clean-webpack-plugin": "^3.0.0",
 		"copy-webpack-plugin": "^11.0.0",
-		"css-loader": "^3.5.1",
+		"css-loader": "^7.1.2",
 		"file-loader": "^6.0.0",
 		"glob": "^9.2.1",
 		"html-webpack-plugin": "^5.5.0",
