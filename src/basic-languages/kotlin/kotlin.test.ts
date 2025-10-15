@@ -279,6 +279,13 @@ testTokenization('kotlin', [
 
 	[
 		{
+			line: '.123',
+			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+		}
+	],
+
+	[
+		{
 			line: '0x',
 			tokens: [
 				{ startIndex: 0, type: 'number.kt' },
@@ -303,22 +310,60 @@ testTokenization('kotlin', [
 
 	[
 		{
+			line: '0Xff_81_00L',
+			tokens: [{ startIndex: 0, type: 'number.hex.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0x123u',
+			tokens: [{ startIndex: 0, type: 'number.hex.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0x123U',
+			tokens: [{ startIndex: 0, type: 'number.hex.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0x123uL',
+			tokens: [{ startIndex: 0, type: 'number.hex.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0x123UL',
+			tokens: [{ startIndex: 0, type: 'number.hex.kt' }]
+		}
+	],
+
+	[
+		{
 			line: '023L',
-			tokens: [{ startIndex: 0, type: 'number.octal.kt' }]
+			tokens: [{ startIndex: 0, type: 'number.kt' }]
 		}
 	],
 
 	[
 		{
 			line: '0123l',
-			tokens: [{ startIndex: 0, type: 'number.octal.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.kt' },
+				{ startIndex: 4, type: 'identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '05_2',
-			tokens: [{ startIndex: 0, type: 'number.octal.kt' }]
+			tokens: [{ startIndex: 0, type: 'number.kt' }]
 		}
 	],
 
@@ -332,6 +377,41 @@ testTokenization('kotlin', [
 	[
 		{
 			line: '0B001',
+			tokens: [{ startIndex: 0, type: 'number.binary.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0b0101L',
+			tokens: [{ startIndex: 0, type: 'number.binary.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0B0101u',
+			tokens: [{ startIndex: 0, type: 'number.binary.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0B1__0U',
+			tokens: [{ startIndex: 0, type: 'number.binary.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0B0101uL',
+			tokens: [{ startIndex: 0, type: 'number.binary.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '0B1__0UL',
 			tokens: [{ startIndex: 0, type: 'number.binary.kt' }]
 		}
 	],
@@ -401,57 +481,88 @@ testTokenization('kotlin', [
 
 	[
 		{
-			line: '23.5D',
+			line: '.001f',
 			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '23.5D',
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 4, type: 'type.identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '23.5d',
-			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 4, type: 'identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '1.72E3D',
-			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 6, type: 'type.identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '1.72E3d',
-			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 6, type: 'identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '1.72E-3d',
-			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 7, type: 'identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '1.72e3D',
-			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 6, type: 'type.identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '1.72e3d',
-			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 6, type: 'identifier.kt' }
+			]
 		}
 	],
 
 	[
 		{
 			line: '1.72e-3d',
-			tokens: [{ startIndex: 0, type: 'number.float.kt' }]
+			tokens: [
+				{ startIndex: 0, type: 'number.float.kt' },
+				{ startIndex: 7, type: 'identifier.kt' }
+			]
 		}
 	],
 
@@ -465,6 +576,37 @@ testTokenization('kotlin', [
 	[
 		{
 			line: '23l',
+			tokens: [
+				{ startIndex: 0, type: 'number.kt' },
+				{ startIndex: 2, type: 'identifier.kt' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '23u',
+			tokens: [{ startIndex: 0, type: 'number.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '23U',
+			tokens: [{ startIndex: 0, type: 'number.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '23uL',
+			tokens: [{ startIndex: 0, type: 'number.kt' }]
+		}
+	],
+
+	[
+		{
+			line: '23UL',
 			tokens: [{ startIndex: 0, type: 'number.kt' }]
 		}
 	],
@@ -496,8 +638,7 @@ testTokenization('kotlin', [
 			tokens: [
 				{ startIndex: 0, type: 'number.kt' },
 				{ startIndex: 1, type: 'identifier.kt' },
-				{ startIndex: 2, type: 'delimiter.kt' },
-				{ startIndex: 3, type: 'number.float.kt' }
+				{ startIndex: 2, type: 'number.float.kt' }
 			]
 		}
 	],
@@ -567,7 +708,7 @@ testTokenization('kotlin', [
 		{
 			line: '052_',
 			tokens: [
-				{ startIndex: 0, type: 'number.octal.kt' },
+				{ startIndex: 0, type: 'number.kt' },
 				{ startIndex: 3, type: 'identifier.kt' }
 			]
 		}
