@@ -350,7 +350,7 @@ function getMode(): Promise<typeof mode> {
 
 languages.register({
 	id: 'json',
-	extensions: ['.json', '.bowerrc', '.jshintrc', '.jscsrc', '.eslintrc', '.babelrc', '.har'],
+	extensions: ['.json', '.jsonc', '.bowerrc', '.jshintrc', '.jscsrc', '.eslintrc', '.babelrc', '.har'],
 	aliases: ['JSON', 'json'],
 	mimetypes: ['application/json']
 });
