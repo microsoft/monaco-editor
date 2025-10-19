@@ -17,3 +17,4 @@ self.onmessage = () => {
 };
 
 export { TypeScriptWorker, create, initialize, libFileMap, ts };
+export { ModularTypeScriptWorker, createModular } from './tsWorker';

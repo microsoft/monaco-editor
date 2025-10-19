@@ -13,6 +13,7 @@ import {
 	TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
 import { Uri, worker } from 'monaco-editor-core';
+import { ModularTypeScriptWorker, ModuleConfig } from './worker/moduleLoader';
 
 /**
  * Loading a default lib as a source file will mess up TS completely.
@@ -518,6 +519,13 @@ export function create(ctx: worker.IWorkerContext, createData: ICreateData): Typ
 	}
 
 	return new TSWorkerClass(ctx, createData);
+}
+
+/**
+ * Creates a modular TypeScript worker with configurable modules
+ */
+export function createModular(ctx: worker.IWorkerContext, createData: ICreateData, moduleConfig?: ModuleConfig): ModularTypeScriptWorker {
+	return new ModularTypeScriptWorker(ctx, createData, moduleConfig);
 }
 
 /** Allows for clients to have access to the same version of TypeScript that the worker uses */
