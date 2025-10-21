@@ -44,7 +44,7 @@ export const language = <languages.IMonarchLanguage>{
 		{ token: 'delimiter.square', open: '[', close: ']' }
 	],
 
-	keywords: ['true', 'True', 'TRUE', 'false', 'False', 'FALSE', 'null', 'Null', 'Null', '~'],
+	keywords: ['true', 'True', 'TRUE', 'false', 'False', 'FALSE', 'null', 'Null', 'NULL', '~'],
 
 	numberInteger: /(?:0|[+-]?[0-9]+)/,
 	numberFloat: /(?:0|[+-]?[0-9]+)(?:\.[0-9]+)?(?:e[-+][1-9][0-9]*)?/,
