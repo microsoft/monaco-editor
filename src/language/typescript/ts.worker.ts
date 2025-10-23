@@ -6,7 +6,7 @@
 import { initialize } from '../../common/initialize';
 import * as ts from './lib/typescriptServices';
 import { ICreateData, TypeScriptWorker, create } from './tsWorker';
-import { worker } from '../../fillers/monaco-editor-core';
+import { worker } from 'monaco-editor-core';
 import { libFileMap } from './lib/lib';
 
 self.onmessage = () => {

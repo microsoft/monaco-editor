@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { initialize, isWorkerInitialized } from '../common/initialize';
+import { initialize, isWorkerInitialized } from '../common/initialize.js';
 import * as worker from 'monaco-editor-core/esm/vs/editor/editor.worker.start';
 
 // This is to preserve previous behavior.

@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './cssMode';
-import { languages, Emitter, IEvent } from '../../fillers/monaco-editor-core';
+import { languages, Emitter, IEvent } from 'monaco-editor-core';
 
 export interface CSSFormatConfiguration {
 	/** separate selectors with newline (e.g. "a,\nbr" or "a, br"): Default: true */
@@ -253,22 +253,10 @@ export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaults
 	modeConfigurationDefault
 );
 
-// export to the global based API
-(<any>languages).css = { cssDefaults, lessDefaults, scssDefaults };
-
 // --- Registration to monaco editor ---
 
-declare var AMD: any;
-declare var require: any;
-
 function getMode(): Promise<typeof mode> {
-	if (AMD) {
-		return new Promise((resolve, reject) => {
-			require(['vs/language/css/cssMode'], resolve, reject);
-		});
-	} else {
-		return import('./cssMode');
-	}
+	return import('./cssMode');
 }
 
 languages.onLanguage('less', () => {

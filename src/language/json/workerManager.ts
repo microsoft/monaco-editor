@@ -5,7 +5,7 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { JSONWorker } from './jsonWorker';
-import { IDisposable, Uri, editor } from '../../fillers/monaco-editor-core';
+import { IDisposable, Uri, editor } from 'monaco-editor-core';
 import { createWebWorker } from '../../common/workers';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
@@ -59,6 +59,7 @@ export class WorkerManager {
 			this._worker = createWebWorker<JSONWorker>({
 				// module that exports the create() method and returns a `JSONWorker` instance
 				moduleId: 'vs/language/json/jsonWorker',
+				createWorker: () => new Worker(new URL('./json.worker', import.meta.url), { type: 'module' }),
 
 				label: this._defaults.languageId,
 

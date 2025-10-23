@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './jsonMode';
-import { Emitter, IEvent, languages, Uri } from '../../fillers/monaco-editor-core';
+import { Emitter, IEvent, languages, Uri } from 'monaco-editor-core';
 
 // ---- JSON service types ----
 export interface BaseASTNode {
@@ -87,10 +87,10 @@ export interface JSONSchema {
 	minProperties?: number;
 	maxProperties?: number;
 	dependencies?:
-		| JSONSchemaMap
-		| {
-				[prop: string]: string[];
-		  };
+	| JSONSchemaMap
+	| {
+		[prop: string]: string[];
+	};
 	items?: JSONSchemaRef | JSONSchemaRef[];
 	minItems?: number;
 	maxItems?: number;
@@ -342,22 +342,10 @@ export interface IJSONWorker {
 export const getWorker = (): Promise<(...uris: Uri[]) => Promise<IJSONWorker>> =>
 	getMode().then((mode) => mode.getWorker());
 
-// export to the global based API
-(<any>languages).json = { jsonDefaults, getWorker };
-
 // --- Registration to monaco editor ---
 
-declare var AMD: any;
-declare var require: any;
-
 function getMode(): Promise<typeof mode> {
-	if (AMD) {
-		return new Promise((resolve, reject) => {
-			require(['vs/language/json/jsonMode'], resolve, reject);
-		});
-	} else {
-		return import('./jsonMode');
-	}
+	return import('./jsonMode');
 }
 
 languages.register({

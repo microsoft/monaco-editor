@@ -44,15 +44,15 @@ jobs:
 
       - name: Install website node modules
         working-directory: website
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Install most recent version of monaco-editor
         working-directory: website
-        run: yarn add monaco-editor
+        run: npm install monaco-editor
 
       - name: Build website
         working-directory: website
-        run: yarn run build
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

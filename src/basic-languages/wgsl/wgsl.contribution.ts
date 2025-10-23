@@ -5,20 +5,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-declare var AMD: any;
-declare var require: any;
-
 registerLanguage({
 	id: 'wgsl',
 	extensions: ['.wgsl'],
 	aliases: ['WebGPU Shading Language', 'WGSL', 'wgsl'],
-	loader: () => {
-		if (AMD) {
-			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/wgsl/wgsl'], resolve, reject);
-			});
-		} else {
-			return import('./wgsl');
-		}
-	}
+	loader: () => import('./wgsl')
 });

@@ -5,7 +5,7 @@
 
 import { LanguageServiceDefaults } from './monaco.contribution';
 import type { TypeScriptWorker } from './tsWorker';
-import { editor, Uri, IDisposable } from '../../fillers/monaco-editor-core';
+import { editor, Uri, IDisposable } from 'monaco-editor-core';
 import { createWebWorker } from '../../common/workers';
 
 export class WorkerManager {
@@ -62,6 +62,7 @@ export class WorkerManager {
 				this._worker = createWebWorker<TypeScriptWorker>({
 					// module that exports the create() method and returns a `TypeScriptWorker` instance
 					moduleId: 'vs/language/typescript/tsWorker',
+					createWorker: () => new Worker(new URL('./ts.worker', import.meta.url), { type: 'module' }),
 
 					label: this._modeId,
 

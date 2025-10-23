@@ -9,6 +9,30 @@ import {
 } from "../../../shared";
 import { Button } from "react-bootstrap";
 
+const jsSrc = `
+try {
+	const baseUrl = ${JSON.stringify(document.baseURI.toString())};
+	const base = document.createElement('base');
+	base.href = baseUrl;
+	document.head.appendChild(base);
+
+	const scriptRuntime = document.createElement('script');
+	scriptRuntime.src = './runtime.js';
+	document.head.appendChild(scriptRuntime);
+
+	const script = document.createElement('script');
+	script.src = './playgroundRunner.js';
+	document.head.appendChild(script);
+
+	const link = document.createElement('link');
+	link.href = './playgroundRunner.css';
+	link.rel = 'stylesheet';
+	document.head.appendChild(link);
+} catch (e) {
+ 	console.error(e);
+}
+`;
+
 @observer
 export class Preview extends React.Component<{
 	model: PlaygroundModel;
@@ -54,7 +78,9 @@ export class Preview extends React.Component<{
 					sandbox="allow-scripts allow-modals"
 					frameBorder={0}
 					ref={this.handleIframe}
-					src="./playgroundRunner.html"
+					src={`https://isolated-playground.github.io/?jsSrcBase64=${btoa(
+						jsSrc
+					)}`}
 				/>
 			</div>
 		);

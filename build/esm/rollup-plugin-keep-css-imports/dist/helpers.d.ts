@@ -1,0 +1,52 @@
+import { EmitFile } from "rollup";
+import { StylesMap } from "./types";
+export declare const escapeRegex: (val: any) => any;
+export declare const assertDuplicates: (stylesToEmit: StylesMap) => void;
+export declare const assertLocation: (outDir: any, assetPath: any) => void;
+export declare const ensureSourceMap: ({ css, map }: {
+    css?: string | Uint8Array;
+    map?: string | Uint8Array;
+}, includeSourceMap: boolean | "inline" | undefined, fileName: string, onEmit: EmitFile) => string | Uint8Array;
+export declare const formatProcessedToCSS: (input: string | {
+    css: string;
+    map?: string | object;
+}, sourceMap: boolean) => {
+    css: string;
+    map: string;
+};
+export declare const requireSass: () => Promise<{
+    default: typeof import("sass");
+    AsyncCompiler: typeof import("sass").AsyncCompiler;
+    Compiler: typeof import("sass").Compiler;
+    compile: typeof import("sass").compile;
+    compileAsync: typeof import("sass").compileAsync;
+    compileString: typeof import("sass").compileString;
+    compileStringAsync: typeof import("sass").compileStringAsync;
+    initCompiler: typeof import("sass").initCompiler;
+    initAsyncCompiler: typeof import("sass").initAsyncCompiler;
+    Exception: typeof import("sass").Exception;
+    Logger: typeof import("sass").Logger;
+    CalculationInterpolation: typeof import("sass").CalculationInterpolation;
+    CalculationOperation: typeof import("sass").CalculationOperation;
+    SassArgumentList: typeof import("sass").SassArgumentList;
+    SassBoolean: typeof import("sass").SassBoolean;
+    SassCalculation: typeof import("sass").SassCalculation;
+    SassColor: typeof import("sass").SassColor;
+    SassFunction: typeof import("sass").SassFunction;
+    SassList: typeof import("sass").SassList;
+    SassMap: typeof import("sass").SassMap;
+    SassMixin: typeof import("sass").SassMixin;
+    SassNumber: typeof import("sass").SassNumber;
+    SassString: typeof import("sass").SassString;
+    Value: typeof import("sass").Value;
+    sassFalse: import("sass").SassBoolean;
+    sassNull: import("sass").Value;
+    sassTrue: import("sass").SassBoolean;
+    FALSE: import("sass").types.Boolean<false>;
+    NULL: import("sass").types.Null;
+    TRUE: import("sass").types.Boolean<true>;
+    types: typeof import("sass").types;
+    render: typeof import("sass").render;
+    renderSync: typeof import("sass").renderSync;
+    info: string;
+}>;

@@ -5,20 +5,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-declare var AMD: any;
-declare var require: any;
-
 registerLanguage({
 	id: 'aes',
 	extensions: ['.aes'],
 	aliases: ['aes', 'sophia', 'Sophia'],
-	loader: () => {
-		if (AMD) {
-			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/sophia/sophia'], resolve, reject);
-			});
-		} else {
-			return import('./sophia');
-		}
-	}
+	loader: () => import('./sophia')
 });

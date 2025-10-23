@@ -5,7 +5,7 @@
  *  Based on the ATS/Postiats lexer by Hongwei Xi.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from '../../fillers/monaco-editor-core';
+import type { languages } from 'monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {

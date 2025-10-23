@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as json from 'jsonc-parser';
-import { languages } from '../../fillers/monaco-editor-core';
+import { languages } from 'monaco-editor-core';
 
 export function createTokenizationSupport(supportComments: boolean): languages.TokensProvider {
 	return {

@@ -5,20 +5,9 @@
 
 import { registerLanguage } from '../_.contribution';
 
-declare var AMD: any;
-declare var require: any;
-
 registerLanguage({
 	id: 'ecl',
 	extensions: ['.ecl'],
 	aliases: ['ECL', 'Ecl', 'ecl'],
-	loader: () => {
-		if (AMD) {
-			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/ecl/ecl'], resolve, reject);
-			});
-		} else {
-			return import('./ecl');
-		}
-	}
+	loader: () => import('./ecl')
 });

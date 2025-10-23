@@ -5,7 +5,7 @@
 
 import type * as mode from './tsMode';
 import { typescriptVersion as tsversion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
-import { languages, Emitter, IEvent, IDisposable, Uri } from '../../fillers/monaco-editor-core';
+import { languages, Emitter, IEvent, IDisposable, Uri } from 'monaco-editor-core';
 
 //#region enums copied from typescript to prevent loading the entire typescriptServices ---
 
@@ -618,7 +618,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		if (this._extraLibs[filePath] && this._extraLibs[filePath].content === content) {
 			// no-op, there already exists an extra lib with this content
 			return {
-				dispose: () => {}
+				dispose: () => { }
 			};
 		}
 
@@ -718,7 +718,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		this._onDidChange.fire(undefined);
 	}
 
-	setMaximumWorkerIdleTime(value: number): void {}
+	setMaximumWorkerIdleTime(value: number): void { }
 
 	setEagerModelSync(value: boolean) {
 		// doesn't fire an event since no
@@ -778,33 +778,10 @@ export const getJavaScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeS
 	return getMode().then((mode) => mode.getJavaScriptWorker());
 };
 
-// export to the global based API
-(<any>languages).typescript = {
-	ModuleKind,
-	JsxEmit,
-	NewLineKind,
-	ScriptTarget,
-	ModuleResolutionKind,
-	typescriptVersion,
-	typescriptDefaults,
-	javascriptDefaults,
-	getTypeScriptWorker,
-	getJavaScriptWorker
-};
-
 // --- Registration to monaco editor ---
 
-declare var AMD: any;
-declare var require: any;
-
 function getMode(): Promise<typeof mode> {
-	if (AMD) {
-		return new Promise((resolve, reject) => {
-			require(['vs/language/typescript/tsMode'], resolve, reject);
-		});
-	} else {
-		return import('./tsMode');
-	}
+	return import('./tsMode');
 }
 
 languages.onLanguage('typescript', () => {

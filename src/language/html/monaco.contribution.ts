@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as mode from './htmlMode';
-import { languages, Emitter, IEvent, IDisposable } from '../../fillers/monaco-editor-core';
+import { languages, Emitter, IEvent, IDisposable } from 'monaco-editor-core';
 
 export interface HTMLFormatConfiguration {
 	readonly tabSize: number;
@@ -215,30 +215,10 @@ export const razorLanguageService = registerHTMLLanguageService(
 );
 export const razorDefaults = razorLanguageService.defaults;
 
-// export to the global based API
-(<any>languages).html = {
-	htmlDefaults,
-	razorDefaults,
-	handlebarDefaults,
-	htmlLanguageService,
-	handlebarLanguageService,
-	razorLanguageService,
-	registerHTMLLanguageService
-};
-
 // --- Registration to monaco editor ---
 
-declare var AMD: any;
-declare var require: any;
-
 function getMode(): Promise<typeof mode> {
-	if (AMD) {
-		return new Promise((resolve, reject) => {
-			require(['vs/language/html/htmlMode'], resolve, reject);
-		});
-	} else {
-		return import('./htmlMode');
-	}
+	return import('./htmlMode');
 }
 
 export interface LanguageServiceRegistration extends IDisposable {
