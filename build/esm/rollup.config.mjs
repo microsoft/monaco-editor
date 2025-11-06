@@ -15,6 +15,8 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import { urlToEsmPlugin } from './rollup-url-to-module-plugin/index.mjs';
 import { copyFileSync, mkdirSync } from 'fs';
 import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { readdirSync } from 'fs';
 
 const root = join(import.meta.dirname, '../../');
 const outDir = join(root, './out/monaco-editor/esm');
@@ -40,6 +42,19 @@ const mappedPaths = {
 	[join(root, 'src/')]: 'vs/',
 };
 
+function getNlsEntryPoints() {
+	// Scan for nls.messages.*.js files dynamically
+	const nlsDir = dirname(fileURLToPath(import.meta.resolve('monaco-editor-core/esm/nls.messages.en.js')));
+	const nlsFiles = readdirSync(nlsDir)
+		.filter(file => file.startsWith('nls.messages.') && file.endsWith('.js'))
+		.reduce((acc, file) => {
+			// @ts-ignore
+			acc[file] = join(nlsDir, file);
+			return acc;
+		}, {});
+	return nlsFiles;
+}
+
 export default defineConfig({
 	input: {
 		entry: join(root, './src/editor/editor.main.ts'),
@@ -47,6 +62,7 @@ export default defineConfig({
 		edcoreMain: join(root, './src/editor/edcore.main.ts'),
 		editorApi: join(root, './src/editor/editor.api.ts'),
 		editorWorker: join(root, './src/editor/editor.worker.ts'),
+		...getNlsEntryPoints(),
 	},
 
 	output: {
