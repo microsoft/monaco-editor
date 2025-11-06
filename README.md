@@ -28,6 +28,15 @@ You will get:
 
 :warning: The monaco editor also ships an `AMD` build for backwards-compatibility reasons, but the `AMD` support is deprecated and will be removed in future versions.
 
+## Localization
+
+To load the editor in a specific language, make sure that the corresponding nls script file is loaded before the main monaco editor script. For example, to load the editor in German, include the following script tag:
+```html
+<script src="path/to/monaco-editor/esm/nls.messages.de.js"></script>
+```
+
+Check the sources for available languages.
+
 ## Concepts
 
 Monaco editor is best known for being the text editor that powers VS Code. However, it's a bit more nuanced. Some basic understanding about the underlying concepts is needed to use Monaco editor effectively.
