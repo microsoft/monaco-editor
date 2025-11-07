@@ -8,11 +8,11 @@ import fs = require('fs');
 import { REPO_ROOT, readFiles, writeFiles } from '../build/utils';
 import { generateEsmMetadataJsAndDTs } from './releaseMetadata';
 import { buildESM } from './esm/build.script';
-import { removeDir } from './fs';
 import { buildAmdMinDev } from './amd/build.script';
+import { rm } from 'fs/promises';
 
 async function run() {
-	removeDir(`out/monaco-editor`);
+	await rm(path.join(REPO_ROOT, './out/monaco-editor'), { recursive: true, force: true });
 
 	await buildESM();
 	await buildAmdMinDev();

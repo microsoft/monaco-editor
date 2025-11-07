@@ -1,23 +1,13 @@
 import { readFileSync } from 'node:fs';
-import { glob } from 'node:fs/promises';
-import { basename, dirname, join, resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { urlToEsmPlugin } from './plugin';
+import { getNlsEntryPoints } from '../shared.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(async (args) => {
-	const monacoEditorCoreDir = join(
-		dirname(require.resolve('monaco-editor-core/package.json')),
-		'esm'
-	);
-	const nlsEntries = {};
-	for await (const path of glob(`${monacoEditorCoreDir}/nls.messages.*.js`)) {
-		const entryName = basename(path).replace('.js', '');
-		nlsEntries[entryName] = path;
-	}
-
 	/** @type {import('vite').UserConfig} */
 	return {
 		base: './',
@@ -28,7 +18,7 @@ export default defineConfig(async (args) => {
 			lib: {
 				cssFileName: 'editor/editor.main',
 				entry: {
-					...nlsEntries,
+					...getNlsEntryPoints(),
 					'nls.messages-loader': resolve(__dirname, 'src/nls.messages-loader.js'),
 					'editor/editor.main': resolve(__dirname, 'src/editor.main.ts'),
 					'basic-languages/monaco.contribution': resolve(
