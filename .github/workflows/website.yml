@@ -40,6 +40,10 @@ jobs:
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci
 
+      # For TypeDoc
+      - name: Build
+        run: npm run build
+
       - name: Install website node modules
         working-directory: website
         run: npm ci

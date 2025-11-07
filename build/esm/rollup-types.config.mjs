@@ -16,6 +16,7 @@ const root = join(import.meta.dirname, '../../');
 export default defineConfig({
 	input: {
 		entry: join(root, './src/editor/editor.main.ts'),
+		editorApi: join(root, './src/editor/editor.api.ts'),
 	},
 	output: {
 		dir: join(root, './out/monaco-editor/esm'),
@@ -41,6 +42,6 @@ export default defineConfig({
 			},
 			includeExternal: ['monaco-editor-core', '@vscode/monaco-lsp-client']
 		}),
-		dtsDeprecationWarning(),
+		dtsDeprecationWarning(f => f.endsWith('editor.api.d.ts')),
 	],
 });

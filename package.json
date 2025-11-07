@@ -33,7 +33,7 @@
 		"build-monaco-editor": "ts-node ./build/build-monaco-editor",
 		"build-lsp": "cd monaco-lsp-client && npm install && npm run build"
 	},
-	"typings": "./esm/vs/editor/editor.api.d.ts",
+	"typings": "./esm/vs/editor/editor.main.d.ts",
 	"main": "./min/vs/editor/editor.main.js",
 	"module": "./esm/vs/editor/editor.main.js",
 	"exports": {
