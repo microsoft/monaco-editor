@@ -39,8 +39,6 @@ jobs:
       - name: execute `npm ci` (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci
-      - name: Build
-        run: npm run build-monaco-editor
 
       - name: Install website node modules
         working-directory: website
