@@ -83,14 +83,18 @@ jobs:
       - name: Run smoke test
         run: npm run smoketest
 
-      # - name: Install website node modules
-      #   working-directory: website
-      #   run: yarn install --frozen-lockfile
+      - name: Install website node modules
+        working-directory: website
+        run: npm ci
 
-      # - name: Build website
-      #   working-directory: website
-      #   run: yarn run build
+      - name: Install most recent version of monaco-editor
+        working-directory: website
+        run: npm install monaco-editor
 
-      # - name: Test website
-      #   working-directory: website
-      #   run: yarn test
+      - name: Build website
+        working-directory: website
+        run: npm run build
+
+      - name: Test website
+        working-directory: website
+        run: npm run test
