@@ -28,3 +28,40 @@ export function ensureDir(dirname: string) {
 		}
 	});
 }
+
+/**
+ * Remove a directory and all its contents.
+ */
+export function removeDir(_dirPath: string, keep?: (filename: string) => boolean) {
+	if (typeof keep === 'undefined') {
+		keep = () => false;
+	}
+	const dirPath = path.join(REPO_ROOT, _dirPath);
+	if (!fs.existsSync(dirPath)) {
+		return;
+	}
+	rmDir(dirPath, _dirPath);
+	console.log(`Deleted ${_dirPath}`);
+
+	function rmDir(dirPath: string, relativeDirPath: string): boolean {
+		let keepsFiles = false;
+		const entries = fs.readdirSync(dirPath);
+		for (const entry of entries) {
+			const filePath = path.join(dirPath, entry);
+			const relativeFilePath = path.join(relativeDirPath, entry);
+			if (keep!(relativeFilePath)) {
+				keepsFiles = true;
+				continue;
+			}
+			if (fs.statSync(filePath).isFile()) {
+				fs.unlinkSync(filePath);
+			} else {
+				keepsFiles = rmDir(filePath, relativeFilePath) || keepsFiles;
+			}
+		}
+		if (!keepsFiles) {
+			fs.rmdirSync(dirPath);
+		}
+		return keepsFiles;
+	}
+}
