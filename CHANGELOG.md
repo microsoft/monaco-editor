@@ -1,5 +1,13 @@
 # Monaco Editor Changelog
 
+## [0.55.0] (unreleased)
+
+### Breaking Changes
+- Moves nested namespaces (`languages.css`, `languages.html`, `languages.json`, `languages.typescript`) to top level namespaces (`css`, `html`, `json`, `typescript`) to simplify the build process.
+
+### New Features
+- Adds native LSP support (see new `lsp` namespace).
+
 ## [0.54.0]
 
 - Adds option `editor.mouseMiddleClickAction`
