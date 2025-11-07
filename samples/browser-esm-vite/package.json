@@ -9,6 +9,6 @@
 	"devDependencies": {
 		"monaco-editor": "^0.54.0",
 		"typescript": "^5.9.3",
-		"vite": "^7.1.9"
+		"vite": "^7.1.11"
 	}
 }
