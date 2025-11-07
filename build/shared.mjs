@@ -58,12 +58,18 @@ export function mapModuleId(moduleId, newExt) {
 	return undefined;
 }
 
-/** @return {import('rollup').Plugin} */
-export function dtsDeprecationWarning() {
+/**
+ * @param {(moduleId: string) => boolean} [filter]
+ * @return {import('rollup').Plugin}
+ */
+export function dtsDeprecationWarning(filter) {
 	return {
 		name: 'add-dts-deprecation-warning',
 		generateBundle(options, bundle) {
 			for (const fileName in bundle) {
+				if (filter && !filter(fileName)) {
+					continue;
+				}
 				const file = bundle[fileName];
 				if (file.type === 'chunk' && fileName.endsWith('.d.ts')) {
 					let content = file.code.toString();
