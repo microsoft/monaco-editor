@@ -5,7 +5,7 @@ var modelUri = monaco.Uri.parse("a://b/foo.json"); // a made up unique URI for o
 var model = monaco.editor.createModel(jsonCode, "json", modelUri);
 
 // configure the JSON language support with schemas and schema associations
-monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+monaco.json.jsonDefaults.setDiagnosticsOptions({
 	validate: true,
 	schemas: [
 		{
