@@ -1,8 +1,10 @@
 {
 	"compilerOptions": {
 		"module": "CommonJS",
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true
 	},
-	"include": ["../../out/monaco-editor/esm/vs/editor/editor.api.d.ts"],
+	"include": ["../../out/monaco-editor/esm/vs/editor/editor.main.d.ts"],
 	"exclude": ["theme"]
 }
