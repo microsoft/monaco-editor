@@ -88,7 +88,7 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: npx playwright install --with-deps
+          - script: npx playwright install-deps
             displayName: Install Playwright Dependencies
 
           - script: yarn ts-node ./scripts/ci/build-monaco-editor-pkg nightly

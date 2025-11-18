@@ -38,7 +38,7 @@ jobs:
           npm ci
 
       - name: Download Playwright
-        run: npx playwright install --with-deps
+        run: npx playwright install-deps
 
       - name: execute `npm ci` (2)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
