@@ -56,6 +56,9 @@ extends:
               versionSource: fromFile
               versionFilePath: .nvmrc
 
+          - script: npx playwright install --with-deps
+            displayName: Install Playwright Dependencies
+
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
 
