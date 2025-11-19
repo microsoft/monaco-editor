@@ -1,12 +1,15 @@
 # Monaco Editor Changelog
 
-## [0.55.0] (unreleased)
+## [0.55.0]
 
 ### Breaking Changes
-- Moves nested namespaces (`languages.css`, `languages.html`, `languages.json`, `languages.typescript`) to top level namespaces (`css`, `html`, `json`, `typescript`) to simplify the build process.
+- Moves nested namespaces (`languages.css`, `languages.html`, `languages.json`, `languages.typescript`) to top level namespaces (`css`, `html`, `json`, `typescript`) to simplify the build process and align with typescript recommendations.
 
 ### New Features
 - Adds native LSP support (see new `lsp` namespace).
+
+### Bug Fixes
+- Updates dompurify to 3.2.7
 
 ## [0.54.0]
 
