@@ -67,7 +67,7 @@ type CompilerOptionsValue =
 	| null
 	| undefined;
 
-interface CompilerOptions {
+export interface CompilerOptions {
 	allowJs?: boolean;
 	allowSyntheticDefaultImports?: boolean;
 	allowUmdGlobalAccess?: boolean;
