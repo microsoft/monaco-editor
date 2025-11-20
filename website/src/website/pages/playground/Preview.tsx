@@ -75,7 +75,7 @@ export class Preview extends React.Component<{
 				<iframe
 					className="full-iframe"
 					key={this.counter}
-					sandbox="allow-scripts allow-modals"
+					// sandbox="allow-scripts allow-modals"
 					frameBorder={0}
 					ref={this.handleIframe}
 					src={`https://isolated-playground.github.io/?jsSrcBase64=${btoa(
