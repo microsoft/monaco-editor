@@ -38,7 +38,7 @@
 	"module": "./esm/vs/editor/editor.main.js",
 	"exports": {
 		".": {
-			"types": "./esm/vs/editor/editor.api.d.ts",
+			"types": "./esm/vs/editor/editor.main.d.ts",
 			"import": "./esm/vs/editor/editor.main.js",
 			"require": "./min/vs/editor/editor.main.js"
 		},
