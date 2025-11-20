@@ -50,6 +50,9 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
+          - script: npx playwright install --with-deps
+            displayName: Install Playwright Dependencies
+
           - script: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg stable
             displayName: Setup, Build & Test monaco-editor-core
 
