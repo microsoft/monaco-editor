@@ -301,6 +301,21 @@ testTokenization('xml', [
 		}
 	],
 
+	// End Tag with Newline Before Closing Bracket
+	[
+		{
+			line: '</test',
+			tokens: [
+				{ startIndex: 0, type: 'delimiter.xml' },
+				{ startIndex: 2, type: 'tag.xml' }
+			]
+		},
+		{
+			line: '>',
+			tokens: [{ startIndex: 0, type: 'delimiter.xml' }]
+		}
+	],
+
 	// Comments
 	[
 		{
