@@ -12,3 +12,4 @@ monacoApi.languages.css = monaco.css;
 monacoApi.languages.html = monaco.html;
 monacoApi.languages.typescript = monaco.typescript;
 monacoApi.languages.json = monaco.json;
+monacoApi.languages.jsonInterpolation = monaco.jsonInterpolation;

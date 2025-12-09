@@ -37,6 +37,10 @@ export default defineConfig(async (args) => {
 						__dirname,
 						'../../src/language/json/monaco.contribution.ts'
 					),
+					'language/json-interpolation/monaco.contribution': resolve(
+						__dirname,
+						'../../src/language/json-interpolation/monaco.contribution.ts'
+					),
 					'language/typescript/monaco.contribution': resolve(
 						__dirname,
 						'../../src/language/typescript/monaco.contribution.ts'
