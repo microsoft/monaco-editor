@@ -174,6 +174,7 @@ async function getJSONWorker(resource: monaco.Uri): Promise<JSONWorker | null> {
 
 type JSWorker = {
 	getCompletionsAtPosition(uri: string, offset: number): Promise<any>;
+	getCompletionEntryDetails(uri: string, offset: number, name: string): Promise<any>;
 	getQuickInfoAtPosition(uri: string, offset: number): Promise<any>;
 	getSignatureHelpItems(uri: string, offset: number): Promise<any>;
 };
@@ -195,82 +196,37 @@ async function getJavaScriptWorker(resource: monaco.Uri): Promise<JSWorker | nul
 	}
 }
 
-// --- Interpolation context helpers ---
+// --- Check if position is inside interpolation using tokenization ---
 
-interface InterpolationContext {
-	/** The full expression inside ${...} */
-	expression: string;
-	/** Offset of ${ in the document */
-	interpolationStart: number;
-	/** Offset within the expression where cursor is */
-	offsetInExpression: number;
-	/** Start line/column of the interpolation */
-	startPosition: { lineNumber: number; column: number };
-}
+function isInsideInterpolation(model: monaco.editor.ITextModel, offset: number): boolean {
+	// Tokenize the content and check if we're in an embedded JS region
+	const source = model.getValue();
+	const tokenLines = monaco.editor.tokenize(source, LANGUAGE_ID);
 
-function getInterpolationContext(
-	model: monaco.editor.ITextModel,
-	position: monaco.Position
-): InterpolationContext | null {
-	const text = model.getValue();
-	const offset = model.getOffsetAt(position);
+	// Flatten tokens and find which one contains our offset
+	let currentOffset = 0;
+	for (let lineIdx = 0; lineIdx < tokenLines.length; lineIdx++) {
+		const lineTokens = tokenLines[lineIdx];
+		const lineContent = model.getLineContent(lineIdx + 1);
 
-	// Find the ${...} that contains the current position
-	const beforeCursor = text.substring(0, offset);
-	const lastStart = beforeCursor.lastIndexOf('${');
+		for (let tokenIdx = 0; tokenIdx < lineTokens.length; tokenIdx++) {
+			const token = lineTokens[tokenIdx];
+			const nextToken = lineTokens[tokenIdx + 1];
+			const tokenStart = currentOffset + token.offset;
+			const tokenEnd = nextToken
+				? currentOffset + nextToken.offset
+				: currentOffset + lineContent.length;
 
-	if (lastStart === -1) {
-		return null;
-	}
-
-	// Check if there's a closing } between ${ and cursor
-	const betweenStartAndCursor = text.substring(lastStart + 2, offset);
-	if (betweenStartAndCursor.includes('}')) {
-		return null;
-	}
-
-	// Find the closing }
-	let depth = 1;
-	let endOffset = offset;
-	for (let i = offset; i < text.length; i++) {
-		if (text[i] === '{') depth++;
-		else if (text[i] === '}') {
-			depth--;
-			if (depth === 0) {
-				endOffset = i;
-				break;
+			if (offset >= tokenStart && offset <= tokenEnd) {
+				// Check if this token is in an embedded JavaScript region
+				// The embedded JS tokens won't have our language's postfix
+				return !token.type.endsWith('.json-interpolation') && token.type !== '';
 			}
 		}
+		currentOffset += lineContent.length + 1; // +1 for newline
 	}
 
-	// Extract the expression (content between ${ and })
-	const expressionStart = lastStart + 2;
-	const expression = text.substring(expressionStart, endOffset);
-	const offsetInExpression = offset - expressionStart;
-
-	const startPos = model.getPositionAt(lastStart);
-
-	return {
-		expression,
-		interpolationStart: lastStart,
-		offsetInExpression,
-		startPosition: {
-			lineNumber: startPos.lineNumber,
-			column: startPos.column
-		}
-	};
-}
-
-// --- Virtual model for JavaScript worker ---
-
-const VIRTUAL_JS_URI = monaco.Uri.parse('file:///interpolation-context.js');
-let virtualJsModel: monaco.editor.ITextModel | null = null;
-
-function getOrCreateVirtualJsModel(): monaco.editor.ITextModel {
-	if (!virtualJsModel || virtualJsModel.isDisposed()) {
-		virtualJsModel = monaco.editor.createModel('', 'javascript', VIRTUAL_JS_URI);
-	}
-	return virtualJsModel;
+	return false;
 }
 
 // --- Providers ---
@@ -285,25 +241,22 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 			position: monaco.Position,
 			context: monaco.languages.CompletionContext
 		): Promise<monaco.languages.CompletionList | null> {
-			// Check if we're inside an interpolation
-			const interpContext = getInterpolationContext(model, position);
+			const offset = model.getOffsetAt(position);
 
-			if (interpContext) {
+			// Check if we're inside an interpolation using tokenization
+			if (isInsideInterpolation(model, offset)) {
 				// Use JavaScript worker for completions inside interpolation
-				const jsWorker = await getJavaScriptWorker(VIRTUAL_JS_URI);
+				// Monaco syncs the model content automatically with nextEmbedded
+				const jsWorker = await getJavaScriptWorker(model.uri);
 				if (!jsWorker) {
 					return null;
 				}
 
 				try {
-					// Update the virtual model with the expression
-					const virtualModel = getOrCreateVirtualJsModel();
-					virtualModel.setValue(interpContext.expression);
-
-					// Get completions from JavaScript worker
+					// Get completions from JavaScript worker directly on the model's URI
 					const info = await jsWorker.getCompletionsAtPosition(
-						VIRTUAL_JS_URI.toString(),
-						interpContext.offsetInExpression
+						model.uri.toString(),
+						offset
 					);
 
 					if (!info || !info.entries) {
@@ -378,25 +331,21 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 			model: monaco.editor.ITextModel,
 			position: monaco.Position
 		): Promise<monaco.languages.Hover | null> {
-			// Check if we're inside an interpolation
-			const interpContext = getInterpolationContext(model, position);
+			const offset = model.getOffsetAt(position);
 
-			if (interpContext) {
+			// Check if we're inside an interpolation using tokenization
+			if (isInsideInterpolation(model, offset)) {
 				// Use JavaScript worker for hover inside interpolation
-				const jsWorker = await getJavaScriptWorker(VIRTUAL_JS_URI);
+				const jsWorker = await getJavaScriptWorker(model.uri);
 				if (!jsWorker) {
 					return null;
 				}
 
 				try {
-					// Update the virtual model with the expression
-					const virtualModel = getOrCreateVirtualJsModel();
-					virtualModel.setValue(interpContext.expression);
-
-					// Get quick info from JavaScript worker
+					// Get quick info from JavaScript worker directly on the model's URI
 					const info = await jsWorker.getQuickInfoAtPosition(
-						VIRTUAL_JS_URI.toString(),
-						interpContext.offsetInExpression
+						model.uri.toString(),
+						offset
 					);
 
 					if (!info) {
@@ -483,23 +432,22 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 			model: monaco.editor.ITextModel,
 			position: monaco.Position
 		): Promise<monaco.languages.SignatureHelpResult | null> {
-			const interpContext = getInterpolationContext(model, position);
-			if (!interpContext) {
+			const offset = model.getOffsetAt(position);
+
+			// Only provide signature help inside interpolations
+			if (!isInsideInterpolation(model, offset)) {
 				return null;
 			}
 
-			const jsWorker = await getJavaScriptWorker(VIRTUAL_JS_URI);
+			const jsWorker = await getJavaScriptWorker(model.uri);
 			if (!jsWorker) {
 				return null;
 			}
 
 			try {
-				const virtualModel = getOrCreateVirtualJsModel();
-				virtualModel.setValue(interpContext.expression);
-
 				const info = await jsWorker.getSignatureHelpItems(
-					VIRTUAL_JS_URI.toString(),
-					interpContext.offsetInExpression
+					model.uri.toString(),
+					offset
 				);
 
 				if (!info || !info.items || info.items.length === 0) {
@@ -837,7 +785,7 @@ function setupDiagnostics(defaults: LanguageServiceDefaultsImpl): void {
 
 	monaco.editor.onDidCreateModel(onModelAdd);
 	monaco.editor.onWillDisposeModel(onModelRemoved);
-	monaco.editor.onDidChangeModelLanguage((event) => {
+	monaco.editor.onDidChangeModelLanguage((event: { model: monaco.editor.ITextModel }) => {
 		onModelRemoved(event.model);
 		onModelAdd(event.model);
 	});
