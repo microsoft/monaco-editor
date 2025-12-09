@@ -126,6 +126,26 @@ export interface ModeConfiguration {
 	 * Defines whether the built-in diagnostic provider is enabled
 	 */
 	readonly diagnostics?: boolean;
+
+	/**
+	 * Defines whether the built-in documentFormattingEdit provider is enabled
+	 */
+	readonly documentFormattingEdits?: boolean;
+
+	/**
+	 * Defines whether the built-in documentRangeFormattingEdit provider is enabled
+	 */
+	readonly documentRangeFormattingEdits?: boolean;
+
+	/**
+	 * Defines whether the built-in selectionRange provider is enabled
+	 */
+	readonly selectionRanges?: boolean;
+
+	/**
+	 * Defines whether the built-in color provider is enabled
+	 */
+	readonly colors?: boolean;
 }
 
 /**
