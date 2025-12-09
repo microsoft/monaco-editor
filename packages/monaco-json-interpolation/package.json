@@ -1,0 +1,43 @@
+{
+  "name": "monaco-json-interpolation",
+  "version": "1.0.0",
+  "description": "Monaco Editor language support for JSON with ${...} variable interpolation",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "monaco",
+    "monaco-editor",
+    "json",
+    "interpolation",
+    "template",
+    "variables"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "monaco-editor": ">=0.30.0"
+  },
+  "devDependencies": {
+    "monaco-editor": "^0.52.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
