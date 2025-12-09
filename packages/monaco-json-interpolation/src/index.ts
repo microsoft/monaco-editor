@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
  *  Monaco JSON Interpolation
  *  Standalone add-on for Monaco Editor providing JSON with ${...} variable interpolation
- *  Integrates with Monaco's built-in JSON language service for full functionality
+ *  Integrates with Monaco's built-in JSON and JavaScript language services
  *--------------------------------------------------------------------------------------------*/
 
 import * as monaco from 'monaco-editor';
@@ -154,7 +154,6 @@ type JSONWorker = {
 };
 
 async function getJSONWorker(resource: monaco.Uri): Promise<JSONWorker | null> {
-	// Access Monaco's built-in JSON language service
 	const json = (monaco.languages as any).json;
 	if (!json || !json.getWorker) {
 		console.warn('monaco-json-interpolation: JSON language service not available');
@@ -171,31 +170,115 @@ async function getJSONWorker(resource: monaco.Uri): Promise<JSONWorker | null> {
 	}
 }
 
-// --- Check if position is inside interpolation ---
+// --- Helper to get JavaScript worker ---
 
-function isInsideInterpolation(model: monaco.editor.ITextModel, position: monaco.Position): boolean {
-	const textUntilPosition = model.getValueInRange({
-		startLineNumber: 1,
-		startColumn: 1,
-		endLineNumber: position.lineNumber,
-		endColumn: position.column
-	});
+type JSWorker = {
+	getCompletionsAtPosition(uri: string, offset: number): Promise<any>;
+	getQuickInfoAtPosition(uri: string, offset: number): Promise<any>;
+	getSignatureHelpItems(uri: string, offset: number): Promise<any>;
+};
 
-	const lastInterpolationStart = textUntilPosition.lastIndexOf('${');
-	if (lastInterpolationStart === -1) {
-		return false;
+async function getJavaScriptWorker(resource: monaco.Uri): Promise<JSWorker | null> {
+	const ts = (monaco.languages as any).typescript;
+	if (!ts || !ts.getJavaScriptWorker) {
+		console.warn('monaco-json-interpolation: JavaScript language service not available');
+		return null;
 	}
 
-	const afterInterpolationStart = textUntilPosition.substring(lastInterpolationStart);
-	return !afterInterpolationStart.includes('}');
+	try {
+		const getWorker = await ts.getJavaScriptWorker();
+		const worker = await getWorker(resource);
+		return worker;
+	} catch (e) {
+		console.warn('monaco-json-interpolation: Failed to get JavaScript worker', e);
+		return null;
+	}
+}
+
+// --- Interpolation context helpers ---
+
+interface InterpolationContext {
+	/** The full expression inside ${...} */
+	expression: string;
+	/** Offset of ${ in the document */
+	interpolationStart: number;
+	/** Offset within the expression where cursor is */
+	offsetInExpression: number;
+	/** Start line/column of the interpolation */
+	startPosition: { lineNumber: number; column: number };
+}
+
+function getInterpolationContext(
+	model: monaco.editor.ITextModel,
+	position: monaco.Position
+): InterpolationContext | null {
+	const text = model.getValue();
+	const offset = model.getOffsetAt(position);
+
+	// Find the ${...} that contains the current position
+	const beforeCursor = text.substring(0, offset);
+	const lastStart = beforeCursor.lastIndexOf('${');
+
+	if (lastStart === -1) {
+		return null;
+	}
+
+	// Check if there's a closing } between ${ and cursor
+	const betweenStartAndCursor = text.substring(lastStart + 2, offset);
+	if (betweenStartAndCursor.includes('}')) {
+		return null;
+	}
+
+	// Find the closing }
+	let depth = 1;
+	let endOffset = offset;
+	for (let i = offset; i < text.length; i++) {
+		if (text[i] === '{') depth++;
+		else if (text[i] === '}') {
+			depth--;
+			if (depth === 0) {
+				endOffset = i;
+				break;
+			}
+		}
+	}
+
+	// Extract the expression (content between ${ and })
+	const expressionStart = lastStart + 2;
+	const expression = text.substring(expressionStart, endOffset);
+	const offsetInExpression = offset - expressionStart;
+
+	const startPos = model.getPositionAt(lastStart);
+
+	return {
+		expression,
+		interpolationStart: lastStart,
+		offsetInExpression,
+		startPosition: {
+			lineNumber: startPos.lineNumber,
+			column: startPos.column
+		}
+	};
+}
+
+// --- Virtual model for JavaScript worker ---
+
+const VIRTUAL_JS_URI = monaco.Uri.parse('file:///interpolation-context.js');
+let virtualJsModel: monaco.editor.ITextModel | null = null;
+
+function getOrCreateVirtualJsModel(): monaco.editor.ITextModel {
+	if (!virtualJsModel || virtualJsModel.isDisposed()) {
+		virtualJsModel = monaco.editor.createModel('', 'javascript', VIRTUAL_JS_URI);
+	}
+	return virtualJsModel;
 }
 
 // --- Providers ---
 
 function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
-	// Completion provider - combines JSON completions with variable completions
+	// Completion provider - combines JSON completions with JS completions for interpolation
 	monaco.languages.registerCompletionItemProvider(LANGUAGE_ID, {
-		triggerCharacters: ['"', ':', ' ', '$', '{'],
+		triggerCharacters: ['"', ':', ' ', '$', '{', '.'],
 
 		async provideCompletionItems(
 			model: monaco.editor.ITextModel,
@@ -203,11 +286,30 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 			context: monaco.languages.CompletionContext
 		): Promise<monaco.languages.CompletionList | null> {
 			// Check if we're inside an interpolation
-			if (isInsideInterpolation(model, position)) {
-				// Provide variable completions
-				const variableContext = defaults.variableContext;
-				if (variableContext) {
-					const variables = await variableContext.getVariables();
+			const interpContext = getInterpolationContext(model, position);
+
+			if (interpContext) {
+				// Use JavaScript worker for completions inside interpolation
+				const jsWorker = await getJavaScriptWorker(VIRTUAL_JS_URI);
+				if (!jsWorker) {
+					return null;
+				}
+
+				try {
+					// Update the virtual model with the expression
+					const virtualModel = getOrCreateVirtualJsModel();
+					virtualModel.setValue(interpContext.expression);
+
+					// Get completions from JavaScript worker
+					const info = await jsWorker.getCompletionsAtPosition(
+						VIRTUAL_JS_URI.toString(),
+						interpContext.offsetInExpression
+					);
+
+					if (!info || !info.entries) {
+						return null;
+					}
+
 					const wordInfo = model.getWordUntilPosition(position);
 					const range = {
 						startLineNumber: position.lineNumber,
@@ -216,18 +318,20 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 						endColumn: wordInfo.endColumn
 					};
 
-					const suggestions: monaco.languages.CompletionItem[] = variables.map((variable) => ({
-						label: variable.name,
-						kind: monaco.languages.CompletionItemKind.Variable,
-						detail: variable.detail || variable.type,
-						documentation: formatDocumentation(variable),
-						insertText: variable.name,
+					const suggestions: monaco.languages.CompletionItem[] = info.entries.map((entry: any) => ({
+						label: entry.name,
+						kind: convertTsCompletionKind(entry.kind),
+						detail: entry.kindModifiers,
+						sortText: entry.sortText,
+						insertText: entry.insertText || entry.name,
 						range: range
 					}));
 
 					return { suggestions };
+				} catch (e) {
+					console.error('JS completion error:', e);
+					return null;
 				}
-				return null;
 			}
 
 			// Get JSON completions from the worker
@@ -246,7 +350,6 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 					return null;
 				}
 
-				// Convert LSP completions to Monaco completions
 				const suggestions: monaco.languages.CompletionItem[] = (info.items || []).map((item: any) => ({
 					label: item.label,
 					kind: convertCompletionItemKind(item.kind),
@@ -269,57 +372,73 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 		}
 	});
 
-	// Hover provider - combines JSON hover with variable hover
+	// Hover provider - combines JSON hover with JS hover for interpolation
 	monaco.languages.registerHoverProvider(LANGUAGE_ID, {
 		async provideHover(
 			model: monaco.editor.ITextModel,
 			position: monaco.Position
 		): Promise<monaco.languages.Hover | null> {
 			// Check if we're inside an interpolation
-			if (isInsideInterpolation(model, position)) {
-				const variableContext = defaults.variableContext;
-				if (variableContext) {
-					const wordInfo = model.getWordAtPosition(position);
-					if (wordInfo) {
-						const variables = await variableContext.getVariables();
-						const variable = variables.find((v) => v.name === wordInfo.word);
+			const interpContext = getInterpolationContext(model, position);
 
-						if (variable) {
-							const contents: monaco.IMarkdownString[] = [];
-
-							if (variable.type) {
-								contents.push({
-									value: `\`\`\`typescript\n(variable) ${variable.name}: ${variable.type}\n\`\`\``
-								});
-							} else {
-								contents.push({
-									value: `\`\`\`typescript\n(variable) ${variable.name}\n\`\`\``
-								});
-							}
-
-							if (variable.description) {
-								contents.push({ value: variable.description });
-							}
-
-							if (variable.value !== undefined) {
-								contents.push({
-									value: `**Current value:**\n\`\`\`json\n${JSON.stringify(variable.value, null, 2)}\n\`\`\``
-								});
-							}
-
-							return {
-								contents,
-								range: {
-									startLineNumber: position.lineNumber,
-									startColumn: wordInfo.startColumn,
-									endLineNumber: position.lineNumber,
-									endColumn: wordInfo.endColumn
-								}
-							};
-						}
-					}
+			if (interpContext) {
+				// Use JavaScript worker for hover inside interpolation
+				const jsWorker = await getJavaScriptWorker(VIRTUAL_JS_URI);
+				if (!jsWorker) {
+					return null;
 				}
-				return null;
+
+				try {
+					// Update the virtual model with the expression
+					const virtualModel = getOrCreateVirtualJsModel();
+					virtualModel.setValue(interpContext.expression);
+
+					// Get quick info from JavaScript worker
+					const info = await jsWorker.getQuickInfoAtPosition(
+						VIRTUAL_JS_URI.toString(),
+						interpContext.offsetInExpression
+					);
+
+					if (!info) {
+						return null;
+					}
+
+					const contents: monaco.IMarkdownString[] = [];
+
+					// Display string (type signature)
+					if (info.displayParts) {
+						const displayText = info.displayParts.map((p: any) => p.text).join('');
+						contents.push({
+							value: '```typescript\n' + displayText + '\n```'
+						});
+					}
+
+					// Documentation
+					if (info.documentation && info.documentation.length > 0) {
+						const docText = info.documentation.map((p: any) => p.text).join('');
+						contents.push({ value: docText });
+					}
+
+					if (contents.length === 0) {
+						return null;
+					}
+
+					// Calculate range in the original document
+					const wordInfo = model.getWordAtPosition(position);
+					const range = wordInfo
+						? {
+								startLineNumber: position.lineNumber,
+								startColumn: wordInfo.startColumn,
+								endLineNumber: position.lineNumber,
+								endColumn: wordInfo.endColumn
+						  }
+						: undefined;
+
+					return { contents, range };
+				} catch (e) {
+					console.error('JS hover error:', e);
+					return null;
+				}
 			}
 
 			// Get JSON hover from the worker
@@ -351,6 +470,69 @@ function registerProviders(defaults: LanguageServiceDefaultsImpl): void {
 				};
 			} catch (e) {
 				console.error('JSON hover error:', e);
+				return null;
+			}
+		}
+	});
+
+	// Signature help provider for function calls inside interpolation
+	monaco.languages.registerSignatureHelpProvider(LANGUAGE_ID, {
+		signatureHelpTriggerCharacters: ['(', ','],
+
+		async provideSignatureHelp(
+			model: monaco.editor.ITextModel,
+			position: monaco.Position
+		): Promise<monaco.languages.SignatureHelpResult | null> {
+			const interpContext = getInterpolationContext(model, position);
+			if (!interpContext) {
+				return null;
+			}
+
+			const jsWorker = await getJavaScriptWorker(VIRTUAL_JS_URI);
+			if (!jsWorker) {
+				return null;
+			}
+
+			try {
+				const virtualModel = getOrCreateVirtualJsModel();
+				virtualModel.setValue(interpContext.expression);
+
+				const info = await jsWorker.getSignatureHelpItems(
+					VIRTUAL_JS_URI.toString(),
+					interpContext.offsetInExpression
+				);
+
+				if (!info || !info.items || info.items.length === 0) {
+					return null;
+				}
+
+				const signatures: monaco.languages.SignatureInformation[] = info.items.map((item: any) => {
+					const params: monaco.languages.ParameterInformation[] = item.parameters.map((p: any) => ({
+						label: p.displayParts.map((d: any) => d.text).join(''),
+						documentation: p.documentation?.map((d: any) => d.text).join('') || undefined
+					}));
+
+					const prefix = item.prefixDisplayParts?.map((p: any) => p.text).join('') || '';
+					const suffix = item.suffixDisplayParts?.map((p: any) => p.text).join('') || '';
+					const separator = item.separatorDisplayParts?.map((p: any) => p.text).join('') || ', ';
+
+					return {
+						label: prefix + params.map((p) => p.label).join(separator) + suffix,
+						documentation: item.documentation?.map((d: any) => d.text).join('') || undefined,
+						parameters: params
+					};
+				});
+
+				return {
+					value: {
+						signatures,
+						activeSignature: info.selectedItemIndex || 0,
+						activeParameter: info.argumentIndex || 0
+					},
+					dispose: () => {}
+				};
+			} catch (e) {
+				console.error('JS signature help error:', e);
 				return null;
 			}
 		}
@@ -721,6 +903,35 @@ function convertCompletionItemKind(kind: number): monaco.languages.CompletionIte
 	return kindMap[kind] || monaco.languages.CompletionItemKind.Property;
 }
 
+function convertTsCompletionKind(kind: string): monaco.languages.CompletionItemKind {
+	const kindMap: { [key: string]: monaco.languages.CompletionItemKind } = {
+		primitive: monaco.languages.CompletionItemKind.Keyword,
+		keyword: monaco.languages.CompletionItemKind.Keyword,
+		var: monaco.languages.CompletionItemKind.Variable,
+		let: monaco.languages.CompletionItemKind.Variable,
+		const: monaco.languages.CompletionItemKind.Constant,
+		localVar: monaco.languages.CompletionItemKind.Variable,
+		function: monaco.languages.CompletionItemKind.Function,
+		localFunction: monaco.languages.CompletionItemKind.Function,
+		method: monaco.languages.CompletionItemKind.Method,
+		getter: monaco.languages.CompletionItemKind.Property,
+		setter: monaco.languages.CompletionItemKind.Property,
+		property: monaco.languages.CompletionItemKind.Property,
+		constructor: monaco.languages.CompletionItemKind.Constructor,
+		class: monaco.languages.CompletionItemKind.Class,
+		interface: monaco.languages.CompletionItemKind.Interface,
+		type: monaco.languages.CompletionItemKind.Interface,
+		enum: monaco.languages.CompletionItemKind.Enum,
+		enumMember: monaco.languages.CompletionItemKind.EnumMember,
+		module: monaco.languages.CompletionItemKind.Module,
+		alias: monaco.languages.CompletionItemKind.Variable,
+		typeParameter: monaco.languages.CompletionItemKind.TypeParameter,
+		parameter: monaco.languages.CompletionItemKind.Variable,
+		string: monaco.languages.CompletionItemKind.Value
+	};
+	return kindMap[kind] || monaco.languages.CompletionItemKind.Property;
+}
+
 function convertSymbolKind(kind: number): monaco.languages.SymbolKind {
 	const kindMap: { [key: number]: monaco.languages.SymbolKind } = {
 		1: monaco.languages.SymbolKind.File,
@@ -763,25 +974,6 @@ function convertSymbol(symbol: any): monaco.languages.DocumentSymbol {
 		children: symbol.children ? symbol.children.map(convertSymbol) : undefined,
 		tags: symbol.tags || []
 	};
-}
-
-function formatDocumentation(
-	variable: VariableDefinition
-): string | monaco.IMarkdownString {
-	let doc = '';
-
-	if (variable.description) {
-		doc += variable.description;
-	}
-
-	if (variable.value !== undefined) {
-		if (doc) {
-			doc += '\n\n';
-		}
-		doc += `**Current value:** \`${JSON.stringify(variable.value)}\``;
-	}
-
-	return doc ? { value: doc } : '';
 }
 
 // --- Convenience export ---
