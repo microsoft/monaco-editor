@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JSON Interpolation - Standalone Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        h2 { margin-bottom: 10px; }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            background: #2d2d2d;
+            border-radius: 4px;
+        }
+        .info h3 { margin: 0 0 10px 0; }
+        .info ul { margin: 5px 0; padding-left: 20px; }
+        #container {
+            width: 800px;
+            height: 400px;
+            border: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+    <h2>JSON with Interpolation - Standalone Test</h2>
+
+    <div class="info">
+        <h3>Features to test:</h3>
+        <ul>
+            <li><strong>Syntax highlighting</strong>: Notice ${...} interpolations have JavaScript highlighting</li>
+            <li><strong>Completions</strong>: Type inside ${} to see JavaScript completions for name, env, config, etc.</li>
+            <li><strong>Hover</strong>: Hover over variables inside ${} for type info</li>
+            <li><strong>Comments</strong>: // and /* */ comments are supported</li>
+            <li><strong>Trailing commas</strong>: Trailing commas are allowed</li>
+        </ul>
+    </div>
+
+    <div id="container"></div>
+
+    <!-- Load Monaco from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs/loader.js"></script>
+    <script>
+        require.config({
+            paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs' }
+        });
+
+        require(['vs/editor/editor.main'], function() {
+            // --- Register json-interpolation language ---
+
+            const LANGUAGE_ID = 'json-interpolation';
+
+            // Register the language
+            monaco.languages.register({
+                id: LANGUAGE_ID,
+                extensions: ['.jsonc', '.json5'],
+                aliases: ['JSON with Interpolation', 'json-interpolation'],
+                mimetypes: ['application/json-interpolation']
+            });
+
+            // Language configuration
+            monaco.languages.setLanguageConfiguration(LANGUAGE_ID, {
+                wordPattern: /(-?\d*\.\d\w*)|([^\[\{\]\}\:\"\,\s]+)/g,
+                comments: {
+                    lineComment: '//',
+                    blockComment: ['/*', '*/']
+                },
+                brackets: [
+                    ['{', '}'],
+                    ['[', ']'],
+                    ['${', '}']
+                ],
+                autoClosingPairs: [
+                    { open: '{', close: '}' },
+                    { open: '[', close: ']' },
+                    { open: '"', close: '"', notIn: ['string'] },
+                    { open: '${', close: '}' }
+                ],
+                surroundingPairs: [
+                    { open: '{', close: '}' },
+                    { open: '[', close: ']' },
+                    { open: '"', close: '"' }
+                ]
+            });
+
+            // Monarch tokenizer with nextEmbedded for JavaScript
+            monaco.languages.setMonarchTokensProvider(LANGUAGE_ID, {
+                defaultToken: '',
+                tokenPostfix: '.json-interpolation',
+                escapes: /\\(?:["\\/bfnrt]|u[0-9A-Fa-f]{4})/,
+
+                tokenizer: {
+                    root: [
+                        [/\s+/, ''],
+                        [/\/\/.*$/, 'comment'],
+                        [/\/\*/, 'comment', '@comment'],
+                        [/[{]/, 'delimiter.bracket', '@object'],
+                        [/\[/, 'delimiter.array', '@array']
+                    ],
+
+                    object: [
+                        [/\s+/, ''],
+                        [/\/\/.*$/, 'comment'],
+                        [/\/\*/, 'comment', '@comment'],
+                        [/"/, 'string.key', '@propertyName'],
+                        [/:/, 'delimiter.colon'],
+                        [/,/, 'delimiter.comma'],
+                        { include: '@value' },
+                        [/\}/, 'delimiter.bracket', '@pop']
+                    ],
+
+                    propertyName: [
+                        [/[^"\\]+/, 'string.key'],
+                        [/@escapes/, 'string.escape'],
+                        [/\\./, 'string.escape.invalid'],
+                        [/"/, 'string.key', '@pop']
+                    ],
+
+                    array: [
+                        [/\s+/, ''],
+                        [/\/\/.*$/, 'comment'],
+                        [/\/\*/, 'comment', '@comment'],
+                        [/,/, 'delimiter.comma'],
+                        { include: '@value' },
+                        [/\]/, 'delimiter.array', '@pop']
+                    ],
+
+                    value: [
+                        [/"/, 'string.value', '@string'],
+                        [/-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/, 'number'],
+                        [/true|false/, 'keyword'],
+                        [/null/, 'keyword'],
+                        [/\{/, 'delimiter.bracket', '@object'],
+                        [/\[/, 'delimiter.array', '@array']
+                    ],
+
+                    string: [
+                        [
+                            /\$\{/,
+                            {
+                                token: 'delimiter.bracket.interpolation',
+                                next: '@interpolation',
+                                nextEmbedded: 'javascript'
+                            }
+                        ],
+                        [/[^"\\$]+/, 'string.value'],
+                        [/@escapes/, 'string.escape'],
+                        [/\\./, 'string.escape.invalid'],
+                        [/\$(?!\{)/, 'string.value'],
+                        [/"/, 'string.value', '@pop']
+                    ],
+
+                    interpolation: [
+                        [
+                            /\}/,
+                            {
+                                token: 'delimiter.bracket.interpolation',
+                                next: '@pop',
+                                nextEmbedded: '@pop'
+                            }
+                        ]
+                    ],
+
+                    comment: [
+                        [/[^/*]+/, 'comment'],
+                        [/\*\//, 'comment', '@pop'],
+                        [/[/*]/, 'comment']
+                    ]
+                }
+            });
+
+            // Set up JavaScript extra libs for variable completions inside ${}
+            monaco.languages.typescript.javascriptDefaults.setExtraLibs([
+                {
+                    content: `
+/** The name to greet */
+declare const name: string;
+/** Current environment */
+declare const env: string;
+/** Application configuration */
+declare const config: { debug: boolean; port: number };
+/** Base API URL */
+declare const API_URL: string;
+/** Application version */
+declare const VERSION: string;
+
+/** Format a date to string */
+declare function formatDate(date: Date): string;
+/** Capitalize a string */
+declare function capitalize(str: string): string;
+`,
+                    filePath: 'file:///globals.d.ts'
+                }
+            ]);
+
+            // --- Helper to check if inside interpolation using tokenization ---
+            function isInsideInterpolation(model, offset) {
+                const source = model.getValue();
+                const tokenLines = monaco.editor.tokenize(source, LANGUAGE_ID);
+
+                let currentOffset = 0;
+                for (let lineIdx = 0; lineIdx < tokenLines.length; lineIdx++) {
+                    const lineTokens = tokenLines[lineIdx];
+                    const lineContent = model.getLineContent(lineIdx + 1);
+
+                    for (let tokenIdx = 0; tokenIdx < lineTokens.length; tokenIdx++) {
+                        const token = lineTokens[tokenIdx];
+                        const nextToken = lineTokens[tokenIdx + 1];
+                        const tokenStart = currentOffset + token.offset;
+                        const tokenEnd = nextToken
+                            ? currentOffset + nextToken.offset
+                            : currentOffset + lineContent.length;
+
+                        if (offset >= tokenStart && offset <= tokenEnd) {
+                            // Check if in embedded JS (token type doesn't end with our language)
+                            return !token.type.endsWith('.json-interpolation') && token.type !== '';
+                        }
+                    }
+                    currentOffset += lineContent.length + 1;
+                }
+                return false;
+            }
+
+            // --- Completion provider for JS inside interpolation ---
+            monaco.languages.registerCompletionItemProvider(LANGUAGE_ID, {
+                triggerCharacters: ['"', ':', ' ', '$', '{', '.'],
+
+                async provideCompletionItems(model, position) {
+                    const offset = model.getOffsetAt(position);
+
+                    if (isInsideInterpolation(model, offset)) {
+                        try {
+                            const getWorker = await monaco.languages.typescript.getJavaScriptWorker();
+                            const worker = await getWorker(model.uri);
+                            const info = await worker.getCompletionsAtPosition(model.uri.toString(), offset);
+
+                            if (!info || !info.entries) return null;
+
+                            const wordInfo = model.getWordUntilPosition(position);
+                            const range = {
+                                startLineNumber: position.lineNumber,
+                                startColumn: wordInfo.startColumn,
+                                endLineNumber: position.lineNumber,
+                                endColumn: wordInfo.endColumn
+                            };
+
+                            const suggestions = info.entries.map(entry => ({
+                                label: entry.name,
+                                kind: monaco.languages.CompletionItemKind.Variable,
+                                detail: entry.kindModifiers,
+                                sortText: entry.sortText,
+                                insertText: entry.insertText || entry.name,
+                                range: range
+                            }));
+
+                            return { suggestions };
+                        } catch (e) {
+                            console.error('JS completion error:', e);
+                        }
+                    }
+                    return null;
+                }
+            });
+
+            // --- Hover provider for JS inside interpolation ---
+            monaco.languages.registerHoverProvider(LANGUAGE_ID, {
+                async provideHover(model, position) {
+                    const offset = model.getOffsetAt(position);
+
+                    if (isInsideInterpolation(model, offset)) {
+                        try {
+                            const getWorker = await monaco.languages.typescript.getJavaScriptWorker();
+                            const worker = await getWorker(model.uri);
+                            const info = await worker.getQuickInfoAtPosition(model.uri.toString(), offset);
+
+                            if (!info) return null;
+
+                            const contents = [];
+                            if (info.displayParts) {
+                                const displayText = info.displayParts.map(p => p.text).join('');
+                                contents.push({ value: '```typescript\n' + displayText + '\n```' });
+                            }
+                            if (info.documentation && info.documentation.length > 0) {
+                                const docText = info.documentation.map(p => p.text).join('');
+                                contents.push({ value: docText });
+                            }
+
+                            if (contents.length === 0) return null;
+
+                            const wordInfo = model.getWordAtPosition(position);
+                            const range = wordInfo ? {
+                                startLineNumber: position.lineNumber,
+                                startColumn: wordInfo.startColumn,
+                                endLineNumber: position.lineNumber,
+                                endColumn: wordInfo.endColumn
+                            } : undefined;
+
+                            return { contents, range };
+                        } catch (e) {
+                            console.error('JS hover error:', e);
+                        }
+                    }
+                    return null;
+                }
+            });
+
+            // --- Sample JSON content with interpolation ---
+            const sampleContent = `{
+  // This is a JSON file with interpolation support
+  "greeting": "Hello, \${name}!",
+  "environment": "\${env}",
+  "apiEndpoint": "\${API_URL}/users",
+  "version": "\${VERSION}",
+
+  /* Multi-line comment support */
+  "settings": {
+    "debug": \${config.debug},
+    "port": \${config.port}
+  },
+
+  // Try typing inside \${} to see JavaScript completions
+  "computed": "\${capitalize(name)}",
+
+  // Trailing commas are allowed
+  "items": [1, 2, 3,],
+}`;
+
+            // Create the editor
+            const editor = monaco.editor.create(document.getElementById('container'), {
+                value: sampleContent,
+                language: LANGUAGE_ID,
+                theme: 'vs-dark',
+                minimap: { enabled: false },
+                automaticLayout: true,
+                fontSize: 14,
+                tabSize: 2
+            });
+
+            console.log('JSON Interpolation editor initialized');
+            console.log('Try:');
+            console.log('  - Hover over ${name} to see variable info');
+            console.log('  - Type inside ${} to get JavaScript completions');
+            console.log('  - Notice syntax highlighting for embedded JS');
+        });
+    </script>
+</body>
+</html>

@@ -105,6 +105,7 @@
 						'vs/language/css/monaco.contribution',
 						'vs/language/html/monaco.contribution',
 						'vs/language/json/monaco.contribution',
+						'vs/language/json-interpolation/monaco.contribution',
 						'vs/language/typescript/monaco.contribution'
 					],
 					callback
