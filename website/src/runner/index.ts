@@ -8,12 +8,12 @@ import { IMessageFromRunner, IMessageToRunner, IPreviewState } from "../shared";
 import "./style.scss";
 
 window.addEventListener("message", (event) => {
-	const isInSandbox = window.origin === "null";
+	/*const isInSandbox = window.origin === "null";
 	if (!isInSandbox) {
 		// To prevent someone from using this html file to run arbitrary code in non-sandboxed context
 		console.error("not in sandbox");
 		return;
-	}
+	}*/
 	const e = event.data as IMessageToRunner | { kind: undefined };
 	if (e.kind === "initialize") {
 		initialize(e.state);

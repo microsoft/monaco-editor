@@ -4,14 +4,14 @@
 // to the system and how the compiler is told to use ES6 (target=2).
 
 // validation settings
-monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+monaco.typescript.javascriptDefaults.setDiagnosticsOptions({
 	noSemanticValidation: true,
 	noSyntaxValidation: false,
 });
 
 // compiler options
-monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-	target: monaco.languages.typescript.ScriptTarget.ES2015,
+monaco.typescript.javascriptDefaults.setCompilerOptions({
+	target: monaco.typescript.ScriptTarget.ES2015,
 	allowNonTsExtensions: true,
 });
 
@@ -25,7 +25,7 @@ var libSource = [
 	"}",
 ].join("\n");
 var libUri = "ts:filename/facts.d.ts";
-monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
+monaco.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
 // When resolving definitions and references, the editor will try to use created models.
 // Creating a model for the library allows "peek definition/references" commands to work with the library.
 monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));

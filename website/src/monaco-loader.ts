@@ -14,13 +14,20 @@ export function getMonaco(): typeof monaco | undefined {
 	return (window as any).monaco;
 }
 
-export interface IMonacoSetup {
+export type IAMDMonacoSetup = {
 	loaderUrl: string;
 	loaderConfigPaths: Record<string, string>;
 	codiconUrl: string;
 	monacoTypesUrl: string | undefined;
 	language?: string;
-}
+};
+
+export type IESMMonacoSetup = {
+	esmUrl: string;
+	monacoTypesUrl: string | undefined;
+};
+
+export type IMonacoSetup = IAMDMonacoSetup | IESMMonacoSetup;
 
 let loading = false;
 let resolve: (value: typeof monaco) => void;
@@ -46,6 +53,10 @@ export async function loadMonaco(
 
 async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 	const global = self as any;
+
+	if ('esmUrl' in setup) {
+		return await import(/* webpackIgnore: true */setup.esmUrl); // CodeQL [SM01507] This is safe because the runner (that allows for dynamic paths) runs in an isolated iframe. The hosting website uses a static path configuration. // CodeQL [SM03712] This is safe because the runner (that allows for dynamic paths) runs in an isolated iframe. The hosting website uses a static path configuration.
+	}
 
 	if (!(global as any).require) {
 		await loadScript(setup.loaderUrl);
@@ -112,7 +123,7 @@ export const prodMonacoSetup = getMonacoSetup(
 export function getMonacoSetup(
 	corePath: string,
 	language?: string
-): IMonacoSetup {
+): IAMDMonacoSetup {
 	const loaderConfigPaths = {
 		vs: `${corePath}`,
 	};

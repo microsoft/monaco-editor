@@ -1,5 +1,20 @@
 # Monaco Editor Changelog
 
+## [0.55.1]
+
+- Fixes missing language exports (monaco.json/typescript/...) due to wrong "types" path - [#5123](https://github.com/microsoft/monaco-editor/issues/5123)
+
+## [0.55.0]
+
+### Breaking Changes
+- Moves nested namespaces (`languages.css`, `languages.html`, `languages.json`, `languages.typescript`) to top level namespaces (`css`, `html`, `json`, `typescript`) to simplify the build process and align with typescript recommendations.
+
+### New Features
+- Adds native LSP support (see new `lsp` namespace).
+
+### Bug Fixes
+- Updates dompurify to 3.2.7
+
 ## [0.54.0]
 
 - Adds option `editor.mouseMiddleClickAction`

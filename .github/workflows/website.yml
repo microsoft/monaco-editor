@@ -39,8 +39,10 @@ jobs:
       - name: execute `npm ci` (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci
+
+      # For TypeDoc
       - name: Build
-        run: npm run build-monaco-editor
+        run: npm run build
 
       - name: Install website node modules
         working-directory: website
@@ -53,6 +55,10 @@ jobs:
       - name: Build website
         working-directory: website
         run: npm run build
+
+      - name: Test website
+        working-directory: website
+        run: npm run test
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

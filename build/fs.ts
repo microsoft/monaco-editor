@@ -23,23 +23,10 @@ export function ensureDir(dirname: string) {
 		if (!existingDirCache.has(dir)) {
 			try {
 				fs.mkdirSync(dir);
-			} catch (err) {}
+			} catch (err) { }
 			existingDirCache.add(dir);
 		}
 	});
-}
-
-/**
- * Copy a file.
- */
-export function copyFile(_source: string, _destination: string) {
-	const source = path.join(REPO_ROOT, _source);
-	const destination = path.join(REPO_ROOT, _destination);
-
-	ensureDir(path.dirname(destination));
-	fs.writeFileSync(destination, fs.readFileSync(source));
-
-	console.log(`Copied ${_source} to ${_destination}`);
 }
 
 /**

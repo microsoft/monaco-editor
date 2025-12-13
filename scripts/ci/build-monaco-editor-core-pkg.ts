@@ -89,8 +89,6 @@ async function buildAndTest() {
 	// Build editor distribution
 	await run('npm run gulp editor-distro', { cwd: vscodePath });
 
-	return; // To save CI time.
-
 	// Run browser tests
 	await run('npm run test-browser --browser chromium', { cwd: vscodePath });
 
@@ -110,6 +108,4 @@ async function buildAndTest() {
 	await run('npm test', { cwd: testMonacoDir });
 }
 
-//buildAndTest();
-//prepareMonacoEditorCoreRelease('0.99.0', 'main');
 prepareMonacoEditorCoreReleaseStableOrNightly();

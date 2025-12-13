@@ -57,10 +57,7 @@ module.exports = {
 					"sass-loader",
 				],
 			},
-			{
-				test: /\.(jpe?g|png|gif|eot|ttf|svg|woff|woff2|md)$/i,
-				loader: "file-loader",
-			},
+
 			{
 				test: /\.tsx?$/,
 				loader: "ts-loader",

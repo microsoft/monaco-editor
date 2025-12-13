@@ -136,6 +136,13 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 					break;
 			}
 
+			if (coreUrl.endsWith('?esm')) {
+				return {
+					esmUrl: coreUrl,
+					monacoTypesUrl: undefined,
+				}
+			}
+
 			let languagesUrl: string;
 			switch (settings.languagesSource) {
 				case "latest":
