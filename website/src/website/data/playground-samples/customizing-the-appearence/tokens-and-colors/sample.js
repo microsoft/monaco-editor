@@ -15,7 +15,7 @@ monaco.editor.defineTheme("myCustomTheme", {
 	rules: [
 		{
 			token: "comment",
-			foreground: "ffa500",
+			foreground: "a80085",
 			fontStyle: "italic underline",
 		},
 		{ token: "comment.js", foreground: "008800", fontStyle: "bold" },
