@@ -54,6 +54,7 @@ export async function gitShallowClone(
 	await run(`git fetch --depth 1 origin ${ref}`, options);
 	await run(`git checkout ${ref}`, options);
 	const commitId = await gitCommitId(targetPath);
+	console.log(`Cloned ${repositoryUrl} (${commitId}) to ${targetPath}`);
 	return { commitId };
 }
 
