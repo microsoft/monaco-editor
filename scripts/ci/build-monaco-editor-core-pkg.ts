@@ -89,7 +89,7 @@ async function buildAndTest() {
 	await run('npm run gulp editor-distro', { cwd: vscodePath });
 
 	// Run browser tests
-	await run('npm run test-browser --browser chromium', { cwd: vscodePath });
+	await run('npm run test-browser -- --browser chromium', { cwd: vscodePath });
 
 	// TypeScript typings test
 	await run('mkdir typings-test', { cwd: vscodePath });
