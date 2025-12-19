@@ -7,7 +7,7 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"monaco-editor": "^0.54.0",
+		"monaco-editor": "^0.55.1",
 		"typescript": "^5.9.3",
 		"vite": "^7.1.11"
 	}
