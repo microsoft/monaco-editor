@@ -81,10 +81,17 @@ function getWorkerBootstrapUrl(workerScriptUrl: string | URL) {
 }
 
 import 'vs/nls.messages-loader!';
-import * as monaco from '../../../src/editor/editor.main';
-export * from '../../../src/editor/editor.main';
+import * as monaco from '../../../src/index';
+export * from '../../../src/index';
 
 globalThis.monaco = monaco;
+
+const lang = monaco.languages as any;
+lang.css = monaco.css;
+lang.html = monaco.html;
+lang.typescript = monaco.typescript;
+lang.json = monaco.json;
+
 
 const styleSheetUrl = require.toUrl('vs/editor/editor.main.css');
 
