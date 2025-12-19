@@ -14,9 +14,12 @@
 		"monaco-editor-core": "^0.54.0-dev-20250929"
 	},
 	"devDependencies": {
+		"@types/yargs": "^17.0.35",
 		"rolldown": "^1.0.0-beta.41",
 		"rolldown-plugin-dts": "^0.16.11",
-		"rollup-plugin-delete": "^3.0.1"
+		"rollup-plugin-delete": "^3.0.1",
+		"tsx": "^4.21.0",
+		"yargs": "^18.0.0"
 	},
 	"scripts": {
 		"build": "npx rolldown -c rolldown.config.mjs",
