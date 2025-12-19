@@ -3,8 +3,10 @@
 // This file is auto-generated. Do not edit manually.
 
 import {
-    contract, unverifiedRequest,
-    unverifiedNotification
+    contract,
+    Contract,
+    unverifiedRequest,
+    unverifiedNotification,
 } from "@hediet/json-rpc";
 
 /**
@@ -2100,9 +2102,9 @@ export interface InitializeResult {
  * @since 3.15.0
      */
     serverInfo?: {
-        name: string;
-        version?: string
-    };
+    name: string;
+    version?: string
+};
 }
 
 /**
@@ -2534,15 +2536,15 @@ export interface CompletionList {
  * @since 3.17.0
      */
     itemDefaults?: {
-        commitCharacters?: (string)[];
-        editRange?: Range | {
-            insert: Range;
-            replace: Range
-        };
-        insertTextFormat?: InsertTextFormat;
-        insertTextMode?: InsertTextMode;
-        data?: LSPAny
-    };
+    commitCharacters?: (string)[];
+    editRange?: Range | {
+    insert: Range;
+    replace: Range
+};
+    insertTextFormat?: InsertTextFormat;
+    insertTextMode?: InsertTextMode;
+    data?: LSPAny
+};
     /**
      * The completion items.
      */
@@ -2867,8 +2869,8 @@ export interface CodeAction {
  * @since 3.16.0
      */
     disabled?: {
-        reason: string
-    };
+    reason: string
+};
     /**
      * The workspace edit this code action performs.
      */
@@ -2921,8 +2923,8 @@ export interface WorkspaceSymbol extends BaseSymbolInformation {
  * See SymbolInformation#location for more details.
      */
     location: Location | {
-        uri: string
-    };
+    uri: string
+};
     /**
      * A data entry field that is preserved on a workspace symbol between a
  * workspace symbol request and a workspace symbol resolve request.
@@ -3546,14 +3548,14 @@ export interface SemanticTokensOptions extends WorkDoneProgressOptions {
  * of a document.
      */
     range?: boolean | {
-
-    };
+    
+};
     /**
      * Server supports providing semantic tokens for a full document.
      */
     full?: boolean | {
-        delta?: boolean
-    };
+    delta?: boolean
+};
 }
 
 /**
@@ -4123,17 +4125,17 @@ export interface NotebookDocumentChangeEvent {
      * Changes to cells
      */
     cells?: {
-        structure?: {
-            array: NotebookCellArrayChange;
-            didOpen?: (TextDocumentItem)[];
-            didClose?: (TextDocumentIdentifier)[]
-        };
-        data?: (NotebookCell)[];
-        textContent?: ({
-            document: VersionedTextDocumentIdentifier;
-            changes: (TextDocumentContentChangeEvent)[]
-        })[]
-    };
+    structure?: {
+    array: NotebookCellArrayChange;
+    didOpen?: (TextDocumentItem)[];
+    didClose?: (TextDocumentIdentifier)[]
+};
+    data?: (NotebookCell)[];
+    textContent?: ({
+    document: VersionedTextDocumentIdentifier;
+    changes: (TextDocumentContentChangeEvent)[]
+})[]
+};
 }
 
 /**
@@ -4249,9 +4251,9 @@ export interface _InitializeParams extends WorkDoneProgressParams {
  * @since 3.15.0
      */
     clientInfo?: {
-        name: string;
-        version?: string
-    };
+    name: string;
+    version?: string
+};
     /**
      * The locale the client is currently showing the user interface
  * in. This must not necessarily be the locale of the operating
@@ -4485,9 +4487,9 @@ export interface ServerCapabilities {
      * Workspace specific server capabilities.
      */
     workspace?: {
-        workspaceFolders?: WorkspaceFoldersServerCapabilities;
-        fileOperations?: FileOperationOptions
-    };
+    workspaceFolders?: WorkspaceFoldersServerCapabilities;
+    fileOperations?: FileOperationOptions
+};
     /**
      * Experimental server capabilities.
      */
@@ -4689,8 +4691,8 @@ export interface CompletionOptions extends WorkDoneProgressOptions {
  * @since 3.17.0
      */
     completionItem?: {
-        labelDetailsSupport?: boolean
-    };
+    labelDetailsSupport?: boolean
+};
 }
 
 /**
@@ -5330,16 +5332,16 @@ export interface NotebookDocumentSyncOptions {
      * The notebooks to be synced
      */
     notebookSelector: ({
-        notebook: string | NotebookDocumentFilter;
-        cells?: ({
-            language: string
-        })[]
-    } | {
-        notebook?: string | NotebookDocumentFilter;
-        cells: ({
-            language: string
-        })[]
-    })[];
+    notebook: string | NotebookDocumentFilter;
+    cells?: ({
+    language: string
+})[]
+} | {
+    notebook?: string | NotebookDocumentFilter;
+    cells: ({
+    language: string
+})[]
+})[];
     /**
      * Whether save notification should be forwarded to
  * the server. Will only be honored if mode === `notebook`.
@@ -5814,9 +5816,9 @@ export interface GeneralClientCapabilities {
  * @since 3.17.0
      */
     staleRequestSupport?: {
-        cancel: boolean;
-        retryOnContentModified: (string)[]
-    };
+    cancel: boolean;
+    retryOnContentModified: (string)[]
+};
     /**
      * Client capabilities specific to regular expressions.
  * 
@@ -5907,8 +5909,8 @@ export interface WorkspaceEditClientCapabilities {
  * @since 3.16.0
      */
     changeAnnotationSupport?: {
-        groupsOnLabel?: boolean
-    };
+    groupsOnLabel?: boolean
+};
 }
 
 export interface DidChangeConfigurationClientCapabilities {
@@ -5946,8 +5948,8 @@ export interface WorkspaceSymbolClientCapabilities {
      * Specific capabilities for the `SymbolKind` in the `workspace/symbol` request.
      */
     symbolKind?: {
-        valueSet?: (SymbolKind)[]
-    };
+    valueSet?: (SymbolKind)[]
+};
     /**
      * The client supports tags on `SymbolInformation`.
  * Clients supporting tags have to handle unknown tags gracefully.
@@ -5955,8 +5957,8 @@ export interface WorkspaceSymbolClientCapabilities {
  * @since 3.16.0
      */
     tagSupport?: {
-        valueSet: (SymbolTag)[]
-    };
+    valueSet: (SymbolTag)[]
+};
     /**
      * The client support partial workspace symbols. The client will send the
  * request `workspaceSymbol/resolve` to the server to resolve additional
@@ -5965,8 +5967,8 @@ export interface WorkspaceSymbolClientCapabilities {
  * @since 3.17.0
      */
     resolveSupport?: {
-        properties: (string)[]
-    };
+    properties: (string)[]
+};
 }
 
 /**
@@ -6160,26 +6162,26 @@ export interface CompletionClientCapabilities {
  * capabilities.
      */
     completionItem?: {
-        snippetSupport?: boolean;
-        commitCharactersSupport?: boolean;
-        documentationFormat?: (MarkupKind)[];
-        deprecatedSupport?: boolean;
-        preselectSupport?: boolean;
-        tagSupport?: {
-            valueSet: (CompletionItemTag)[]
-        };
-        insertReplaceSupport?: boolean;
-        resolveSupport?: {
-            properties: (string)[]
-        };
-        insertTextModeSupport?: {
-            valueSet: (InsertTextMode)[]
-        };
-        labelDetailsSupport?: boolean
-    };
+    snippetSupport?: boolean;
+    commitCharactersSupport?: boolean;
+    documentationFormat?: (MarkupKind)[];
+    deprecatedSupport?: boolean;
+    preselectSupport?: boolean;
+    tagSupport?: {
+    valueSet: (CompletionItemTag)[]
+};
+    insertReplaceSupport?: boolean;
+    resolveSupport?: {
+    properties: (string)[]
+};
+    insertTextModeSupport?: {
+    valueSet: (InsertTextMode)[]
+};
+    labelDetailsSupport?: boolean
+};
     completionItemKind?: {
-        valueSet?: (CompletionItemKind)[]
-    };
+    valueSet?: (CompletionItemKind)[]
+};
     /**
      * Defines how the client handles whitespace and indentation
  * when accepting a completion item that uses multi line
@@ -6200,8 +6202,8 @@ export interface CompletionClientCapabilities {
  * @since 3.17.0
      */
     completionList?: {
-        itemDefaults?: (string)[]
-    };
+    itemDefaults?: (string)[]
+};
 }
 
 export interface HoverClientCapabilities {
@@ -6229,12 +6231,12 @@ export interface SignatureHelpClientCapabilities {
  * specific properties.
      */
     signatureInformation?: {
-        documentationFormat?: (MarkupKind)[];
-        parameterInformation?: {
-            labelOffsetSupport?: boolean
-        };
-        activeParameterSupport?: boolean
-    };
+    documentationFormat?: (MarkupKind)[];
+    parameterInformation?: {
+    labelOffsetSupport?: boolean
+};
+    activeParameterSupport?: boolean
+};
     /**
      * The client supports to send additional context information for a
  * `textDocument/signatureHelp` request. A client that opts into
@@ -6347,8 +6349,8 @@ export interface DocumentSymbolClientCapabilities {
  * `textDocument/documentSymbol` request.
      */
     symbolKind?: {
-        valueSet?: (SymbolKind)[]
-    };
+    valueSet?: (SymbolKind)[]
+};
     /**
      * The client supports hierarchical document symbols.
      */
@@ -6361,8 +6363,8 @@ export interface DocumentSymbolClientCapabilities {
  * @since 3.16.0
      */
     tagSupport?: {
-        valueSet: (SymbolTag)[]
-    };
+    valueSet: (SymbolTag)[]
+};
     /**
      * The client supports an additional label presented in the UI when
  * registering a document symbol provider.
@@ -6388,10 +6390,10 @@ export interface CodeActionClientCapabilities {
  * @since 3.8.0
      */
     codeActionLiteralSupport?: {
-        codeActionKind: {
-            valueSet: (CodeActionKind)[]
-        }
-    };
+    codeActionKind: {
+    valueSet: (CodeActionKind)[]
+}
+};
     /**
      * Whether code action supports the `isPreferred` property.
  * 
@@ -6419,8 +6421,8 @@ export interface CodeActionClientCapabilities {
  * @since 3.16.0
      */
     resolveSupport?: {
-        properties: (string)[]
-    };
+    properties: (string)[]
+};
     /**
      * Whether the client honors the change annotations in
  * text edits and resource operations returned via the
@@ -6564,16 +6566,16 @@ export interface FoldingRangeClientCapabilities {
  * @since 3.17.0
      */
     foldingRangeKind?: {
-        valueSet?: (FoldingRangeKind)[]
-    };
+    valueSet?: (FoldingRangeKind)[]
+};
     /**
      * Specific options for the folding range.
  * 
  * @since 3.17.0
      */
     foldingRange?: {
-        collapsedText?: boolean
-    };
+    collapsedText?: boolean
+};
 }
 
 export interface SelectionRangeClientCapabilities {
@@ -6600,8 +6602,8 @@ export interface PublishDiagnosticsClientCapabilities {
  * @since 3.15.0
      */
     tagSupport?: {
-        valueSet: (DiagnosticTag)[]
-    };
+    valueSet: (DiagnosticTag)[]
+};
     /**
      * Whether the client interprets the version property of the
  * `textDocument/publishDiagnostics` notification's parameter.
@@ -6658,13 +6660,13 @@ export interface SemanticTokensClientCapabilities {
  * even decide to not show any semantic tokens at all.
      */
     requests: {
-        range?: boolean | {
-
-        };
-        full?: boolean | {
-            delta?: boolean
-        }
-    };
+    range?: boolean | {
+    
+};
+    full?: boolean | {
+    delta?: boolean
+}
+};
     /**
      * The token types that the client supports.
      */
@@ -6776,8 +6778,8 @@ export interface InlayHintClientCapabilities {
  * hint.
      */
     resolveSupport?: {
-        properties: (string)[]
-    };
+    properties: (string)[]
+};
 }
 
 /**
@@ -6838,8 +6840,8 @@ export interface ShowMessageRequestClientCapabilities {
      * Capabilities specific to the `MessageActionItem` type.
      */
     messageActionItem?: {
-        additionalPropertiesSupport?: boolean
-    };
+    additionalPropertiesSupport?: boolean
+};
 }
 
 /**
@@ -6898,7 +6900,7 @@ export interface MarkdownClientCapabilities {
  * Represents a capability with its associated method and registration options type
  */
 export class Capability<T> {
-    constructor(public readonly method: string) { }
+    constructor(public readonly method: string) {}
 }
 
 /**
@@ -6966,85 +6968,85 @@ export const api = contract({
      * document position. The request's parameter is of type {@link TextDocumentPositionParams}
      * the response is of type {@link Definition} or a Thenable that resolves to such.
          */
-        textDocumentImplementation: unverifiedRequest<ImplementationParams, Definition | (DefinitionLink)[] | null>({ method: "textDocument/implementation" }),
+        textDocumentImplementation: unverifiedRequest<ImplementationParams, Definition | (DefinitionLink)[] | null>({ method: "textDocument/implementation" }).optional(),
         /**
          * A request to resolve the type definition locations of a symbol at a given text
      * document position. The request's parameter is of type {@link TextDocumentPositionParams}
      * the response is of type {@link Definition} or a Thenable that resolves to such.
          */
-        textDocumentTypeDefinition: unverifiedRequest<TypeDefinitionParams, Definition | (DefinitionLink)[] | null>({ method: "textDocument/typeDefinition" }),
+        textDocumentTypeDefinition: unverifiedRequest<TypeDefinitionParams, Definition | (DefinitionLink)[] | null>({ method: "textDocument/typeDefinition" }).optional(),
         /**
          * A request to list all color symbols found in a given text document. The request's
      * parameter is of type {@link DocumentColorParams} the
      * response is of type {@link ColorInformation ColorInformation[]} or a Thenable
      * that resolves to such.
          */
-        textDocumentDocumentColor: unverifiedRequest<DocumentColorParams, (ColorInformation)[]>({ method: "textDocument/documentColor" }),
+        textDocumentDocumentColor: unverifiedRequest<DocumentColorParams, (ColorInformation)[]>({ method: "textDocument/documentColor" }).optional(),
         /**
          * A request to list all presentation for a color. The request's
      * parameter is of type {@link ColorPresentationParams} the
      * response is of type {@link ColorInformation ColorInformation[]} or a Thenable
      * that resolves to such.
          */
-        textDocumentColorPresentation: unverifiedRequest<ColorPresentationParams, (ColorPresentation)[]>({ method: "textDocument/colorPresentation" }),
+        textDocumentColorPresentation: unverifiedRequest<ColorPresentationParams, (ColorPresentation)[]>({ method: "textDocument/colorPresentation" }).optional(),
         /**
          * A request to provide folding ranges in a document. The request's
      * parameter is of type {@link FoldingRangeParams}, the
      * response is of type {@link FoldingRangeList} or a Thenable
      * that resolves to such.
          */
-        textDocumentFoldingRange: unverifiedRequest<FoldingRangeParams, (FoldingRange)[] | null>({ method: "textDocument/foldingRange" }),
+        textDocumentFoldingRange: unverifiedRequest<FoldingRangeParams, (FoldingRange)[] | null>({ method: "textDocument/foldingRange" }).optional(),
         /**
          * A request to resolve the type definition locations of a symbol at a given text
      * document position. The request's parameter is of type {@link TextDocumentPositionParams}
      * the response is of type {@link Declaration} or a typed array of {@link DeclarationLink}
      * or a Thenable that resolves to such.
          */
-        textDocumentDeclaration: unverifiedRequest<DeclarationParams, Declaration | (DeclarationLink)[] | null>({ method: "textDocument/declaration" }),
+        textDocumentDeclaration: unverifiedRequest<DeclarationParams, Declaration | (DeclarationLink)[] | null>({ method: "textDocument/declaration" }).optional(),
         /**
          * A request to provide selection ranges in a document. The request's
      * parameter is of type {@link SelectionRangeParams}, the
      * response is of type {@link SelectionRange SelectionRange[]} or a Thenable
      * that resolves to such.
          */
-        textDocumentSelectionRange: unverifiedRequest<SelectionRangeParams, (SelectionRange)[] | null>({ method: "textDocument/selectionRange" }),
+        textDocumentSelectionRange: unverifiedRequest<SelectionRangeParams, (SelectionRange)[] | null>({ method: "textDocument/selectionRange" }).optional(),
         /**
          * A request to result a `CallHierarchyItem` in a document at a given position.
      * Can be used as an input to an incoming or outgoing call hierarchy.
      * 
      * @since 3.16.0
          */
-        textDocumentPrepareCallHierarchy: unverifiedRequest<CallHierarchyPrepareParams, (CallHierarchyItem)[] | null>({ method: "textDocument/prepareCallHierarchy" }),
+        textDocumentPrepareCallHierarchy: unverifiedRequest<CallHierarchyPrepareParams, (CallHierarchyItem)[] | null>({ method: "textDocument/prepareCallHierarchy" }).optional(),
         /**
          * A request to resolve the incoming calls for a given `CallHierarchyItem`.
      * 
      * @since 3.16.0
          */
-        callHierarchyIncomingCalls: unverifiedRequest<CallHierarchyIncomingCallsParams, (CallHierarchyIncomingCall)[] | null>({ method: "callHierarchy/incomingCalls" }),
+        callHierarchyIncomingCalls: unverifiedRequest<CallHierarchyIncomingCallsParams, (CallHierarchyIncomingCall)[] | null>({ method: "callHierarchy/incomingCalls" }).optional(),
         /**
          * A request to resolve the outgoing calls for a given `CallHierarchyItem`.
      * 
      * @since 3.16.0
          */
-        callHierarchyOutgoingCalls: unverifiedRequest<CallHierarchyOutgoingCallsParams, (CallHierarchyOutgoingCall)[] | null>({ method: "callHierarchy/outgoingCalls" }),
+        callHierarchyOutgoingCalls: unverifiedRequest<CallHierarchyOutgoingCallsParams, (CallHierarchyOutgoingCall)[] | null>({ method: "callHierarchy/outgoingCalls" }).optional(),
         /**
          * @since 3.16.0
          */
-        textDocumentSemanticTokensFull: unverifiedRequest<SemanticTokensParams, SemanticTokens | null>({ method: "textDocument/semanticTokens/full" }),
+        textDocumentSemanticTokensFull: unverifiedRequest<SemanticTokensParams, SemanticTokens | null>({ method: "textDocument/semanticTokens/full" }).optional(),
         /**
          * @since 3.16.0
          */
-        textDocumentSemanticTokensFullDelta: unverifiedRequest<SemanticTokensDeltaParams, SemanticTokens | SemanticTokensDelta | null>({ method: "textDocument/semanticTokens/full/delta" }),
+        textDocumentSemanticTokensFullDelta: unverifiedRequest<SemanticTokensDeltaParams, SemanticTokens | SemanticTokensDelta | null>({ method: "textDocument/semanticTokens/full/delta" }).optional(),
         /**
          * @since 3.16.0
          */
-        textDocumentSemanticTokensRange: unverifiedRequest<SemanticTokensRangeParams, SemanticTokens | null>({ method: "textDocument/semanticTokens/range" }),
+        textDocumentSemanticTokensRange: unverifiedRequest<SemanticTokensRangeParams, SemanticTokens | null>({ method: "textDocument/semanticTokens/range" }).optional(),
         /**
          * A request to provide ranges that can be edited together.
      * 
      * @since 3.16.0
          */
-        textDocumentLinkedEditingRange: unverifiedRequest<LinkedEditingRangeParams, LinkedEditingRanges | null>({ method: "textDocument/linkedEditingRange" }),
+        textDocumentLinkedEditingRange: unverifiedRequest<LinkedEditingRangeParams, LinkedEditingRanges | null>({ method: "textDocument/linkedEditingRange" }).optional(),
         /**
          * The will create files request is sent from the client to the server before files are actually
      * created as long as the creation is triggered from within the client.
@@ -7055,46 +7057,46 @@ export const api = contract({
      * 
      * @since 3.16.0
          */
-        workspaceWillCreateFiles: unverifiedRequest<CreateFilesParams, WorkspaceEdit | null>({ method: "workspace/willCreateFiles" }),
+        workspaceWillCreateFiles: unverifiedRequest<CreateFilesParams, WorkspaceEdit | null>({ method: "workspace/willCreateFiles" }).optional(),
         /**
          * The will rename files request is sent from the client to the server before files are actually
      * renamed as long as the rename is triggered from within the client.
      * 
      * @since 3.16.0
          */
-        workspaceWillRenameFiles: unverifiedRequest<RenameFilesParams, WorkspaceEdit | null>({ method: "workspace/willRenameFiles" }),
+        workspaceWillRenameFiles: unverifiedRequest<RenameFilesParams, WorkspaceEdit | null>({ method: "workspace/willRenameFiles" }).optional(),
         /**
          * The did delete files notification is sent from the client to the server when
      * files were deleted from within the client.
      * 
      * @since 3.16.0
          */
-        workspaceWillDeleteFiles: unverifiedRequest<DeleteFilesParams, WorkspaceEdit | null>({ method: "workspace/willDeleteFiles" }),
+        workspaceWillDeleteFiles: unverifiedRequest<DeleteFilesParams, WorkspaceEdit | null>({ method: "workspace/willDeleteFiles" }).optional(),
         /**
          * A request to get the moniker of a symbol at a given text document position.
      * The request parameter is of type {@link TextDocumentPositionParams}.
      * The response is of type {@link Moniker Moniker[]} or `null`.
          */
-        textDocumentMoniker: unverifiedRequest<MonikerParams, (Moniker)[] | null>({ method: "textDocument/moniker" }),
+        textDocumentMoniker: unverifiedRequest<MonikerParams, (Moniker)[] | null>({ method: "textDocument/moniker" }).optional(),
         /**
          * A request to result a `TypeHierarchyItem` in a document at a given position.
      * Can be used as an input to a subtypes or supertypes type hierarchy.
      * 
      * @since 3.17.0
          */
-        textDocumentPrepareTypeHierarchy: unverifiedRequest<TypeHierarchyPrepareParams, (TypeHierarchyItem)[] | null>({ method: "textDocument/prepareTypeHierarchy" }),
+        textDocumentPrepareTypeHierarchy: unverifiedRequest<TypeHierarchyPrepareParams, (TypeHierarchyItem)[] | null>({ method: "textDocument/prepareTypeHierarchy" }).optional(),
         /**
          * A request to resolve the supertypes for a given `TypeHierarchyItem`.
      * 
      * @since 3.17.0
          */
-        typeHierarchySupertypes: unverifiedRequest<TypeHierarchySupertypesParams, (TypeHierarchyItem)[] | null>({ method: "typeHierarchy/supertypes" }),
+        typeHierarchySupertypes: unverifiedRequest<TypeHierarchySupertypesParams, (TypeHierarchyItem)[] | null>({ method: "typeHierarchy/supertypes" }).optional(),
         /**
          * A request to resolve the subtypes for a given `TypeHierarchyItem`.
      * 
      * @since 3.17.0
          */
-        typeHierarchySubtypes: unverifiedRequest<TypeHierarchySubtypesParams, (TypeHierarchyItem)[] | null>({ method: "typeHierarchy/subtypes" }),
+        typeHierarchySubtypes: unverifiedRequest<TypeHierarchySubtypesParams, (TypeHierarchyItem)[] | null>({ method: "typeHierarchy/subtypes" }).optional(),
         /**
          * A request to provide inline values in a document. The request's parameter is of
      * type {@link InlineValueParams}, the response is of type
@@ -7102,7 +7104,7 @@ export const api = contract({
      * 
      * @since 3.17.0
          */
-        textDocumentInlineValue: unverifiedRequest<InlineValueParams, (InlineValue)[] | null>({ method: "textDocument/inlineValue" }),
+        textDocumentInlineValue: unverifiedRequest<InlineValueParams, (InlineValue)[] | null>({ method: "textDocument/inlineValue" }).optional(),
         /**
          * A request to provide inlay hints in a document. The request's parameter is of
      * type {@link InlayHintsParams}, the response is of type
@@ -7110,7 +7112,7 @@ export const api = contract({
      * 
      * @since 3.17.0
          */
-        textDocumentInlayHint: unverifiedRequest<InlayHintParams, (InlayHint)[] | null>({ method: "textDocument/inlayHint" }),
+        textDocumentInlayHint: unverifiedRequest<InlayHintParams, (InlayHint)[] | null>({ method: "textDocument/inlayHint" }).optional(),
         /**
          * A request to resolve additional properties for an inlay hint.
      * The request's parameter is of type {@link InlayHint}, the response is
@@ -7118,19 +7120,19 @@ export const api = contract({
      * 
      * @since 3.17.0
          */
-        inlayHintResolve: unverifiedRequest<InlayHint, InlayHint>({ method: "inlayHint/resolve" }),
+        inlayHintResolve: unverifiedRequest<InlayHint, InlayHint>({ method: "inlayHint/resolve" }).optional(),
         /**
          * The document diagnostic request definition.
      * 
      * @since 3.17.0
          */
-        textDocumentDiagnostic: unverifiedRequest<DocumentDiagnosticParams, DocumentDiagnosticReport>({ method: "textDocument/diagnostic" }),
+        textDocumentDiagnostic: unverifiedRequest<DocumentDiagnosticParams, DocumentDiagnosticReport>({ method: "textDocument/diagnostic" }).optional(),
         /**
          * The workspace diagnostic request definition.
      * 
      * @since 3.17.0
          */
-        workspaceDiagnostic: unverifiedRequest<WorkspaceDiagnosticParams, WorkspaceDiagnosticReport>({ method: "workspace/diagnostic" }),
+        workspaceDiagnostic: unverifiedRequest<WorkspaceDiagnosticParams, WorkspaceDiagnosticReport>({ method: "workspace/diagnostic" }).optional(),
         /**
          * A request to provide inline completions in a document. The request's parameter is of
      * type {@link InlineCompletionParams}, the response is of type
@@ -7139,7 +7141,7 @@ export const api = contract({
      * @since 3.18.0
      * @proposed
          */
-        textDocumentInlineCompletion: unverifiedRequest<InlineCompletionParams, InlineCompletionList | (InlineCompletionItem)[] | null>({ method: "textDocument/inlineCompletion" }),
+        textDocumentInlineCompletion: unverifiedRequest<InlineCompletionParams, InlineCompletionList | (InlineCompletionItem)[] | null>({ method: "textDocument/inlineCompletion" }).optional(),
         /**
          * The initialize request is sent from the client to the server.
      * It is sent once as the request after starting up the server.
@@ -7147,14 +7149,14 @@ export const api = contract({
      * the response if of type {@link InitializeResult} of a Thenable that
      * resolves to such.
          */
-        initialize: unverifiedRequest<InitializeParams, InitializeResult>({ method: "initialize" }),
+        initialize: unverifiedRequest<InitializeParams, InitializeResult>({ method: "initialize" }).optional(),
         /**
          * A shutdown request is sent from the client to the server.
      * It is sent once when the client decides to shutdown the
      * server. The only notification that is sent after a shutdown request
      * is the exit event.
          */
-        shutdown: unverifiedRequest<void, null>({ method: "shutdown" }),
+        shutdown: unverifiedRequest<void, null>({ method: "shutdown" }).optional(),
         /**
          * A document will save request is sent from the client to the server before
      * the document is actually saved. The request can return an array of TextEdits
@@ -7163,7 +7165,7 @@ export const api = contract({
      * server constantly fails on this request. This is done to keep the save fast and
      * reliable.
          */
-        textDocumentWillSaveWaitUntil: unverifiedRequest<WillSaveTextDocumentParams, (TextEdit)[] | null>({ method: "textDocument/willSaveWaitUntil" }),
+        textDocumentWillSaveWaitUntil: unverifiedRequest<WillSaveTextDocumentParams, (TextEdit)[] | null>({ method: "textDocument/willSaveWaitUntil" }).optional(),
         /**
          * Request to request completion at a given text document position. The request's
      * parameter is of type {@link TextDocumentPosition} the response
@@ -7175,58 +7177,58 @@ export const api = contract({
      * request. However, properties that are needed for the initial sorting and filtering, like `sortText`,
      * `filterText`, `insertText`, and `textEdit`, must not be changed during resolve.
          */
-        textDocumentCompletion: unverifiedRequest<CompletionParams, (CompletionItem)[] | CompletionList | null>({ method: "textDocument/completion" }),
+        textDocumentCompletion: unverifiedRequest<CompletionParams, (CompletionItem)[] | CompletionList | null>({ method: "textDocument/completion" }).optional(),
         /**
          * Request to resolve additional information for a given completion item.The request's
      * parameter is of type {@link CompletionItem} the response
      * is of type {@link CompletionItem} or a Thenable that resolves to such.
          */
-        completionItemResolve: unverifiedRequest<CompletionItem, CompletionItem>({ method: "completionItem/resolve" }),
+        completionItemResolve: unverifiedRequest<CompletionItem, CompletionItem>({ method: "completionItem/resolve" }).optional(),
         /**
          * Request to request hover information at a given text document position. The request's
      * parameter is of type {@link TextDocumentPosition} the response is of
      * type {@link Hover} or a Thenable that resolves to such.
          */
-        textDocumentHover: unverifiedRequest<HoverParams, Hover | null>({ method: "textDocument/hover" }),
-        textDocumentSignatureHelp: unverifiedRequest<SignatureHelpParams, SignatureHelp | null>({ method: "textDocument/signatureHelp" }),
+        textDocumentHover: unverifiedRequest<HoverParams, Hover | null>({ method: "textDocument/hover" }).optional(),
+        textDocumentSignatureHelp: unverifiedRequest<SignatureHelpParams, SignatureHelp | null>({ method: "textDocument/signatureHelp" }).optional(),
         /**
          * A request to resolve the definition location of a symbol at a given text
      * document position. The request's parameter is of type {@link TextDocumentPosition}
      * the response is of either type {@link Definition} or a typed array of
      * {@link DefinitionLink} or a Thenable that resolves to such.
          */
-        textDocumentDefinition: unverifiedRequest<DefinitionParams, Definition | (DefinitionLink)[] | null>({ method: "textDocument/definition" }),
+        textDocumentDefinition: unverifiedRequest<DefinitionParams, Definition | (DefinitionLink)[] | null>({ method: "textDocument/definition" }).optional(),
         /**
          * A request to resolve project-wide references for the symbol denoted
      * by the given text document position. The request's parameter is of
      * type {@link ReferenceParams} the response is of type
      * {@link Location Location[]} or a Thenable that resolves to such.
          */
-        textDocumentReferences: unverifiedRequest<ReferenceParams, (Location)[] | null>({ method: "textDocument/references" }),
+        textDocumentReferences: unverifiedRequest<ReferenceParams, (Location)[] | null>({ method: "textDocument/references" }).optional(),
         /**
          * Request to resolve a {@link DocumentHighlight} for a given
      * text document position. The request's parameter is of type {@link TextDocumentPosition}
      * the request response is an array of type {@link DocumentHighlight}
      * or a Thenable that resolves to such.
          */
-        textDocumentDocumentHighlight: unverifiedRequest<DocumentHighlightParams, (DocumentHighlight)[] | null>({ method: "textDocument/documentHighlight" }),
+        textDocumentDocumentHighlight: unverifiedRequest<DocumentHighlightParams, (DocumentHighlight)[] | null>({ method: "textDocument/documentHighlight" }).optional(),
         /**
          * A request to list all symbols found in a given text document. The request's
      * parameter is of type {@link TextDocumentIdentifier} the
      * response is of type {@link SymbolInformation SymbolInformation[]} or a Thenable
      * that resolves to such.
          */
-        textDocumentDocumentSymbol: unverifiedRequest<DocumentSymbolParams, (SymbolInformation)[] | (DocumentSymbol)[] | null>({ method: "textDocument/documentSymbol" }),
+        textDocumentDocumentSymbol: unverifiedRequest<DocumentSymbolParams, (SymbolInformation)[] | (DocumentSymbol)[] | null>({ method: "textDocument/documentSymbol" }).optional(),
         /**
          * A request to provide commands for the given text document and range.
          */
-        textDocumentCodeAction: unverifiedRequest<CodeActionParams, (Command | CodeAction)[] | null>({ method: "textDocument/codeAction" }),
+        textDocumentCodeAction: unverifiedRequest<CodeActionParams, (Command | CodeAction)[] | null>({ method: "textDocument/codeAction" }).optional(),
         /**
          * Request to resolve additional information for a given code action.The request's
      * parameter is of type {@link CodeAction} the response
      * is of type {@link CodeAction} or a Thenable that resolves to such.
          */
-        codeActionResolve: unverifiedRequest<CodeAction, CodeAction>({ method: "codeAction/resolve" }),
+        codeActionResolve: unverifiedRequest<CodeAction, CodeAction>({ method: "codeAction/resolve" }).optional(),
         /**
          * A request to list project-wide symbols matching the query string given
      * by the {@link WorkspaceSymbolParams}. The response is
@@ -7238,66 +7240,66 @@ export const api = contract({
      *  `workspace.symbol.resolveSupport`.
      * 
          */
-        workspaceSymbol: unverifiedRequest<WorkspaceSymbolParams, (SymbolInformation)[] | (WorkspaceSymbol)[] | null>({ method: "workspace/symbol" }),
+        workspaceSymbol: unverifiedRequest<WorkspaceSymbolParams, (SymbolInformation)[] | (WorkspaceSymbol)[] | null>({ method: "workspace/symbol" }).optional(),
         /**
          * A request to resolve the range inside the workspace
      * symbol's location.
      * 
      * @since 3.17.0
          */
-        workspaceSymbolResolve: unverifiedRequest<WorkspaceSymbol, WorkspaceSymbol>({ method: "workspaceSymbol/resolve" }),
+        workspaceSymbolResolve: unverifiedRequest<WorkspaceSymbol, WorkspaceSymbol>({ method: "workspaceSymbol/resolve" }).optional(),
         /**
          * A request to provide code lens for the given text document.
          */
-        textDocumentCodeLens: unverifiedRequest<CodeLensParams, (CodeLens)[] | null>({ method: "textDocument/codeLens" }),
+        textDocumentCodeLens: unverifiedRequest<CodeLensParams, (CodeLens)[] | null>({ method: "textDocument/codeLens" }).optional(),
         /**
          * A request to resolve a command for a given code lens.
          */
-        codeLensResolve: unverifiedRequest<CodeLens, CodeLens>({ method: "codeLens/resolve" }),
+        codeLensResolve: unverifiedRequest<CodeLens, CodeLens>({ method: "codeLens/resolve" }).optional(),
         /**
          * A request to provide document links
          */
-        textDocumentDocumentLink: unverifiedRequest<DocumentLinkParams, (DocumentLink)[] | null>({ method: "textDocument/documentLink" }),
+        textDocumentDocumentLink: unverifiedRequest<DocumentLinkParams, (DocumentLink)[] | null>({ method: "textDocument/documentLink" }).optional(),
         /**
          * Request to resolve additional information for a given document link. The request's
      * parameter is of type {@link DocumentLink} the response
      * is of type {@link DocumentLink} or a Thenable that resolves to such.
          */
-        documentLinkResolve: unverifiedRequest<DocumentLink, DocumentLink>({ method: "documentLink/resolve" }),
+        documentLinkResolve: unverifiedRequest<DocumentLink, DocumentLink>({ method: "documentLink/resolve" }).optional(),
         /**
          * A request to format a whole document.
          */
-        textDocumentFormatting: unverifiedRequest<DocumentFormattingParams, (TextEdit)[] | null>({ method: "textDocument/formatting" }),
+        textDocumentFormatting: unverifiedRequest<DocumentFormattingParams, (TextEdit)[] | null>({ method: "textDocument/formatting" }).optional(),
         /**
          * A request to format a range in a document.
          */
-        textDocumentRangeFormatting: unverifiedRequest<DocumentRangeFormattingParams, (TextEdit)[] | null>({ method: "textDocument/rangeFormatting" }),
+        textDocumentRangeFormatting: unverifiedRequest<DocumentRangeFormattingParams, (TextEdit)[] | null>({ method: "textDocument/rangeFormatting" }).optional(),
         /**
          * A request to format ranges in a document.
      * 
      * @since 3.18.0
      * @proposed
          */
-        textDocumentRangesFormatting: unverifiedRequest<DocumentRangesFormattingParams, (TextEdit)[] | null>({ method: "textDocument/rangesFormatting" }),
+        textDocumentRangesFormatting: unverifiedRequest<DocumentRangesFormattingParams, (TextEdit)[] | null>({ method: "textDocument/rangesFormatting" }).optional(),
         /**
          * A request to format a document on type.
          */
-        textDocumentOnTypeFormatting: unverifiedRequest<DocumentOnTypeFormattingParams, (TextEdit)[] | null>({ method: "textDocument/onTypeFormatting" }),
+        textDocumentOnTypeFormatting: unverifiedRequest<DocumentOnTypeFormattingParams, (TextEdit)[] | null>({ method: "textDocument/onTypeFormatting" }).optional(),
         /**
          * A request to rename a symbol.
          */
-        textDocumentRename: unverifiedRequest<RenameParams, WorkspaceEdit | null>({ method: "textDocument/rename" }),
+        textDocumentRename: unverifiedRequest<RenameParams, WorkspaceEdit | null>({ method: "textDocument/rename" }).optional(),
         /**
          * A request to test and perform the setup necessary for a rename.
      * 
      * @since 3.16 - support for default behavior
          */
-        textDocumentPrepareRename: unverifiedRequest<PrepareRenameParams, PrepareRenameResult | null>({ method: "textDocument/prepareRename" }),
+        textDocumentPrepareRename: unverifiedRequest<PrepareRenameParams, PrepareRenameResult | null>({ method: "textDocument/prepareRename" }).optional(),
         /**
          * A request send from the client to the server to execute a command. The request might return
      * a workspace edit which the client will apply to the workspace.
          */
-        workspaceExecuteCommand: unverifiedRequest<ExecuteCommandParams, LSPAny | null>({ method: "workspace/executeCommand" }),
+        workspaceExecuteCommand: unverifiedRequest<ExecuteCommandParams, LSPAny | null>({ method: "workspace/executeCommand" }).optional(),
         /**
          * The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server when the workspace
      * folder configuration changes.
