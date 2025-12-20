@@ -99,7 +99,7 @@ testTokenization('python', [
 			line: "'''Lots '''0.3e-5",
 			tokens: [
 				{ startIndex: 0, type: 'string.python' },
-				{ startIndex: 11, type: 'number.python' }
+				{ startIndex: 11, type: 'number.float.python' }
 			]
 		}
 	],
@@ -171,10 +171,11 @@ testTokenization('python', [
 		{
 			line: '0xAcBFd',
 			tokens: [{ startIndex: 0, type: 'number.hex.python' }]
-		}
-	],
-
-	[
+		},
+		{
+			line: '0X_1234_ABCD',
+			tokens: [{ startIndex: 0, type: 'number.hex.python' }]
+		},
 		{
 			line: '0x0cH',
 			tokens: [
@@ -186,7 +187,86 @@ testTokenization('python', [
 
 	[
 		{
+			line: '0o7501',
+			tokens: [{ startIndex: 0, type: 'number.octal.python' }]
+		},
+		{
+			line: '0O_1_2_3_4_5_6_7',
+			tokens: [{ startIndex: 0, type: 'number.octal.python' }]
+		}
+	],
+
+	[
+		{
+			line: '0b0',
+			tokens: [{ startIndex: 0, type: 'number.binary.python' }]
+		},
+		{
+			line: '0B_1010_0101',
+			tokens: [{ startIndex: 0, type: 'number.binary.python' }]
+		}
+	],
+
+	[
+		{
+			line: '3.14',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '456.7j',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '0.34J',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '.999_999',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '1.',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		}
+	],
+
+	[
+		{
 			line: '456.7e-7j',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '0.1234e+1J',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '.12e-0j',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '0E0',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		},
+		{
+			line: '1e1_0',
+			tokens: [{ startIndex: 0, type: 'number.float.python' }]
+		}
+	],
+
+	[
+		{
+			line: '123456',
+			tokens: [{ startIndex: 0, type: 'number.python' }]
+		},
+		{
+			line: '-1L',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 1, type: 'number.python' }
+			]
+		},
+		{
+			line: '1_000_000_000',
 			tokens: [{ startIndex: 0, type: 'number.python' }]
 		}
 	],
