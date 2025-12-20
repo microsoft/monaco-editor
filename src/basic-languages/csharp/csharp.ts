@@ -269,7 +269,8 @@ export const language = <languages.IMonarchLanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/("{3,})/, { token: 'string.quote', next: '@rawstring.$1' }], // raw string literal
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-terminated string
 			[/"/, { token: 'string.quote', next: '@string' }],
 			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' }],
 			[/\@"/, { token: 'string.quote', next: '@litstring' }],
@@ -314,6 +315,20 @@ export const language = <languages.IMonarchLanguage>{
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
+
+		rawstring: [
+			[/[^"]+/, 'string'],
+			[
+				/("{3,})/,
+				{
+					cases: {
+						'$1==$S2': { token: 'string.quote', next: '@pop' },
+						'@default': { token: 'string' }
+					}
+				}
+			],
+			[/["]/, 'string']
 		],
 
 		litstring: [
