@@ -129,7 +129,7 @@ function toSeverity(lsSeverity: number | undefined): MarkerSeverity {
 		case lsTypes.DiagnosticSeverity.Hint:
 			return MarkerSeverity.Hint;
 		default:
-			return MarkerSeverity.Info;
+			return MarkerSeverity.Error;
 	}
 }
 
