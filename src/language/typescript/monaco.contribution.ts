@@ -47,6 +47,12 @@ export enum ScriptTarget {
 	Latest = ESNext
 }
 
+export enum ModuleDetectionKind {
+	Legacy = 1,
+	Auto = 2,
+	Force = 3
+}
+
 export enum ModuleResolutionKind {
 	Classic = 1,
 	NodeJs = 2
@@ -99,6 +105,7 @@ export interface CompilerOptions {
 	mapRoot?: string;
 	maxNodeModuleJsDepth?: number;
 	module?: ModuleKind;
+	moduleDetection?: ModuleDetectionKind;
 	moduleResolution?: ModuleResolutionKind;
 	newLine?: NewLineKind;
 	noEmit?: boolean;
