@@ -54,12 +54,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/(<)(@qualifiedName)/, [{ token: 'delimiter' }, { token: 'tag', next: '@tag' }]],
 
 			// Standard closing tag
-			[
-				/(<\/)(@qualifiedName)(\s*)(>)/,
-				[{ token: 'delimiter' }, { token: 'tag' }, '', { token: 'delimiter' }]
-			],
-
-			// Meta tags - instruction
+			[/(<\/)(@qualifiedName)/, [{ token: 'delimiter' }, { token: 'tag', next: '@closeTag' }]], // Meta tags - instruction
 			[/(<\?)(@qualifiedName)/, [{ token: 'delimiter' }, { token: 'metatag', next: '@tag' }]],
 
 			// Meta tags - declaration
@@ -75,6 +70,11 @@ export const language = <languages.IMonarchLanguage>{
 			[/[^\]]+/, ''],
 			[/\]\]>/, { token: 'delimiter.cdata', next: '@pop' }],
 			[/\]/, '']
+		],
+
+		closeTag: [
+			[/[ \t\r\n]+/, ''],
+			[/>/, { token: 'delimiter', next: '@pop' }]
 		],
 
 		tag: [
