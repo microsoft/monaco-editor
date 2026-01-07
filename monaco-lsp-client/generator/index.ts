@@ -1,5 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 /**
  * Utility class for writing formatted code with proper indentation
@@ -183,15 +185,15 @@ type Type =
 interface BaseType {
 	kind: 'base';
 	name:
-		| 'URI'
-		| 'DocumentUri'
-		| 'integer'
-		| 'uinteger'
-		| 'decimal'
-		| 'RegExp'
-		| 'string'
-		| 'boolean'
-		| 'null';
+	| 'URI'
+	| 'DocumentUri'
+	| 'integer'
+	| 'uinteger'
+	| 'decimal'
+	| 'RegExp'
+	| 'string'
+	| 'boolean'
+	| 'null';
 }
 
 interface ReferenceType {
@@ -259,12 +261,16 @@ interface BooleanLiteralType {
 class LSPTypesGenerator {
 	private writer = new LineWriter();
 
+	constructor(
+		private readonly metaModelPath: string,
+		private readonly outPath: string
+	) { }
+
 	/**
 	 * Load and parse the metaModel.json file
 	 */
 	private loadMetaModel(): MetaModel {
-		const metaModelPath = path.join(__dirname, '..', 'metaModel.json');
-		const content = fs.readFileSync(metaModelPath, 'utf-8');
+		const content = fs.readFileSync(this.metaModelPath, 'utf-8');
 		return JSON.parse(content) as MetaModel;
 	}
 
@@ -561,7 +567,7 @@ class LSPTypesGenerator {
 		// Server requests (sent from client to server)
 		for (const request of metaModel.requests) {
 			if (request.messageDirection === 'clientToServer' || request.messageDirection === 'both') {
-				generateRequest(request);
+				generateRequest(request, true);
 			}
 		}
 
@@ -670,18 +676,34 @@ class LSPTypesGenerator {
 		this.generateApiContract(metaModel);
 
 		// Write types file
-		const srcDir = path.join(__dirname, '..', 'src');
-		if (!fs.existsSync(srcDir)) {
-			fs.mkdirSync(srcDir, { recursive: true });
+		const outDir = path.dirname(this.outPath);
+		if (!fs.existsSync(outDir)) {
+			fs.mkdirSync(outDir, { recursive: true });
 		}
-		fs.writeFileSync(path.join(srcDir, 'types.ts'), this.writer.toString());
+		fs.writeFileSync(this.outPath, this.writer.toString());
 
-		console.log('Generated LSP types file: src/types.ts');
+		console.log(`Generated LSP types file: ${this.outPath}`);
 	}
 }
 
 // Run the generator
 if (require.main === module) {
-	const generator = new LSPTypesGenerator();
+	const argv = yargs(hideBin(process.argv))
+		.option('input', {
+			alias: 'i',
+			type: 'string',
+			description: 'Path to metaModel.json',
+			default: path.join(__dirname, '..', 'spec', 'metaModel.json')
+		})
+		.option('output', {
+			alias: 'o',
+			type: 'string',
+			description: 'Output file',
+			default: path.join(__dirname, '..', 'src', 'types.ts')
+		})
+		.help()
+		.parseSync();
+
+	const generator = new LSPTypesGenerator(argv.input, argv.output);
 	generator.generate();
 }
