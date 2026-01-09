@@ -16,9 +16,7 @@ const root = join(import.meta.dirname, '../../');
 export default defineConfig({
 	input: {
 		entry: join(root, './src/index.ts'),
-		editor: join(root, './src/editor.ts'),
-		...getAdditionalEntryPoints(),
-		//editorApi: join(root, './src/editor/editor.api.ts'),
+		...getAdditionalEntryPoints(true),
 	},
 	output: {
 		dir: join(root, './out/monaco-editor/esm'),

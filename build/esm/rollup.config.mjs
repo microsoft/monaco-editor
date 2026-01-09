@@ -23,7 +23,7 @@ const outDir = join(root, './out/monaco-editor/esm');
 export default defineConfig({
 	input: {
 		entry: join(root, './src/index.ts'),
-		...getAdditionalEntryPoints(),
+		...getAdditionalEntryPoints(true),
 	},
 
 	output: {

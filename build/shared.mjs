@@ -31,7 +31,7 @@ export function changeExt(filePath, newExt) {
  */
 export function getAdditionalFiles() {
 	const nlsDir = dirname(fileURLToPath(import.meta.resolve('monaco-editor-core/esm/nls.messages.en.js')));
-	return readdirSync(nlsDir)
+	const files = readdirSync(nlsDir)
 		.flatMap(file => {
 			const match = /nls\.messages\.(?<lang>.+)\.js/.exec(file);
 			if (!match) {
@@ -49,6 +49,10 @@ export function getAdditionalFiles() {
 				}
 			];
 		});
+
+	return [
+		...files,
+	];
 }
 
 const root = join(import.meta.dirname, '../');
@@ -61,11 +65,17 @@ function findFiles(pattern) {
 	return glob.sync(pattern, { cwd: root });
 }
 
-export function getAdditionalEntryPoints() {
-	const features = Object.fromEntries(findFiles('./src/**/register.*').filter(p => !p.includes('.d.ts')).map(v => [v, join(root, v)]));
+export function getAdditionalEntryPoints(includeFeatures = false) {
+	const features = includeFeatures ? Object.fromEntries(findFiles('./src/**/register.*').filter(p => !p.includes('.d.ts')).map(v => [v, join(root, v)])) : {};
 	return {
 		...features,
-		'editor': join(root, 'src/editor.ts')
+		'editor': join(root, 'src/editor.ts'),
+		'editor/editor.worker': join(root, 'src/deprecated/editor/editor.worker.ts'),
+		'basic-languages/monaco.contribution': join(root, 'src/deprecated/basic-languages/monaco.contribution.ts'),
+		'language/css/monaco.contribution': join(root, 'src/deprecated/language/css/monaco.contribution.ts'),
+		'language/html/monaco.contribution': join(root, 'src/deprecated/language/html/monaco.contribution.ts'),
+		'language/json/monaco.contribution': join(root, 'src/deprecated/language/json/monaco.contribution.ts'),
+		'language/typescript/monaco.contribution': join(root, 'src/deprecated/language/typescript/monaco.contribution.ts'),
 	};
 }
 
@@ -73,6 +83,7 @@ const mappedPaths = {
 	[join(root, 'node_modules/monaco-editor-core/esm/')]: '.',
 	[join(root, 'node_modules/')]: 'external/',
 	[join(root, 'monaco-lsp-client/')]: 'external/monaco-lsp-client/',
+	[join(root, 'src/deprecated')]: 'vs/',
 	[join(root, 'src/')]: 'vs/',
 };
 
