@@ -1,9 +1,9 @@
 import { readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { urlToEsmPlugin } from './plugin';
-import { getAdditionalEntryPoints, getAdditionalFiles } from '../shared.mjs';
+import { getAdditionalEntryPoints, getAdditionalFiles, mapModuleId, root } from '../shared.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -24,9 +24,11 @@ export default defineConfig(async (args) => {
 				},
 				name: 'monaco-editor',
 				fileName: (_format, entryName) => {
-					const r = entryName + '.js';
-					console.log(entryName);
-					return r;
+					const m = mapModuleId(join(root, entryName), '.js');
+					if (m !== undefined) {
+						return m;
+					}
+					return entryName + '.js';
 				},
 				formats: ['amd']
 			},

@@ -55,7 +55,7 @@ export function getAdditionalFiles() {
 	];
 }
 
-const root = join(import.meta.dirname, '../');
+export const root = join(import.meta.dirname, '../');
 
 /**
  * @param {string} pattern
@@ -65,18 +65,25 @@ function findFiles(pattern) {
 	return glob.sync(pattern, { cwd: root });
 }
 
-export function getAdditionalEntryPoints(includeFeatures = false) {
+export function getAdditionalEntryPoints(includeFeatures = false, includeDeprecated = true) {
 	const features = includeFeatures ? Object.fromEntries(findFiles('./src/**/register.*').filter(p => !p.includes('.d.ts')).map(v => [v, join(root, v)])) : {};
+
+	const deprecatedFiles = includeDeprecated ? findFiles('./src/deprecated/**/*.ts') : [];
+	const deprecatedEntryPoints = Object.fromEntries(
+		deprecatedFiles.map(v => {
+			let key = v.replace(/^src\/deprecated\//, '');
+			//key = key.replace(/(\.d)?\.ts$/, '');
+			if (key.startsWith('./')) {
+				key = key.substring(2);
+			}
+			return [key, join(root, v)];
+		})
+	);
+
 	return {
 		...features,
 		'editor': join(root, 'src/editor.ts'),
-		'editor/editor.main': join(root, 'src/deprecated/editor/editor.main.ts'),
-		'editor/editor.worker': join(root, 'src/deprecated/editor/editor.worker.ts'),
-		'basic-languages/monaco.contribution': join(root, 'src/deprecated/basic-languages/monaco.contribution.ts'),
-		'language/css/monaco.contribution': join(root, 'src/deprecated/language/css/monaco.contribution.ts'),
-		'language/html/monaco.contribution': join(root, 'src/deprecated/language/html/monaco.contribution.ts'),
-		'language/json/monaco.contribution': join(root, 'src/deprecated/language/json/monaco.contribution.ts'),
-		'language/typescript/monaco.contribution': join(root, 'src/deprecated/language/typescript/monaco.contribution.ts'),
+		...deprecatedEntryPoints,
 	};
 }
 
@@ -97,7 +104,8 @@ export function mapModuleId(moduleId, newExt) {
 	for (const [key, val] of Object.entries(mappedPaths)) {
 		if (moduleId.startsWith(key)) {
 			const relativePath = moduleId.substring(key.length);
-			return changeExt(join(val, relativePath), newExt);
+			const result = changeExt(join(val, relativePath), newExt);
+			return result;
 		}
 	}
 	return undefined;
