@@ -44,7 +44,6 @@ jobs:
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci --prefix webpack-plugin
 
-      # CI steps temporarily disabled (enable by end of august 2025)
       # # <building-from-source>
       # - name: Setup, Build & Test monaco-editor-core
       #   run: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg nightly
