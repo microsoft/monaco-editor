@@ -70,6 +70,7 @@ export function getAdditionalEntryPoints(includeFeatures = false) {
 	return {
 		...features,
 		'editor': join(root, 'src/editor.ts'),
+		'editor/editor.main': join(root, 'src/editor/editor.main.ts'),
 		'editor/editor.worker': join(root, 'src/deprecated/editor/editor.worker.ts'),
 		'basic-languages/monaco.contribution': join(root, 'src/deprecated/basic-languages/monaco.contribution.ts'),
 		'language/css/monaco.contribution': join(root, 'src/deprecated/language/css/monaco.contribution.ts'),
