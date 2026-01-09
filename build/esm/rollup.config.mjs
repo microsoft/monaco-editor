@@ -13,7 +13,7 @@ import del from 'rollup-plugin-delete';
 import keepCssImports from './rollup-plugin-keep-css-imports/dist/index.mjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { urlToEsmPlugin } from './rollup-url-to-module-plugin/index.mjs';
-import { getNlsEntryPoints, mapModuleId } from '../shared.mjs';
+import { getAdditionalEntryPoints, getAdditionalFiles, mapModuleId } from '../shared.mjs';
 import { readFileSync } from 'fs';
 
 
@@ -22,12 +22,8 @@ const outDir = join(root, './out/monaco-editor/esm');
 
 export default defineConfig({
 	input: {
-		entry: join(root, './src/editor/editor.main.ts'),
-		editorAll: join(root, './src/editor/editor.all.ts'),
-		edcoreMain: join(root, './src/editor/edcore.main.ts'),
-		editorApi: join(root, './src/editor/editor.api.ts'),
-		editorWorker: join(root, './src/editor/editor.worker.ts'),
-		...getNlsEntryPoints(),
+		entry: join(root, './src/index.ts'),
+		...getAdditionalEntryPoints(true),
 	},
 
 	output: {
@@ -45,6 +41,7 @@ export default defineConfig({
 			return '[name].js';
 		},
 		preserveModules: true,
+		hoistTransitiveImports: false,
 	},
 
 
@@ -52,13 +49,20 @@ export default defineConfig({
 		del({ targets: outDir, force: true }),
 
 		{
-			name: 'copy-codicon-font',
+			name: 'emit-additional-files',
 			generateBundle() {
 				this.emitFile({
 					type: 'asset',
 					fileName: 'vs/base/browser/ui/codicons/codicon/codicon.ttf',
 					source: readFileSync(join(root, 'node_modules/monaco-editor-core/esm/vs/base/browser/ui/codicons/codicon/codicon.ttf'))
 				});
+				for (const file of getAdditionalFiles()) {
+					this.emitFile({
+						type: 'asset',
+						fileName: file.pathFromRoot,
+						source: 'value' in file.source ? file.source.value : readFileSync(file.source.absolutePath)
+					});
+				}
 			}
 		},
 

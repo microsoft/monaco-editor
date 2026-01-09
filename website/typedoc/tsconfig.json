@@ -6,6 +6,6 @@
 		"strict": true
 	},
 	// TODO: load from node_modules to be in sync with the latest stable monaco-editor
-	"include": ["../../out/monaco-editor/esm/vs/editor/editor.main.d.ts"],
+	"include": ["../../out/monaco-editor/esm/vs/**/*.d.ts"],
 	"exclude": ["theme"]
 }

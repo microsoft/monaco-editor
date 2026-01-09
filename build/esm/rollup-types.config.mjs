@@ -9,26 +9,30 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import { join } from 'path';
 import { defineConfig } from 'rollup';
 import { dts } from "rollup-plugin-dts";
-import { dtsDeprecationWarning, mapModuleId } from '../shared.mjs';
+import { dtsDeprecationWarning, getAdditionalEntryPoints, mapModuleId } from '../shared.mjs';
 
 const root = join(import.meta.dirname, '../../');
 
 export default defineConfig({
 	input: {
-		entry: join(root, './src/editor/editor.main.ts'),
-		editorApi: join(root, './src/editor/editor.api.ts'),
+		entry: join(root, './src/index.ts'),
+		...getAdditionalEntryPoints(true, false),
 	},
 	output: {
 		dir: join(root, './out/monaco-editor/esm'),
 		format: 'es',
-		preserveModules: false,
+		preserveModules: true,
 		entryFileNames: function (chunkInfo) {
 			const moduleId = chunkInfo.facadeModuleId;
 			if (moduleId) {
 				const m = mapModuleId(moduleId, '.d.ts');
+				console.log(moduleId + ' => ' + m);
 				if (m !== undefined) {
+
 					return m;
 				}
+			} else {
+				console.warn('NO MODULE ID for chunkInfo', chunkInfo);
 			}
 			return '[name].d.ts';
 		},

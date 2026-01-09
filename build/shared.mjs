@@ -8,12 +8,16 @@
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { readdirSync } from 'fs';
+import glob from 'glob';
 
 /**
  * @param {string} filePath
  * @param {string} newExt
  */
 export function changeExt(filePath, newExt) {
+	if (filePath.endsWith(newExt)) {
+		return filePath;
+	}
 	const idx = filePath.lastIndexOf('.');
 	if (idx === -1) {
 		return filePath + newExt;
@@ -22,24 +26,72 @@ export function changeExt(filePath, newExt) {
 	}
 }
 
-export function getNlsEntryPoints() {
+/**
+ * @returns {{ pathFromRoot: string, source: { value: string } | { absolutePath: string } }[]}
+ */
+export function getAdditionalFiles() {
 	const nlsDir = dirname(fileURLToPath(import.meta.resolve('monaco-editor-core/esm/nls.messages.en.js')));
-	const nlsFiles = readdirSync(nlsDir)
-		.filter(file => file.startsWith('nls.messages.') && file.endsWith('.js'))
-		.reduce((acc, file) => {
-			// @ts-ignore
-			acc[file] = join(nlsDir, file);
-			return acc;
-		}, {});
-	return nlsFiles;
+	const files = readdirSync(nlsDir)
+		.flatMap(file => {
+			const match = /nls\.messages\.(?<lang>.+)\.js/.exec(file);
+			if (!match) {
+				return [];
+			}
+			const lang = match.groups?.lang;
+			return [
+				{
+					pathFromRoot: join('vs', 'nls', 'lang', lang + '.js'),
+					source: { absolutePath: join(nlsDir, file) }
+				},
+				{
+					pathFromRoot: join('vs', 'nls', 'lang', lang + '.d.ts'),
+					source: { value: 'export {};' }
+				}
+			];
+		});
+
+	return [
+		...files,
+	];
 }
 
-const root = join(import.meta.dirname, '../');
+export const root = join(import.meta.dirname, '../');
+
+/**
+ * @param {string} pattern
+ * @returns
+ */
+function findFiles(pattern) {
+	return glob.sync(pattern, { cwd: root });
+}
+
+export function getAdditionalEntryPoints(includeFeatures = false, includeDeprecated = true) {
+	const features = includeFeatures ? Object.fromEntries(findFiles('./src/**/register.*').filter(p => !p.includes('.d.ts')).map(v => [v, join(root, v)])) : {};
+
+	const deprecatedFiles = includeDeprecated ? findFiles('./src/deprecated/**/*.ts') : [];
+	const deprecatedEntryPoints = Object.fromEntries(
+		deprecatedFiles.map(v => {
+			let key = v.replace(/^src\/deprecated\//, '');
+			//key = key.replace(/(\.d)?\.ts$/, '');
+			if (key.startsWith('./')) {
+				key = key.substring(2);
+			}
+			return [key, join(root, v)];
+		})
+	);
+
+	return {
+		...features,
+		'editor': join(root, 'src/editor.ts'),
+		...deprecatedEntryPoints,
+	};
+}
 
 const mappedPaths = {
 	[join(root, 'node_modules/monaco-editor-core/esm/')]: '.',
 	[join(root, 'node_modules/')]: 'external/',
 	[join(root, 'monaco-lsp-client/')]: 'external/monaco-lsp-client/',
+	[join(root, 'src/deprecated')]: 'vs/',
 	[join(root, 'src/')]: 'vs/',
 };
 
@@ -52,7 +104,8 @@ export function mapModuleId(moduleId, newExt) {
 	for (const [key, val] of Object.entries(mappedPaths)) {
 		if (moduleId.startsWith(key)) {
 			const relativePath = moduleId.substring(key.length);
-			return changeExt(join(val, relativePath), newExt);
+			const result = changeExt(join(val, relativePath), newExt);
+			return result;
 		}
 	}
 	return undefined;
@@ -87,7 +140,7 @@ declare namespace languages {
 	/** @deprecated Use the new top level "typescript" namespace instead. */
 	export const typescript: { deprecated: true };
 }
-`;
+					`;
 					file.code = content;
 				}
 			}
