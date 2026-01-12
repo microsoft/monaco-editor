@@ -25,6 +25,14 @@ export function urlToEsmPlugin() {
 			while ((match = regex.exec(code)) !== null) {
 				let path = match[2];
 
+				// Only process URLs with ?esm suffix
+				if (!path.endsWith('?esm')) {
+					continue;
+				}
+
+				// Remove the ?esm suffix
+				path = path.slice(0, -4);
+
 				if (!path.startsWith('.') && !path.startsWith('/')) {
 					path = `./${path}`;
 				}

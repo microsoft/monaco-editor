@@ -3,6 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// TODO merge this with the ESM version plugin.
+// The main difference is that in this context, the default output is AMD, so ?esm would be outputted as AMD as well.
+
 /**
  * @type {() => import('rollup').Plugin}
  */
@@ -15,8 +18,8 @@ export function urlToEsmPlugin() {
 			}
 			let idx = 0;
 
-			// Look for `new URL("...?worker", import.meta.url)` patterns.
-			const regex = /new\s+URL\s*\(\s*(['"`])(.*?)\?worker\1\s*,\s*import\.meta\.url\s*\)?/g;
+			// Look for `new URL("...?esm", import.meta.url)` patterns.
+			const regex = /new\s+URL\s*\(\s*(['"`])(.*?)\?esm\1\s*,\s*import\.meta\.url\s*\)?/g;
 
 			let match;
 			let modified = false;
