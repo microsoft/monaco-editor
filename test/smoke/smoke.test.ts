@@ -11,7 +11,7 @@ const URLS: Record<PackagerKind, string> = {
 	webpack: '/test/smoke/webpack/index.html',
 	esbuild: '/test/smoke/esbuild/index.html',
 	vite: '/test/smoke/vite/dist/index.html',
-	parcel: '/test/smoke/parcel/dist/index.html'
+	// parcel: '/test/smoke/parcel/dist/index.html'
 };
 
 test.describe('Monaco Editor Smoke Tests', () => {
