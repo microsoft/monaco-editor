@@ -92,7 +92,6 @@ lang.html = monaco.html;
 lang.typescript = monaco.typescript;
 lang.json = monaco.json;
 
-
 const styleSheetUrl = require.toUrl('vs/editor/editor.main.css');
 
 const link = document.createElement('link');
