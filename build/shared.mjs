@@ -65,7 +65,7 @@ function findFiles(pattern) {
 	return glob.sync(pattern, { cwd: root });
 }
 
-export function getAdditionalEntryPoints(includeFeatures = false, includeDeprecated = true) {
+export function getEntryPoints(includeFeatures = false, includeDeprecated = true) {
 	const features = includeFeatures ? Object.fromEntries(findFiles('./src/**/register.*').filter(p => !p.includes('.d.ts')).map(v => [v, join(root, v)])) : {};
 
 	const deprecatedFiles = includeDeprecated ? findFiles('./src/deprecated/**/*.ts') : [];
@@ -83,6 +83,7 @@ export function getAdditionalEntryPoints(includeFeatures = false, includeDepreca
 	const result = {
 		...features,
 		'editor': join(root, 'src/editor.ts'),
+		'index': join(root, './src/index.ts'),
 		...deprecatedEntryPoints,
 	};
 

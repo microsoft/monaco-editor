@@ -4,7 +4,7 @@ import { join } from 'node:path/posix';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { urlToEsmPlugin } from './plugin';
-import { changeExt, getAdditionalEntryPoints, getNlsFiles } from '../shared.mjs';
+import { changeExt, getEntryPoints, getNlsFiles } from '../shared.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -44,8 +44,9 @@ export default defineConfig(async (args) => {
 			lib: {
 				cssFileName: 'editor/editor.main',
 				entry: {
-					...getAdditionalEntryPoints(),
+					...getEntryPoints(),
 					'nls.messages-loader': resolve(__dirname, 'src/nls.messages-loader.js'),
+					// redirect that entry point
 					'src/deprecated/editor/editor.main.ts': resolve(__dirname, 'src/editor.main.ts'),
 				},
 				name: 'monaco-editor',
