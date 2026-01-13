@@ -38,12 +38,12 @@
 	"module": "./esm/vs/editor/editor.main.js",
 	"exports": {
 		".": {
-			"types": "./esm/vs/editor.d.ts",
-			"import": "./esm/vs/editor.js",
-			"require": "./min/vs/editor.js"
+			"types": "./esm/vs/index.d.ts",
+			"import": "./esm/vs/index.js",
+			"require": "./min/vs/index.js"
 		},
-		"./*.js": "./*.js",
-		"./*": "./*.js"
+		"./*.js": "./esm/vs/*.js",
+		"./*": "./esm/vs/*.js"
 	},
 	"repository": {
 		"type": "git",
