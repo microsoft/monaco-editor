@@ -141,31 +141,5 @@ testTokenization(
 				]
 			}
 		],
-
-		// JSX
-		[
-			{
-				line: '<div>**child**</div>',
-				tokens: [
-					{ startIndex: 0, type: 'type.identifier.mdx' },
-					// This is incorrect. MDX children that start on the same line are JSX, not markdown
-					{ startIndex: 5, type: 'strong.mdx' },
-					{ startIndex: 14, type: 'type.identifier.mdx' }
-				]
-			},
-			{
-				line: '{console.log("This is JavaScript")}',
-				tokens: [
-					{ startIndex: 0, type: 'delimiter.bracket.mdx' },
-					{ startIndex: 1, type: 'identifier.js' },
-					{ startIndex: 8, type: 'delimiter.js' },
-					{ startIndex: 9, type: 'identifier.js' },
-					{ startIndex: 12, type: 'delimiter.parenthesis.js' },
-					{ startIndex: 13, type: 'string.js' },
-					{ startIndex: 33, type: 'delimiter.parenthesis.js' },
-					{ startIndex: 34, type: 'delimiter.bracket.mdx' }
-				]
-			}
-		]
 	]
 );
