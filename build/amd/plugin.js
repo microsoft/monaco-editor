@@ -6,6 +6,8 @@
 // TODO merge this with the ESM version plugin.
 // The main difference is that in this context, the default output is AMD, so ?esm would be outputted as AMD as well.
 
+// TODO: adopt @vscode/esm-rollup-plugin when it becomes available.
+
 /**
  * @type {() => import('rollup').Plugin}
  */
@@ -31,14 +33,16 @@ export function urlToEsmPlugin() {
 			while ((match = regex.exec(code)) !== null) {
 				let path = match[2];
 
-				if (!path.startsWith('.') && !path.startsWith('/')) {
-					path = `./${path}`;
+				// Skip invalid paths (e.g., "..." in error messages)
+				if (!path || path === '...' || !/^[./\w@-]/.test(path)) {
+					continue;
 				}
 
 				const start = match.index;
 				const end = start + match[0].length;
 
 				const varName = `__worker_url_${idx++}__`;
+				console.log(`Rewriting worker URL import in ${id}: ${path}?worker`);
 				additionalImports.push(`import ${varName} from ${JSON.stringify(path + '?worker&url')};`);
 
 				const replacement = varName;
