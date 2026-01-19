@@ -122,8 +122,21 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
-			// whitespace
+			// whitespaces
 			{ include: '@whitespace' },
+
+			// numbers
+			{ include: '@number' },
+
+			// strings
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/"""/, 'string', '@string."""'],
+			[/"/, 'string', '@string."'],
+
+			// characters
+			[/'[^\\']'B?/, 'string'],
+			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
+			[/'/, 'string.invalid']
 		],
 
 		// Done
@@ -152,7 +165,19 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		string: [
-			// Char
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[
+				/("""|")/,
+				{
+					cases: {
+						'$#==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
+				}
+			]
+
 		]
 	}
 };
