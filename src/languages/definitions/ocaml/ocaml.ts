@@ -1,0 +1,158 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+import type { languages } from '../../../editor';
+
+export const conf: languages.LanguageConfiguration = {
+	comments: {
+		blockComment: ['(*', '*)']
+	},
+	brackets: [
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
+	],
+	autoClosingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' }
+	],
+	surroundingPairs: [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"', close: '"' },
+		{ open: "'", close: "'" }
+	],
+	folding: {
+		markers: {
+			start: new RegExp('^\\s*//\\s*#region\\b|^\\s*\\(\\*\\s*#region(.*)\\*\\)'),
+			end: new RegExp('^\\s*//\\s*#endregion\\b|^\\s*\\(\\*\\s*#endregion\\s*\\*\\)')
+		}
+	}
+};
+
+export const language = <languages.IMonarchLanguage>{
+	defaultToken: 'invalid',
+	tokenPostfix: '.ocaml',
+
+	keywords: [
+		'and',
+		'as',
+		'asr',
+		'assert',
+		'begin',
+		'class',
+		'constraint',
+		'do',
+		'done',
+		'downto',
+		'else',
+		'end',
+		'exception',
+		'external',
+		'false',
+		'for',
+		'fun',
+		'function',
+		'functor',
+		'if',
+		'in',
+		'include',
+		'inherit',
+		'initializer',
+		'land',
+		'lazy',
+		'let',
+		'lor',
+		'lsl',
+		'lsr',
+		'lxor',
+		'match',
+		'method',
+		'mod',
+		'module',
+		'mutable',
+		'new',
+		'nonrec',
+		'object',
+		'of',
+		'open',
+		'open!',
+		'or',
+		'private',
+		'rec',
+		'sig',
+		'struct',
+		'then',
+		'to',
+		'true',
+		'try',
+		'type',
+		'val',
+		'virtual',
+		'when',
+		'while',
+		'with',
+	],
+
+	// TODO
+	typeKeywords: [],
+
+	// we include these common regular expressions
+	symbols: /[=><!~?:&|+\-*\^%;\.,\/]+/,
+	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+	integersuffix: /[lLn]/,
+	floatsuffix: /[fFmM]?/,
+
+	// The main tokenizer for our languages
+	tokenizer: {
+		root: [
+			// identifiers and keywords
+			[
+				/[a-zA-Z_]\w*/,
+				{
+					cases: {
+						'@keywords': 'keyword',
+						'@default': 'identifier'
+					}
+				}
+			],
+
+			// whitespace
+			{ include: '@whitespace' },
+		],
+
+		// Done
+		whitespace: [
+			[/[ \t\r\n]+/, ''],
+			[/\(\*\*/, 'comment.doc', '@comment'],
+			[/\(\*/, 'comment', '@comment']
+		],
+
+		comment: [
+			[/[^\(\)*]+/, 'comment'],
+			[/\(\*/, 'comment', '@push'],
+			[/\*\)/, 'comment', '@pop'],
+			[/[\(\)*]/, 'comment']
+		],
+
+		number: [
+			// Integer
+			[/[\d][\d_]*(@intSuffixes)?/, 'number'],
+			[/0[xX][\da-fA-F][\da-fA-F_]*(@intSuffixes)?/, 'number,hex'],
+			[/0[oO][0-7][0-7_]*(@intSuffixes)?/, 'number.octal'],
+			[/0[bB][01][01_]*(@intSuffixes)?/, 'number.binary'],
+			// Floating-point
+			[/[\d][\d_]*(\.[\d_]*)?([eE][+-]?[\d][\d_]*)?/, 'number.float'],
+			[/0[xX][\da-fA-F][\da-fA-F_]*(\.[\da-fA-F_]*)?([pP][+-]?[\d][\d_]*)?/, 'number.float'],
+		],
+
+		string: [
+			// Char
+		]
+	}
+};
