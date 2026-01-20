@@ -97,3 +97,9 @@ jobs:
       - name: Test website
         working-directory: website
         run: npm run test
+
+      - name: Upload website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: ./website/dist
