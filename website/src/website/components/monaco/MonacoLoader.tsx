@@ -4,18 +4,18 @@ import { getMonaco, loadMonaco } from "../../../monaco-loader";
 // Name of the accessible theme for the website
 export const ACCESSIBLE_THEME_NAME = "vs-accessible";
 
-// Flag to track if the accessible theme has been defined
-let accessibleThemeDefined = false;
-
 /**
  * Defines an accessible version of the VS theme with improved color contrast.
  * This theme fixes WCAG 2 AA color contrast issues with the default VS theme.
+ * Uses a WeakSet to track Monaco instances to handle hot module reloading.
  */
+const monacoInstancesWithTheme = new WeakSet<typeof globalThis.monaco>();
+
 function defineAccessibleTheme(monaco: typeof globalThis.monaco): void {
-	if (accessibleThemeDefined) {
+	if (monacoInstancesWithTheme.has(monaco)) {
 		return;
 	}
-	accessibleThemeDefined = true;
+	monacoInstancesWithTheme.add(monaco);
 
 	// Define an accessible VS theme with improved contrast ratios
 	// The default VS theme uses #ff0000 for attribute.name which has insufficient
@@ -32,7 +32,8 @@ function defineAccessibleTheme(monaco: typeof globalThis.monaco): void {
 		colors: {},
 	});
 
-	// Set the accessible theme as the default
+	// Set the accessible theme as the default for the website
+	// This ensures editors without an explicit theme use the accessible theme
 	monaco.editor.setTheme(ACCESSIBLE_THEME_NAME);
 }
 
