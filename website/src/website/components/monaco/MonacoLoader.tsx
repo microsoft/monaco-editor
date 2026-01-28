@@ -2,7 +2,7 @@ import * as React from "react";
 import { getMonaco, loadMonaco } from "../../../monaco-loader";
 
 // Name of the accessible theme for the website
-export const ACCESSIBLE_THEME_NAME = "vs-accessible";
+export const VS_LIGHT_ADJUSTED = "vs-accessible";
 
 /**
  * Defines an accessible version of the VS theme with improved color contrast.
@@ -21,7 +21,7 @@ function defineAccessibleTheme(monaco: typeof globalThis.monaco): void {
 	// The default VS theme uses #ff0000 for attribute.name which has insufficient
 	// contrast (3.99:1) against white backgrounds. WCAG 2 AA requires 4.5:1.
 	// #c50f1f provides ~4.71:1 contrast ratio against white.
-	monaco.editor.defineTheme(ACCESSIBLE_THEME_NAME, {
+	monaco.editor.defineTheme(VS_LIGHT_ADJUSTED, {
 		base: "vs",
 		inherit: true,
 		rules: [
@@ -34,7 +34,7 @@ function defineAccessibleTheme(monaco: typeof globalThis.monaco): void {
 
 	// Set the accessible theme as the default for the website
 	// This ensures editors without an explicit theme use the accessible theme
-	monaco.editor.setTheme(ACCESSIBLE_THEME_NAME);
+	monaco.editor.setTheme(VS_LIGHT_ADJUSTED);
 }
 
 /**
