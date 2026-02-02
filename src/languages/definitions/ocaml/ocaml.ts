@@ -120,13 +120,13 @@ export const language = <languages.IMonarchLanguage>{
 		'__POS_OF__',
 	],
 
-	// we include these common regular expressions
 	coreOperatorChar: /[$&*+\-\/=>@\^|]/,
 	operatorChar: /((@coreOperatorChar)|[~!?%<:.])/,
 	infixSym: /(((@coreOperatorChar)|[%<])(@operatorChar)*|#(@operator)+)/,
-	infixOp: /(\*|\+|-|-.|=|!=|<|>|\|\||&|&&|:=|(@infixSym))/,
+	infixOp: /(\*|\+|-|-\.|=|!=|<|>|\|\||&|&&|:=|(@infixSym))/,
 	prefixSym: /(!(@operatorChar)*|[?~](@operatorChar)+)/,
-	operator: /((@prefixSym)|(infixOp))/,
+	operator: /((@prefixSym)|(@infixOp))/,
+
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integerSuffix: /[lLn]/,
 
@@ -135,7 +135,7 @@ export const language = <languages.IMonarchLanguage>{
 		root: [
 			// identifiers and keywords
 			[
-				/[a-zA-Z_]\w*/,
+				/[a-z_]\w*/,
 				{
 					cases: {
 						'end': { token: 'keyword.bracket', bracket: '@close' },
@@ -147,12 +147,13 @@ export const language = <languages.IMonarchLanguage>{
 					}
 				}
 			],
+			[/[A-Z]\w*/, 'constructor'],
 
 			{ include: '@whitespace' },
 
 			{ include: '@number' },
 
-			[/[;,.]/, 'delimiter'],
+			[/[:;,.]/, 'delimiter'],
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
@@ -186,14 +187,12 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		number: [
-			// Integer
-			[/[\d][\d_]*(@integerSuffix)?/, 'number'],
+			[/0[xX][\da-fA-F][\da-fA-F_]*(\.[\da-fA-F_]*)?([pP][+-]?[\d][\d_]*)?/, 'number.float'],
 			[/0[xX][\da-fA-F][\da-fA-F_]*(@integerSuffix)?/, 'number,hex'],
 			[/0[oO][0-7][0-7_]*(@integerSuffix)?/, 'number.octal'],
 			[/0[bB][01][01_]*(@integerSuffix)?/, 'number.binary'],
-			// Floating-point
 			[/[\d][\d_]*(\.[\d_]*)?([eE][+-]?[\d][\d_]*)?/, 'number.float'],
-			[/0[xX][\da-fA-F][\da-fA-F_]*(\.[\da-fA-F_]*)?([pP][+-]?[\d][\d_]*)?/, 'number.float'],
+			[/[\d][\d_]*(@integerSuffix)?/, 'number'],
 		],
 
 		string: [
