@@ -126,7 +126,7 @@ export const language = <languages.IMonarchLanguage>{
 	infixSym: /(((@coreOperatorChar)|[%<])(@operatorChar)*|#(@operator)+)/,
 	infixOp: /(\*|\+|-|-.|=|!=|<|>|\|\||&|&&|:=|(@infixSym))/,
 	prefixSym: /(!(@operatorChar)*|[?~](@operatorChar)+)/,
-	operators: /((@prefixSym)|(infixOp))/,
+	operator: /((@prefixSym)|(infixOp))/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integerSuffix: /[lLn]/,
 
@@ -169,7 +169,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/\|[}\]]/, '@brackets'],
 			[/[{}()\[\]]/, '@brackets'],
 
-			[/@operators/, 'operator']
+			[/@operator/, 'operator']
 		],
 
 		whitespace: [
