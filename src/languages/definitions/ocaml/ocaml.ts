@@ -41,6 +41,9 @@ export const language = <languages.IMonarchLanguage>{
 	defaultToken: 'invalid',
 	tokenPostfix: '.ocaml',
 
+	// Not implemented:
+	// - Quoted string
+
 	keywords: [
 		'and',
 		'as',
@@ -121,9 +124,9 @@ export const language = <languages.IMonarchLanguage>{
 	],
 
 	coreOperatorChar: /[$&*+\-\/=>@\^|]/,
-	operatorChar: /((@coreOperatorChar)|[~!?%<:.])/,
-	infixSym: /(((@coreOperatorChar)|[%<])(@operatorChar)*|#(@operator)+)/,
-	infixOp: /(\*|\+|-|-\.|=|!=|<|>|\|\||&|&&|:=|(@infixSym))/,
+	operatorChar: /((@coreOperatorChar)|[~!?%<:\.])/,
+	infixSym: /(((@coreOperatorChar)|[%<])(@operatorChar)*|#(@operatorChar)+)/,
+	infixOp: /(!=|<|>|\|\||&&|:=|(@infixSym))/,
 	prefixSym: /(!(@operatorChar)*|[?~](@operatorChar)+)/,
 	operator: /((@prefixSym)|(@infixOp))/,
 
@@ -161,7 +164,6 @@ export const language = <languages.IMonarchLanguage>{
 			[/[:;,.]/, 'delimiter'],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"""/, 'string', '@string."""'],
 			[/"/, 'string', '@string."'],
 
@@ -203,6 +205,8 @@ export const language = <languages.IMonarchLanguage>{
 
 		string: [
 			[/[^\\"]+/, 'string'],
+
+			[/\\$/, 'string'], // newline sequence
 			[/\\u{\w+}/, 'string.escape'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],

@@ -155,6 +155,31 @@ testTokenization('ocaml', [
 	],
 	[
 		{
+			line: 'let longstr =',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.ocaml' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.ocaml' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'operator.ocaml' },
+			]
+		},
+		{
+			line: '  "Call me Ishmael. Some years ago — never mind how long \\',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'string.ocaml' },
+			]
+		},
+		{
+			line: '  precisely..."',
+			tokens: [
+				{ startIndex: 0, type: 'string.ocaml' },
+			]
+		}
+	],
+	[
+		{
 			line: 'let a = "This is a string"',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.ocaml' },
@@ -164,6 +189,26 @@ testTokenization('ocaml', [
 				{ startIndex: 6, type: 'operator.ocaml' },
 				{ startIndex: 7, type: '' },
 				{ startIndex: 8, type: 'string.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: 'let pi = 4.0 *. atan 1.0',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.ocaml' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.ocaml' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'operator.ocaml' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'number.float.ocaml' },
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'operator.ocaml' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'identifier.ocaml' },
+				{ startIndex: 20, type: '' },
+				{ startIndex: 21, type: 'number.float.ocaml' }
 			]
 		}
 	],
