@@ -12,13 +12,15 @@ export const conf: languages.LanguageConfiguration = {
 	brackets: [
 		['{', '}'],
 		['[', ']'],
-		['(', ')']
+		['(', ')'],
+		['{|', '|}'],
+		['[|', '|]'],
 	],
 	autoClosingPairs: [
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' }
+		{ open: '"', close: '"', notIn: ['string'] }
 	],
 	surroundingPairs: [
 		{ open: '{', close: '}' },
@@ -42,7 +44,6 @@ export const language = <languages.IMonarchLanguage>{
 	keywords: [
 		'and',
 		'as',
-		'asr',
 		'assert',
 		'begin',
 		'class',
@@ -64,16 +65,10 @@ export const language = <languages.IMonarchLanguage>{
 		'include',
 		'inherit',
 		'initializer',
-		'land',
 		'lazy',
 		'let',
-		'lor',
-		'lsl',
-		'lsr',
-		'lxor',
 		'match',
 		'method',
-		'mod',
 		'module',
 		'mutable',
 		'new',
@@ -98,15 +93,42 @@ export const language = <languages.IMonarchLanguage>{
 		'while',
 		'with',
 	],
-
-	// TODO
-	typeKeywords: [],
+	operatorKeywords: [
+		'mod',
+		'land',
+		'lor',
+		'lxor',
+		'lsl',
+		'lsr',
+		'asr',
+	],
+	bracketOpenKeywords: [
+		'begin',
+		'object',
+		'sig',
+		'struct'
+	],
+	debuggingConsts: [
+		'__FILE__',
+		'__FUNCTION__',
+		'__LINE__',
+		'__LINE_OF__',
+		'__LOC__',
+		'__LOC_OF__',
+		'__MODULE__',
+		'__POS__',
+		'__POS_OF__',
+	],
 
 	// we include these common regular expressions
-	symbols: /[=><!~?:&|+\-*\^%;\.,\/]+/,
+	coreOperatorChar: /[$&*+-/=>@^|]/,
+	operatorChar: /((@coreOperatorChar)|[~!?%<:.])/,
+	infixSym: /(((@coreOperatorChar)|[%<])(@operatorChar)*|#(@operator)+)/,
+	infixOp: /(\*|\+|-|-.|=|!=|<|>|\|\||&|&&|:=|(@infixSym))/,
+	prefixSym: /(\!(@operatorChar)*|[?~](@operatorChar)+)/,
+	operators: /((@prefixSym)|(infixOp))/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integersuffix: /[lLn]/,
-	floatsuffix: /[fFmM]?/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
@@ -116,17 +138,21 @@ export const language = <languages.IMonarchLanguage>{
 				/[a-zA-Z_]\w*/,
 				{
 					cases: {
+						'end': { token: 'keyword.bracket', bracket: '@close' },
+						'@bracketOpenKeywords': { token: 'keyword.bracket', bracket: '@open' },
+						'@operatorKeywords': 'operator',
 						'@keywords': 'keyword',
+						'@debuggingConsts': 'constant',
 						'@default': 'identifier'
 					}
 				}
 			],
 
-			// whitespaces
 			{ include: '@whitespace' },
 
-			// numbers
 			{ include: '@number' },
+
+			[/[;,.]/, 'delimiter'],
 
 			// strings
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
@@ -136,10 +162,16 @@ export const language = <languages.IMonarchLanguage>{
 			// characters
 			[/'[^\\']'B?/, 'string'],
 			[/(')(@escapes)(')/, ['string', 'string.escape', 'string']],
-			[/'/, 'string.invalid']
+			[/'/, 'string.invalid'],
+
+			// brackets
+			[/[{\[]\|/, '@brackets'],
+			[/\|[}\]]/, '@brackets'],
+			[/[{}()\[\]]/, '@brackets'],
+
+			[/@operators/, 'operator']
 		],
 
-		// Done
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
 			[/\(\*\*/, 'comment.doc', '@comment'],
