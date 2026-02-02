@@ -128,6 +128,11 @@ export const language = <languages.IMonarchLanguage>{
 	operator: /((@prefixSym)|(@infixOp))/,
 
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+	coreDec: /[\d][\d_]*/,
+	coreHex: /0[xX][\da-fA-F][\da-fA-F_]*/,
+	exponent: /[eE][+-]?(@coreDec)/,
+	hexExponent: /[pP][+-]?(@coreDec)/,
 	integerSuffix: /[lLn]/,
 
 	// The main tokenizer for our languages
@@ -175,8 +180,8 @@ export const language = <languages.IMonarchLanguage>{
 
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
-			[/\(\*\*/, 'comment.doc', '@comment'],
-			[/\(\*/, 'comment', '@comment']
+			// [/\(\*\*/, 'comment.doc', '@comment'],
+			[/\(\*\*?/, 'comment', '@comment']
 		],
 
 		comment: [
@@ -187,16 +192,18 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		number: [
-			[/0[xX][\da-fA-F][\da-fA-F_]*(\.[\da-fA-F_]*)?([pP][+-]?[\d][\d_]*)?/, 'number.float'],
-			[/0[xX][\da-fA-F][\da-fA-F_]*(@integerSuffix)?/, 'number,hex'],
-			[/0[oO][0-7][0-7_]*(@integerSuffix)?/, 'number.octal'],
-			[/0[bB][01][01_]*(@integerSuffix)?/, 'number.binary'],
-			[/[\d][\d_]*(\.[\d_]*)?([eE][+-]?[\d][\d_]*)?/, 'number.float'],
-			[/[\d][\d_]*(@integerSuffix)?/, 'number'],
+			// for float, fractional part and exponent part can be omitted but not both
+			[/-?(@coreHex)((\.[\da-fA-F_]*)(@hexExponent)?|(@hexExponent))/, 'number.float'],
+			[/-?(@coreHex)(@integerSuffix)?/, 'number.hex'],
+			[/-?0[oO][0-7][0-7_]*(@integerSuffix)?/, 'number.octal'],
+			[/-?0[bB][01][01_]*(@integerSuffix)?/, 'number.binary'],
+			[/-?(@coreDec)((\.[\d_]*)(@exponent)?|(@exponent))/, 'number.float'],
+			[/-?(@coreDec)(@integerSuffix)?/, 'number'],
 		],
 
 		string: [
 			[/[^\\"]+/, 'string'],
+			[/\\u{\w+}/, 'string.escape'],
 			[/@escapes/, 'string.escape'],
 			[/\\./, 'string.escape.invalid'],
 			[

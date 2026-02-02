@@ -11,7 +11,7 @@ testTokenization('ocaml', [
 		{
 			line: '(** documentation *)',
 			tokens: [
-				{ startIndex: 0, type: 'comment.doc.ocaml' },
+				{ startIndex: 0, type: 'comment.ocaml' },
 			]
 		}
 	],
@@ -47,7 +47,112 @@ testTokenization('ocaml', [
 		},
 	],
 	// Integer
+	[
+		{
+			line: '37',
+			tokens: [
+				{ startIndex: 0, type: 'number.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '1_000_000',
+			tokens: [
+				{ startIndex: 0, type: 'number.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '0x00A9',
+			tokens: [
+				{ startIndex: 0, type: 'number.hex.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '0L',
+			tokens: [
+				{ startIndex: 0, type: 'number.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '3.141_592_653_589_793_12',
+			tokens: [
+				{ startIndex: 0, type: 'number.float.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '-1e-5',
+			tokens: [
+				{ startIndex: 0, type: 'number.float.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '0x1p-52',
+			tokens: [
+				{ startIndex: 0, type: 'number.float.ocaml' },
+			]
+		}
+	],
+	// Character
+	[
+		{
+			line: '\'a\'',
+			tokens: [
+				{ startIndex: 0, type: 'string.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '\'\\\'\'',
+			tokens: [
+				{ startIndex: 0, type: 'string.ocaml' },
+				{ startIndex: 1, type: 'string.escape.ocaml' },
+				{ startIndex: 3, type: 'string.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '\'\\xA9\'',
+			tokens: [
+				{ startIndex: 0, type: 'string.ocaml' },
+				{ startIndex: 1, type: 'string.escape.ocaml' },
+				{ startIndex: 5, type: 'string.ocaml' },
+			]
+		}
+	],
 	// String
+	[
+		{
+			line: '"Hello, World!\\n"',
+			tokens: [
+				{ startIndex: 0, type: 'string.ocaml' },
+				{ startIndex: 14, type: 'string.escape.ocaml' },
+				{ startIndex: 16, type: 'string.ocaml' },
+			]
+		}
+	],
+	[
+		{
+			line: '"\\u{207A}"',
+			tokens: [
+				{ startIndex: 0, type: 'string.ocaml' },
+				{ startIndex: 1, type: 'string.escape.ocaml' },
+				{ startIndex: 9, type: 'string.ocaml' },
+			]
+		}
+	],
 	[
 		{
 			line: 'let a = "This is a string"',
@@ -58,9 +163,7 @@ testTokenization('ocaml', [
 				{ startIndex: 5, type: '' },
 				{ startIndex: 6, type: 'operator.ocaml' },
 				{ startIndex: 7, type: '' },
-				{ startIndex: 8, type: 'string.quote.ocaml' },
-				{ startIndex: 9, type: 'string.ocaml' },
-				{ startIndex: 25, type: 'string.quote.ocaml' }
+				{ startIndex: 8, type: 'string.ocaml' },
 			]
 		}
 	],
