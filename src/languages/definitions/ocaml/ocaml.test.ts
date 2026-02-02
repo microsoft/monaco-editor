@@ -180,6 +180,14 @@ testTokenization('ocaml', [
 	],
 	[
 		{
+			line: '{|"Hello, World!"|}',
+			tokens: [
+				{ startIndex: 0, type: 'string.ocaml' },
+			]
+		}
+	],
+	[
+		{
 			line: 'let a = "This is a string"',
 			tokens: [
 				{ startIndex: 0, type: 'keyword.ocaml' },

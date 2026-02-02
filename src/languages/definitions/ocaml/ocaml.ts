@@ -41,9 +41,6 @@ export const language = <languages.IMonarchLanguage>{
 	defaultToken: 'invalid',
 	tokenPostfix: '.ocaml',
 
-	// Not implemented:
-	// - Quoted string
-
 	keywords: [
 		'and',
 		'as',
@@ -166,6 +163,7 @@ export const language = <languages.IMonarchLanguage>{
 			// strings
 			[/"""/, 'string', '@string."""'],
 			[/"/, 'string', '@string."'],
+			[/{([a-z_]*)\|/, 'string', '@quoted.$1'],
 
 			// characters
 			[/'[^\\']'B?/, 'string'],
@@ -173,8 +171,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/'/, 'string.invalid'],
 
 			// brackets
-			[/[{\[]\|/, '@brackets'],
-			[/\|[}\]]/, '@brackets'],
+			[/(\[\||\|\])/, '@brackets'],
 			[/[{}()\[\]]/, '@brackets'],
 
 			[/@operator/, 'operator']
@@ -204,8 +201,16 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		string: [
+			[
+				/\|([a-z_]*)}/,
+				{
+					cases: {
+						'$S2==quoted-$1': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
+				}
+			],
 			[/[^\\"]+/, 'string'],
-
 			[/\\$/, 'string'], // newline sequence
 			[/\\u{\w+}/, 'string.escape'],
 			[/@escapes/, 'string.escape'],
@@ -219,7 +224,19 @@ export const language = <languages.IMonarchLanguage>{
 					}
 				}
 			]
-
+		],
+		quoted: [
+			[/[^|]+/, 'string'],
+			[
+				/\|([a-z_]*)}/,
+				{
+					cases: {
+						'$S2==$1': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
+				}
+			],
+			[/\|/, 'string']
 		]
 	}
 };
