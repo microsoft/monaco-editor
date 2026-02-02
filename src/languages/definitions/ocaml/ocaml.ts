@@ -121,11 +121,11 @@ export const language = <languages.IMonarchLanguage>{
 	],
 
 	// we include these common regular expressions
-	coreOperatorChar: /[$&*+-/=>@^|]/,
+	coreOperatorChar: /[$&*+\-\/=>@\^|]/,
 	operatorChar: /((@coreOperatorChar)|[~!?%<:.])/,
 	infixSym: /(((@coreOperatorChar)|[%<])(@operatorChar)*|#(@operator)+)/,
 	infixOp: /(\*|\+|-|-.|=|!=|<|>|\|\||&|&&|:=|(@infixSym))/,
-	prefixSym: /(\!(@operatorChar)*|[?~](@operatorChar)+)/,
+	prefixSym: /(!(@operatorChar)*|[?~](@operatorChar)+)/,
 	operators: /((@prefixSym)|(infixOp))/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
 	integersuffix: /[lLn]/,
