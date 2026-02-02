@@ -135,7 +135,7 @@ export const language = <languages.IMonarchLanguage>{
 		root: [
 			// identifiers and keywords
 			[
-				/[a-z_]\w*/,
+				/[~?]?[a-z_]\w*/,
 				{
 					cases: {
 						'end': { token: 'keyword.bracket', bracket: '@close' },
