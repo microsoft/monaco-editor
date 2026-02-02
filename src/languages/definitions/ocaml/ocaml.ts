@@ -128,7 +128,7 @@ export const language = <languages.IMonarchLanguage>{
 	prefixSym: /(!(@operatorChar)*|[?~](@operatorChar)+)/,
 	operators: /((@prefixSym)|(infixOp))/,
 	escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
-	integersuffix: /[lLn]/,
+	integerSuffix: /[lLn]/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
@@ -187,10 +187,10 @@ export const language = <languages.IMonarchLanguage>{
 
 		number: [
 			// Integer
-			[/[\d][\d_]*(@intSuffixes)?/, 'number'],
-			[/0[xX][\da-fA-F][\da-fA-F_]*(@intSuffixes)?/, 'number,hex'],
-			[/0[oO][0-7][0-7_]*(@intSuffixes)?/, 'number.octal'],
-			[/0[bB][01][01_]*(@intSuffixes)?/, 'number.binary'],
+			[/[\d][\d_]*(@integerSuffix)?/, 'number'],
+			[/0[xX][\da-fA-F][\da-fA-F_]*(@integerSuffix)?/, 'number,hex'],
+			[/0[oO][0-7][0-7_]*(@integerSuffix)?/, 'number.octal'],
+			[/0[bB][01][01_]*(@integerSuffix)?/, 'number.binary'],
 			// Floating-point
 			[/[\d][\d_]*(\.[\d_]*)?([eE][+-]?[\d][\d_]*)?/, 'number.float'],
 			[/0[xX][\da-fA-F][\da-fA-F_]*(\.[\da-fA-F_]*)?([pP][+-]?[\d][\d_]*)?/, 'number.float'],
