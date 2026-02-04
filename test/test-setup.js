@@ -24,6 +24,7 @@ global.Element = dom.window.Element;
 global.Event = dom.window.Event;
 global.MouseEvent = dom.window.MouseEvent;
 global.KeyboardEvent = dom.window.KeyboardEvent;
+global.customElements = dom.window.customElements;
 
 global.CSS = {
 	escape: (str) => str.replace(/([^\w-])/g, '\\$1'),
