@@ -193,32 +193,27 @@ Adding monaco editor to [Vite](https://vitejs.dev/) is simple since it has built
 ```js
 import * as monaco from 'monaco-editor';
 
-self.MonacoEnvironment = {
-	getWorker: function (workerId, label) {
-		const getWorkerModule = (moduleUrl, label) => {
-			return new Worker(self.MonacoEnvironment.getWorkerUrl(moduleUrl), {
-				name: label,
-				type: 'module'
-			});
-		};
+import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import JsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
+import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
+import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
+import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 
-		switch (label) {
-			case 'json':
-				return getWorkerModule('/monaco-editor/esm/vs/language/json/json.worker?worker', label);
-			case 'css':
-			case 'scss':
-			case 'less':
-				return getWorkerModule('/monaco-editor/esm/vs/language/css/css.worker?worker', label);
-			case 'html':
-			case 'handlebars':
-			case 'razor':
-				return getWorkerModule('/monaco-editor/esm/vs/language/html/html.worker?worker', label);
-			case 'typescript':
-			case 'javascript':
-				return getWorkerModule('/monaco-editor/esm/vs/language/typescript/ts.worker?worker', label);
-			default:
-				return getWorkerModule('/monaco-editor/esm/vs/editor/editor.worker?worker', label);
+self.MonacoEnvironment = {
+	getWorker(_, label) {
+		if (label === "json") {
+			return new JsonWorker();
 		}
+		if (label === "css" || label === "scss" || label === "less") {
+			return new CssWorker();
+		}
+		if (label === "html" || label === "handlebars" || label === "razor") {
+			return new HtmlWorker();
+		}
+		if (label === "typescript" || label === "javascript") {
+			return new TsWorker();
+		}
+		return new EditorWorker();
 	}
 };
 
@@ -227,3 +222,36 @@ monaco.editor.create(document.getElementById('container'), {
 	language: 'javascript'
 });
 ```
+
+> [!NOTE]
+> If you are running your frontend on a port that is different from the origin domain where the workers are evaluated,  
+> you will encounter cross-origin errors.
+> 
+> In this scenario, you can use a blob like this:
+> ```js
+> self.MonacoEnvironment = {
+>		getWorker(_, label) {
+>			function createBlobWorker(workerModule) {
+>				const code = workerModule.toString();
+>				const blob = new Blob([code], { type: 'application/javascript' });
+>				const blobUrl = URL.createObjectURL(blob);
+>				return new Worker(blobUrl, { type: 'module' });
+>			}
+>
+>			if (label === "json") {
+>				return createBlobWorker(JsonWorker);
+>			}
+>			if (label === "css" || label === "scss" || label === "less") {
+>				return createBlobWorker(CssWorker);
+>			}
+>			if (label === "html" || label === "handlebars" || label === "razor") {
+>				return createBlobWorker(HtmlWorker);
+>			}
+>			if (label === "typescript" || label === "javascript") {
+>				return createBlobWorker(TsWorker);
+>			}
+>
+>			return createBlobWorker(EditorWorker);
+>		}
+>	};
+> ```
