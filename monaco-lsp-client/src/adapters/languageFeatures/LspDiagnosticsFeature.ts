@@ -31,7 +31,6 @@ export class LspDiagnosticsFeature extends Disposable {
 			}
 		}));
 
-		debugger;
 		this._register(this._connection.connection.registerNotificationHandler(
 			api.client.textDocumentPublishDiagnostics,
 			(params) => this._handlePublishDiagnostics(params)
