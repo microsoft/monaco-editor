@@ -1,15 +1,17 @@
-# Contributing
+# Contributing / Dev Setup
 
-Checkout [MAINTAINING.md](./MAINTAINING.md) for common maintaining tasks.
+## Source Code Structure
 
-## A brief explanation on the source code structure
+It is important to understand that the Monaco Editor _Core_ is built directly from the [VS Code source code](https://github.com/microsoft/vscode).
+The Monaco Editor then enhances the Monaco Editor Core with some basic language features.
 
-This repository contains source code only for Monaco Editor Languages, the core editor source lives in the [vscode repository](https://github.com/microsoft/vscode).
+This diagram describes the relationships between the repositories and the npm packages:
 
-| repository                                                  | npm module                                                             | explanation                                                             |
-| ----------------------------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [vscode](https://github.com/microsoft/vscode)               | [monaco-editor-core](https://www.npmjs.com/package/monaco-editor-core) | editor core functionality (language agnostic) is shipped out of vscode. |
-| [monaco-editor](https://github.com/microsoft/monaco-editor) | [monaco-editor](https://www.npmjs.com/package/monaco-editor)           | the Monaco Editor.                                                      |
+![](./docs/code-structure.dio.svg)
+
+By default, `monaco-editor-core` is installed from npm (through the initial `npm install`), so you can work on Monaco Editor language features without having to build the core editor / VS Code.
+The nightly builds build a fresh version of `monaco-editor-core` from the `main` branch of VS Code.
+For a stable release, the commit specified in `vscodeRef` in [package.json](./package.json) specifies the commit of VS Code that is used to build `monaco-editor-core`.
 
 ## Contributing a new tokenizer / a new language
 
@@ -19,85 +21,105 @@ Please understand that we only bundle languages with the monaco editor that have
 - create `$/src/basic-languages/{myLang}/{myLang}.ts`
 - create `$/src/basic-languages/{myLang}/{myLang}.test.ts`
 - edit `$/src/basic-languages/monaco.contribution.ts` and register your new language
+- create `$/website/index/samples/sample.{myLang}.txt`
 
 ```js
 import './{myLang}/{myLang}.contribution';
 ```
 
-## Running the editor from source
+## Debugging / Developing The Core Editor
 
-You need to have all the build setup of VS Code to be able to build the Monaco Editor.
+To debug core editor issues.
 
-- Install all the [prerequisites](https://github.com/microsoft/vscode/wiki/How-to-Contribute#prerequisites)
+This can be done directly from the VS Code repository and does not involve the monaco editor repository.
 
-```bash
-# clone vscode-loc repository for localized string resources
-/src> git clone https://github.com/microsoft/vscode-loc
-# clone VS Code repository
-/src> git clone https://github.com/microsoft/vscode
-/src> cd vscode
-# install npm deps for vscode
-/src/vscode> yarn
-# start the compiler in the background
-/src/vscode> yarn watch
-```
+- Clone the [VS Code repository](https://github.com/microsoft/vscode): `git clone https://github.com/microsoft/vscode`
+- Open the repository in VS Code: `code vscode`
+- Run `yarn install`
+- Select and run the launch configuration "Monaco Editor Playground" (this might take a while, as it compiles the sources):
 
-- For the monaco editor test pages:
+  ![](./docs/launch%20config.png)
 
-```bash
-# clone monaco-editor (note the folders must be siblings!)
-/src> git clone https://github.com/microsoft/monaco-editor
+- Now you can set breakpoints and change the source code
 
-# install npm deps for monaco-editor
-/src/monaco-editor> npm install .
+  ![](./docs/debugging-core.gif)
 
-# compile and bundle all plugins
-/src/monaco-editor> npm run release
+- Optionally, you can build `monaco-editor-core` and link it to the monaco editor repository:
 
-# start a local http server in the background
-/src/monaco-editor> npm run simpleserver
-```
+  ```bash
+  # builds out-monaco-editor-core
+  > yarn gulp editor-distro
 
-Open [http://localhost:8080/monaco-editor/test/manual/?editor=src](http://localhost:8080/monaco-editor/test/manual/?editor=src) to run.
+  > cd out-monaco-editor-core
+  > npm link
+  > cd ../path/to/monaco-editor
+
+  # symlinks the monaco-editor-core package to the out-monaco-editor-core folder we just built
+  > npm link monaco-editor-core
+  ```
+
+## Debugging / Developing Language Support
+
+To debug bundled languages, such as JSON, HTML or TypeScript/JavaScript.
+
+- Clone the [monaco editor repository](https://github.com/microsoft/monaco-editor): `git clone https://github.com/microsoft/monaco-editor`
+- Open the repository in VS Code: `code monaco-editor`
+- Run `npm install`
+- Select and run the launch configuration "Monaco Editor Playground" (this might take a while, as it compiles the sources):
+
+  ![](./docs/launch%20config.png)
+
+- Now you can set breakpoints and change the source code
+
+  ![](./docs/debugging-languages.gif)
+
+- Optionally, you can build `monaco-editor` and link it if you want to test your changes in a real application:
+
+  ```bash
+  # builds out/monaco-editor
+  > npm run build-monaco-editor
+
+  > cd out/monaco-editor
+  > npm link
+
+  > cd ../path/to/my-app
+  > npm link monaco-editor
+  ```
 
 ## Running the editor tests
 
 ```bash
-# create a local release
-/src/monaco-editor> npm run release
+> npm run build-monaco-editor
+> npm run test
+> npm run compile --prefix webpack-plugin
 
-# run unit tests
-/src/monaco-editor> npm run test
-
-# compile the webpack plugin
-/src/monaco-editor> npm run compile --prefix webpack-plugin
-
-# package using the webpack plugin
-/src/monaco-editor> npm run package-for-smoketest --prefix webpack-plugin
-
-# run the smoketest
-/src/monaco-editor> npm run smoketest-debug
+> npm run package-for-smoketest-webpack
+> npm run package-for-smoketest-esbuild
+> npm run package-for-smoketest-vite
+> npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+> npm run smoketest-debug
 ```
-
-> Tip: All folders must be cloned as siblings.
-
-> Tip: When running the test pages, use the control panel in the top right corner to switch between running from source, running from npm or running from the local release:
-> ![image](https://cloud.githubusercontent.com/assets/5047891/19599080/eb0d7622-979e-11e6-96ce-dde98cd95dc1.png)
 
 ## Running the website locally
 
-> Note: The website is published automatically when pushing to the `master` branch.
-
 ```bash
-# create a local release
-/src/monaco-editor> npm run release
+> npm install
+> npm run build-monaco-editor
 
-# build the website
-/src/monaco-editor> npm run build-website
-
-# start local webserver
-/src/monaco-editor> npm run simpleserver
-
-# open http://localhost:8080/monaco-editor-website/
-
+> cd website
+> yarn install
+> yarn typedoc
+> yarn dev
 ```
+
+Now webpack logs the path to the website.
+
+## Out Folders
+
+This diagram describes the output folders of the build process:
+
+![](./docs/out-folders.dio.svg)
+
+## Maintaining
+
+Checkout [MAINTAINING.md](./MAINTAINING.md) for common maintaining tasks (for maintainers only).

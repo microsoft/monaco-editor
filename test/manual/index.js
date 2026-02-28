@@ -1,8 +1,6 @@
-/// <reference path="../../release/monaco.d.ts" />
+/// <reference path="../../out/monaco-editor/monaco.d.ts" />
 define(['require', './samples'], function (require, SAMPLES) {
-	var domutils = require('vs/base/browser/dom');
-
-	var model = monaco.editor.createModel('', 'plaintext');
+	let model = monaco.editor.createModel('', 'plaintext');
 
 	monaco.languages.typescript.typescriptDefaults.setInlayHintsOptions({
 		includeInlayParameterNameHints: 'all',
@@ -20,16 +18,10 @@ define(['require', './samples'], function (require, SAMPLES) {
 		renderWhitespace: true
 	});
 
-	editor.addCommand(
-		{
-			ctrlCmd: true,
-			key: 'F9'
-		},
-		function (ctx, args) {
-			alert('Command Running!!');
-			console.log(ctx);
-		}
-	);
+	editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9, function (ctx, args) {
+		alert('Command Running!!');
+		console.log(ctx);
+	});
 
 	editor.addAction({
 		id: 'my-unique-id',
@@ -173,7 +165,7 @@ define(['require', './samples'], function (require, SAMPLES) {
 						editor.setScrollTop(r);
 
 						if (speed >= 0) {
-							domutils.scheduleAtNextAnimationFrame(scroll);
+							requestAnimationFrame(scroll);
 						} else {
 							isRunning = false;
 						}
@@ -185,7 +177,7 @@ define(['require', './samples'], function (require, SAMPLES) {
 							isRunning = true;
 							r = editor.getScrollTop();
 							lastTime = new Date().getTime();
-							domutils.runAtThisOrScheduleAtNextAnimationFrame(scroll);
+							requestAnimationFrame(scroll);
 						}
 					};
 				})()

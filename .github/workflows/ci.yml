@@ -1,45 +1,74 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
         with:
-          node-version: 14
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
 
       - name: Cache node modules
         id: cacheNodeModules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json', '**/package.json') }}
           restore-keys: ${{ runner.os }}-cacheNodeModules2-
+
+      - name: Install build tools
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          sudo apt update -y
+          sudo apt install -y build-essential pkg-config libx11-dev libx11-xcb-dev libxkbfile-dev libnotify-bin libkrb5-dev
 
       - name: execute `npm ci` (1)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
-        run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+          ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+        run: |
+          npm ci
+
+      - name: Download Playwright
+        run: npx playwright install --with-deps
 
       - name: execute `npm ci` (2)
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: npm ci --prefix webpack-plugin
 
-      - name: Install Playwright
-        run: npm run playwright-install
+      # # <building-from-source>
+      # - name: Setup, Build & Test monaco-editor-core
+      #   run: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg nightly
+      #   env:
+      #     VSCODE_REF: 'main'
+      #     PRERELEASE_VERSION: 'dev-${today}'
 
-      - name: Install OS Dependencies for Playwright
-        run: sudo npm run playwright-install-deps
+      # - name: Link monaco-editor-core
+      #   run: npm link
+      #   working-directory: ./dependencies/vscode/out-monaco-editor-core
 
-      - name: Check prettier
-        run: npm run prettier-check
+      # - name: Link monaco-editor-core
+      #   run: npm link monaco-editor-core
+      # # </building-from-source>
+
+      # TODO: prettier formatting
+      # - name: Check prettier
+      #   run: npm run prettier-check
 
       - name: Build
-        run: npm run release
+        run: npm run build
 
       - name: Run unit tests
         run: npm test
@@ -48,10 +77,33 @@ jobs:
         run: npm run compile --prefix webpack-plugin
 
       - name: Package using webpack plugin
-        run: npm run package-for-smoketest --prefix webpack-plugin
+        run: npm run package-for-smoketest
+
+      #      - name: Package using parcel
+      #        run: npm run package-for-smoketest-parcel --prefix test/smoke/parcel
+      # Disabled for now, as the parcel bundler cannot deal with VS Code process variable
 
       - name: Run smoke test
         run: npm run smoketest
 
+      - name: Install website node modules
+        working-directory: website
+        run: npm ci
+
+      - name: Install most recent version of monaco-editor
+        working-directory: website
+        run: npm install monaco-editor
+
       - name: Build website
-        run: npm run build-website
+        working-directory: website
+        run: npm run build
+
+      - name: Test website
+        working-directory: website
+        run: npm run test
+
+      - name: Upload website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: ./website/dist

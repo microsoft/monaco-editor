@@ -30,12 +30,21 @@ module.exports = {
 			},
 			{
 				test: /\.ttf$/,
-				use: ['file-loader']
+				type: 'asset/resource'
 			}
 		]
 	},
 	plugins: [new MonacoWebpackPlugin()]
 };
+```
+
+If using Webpack 4 or lower, it is necessary to use the file-loader instead of Asset Modules like the code below:
+
+```js
+{
+	test: /\.ttf$/,
+	use: ['file-loader']
+}
 ```
 
 - `index.js`:
@@ -69,7 +78,11 @@ Options can be passed in to `MonacoWebpackPlugin`. They can be used to generate 
   | handlebars | html         |
   | scss, less | css          |
 
+  To view a list of all available languages, you can run `import metadata from 'monaco-editor/esm/metadata'; console.log(metadata.languages);`.
+
 - `features` (`string[]`) - include only a subset of the editor features. By default, all features shipped with the `monaco-editor` will be included. Instead of enumerating included features, it is also possible to exclude certain default features prefixing them with an exclamation mark '!'.
+
+  To view a list of all available features, you can run `import metadata from 'monaco-editor/esm/metadata'; console.log(metadata.features);`.
 
 - `globalAPI` (`boolean`) - specify whether the editor API should be exposed through a global `monaco` object or not. This option is applicable to `0.22.0` and newer version of `monaco-editor`. Since `0.22.0`, the ESM version of the monaco editor does no longer define a global `monaco` object unless `global.MonacoEnvironment = { globalAPI: true }` is set ([change log](https://github.com/microsoft/monaco-editor/blob/main/CHANGELOG.md#0220-29012021)).
   - default value: `false`.

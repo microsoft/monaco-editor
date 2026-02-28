@@ -33,7 +33,7 @@ function getCompilerHook(
 		new SingleEntryPlugin(compiler.context, entry, 'main').apply(childCompiler);
 		plugins.forEach((plugin) => plugin.apply(childCompiler));
 
-		childCompiler.runAsChild((err?: Error) => callback(err));
+		childCompiler.runAsChild((err?: Error | null) => callback(err));
 	};
 }
 

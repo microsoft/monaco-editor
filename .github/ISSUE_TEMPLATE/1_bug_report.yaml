@@ -22,16 +22,27 @@ body:
       options:
         - label: Not reproducible in [the monaco editor playground](https://microsoft.github.io/monaco-editor/playground.html)
   - type: textarea
+    id: playgroundLink
+    attributes:
+      label: Monaco Editor Playground Link
+      description: Please share the link to the [monaco editor playground](https://microsoft.github.io/monaco-editor/playground.html) after you entered your example. In case of regressions, please also provide the first broken version.
+
+  - type: textarea
     id: playgroundSourceCode
     attributes:
       label: Monaco Editor Playground Code
-      description: Please provide the code to reproduce in the [monaco editor playground](https://microsoft.github.io/monaco-editor/playground.html)
+      description: Please provide the code from the monaco editor playground example.
       render: typescript
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction Steps
+      description: Please describe the steps (in the playground) that lead to the problematic behavior
   - type: textarea
     id: actual-behavior
     attributes:
-      label: Actual Behavior
-      description: Please describe the actual behavior, as observed in the playground.
+      label: Actual (Problematic) Behavior
+      description: Please describe the actual (problematic) behavior, as observed in the playground.
 
   - type: textarea
     id: expected-behavior

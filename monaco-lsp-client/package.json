@@ -1,0 +1,26 @@
+{
+	"name": "@vscode/monaco-lsp-client",
+	"description": "description",
+	"authors": "vscode",
+	"version": "0.1.0",
+	"main": "out/index.js",
+	"types": "out/index.d.ts",
+	"dependencies": {
+		"@hediet/json-rpc": "^0.5.0",
+		"@hediet/json-rpc-browser": "^0.5.1",
+		"@hediet/json-rpc-websocket": "^0.5.1"
+	},
+	"peerDependencies": {
+		"monaco-editor-core": "*"
+	},
+	"devDependencies": {
+		"rolldown": "^1.0.0-beta.41",
+		"rolldown-plugin-dts": "^0.16.11",
+		"rollup-plugin-delete": "^3.0.1"
+	},
+	"scripts": {
+		"build": "npx rolldown -c rolldown.config.mjs",
+		"dev": "npx rolldown -c rolldown.config.mjs --watch",
+		"generate": "tsx generator/index.ts"
+	}
+}

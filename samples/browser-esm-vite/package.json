@@ -1,0 +1,14 @@
+{
+	"name": "browser-esm-vite",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"serve": "vite preview"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"monaco-editor": "file:../../out/monaco-editor",
+		"typescript": "^5.9.3",
+		"vite": "^7.1.11"
+	}
+}

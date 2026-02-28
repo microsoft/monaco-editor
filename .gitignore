@@ -1,4 +1,8 @@
 **/node_modules/
-**/out/
-**/release/
+**/dependencies/
 /test/manual/generated/**
+/test/smoke/vite/dist/**
+/test/smoke/parcel/dist/**
+/test/smoke/parcel/.cache/**
+**/dist/
+**/out/

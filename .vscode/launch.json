@@ -5,34 +5,49 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "pwa-node",
+			"name": "Monaco Editor Playground (Languages from source, needs 'npm run watch', no JSON/CSS/... workers!)",
+			"type": "chrome",
 			"request": "launch",
-			"name": "Monaco Languages Unit Tests",
-			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
-			"args": ["-r", "test/unit/all.js"],
-			"outFiles": ["${workspaceFolder}/**/*.js"]
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Flanguages%2Famd-tsc",
+			"preLaunchTask": "Launch Http Server",
+			"presentation": {
+				"group": "monaco",
+				"order": 1
+			}
 		},
 		{
-			"type": "pwa-node",
+			"name": "Monaco Editor Playground (Languages locally bundled, needs 'npm run build')",
+			"type": "chrome",
 			"request": "launch",
-			"name": "release",
-			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceFolder}/build/release.js",
-			"args": [],
-			"cwd": "${workspaceFolder}"
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Flanguages%2Fbundled%2Famd-dev%2Fvs",
+			"preLaunchTask": "Launch Http Server",
+			"presentation": {
+				"group": "monaco",
+				"order": 1
+			}
 		},
 		{
-			"type": "pwa-node",
+			"name": "Website",
+			"type": "chrome",
 			"request": "launch",
-			"name": "website",
-			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceFolder}/build/website.js",
-			"args": [],
-			"cwd": "${workspaceFolder}"
+			"url": "http://localhost:8080/"
 		},
 		{
-			"type": "pwa-node",
+			// Clone VS Code and make sure the task "Launch Http Server" runs.
+			// Then the editor is build from sources.
+			// We recommend to use the workspace feature for this.
+			"name": "Monaco Editor Playground (Load From VS Code Http Server)",
+			"type": "chrome",
+			"request": "launch",
+			"url": "https://microsoft.github.io/monaco-editor/playground.html?sourceLanguages=http%3A%2F%2Flocalhost%3A5002%2Fout%2Flanguages%2Famd-tsc&source=http%3A%2F%2Flocalhost%3A5001%2Fout%2Fvs",
+			"preLaunchTask": "Launch Http Server",
+			"presentation": {
+				"group": "monaco",
+				"order": 1
+			}
+		},
+		{
+			"type": "node",
 			"request": "launch",
 			"name": "webpack plugin test",
 			"skipFiles": ["<node_internals>/**"],
