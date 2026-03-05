@@ -67,7 +67,7 @@
 		"glob": "^7.2.0",
 		"http-server": "^14.1.1",
 		"husky": "^7.0.4",
-		"jsdom": "^19.0.0",
+		"jsdom": "^28.1.0",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^11.7.4",
 		"monaco-editor-core": "0.56.0-dev-20260203",
