@@ -1,48 +1,56 @@
 import 'monaco-editor-core/esm/vs/editor/contrib/find/browser/findController';
-import { FindWidget, SimpleButton } from 'monaco-editor-core/esm/vs/editor/contrib/find/browser/findWidget';
-import { Toggle } from 'monaco-editor-core/esm/vs/base/browser/ui/toggle/toggle';
+import { FindWidget } from 'monaco-editor-core/esm/vs/editor/contrib/find/browser/findWidget';
 
 const tabIndexPatchKey = '__monacoFindWidgetTabIndexPatchApplied';
-const toggleTabIndexPatchKey = '__monacoToggleTabIndexPatchApplied';
-const simpleButtonTabIndexPatchKey = '__monacoSimpleButtonTabIndexPatchApplied';
+const originalTabIndexKey = '__monacoFindWidgetOriginalTabIndex';
 
-if (!Toggle[toggleTabIndexPatchKey]) {
-	const originalToggleEnable = Toggle.prototype.enable;
-	const originalToggleDisable = Toggle.prototype.disable;
+function setFindWidgetTabbableState(widget, visible) {
+	const domNode = widget?._domNode;
+	if (!domNode) {
+		return;
+	}
 
-	Toggle.prototype.enable = function (...args) {
-		originalToggleEnable.apply(this, args);
-		this.domNode.tabIndex = this._opts?.notFocusable ? -1 : 0;
-	};
+	const focusableElements = domNode.querySelectorAll('input, textarea, [tabindex], [role="button"], [role="checkbox"]');
+	for (const element of focusableElements) {
+		if (!(element instanceof HTMLElement)) {
+			continue;
+		}
 
-	Toggle.prototype.disable = function (...args) {
-		originalToggleDisable.apply(this, args);
-		this.domNode.tabIndex = -1;
-	};
+		if (visible) {
+			if (!(originalTabIndexKey in element.dataset)) {
+				continue;
+			}
 
-	Toggle[toggleTabIndexPatchKey] = true;
-}
-
-if (!SimpleButton[simpleButtonTabIndexPatchKey]) {
-	const originalSimpleButtonSetEnabled = SimpleButton.prototype.setEnabled;
-
-	SimpleButton.prototype.setEnabled = function (enabled, ...args) {
-		originalSimpleButtonSetEnabled.call(this, enabled, ...args);
-		this.domNode.tabIndex = enabled ? 0 : -1;
-	};
-
-	SimpleButton[simpleButtonTabIndexPatchKey] = true;
+			const originalTabIndex = element.dataset[originalTabIndexKey];
+			if (originalTabIndex === '') {
+				element.removeAttribute('tabindex');
+			}
+			else {
+				element.tabIndex = Number(originalTabIndex);
+			}
+			delete element.dataset[originalTabIndexKey];
+		}
+		else {
+			if (!(originalTabIndexKey in element.dataset)) {
+				element.dataset[originalTabIndexKey] = element.getAttribute('tabindex') ?? '';
+			}
+			element.tabIndex = -1;
+		}
+	}
 }
 
 if (!FindWidget[tabIndexPatchKey]) {
-	const originalUpdateToggleSelectionFindButton = FindWidget.prototype._updateToggleSelectionFindButton;
+	const originalReveal = FindWidget.prototype._reveal;
+	const originalHide = FindWidget.prototype._hide;
 
-	FindWidget.prototype._updateToggleSelectionFindButton = function (...args) {
-		originalUpdateToggleSelectionFindButton.apply(this, args);
+	FindWidget.prototype._reveal = function (...args) {
+		originalReveal.apply(this, args);
+		setFindWidgetTabbableState(this, true);
+	};
 
-		if (this._toggleSelectionFind?.domNode) {
-			this._toggleSelectionFind.domNode.tabIndex = this._toggleSelectionFind.enabled ? 0 : -1;
-		}
+	FindWidget.prototype._hide = function (...args) {
+		originalHide.apply(this, args);
+		setFindWidgetTabbableState(this, false);
 	};
 
 	FindWidget[tabIndexPatchKey] = true;
