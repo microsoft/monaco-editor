@@ -43,6 +43,7 @@ import './mdx/register';
 import './mips/register';
 import './msdax/register';
 import './mysql/register';
+import './ocaml/register';
 import './objective-c/register';
 import './pascal/register';
 import './pascaligo/register';
