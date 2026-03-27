@@ -1,0 +1,68 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, graphicx}
+
+% This is a LaTeX sample document
+
+\title{A Sample \LaTeX{} Document}
+\author{Jane Doe}
+\date{\today}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document demonstrates \textbf{bold}, \textit{italic},
+and \texttt{monospace} text formatting in \LaTeX{}.
+\end{abstract}
+
+\section{Introduction}
+Let $f: \R \to \R$ be a continuous function. The equation
+holds for all $x \in \R$:
+\begin{equation}
+    \int_{-\infty}^{\infty} e^{-x^2}\, dx = \sqrt{\pi}
+\end{equation}
+
+\subsection{Mathematics}
+Display math uses double dollar signs:
+$$
+    \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+$$
+
+\section{Lists}
+\begin{itemize}
+    \item First item with \emph{emphasis}
+    \item Second item: \hspace{1.5em} indented gap
+    \item Third item referencing~\cite{knuth1984}
+\end{itemize}
+
+\section{Figures and Tables}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image}
+    \caption{An example figure.}
+    \label{fig:example}
+\end{figure}
+
+See Figure~\ref{fig:example} for details.
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|l|c|r|}
+        \hline
+        Left & Center & Right \\
+        \hline
+        1    & 2      & 3     \\
+        \hline
+    \end{tabular}
+    \caption{A simple table.}
+\end{table}
+
+\bibliography{references}
+\bibliographystyle{plain}
+
+\end{document}
