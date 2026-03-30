@@ -24,7 +24,7 @@
 		"smoketest-ui": "playwright test --config=test/smoke/playwright.config.ts --ui",
 		"smoketest-headed": "playwright test --config=test/smoke/playwright.config.ts --headed",
 		"test": "ts-node ./build/check-samples && npm run test:grammars",
-		"test:grammars": "node --import tsx --require ./test/test-setup.js --test \"src/languages/definitions/*/*.test.ts\"",
+		"test:grammars": "node --import tsx --import ./test/test-setup.mjs --test \"src/languages/definitions/*/*.test.ts\"",
 		"deps-all-remove": "ts-node ./build/npm/removeAll",
 		"deps-all-install": "ts-node ./build/npm/installAll",
 		"update-actions": "pin-github-action ./.github/workflows/website.yml",
