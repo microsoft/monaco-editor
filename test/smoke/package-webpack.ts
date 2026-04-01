@@ -43,7 +43,7 @@ webpack(
 				monacoEditorPath: path.resolve(REPO_ROOT, 'out/monaco-editor')
 			})]
 	},
-	(err: Error | undefined, stats: webpack.Stats | undefined) => {
+	(err: Error | null, stats: webpack.Stats | undefined) => {
 		if (err) {
 			console.error(err);
 			process.exit(1);

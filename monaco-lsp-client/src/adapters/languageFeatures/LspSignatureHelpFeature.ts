@@ -96,6 +96,5 @@ function toMonacoDocumentation(
     if (typeof doc === 'string') return doc;
     return {
         value: doc.value,
-        isTrusted: true,
     };
 }
