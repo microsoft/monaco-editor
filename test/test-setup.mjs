@@ -3,11 +3,14 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { createRequire } from 'module';
+import { JSDOM } from 'jsdom';
+
+// Handle CSS imports from monaco-editor-core in CJS require context
+const require = createRequire(import.meta.url);
 require.extensions['.css'] = function (module, filename) {
 	module.exports = {};
 };
-
-const { JSDOM } = require('jsdom');
 
 const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
 	url: 'http://localhost',
@@ -17,7 +20,7 @@ const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
 
 global.window = dom.window;
 global.document = dom.window.document;
-global.navigator = dom.window.navigator;
+Object.defineProperty(global, 'navigator', { value: dom.window.navigator, writable: true, configurable: true });
 global.HTMLElement = dom.window.HTMLElement;
 global.Node = dom.window.Node;
 global.Element = dom.window.Element;

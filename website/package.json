@@ -39,7 +39,7 @@
 		"@types/react-dom": "^17.0.3",
 		"@types/webpack": "^4.41.10",
 		"clean-webpack-plugin": "^3.0.0",
-		"copy-webpack-plugin": "^11.0.0",
+		"copy-webpack-plugin": "^14.0.0",
 		"css-loader": "^7.1.2",
 		"file-loader": "^6.0.0",
 		"glob": "^9.2.1",
@@ -52,9 +52,9 @@
 		"ts-loader": "^9.3.1",
 		"ts-node": "^10.9.1",
 		"typescript": "^5.4.5",
-		"webpack": "^5.102.1",
+		"webpack": "^5.105.0",
 		"webpack-bundle-analyzer": "^4.5.0",
 		"webpack-cli": "^4.10.0",
-		"webpack-dev-server": "^4.9.3"
+		"webpack-dev-server": "^5.2.1"
 	}
 }
