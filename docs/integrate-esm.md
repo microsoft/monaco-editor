@@ -136,7 +136,7 @@ module.exports = {
 
 A full working sample is available at https://github.com/microsoft/monaco-editor/tree/main/samples/browser-esm-parcel
 
-When using parcel, we need to use the `getWorkerUrl` function and build the workers seperately from our main source. To simplify things, we can write a tiny bash script to build the workers for us.
+When using parcel, we need to use the `getWorkerUrl` function and build the workers separately from our main source. To simplify things, we can write a tiny bash script to build the workers for us.
 
 - `index.js`
 
