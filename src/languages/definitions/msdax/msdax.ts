@@ -60,9 +60,7 @@ export const language = <languages.IMonarchLanguage>{
 		'INTEGER',
 		'DATETIME',
 		'CURRENCY',
-		'STRING',
-		// Window function modifiers
-		'DEFAULT'
+		'STRING'
 	],
 
 	functions: [
@@ -217,6 +215,24 @@ export const language = <languages.IMonarchLanguage>{
 		'WINDOW',
 		'ORDERBY',
 		'PARTITIONBY',
+		'MATCHBY',
+		'RANK',
+		'ROWNUMBER',
+		'MOVINGAVERAGE',
+		'RUNNINGSUM',
+		'RANGE',
+		'LOOKUP',
+		'LOOKUPWITHTOTALS',
+		'NEXT',
+		'PREVIOUS',
+		'LINEST',
+		'LINESTX',
+		'TABLEOF',
+		'EXPAND',
+		'EXPANDALL',
+		'COLLAPSE',
+		'COLLAPSEALL',
+		'ISATLEVEL',
 		// Scalar
 		'DATE',
 		'DATEDIFF',
