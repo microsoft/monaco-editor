@@ -322,7 +322,6 @@ export const language = <languages.IMonarchLanguage>{
 		'IF',
 		'IF.EAGER',
 		'IFERROR',
-		'NOT',
 		'OR',
 		'SWITCH',
 		'TRUE',
@@ -557,8 +556,8 @@ export const language = <languages.IMonarchLanguage>{
 			// Standalone '.' (e.g., between identifiers that aren't a known dotted function)
 			[/\./, 'delimiter'],
 			// Multi-char operators must precede the single-char operator rule.
-			// Per dax-operator-reference: == (strict equal), <>, <=, >=, !=, &&, || .
-			[/==|<>|<=|>=|!=|&&|\|\|/, 'operator'],
+			// Per dax-operator-reference: => (lambda/UDF), == (strict equal), <>, <=, >=, !=, &&, ||
+			[/=>|==|<>|<=|>=|!=|&&|\|\|/, 'operator'],
 			[/[<>=!%&+\-*/|~^]/, 'operator']
 		],
 		whitespace: [[/\s+/, 'white']],

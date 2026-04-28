@@ -942,7 +942,7 @@ export const language = <languages.IMonarchLanguage>{
 			// `<=`, `>=`, `<>` are not split into single-char tokens.
 			// Per m-spec-operators and m-spec-consolidated-grammar §Operators:
 			//   , ; = < <= > >= <> + - * / & ( ) [ ] { } @ ? ?? => .. ...
-			[/\?\?|=>|\.\.\.|\.\.|<=|>=|<>|[=+<>\-*&@?/!]/, 'operators'],
+			[/\?\?|=>|\.\.\.|\.\.|<=|>=|<>|[=+<>\-*&@?\/!]/, 'operators'],
 			[/[,;]/, 'delimiter']
 		],
 

@@ -914,7 +914,7 @@ testTokenization('msdax', [
 	],
 
 	// DEFINE FUNCTION user-defined function (function-statement-dax).
-	// Note: `=>` is tokenized as two adjacent `operator` tokens that merge in output.
+	// `=>` is a single operator token (dax-operator-reference).
 	[
 		{
 			line: 'DEFINE FUNCTION MyAdd = (x, y) => x + y',
@@ -934,7 +934,7 @@ testTokenization('msdax', [
 				{ startIndex: 28, type: 'identifier.msdax' },
 				{ startIndex: 29, type: 'delimiter.parenthesis.msdax' },
 				{ startIndex: 30, type: 'white.msdax' },
-				{ startIndex: 31, type: 'operator.msdax' }, // => (merged)
+				{ startIndex: 31, type: 'operator.msdax' }, // =>
 				{ startIndex: 33, type: 'white.msdax' },
 				{ startIndex: 34, type: 'identifier.msdax' },
 				{ startIndex: 35, type: 'white.msdax' },
