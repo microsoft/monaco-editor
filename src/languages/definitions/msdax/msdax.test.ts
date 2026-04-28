@@ -293,7 +293,7 @@ testTokenization('msdax', [
 	[
 		{
 			line: 'int',
-			tokens: [{ startIndex: 0, type: 'keyword.msdax' }]
+			tokens: [{ startIndex: 0, type: 'keyword.function.msdax' }]
 		}
 	],
 
