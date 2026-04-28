@@ -925,7 +925,7 @@ export const language = <languages.IMonarchLanguage>{
 			['.', 'comment']
 		],
 
-		strings: [['\"', 'string', '@string']],
+		strings: [['"', 'string', '@string']],
 
 		string: [
 			['""', 'string.escape'],

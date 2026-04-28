@@ -412,7 +412,7 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@strings' },
 			{ include: '@complexIdentifiers' },
 			[/[;,.]/, 'delimiter'],
-			[/[{}()]/, '@brackets'],
+			[/[({})]/, '@brackets'],
 			[
 				/[a-z_][a-zA-Z0-9_]*/,
 				{
