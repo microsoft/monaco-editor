@@ -228,7 +228,7 @@ testTokenization('powerquery', [
 		}
 	],
 
-	// built-in keywords/identifiers
+	// keywords
 	[
 		{
 			line: 'And as Each each _',
@@ -246,19 +246,66 @@ testTokenization('powerquery', [
 		}
 	],
 
+	// each keyword
 	[
 		{
-			line: '  #table({})',
+			line: 'Table.SelectRows(Products, each [Price] > 100)',
 			tokens: [
-				{ startIndex: 0, type: 'white.pq' },
-				{ startIndex: 2, type: 'constructor.pq' },
-				{ startIndex: 8, type: 'delimiter.parenthesis.pq' },
-				{ startIndex: 9, type: 'delimiter.brackets.pq' },
-				{ startIndex: 11, type: 'delimiter.parenthesis.pq' }
+				{ startIndex: 0, type: 'keyword.function.pq' },
+				{ startIndex: 16, type: 'delimiter.parenthesis.pq' },
+				{ startIndex: 17, type: 'identifier.pq' },
+				{ startIndex: 25, type: 'delimiter.pq' },
+				{ startIndex: 26, type: 'white.pq' },
+				{ startIndex: 27, type: 'keyword.pq' },
+				{ startIndex: 31, type: 'white.pq' },
+				{ startIndex: 32, type: 'delimiter.square.pq' },
+				{ startIndex: 33, type: 'identifier.pq' },
+				{ startIndex: 38, type: 'delimiter.square.pq' },
+				{ startIndex: 39, type: 'white.pq' },
+				{ startIndex: 40, type: 'operators.pq' },
+				{ startIndex: 41, type: 'white.pq' },
+				{ startIndex: 42, type: 'number.pq' },
+				{ startIndex: 45, type: 'delimiter.parenthesis.pq' }
 			]
 		}
 	],
 
+	// section and shared keywords
+	[
+		{
+			// section(0-6) (7) MySection(8-16) ;(17)
+			line: 'section MySection;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.pq' },
+				{ startIndex: 7, type: 'white.pq' },
+				{ startIndex: 8, type: 'identifier.pq' },
+				{ startIndex: 17, type: 'delimiter.pq' }
+			]
+		}
+	],
+
+	[
+		{
+			// shared(0-5) (6) MyFunction(7-16) (17) =(18) (19) ()(20-21 merged) (22) =>(23-24) (25) 42(26-27) ;(28)
+			line: 'shared MyFunction = () => 42;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.pq' },
+				{ startIndex: 6, type: 'white.pq' },
+				{ startIndex: 7, type: 'identifier.pq' },
+				{ startIndex: 17, type: 'white.pq' },
+				{ startIndex: 18, type: 'operators.pq' },
+				{ startIndex: 19, type: 'white.pq' },
+				{ startIndex: 20, type: 'delimiter.parenthesis.pq' }, // () merged
+				{ startIndex: 22, type: 'white.pq' },
+				{ startIndex: 23, type: 'operators.pq' },
+				{ startIndex: 25, type: 'white.pq' },
+				{ startIndex: 26, type: 'number.pq' },
+				{ startIndex: 28, type: 'delimiter.pq' }
+			]
+		}
+	],
+
+	// as / is type annotations
 	[
 		{
 			line: 'param as number',
@@ -268,6 +315,33 @@ testTokenization('powerquery', [
 				{ startIndex: 6, type: 'keyword.pq' },
 				{ startIndex: 8, type: 'white.pq' },
 				{ startIndex: 9, type: 'type.pq' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'value is text',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.pq' },
+				{ startIndex: 5, type: 'white.pq' },
+				{ startIndex: 6, type: 'keyword.pq' },
+				{ startIndex: 8, type: 'white.pq' },
+				{ startIndex: 9, type: 'type.pq' }
+			]
+		}
+	],
+
+	// #table constructor
+	[
+		{
+			line: '  #table({})',
+			tokens: [
+				{ startIndex: 0, type: 'white.pq' },
+				{ startIndex: 2, type: 'constructor.pq' },
+				{ startIndex: 8, type: 'delimiter.parenthesis.pq' },
+				{ startIndex: 9, type: 'delimiter.brackets.pq' },
+				{ startIndex: 11, type: 'delimiter.parenthesis.pq' }
 			]
 		}
 	],
@@ -308,7 +382,43 @@ testTokenization('powerquery', [
 		}
 	],
 
-	// built-ins
+	// hash literals / constants
+	[
+		{
+			line: '#infinity',
+			tokens: [{ startIndex: 0, type: 'constant.pq' }]
+		}
+	],
+
+	[
+		{
+			line: '#nan',
+			tokens: [{ startIndex: 0, type: 'constant.pq' }]
+		}
+	],
+
+	[
+		{
+			line: '#sections',
+			tokens: [{ startIndex: 0, type: 'constant.pq' }]
+		}
+	],
+
+	[
+		{
+			line: '#date',
+			tokens: [{ startIndex: 0, type: 'constructor.pq' }]
+		}
+	],
+
+	[
+		{
+			line: '#time',
+			tokens: [{ startIndex: 0, type: 'constructor.pq' }]
+		}
+	],
+
+	// built-in functions
 	[
 		{
 			line: 'Text.From(1)',
@@ -357,7 +467,26 @@ testTokenization('powerquery', [
 		}
 	],
 
-	// other statements
+	// try / otherwise — try(0-2) (3) Text.From(4-12) ((13) "invalid"(14-22) )(23) (24) otherwise(25-33) (34) "default"(35-43)
+	[
+		{
+			line: 'try Text.From("invalid") otherwise "default"',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.pq' },
+				{ startIndex: 3, type: 'white.pq' },
+				{ startIndex: 4, type: 'keyword.function.pq' },
+				{ startIndex: 13, type: 'delimiter.parenthesis.pq' },
+				{ startIndex: 14, type: 'string.pq' },
+				{ startIndex: 23, type: 'delimiter.parenthesis.pq' },
+				{ startIndex: 24, type: 'white.pq' },
+				{ startIndex: 25, type: 'keyword.pq' },
+				{ startIndex: 34, type: 'white.pq' },
+				{ startIndex: 35, type: 'string.pq' }
+			]
+		}
+	],
+
+	// section with metadata and shared
 	[
 		{
 			line: '[version="1.0.0.1"] section Foo; shared Member.Name = 1;',

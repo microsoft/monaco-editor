@@ -836,13 +836,32 @@ export const language = <languages.IMonarchLanguage>{
 
 	tokenizer: {
 		root: [
-			// quoted identifier
+			// section / shared keywords
+			[/\bsection\b/, 'keyword'],
+			[/\bshared\b/, 'keyword'],
+
+			// quoted identifier (e.g., #"My Column")
 			[/#"[\w \.]+"/, 'identifier.quote'],
+
+			// hash literals / constructors
+			[/#[\w]+/, {
+				cases: {
+					'@constants': 'constant',
+					'@constructors': 'constructor',
+					'@default': 'identifier'
+				}
+			}],
 
 			// numbers
 			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
 			[/0[xX][0-9a-fA-F]+/, 'number.hex'],
 			[/\d+([eE][\-+]?\d+)?/, 'number'],
+
+			// type annotations (value as type, value is type)
+			[/\b(as|is)\b/, 'keyword'],
+
+			// each keyword (implicit parameter _)
+			[/\beach\b/, 'keyword'],
 
 			// keywords
 			[
@@ -859,7 +878,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
-			// built-in types
+			// built-in types: Table.Type, Text.Type, etc.
 			[
 				/\b([A-Z][a-zA-Z0-9]+\.Type)\b/,
 				{
@@ -870,7 +889,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
-			// other built-ins
+			// built-in functions and constants: Table.First, Number.PI, etc.
 			[
 				/\b([A-Z][a-zA-Z0-9]+\.[A-Z][a-zA-Z0-9]+)\b/,
 				{
@@ -906,7 +925,7 @@ export const language = <languages.IMonarchLanguage>{
 			['.', 'comment']
 		],
 
-		strings: [['"', 'string', '@string']],
+		strings: [['\"', 'string', '@string']],
 
 		string: [
 			['""', 'string.escape'],
