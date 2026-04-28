@@ -541,5 +541,88 @@ testTokenization('powerquery', [
 				{ startIndex: 30, type: 'delimiter.parenthesis.pq' }
 			]
 		}
+	],
+
+	// try / catch (error-handling, May-2022 addition)
+	[
+		{
+			// try(0-2) (3) foo(4-6) (7) catch(8-12) (13) ((14)e(15))(16) =>(17-18) (19) e(20)
+			line: 'try foo catch (e) => e',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.pq' }, // try
+				{ startIndex: 3, type: 'white.pq' },
+				{ startIndex: 4, type: 'identifier.pq' },
+				{ startIndex: 7, type: 'white.pq' },
+				{ startIndex: 8, type: 'keyword.pq' }, // catch
+				{ startIndex: 13, type: 'white.pq' },
+				{ startIndex: 14, type: 'delimiter.parenthesis.pq' },
+				{ startIndex: 15, type: 'identifier.pq' },
+				{ startIndex: 16, type: 'delimiter.parenthesis.pq' },
+				{ startIndex: 17, type: 'white.pq' },
+				{ startIndex: 18, type: 'operators.pq' }, // =>
+				{ startIndex: 20, type: 'white.pq' },
+				{ startIndex: 21, type: 'identifier.pq' }
+			]
+		}
+	],
+
+	[
+		{
+			// Empty parameter list: `()` is tokenized as a single merged parenthesis
+			// delimiter token.
+			line: 'try foo catch () => 1',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.pq' },
+				{ startIndex: 3, type: 'white.pq' },
+				{ startIndex: 4, type: 'identifier.pq' },
+				{ startIndex: 7, type: 'white.pq' },
+				{ startIndex: 8, type: 'keyword.pq' }, // catch
+				{ startIndex: 13, type: 'white.pq' },
+				{ startIndex: 14, type: 'delimiter.parenthesis.pq' }, // () merged
+				{ startIndex: 16, type: 'white.pq' },
+				{ startIndex: 17, type: 'operators.pq' }, // =>
+				{ startIndex: 19, type: 'white.pq' },
+				{ startIndex: 20, type: 'number.pq' }
+			]
+		}
+	],
+
+	// ?? coalesce operator (m-spec-operators)
+	[
+		{
+			line: 'a ?? b',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.pq' },
+				{ startIndex: 1, type: 'white.pq' },
+				{ startIndex: 2, type: 'operators.pq' }, // ??  (single multi-char token)
+				{ startIndex: 4, type: 'white.pq' },
+				{ startIndex: 5, type: 'identifier.pq' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'x = y ?? 0',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.pq' },
+				{ startIndex: 1, type: 'white.pq' },
+				{ startIndex: 2, type: 'operators.pq' }, // =
+				{ startIndex: 3, type: 'white.pq' },
+				{ startIndex: 4, type: 'identifier.pq' },
+				{ startIndex: 5, type: 'white.pq' },
+				{ startIndex: 6, type: 'operators.pq' }, // ??
+				{ startIndex: 8, type: 'white.pq' },
+				{ startIndex: 9, type: 'number.pq' }
+			]
+		}
+	],
+
+	// Verbatim text literal #!"..." (m-spec-consolidated-grammar §Literal)
+	[
+		{
+			line: '#!"raw text"',
+			tokens: [{ startIndex: 0, type: 'string.pq' }]
+		}
 	]
 ]);

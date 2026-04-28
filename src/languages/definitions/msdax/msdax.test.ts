@@ -471,9 +471,10 @@ testTokenization('msdax', [
 
 	[
 		{
+			// DATATABLE is a function (datatable-function-dax), emitted as keyword.function.
 			line: 'DATATABLE("Price", STRING, {{"Low"},{"Medium"}})',
 			tokens: [
-				{ startIndex: 0, type: 'keyword.msdax' },
+				{ startIndex: 0, type: 'keyword.function.msdax' },
 				{ startIndex: 9, type: 'delimiter.parenthesis.msdax' },
 				{ startIndex: 10, type: 'string.msdax' },
 				{ startIndex: 17, type: 'delimiter.msdax' },
@@ -663,6 +664,309 @@ testTokenization('msdax', [
 				{ startIndex: 68, type: 'white.msdax' },
 				{ startIndex: 69, type: 'keyword.msdax' },
 				{ startIndex: 72, type: 'delimiter.parenthesis.msdax' } // )) merged
+			]
+		}
+	],
+
+	// Multi-char operators (dax-operator-reference): == <> <= >= != && ||
+	[
+		{
+			// [a] == 1
+			line: '[a] == 1',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.quote.msdax' },
+				{ startIndex: 1, type: 'identifier.msdax' },
+				{ startIndex: 2, type: 'identifier.quote.msdax' },
+				{ startIndex: 3, type: 'white.msdax' },
+				{ startIndex: 4, type: 'operator.msdax' }, // ==
+				{ startIndex: 6, type: 'white.msdax' },
+				{ startIndex: 7, type: 'number.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '1 <> 2',
+			tokens: [
+				{ startIndex: 0, type: 'number.msdax' },
+				{ startIndex: 1, type: 'white.msdax' },
+				{ startIndex: 2, type: 'operator.msdax' }, // <>
+				{ startIndex: 4, type: 'white.msdax' },
+				{ startIndex: 5, type: 'number.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '1 <= 2',
+			tokens: [
+				{ startIndex: 0, type: 'number.msdax' },
+				{ startIndex: 1, type: 'white.msdax' },
+				{ startIndex: 2, type: 'operator.msdax' }, // <=
+				{ startIndex: 4, type: 'white.msdax' },
+				{ startIndex: 5, type: 'number.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '1 >= 2',
+			tokens: [
+				{ startIndex: 0, type: 'number.msdax' },
+				{ startIndex: 1, type: 'white.msdax' },
+				{ startIndex: 2, type: 'operator.msdax' }, // >=
+				{ startIndex: 4, type: 'white.msdax' },
+				{ startIndex: 5, type: 'number.msdax' }
+			]
+		}
+	],
+
+	// DAX datetime literal dt"..." (dax-syntax-reference)
+	[
+		{
+			line: 'dt"2015-12-31"',
+			tokens: [{ startIndex: 0, type: 'string.msdax' }]
+		}
+	],
+
+	[
+		{
+			line: 'FILTER(Sales, [OrderDate] > dt"2015-1-9T02:30:00")',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' }, // FILTER
+				{ startIndex: 6, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 7, type: 'identifier.msdax' }, // Sales
+				{ startIndex: 12, type: 'delimiter.msdax' },
+				{ startIndex: 13, type: 'white.msdax' },
+				{ startIndex: 14, type: 'identifier.quote.msdax' },
+				{ startIndex: 15, type: 'identifier.msdax' },
+				{ startIndex: 24, type: 'identifier.quote.msdax' },
+				{ startIndex: 25, type: 'white.msdax' },
+				{ startIndex: 26, type: 'operator.msdax' }, // >
+				{ startIndex: 27, type: 'white.msdax' },
+				{ startIndex: 28, type: 'string.msdax' }, // dt"..."
+				{ startIndex: 49, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	// Dotted function names tokenize as a single keyword.function
+	[
+		{
+			line: 'PERCENTILE.EXC(Sales[Amount], 0.9)',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' }, // PERCENTILE.EXC
+				{ startIndex: 14, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 15, type: 'identifier.msdax' }, // Sales
+				{ startIndex: 20, type: 'identifier.quote.msdax' },
+				{ startIndex: 21, type: 'identifier.msdax' },
+				{ startIndex: 27, type: 'identifier.quote.msdax' },
+				{ startIndex: 28, type: 'delimiter.msdax' },
+				{ startIndex: 29, type: 'white.msdax' },
+				{ startIndex: 30, type: 'number.msdax' }, // 0.9
+				{ startIndex: 33, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'STDEV.P(Sales[Amount])',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' }, // STDEV.P
+				{ startIndex: 7, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 8, type: 'identifier.msdax' },
+				{ startIndex: 13, type: 'identifier.quote.msdax' },
+				{ startIndex: 14, type: 'identifier.msdax' },
+				{ startIndex: 20, type: 'identifier.quote.msdax' },
+				{ startIndex: 21, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			// Three-segment dotted name (INFO.VIEW.MEASURES). `()` merges in output.
+			line: 'EVALUATE INFO.VIEW.MEASURES()',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.msdax' },
+				{ startIndex: 8, type: 'white.msdax' },
+				{ startIndex: 9, type: 'keyword.function.msdax' }, // INFO.VIEW.MEASURES
+				{ startIndex: 27, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	// Newly covered DAX functions (spot-check per category)
+	[
+		{
+			line: 'COALESCE([a], 0)',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' }, // COALESCE
+				{ startIndex: 8, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 9, type: 'identifier.quote.msdax' },
+				{ startIndex: 10, type: 'identifier.msdax' },
+				{ startIndex: 11, type: 'identifier.quote.msdax' },
+				{ startIndex: 12, type: 'delimiter.msdax' },
+				{ startIndex: 13, type: 'white.msdax' },
+				{ startIndex: 14, type: 'number.msdax' },
+				{ startIndex: 15, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			// BITAND from Logical (logical-functions-dax)
+			line: 'BITAND(13, 11)',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' },
+				{ startIndex: 6, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 7, type: 'number.msdax' },
+				{ startIndex: 9, type: 'delimiter.msdax' },
+				{ startIndex: 10, type: 'white.msdax' },
+				{ startIndex: 11, type: 'number.msdax' },
+				{ startIndex: 13, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			// COMBINEVALUES from Text
+			line: 'COMBINEVALUES(",", [a], [b])',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' },
+				{ startIndex: 13, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 14, type: 'string.msdax' },
+				{ startIndex: 17, type: 'delimiter.msdax' },
+				{ startIndex: 18, type: 'white.msdax' },
+				{ startIndex: 19, type: 'identifier.quote.msdax' },
+				{ startIndex: 20, type: 'identifier.msdax' },
+				{ startIndex: 21, type: 'identifier.quote.msdax' },
+				{ startIndex: 22, type: 'delimiter.msdax' },
+				{ startIndex: 23, type: 'white.msdax' },
+				{ startIndex: 24, type: 'identifier.quote.msdax' },
+				{ startIndex: 25, type: 'identifier.msdax' },
+				{ startIndex: 26, type: 'identifier.quote.msdax' },
+				{ startIndex: 27, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			// SELECTEDMEASURE (Information / calculation groups). `()` merges.
+			line: 'SELECTEDMEASURE()',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' },
+				{ startIndex: 15, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			// UTCNOW / UTCTODAY / QUARTER from Date & time. Trailing parens merge.
+			line: 'QUARTER(UTCTODAY())',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' },
+				{ startIndex: 7, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 8, type: 'keyword.function.msdax' },
+				{ startIndex: 16, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			// TOCSV and TOJSON from Other
+			line: 'TOCSV(Sales, 10)',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' },
+				{ startIndex: 5, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 6, type: 'identifier.msdax' },
+				{ startIndex: 11, type: 'delimiter.msdax' },
+				{ startIndex: 12, type: 'white.msdax' },
+				{ startIndex: 13, type: 'number.msdax' },
+				{ startIndex: 15, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	[
+		{
+			// DATESWTD (week-to-date; previously missing alongside DATESMTD/QTD/YTD)
+			line: 'DATESWTD(Date[Date])',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.function.msdax' },
+				{ startIndex: 8, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 9, type: 'keyword.function.msdax' }, // Date matches DATE
+				{ startIndex: 13, type: 'identifier.quote.msdax' },
+				{ startIndex: 14, type: 'identifier.msdax' },
+				{ startIndex: 18, type: 'identifier.quote.msdax' },
+				{ startIndex: 19, type: 'delimiter.parenthesis.msdax' }
+			]
+		}
+	],
+
+	// DEFINE FUNCTION user-defined function (function-statement-dax).
+	// Note: `=>` is tokenized as two adjacent `operator` tokens that merge in output.
+	[
+		{
+			line: 'DEFINE FUNCTION MyAdd = (x, y) => x + y',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.msdax' }, // DEFINE
+				{ startIndex: 6, type: 'white.msdax' },
+				{ startIndex: 7, type: 'keyword.msdax' }, // FUNCTION
+				{ startIndex: 15, type: 'white.msdax' },
+				{ startIndex: 16, type: 'identifier.msdax' }, // MyAdd
+				{ startIndex: 21, type: 'white.msdax' },
+				{ startIndex: 22, type: 'operator.msdax' }, // =
+				{ startIndex: 23, type: 'white.msdax' },
+				{ startIndex: 24, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 25, type: 'identifier.msdax' },
+				{ startIndex: 26, type: 'delimiter.msdax' },
+				{ startIndex: 27, type: 'white.msdax' },
+				{ startIndex: 28, type: 'identifier.msdax' },
+				{ startIndex: 29, type: 'delimiter.parenthesis.msdax' },
+				{ startIndex: 30, type: 'white.msdax' },
+				{ startIndex: 31, type: 'operator.msdax' }, // => (merged)
+				{ startIndex: 33, type: 'white.msdax' },
+				{ startIndex: 34, type: 'identifier.msdax' },
+				{ startIndex: 35, type: 'white.msdax' },
+				{ startIndex: 36, type: 'operator.msdax' }, // +
+				{ startIndex: 37, type: 'white.msdax' },
+				{ startIndex: 38, type: 'identifier.msdax' }
+			]
+		}
+	],
+
+	// DEFINE TABLE ... WITH VISUAL SHAPE (virtual-table-statement-dax)
+	[
+		{
+			line: 'DEFINE TABLE T = {1} WITH VISUAL SHAPE',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.msdax' }, // DEFINE
+				{ startIndex: 6, type: 'white.msdax' },
+				{ startIndex: 7, type: 'keyword.msdax' }, // TABLE
+				{ startIndex: 12, type: 'white.msdax' },
+				{ startIndex: 13, type: 'identifier.msdax' }, // T
+				{ startIndex: 14, type: 'white.msdax' },
+				{ startIndex: 15, type: 'operator.msdax' },
+				{ startIndex: 16, type: 'white.msdax' },
+				{ startIndex: 17, type: 'delimiter.brackets.msdax' },
+				{ startIndex: 18, type: 'number.msdax' },
+				{ startIndex: 19, type: 'delimiter.brackets.msdax' },
+				{ startIndex: 20, type: 'white.msdax' },
+				{ startIndex: 21, type: 'keyword.msdax' }, // WITH
+				{ startIndex: 25, type: 'white.msdax' },
+				{ startIndex: 26, type: 'keyword.msdax' }, // VISUAL
+				{ startIndex: 32, type: 'white.msdax' },
+				{ startIndex: 33, type: 'keyword.msdax' } // SHAPE
 			]
 		}
 	]
