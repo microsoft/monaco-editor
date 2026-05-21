@@ -18,9 +18,6 @@
 		"rolldown-plugin-dts": "^0.16.11",
 		"rollup-plugin-delete": "^3.0.1"
 	},
-	"overrides": {
-		"dompurify": "3.4.5"
-	},
 	"scripts": {
 		"build": "npx rolldown -c rolldown.config.mjs",
 		"dev": "npx rolldown -c rolldown.config.mjs --watch",
