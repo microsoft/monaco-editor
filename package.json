@@ -99,6 +99,9 @@
 		"webpack": "^5.105.4",
 		"yaserver": "^0.4.0"
 	},
+	"overrides": {
+		"dompurify": "3.4.5"
+	},
 	"alias": {
 		"process": false,
 		"buffer": false
