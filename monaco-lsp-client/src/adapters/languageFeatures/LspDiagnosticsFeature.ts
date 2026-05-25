@@ -37,6 +37,10 @@ export class LspDiagnosticsFeature extends Disposable {
 			(params) => this._handlePublishDiagnostics(params)
 		));
 
+		this._register(monaco.editor.onWillDisposeModel(model => {
+			this._connection.diagnosticsCache.delete(model.uri.toString());
+		}));
+
 		this._register(this._connection.capabilities.registerCapabilityHandler(
 			capabilities.textDocumentDiagnostic,
 			true,
@@ -91,6 +95,7 @@ export class LspDiagnosticsFeature extends Disposable {
 				return;
 			}
 
+			this._connection.diagnosticsCache.set(model.uri.toString(), params.diagnostics);
 			const markers = params.diagnostics.map(diagnostic =>
 				toDiagnosticMarker(diagnostic)
 			);
@@ -163,6 +168,7 @@ class ModelDiagnosticProvider extends Disposable {
 			// Full diagnostic report
 			this._previousResultId = report.resultId;
 
+			this._connection.diagnosticsCache.set(this._model.uri.toString(), report.items);
 			const markers = report.items.map(diagnostic => toDiagnosticMarker(diagnostic));
 			monaco.editor.setModelMarkers(this._model, this._markerOwner, markers);
 
@@ -188,6 +194,7 @@ class ModelDiagnosticProvider extends Disposable {
 				}
 
 				if (report.kind === 'full') {
+					this._connection.diagnosticsCache.set(model.uri.toString(), report.items);
 					const markers = report.items.map((diagnostic: Diagnostic) => toDiagnosticMarker(diagnostic));
 					monaco.editor.setModelMarkers(model, this._markerOwner, markers);
 				}
