@@ -263,6 +263,15 @@ export function toMonacoDiagnosticTag(tag: DiagnosticTag): monaco.MarkerTag | un
     return lspDiagnosticTagToMonacoMarkerTag.get(tag);
 }
 
+export const monacoMarkerTagToLspDiagnosticTag = new Map<monaco.MarkerTag, DiagnosticTag>([
+    [monaco.MarkerTag.Unnecessary, DiagnosticTag.Unnecessary],
+    [monaco.MarkerTag.Deprecated, DiagnosticTag.Deprecated],
+]);
+
+export function toLspDiagnosticTag(tag: monaco.MarkerTag): DiagnosticTag | undefined {
+    return monacoMarkerTagToLspDiagnosticTag.get(tag);
+}
+
 // ============================================================================
 // Signature Help Trigger Kind
 // ============================================================================
