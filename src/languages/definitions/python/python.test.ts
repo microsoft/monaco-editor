@@ -253,5 +253,130 @@ testTokenization('python', [
 				{ startIndex: 6, type: 'string.escape.python' }
 			]
 		}
+	],
+
+	// https://github.com/microsoft/monaco-editor/issues/4601
+	// Multiline triple-quoted f-strings.
+	[
+		{
+			line: 'x = f"""first line',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 1, type: 'white.python' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'white.python' },
+				{ startIndex: 4, type: 'string.escape.python' },
+				{ startIndex: 8, type: 'string.python' }
+			]
+		},
+		{
+			line: 'still {var} string',
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 6, type: 'identifier.python' },
+				{ startIndex: 11, type: 'string.python' }
+			]
+		},
+		{
+			line: 'last line"""',
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 9, type: 'string.escape.python' }
+			]
+		},
+		{
+			line: 'y = 1',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 1, type: 'white.python' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'white.python' },
+				{ startIndex: 4, type: 'number.python' }
+			]
+		}
+	],
+	[
+		{
+			line: "x = f'''first line",
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 1, type: 'white.python' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'white.python' },
+				{ startIndex: 4, type: 'string.escape.python' },
+				{ startIndex: 8, type: 'string.python' }
+			]
+		},
+		{
+			line: 'still {var} string',
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 6, type: 'identifier.python' },
+				{ startIndex: 11, type: 'string.python' }
+			]
+		},
+		{
+			line: "last line'''",
+			tokens: [
+				{ startIndex: 0, type: 'string.python' },
+				{ startIndex: 9, type: 'string.escape.python' }
+			]
+		},
+		{
+			line: 'y = 1',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 1, type: 'white.python' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'white.python' },
+				{ startIndex: 4, type: 'number.python' }
+			]
+		}
+	],
+	[
+		{
+			line: `f'''it's fine'''`,
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 4, type: 'string.python' },
+				{ startIndex: 13, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'F"str {var} str"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 2, type: 'string.python' },
+				{ startIndex: 6, type: 'identifier.python' },
+				{ startIndex: 11, type: 'string.python' },
+				{ startIndex: 15, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'rf"str {var} str"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 3, type: 'string.python' },
+				{ startIndex: 7, type: 'identifier.python' },
+				{ startIndex: 12, type: 'string.python' },
+				{ startIndex: 16, type: 'string.escape.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'fr"str {var} str"',
+			tokens: [
+				{ startIndex: 0, type: 'string.escape.python' },
+				{ startIndex: 3, type: 'string.python' },
+				{ startIndex: 7, type: 'identifier.python' },
+				{ startIndex: 12, type: 'string.python' },
+				{ startIndex: 16, type: 'string.escape.python' }
+			]
+		}
 	]
 ]);
