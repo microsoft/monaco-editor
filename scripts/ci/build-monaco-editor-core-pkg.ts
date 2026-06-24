@@ -1,4 +1,4 @@
-import { rm } from 'fs/promises';
+import { rm, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { PackageJson, group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
 import { getNightlyEnv } from './env';

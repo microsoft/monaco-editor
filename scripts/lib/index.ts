@@ -5,9 +5,10 @@ export interface RunOptions {
 	cwd: string;
 }
 
-export async function run(command: string, options: RunOptions) {
-	console.log(`Running ${command} in ${options.cwd}`);
-	const process = spawn(command, { shell: true, cwd: options.cwd, stdio: 'inherit' });
+export async function run(command: string[], options: RunOptions) {
+	console.log(`Running ${command.join(' ')} in ${options.cwd}`);
+	const [cmd, ...args] = command;
+	const process = spawn(cmd, args, { shell: false, cwd: options.cwd, stdio: 'inherit' });
 	return new Promise<void>((resolve, reject) => {
 		process.on('exit', (code) => {
 			if (code !== 0) {
@@ -19,10 +20,11 @@ export async function run(command: string, options: RunOptions) {
 	});
 }
 
-export async function runGetOutput(command: string, options: RunOptions): Promise<string> {
-	console.log(`Running ${command} in ${options.cwd}`);
+export async function runGetOutput(command: string[], options: RunOptions): Promise<string> {
+	console.log(`Running ${command.join(' ')} in ${options.cwd}`);
 	return new Promise<string>((resolve, reject) => {
-		const process = spawn(command, { shell: true, cwd: options.cwd, stdio: 'pipe' });
+		const [cmd, ...args] = command;
+		const process = spawn(cmd, args, { shell: false, cwd: options.cwd, stdio: 'pipe' });
 		let output = '';
 		process.stdout.on('data', (data) => {
 			output += data;
@@ -38,7 +40,7 @@ export async function runGetOutput(command: string, options: RunOptions): Promis
 }
 
 export async function gitCommitId(repositoryPath: string): Promise<string> {
-	const commitId = (await runGetOutput('git rev-parse HEAD', { cwd: repositoryPath })).trim();
+	const commitId = (await runGetOutput(['git', 'rev-parse', 'HEAD'], { cwd: repositoryPath })).trim();
 	return commitId;
 }
 
@@ -49,10 +51,10 @@ export async function gitShallowClone(
 ): Promise<{ commitId: string }> {
 	await mkdir(targetPath, { recursive: true });
 	const options: RunOptions = { cwd: targetPath };
-	await run('git init', options);
-	await run(`git remote add origin ${repositoryUrl}`, options);
-	await run(`git fetch --depth 1 origin ${ref}`, options);
-	await run(`git checkout ${ref}`, options);
+	await run(['git', 'init'], options);
+	await run(['git', 'remote', 'add', 'origin', repositoryUrl], options);
+	await run(['git', 'fetch', '--depth', '1', 'origin', ref], options);
+	await run(['git', 'checkout', ref], options);
 	const commitId = await gitCommitId(targetPath);
 	console.log(`Cloned ${repositoryUrl} (${commitId}) to ${targetPath}`);
 	return { commitId };
