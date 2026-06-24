@@ -51,8 +51,6 @@ If using Webpack 4 or lower, it is necessary to use the file-loader instead of A
 
 ```js
 import * as monaco from 'monaco-editor';
-// or import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-// if shipping only a subset of the features & languages is desired
 
 monaco.editor.create(document.getElementById('container'), {
 	value: 'console.log("Hello, world")',
