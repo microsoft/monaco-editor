@@ -53,7 +53,7 @@ export class TextDocumentSynchronizer extends Disposable implements ITextModelBr
             throw new Error('Not started');
         }
 
-        const uriStr = m.uri.toString(true).toLowerCase();
+        const uriStr = m.uri.toString(true);
         let mm = this._managedModels.get(m);
         if (!mm) {
             mm = new ManagedModel(m, this._server);
@@ -69,7 +69,7 @@ export class TextDocumentSynchronizer extends Disposable implements ITextModelBr
     }
 
     translateBack(textDocument: TextDocumentIdentifier, position: Position): { textModel: monaco.editor.ITextModel; position: monaco.Position; } {
-        const uri = textDocument.uri.toLowerCase();
+        const uri = textDocument.uri;
         const textModel = this._managedModelsReverse.get(uri);
         if (!textModel) {
             throw new Error(`No text model for uri ${uri}`);
@@ -79,7 +79,7 @@ export class TextDocumentSynchronizer extends Disposable implements ITextModelBr
     }
 
     translateBackRange(textDocument: TextDocumentIdentifier, range: Range): { textModel: monaco.editor.ITextModel; range: monaco.Range; } {
-        const uri = textDocument.uri.toLowerCase();
+        const uri = textDocument.uri;
         const textModel = this._managedModelsReverse.get(uri);
         if (!textModel) {
             throw new Error(`No text model for uri ${uri}`);
@@ -126,7 +126,7 @@ class ManagedModel extends Disposable {
     ) {
         super();
 
-        const uri = _textModel.uri.toString(true).toLowerCase();
+        const uri = _textModel.uri.toString(true);
 
         this._api.textDocumentDidOpen({
             textDocument: {
