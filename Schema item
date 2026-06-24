@@ -1,0 +1,34 @@
+monaco.languages.registerCodeLensProvider('json', {
+    provideCodeLenses: async function (model, token) {
+      const getWorker = await monaco.languages.json.getWorker();
+      const worker = await getWorker(model.uri.toString());
+      const schema = await worker.getMatchingSchemas(model.uri.toString());
+      return {
+        lenses: schema
+          .filter((item) => item.schema.format === 'ipv4')
+          .map((schemaItem) => {
+            const start = model.getPositionAt(schemaItem.node.parent.offset);
+            const end = model.getPositionAt(
+              schemaItem.node.parent.offset + schemaItem.node.parent.length
+            );
+            return {
+              range: {
+                startLineNumber: start.lineNumber,
+                startColumn: start.column,
+                endLineNumber: end.lineNumber,
+                endColumn: end.column,
+              },
+              id: 'First Line',
+              command: {
+                id: commandId,
+                title: 'Select VM',
+              },
+            };
+          }),
+        dispose: () => {},
+      };
+    },
+    resolveCodeLens: function (model, codeLens, token) {
+      return codeLens;
+    },
+});
