@@ -7,22 +7,22 @@ pipelines:
         credscan:
           lastModifiedDate: 2024-09-18
         eslint:
-          lastModifiedDate: 2024-09-18
+          lastModifiedDate: 2026-06-25
         psscriptanalyzer:
-          lastModifiedDate: 2024-09-18
+          lastModifiedDate: 2026-06-25
         armory:
-          lastModifiedDate: 2024-09-18
+          lastModifiedDate: 2026-06-25
         policheck:
-          lastModifiedDate: 2025-08-28
+          lastModifiedDate: 2026-06-25
         accessibilityinsights:
           lastModifiedDate: 2025-08-28
       binary:
         credscan:
           lastModifiedDate: 2025-08-28
         binskim:
-          lastModifiedDate: 2025-08-28
+          lastModifiedDate: 2026-06-25
         spotbugs:
-          lastModifiedDate: 2025-08-28
+          lastModifiedDate: 2026-06-25
   416:
     retail:
       source:
