@@ -70,7 +70,7 @@
 		"jsdom": "^29.0.1",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^11.7.4",
-		"monaco-editor-core": "0.56.0-dev-20260625",
+		"monaco-editor-core": "0.56.0-dev-20260629",
 		"parcel": "^2.7.0",
 		"pin-github-action": "^1.8.0",
 		"postcss-url": "^10.1.3",
