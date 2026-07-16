@@ -60,6 +60,8 @@ export class Preview extends React.Component<{
 							Load{" "}
 							<Button
 								type="button"
+								aria-label="Load preview"
+								title="Load preview"
 								className={
 									"btn settings bi-arrow-clockwise btn-primary"
 								}

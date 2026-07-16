@@ -159,6 +159,8 @@ export class PlaygroundPageContent extends React.Component<
 										)}
 										<Button
 											type="button"
+											aria-label="Reload preview"
+											title="Reload preview"
 											className={
 												"btn settings bi-arrow-clockwise " +
 												(model.isDirty
@@ -177,6 +179,8 @@ export class PlaygroundPageContent extends React.Component<
 											active={
 												model.settings.previewFullScreen
 											}
+											aria-label="Toggle full screen preview"
+											title="Toggle full screen preview"
 											className="btn btn-light settings bi-arrows-fullscreen"
 											style={{
 												fontSize: 20,
@@ -234,6 +238,8 @@ export class PlaygroundPageContent extends React.Component<
 
 													<button
 														type="button"
+														aria-label="Open settings"
+														title="Open settings"
 														className="btn btn-light settings bi-gear"
 														style={{
 															fontSize: 20,
@@ -399,6 +405,7 @@ export class VersionSelector extends React.Component<{
 								padding: 0,
 							}}
 							onClick={() => model.bisectModel.reset()}
+							aria-label="Reset bisect"
 							title="Reset bisect"
 						/>
 					</ButtonGroup>
@@ -427,6 +434,7 @@ export class VersionSelector extends React.Component<{
 								true
 							)
 						}
+						aria-label="Mark version as working (for bisect)"
 						title="Mark version as working (for bisect)"
 					/>
 					<Button
@@ -451,6 +459,7 @@ export class VersionSelector extends React.Component<{
 								false
 							)
 						}
+						aria-label="Mark version as broken (for bisect)"
 						title="Mark version as broken (for bisect)"
 					/>
 				</ButtonGroup>
