@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.56.0]
+
+- Updates the editor core to the version used by `0.56.0-dev-20260625`.
+
 ## [0.55.1]
 
 - Fixes missing language exports (monaco.json/typescript/...) due to wrong "types" path - [#5123](https://github.com/microsoft/monaco-editor/issues/5123)
