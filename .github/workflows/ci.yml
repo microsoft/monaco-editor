@@ -1,5 +1,5 @@
 name: CI
-
+[![CI](https://github.com/microsoft/monaco-editor/actions/workflows/ci.yml/badge.svg?branch=release%2F0.52&event=delete)](https://github.com/microsoft/monaco-editor/actions/workflows/ci.yml)
 on:
   push:
     branches:
