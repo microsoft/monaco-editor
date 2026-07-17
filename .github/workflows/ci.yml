@@ -1,5 +1,5 @@
 name: CI
-
+https://github.com/microsoft/monaco-editor/actions/workflows/ci.yml/badge.svg?branch=rzhao271%2Fuse-npm&event=label
 on:
   push:
     branches:
