@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Editor in tiny iframe</title>
+
+		<style>
+			#myIframe1 {
+				border: 1px solid blue;
+				width: 0;
+				height: 0;
+			}
+			#myIframe2 {
+				border: 1px solid red;
+				display: none;
+			}
+			#myIframe3 {
+				border: 1px solid green;
+				visibility: hidden;
+			}
+			#programmaticIframe {
+				border: 1px solid yellow;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h2>Monaco Editor inside iframes sample</h2>
+
+		<br />
+		<br />
+		0x0:
+		<br />
+		<iframe id="myIframe1" src="inner.html"></iframe>
+		display:none:
+		<br />
+		<iframe id="myIframe2" src="inner.html"></iframe>
+		visibility:hidden:
+		<br />
+		<iframe id="myIframe3" src="inner.html"></iframe>
+		taken off-dom while loading:
+		<br />
+
+		<script>
+			var myIframe1 = document.getElementById('myIframe1');
+			var myIframe2 = document.getElementById('myIframe2');
+			var myIframe3 = document.getElementById('myIframe3');
+			var programmaticIframe = document.createElement('iframe');
+			programmaticIframe.id = 'programmaticIframe';
+			programmaticIframe.src = 'inner.html';
+			// trigger its loading & take it off dom
+			document.body.appendChild(programmaticIframe);
+
+			setTimeout(function () {
+				document.body.removeChild(programmaticIframe);
+			}, 10);
+
+			setTimeout(function () {
+				document.body.appendChild(programmaticIframe);
+				[myIframe1, myIframe2, myIframe3, programmaticIframe].forEach(reveal);
+			}, 3000);
+
+			function reveal(iframe) {
+				iframe.style.width = '400px';
+				iframe.style.height = '100px';
+				iframe.style.display = 'block';
+				iframe.style.visibility = 'visible';
+			}
+		</script>
+	</body>
+</html>

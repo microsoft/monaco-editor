@@ -1,0 +1,14 @@
+.monaco-editor .token.custom-info {
+	color: grey !important;
+}
+.monaco-editor .token.custom-error {
+	color: red !important;
+	font-weight: bold !important;
+	font-size: 1.2em !important;
+}
+.monaco-editor .token.custom-notice {
+	color: orange !important;
+}
+.monaco-editor .token.custom-date {
+	color: green !important;
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	</head>
+	<body>
+		<h2>Monaco Editor wrong cross origin</h2>
+
+		<div style="clear: both"></div>
+		<div
+			id="container"
+			style="float: left; width: 800px; height: 450px; border: 1px solid grey"
+		></div>
+		<div style="clear: both"></div>
+
+		<script src="dev-setup.js"></script>
+		<script>
+			loadEditor(function () {
+				monaco.editor.create(document.getElementById('container'), {
+					value: document.documentElement.innerHTML,
+					language: 'css'
+				});
+			}, 'http://localhost:8088');
+		</script>
+	</body>
+</html>

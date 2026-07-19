@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Hello World!</title>
+		<link
+			rel="stylesheet"
+			data-name="vs/editor/editor.main"
+			href="node_modules/monaco-editor/min/vs/editor/editor.main.css"
+		/>
+	</head>
+	<body>
+		<h1>Hello World!</h1>
+		<div id="container" style="width: 500px; height: 300px; border: 1px solid #ccc"></div>
+	</body>
+
+	<script>
+		// Monaco uses a custom amd loader that over-rides node's require.
+		// Keep a reference to node's require so we can restore it after executing the amd loader file.
+		var nodeRequire = require;
+	</script>
+	<script src="node_modules/monaco-editor/min/vs/loader.js"></script>
+	<script>
+		// Save Monaco's amd require and restore Node's require
+		var amdRequire = require;
+		require = nodeRequire;
+		require.nodeRequire = require;
+	</script>
+
+	<script>
+		amdRequire.config({
+			baseUrl: 'node_modules/monaco-editor/min'
+		});
+
+		// workaround monaco-css not understanding the environment
+		self.module = undefined;
+
+		// workaround monaco-typescript not understanding the environment
+		self.process.browser = true;
+
+		amdRequire(['vs/editor/editor.main'], function () {
+			var editor = monaco.editor.create(document.getElementById('container'), {
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+				language: 'javascript'
+			});
+		});
+	</script>
+</html>

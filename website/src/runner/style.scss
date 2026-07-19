@@ -1,0 +1,35 @@
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+}
+html,
+body {
+	height: 100%;
+}
+
+.loader-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.loader {
+	border: 16px solid #f2f1f1;
+	border-top: 16px solid #2c9ae3;
+	border-radius: 50%;
+	width: 70px;
+	height: 70px;
+	animation: spin 2s linear infinite;
+	margin: auto;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

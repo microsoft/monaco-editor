@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	</head>
+	<body>
+		<h2>Monaco Diff Editor Sample</h2>
+		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
+
+		<script src="../../node_modules/monaco-editor/min/vs/loader.js"></script>
+		<script>
+			require.config({ paths: { vs: '../../node_modules/monaco-editor/min/vs' } });
+
+			require(['vs/editor/editor.main'], function () {
+				var diffEditor = monaco.editor.createDiffEditor(document.getElementById('container'));
+
+				Promise.all([xhr('original.txt'), xhr('modified.txt')]).then(function (r) {
+					var originalTxt = r[0].responseText;
+					var modifiedTxt = r[1].responseText;
+
+					diffEditor.setModel({
+						original: monaco.editor.createModel(originalTxt, 'javascript'),
+						modified: monaco.editor.createModel(modifiedTxt, 'javascript')
+					});
+				});
+			});
+		</script>
+		<script>
+			function xhr(url) {
+				var req = null;
+				return new Promise(
+					function (c, e) {
+						req = new XMLHttpRequest();
+						req.onreadystatechange = function () {
+							if (req._canceled) {
+								return;
+							}
+
+							if (req.readyState === 4) {
+								if ((req.status >= 200 && req.status < 300) || req.status === 1223) {
+									c(req);
+								} else {
+									e(req);
+								}
+								req.onreadystatechange = function () {};
+							}
+						};
+
+						req.open('GET', url, true);
+						req.responseType = '';
+
+						req.send(null);
+					},
+					function () {
+						req._canceled = true;
+						req.abort();
+					}
+				);
+			}
+		</script>
+	</body>
+</html>

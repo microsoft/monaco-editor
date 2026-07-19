@@ -1,0 +1,8 @@
+{
+	"name": "electron-esm-webpack",
+	"main": "./main",
+	"scripts": {
+		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
+		"execute": "node ../node_modules/electron/cli.js ."
+	}
+}

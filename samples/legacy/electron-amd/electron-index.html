@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'none'; script-src file: 'sha256-AcqnkP3xWRYJaQ27hijK3b831+qsxvzEoSYt6PfGrRE='; style-src 'unsafe-inline' file:; font-src file:"
+		/>
+		<title>Monaco Editor!</title>
+		<style>
+			#container {
+				width: 500px;
+				height: 300px;
+				border: 1px solid #ccc;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Monaco Editor in Electron (without nodeIntegration)!</h1>
+		Note: Since Electron without nodeIntegration is very similar to a browser, you can have a look
+		at all the other `browser-` samples, as they should work just fine. <br /><br />
+		<div id="container"></div>
+	</body>
+
+	<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+	<script>
+		require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
+
+		require(['vs/editor/editor.main'], function () {
+			const editor = monaco.editor.create(document.getElementById('container'), {
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+				language: 'javascript'
+			});
+		});
+	</script>
+</html>

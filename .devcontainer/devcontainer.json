@@ -1,0 +1,8 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/typescript-node",
+	"customizations": {
+		"vscode": {
+			"extensions": ["ms-vscode.js-debug-nightly"]
+		}
+	}
+}

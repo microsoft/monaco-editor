@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"strict": true,
+		"outDir": "dist",
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"newLine": "LF",
+		"sourceMap": true,
+		"useDefineForClassFields": false,
+		"noEmit": true
+	},
+	"exclude": ["src/**/*", "./node_modules/monaco-editor/monaco.d.ts"]
+}

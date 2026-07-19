@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	</head>
+	<body style="height: 2000px">
+		<h2>Monaco Editor in fixed element</h2>
+
+		<div
+			style="
+				position: fixed;
+				left: 20%;
+				top: 20%;
+				right: 20%;
+				height: 400px;
+				border: 1px solid silver;
+			"
+			id="Editor"
+		></div>
+
+		<script src="dev-setup.js"></script>
+		<script>
+			loadEditor(function () {
+				monaco.editor.create(document.getElementById('Editor'), {
+					value: document.documentElement.innerHTML,
+					language: 'xml'
+				});
+			});
+		</script>
+	</body>
+</html>

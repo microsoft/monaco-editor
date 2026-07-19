@@ -1,0 +1,7 @@
+{
+	"name": "browser-esm-webpack-small",
+	"scripts": {
+		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
+		"generate-imports": "node generate-imports.js"
+	}
+}

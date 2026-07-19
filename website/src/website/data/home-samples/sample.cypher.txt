@@ -1,0 +1,3 @@
+MATCH (nicole:Actor {name: 'Nicole Kidman'})-[:ACTED_IN]->(movie:Movie)
+WHERE movie.year < $yearParameter
+RETURN movie

@@ -1,0 +1,10 @@
+{
+	"name": "helloworld",
+	"scripts": {
+		"start": "parcel ./src/index.html"
+	},
+	"devDependencies": {
+		"monaco-editor": "^0.32.0",
+		"parcel": "^2.2.1"
+	}
+}

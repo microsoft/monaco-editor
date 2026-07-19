@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	</head>
+	<body>
+		<h2>Monaco Editor Shadow DOM</h2>
+
+		<div style="clear: both"></div>
+		<div
+			id="container"
+			style="float: left; width: 800px; height: 450px; border: 1px solid grey"
+		></div>
+		<div style="clear: both"></div>
+
+		<script src="dev-setup.js"></script>
+		<script>
+			const container = document.getElementById('container');
+			const shadowRoot = container.attachShadow({
+				mode: 'closed'
+			});
+			loadEditor(function () {
+				const innerContainer = document.createElement('div');
+				shadowRoot.appendChild(innerContainer);
+				innerContainer.style.width = '800px';
+				innerContainer.style.height = '450px';
+
+				// We must move all CSS inside the shadow root, pick only link tags relevant to the editor
+				const documentLinks = Array.prototype.slice
+					.call(document.getElementsByTagName('link'), 0)
+					.filter((documentLink) => {
+						if (/vs\/(base|editor|platform)/.test(documentLink.getAttribute('href'))) {
+							return true;
+						}
+						console.log(`Not moving: `, documentLink);
+						return true;
+					});
+				documentLinks.forEach((documentLink) => shadowRoot.appendChild(documentLink));
+
+				// We must define the font face outside the shadowroot
+				const codiconCSS = `@font-face { font-family: "codicon"; src: url("${getCodiconPath()}") format("truetype"); }`;
+				const style = document.createElement('style');
+				style.type = 'text/css';
+				style.media = 'screen';
+				document.getElementsByTagName('head')[0].appendChild(style);
+				style.innerHTML = codiconCSS;
+
+				monaco.editor.create(innerContainer, {
+					value: ['function hello() {', '\tconsole.log("hello world");', '}', ''].join('\n'),
+					language: 'javascript',
+					ariaContainerElement: innerContainer
+				});
+			});
+		</script>
+	</body>
+</html>

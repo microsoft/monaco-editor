@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+		"noEmit": true,
+		"module": "CommonJS",
+		"esModuleInterop": true
+	},
+	"include": ["./**/*"]
+}

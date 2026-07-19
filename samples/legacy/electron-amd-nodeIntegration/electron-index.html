@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'none'; script-src file: 'sha256-RtE3AqQ1tBhtcwykhJsEKY7jjCqiGy5yH1mRDwu6gEE='; style-src 'unsafe-inline' file:; font-src file:"
+		/>
+		<title>Monaco Editor!</title>
+	</head>
+	<body>
+		<h1>Monaco Editor in Electron!</h1>
+		<div id="container" style="width: 500px; height: 300px; border: 1px solid #ccc"></div>
+	</body>
+
+	<script>
+		(function () {
+			const path = require('path');
+			const amdLoader = require('../node_modules/monaco-editor/min/vs/loader.js');
+			const amdRequire = amdLoader.require;
+			const amdDefine = amdLoader.require.define;
+
+			function uriFromPath(_path) {
+				var pathName = path.resolve(_path).replace(/\\/g, '/');
+				if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+					pathName = '/' + pathName;
+				}
+				return encodeURI('file://' + pathName);
+			}
+
+			amdRequire.config({
+				baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
+			});
+
+			// workaround monaco-css not understanding the environment
+			self.module = undefined;
+
+			amdRequire(['vs/editor/editor.main'], function () {
+				var editor = monaco.editor.create(document.getElementById('container'), {
+					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+					language: 'javascript'
+				});
+			});
+		})();
+	</script>
+</html>

@@ -1,0 +1,150 @@
+[
+	{
+		"type": "comment",
+		"name": "question",
+		"allowUsers": [],
+		"action": "updateLabels",
+		"addLabel": "*question"
+	},
+	{
+		"type": "label",
+		"name": "*question",
+		"action": "close",
+		"reason": "not_planned",
+		"comment": "We closed this issue because it is a question about using Monaco Editor rather than an issue or feature request. Please search for help on [StackOverflow](https://stackoverflow.com/questions/tagged/monaco-editor), where the community has already answered many similar questions. See also our [issue reporting guidelines](https://github.com/microsoft/monaco-editor#contributing).\n\nHappy Coding!"
+	},
+	{
+		"type": "label",
+		"name": "*out-of-scope",
+		"action": "close",
+		"reason": "not_planned",
+		"comment": "We closed this issue because we don't plan to address it in the foreseeable future. If you disagree and feel that this issue is crucial: we are happy to listen and to reconsider.\n\nThanks for your understanding, and happy coding!"
+	},
+	{
+		"type": "label",
+		"name": "wont-fix",
+		"action": "close",
+		"reason": "not_planned",
+		"comment": "We closed this issue because we don't plan to address it.\n\nThanks for your understanding, and happy coding!"
+	},
+	{
+		"type": "comment",
+		"name": "duplicate",
+		"allowUsers": [],
+		"action": "updateLabels",
+		"addLabel": "*duplicate"
+	},
+	{
+		"type": "label",
+		"name": "*duplicate",
+		"action": "close",
+		"reason": "not_planned",
+		"comment": "Thanks for creating this issue! We figured it's covering the same as another one we already have. Thus, we closed this one as a duplicate. You can search for [existing issues](https://github.com/microsoft/monaco-editor/issues).\n\nHappy Coding!"
+	},
+	{
+		"type": "comment",
+		"name": "verified",
+		"allowUsers": [
+			"@author"
+		],
+		"action": "updateLabels",
+		"addLabel": "verified",
+		"removeLabel": "author-verification-requested",
+		"requireLabel": "author-verification-requested",
+		"disallowLabel": "unreleased"
+	},
+	{
+		"type": "comment",
+		"name": "confirm",
+		"allowUsers": [],
+		"action": "updateLabels",
+		"addLabel": "confirmed",
+		"removeLabel": "confirmation-pending"
+	},
+	{
+		"type": "comment",
+		"name": "confirmationPending",
+		"allowUsers": [],
+		"action": "updateLabels",
+		"addLabel": "confirmation-pending",
+		"removeLabel": "confirmed"
+	},
+	{
+		"type": "comment",
+		"name": "needsMoreInfo",
+		"allowUsers": [],
+		"action": "updateLabels",
+		"addLabel": "~info-needed"
+	},
+	{
+		"type": "comment",
+		"name": "closedWith",
+		"allowUsers": [],
+		"action": "close",
+		"reason": "completed",
+		"addLabel": "unreleased"
+	},
+	{
+		"type": "comment",
+		"name": "spam",
+		"allowUsers": [],
+		"action": "close",
+		"reason": "not_planned",
+		"addLabel": "invalid"
+	},
+	{
+		"__comment__": "Allows folks on the team to label issues by commenting: `\\label My-Label` ",
+		"type": "comment",
+		"name": "label",
+		"allowUsers": []
+	},
+	{
+		"type": "label",
+		"name": "~verification-steps-needed",
+		"action": "updateLabels",
+		"addLabel": "verification-steps-needed",
+		"removeLabel": "~verification-steps-needed",
+		"comment": "Friendly ping! Looks like this issue requires some further steps to be verified. Please provide us with the steps necessary to verify this issue."
+	},
+	{
+		"type": "label",
+		"name": "~info-needed",
+		"action": "updateLabels",
+		"addLabel": "info-needed",
+		"removeLabel": "~info-needed",
+		"comment": "Thanks for creating this issue! We figured it's missing some basic information or doesn't follow our issue reporting guidelines. Please take the time to review these and update the issue.\n\nHappy Coding!"
+	},
+	{
+		"type": "label",
+		"name": "~version-info-needed",
+		"action": "updateLabels",
+		"addLabel": "info-needed",
+		"removeLabel": "~version-info-needed",
+		"comment": "Thanks for creating this issue! We figured it's missing some basic information, such as a version number. Please take the time to update the issue with the Monaco Editor version you're using.\n\nHappy Coding!"
+	},
+	{
+		"type": "label",
+		"name": "~confirmation-needed",
+		"action": "updateLabels",
+		"addLabel": "info-needed",
+		"removeLabel": "~confirmation-needed",
+		"comment": "Please try to reproduce this issue with the latest version of Monaco Editor. If the issue persists, please update the issue with confirmation.\n\nHappy Coding!"
+	},
+	{
+		"type": "comment",
+		"name": "gifPlease",
+		"allowUsers": [],
+		"action": "comment",
+		"addLabel": "info-needed",
+		"comment": "Thanks for reporting this issue! Unfortunately, it's hard for us to understand what issue you're seeing. Please help us out by providing a screen recording showing exactly what isn't working as expected. While we can work with most standard formats, `.gif` files are preferred as they are displayed inline on GitHub. You may find https://gifcap.dev helpful as a browser-based gif recording tool.\n\nHappy coding!"
+	},
+	{
+		"type": "comment",
+		"name": "upstream",
+		"allowUsers": [],
+		"action": "close",
+		"reason": "not_planned",
+		"addLabel": "upstream",
+		"comment": "This issue is caused by an upstream dependency (VS Code editor core). The fix needs to happen in the [VS Code repository](https://github.com/microsoft/vscode). Please check if there's already an issue filed there, or create one if not.\n\nHappy Coding!"
+	}
+]

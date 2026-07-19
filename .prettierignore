@@ -1,0 +1,17 @@
+**/node_modules/
+**/dist/
+**/out/
+/samples/browser-esm-parcel/.parcel-cache/
+/samples/browser-esm-parcel/dist/
+/samples/browser-esm-vite-react/dist/**/*.js
+/samples/browser-esm-webpack/dist/*.js
+/samples/browser-esm-webpack-monaco-plugin/dist/*.js
+/samples/browser-esm-webpack-small/dist/*.js
+/samples/browser-esm-webpack-typescript/dist/*.js
+/samples/browser-esm-webpack-typescript-react/dist/*.js
+/src/language/typescript/lib/
+/test/manual/generated/
+/website/lib/
+/website/typedoc/monaco.d.ts
+/test/smoke/vite/dist
+/test/smoke/parcel/dist
