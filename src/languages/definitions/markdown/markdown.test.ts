@@ -91,5 +91,53 @@ testTokenization('markdown', [
 			line: '<custom-component',
 			tokens: [{ startIndex: 0, type: 'tag.md' }]
 		}
+	],
+
+	// indented HTML tag spanning multiple lines inside an HTML block
+	[
+		{
+			line: '<div>',
+			tokens: [{ startIndex: 0, type: 'tag.md' }]
+		},
+		{
+			line: '    <img src="a"',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 4, type: 'tag.md' },
+				{ startIndex: 8, type: 'white.md' },
+				{ startIndex: 9, type: 'attribute.name.html.md' },
+				{ startIndex: 12, type: 'delimiter.html.md' },
+				{ startIndex: 13, type: 'string.html.md' }
+			]
+		},
+		{
+			line: '         class="b" />',
+			tokens: [
+				{ startIndex: 0, type: 'white.md' },
+				{ startIndex: 9, type: 'attribute.name.html.md' },
+				{ startIndex: 14, type: 'delimiter.html.md' },
+				{ startIndex: 15, type: 'string.html.md' },
+				{ startIndex: 18, type: 'white.md' },
+				{ startIndex: 19, type: 'tag.md' }
+			]
+		},
+		// a blank line ends the HTML block, so block constructs apply again
+		{
+			line: '',
+			tokens: []
+		},
+		{
+			line: '# header',
+			tokens: [{ startIndex: 0, type: 'keyword.md' }]
+		},
+		{
+			line: '',
+			tokens: []
+		},
+		// an indented code block outside of an HTML block is still a code block
+		{
+			line: '    <div>code</div>',
+			tokens: [{ startIndex: 0, type: 'string.md' }]
+		}
 	]
 ]);

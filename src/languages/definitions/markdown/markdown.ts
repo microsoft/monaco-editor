@@ -82,6 +82,12 @@ export const language = <languages.IMonarchLanguage>{
 			// list (starting with * or number)
 			[/^\s*([\*\-+:]|\d+\.)\s/, 'keyword'],
 
+			// html block: a line starting (with at most 3 spaces of indent) with an html tag
+			// starts a raw html block which lasts until the next blank line. Inside such a
+			// block, markdown block constructs (notably indented code blocks) do not apply,
+			// so that tags spanning multiple lines keep being tokenized as html.
+			[/^[ ]{0,3}(?=<\/?[a-zA-Z][\w-]*(?:\s|\/?>|$))/, { token: '@rematch', next: '@htmlBlock' }],
+
 			// code block (4 spaces indent)
 			[/^(\t|[ ]{4})[^ ].*$/, 'string'],
 
@@ -100,6 +106,9 @@ export const language = <languages.IMonarchLanguage>{
 			// markup within lines
 			{ include: '@linecontent' }
 		],
+
+		// raw html block: everything is tokenized as inline markup / html until a blank line
+		htmlBlock: [[/^\s*$/, { token: '', next: '@pop' }], { include: '@linecontent' }],
 
 		table_header: [
 			{ include: '@table_common' },
