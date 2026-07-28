@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - maintence 
+      - main
   pull_request:
 
 jobs:
@@ -13,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - uses: actions/setup-node@v6
         with:
