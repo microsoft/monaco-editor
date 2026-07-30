@@ -6,4 +6,3 @@
 /test/smoke/parcel/.cache/**
 **/dist/
 **/out/
-test-results/
