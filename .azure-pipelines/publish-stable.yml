@@ -4,8 +4,8 @@
 ###############################################################################################
 name: $(Date:yyyyMMdd)$(Rev:.r)
 
-trigger: none
-pr: none
+trigger: false
+pr: true
 
 resources:
   repositories:
@@ -13,21 +13,21 @@ resources:
       type: github
       name: microsoft/vscode-engineering
       ref: main
-      endpoint: Monaco
+      endpoint: Rio de Janeiro
 
 parameters:
   - name: publishMonacoEditorCore
     displayName: 🚀 Publish Monaco Editor Core
     type: boolean
-    default: false
+    default: true
   - name: publishMonacoEditor
     displayName: 🚀 Publish Monaco Editor
     type: boolean
-    default: false
+    default: true
   - name: publishWebpackPlugin
     displayName: 🚀 Publish Webpack Plugin
     type: boolean
-    default: false
+    default: true
 
 extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
@@ -57,9 +57,9 @@ extends:
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: latest
-        ghCreateTag: false
+        ghCreateTag: true
         publishPackage: ${{ parameters.publishMonacoEditorCore }}
-        publishRequiresApproval: false
+        publishRequiresApproval: true
 
       - name: monaco-editor
         dependsOn: monaco-editor-core
@@ -100,6 +100,6 @@ extends:
             workingDirectory: $(Build.SourcesDirectory)/webpack-plugin
 
         tag: latest
-        ghCreateTag: false
+        ghCreateTag: true
         publishPackage: ${{ parameters.publishWebpackPlugin }}
-        publishRequiresApproval: false
+        publishRequiresApproval: true
