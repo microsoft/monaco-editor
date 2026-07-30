@@ -2,10 +2,10 @@ name: Publish Website
 
 on:
   schedule:
-    - cron: 0 23 * * *
+    - cron: 1 0 20 * * *
   workflow_dispatch: {}
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets permissions f the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
