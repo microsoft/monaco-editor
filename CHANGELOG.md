@@ -1,5 +1,9 @@
 # Monaco Editor Changelog
 
+## [0.56.1]
+
+- Fixes find widget hover flickering when the editor container has a static position ([#5296](https://github.com/microsoft/monaco-editor/issues/5296)).
+
 ## [0.56.0]
 
 ### Breaking Changes
