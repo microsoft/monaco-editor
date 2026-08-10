@@ -25,7 +25,7 @@ self.MonacoEnvironment = {
 			return new Worker(
 				getWorkerBootstrapUrl(
 					/// @ts-ignore
-					new URL('../../../src/languages/features/json/json.worker.ts?worker', import.meta.url)
+					new URL('../../../src/languages/features/json/json.worker.ts?esm', import.meta.url)
 				)
 			);
 		}
@@ -33,7 +33,7 @@ self.MonacoEnvironment = {
 			return new Worker(
 				getWorkerBootstrapUrl(
 					/// @ts-ignore
-					new URL('../../../src/languages/features/css/css.worker.ts?worker', import.meta.url)
+					new URL('../../../src/languages/features/css/css.worker.ts?esm', import.meta.url)
 				)
 			);
 		}
@@ -41,7 +41,7 @@ self.MonacoEnvironment = {
 			return new Worker(
 				getWorkerBootstrapUrl(
 					/// @ts-ignore
-					new URL('../../../src/languages/features/html/html.worker.ts?worker', import.meta.url)
+					new URL('../../../src/languages/features/html/html.worker.ts?esm', import.meta.url)
 				)
 			);
 		}
@@ -49,13 +49,13 @@ self.MonacoEnvironment = {
 			return new Worker(
 				getWorkerBootstrapUrl(
 					/// @ts-ignore
-					new URL('../../../src/languages/features/typescript/ts.worker.ts?worker', import.meta.url)
+					new URL('../../../src/languages/features/typescript/ts.worker.ts?esm', import.meta.url)
 				)
 			);
 		}
 		return new Worker(
 			/// @ts-ignore
-			getWorkerBootstrapUrl(new URL('../../../src/deprecated/editor/editor.worker.ts?worker', import.meta.url))
+			getWorkerBootstrapUrl(new URL('../../../src/deprecated/editor/editor.worker.ts?esm', import.meta.url))
 		);
 	}
 };
@@ -91,7 +91,6 @@ lang.css = monaco.css;
 lang.html = monaco.html;
 lang.typescript = monaco.typescript;
 lang.json = monaco.json;
-
 
 const styleSheetUrl = require.toUrl('vs/editor/editor.main.css');
 

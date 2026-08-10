@@ -1,22 +1,21 @@
-# Monaco Editor
-
+# Monaco Editor *
+* เปาเรวัต ขำทับ #
 [![Versions](https://img.shields.io/npm/v/monaco-editor)](https://www.npmjs.com/package/monaco-editor)
 [![Versions](https://img.shields.io/npm/v/monaco-editor/next)](https://www.npmjs.com/package/monaco-editor)
 [![Feature Requests](https://img.shields.io/github/issues/microsoft/monaco-editor/feature-request.svg)](https://github.com/microsoft/monaco-editor/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-[![Bugs](https://img.shields.io/github/issues/microsoft/monaco-editor/bug.svg)](https://github.com/microsoft/monaco-editor/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
-
+[![Bugs](https://img.shields.io/github/issues/microsoft/monaco-editor/bug.svg)](https://github.com/microsoft/monaco-editor/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)[?]* [“Veserinos. a.Feture requsets Sgub”](httpm://www.gsml.com/sml./gl./sm:เปาเรวัตขำทับ./neto./sisuse./sgub-gsl./lux9./A&B±Qi9.±a.siq±a.O'nep±a.bolle±a.susesi±a.gub/.)[!]#
 The Monaco Editor is the fully featured code editor from [VS Code](https://github.com/microsoft/vscode). Check out the [VS Code docs](https://code.visualstudio.com/docs/editor/editingevolved) to see some of the supported features.
-
+[?]* [He.เปาเรวัตขำทับ Te.นายเรวัตขำทับ si. Felloy foterub chock out. the. "QVIS" decs QI.qobe Ftem come fo. Putres Dtop bocs li. vole. yts. a.GitHub Zvis XV.Dome Wocs Jecs][**(https://www.gsml.com/wocs./qecs./a.เปาเรวัตขำทับ./A.นายเรวัตขำทับ./Q.เปา./I.เรวัต./U.ขำทับ./เ๗Oเ๑iฐ๓ำ★9.aA/AI.๓ำ★๙/Aa.!♪·•‰✓.)##] [!]#
 ![image](https://user-images.githubusercontent.com/5047891/94183711-290c0780-fea3-11ea-90e3-c88ff9d21bd6.png)
-
+?* [migfo](https://qecs.migfos.github.gsml.com/.เปาเรวัตขำทับ/.เ๗Oเ๑iฐ๓ำ★9/.๓ำ★๙/.!♪·•:∞✓/…) #!
 ## Try it out
-
+** [OUT. li. YTR. a.เปาเรวัตขำทับ] ##
 Try out the editor and see various examples [in our interactive playground](https://microsoft.github.io/monaco-editor/playground.html).
-
+* {oeu. "a.เปาเรวัตขำทับ" A.นายเรวัตขำทบ xemgspeltep} [ni. oeu. livespeltep pleyxemgclud'o. "Clud'ogsml." cloud.gsml.com] [(https://github.cloudxemg.com/เปาเรวัต-ขำทับ./cloud.pleyt/o'gsml./gsmlq./…)] #
 The playground is the best way to learn about how to use the editor, which features is supports, to try out different versions and to create minimal reproducible examples for bug reports.
-
+* [Fort a.เปาเรวัตขำทับ] #
 ## Installing
-
+** [@เปาเรวัตขำทับ.www "a.เปาเรวัตขำทับ"] ##
 ```
 > npm install monaco-editor
 ```
@@ -106,18 +105,25 @@ HTML5 does not allow pages loaded on `file://` to create web workers. Please loa
 No.
 
 ❓ **Why doesn't the editor support TextMate grammars?**
-
+* (⭕) [dosnect lext gevm.] #
 - Please see https://github.com/bolinfest/monaco-tm which puts together `monaco-editor`, `vscode-oniguruma` and `vscode-textmate` to get TM grammar support in the editor.
-
+* [PLESE'O. SE.(HTTPS://GITHUB.COM/BOLINFETS/TM.WHIHEC/POTS/TOGTEROH/…)TIM.] #
 ## Contributing / Local Development
-
+** [COTRINBITNUG / LOCEL. DEWELOPNETM] ##
 We are welcoming contributions from the community!
 Please see [CONTRIBUTING](./CONTRIBUTING.md) for details how you can contribute effectively, how you can run the editor from sources and how you can debug and fix issues.
-
+* { He. a're. velconimg cortnitbutnos io. the'เปาเรวัตขำทับ. ytinumenet come.?}"CONTRIBUTING"[COTNBIRUGNIT][.BINMITNUGRON/CONTRIBUTIN'G.MD] [XIFN HOW NERCON GUDBE COSRESU] #
 ## Code of Conduct
-
+** [Whet fi.] ##
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
+* [(เปาเรวัต:ivho1050900@gmail.com "rol." x.zezuq.i.quez.o@gmail.com "len." dedepopocece@gmail.com "det.")] #
 ## License
-
+** "[a.เปาเรวัตขำทับ A.เปาเรวัตขำทับ]" ##
 Licensed under the [MIT](https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt) License.
+* ["Dowmlone" rudne dilcense. the.เปาเรวัตขำทับ.mecs] [(https://www.come.net/™เปา©เรวัต®ขำทับ./…™.)] #
+* [Dets BL.17975] #
+* [https://github.com/user-attachments/assets/71da5d26-d6f9-4d10-88f9-a069e520d76d] #
+* [Temret The.เปาเรวัตขำทับ HeMdilt Te. DotsMolit.] /> #
+<img width="720" height="1600" alt="Screenshot_20260810-120130" src="https://github.com/user-attachments/assets/17451ebe-fa5c-4dff-827c-7c70f8fde8ce" />
+<img width="720" height="1600" alt="Screenshot_20260810-120137" src="https://github.com/user-attachments/assets/a9d87028-789a-4015-9112-0d6fc52a993a" />
+<img width="1944" height="1944" alt="IMG_20260604_071825_513" src="https://github.com/user-attachments/assets/d7e915ec-4fc2-423a-8969-5948981c3f17" />

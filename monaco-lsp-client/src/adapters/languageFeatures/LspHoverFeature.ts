@@ -68,12 +68,12 @@ function toMonacoMarkdownString(
 
 function toSingleMarkdownString(content: MarkupContent | MarkedString): monaco.IMarkdownString {
     if (typeof content === 'string') {
-        return { value: content, isTrusted: true };
+        return { value: content };
     }
     if ('kind' in content) {
         // MarkupContent
-        return { value: content.value, isTrusted: true };
+        return { value: content.value };
     }
     // MarkedString with language
-    return { value: `\`\`\`${content.language}\n${content.value}\n\`\`\``, isTrusted: true };
+    return { value: `\`\`\`${content.language}\n${content.value}\n\`\`\`` };
 }

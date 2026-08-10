@@ -207,6 +207,5 @@ function toMonacoTooltip(tooltip: string | MarkupContent | undefined): string | 
 
     return {
         value: tooltip.value,
-        isTrusted: true,
     };
 }

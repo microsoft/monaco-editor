@@ -11,7 +11,7 @@
 		"@hediet/json-rpc-websocket": "^0.5.1"
 	},
 	"peerDependencies": {
-		"monaco-editor-core": "^0.54.0-dev-20250929"
+		"monaco-editor-core": "*"
 	},
 	"devDependencies": {
 		"rolldown": "^1.0.0-beta.41",

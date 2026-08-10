@@ -168,7 +168,9 @@ exports.languages = ${JSON.stringify(languages, null, '  ')};
 				for (const entry of entries) {
 					const dtsDestination = path.join(REPO_ROOT, 'out/monaco-editor/esm', entry) + '.d.ts';
 					ensureDir(path.dirname(dtsDestination));
-					fs.writeFileSync(dtsDestination, 'export {}\n');
+					if (!fs.existsSync(dtsDestination)) {
+						fs.writeFileSync(dtsDestination, 'export {}\n');
+					}
 				}
 			}
 		}

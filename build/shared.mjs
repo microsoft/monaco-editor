@@ -29,7 +29,7 @@ export function changeExt(filePath, newExt) {
 /**
  * @returns {{ pathFromRoot: string, source: { value: string } | { absolutePath: string } }[]}
  */
-export function getAdditionalFiles() {
+export function getNlsFiles(rootPath = '') {
 	const nlsDir = dirname(fileURLToPath(import.meta.resolve('monaco-editor-core/esm/nls.messages.en.js')));
 	const files = readdirSync(nlsDir)
 		.flatMap(file => {
@@ -40,11 +40,11 @@ export function getAdditionalFiles() {
 			const lang = match.groups?.lang;
 			return [
 				{
-					pathFromRoot: join('vs', 'nls', 'lang', lang + '.js'),
+					pathFromRoot: join(rootPath, 'nls', 'lang', lang + '.js'),
 					source: { absolutePath: join(nlsDir, file) }
 				},
 				{
-					pathFromRoot: join('vs', 'nls', 'lang', lang + '.d.ts'),
+					pathFromRoot: join(rootPath, 'nls', 'lang', lang + '.d.ts'),
 					source: { value: 'export {};' }
 				}
 			];
@@ -65,7 +65,7 @@ function findFiles(pattern) {
 	return glob.sync(pattern, { cwd: root });
 }
 
-export function getAdditionalEntryPoints(includeFeatures = false, includeDeprecated = true) {
+export function getEntryPoints(includeFeatures = false, includeDeprecated = true) {
 	const features = includeFeatures ? Object.fromEntries(findFiles('./src/**/register.*').filter(p => !p.includes('.d.ts')).map(v => [v, join(root, v)])) : {};
 
 	const deprecatedFiles = includeDeprecated ? findFiles('./src/deprecated/**/*.ts') : [];
@@ -80,11 +80,14 @@ export function getAdditionalEntryPoints(includeFeatures = false, includeDepreca
 		})
 	);
 
-	return {
+	const result = {
 		...features,
 		'editor': join(root, 'src/editor.ts'),
+		'index': join(root, './src/index.ts'),
 		...deprecatedEntryPoints,
 	};
+
+	return result;
 }
 
 const mappedPaths = {

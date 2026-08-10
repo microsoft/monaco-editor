@@ -59,7 +59,7 @@ export class WorkerManager {
 			this._worker = createWebWorker<JSONWorker>({
 				// module that exports the create() method and returns a `JSONWorker` instance
 				moduleId: 'vs/language/json/jsonWorker',
-				createWorker: () => new Worker(new URL('./json.worker', import.meta.url), { type: 'module' }),
+				createWorker: () => new Worker(new URL('./json.worker?esm', import.meta.url), { type: 'module' }),
 
 				label: this._defaults.languageId,
 

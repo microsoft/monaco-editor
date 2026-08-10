@@ -1,5 +1,31 @@
 # Monaco Editor Changelog
 
+## [0.56.0]
+
+### Breaking Changes
+
+- Reorganizes the exported ESM modules to provide supported, tree-shakeable entry points ([#5155](https://github.com/microsoft/monaco-editor/pull/5155)). The `monaco-editor` entry point continues to load all features and languages. Custom bundles can now import `monaco-editor/editor` and opt into:
+  - all editor features with `monaco-editor/features/register.all`, or individual features with `monaco-editor/features/<feature>/register`;
+  - all language definitions with `monaco-editor/languages/definitions/register.all`, or individual definitions with `monaco-editor/languages/definitions/<language>/register`;
+  - the CSS, HTML, JSON, and TypeScript language features with `monaco-editor/languages/features/register.all`, or their individual `register` entry points.
+- Renames the misspelled `IOverlayWidgetPosition.stackOridinal` property to `stackOrdinal`.
+- Removes the deprecated `IMirrorModel` and `IWorkerContext` worker API types.
+
+### New Features and APIs
+
+- Adds `editor.doubleClickSelectsBlock`.
+- Adds `editor.find.closeOnResult` and `editor.inlayHints.showLongLineWarning`.
+- Adds `offWhenInlineCompletions` to `QuickSuggestionsValue`.
+- Adds model and provider option support to inline completion providers.
+- Adds `ICodeEditor.revealAllCursors`, `ICodeEditor.getWidthOfLine`, and `ICodeEditor.renderAsync`.
+- Adds `advanced-external` and `advanced-wasm` diff algorithms.
+- Exposes typed native LSP client and transport APIs.
+
+### Fixes
+
+- Treats Markdown returned by language servers as untrusted ([#5280](https://github.com/microsoft/monaco-editor/pull/5280)).
+- Updates the editor core to the version used by `0.56.0-dev-20260625`.
+
 ## [0.55.1]
 
 - Fixes missing language exports (monaco.json/typescript/...) due to wrong "types" path - [#5123](https://github.com/microsoft/monaco-editor/issues/5123)

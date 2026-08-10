@@ -49,15 +49,6 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Monaco Languages Unit Tests",
-			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
-			"args": ["-r", "test/unit/all.js"],
-			"outFiles": ["${workspaceFolder}/**/*.js"]
-		},
-		{
-			"type": "node",
-			"request": "launch",
 			"name": "webpack plugin test",
 			"skipFiles": ["<node_internals>/**"],
 			"program": "${workspaceFolder}/webpack-plugin/node_modules/.bin/webpack",

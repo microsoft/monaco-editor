@@ -1,7 +1,7 @@
 {
 	"name": "monaco-editor",
-	"version": "0.55.1",
-	"vscodeRef": "86f5a62f058e3905f74a9fa65d04b2f3b533408e",
+	"version": "0.56.0",
+	"vscodeRef": "f487add297079a02eb836810185b165e50cadabc",
 	"private": true,
 	"description": "A browser based code editor",
 	"homepage": "https://github.com/microsoft/monaco-editor",
@@ -23,7 +23,8 @@
 		"smoketest-debug": "playwright test --config=test/smoke/playwright.config.ts --debug",
 		"smoketest-ui": "playwright test --config=test/smoke/playwright.config.ts --ui",
 		"smoketest-headed": "playwright test --config=test/smoke/playwright.config.ts --headed",
-		"test": "ts-node ./build/check-samples",
+		"test": "ts-node ./build/check-samples && npm run test:grammars",
+		"test:grammars": "node --import tsx --import ./test/test-setup.mjs --test \"src/languages/definitions/*/*.test.ts\"",
 		"deps-all-remove": "ts-node ./build/npm/removeAll",
 		"deps-all-install": "ts-node ./build/npm/installAll",
 		"update-actions": "pin-github-action ./.github/workflows/website.yml",
@@ -38,12 +39,12 @@
 	"module": "./esm/vs/editor/editor.main.js",
 	"exports": {
 		".": {
-			"types": "./esm/vs/editor.d.ts",
-			"import": "./esm/vs/editor.js",
-			"require": "./min/vs/editor.js"
+			"types": "./esm/vs/index.d.ts",
+			"import": "./esm/vs/index.js",
+			"require": "./min/vs/index.js"
 		},
-		"./*.js": "./*.js",
-		"./*": "./*.js"
+		"./*.js": "./esm/vs/*.js",
+		"./*": "./esm/vs/*.js"
 	},
 	"repository": {
 		"type": "git",
@@ -53,7 +54,6 @@
 		"@playwright/test": "^1.56.1",
 		"@rollup/plugin-alias": "^5.1.1",
 		"@rollup/plugin-node-resolve": "^16.0.2",
-		"@types/mocha": "^10.0.10",
 		"@types/shelljs": "^0.8.11",
 		"@types/trusted-types": "^1.0.6",
 		"@typescript/vfs": "^1.3.5",
@@ -67,10 +67,10 @@
 		"glob": "^7.2.0",
 		"http-server": "^14.1.1",
 		"husky": "^7.0.4",
-		"jsdom": "^19.0.0",
+		"jsdom": "^29.0.1",
 		"jsonc-parser": "^3.0.0",
 		"mocha": "^11.7.4",
-		"monaco-editor-core": "^0.55.0-rc",
+		"monaco-editor-core": "0.56.0-dev-20260625",
 		"parcel": "^2.7.0",
 		"pin-github-action": "^1.8.0",
 		"postcss-url": "^10.1.3",
@@ -87,15 +87,16 @@
 		"style-loader": "^3.3.1",
 		"terser": "^5.14.2",
 		"ts-node": "^10.6.0",
+		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
-		"vite": "^7.1.11",
+		"vite": "^7.3.5",
 		"vscode-css-languageservice": "6.2.14",
 		"vscode-html-languageservice": "5.2.0",
 		"vscode-json-languageservice": "5.3.11",
 		"vscode-languageserver-textdocument": "^1.0.11",
 		"vscode-languageserver-types": "3.17.5",
 		"vscode-uri": "3.0.8",
-		"webpack": "^5.76.0",
+		"webpack": "^5.105.4",
 		"yaserver": "^0.4.0"
 	},
 	"alias": {

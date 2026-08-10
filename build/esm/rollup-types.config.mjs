@@ -9,14 +9,13 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import { join } from 'path';
 import { defineConfig } from 'rollup';
 import { dts } from "rollup-plugin-dts";
-import { dtsDeprecationWarning, getAdditionalEntryPoints, mapModuleId } from '../shared.mjs';
+import { dtsDeprecationWarning, getEntryPoints, mapModuleId } from '../shared.mjs';
 
 const root = join(import.meta.dirname, '../../');
 
 export default defineConfig({
 	input: {
-		entry: join(root, './src/index.ts'),
-		...getAdditionalEntryPoints(true, false),
+		...getEntryPoints(true, false),
 	},
 	output: {
 		dir: join(root, './out/monaco-editor/esm'),

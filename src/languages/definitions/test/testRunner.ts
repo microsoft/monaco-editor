@@ -7,6 +7,7 @@ import '../register.all';
 import { loadLanguage } from '../_.contribution';
 import * as assert from 'assert';
 import { editor } from '../../../editor';
+import { test } from 'node:test';
 
 export interface IRelaxedToken {
 	startIndex: number;

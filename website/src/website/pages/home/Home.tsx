@@ -7,6 +7,7 @@ import {
 	ControlledMonacoDiffEditor,
 	ControlledMonacoEditor,
 } from "../../components/monaco/MonacoEditor";
+import { VS_LIGHT_ADJUSTED } from "../../components/monaco/MonacoLoader";
 import { ObservablePromise } from "../../utils/ObservablePromise";
 import * as React from "react";
 import { ref } from "../../utils/ref";
@@ -106,7 +107,7 @@ interface Theme {
 const themes: Theme[] = [
 	{
 		name: "Visual Studio",
-		id: "vs",
+		id: VS_LIGHT_ADJUSTED,
 	},
 	{
 		name: "Visual Studio Dark",

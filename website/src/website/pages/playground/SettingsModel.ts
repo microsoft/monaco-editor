@@ -42,9 +42,9 @@ export class SettingsModel {
 	}
 
 	constructor() {
-		const settingsStr = "";
+		let settingsStr: string | null = null;
 		try {
-			localStorage.getItem(this.settingsKey);
+			settingsStr = localStorage.getItem(this.settingsKey);
 		} catch (e) {
 			console.error("Failed to load settings from localStorage", e);
 		}
@@ -197,7 +197,7 @@ export function getDefaultSettings(): Settings {
 			loaderPathsConfig: "",
 		}),
 		previewFullScreen: false,
-		autoReload: true,
+		autoReload: false,
 		language: undefined,
 	};
 	return defaultSettings;

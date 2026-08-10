@@ -13,7 +13,7 @@ import del from 'rollup-plugin-delete';
 import keepCssImports from './rollup-plugin-keep-css-imports/dist/index.mjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { urlToEsmPlugin } from './rollup-url-to-module-plugin/index.mjs';
-import { getAdditionalEntryPoints, getAdditionalFiles, mapModuleId } from '../shared.mjs';
+import { getEntryPoints, getNlsFiles, mapModuleId } from '../shared.mjs';
 import { readFileSync } from 'fs';
 
 
@@ -22,8 +22,7 @@ const outDir = join(root, './out/monaco-editor/esm');
 
 export default defineConfig({
 	input: {
-		entry: join(root, './src/index.ts'),
-		...getAdditionalEntryPoints(true),
+		...getEntryPoints(true),
 	},
 
 	output: {
@@ -56,7 +55,7 @@ export default defineConfig({
 					fileName: 'vs/base/browser/ui/codicons/codicon/codicon.ttf',
 					source: readFileSync(join(root, 'node_modules/monaco-editor-core/esm/vs/base/browser/ui/codicons/codicon/codicon.ttf'))
 				});
-				for (const file of getAdditionalFiles()) {
+				for (const file of getNlsFiles('vs')) {
 					this.emitFile({
 						type: 'asset',
 						fileName: file.pathFromRoot,

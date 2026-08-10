@@ -59,7 +59,7 @@ export class WorkerManager {
 			this._worker = createWebWorker<HTMLWorker>({
 				// module that exports the create() method and returns a `HTMLWorker` instance
 				moduleId: 'vs/language/html/htmlWorker',
-				createWorker: () => new Worker(new URL('./html.worker', import.meta.url), { type: 'module' }),
+				createWorker: () => new Worker(new URL('./html.worker?esm', import.meta.url), { type: 'module' }),
 
 				// passed in to the create() method
 				createData: {

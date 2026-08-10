@@ -1,23 +1,27 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
 
       - name: Cache node modules
         id: cacheNodeModules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-cacheNodeModules2-${{ hashFiles('**/package-lock.json', '**/package.json') }}
@@ -97,3 +101,9 @@ jobs:
       - name: Test website
         working-directory: website
         run: npm run test
+
+      - name: Upload website artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: website
+          path: ./website/dist
