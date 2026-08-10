@@ -12,6 +12,8 @@ const browsers = [
 	{ name: 'webkit', device: devices['Desktop Safari'] }
 ];
 
+export type PackagerKind = (typeof packagers)[number];
+
 export default defineConfig({
 	testDir: '.',
 	testMatch: '*.test.ts',
