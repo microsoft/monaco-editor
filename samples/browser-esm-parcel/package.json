@@ -5,6 +5,6 @@
 	},
 	"devDependencies": {
 		"monaco-editor": "^0.32.0",
-		"parcel": "^2.2.1"
+		"parcel": "^2.16.4"
 	}
 }
