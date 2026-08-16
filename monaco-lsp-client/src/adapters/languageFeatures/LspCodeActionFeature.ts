@@ -1,9 +1,24 @@
 import * as monaco from 'monaco-editor-core';
-import { capabilities, CodeActionRegistrationOptions, Command, WorkspaceEdit, CodeAction } from '../../../src/types';
+import {
+    capabilities,
+    CodeAction,
+    CodeActionRegistrationOptions,
+    Command,
+    Diagnostic,
+    DiagnosticTag,
+    WorkspaceEdit,
+} from '../../../src/types';
 import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
-import { toMonacoLanguageSelector } from './common';
-import { lspCodeActionKindToMonacoCodeActionKind, toMonacoCodeActionKind, toLspDiagnosticSeverity, toLspCodeActionTriggerKind, toMonacoCommand } from './common';
+import {
+    lspCodeActionKindToMonacoCodeActionKind,
+    toLspCodeActionTriggerKind,
+    toLspDiagnosticSeverity,
+    toLspDiagnosticTag,
+    toMonacoCodeActionKind,
+    toMonacoCommand,
+    toMonacoLanguageSelector,
+} from './common';
 
 export class LspCodeActionFeature extends Disposable {
     constructor(
@@ -73,16 +88,15 @@ class LspCodeActionProvider implements monaco.languages.CodeActionProvider {
         token: monaco.CancellationToken
     ): Promise<monaco.languages.CodeActionList | null> {
         const translated = this._client.bridge.translate(model, range.getStartPosition());
+        const cachedDiagnostics = this._client.diagnosticsCache.get(model.uri.toString());
 
         const result = await this._client.server.textDocumentCodeAction({
             textDocument: translated.textDocument,
             range: this._client.bridge.translateRange(model, range),
             context: {
-                diagnostics: context.markers.map(marker => ({
-                    range: this._client.bridge.translateRange(model, monaco.Range.lift(marker)),
-                    message: marker.message,
-                    severity: toLspDiagnosticSeverity(marker.severity),
-                })),
+                diagnostics: context.markers.map(marker =>
+                    toLspDiagnosticForCodeAction(marker, model, this._client, cachedDiagnostics),
+                ),
                 triggerKind: toLspCodeActionTriggerKind(context.trigger),
             },
         });
@@ -121,6 +135,52 @@ class LspCodeActionProvider implements monaco.languages.CodeActionProvider {
             dispose: () => { },
         };
     }
+}
+
+/**
+ * Build the `Diagnostic` we send to the server as part of
+ * `textDocument/codeAction#context.diagnostics`.
+ *
+ * Servers (notably `ruff server`) require fields that don't survive the
+ * round-trip through Monaco's `IMarker` — specifically `data`, which the LSP
+ * spec mandates be round-tripped. We look up the original `Diagnostic` in
+ * `DiagnosticsCache` by URI + range + message and forward it verbatim. For
+ * markers that didn't come from this LSP session (e.g. set under a different
+ * owner by another extension), we synthesize a Diagnostic that still passes
+ * through `code` / `source` / `tags` / `relatedInformation` from `IMarker`.
+ */
+function toLspDiagnosticForCodeAction(
+    marker: monaco.editor.IMarkerData,
+    model: monaco.editor.ITextModel,
+    client: LspConnection,
+    cached: readonly Diagnostic[] | undefined,
+): Diagnostic {
+    const lspRange = client.bridge.translateRange(model, monaco.Range.lift(marker));
+    const original = cached?.find(d =>
+        d.range.start.line === lspRange.start.line &&
+        d.range.start.character === lspRange.start.character &&
+        d.range.end.line === lspRange.end.line &&
+        d.range.end.character === lspRange.end.character &&
+        d.message === marker.message
+    );
+    if (original) {
+        return original;
+    }
+    const markerCode = marker.code;
+    const code =
+        markerCode === undefined
+            ? undefined
+            : typeof markerCode === 'string'
+                ? markerCode
+                : markerCode.value;
+    return {
+        range: lspRange,
+        message: marker.message,
+        severity: toLspDiagnosticSeverity(marker.severity),
+        code,
+        source: marker.source,
+        tags: marker.tags?.map(tag => toLspDiagnosticTag(tag)).filter((tag): tag is DiagnosticTag => tag !== undefined),
+    };
 }
 
 function toMonacoWorkspaceEdit(
