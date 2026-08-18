@@ -79,8 +79,14 @@ export class CSSWorker {
 			return null;
 		}
 		const stylesheet = this._languageService.parseStylesheet(document);
-		const hover = this._languageService.doHover(document, position, stylesheet);
-		return Promise.resolve(hover);
+		try {
+			const hover = this._languageService.doHover(document, position, stylesheet);
+			return Promise.resolve(hover);
+		} catch (e) {
+			// The CSS language service can throw on invalid selectors, e.g. `:nth-child()`.
+			// https://github.com/microsoft/monaco-editor/issues/5430
+			return null;
+		}
 	}
 	async findDefinition(
 		uri: string,
