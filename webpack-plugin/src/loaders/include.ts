@@ -26,14 +26,16 @@ export const pitch: PitchLoaderDefinitionFunction<ILoaderOptions> = function pit
 		return loaderUtils.stringifyRequest(this, request);
 	};
 
+	// editor.main.js contains all features and languages, replace it with requested features, languages and editor.api.js
+	const apiRequest = remainingRequest.replace(/editor\.main\.js$/, 'editor.api.js');
 	return [
 		...(globals
 			? Object.keys(globals).map((key) => `self[${JSON.stringify(key)}] = ${globals[key]};`)
 			: []),
 		...pre.map((include: any) => `import ${stringifyRequest(include)};`),
 		`
-import * as monaco from ${stringifyRequest(`!!${remainingRequest}`)};
-export * from ${stringifyRequest(`!!${remainingRequest}`)};
+import * as monaco from ${stringifyRequest(`!!${apiRequest}`)};
+export * from ${stringifyRequest(`!!${apiRequest}`)};
 export default monaco;
 		`,
 		...post.map((include: any) => `import ${stringifyRequest(include)};`)
