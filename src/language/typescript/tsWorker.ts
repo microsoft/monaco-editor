@@ -7,12 +7,12 @@ import * as ts from './lib/typescriptServices';
 import { libFileMap } from './lib/lib';
 import {
   Diagnostic,
-  DiagnosticRelatedInformation,
   EmitOutput,
   IExtraLibs,
   TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
 import { Uri, worker } from '../../fillers/monaco-editor-core';
+import { sanitizeDiagnostics } from './diagnostics';
 
 declare module './lib/typescriptServices' {
   // Removed in TS 4.7 and merged into UserPreferences
@@ -211,27 +211,7 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
   // --- language features
 
   private static clearFiles(tsDiagnostics: ts.Diagnostic[]): Diagnostic[] {
-    // Clear the `file` field, which cannot be JSON'yfied because it
-    // contains cyclic data structures, except for the `fileName`
-    // property.
-    // Do a deep clone so we don't mutate the ts.Diagnostic object (see https://github.com/microsoft/monaco-editor/issues/2392)
-    const diagnostics: Diagnostic[] = [];
-    for (const tsDiagnostic of tsDiagnostics) {
-      const diagnostic: Diagnostic = { ...tsDiagnostic };
-      diagnostic.file = diagnostic.file ? { fileName: diagnostic.file.fileName } : undefined;
-      if (tsDiagnostic.relatedInformation) {
-        diagnostic.relatedInformation = [];
-        for (const tsRelatedDiagnostic of tsDiagnostic.relatedInformation) {
-          const relatedDiagnostic: DiagnosticRelatedInformation = { ...tsRelatedDiagnostic };
-          relatedDiagnostic.file = relatedDiagnostic.file
-            ? { fileName: relatedDiagnostic.file.fileName }
-            : undefined;
-          diagnostic.relatedInformation.push(relatedDiagnostic);
-        }
-      }
-      diagnostics.push(diagnostic);
-    }
-    return diagnostics;
+    return sanitizeDiagnostics(tsDiagnostics);
   }
 
   async getSyntacticDiagnostics(fileName: string): Promise<Diagnostic[]> {

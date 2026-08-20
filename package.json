@@ -22,7 +22,7 @@
 		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
 		"smoketest": "node ./test/smoke/runner.js",
 		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
-		"test": "mocha test/unit/all.js && ts-node ./build/check-samples",
+		"test": "ts-node ./test/typescript-diagnostics.ts && mocha test/unit/all.js && ts-node ./build/check-samples",
 		"deps-all-remove": "ts-node ./build/npm/removeAll",
 		"deps-all-install": "ts-node ./build/npm/installAll",
 		"update-actions": "pin-github-action ./.github/workflows/website.yml",
