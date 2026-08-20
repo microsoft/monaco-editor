@@ -1,5 +1,11 @@
 # @effect/monaco-editor
 
+## 0.0.3
+
+### Patch Changes
+
+- [#6](https://github.com/Effect-TS/monaco-editor/pull/6) [`d3a8bde`](https://github.com/Effect-TS/monaco-editor/commit/d3a8bde3f2b05309cbf62b1e89d06070d502f439) Thanks [@IMax153](https://github.com/IMax153)! - Strip private, non-cloneable TypeScript fields from worker diagnostics.
+
 ## 0.0.2
 
 ### Patch Changes

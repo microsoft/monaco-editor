@@ -1,6 +1,6 @@
 {
 	"name": "@effect/monaco-editor",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"private": true,
 	"vscodeRef": "493330cdc6475247184ea459c66776c3da12cd2d",
 	"description": "A custom fork of Monaco Editor maintained for the Effect Playground",
