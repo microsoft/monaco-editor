@@ -23,7 +23,7 @@
 		"typescript": "^5.4.5",
 		"webpack": "^5.105.4",
 		"webpack-cli": "^4.9.2",
-		"webpack-dev-server": "^5.2.5",
+		"webpack-dev-server": "^5.2.6",
 		"yaserver": "^0.4.0"
 	},
 	"overrides": {
