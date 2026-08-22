@@ -43,6 +43,7 @@
 			"import": "./esm/vs/index.js",
 			"require": "./min/vs/index.js"
 		},
+		"./min/vs/editor/editor.main.css": "./min/vs/editor/editor.main.css",
 		"./*.js": "./esm/vs/*.js",
 		"./*": "./esm/vs/*.js"
 	},
