@@ -4,6 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as esbuild from 'esbuild';
+import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import { removeDir } from '../../build/fs';
 
@@ -34,6 +36,23 @@ build({
 	format: 'iife',
 	logLevel: 'silent',
 	outdir: path.join(__dirname, 'esbuild/out'),
+	loader: {
+		'.ttf': 'file'
+	}
+});
+
+build({
+	stdin: {
+		contents: fs.readFileSync(path.join(__dirname, 'esbuild/editor-main-css.js'), 'utf8'),
+		// Resolve outside this package so the bare import exercises the generated package exports.
+		resolveDir: os.tmpdir(),
+		sourcefile: 'editor-main-css.js'
+	},
+	bundle: true,
+	format: 'iife',
+	logLevel: 'silent',
+	outdir: path.join(__dirname, 'esbuild/out'),
+	nodePaths: [path.join(__dirname, '../../out')],
 	loader: {
 		'.ttf': 'file'
 	}
