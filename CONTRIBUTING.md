@@ -35,7 +35,7 @@ This can be done directly from the VS Code repository and does not involve the m
 
 - Clone the [VS Code repository](https://github.com/microsoft/vscode): `git clone https://github.com/microsoft/vscode`
 - Open the repository in VS Code: `code vscode`
-- Run `yarn install`
+- Run `npm install`
 - Select and run the launch configuration "Monaco Editor Playground" (this might take a while, as it compiles the sources):
 
   ![](./docs/launch%20config.png)
