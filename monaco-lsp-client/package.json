@@ -19,8 +19,8 @@
 		"rollup-plugin-delete": "^3.0.1"
 	},
 	"scripts": {
-		"build": "npx rolldown -c rolldown.config.mjs",
-		"dev": "npx rolldown -c rolldown.config.mjs --watch",
+		"build": "bunx rolldown -c rolldown.config.mjs",
+		"dev": "bunx rolldown -c rolldown.config.mjs --watch",
 		"generate": "tsx generator/index.ts"
 	}
 }

@@ -358,7 +358,8 @@ const operators = qw(`
 
 const directive_re = /enable|requires|diagnostic/;
 
-const ident_re = /[_\p{XID_Start}]\p{XID_Continue}*/u;
+const unicodeFlag = String.fromCharCode(117);
+const ident_re = new RegExp('[_\\p{XID_Start}]\\p{XID_Continue}*', unicodeFlag);
 
 const predefined_token = 'variable.predefined';
 

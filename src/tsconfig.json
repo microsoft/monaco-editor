@@ -1,16 +1,21 @@
 {
 	"compilerOptions": {
 		"declaration": true,
-		"lib": ["dom", "es5", "es2015.collection", "es2015.promise", "es2015.iterable"],
+		"lib": [
+			"dom",
+			"es5",
+			"es2015.collection",
+			"es2015.promise",
+			"es2015.iterable"
+		],
 		"module": "esnext",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
+		"rootDir": ".",
 		"outDir": "../out/languages/tsc",
-		"paths": {
-			"@/*": ["./*"]
-		},
 		"emitDeclarationOnly": true,
 		"strict": true,
-		"target": "es5",
+		"skipLibCheck": true,
+		"target": "esnext",
 		"sourceMap": true,
 		"allowJs": true,
 		"checkJs": false

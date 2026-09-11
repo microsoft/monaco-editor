@@ -1,8 +1,9 @@
 {
 	"compilerOptions": {
 		"target": "esnext",
-		"module": "commonjs",
-		"moduleResolution": "Node",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"ignoreDeprecations": "6.0",
 		"strict": true,
 		"outDir": "dist",
 		"skipLibCheck": true,
@@ -12,5 +13,8 @@
 		"useDefineForClassFields": false,
 		"noEmit": true
 	},
-	"exclude": ["src/**/*", "./node_modules/monaco-editor/monaco.d.ts"]
+	"exclude": [
+		"src/**/*",
+		"./node_modules/monaco-editor/monaco.d.ts"
+	]
 }
