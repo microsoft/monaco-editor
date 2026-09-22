@@ -15,9 +15,6 @@ export class LzmaCompressor<T> {
 		const compressed = new Uint8Array(lzma.LZMA.compress(data, 9));
 
 		const compressedStr = base64.fromByteArray(compressed);
-		if (compressedStr.indexOf("undefined") !== -1) {
-			debugger;
-		}
 		const result = compressedStr
 			.replace(/\+/g, "-") // Convert '+' to '-'
 			.replace(/\//g, "_") // Convert '/' to '_'

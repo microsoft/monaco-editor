@@ -1,0 +1,1 @@
+export * from '../../../languages/features/typescript/ts.worker';

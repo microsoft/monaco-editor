@@ -12,9 +12,9 @@ checkEveryMonacoLanguageHasASample();
 
 function checkEveryMonacoLanguageHasASample() {
 	let languages = glob
-		.sync('src/basic-languages/*/*.contribution.ts', { cwd: REPO_ROOT })
+		.sync('src/languages/definitions/*/register.ts', { cwd: REPO_ROOT })
 		.map((f) => path.dirname(f))
-		.map((f) => f.substring('src/basic-languages/'.length));
+		.map((f) => f.substring('src/languages/definitions/'.length));
 	languages.push('css');
 	languages.push('html');
 	languages.push('json');

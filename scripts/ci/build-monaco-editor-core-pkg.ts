@@ -81,16 +81,19 @@ async function buildAndTest() {
 	// Run checks and compilation
 	await run('npm run gulp hygiene', { cwd: vscodePath });
 	await run('npm run valid-layers-check', { cwd: vscodePath });
-	await run('npm run compile', { cwd: join(vscodePath, 'build') });
 	await run('npm run eslint', { cwd: vscodePath });
 	await run('npm run monaco-compile-check', { cwd: vscodePath });
-	await run('npm run --max_old_space_size=4095 compile', { cwd: vscodePath });
+	// Only compile the client (gulp `compile` task); skip the `compile-copilot`
+	// step that `npm run compile` also triggers. The Copilot extension is not part
+	// of monaco-editor-core, and its build requires VS Code release-pipeline env
+	// vars (VSCODE_QUALITY, etc.) that aren't set here.
+	await run('npm run gulp compile', { cwd: vscodePath });
 
 	// Build editor distribution
 	await run('npm run gulp editor-distro', { cwd: vscodePath });
 
 	// Run browser tests
-	await run('npm run test-browser --browser chromium', { cwd: vscodePath });
+	await run('npm run test-browser -- --browser chromium', { cwd: vscodePath });
 
 	// TypeScript typings test
 	await run('mkdir typings-test', { cwd: vscodePath });
