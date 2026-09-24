@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import { rm } from 'fs/promises';
 import { join } from 'path';
 import { PackageJson, group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
@@ -75,7 +76,17 @@ async function prepareMonacoEditorCoreRelease(version: string, vscodeRef: string
 }
 
 async function buildAndTest() {
+	const foundryLocalInstaller = 'build/azure-pipelines/common/foundryLocalInstall.ts';
+	const hasFoundryLocalInstaller = existsSync(join(vscodePath, foundryLocalInstaller));
+	if (hasFoundryLocalInstaller) {
+		await run('node build/azure-pipelines/common/disableFoundryLocalInstall.ts', {
+			cwd: vscodePath
+		});
+	}
 	await run('npm install', { cwd: vscodePath });
+	if (hasFoundryLocalInstaller) {
+		await run(`node ${foundryLocalInstaller}`, { cwd: vscodePath });
+	}
 	await run('npm run playwright-install', { cwd: vscodePath });
 
 	// Run checks and compilation

@@ -29,6 +29,12 @@ Make sure every unassigned issue is labeled properly:
   - Publish Monaco Editor Core
   - Publish Monaco Editor
 
+#### Foundry Local build dependencies
+
+When the selected VS Code revision provides its Foundry Local CI installer, the core build uses it to install native dependencies from the authenticated VS Code NuGet feed. Both publishing pipelines run `NuGetAuthenticate@1` before the core build. The build identity must have read access to that feed.
+
+The upstream helper disables only the Foundry SDK's public-feed install script before `npm install`, then validates and installs the native libraries afterward. All other dependency scripts and the existing build checks still run. Older VS Code revisions without the helper use the original `npm install` path.
+
 #### Publish new webpack plugin
 
 - **TBD**

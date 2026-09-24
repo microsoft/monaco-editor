@@ -53,6 +53,9 @@ extends:
           - script: npx playwright install --with-deps
             displayName: Install Playwright Dependencies
 
+          - task: NuGetAuthenticate@1
+            displayName: Authenticate Foundry Local native dependencies
+
           - script: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg stable
             displayName: Setup, Build & Test monaco-editor-core
 
