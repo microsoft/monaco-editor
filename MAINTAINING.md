@@ -37,6 +37,8 @@ When the selected VS Code revision provides its Foundry Local CI installer, the 
 
 The upstream helper disables only the Foundry SDK's public-feed install script before `npm install`, then validates and installs the native libraries afterward. All other dependency scripts and the existing build checks still run. Older VS Code revisions without the helper use the original `npm install` path.
 
+The editor build calculates its release version from the committed `package.json`, not the working copy it updates during packaging, so automatic task retries keep the same version.
+
 #### Publish new webpack plugin
 
 - **TBD**
