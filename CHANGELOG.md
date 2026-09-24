@@ -1,5 +1,20 @@
 # Monaco Editor Changelog
 
+## [0.57.0]
+
+### New Features and APIs
+
+- Adds `editor.wordWrapIndicator` to display an indicator at the wrapping column of soft-wrapped lines.
+- Adds `editor.fullwidthCharacterWidth`, with `font` and `twoCells` modes for rendering full-width characters.
+- Adds `languages.score` to score a language selector against a URI and language.
+- Exports the `editor.DiffEditorViewMode` type.
+- Adds `isForAnotherDocument` to the inline completion `languages.LifetimeSummary` type.
+
+### Updates
+
+- Updates the editor core to VS Code commit `6a598d4a13031703d483d103c1d934a36ad27971`, validated in `0.57.0-rc.2`.
+- Updates bundled DOMPurify from 3.4.8 to 3.4.15.
+
 ## [0.56.0]
 
 ### Breaking Changes
