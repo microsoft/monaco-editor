@@ -76,6 +76,10 @@ async function prepareMonacoEditorCoreRelease(version: string, vscodeRef: string
 }
 
 async function buildAndTest() {
+	await run('node build/npm/preinstall.ts', {
+		cwd: vscodePath,
+		env: { ...process.env, npm_execpath: undefined, npm_command: 'ci' }
+	});
 	const foundryLocalInstaller = 'build/azure-pipelines/common/foundryLocalInstall.ts';
 	const hasFoundryLocalInstaller = existsSync(join(vscodePath, foundryLocalInstaller));
 	if (hasFoundryLocalInstaller) {
