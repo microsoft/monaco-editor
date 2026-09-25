@@ -243,6 +243,10 @@ export const language = <languages.IMonarchLanguage>{
 							token: 'string.quote',
 							next: '@pop'
 						},
+						'$S2==rawinterpolatedstring': {
+							token: 'string.quote',
+							next: '@pop'
+						},
 						'@default': '@brackets'
 					}
 				}
@@ -269,10 +273,12 @@ export const language = <languages.IMonarchLanguage>{
 			[/[;,.]/, 'delimiter'],
 
 			// strings
+			[/"""/, { token: 'string.quote', next: '@rawstring' }],
 			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
 			[/"/, { token: 'string.quote', next: '@string' }],
 			[/\$\@"/, { token: 'string.quote', next: '@litinterpstring' }],
 			[/\@"/, { token: 'string.quote', next: '@litstring' }],
+			[/\$"""/, { token: 'string.quote', next: '@rawinterpolatedstring' }],
 			[/\$"/, { token: 'string.quote', next: '@interpolatedstring' }],
 
 			// characters
@@ -339,6 +345,26 @@ export const language = <languages.IMonarchLanguage>{
 			[/}}/, 'string.escape'],
 			[/{/, { token: 'string.quote', next: 'root.interpolatedstring' }],
 			[/"/, { token: 'string.quote', next: '@pop' }]
+		],
+
+		// C# 11 raw string literals: """ ... """ (verbatim, no escape processing).
+		rawstring: [
+			[/[^"]+/, 'string'],
+			[/"""/, { token: 'string.quote', next: '@pop' }],
+			[/"/, 'string']
+		],
+
+		// Single-$ interpolated raw string: $""" ... {expr} ... """.
+		// Multi-$ raw interpolation ($$""", $$$""") would need counting braces,
+		// which Monarch cannot do, so it is intentionally left out of scope.
+		rawinterpolatedstring: [
+			[/[^"{}]+/, 'string'],
+			[/"""/, { token: 'string.quote', next: '@pop' }],
+			[/"/, 'string'],
+			[/{{/, 'string.escape'],
+			[/}}/, 'string.escape'],
+			[/{/, { token: 'string.quote', next: 'root.rawinterpolatedstring' }],
+			[/}/, 'string']
 		],
 
 		whitespace: [
