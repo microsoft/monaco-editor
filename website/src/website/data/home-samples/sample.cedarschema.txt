@@ -1,0 +1,23 @@
+namespace MyApp {
+    entity User in [Group] {
+        name: String,
+        email?: String,
+    };
+
+    entity Group in [Group];
+
+    entity Document {
+        owner: User,
+        isPublic: Bool,
+    };
+
+    action viewDocument appliesTo {
+        principal: [User],
+        resource: [Document],
+    };
+
+    action deleteDocument appliesTo {
+        principal: [User],
+        resource: [Document],
+    };
+}
