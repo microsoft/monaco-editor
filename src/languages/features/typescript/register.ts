@@ -16,7 +16,14 @@ export enum ModuleKind {
 	UMD = 3,
 	System = 4,
 	ES2015 = 5,
-	ESNext = 99
+	ES2020 = 6,
+	ES2022 = 7,
+	ESNext = 99,
+	Node16 = 100,
+	Node18 = 101,
+	Node20 = 102,
+	NodeNext = 199,
+	Preserve = 200,
 }
 
 export enum JsxEmit {
