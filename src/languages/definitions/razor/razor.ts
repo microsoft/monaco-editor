@@ -45,13 +45,15 @@ export const conf: languages.LanguageConfiguration = {
 	wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\$\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\s]+)/g,
 
 	comments: {
-		blockComment: ['<!--', '-->']
+		blockComment: ['@*', '*@']
 	},
 
 	brackets: [
 		['<!--', '-->'],
+		['@*', '*@'],
 		['<', '>'],
 		['{', '}'],
+		['[', ']'],
 		['(', ')']
 	],
 
@@ -59,8 +61,10 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: '{', close: '}' },
 		{ open: '[', close: ']' },
 		{ open: '(', close: ')' },
-		{ open: '"', close: '"' },
-		{ open: "'", close: "'" }
+		{ open: "'", close: "'", notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string', 'comment'] },
+		{ open: '@*', close: '*@', notIn: ['string'] },
+		{ open: '<!--', close: '-->', notIn: ['string', 'comment'] }
 	],
 
 	surroundingPairs: [

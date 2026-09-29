@@ -3,7 +3,31 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import * as assert from 'assert';
+import { test } from 'node:test';
 import { testTokenization } from '../test/testRunner';
+import { conf } from './razor';
+
+test('razor language configuration', () => {
+	assert.deepStrictEqual(conf.comments?.blockComment, ['@*', '*@']);
+	assert.deepStrictEqual(conf.brackets, [
+		['<!--', '-->'],
+		['@*', '*@'],
+		['<', '>'],
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
+	]);
+	assert.deepStrictEqual(conf.autoClosingPairs, [
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: "'", close: "'", notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string', 'comment'] },
+		{ open: '@*', close: '*@', notIn: ['string'] },
+		{ open: '<!--', close: '-->', notIn: ['string', 'comment'] }
+	]);
+});
 
 testTokenization('razor', [
 	// Embedding - embedded html
