@@ -1,13 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
 // The SAS vocabulary in this file is generated from the language data published
 // with the official SAS extension for Visual Studio Code
 // (github.com/sassoftware/vscode-sas-extension, Apache-2.0), in server/data.
-// Run `keywords.js` to regenerate the lists. See ThirdPartyNotices.txt for the
-// Apache-2.0 notice covering that data.
+// Run `keywords.js` to regenerate the lists.
 
 import type { languages } from '../../../editor';
 
