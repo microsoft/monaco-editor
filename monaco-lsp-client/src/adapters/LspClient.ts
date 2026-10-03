@@ -25,9 +25,9 @@ import { api } from "../../src/types";
 import { LspConnection } from "./LspConnection";
 import { LspCapabilitiesRegistry } from './LspCapabilitiesRegistry';
 import { TextDocumentSynchronizer } from "./TextDocumentSynchronizer";
-import { DisposableStore, IDisposable } from "../utils";
+import { DisposableStore, IDisposable, Disposable } from "../utils";
 
-export class MonacoLspClient {
+export class MonacoLspClient extends Disposable {
     private _connection: LspConnection;
     private readonly _capabilitiesRegistry: LspCapabilitiesRegistry;
     private readonly _bridge: TextDocumentSynchronizer;
@@ -35,6 +35,7 @@ export class MonacoLspClient {
     private _initPromise: Promise<void>;
 
     constructor(transport: IMessageTransport) {
+		super();
         const c = TypedChannel.fromTransport(transport);
         const s = api.getServer(c, {});
         c.startListen();
@@ -43,7 +44,7 @@ export class MonacoLspClient {
         this._bridge = new TextDocumentSynchronizer(s.server, this._capabilitiesRegistry);
 
         this._connection = new LspConnection(s.server, this._bridge, this._capabilitiesRegistry, c);
-        this.createFeatures();
+		this._register(this.createFeatures());
 
         this._initPromise = this._init();
     }
