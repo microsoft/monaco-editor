@@ -1,0 +1,18 @@
+{
+	"name": "browser-esm-vite-vue",
+	"scripts": {
+		"dev": "vite",
+		"build": "vue-tsc --noEmit && vite build",
+		"serve": "vite preview",
+		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"monaco-editor": "^0.32.0",
+		"vue": "^3.3.4",
+		"@vitejs/plugin-vue": "^2.3.4",
+		"typescript": "^5.4.5",
+		"vue-tsc": "^1.8.5",
+		"vite": "^2.9.17"
+	}
+}
