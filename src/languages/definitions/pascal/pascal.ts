@@ -255,6 +255,12 @@ export const language = <languages.IMonarchLanguage>{
 			[/[\{]/, 'comment']
 		],
 
+		pcomment: [
+			[/[^\*]+/, 'comment'],
+			[/\*\)/, 'comment', '@pop'],
+			[/\*/, 'comment']
+		],
+
 		string: [
 			[/[^\\']+/, 'string'],
 			[/\\./, 'string.escape.invalid'],
@@ -264,6 +270,7 @@ export const language = <languages.IMonarchLanguage>{
 		whitespace: [
 			[/[ \t\r\n]+/, 'white'],
 			[/\{/, 'comment', '@comment'],
+			[/\(\*/, 'comment', '@pcomment'],
 			[/\/\/.*$/, 'comment']
 		]
 	}
