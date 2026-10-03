@@ -188,36 +188,34 @@ _note - the `getWorkerUrl` paths are relative to the build directory of your src
 
 ### Using Vite
 
-Adding monaco editor to [Vite](https://vitejs.dev/) is simple since it has built-in support for web workers. You only need to implement the `getWorker` function (NOT the `getWorkerUrl`) to use Vite's output ([Source](https://github.com/vitejs/vite/discussions/1791#discussioncomment-321046)):
+Adding monaco editor to [Vite](https://vitejs.dev/) is simple since it has built-in support for web workers. Import each worker with Vite's [`?worker` suffix](https://vite.dev/guide/features.html#import-with-query-suffixes) and return an instance of it from `getWorker` (`getWorkerUrl` is not needed):
 
 ```js
 import * as monaco from 'monaco-editor';
+import editorWorker from 'monaco-editor/editor/editor.worker?worker';
+import jsonWorker from 'monaco-editor/languages/features/json/json.worker?worker';
+import cssWorker from 'monaco-editor/languages/features/css/css.worker?worker';
+import htmlWorker from 'monaco-editor/languages/features/html/html.worker?worker';
+import tsWorker from 'monaco-editor/languages/features/typescript/ts.worker?worker';
 
 self.MonacoEnvironment = {
 	getWorker: function (workerId, label) {
-		const getWorkerModule = (moduleUrl, label) => {
-			return new Worker(self.MonacoEnvironment.getWorkerUrl(moduleUrl), {
-				name: label,
-				type: 'module'
-			});
-		};
-
 		switch (label) {
 			case 'json':
-				return getWorkerModule('/monaco-editor/esm/vs/language/json/json.worker?worker', label);
+				return new jsonWorker();
 			case 'css':
 			case 'scss':
 			case 'less':
-				return getWorkerModule('/monaco-editor/esm/vs/language/css/css.worker?worker', label);
+				return new cssWorker();
 			case 'html':
 			case 'handlebars':
 			case 'razor':
-				return getWorkerModule('/monaco-editor/esm/vs/language/html/html.worker?worker', label);
+				return new htmlWorker();
 			case 'typescript':
 			case 'javascript':
-				return getWorkerModule('/monaco-editor/esm/vs/language/typescript/ts.worker?worker', label);
+				return new tsWorker();
 			default:
-				return getWorkerModule('/monaco-editor/esm/vs/editor/editor.worker?worker', label);
+				return new editorWorker();
 		}
 	}
 };
@@ -227,3 +225,5 @@ monaco.editor.create(document.getElementById('container'), {
 	language: 'javascript'
 });
 ```
+
+_note - for `monaco-editor` versions before 0.56.0, import the workers from `monaco-editor/esm/vs/editor/editor.worker?worker` and `monaco-editor/esm/vs/language/<language>/<language>.worker?worker` instead_
