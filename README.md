@@ -1,5 +1,9 @@
 # Monaco Editor
 
+[![CI](https://github.com/microsoft/monaco-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/microsoft/monaco-editor/actions/workflows/ci.yml)
+[![Copilot coding agent](https://github.com/microsoft/monaco-editor/actions/workflows/copilot-swe-agent/copilot/badge.svg)](https://github.com/microsoft/monaco-editor/actions/workflows/copilot-swe-agent/copilot)
+[![Dependabot Updates](https://github.com/microsoft/monaco-editor/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/microsoft/monaco-editor/actions/workflows/dependabot/dependabot-updates)
+[![Publish Website](https://github.com/microsoft/monaco-editor/actions/workflows/website.yml/badge.svg)](https://github.com/microsoft/monaco-editor/actions/workflows/website.yml)
 [![Versions](https://img.shields.io/npm/v/monaco-editor)](https://www.npmjs.com/package/monaco-editor)
 [![Versions](https://img.shields.io/npm/v/monaco-editor/next)](https://www.npmjs.com/package/monaco-editor)
 [![Feature Requests](https://img.shields.io/github/issues/microsoft/monaco-editor/feature-request.svg)](https://github.com/microsoft/monaco-editor/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
