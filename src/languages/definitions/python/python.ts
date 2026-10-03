@@ -250,10 +250,16 @@ export const language = <languages.IMonarchLanguage>{
 		// Recognize strings, including those broken across lines with \ (but not without)
 		strings: [
 			[/'$/, 'string.escape', '@popall'],
-			[/f'{1,3}/, 'string.escape', '@fStringBody'],
+			[/[fF][rR]?'''/, 'string.escape', '@fTripleStringBody'],
+			[/[rR][fF]'''/, 'string.escape', '@fTripleStringBody'],
+			[/[fF][rR]?'/, 'string.escape', '@fStringBody'],
+			[/[rR][fF]'/, 'string.escape', '@fStringBody'],
 			[/'/, 'string.escape', '@stringBody'],
 			[/"$/, 'string.escape', '@popall'],
-			[/f"{1,3}/, 'string.escape', '@fDblStringBody'],
+			[/[fF][rR]?"""/, 'string.escape', '@fDblTripleStringBody'],
+			[/[rR][fF]"""/, 'string.escape', '@fDblTripleStringBody'],
+			[/[fF][rR]?"/, 'string.escape', '@fDblStringBody'],
+			[/[rR][fF]"/, 'string.escape', '@fDblStringBody'],
 			[/"/, 'string.escape', '@dblStringBody']
 		],
 		fStringBody: [
@@ -262,6 +268,14 @@ export const language = <languages.IMonarchLanguage>{
 			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
 			[/\\./, 'string'],
 			[/'/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
+		],
+		fTripleStringBody: [
+			[/[^\\'\{\}]+/, 'string'],
+			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
+			[/\\./, 'string'],
+			[/'''/, 'string.escape', '@popall'],
+			[/'/, 'string'],
 			[/\\$/, 'string']
 		],
 		stringBody: [
@@ -277,6 +291,14 @@ export const language = <languages.IMonarchLanguage>{
 			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
 			[/\\./, 'string'],
 			[/"/, 'string.escape', '@popall'],
+			[/\\$/, 'string']
+		],
+		fDblTripleStringBody: [
+			[/[^\\"\{\}]+/, 'string'],
+			[/\{[^\}':!=]+/, 'identifier', '@fStringDetail'],
+			[/\\./, 'string'],
+			[/"""/, 'string.escape', '@popall'],
+			[/"/, 'string'],
 			[/\\$/, 'string']
 		],
 		dblStringBody: [
