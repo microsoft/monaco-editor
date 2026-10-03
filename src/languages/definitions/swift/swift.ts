@@ -248,6 +248,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		comment: [
 			[/\/\/\/.*$/, 'comment.doc'],
+			[/\/\*\*\//, "comment"],
 			[/\/\*\*/, 'comment.doc', '@commentdocbody'],
 			[/\/\/.*$/, 'comment'],
 			[/\/\*/, 'comment', '@commentbody']
