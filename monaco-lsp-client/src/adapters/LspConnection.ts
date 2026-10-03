@@ -1,5 +1,6 @@
 import { TypedChannel } from '@hediet/json-rpc';
 import { api } from '../../src/types';
+import { DiagnosticsCache } from './DiagnosticsCache';
 import { ITextModelBridge } from './ITextModelBridge';
 import { LspCapabilitiesRegistry } from './LspCapabilitiesRegistry';
 
@@ -9,5 +10,6 @@ export class LspConnection {
         public readonly bridge: ITextModelBridge,
         public readonly capabilities: LspCapabilitiesRegistry,
         public readonly connection: TypedChannel,
+        public readonly diagnosticsCache: DiagnosticsCache,
     ) { }
 }
