@@ -36,6 +36,7 @@ export const conf: languages.LanguageConfiguration = {
 export const language = <languages.IMonarchLanguage>{
 	defaultToken: '',
 	tokenPostfix: '.md',
+	unicode: true,
 
 	// escape codes
 	control: /[\\`*_\[\]{}()#+\-\.!]/,
@@ -71,7 +72,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', 'keyword', 'keyword', 'keyword']],
 
 			// headers (with =)
-			[/^\s*(=+|\-+)\s*$/, 'keyword'],
+			[/^\s*(=+|-+)\s*$/, 'keyword'],
 
 			// headers (with ***)
 			[/^\s*((\*[ ]?)+)\s*$/, 'meta.separator'],
@@ -142,6 +143,8 @@ export const language = <languages.IMonarchLanguage>{
 			[/@escapes/, 'escape'],
 
 			// various markup
+			// Don't treat a braced subscript after a Unicode word character as emphasis.
+			[/[\p{L}\p{M}\p{N}]_(?=\{[^_{}\s]+\})/u, ''],
 			[/\b__([^\\_]|@escapes|_(?!_))+__\b/, 'strong'],
 			[/\*\*([^\\*]|@escapes|\*(?!\*))+\*\*/, 'strong'],
 			[/\b_[^_]+_\b/, 'emphasis'],
@@ -166,7 +169,7 @@ export const language = <languages.IMonarchLanguage>{
 			// html tags
 			[/<(\w+)\/>/, 'tag'],
 			[
-				/<(\w+)(\-|\w)*/,
+				/<(\w+)(-|\w)*/,
 				{
 					cases: {
 						'@empty': { token: 'tag', next: '@tag.$1' },
@@ -174,7 +177,7 @@ export const language = <languages.IMonarchLanguage>{
 					}
 				}
 			],
-			[/<\/(\w+)(\-|\w)*\s*>/, { token: 'tag' }],
+			[/<\/(\w+)(-|\w)*\s*>/, { token: 'tag' }],
 
 			[/<!--/, 'comment', '@comment']
 		],
