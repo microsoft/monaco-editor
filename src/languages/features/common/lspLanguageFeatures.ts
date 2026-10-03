@@ -180,7 +180,7 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 				return worker.doComplete(resource.toString(), fromPosition(position));
 			})
 			.then((info) => {
-				if (!info) {
+				if (!info || token.isCancellationRequested || model.isDisposed()) {
 					return;
 				}
 				const wordInfo = model.getWordUntilPosition(position);
