@@ -603,6 +603,7 @@ export const language = <languages.IMonarchLanguage>{
 		qregexp: [
 			{ include: '@variables' },
 			[/\\./, 'regexp.escape'],
+			[/\{\d+(?:,\d*)?\}/, 'regexp'],
 			[
 				/./,
 				{
