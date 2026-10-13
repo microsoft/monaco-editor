@@ -44,7 +44,7 @@ export interface Options {
 		readonly idSelector?: 'ignore' | 'warning' | 'error';
 	};
 	/**
-	 * Configures the CSS data types known by the langauge service.
+	 * Configures the CSS data types known by the language service.
 	 */
 	readonly data?: CSSDataConfiguration;
 
