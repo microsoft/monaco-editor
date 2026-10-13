@@ -353,7 +353,7 @@ export const language = <languages.IMonarchLanguage>{
 			//Float
 			[/\b(\d\.?[\d_]*)(@floatSuffixes)?\b/, { token: 'number' }],
 			//Hexadecimal
-			[/(0x[\da-fA-F]+)_?(@intSuffixes)?/, { token: 'number' }],
+			[/(0x[\da-fA-F_]+)(@intSuffixes)?/, { token: 'number' }],
 			//Integer
 			[/[\d][\d_]*(@intSuffixes?)?/, { token: 'number' }]
 		]
