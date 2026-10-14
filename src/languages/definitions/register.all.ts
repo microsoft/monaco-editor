@@ -41,6 +41,7 @@ import './m3/register';
 import './markdown/register';
 import './mdx/register';
 import './mips/register';
+import './mojo/register';
 import './msdax/register';
 import './mysql/register';
 import './objective-c/register';
