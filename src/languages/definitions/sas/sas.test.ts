@@ -112,6 +112,74 @@ testTokenization(
 		},
 	],
 
+	// A wildcard at the start of a line inside PROC SQL is not a statement
+	// comment: `select` / `*` / `from x` over three lines is one statement.
+	[
+		{
+			line: "proc sql;",
+			tokens: [
+				{ startIndex: 0, type: 'keyword.sas' },
+				{ startIndex: 8, type: 'delimiter.sas' },
+			]
+		},
+		{
+			line: "  create table xxx as select",
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 19, type: 'keyword.sas' },
+				{ startIndex: 21, type: '' },
+				{ startIndex: 22, type: 'keyword.sas' },
+			]
+		},
+		{
+			line: "  *",
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'operator.sas' },
+			]
+		},
+		{
+			line: "  from blah;",
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'keyword.sas' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 11, type: 'delimiter.sas' },
+			]
+		},
+		{
+			line: "quit;",
+			tokens: [
+				{ startIndex: 0, type: 'keyword.sas' },
+				{ startIndex: 4, type: 'delimiter.sas' },
+			]
+		},
+	],
+
+	// The macro comment form is still a comment inside PROC SQL.
+	[
+		{
+			line: "proc sql;",
+			tokens: [
+				{ startIndex: 0, type: 'keyword.sas' },
+				{ startIndex: 8, type: 'delimiter.sas' },
+			]
+		},
+		{
+			line: "  %* a macro comment;",
+			tokens: [
+				{ startIndex: 0, type: 'comment.sas' },
+			]
+		},
+		{
+			line: "quit;",
+			tokens: [
+				{ startIndex: 0, type: 'keyword.sas' },
+				{ startIndex: 4, type: 'delimiter.sas' },
+			]
+		},
+	],
+
 	[
 		{
 			line: "* a statement;",

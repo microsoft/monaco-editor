@@ -2340,7 +2340,13 @@ export const language = <languages.IMonarchLanguage>{
 		// PROC SQL keeps its own vocabulary until QUIT or RUN.
 		sql: [
 			[/\/\*/, 'comment', '@blockComment'],
-			[/^[\s%]*\*/, 'comment', '@statementComment'],
+			// A bare asterisk at the start of a line opens a statement comment,
+			// but inside PROC SQL it is a wildcard - `select` / `*` / `from x`
+			// over three lines is one statement, and the comment rule swallowed
+			// the rest of it. Only the macro comment form is kept here: the macro
+			// processor resolves `%* text;` before the SQL parser sees the
+			// statement, so it is a comment wherever it appears.
+			[/^[\s]*%+\*/, 'comment', '@statementComment'],
 			[/\b(quit|run)\b/, 'keyword', '@pop'],
 			[/%[a-z_]\w*/, { cases: { '@macroStatements': 'keyword.flow', '@default': 'variable.predefined' } }],
 			[/&&?[a-z_]\w*\.?/, 'variable'],
