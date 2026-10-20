@@ -338,7 +338,37 @@ testTokenization('shell', [
 			tokens: [
 				{ startIndex: 0, type: 'type.identifier.shell' },
 				{ startIndex: 4, type: 'white.shell' },
-				{ startIndex: 5, type: 'variable.shell' }
+				{ startIndex: 5, type: 'variable.shell' },
+				{ startIndex: 13, type: 'string.shell' },
+				{ startIndex: 17, type: 'variable.shell' }
+			]
+		}
+	],
+
+	// Issue #5231: Command substitution with parentheses inside strings
+	[
+		{
+			line: 'GIT_HOST=$(echo "$GIT_REPO" | sed -E \'s/^.*@([^:/]+).*$/\\1/\')',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 8, type: 'delimiter.shell' },
+				{ startIndex: 9, type: 'variable.shell' },
+				{ startIndex: 16, type: 'string.shell' },
+				{ startIndex: 27, type: 'variable.shell' },
+				{ startIndex: 34, type: 'delimiter.shell' },
+				{ startIndex: 35, type: 'variable.shell' },
+				{ startIndex: 37, type: 'string.shell' },
+				{ startIndex: 60, type: 'variable.shell' }
+			]
+		},
+		{
+			line: 'DIR_NAME=$(basename "$GIT_REPO" .git)',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 8, type: 'delimiter.shell' },
+				{ startIndex: 9, type: 'variable.shell' },
+				{ startIndex: 20, type: 'string.shell' },
+				{ startIndex: 31, type: 'variable.shell' }
 			]
 		}
 	]
