@@ -1,0 +1,13 @@
+struct Counter:
+    var value: Int
+
+    def __init__(out self, value: Int):
+        self.value = value
+
+    def advance(mut self):
+        self.value += 1
+
+def main():
+    var counter = Counter(4)
+    counter.advance()
+    print(t"The count is {counter.value}")
