@@ -241,9 +241,10 @@ export const language = {
 			// whitespace
 			{ include: '@whitespace' },
 
-			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
+			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator).
+			// `:` covers a regex in the first branch of a ternary (`cond ? /re/ : alt`).
 			[
-				/\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
+				/\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|:|$))/,
 				{ token: 'regexp', bracket: '@open', next: '@regexp' }
 			],
 
