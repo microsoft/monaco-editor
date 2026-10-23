@@ -3,11 +3,17 @@ import { mkdir, writeFile } from 'fs/promises';
 
 export interface RunOptions {
 	cwd: string;
+	env?: NodeJS.ProcessEnv;
 }
 
 export async function run(command: string, options: RunOptions) {
 	console.log(`Running ${command} in ${options.cwd}`);
-	const process = spawn(command, { shell: true, cwd: options.cwd, stdio: 'inherit' });
+	const process = spawn(command, {
+		shell: true,
+		cwd: options.cwd,
+		env: options.env,
+		stdio: 'inherit'
+	});
 	return new Promise<void>((resolve, reject) => {
 		process.on('exit', (code) => {
 			if (code !== 0) {
@@ -22,7 +28,12 @@ export async function run(command: string, options: RunOptions) {
 export async function runGetOutput(command: string, options: RunOptions): Promise<string> {
 	console.log(`Running ${command} in ${options.cwd}`);
 	return new Promise<string>((resolve, reject) => {
-		const process = spawn(command, { shell: true, cwd: options.cwd, stdio: 'pipe' });
+		const process = spawn(command, {
+			shell: true,
+			cwd: options.cwd,
+			env: options.env,
+			stdio: 'pipe'
+		});
 		let output = '';
 		process.stdout.on('data', (data) => {
 			output += data;

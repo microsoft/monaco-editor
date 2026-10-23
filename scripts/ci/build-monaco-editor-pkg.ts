@@ -1,6 +1,14 @@
 import { readFile } from 'fs/promises';
 import { join, resolve } from 'path';
-import { PackageJson, getNightlyVersion, group, run, writeJsonFile, gitCommitId } from '../lib';
+import {
+	PackageJson,
+	getNightlyVersion,
+	group,
+	run,
+	runGetOutput,
+	writeJsonFile,
+	gitCommitId
+} from '../lib';
 import { getNightlyEnv } from './env';
 
 const selfPath = __dirname;
@@ -15,7 +23,7 @@ const monacoEditorCorePackageJsonPath = resolve(
 
 async function prepareMonacoEditorReleaseStableOrNightly() {
 	const monacoEditorPackageJson = JSON.parse(
-		await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
+		await runGetOutput('git show HEAD:package.json', { cwd: rootPath })
 	) as PackageJson;
 
 	let version: string;
@@ -43,7 +51,9 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 	});
 
 	await group('Set Version & Update monaco-editor-core Version', async () => {
-		const packageJson = JSON.parse(await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })) as PackageJson;
+		const packageJson = JSON.parse(
+			await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
+		) as PackageJson;
 		packageJson.version = monacoEditorCoreVersion;
 		packageJson.devDependencies['monaco-editor-core'] = monacoEditorCoreVersion;
 		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
@@ -54,8 +64,12 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 	});
 
 	await group('Pick up monaco-editor-core dependencies for CVE tracking', async () => {
-		const packageJson = JSON.parse(await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })) as PackageJson;
-		const monacoEditorCorePackageJson = JSON.parse(await readFile(monacoEditorCorePackageJsonPath, { encoding: 'utf-8' })) as PackageJson;
+		const packageJson = JSON.parse(
+			await readFile(monacoEditorPackageJsonPath, { encoding: 'utf-8' })
+		) as PackageJson;
+		const monacoEditorCorePackageJson = JSON.parse(
+			await readFile(monacoEditorCorePackageJsonPath, { encoding: 'utf-8' })
+		) as PackageJson;
 		if (monacoEditorCorePackageJson.dependencies) {
 			if (!packageJson.dependencies) {
 				packageJson.dependencies = {};
