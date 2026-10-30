@@ -13,7 +13,7 @@ The Monaco Editor is the fully featured code editor from [VS Code](https://githu
 
 Try out the editor and see various examples [in our interactive playground](https://microsoft.github.io/monaco-editor/playground.html).
 
-The playground is the best way to learn about how to use the editor, which features is supports, to try out different versions and to create minimal reproducible examples for bug reports.
+The playground is the best way to learn about how to use the editor, which features it supports, to try out different versions and to create minimal reproducible examples for bug reports.
 
 ## Installing
 
