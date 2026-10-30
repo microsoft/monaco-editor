@@ -253,7 +253,13 @@ export const language = <languages.IMonarchLanguage>{
 								token: 'keyword.$2',
 								next: '@root.$2'
 							},
-							end: { token: 'keyword.$S2', next: '@pop' },
+							// an unmatched 'end' (no open declaration) must not pop the root state
+							end: {
+								cases: {
+									$S2: { token: 'keyword.$S2', next: '@pop' },
+									'@default': 'keyword'
+								}
+							},
 							'@keywords': 'keyword',
 							'@builtins': 'predefined',
 							'@default': 'identifier'
@@ -271,7 +277,12 @@ export const language = <languages.IMonarchLanguage>{
 						},
 						for: { token: 'keyword.$2', next: '@dodecl.$2' },
 						'@linedecls': { token: 'keyword.$0', next: '@root.$0' },
-						end: { token: 'keyword.$S2', next: '@pop' },
+						end: {
+							cases: {
+								$S2: { token: 'keyword.$S2', next: '@pop' },
+								'@default': 'keyword'
+							}
+						},
 						'@keywords': 'keyword',
 						'@builtins': 'predefined',
 						'@default': 'identifier'
@@ -309,6 +320,30 @@ export const language = <languages.IMonarchLanguage>{
 			[/\/(?=(\\\/|[^\/\n])+\/)/, { token: 'regexp.delim', next: '@regexp' }],
 
 			// delimiters and operators
+			// 'if|unless|while|until' following an operator, an opening bracket or a separator
+			// (like 'x = if test' or 'foo(if test') starts an expression that is closed by 'end',
+			// so it is never a modifier
+			[
+				/([=><!~?:&|+\-*\/\^%]+(?=\s)|[(\[{,;])(\s*)(if|unless|while|until)\b(?![:?!])/,
+				[
+					{
+						cases: {
+							'@keywordops': 'keyword',
+							'@operators': 'operator',
+							'~[(\\[{]': '@brackets',
+							'~[,;]': 'delimiter',
+							'@default': ''
+						}
+					},
+					'',
+					{
+						cases: {
+							'while|until': { token: 'keyword.$3', next: '@dodecl.$3' },
+							'@default': { token: 'keyword.$3', next: '@root.$3' }
+						}
+					}
+				]
+			],
 			[/[{}()\[\]]/, '@brackets'],
 			[
 				/@symbols/,
@@ -348,7 +383,12 @@ export const language = <languages.IMonarchLanguage>{
 				/[a-z_]\w*[!?=]?/,
 				{
 					cases: {
-						end: { token: 'keyword.$S2', next: '@pop' }, // end on same line
+						end: {
+							cases: {
+								$S2: { token: 'keyword.$S2', next: '@pop' },
+								'@default': 'keyword'
+							}
+						}, // end on same line
 						do: { token: 'keyword', switchTo: '@root.$S2' }, // do on same line: not an open bracket here
 						'@linedecls': {
 							token: '@rematch',
@@ -372,7 +412,12 @@ export const language = <languages.IMonarchLanguage>{
 				/[a-z_]\w*[!?=]?/,
 				{
 					cases: {
-						end: { token: 'keyword.$S2', next: '@pop' }, // end on same line
+						end: {
+							cases: {
+								$S2: { token: 'keyword.$S2', next: '@pop' },
+								'@default': 'keyword'
+							}
+						}, // end on same line
 						'then|else|elsif|do': {
 							token: 'keyword',
 							switchTo: '@root.$S2'
