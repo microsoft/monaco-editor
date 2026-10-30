@@ -17,14 +17,14 @@ For a stable release, the commit specified in `vscodeRef` in [package.json](./pa
 
 Please understand that we only bundle languages with the monaco editor that have a significant relevance (for example, those that have an article in Wikipedia).
 
-- create `$/src/basic-languages/{myLang}/{myLang}.contribution.ts`
-- create `$/src/basic-languages/{myLang}/{myLang}.ts`
-- create `$/src/basic-languages/{myLang}/{myLang}.test.ts`
-- edit `$/src/basic-languages/monaco.contribution.ts` and register your new language
-- create `$/website/index/samples/sample.{myLang}.txt`
+- create `$/src/languages/definitions/{myLang}/register.ts`
+- create `$/src/languages/definitions/{myLang}/{myLang}.ts`
+- create `$/src/languages/definitions/{myLang}/{myLang}.test.ts`
+- edit `$/src/languages/definitions/register.all.ts` and register your new language
+- create `$/website/src/website/data/home-samples/sample.{myLang}.txt`
 
 ```js
-import './{myLang}/{myLang}.contribution';
+import './{myLang}/register';
 ```
 
 ## Debugging / Developing The Core Editor
