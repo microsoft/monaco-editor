@@ -26,6 +26,19 @@ import { LspConnection } from "./LspConnection";
 import { LspCapabilitiesRegistry } from './LspCapabilitiesRegistry';
 import { TextDocumentSynchronizer } from "./TextDocumentSynchronizer";
 import { DisposableStore, IDisposable } from "../utils";
+import { LspCommands } from "./LspCommands";
+
+export interface MonacoLspClientOptions {
+    /**
+     * Local editor commands (in addition to a small set of safe defaults) that the language server
+     * may trigger, e.g. from completion items, code lenses, code actions or inlay hints.
+     *
+     * Language servers are untrusted: only add commands that are safe to run with arbitrary arguments.
+     * Commands that the server advertises in `executeCommandProvider` are always sent back to the server
+     * via `workspace/executeCommand` and do not need to be listed here.
+     */
+    allowedLocalCommands?: readonly string[];
+}
 
 export class MonacoLspClient {
     private _connection: LspConnection;
@@ -34,15 +47,16 @@ export class MonacoLspClient {
 
     private _initPromise: Promise<void>;
 
-    constructor(transport: IMessageTransport) {
+    constructor(transport: IMessageTransport, options: MonacoLspClientOptions = {}) {
         const c = TypedChannel.fromTransport(transport);
         const s = api.getServer(c, {});
         c.startListen();
 
         this._capabilitiesRegistry = new LspCapabilitiesRegistry(c);
         this._bridge = new TextDocumentSynchronizer(s.server, this._capabilitiesRegistry);
+        const commands = new LspCommands(s.server, this._capabilitiesRegistry, options.allowedLocalCommands);
 
-        this._connection = new LspConnection(s.server, this._bridge, this._capabilitiesRegistry, c);
+        this._connection = new LspConnection(s.server, this._bridge, this._capabilitiesRegistry, c, commands);
         this.createFeatures();
 
         this._initPromise = this._init();

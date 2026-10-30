@@ -1,6 +1,6 @@
 import * as monaco from 'monaco-editor-core';
 import { capabilities, CompletionRegistrationOptions, MarkupContent, CompletionItem, TextDocumentPositionParams } from '../../../src/types';
-import { assertTargetTextModel, ITextModelBridge } from '../ITextModelBridge';
+import { assertTargetTextModel } from '../ITextModelBridge';
 import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
 import { toMonacoLanguageSelector } from './common';
@@ -11,7 +11,7 @@ import {
     toMonacoCompletionItemTag,
     toLspCompletionTriggerKind,
     toMonacoInsertTextRules,
-    toMonacoCommand,
+    toUntrustedMarkdownString,
 } from './common';
 
 export class LspCompletionFeature extends Disposable {
@@ -65,7 +65,7 @@ class LspCompletionProvider implements monaco.languages.CompletionItemProvider {
         if (_capabilities.resolveProvider) {
             this.resolveCompletionItem = async (item: ExtendedCompletionItem, token: monaco.CancellationToken): Promise<ExtendedCompletionItem> => {
                 const resolved = await this._client.server.completionItemResolve(item._lspItem);
-                applyLspCompletionItemProperties(item, resolved, this._client.bridge, item._translated, item._model);
+                applyLspCompletionItemProperties(item, resolved, this._client, item._translated, item._model);
                 return item;
             }
         }
@@ -102,7 +102,7 @@ class LspCompletionProvider implements monaco.languages.CompletionItemProvider {
                 const item: ExtendedCompletionItem = {
                     ...convertLspToMonacoCompletionItem(
                         i,
-                        this._client.bridge,
+                        this._client,
                         translated,
                         model,
                         position
@@ -120,11 +120,12 @@ class LspCompletionProvider implements monaco.languages.CompletionItemProvider {
 
 function convertLspToMonacoCompletionItem(
     lspItem: CompletionItem,
-    bridge: ITextModelBridge,
+    client: LspConnection,
     translated: TextDocumentPositionParams,
     model: monaco.editor.ITextModel,
     position: monaco.Position
 ): monaco.languages.CompletionItem {
+    const bridge = client.bridge;
     let insertText = lspItem.insertText || lspItem.label;
     let range: monaco.IRange | monaco.languages.CompletionItemRanges | undefined = undefined;
 
@@ -156,7 +157,7 @@ function convertLspToMonacoCompletionItem(
         range: range,
     };
 
-    applyLspCompletionItemProperties(item, lspItem, bridge, translated, model);
+    applyLspCompletionItemProperties(item, lspItem, client, translated, model);
 
     return item;
 }
@@ -164,10 +165,11 @@ function convertLspToMonacoCompletionItem(
 function applyLspCompletionItemProperties(
     monacoItem: monaco.languages.CompletionItem,
     lspItem: CompletionItem,
-    bridge: ITextModelBridge,
+    client: LspConnection,
     translated: TextDocumentPositionParams,
     targetModel: monaco.editor.ITextModel
 ): void {
+    const bridge = client.bridge;
     if (lspItem.detail !== undefined) {
         monacoItem.detail = lspItem.detail;
     }
@@ -188,14 +190,12 @@ function applyLspCompletionItemProperties(
         }));
     }
     if (lspItem.command) {
-        monacoItem.command = toMonacoCommand(lspItem.command);
+        monacoItem.command = client.commands.toMonacoCommand(lspItem.command);
     }
 }
 
 function toMonacoDocumentation(doc: string | MarkupContent | undefined): string | monaco.IMarkdownString | undefined {
     if (!doc) return undefined;
     if (typeof doc === 'string') return doc;
-    return {
-        value: doc.value,
-    };
+    return toUntrustedMarkdownString(doc.value);
 }
