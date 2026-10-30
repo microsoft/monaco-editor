@@ -972,5 +972,63 @@ testTokenization('csharp', [
 				{ startIndex: 45, type: 'delimiter.cs' }
 			]
 		}
+	],
+
+	// Raw string literals (C# 11)
+	[
+		{
+			line: '"""hello"""',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.cs' },
+				{ startIndex: 3, type: 'string.cs' },
+				{ startIndex: 8, type: 'string.quote.cs' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '"""say "hi" here"""',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.cs' },
+				{ startIndex: 3, type: 'string.cs' },
+				{ startIndex: 16, type: 'string.quote.cs' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '"""',
+			tokens: [{ startIndex: 0, type: 'string.quote.cs' }]
+		},
+		{
+			line: 'multi-line raw string',
+			tokens: [{ startIndex: 0, type: 'string.cs' }]
+		},
+		{
+			line: '""";',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.cs' },
+				{ startIndex: 3, type: 'delimiter.cs' }
+			]
+		}
+	],
+
+	// Interpolated raw string ($)
+	[
+		{
+			line: '$"""x {count} y""";',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.cs' },
+				{ startIndex: 4, type: 'string.cs' },
+				{ startIndex: 6, type: 'string.quote.cs' },
+				{ startIndex: 7, type: 'identifier.cs' },
+				{ startIndex: 12, type: 'string.quote.cs' },
+				{ startIndex: 13, type: 'string.cs' },
+				{ startIndex: 15, type: 'string.quote.cs' },
+				{ startIndex: 18, type: 'delimiter.cs' }
+			]
+		}
 	]
 ]);
