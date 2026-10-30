@@ -51,20 +51,96 @@ window.onbeforeunload = function (ev) {
 	}
 };
 
+/* -----------------------------------------
+   Sandboxed evaluation of language definitions.
+   The definition text is arbitrary code, so it must never run in this page's
+   origin. It is evaluated in an iframe with an opaque origin (sandbox without
+   allow-same-origin); only the structured-cloned result is sent back.
+------------------------------------------*/
+
+function sandboxedEvaluatorMain() {
+	window.addEventListener("message", function (e) {
+		if (e.source !== window.parent) {
+			return;
+		}
+		var id = e.data && e.data.id;
+		try {
+			var def = eval("(function(){ " + e.data.source + "; })()"); // CodeQL [SM01632] Runs inside a sandboxed iframe with an opaque origin, isolated from the website. Evaluating the definition is essential to the monarch playground. // CodeQL [SM02688] Runs inside a sandboxed iframe with an opaque origin, isolated from the website.
+			window.parent.postMessage({ id: id, def: def }, "*");
+		} catch (err) {
+			window.parent.postMessage({ id: id, error: String(err) }, "*");
+		}
+	});
+	window.parent.postMessage({ ready: true }, "*");
+}
+
+var evaluateDefinition = (function () {
+	var iframe = document.createElement("iframe");
+	iframe.setAttribute("sandbox", "allow-scripts");
+	iframe.style.display = "none";
+	iframe.srcdoc =
+		"<!DOCTYPE html><script>(" +
+		sandboxedEvaluatorMain.toString() +
+		")();<" +
+		"/script>";
+
+	var ready = false;
+	var queue = [];
+	var callbacks = {};
+	var nextId = 1;
+
+	window.addEventListener("message", function (e) {
+		if (!iframe.contentWindow || e.source !== iframe.contentWindow) {
+			return;
+		}
+		var data = e.data || {};
+		if (data.ready) {
+			ready = true;
+			queue.forEach(function (msg) {
+				iframe.contentWindow.postMessage(msg, "*");
+			});
+			queue = [];
+			return;
+		}
+		var callback = callbacks[data.id];
+		if (!callback) {
+			return;
+		}
+		delete callbacks[data.id];
+		callback(data.error, data.def);
+	});
+
+	document.body.appendChild(iframe);
+
+	return function (source, callback) {
+		var msg = { id: nextId++, source: source };
+		callbacks[msg.id] = callback;
+		if (ready) {
+			iframe.contentWindow.postMessage(msg, "*");
+		} else {
+			queue.push(msg);
+		}
+	};
+})();
+
 function createLangModel(languageId, text) {
 	monaco.languages.register({ id: languageId });
 
 	var langModel = monaco.editor.createModel(text, "javascript");
+	var latestRequest = 0;
 	var update = function () {
-		var def = null;
-		try {
-			def = eval("(function(){ " + langModel.getValue() + "; })()"); // CodeQL [SM01632] langModel.getValue() is a default value with volatile user modifications. This is an essential functionality for the monarch playground and safe, as no injection is possible.
-		} catch (err) {
-			setInnerText(outputPane, err + "\n");
-			return;
-		}
-		monaco.languages.setMonarchTokensProvider(languageId, def);
-		setInnerText(outputPane, "up-to-date\n");
+		var request = ++latestRequest;
+		evaluateDefinition(langModel.getValue(), function (err, def) {
+			if (request !== latestRequest) {
+				return;
+			}
+			if (err) {
+				setInnerText(outputPane, err + "\n");
+				return;
+			}
+			monaco.languages.setMonarchTokensProvider(languageId, def);
+			setInnerText(outputPane, "up-to-date\n");
+		});
 	};
 	langModel.onDidChangeContent(function () {
 		isDirty = true;
