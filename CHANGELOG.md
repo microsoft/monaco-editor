@@ -1,5 +1,11 @@
 # Monaco Editor Changelog
 
+## [0.57.1]
+
+### Breaking Changes
+
+- Markdown rendered by the editor (hovers, suggestion details, parameter hints) no longer loads remote images by default. `data:` images are still shown. Use the new `markdownImages.allowedOrigins` editor option to allow images from specific origins (`['https://img.shields.io']`), or set it to `true` to allow all remote images as before.
+
 ## [0.57.0]
 
 ### New Features and APIs

@@ -150,3 +150,45 @@ declare namespace languages {
 		}
 	};
 }
+
+/**
+ * Declares editor options that monaco-editor implements on top of monaco-editor-core.
+ * @param {(moduleId: string) => boolean} [filter]
+ * @return {import('rollup').Plugin}
+ */
+export function dtsEditorOptions(filter) {
+	return {
+		name: 'add-dts-editor-options',
+		generateBundle(options, bundle) {
+			for (const fileName in bundle) {
+				if (filter && !filter(fileName)) {
+					continue;
+				}
+				const file = bundle[fileName];
+				if (file.type === 'chunk' && fileName.endsWith('.d.ts')) {
+					file.code =
+						file.code.toString() +
+						`
+declare namespace editor {
+	export interface IEditorOptions {
+		/**
+		 * Controls which remote images Markdown rendered by the editor may load,
+		 * for example in hovers, suggestion details and parameter hints.
+		 * \`data:\` images are always allowed.
+		 */
+		markdownImages?: {
+			/**
+			 * \`true\` allows images from all origins.
+			 * A list of origins (for example \`['https://img.shields.io']\`) allows images from these origins only.
+			 * Defaults to \`[]\`: remote images are blocked.
+			 */
+			allowedOrigins?: true | string[];
+		};
+	}
+}
+					`;
+				}
+			}
+		}
+	};
+}

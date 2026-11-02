@@ -9,7 +9,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import { join } from 'path';
 import { defineConfig } from 'rollup';
 import { dts } from 'rollup-plugin-dts';
-import { dtsDeprecationWarning, mapModuleId } from '../shared.mjs';
+import { dtsDeprecationWarning, dtsEditorOptions, mapModuleId } from '../shared.mjs';
 
 export default defineConfig({
 	input: {
@@ -40,5 +40,6 @@ export default defineConfig({
 			includeExternal: ['monaco-editor-core', '@vscode/monaco-lsp-client']
 		}),
 		dtsDeprecationWarning(),
+		dtsEditorOptions(),
 	]
 });
