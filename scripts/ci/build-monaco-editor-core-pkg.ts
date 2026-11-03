@@ -1,7 +1,15 @@
 import { existsSync } from 'fs';
-import { readFile, rm, writeFile } from 'fs/promises';
+import { rm } from 'fs/promises';
 import { join } from 'path';
-import { PackageJson, group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
+import {
+	PackageJson,
+	group,
+	gitShallowClone,
+	run,
+	runGetOutput,
+	writeJsonFile,
+	getNightlyVersion
+} from '../lib';
 import { getNightlyEnv } from './env';
 
 const selfPath = __dirname;
@@ -85,53 +93,39 @@ function getPinnedPnpmVersion(): string | undefined {
 }
 
 /**
- * The build agents' network isolation blocks electronjs.org, which redirects to the artifacts host.
- * VS Code uses the artifacts host directly in its cloud sandboxes too.
+ * Installs VS Code's JavaScript dependencies without running install scripts.
+ * The editor build doesn't need VS Code's native modules, and compiling them for Electron
+ * downloads Electron's headers, which the build agents' network isolation blocks.
+ * Of the install steps VS Code runs in its postinstall script, this keeps the Electron typings
+ * and the installs of its separate dependency roots (such as `build`).
  */
-async function useElectronHeadersArtifactsHost() {
-	for (const npmrc of ['.npmrc', 'remote/.npmrc']) {
-		const path = join(vscodePath, npmrc);
-		if (!existsSync(path)) {
-			continue;
-		}
-		const content = await readFile(path, 'utf8');
-		await writeFile(
-			path,
-			content.replace(
-				'disturl="https://electronjs.org/headers"',
-				'disturl="https://artifacts.electronjs.org/headers/dist"'
-			)
-		);
+async function installWithoutNativeModules(pnpmVersion: string) {
+	await run(`npm install -g pnpm@${pnpmVersion}`, { cwd: vscodePath });
+	await run('pnpm install --frozen-lockfile --ignore-scripts', { cwd: vscodePath });
+	await run('node build/npm/electronTypes.ts', { cwd: vscodePath });
+	const separateRoots = JSON.parse(
+		await runGetOutput(
+			`node --input-type=module -e "import { separateRoots } from './build/npm/dirs.ts'; console.log(JSON.stringify(separateRoots));"`,
+			{ cwd: vscodePath }
+		)
+	) as string[];
+	for (const dir of separateRoots) {
+		await run('pnpm install --frozen-lockfile --ignore-scripts', { cwd: join(vscodePath, dir) });
 	}
 }
 
 async function buildAndTest() {
-	await useElectronHeadersArtifactsHost();
 	const pnpmVersion = getPinnedPnpmVersion();
-	if (pnpmVersion) {
-		// VS Code's preinstall script already runs pnpm.
-		await run(`npm install -g pnpm@${pnpmVersion}`, { cwd: vscodePath });
-	}
-	await run('node build/npm/preinstall.ts', {
-		cwd: vscodePath,
-		// Without a user agent, VS Code's package manager check accepts running the script directly, as its CI does.
-		env: {
-			...process.env,
-			npm_execpath: undefined,
-			npm_config_user_agent: undefined,
-			npm_command: 'ci'
-		}
-	});
 	// npm passes arguments after `--` to a script, pnpm passes them on as they are.
 	const pm = pnpmVersion ? 'pnpm' : 'npm';
 	const argsSeparator = pnpmVersion ? '' : '-- ';
 	if (pnpmVersion) {
-		// As in VS Code's CI: the Foundry Local and ONNX runtime native libraries are not needed to build the editor.
-		await run('pnpm install --frozen-lockfile', {
-			cwd: vscodePath,
-			env: { ...process.env, FOUNDRY_LOCAL_SKIP_INSTALL: '1', ONNXRUNTIME_NODE_INSTALL: 'skip' }
-		});
+		await installWithoutNativeModules(pnpmVersion);
 	} else {
+		await run('node build/npm/preinstall.ts', {
+			cwd: vscodePath,
+			env: { ...process.env, npm_execpath: undefined, npm_command: 'ci' }
+		});
 		const foundryLocalInstaller = 'build/azure-pipelines/common/foundryLocalInstall.ts';
 		const hasFoundryLocalInstaller = existsSync(join(vscodePath, foundryLocalInstaller));
 		if (hasFoundryLocalInstaller) {
