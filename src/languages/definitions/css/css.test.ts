@@ -587,5 +587,118 @@ testTokenization('css', [
 				{ startIndex: 38, type: 'delimiter.css' }
 			]
 		}
+	],
+		// Selectors nested inside an at-rule block
+	[
+		{
+			line: '@media (min-width: 100px) {',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 1, type: 'tag.css' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 8, type: 'tag.css' },
+				{ startIndex: 18, type: '' },
+				{ startIndex: 22, type: 'tag.css' },
+				{ startIndex: 24, type: '' },
+				{ startIndex: 26, type: 'delimiter.bracket.css' }
+			]
+		},
+		{
+			line: '  p.test {',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'tag.css' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'delimiter.bracket.css' }
+			]
+		},
+		{
+			line: '    color: red;',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 4, type: 'attribute.name.css' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'attribute.value.css' },
+				{ startIndex: 14, type: 'delimiter.css' }
+			]
+		},
+		{
+			line: '    margin:0;',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 4, type: 'attribute.name.css' },
+				{ startIndex: 11, type: 'attribute.value.number.css' },
+				{ startIndex: 12, type: 'delimiter.css' }
+			]
+		},
+		{
+			line: '  }',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'delimiter.bracket.css' }
+			]
+		},
+		{
+			line: '  a:hover {',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'tag.css' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'delimiter.bracket.css' }
+			]
+		},
+		{
+			line: '    content: "a";',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 4, type: 'attribute.name.css' },
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'string.css' },
+				{ startIndex: 16, type: 'delimiter.css' }
+			]
+		},
+		{
+			line: '  }',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'delimiter.bracket.css' }
+			]
+		},
+		{
+			line: '  .x::before, #y > li {',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'tag.css' },
+				{ startIndex: 12, type: 'delimiter.css' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'tag.css' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'delimiter.css' },
+				{ startIndex: 18, type: '' },
+				{ startIndex: 19, type: 'tag.css' },
+				{ startIndex: 21, type: '' },
+				{ startIndex: 22, type: 'delimiter.bracket.css' }
+			]
+		},
+		{
+			line: '  }',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 2, type: 'delimiter.bracket.css' }
+			]
+		},
+		{
+			line: '}',
+			tokens: [{ startIndex: 0, type: 'delimiter.bracket.css' }]
+		},
+		{
+			line: 'div {',
+			tokens: [
+				{ startIndex: 0, type: 'tag.css' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'delimiter.bracket.css' }
+			]
+		}
 	]
+
 ]);
