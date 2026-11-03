@@ -85,6 +85,11 @@ function getPinnedPnpmVersion(): string | undefined {
 }
 
 async function buildAndTest() {
+	const pnpmVersion = getPinnedPnpmVersion();
+	if (pnpmVersion) {
+		// VS Code's preinstall script already runs pnpm.
+		await run(`npm install -g pnpm@${pnpmVersion}`, { cwd: vscodePath });
+	}
 	await run('node build/npm/preinstall.ts', {
 		cwd: vscodePath,
 		// Without a user agent, VS Code's package manager check accepts running the script directly, as its CI does.
@@ -95,12 +100,10 @@ async function buildAndTest() {
 			npm_command: 'ci'
 		}
 	});
-	const pnpmVersion = getPinnedPnpmVersion();
 	// npm passes arguments after `--` to a script, pnpm passes them on as they are.
 	const pm = pnpmVersion ? 'pnpm' : 'npm';
 	const argsSeparator = pnpmVersion ? '' : '-- ';
 	if (pnpmVersion) {
-		await run(`npm install -g pnpm@${pnpmVersion}`, { cwd: vscodePath });
 		// As in VS Code's CI: the Foundry Local and ONNX runtime native libraries are not needed to build the editor.
 		await run('pnpm install --frozen-lockfile', {
 			cwd: vscodePath,
