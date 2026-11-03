@@ -113,6 +113,9 @@ export const language = <languages.IMonarchLanguage>{
 			[/(,)(\s*)([a-zA-Z_]\w*)(\s*)(:)(?!:)/, ['delimiter', '', 'key', '', 'delimiter']],
 			[/({)(\s*)([a-zA-Z_]\w*)(\s*)(:)(?!:)/, ['@brackets', '', 'key', '', 'delimiter']],
 
+			// long strings: [[ ... ]], [=[ ... ]=], ...
+			[/\[([=]*)\[/, 'string', '@longstring.$1'],
+
 			// delimiters and operators
 			[/[{}()\[\]]/, '@brackets'],
 			[
@@ -160,7 +163,7 @@ export const language = <languages.IMonarchLanguage>{
 			[/./, 'comment']
 		],
 
-				longstring: [
+		longstring: [
 			[/[^\]]+/, 'string'],
 			[
 				/\]([=]*)\]/,
