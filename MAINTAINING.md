@@ -33,7 +33,7 @@ Make sure every unassigned issue is labeled properly:
 
 The core build runs VS Code's preinstall script before installing dependencies, matching VS Code CI, so Electron headers are patched before native modules compile.
 
-The core build runs on the latest Node.js 24 release, which satisfies VS Code's `.nvmrc` (same major, at least that version). For VS Code commits that pin pnpm (`packageManager` in VS Code's `package.json`), the core build installs that pnpm version and uses `pnpm install --frozen-lockfile` and `pnpm run`, skipping the Foundry Local and ONNX runtime native libraries like VS Code's CI. Older VS Code commits still use npm.
+The core build runs on the latest Node.js 24 release, which satisfies VS Code's `.nvmrc` (same major, at least that version). For VS Code commits that pin pnpm (`packageManager` in VS Code's `package.json`), the core build installs that pnpm version, installs VS Code's dependencies with `pnpm install --frozen-lockfile --ignore-scripts` and uses `pnpm run`. It skips VS Code's native modules: the editor build doesn't need them, and compiling them for Electron downloads Electron's headers, which the pipeline's network isolation blocks. Of VS Code's install steps, it keeps the Electron typings and the installs of VS Code's separate dependency roots. Older VS Code commits still use npm.
 
 When the selected VS Code revision provides its Foundry Local CI installer, the core build uses it to install native dependencies from the authenticated VS Code NuGet feed. Both publishing pipelines run `NuGetAuthenticate@1` before the core build. The build identity must have read access to that feed.
 
