@@ -56,6 +56,8 @@ extends:
           - task: NodeTool@0
             inputs:
               versionSpec: '24.x'
+              # Otherwise a cached, possibly older 24.x release is used.
+              checkLatest: true
 
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
