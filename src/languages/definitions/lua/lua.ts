@@ -160,6 +160,20 @@ export const language = <languages.IMonarchLanguage>{
 			[/./, 'comment']
 		],
 
+				longstring: [
+			[/[^\]]+/, 'string'],
+			[
+				/\]([=]*)\]/,
+				{
+					cases: {
+						'$1==$S2': { token: 'string', next: '@pop' },
+						'@default': 'string'
+					}
+				}
+			],
+			[/./, 'string']
+		],
+
 		string: [
 			[/[^\\"']+/, 'string'],
 			[/@escapes/, 'string.escape'],
