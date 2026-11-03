@@ -60,8 +60,8 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		whitespace: [
-			[/[ \t\r\n]+/, ''],
-			[/^\s*[#;].*$/, 'comment']
+			[/^\s*[#;].*$/, 'comment'],
+			[/[ \t\r\n]+/, '']
 		],
 
 		string: [
