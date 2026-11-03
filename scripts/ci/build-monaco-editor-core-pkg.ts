@@ -1,5 +1,5 @@
 import { existsSync } from 'fs';
-import { rm } from 'fs/promises';
+import { readFile, rm, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { PackageJson, group, gitShallowClone, run, writeJsonFile, getNightlyVersion } from '../lib';
 import { getNightlyEnv } from './env';
@@ -84,7 +84,29 @@ function getPinnedPnpmVersion(): string | undefined {
 	return /^pnpm@(\d+\.\d+\.\d+)/.exec(packageJson.packageManager ?? '')?.[1];
 }
 
+/**
+ * The build agents' network isolation blocks electronjs.org, which redirects to the artifacts host.
+ * VS Code uses the artifacts host directly in its cloud sandboxes too.
+ */
+async function useElectronHeadersArtifactsHost() {
+	for (const npmrc of ['.npmrc', 'remote/.npmrc']) {
+		const path = join(vscodePath, npmrc);
+		if (!existsSync(path)) {
+			continue;
+		}
+		const content = await readFile(path, 'utf8');
+		await writeFile(
+			path,
+			content.replace(
+				'disturl="https://electronjs.org/headers"',
+				'disturl="https://artifacts.electronjs.org/headers/dist"'
+			)
+		);
+	}
+}
+
 async function buildAndTest() {
+	await useElectronHeadersArtifactsHost();
 	const pnpmVersion = getPinnedPnpmVersion();
 	if (pnpmVersion) {
 		// VS Code's preinstall script already runs pnpm.
