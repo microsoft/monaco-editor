@@ -39,10 +39,11 @@ extends:
         testPlatforms: []
         skipAPIScan: true # package build requires Linux
         buildSteps:
+          # VS Code requires the Node.js major version of its .nvmrc, at least in that patch version.
+          # The latest release of that major satisfies it, also for older VS Code commits.
           - task: NodeTool@0
             inputs:
-              versionSource: fromFile
-              versionFilePath: .nvmrc
+              versionSpec: '24.x'
 
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
