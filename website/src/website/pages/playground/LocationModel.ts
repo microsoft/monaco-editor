@@ -86,6 +86,10 @@ export class LocationModel implements IHistoryModel {
 			: undefined;
 		this._compareWith = compareWith;
 
+		if (source || compareWith) {
+			this.model.runRequiresConfirmation = true;
+		}
+
 		function findExample(hashValue: string): PlaygroundExample | undefined {
 			if (hashValue.startsWith("example-")) {
 				hashValue = hashValue.substring("example-".length);
@@ -118,6 +122,7 @@ export class LocationModel implements IHistoryModel {
 			}
 			if (p) {
 				this.cachedState = { state: p, hash: hashValue };
+				this.model.runRequiresConfirmation = true;
 				this.model.setState(p);
 			}
 		}

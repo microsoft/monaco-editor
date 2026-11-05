@@ -170,12 +170,17 @@ export const language = <languages.IMonarchLanguage>{
 			[/(@atomName)(:)(\s+)/, ['constant', 'constant.punctuation', 'white']],
 			// Use positive look-ahead to ensure the string is followed by :
 			// and should be considered a keyword.
+			// The content before ": may contain escaped quotes and interpolations
+			// (which may contain quotes). The alternatives are kept unambiguous,
+			// so that the look-ahead runs in linear time:
+			// either there is no unescaped quote before ": at all,
+			// or everything from the first #{ to the last } is an interpolation.
 			[
-				/"(?=([^"]|#\{.*?\}|\\")*":)/,
+				/"(?=(?:[^"\\]|\\"?)*":|(?:[^"\\#]|\\"?|#(?!\{))*#\{.*\}(?:[^"\\}]|\\"?)*":)/,
 				{ token: 'constant.delimiter', next: '@doubleQuotedStringKeyword' }
 			],
 			[
-				/'(?=([^']|#\{.*?\}|\\')*':)/,
+				/'(?=(?:[^'\\]|\\'?)*':|(?:[^'\\#]|\\'?|#(?!\{))*#\{.*\}(?:[^'\\}]|\\'?)*':)/,
 				{ token: 'constant.delimiter', next: '@singleQuotedStringKeyword' }
 			]
 		],

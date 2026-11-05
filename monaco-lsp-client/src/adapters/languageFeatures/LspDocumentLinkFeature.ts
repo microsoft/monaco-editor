@@ -3,6 +3,7 @@ import { capabilities, DocumentLinkRegistrationOptions } from '../../../src/type
 import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
 import { toMonacoLanguageSelector } from './common';
+import { isCommandUri } from '../LspCommandPolicy';
 
 export class LspDocumentLinkFeature extends Disposable {
     constructor(
@@ -49,11 +50,13 @@ class LspDocumentLinkProvider implements monaco.languages.LinkProvider {
         }
 
         return {
-            links: result.map(link => ({
-                range: this._client.bridge.translateBackRange(translated.textDocument, link.range).range,
-                url: link.target,
-                tooltip: link.tooltip,
-            })),
+            links: result
+                .filter(link => link.target === undefined || !isCommandUri(link.target))
+                .map(link => ({
+                    range: this._client.bridge.translateBackRange(translated.textDocument, link.range).range,
+                    url: link.target,
+                    tooltip: link.tooltip,
+                })),
         };
     }
 
