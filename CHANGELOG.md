@@ -1,5 +1,57 @@
 # Monaco Editor Changelog
 
+## [0.57.1]
+
+### Breaking Changes
+
+- Markdown rendered by the editor (hovers, suggestion details, parameter hints, inline completion warnings, editor messages) no longer loads remote images by default. `data:` images are still shown. Use the new `markdownImages.allowedOrigins` editor option to allow images from specific origins (for example `['https://img.shields.io']`), or set it to `true` to allow all remote images as before.
+
+### Updates
+
+- Updates the editor core to VS Code commit `3bc96745d6414f97cd0c09e753ecf698b7829101`, validated in `0.58.0-dev-20261103`.
+- Updates bundled DOMPurify from 3.4.15 to 3.4.17.
+
+## [0.57.0]
+
+### New Features and APIs
+
+- Adds `editor.wordWrapIndicator` to display an indicator at the wrapping column of soft-wrapped lines.
+- Adds `editor.fullwidthCharacterWidth`, with `font` and `twoCells` modes for rendering full-width characters.
+- Adds `languages.score` to score a language selector against a URI and language.
+- Exports the `editor.DiffEditorViewMode` type.
+- Adds `isForAnotherDocument` to the inline completion `languages.LifetimeSummary` type.
+
+### Updates
+
+- Updates the editor core to VS Code commit `6a598d4a13031703d483d103c1d934a36ad27971`, validated in `0.57.0-rc.2`.
+- Updates bundled DOMPurify from 3.4.8 to 3.4.15.
+
+## [0.56.0]
+
+### Breaking Changes
+
+- Reorganizes the exported ESM modules to provide supported, tree-shakeable entry points ([#5155](https://github.com/microsoft/monaco-editor/pull/5155)). The `monaco-editor` entry point continues to load all features and languages. Custom bundles can now import `monaco-editor/editor` and opt into:
+  - all editor features with `monaco-editor/features/register.all`, or individual features with `monaco-editor/features/<feature>/register`;
+  - all language definitions with `monaco-editor/languages/definitions/register.all`, or individual definitions with `monaco-editor/languages/definitions/<language>/register`;
+  - the CSS, HTML, JSON, and TypeScript language features with `monaco-editor/languages/features/register.all`, or their individual `register` entry points.
+- Renames the misspelled `IOverlayWidgetPosition.stackOridinal` property to `stackOrdinal`.
+- Removes the deprecated `IMirrorModel` and `IWorkerContext` worker API types.
+
+### New Features and APIs
+
+- Adds `editor.doubleClickSelectsBlock`.
+- Adds `editor.find.closeOnResult` and `editor.inlayHints.showLongLineWarning`.
+- Adds `offWhenInlineCompletions` to `QuickSuggestionsValue`.
+- Adds model and provider option support to inline completion providers.
+- Adds `ICodeEditor.revealAllCursors`, `ICodeEditor.getWidthOfLine`, and `ICodeEditor.renderAsync`.
+- Adds `advanced-external` and `advanced-wasm` diff algorithms.
+- Exposes typed native LSP client and transport APIs.
+
+### Fixes
+
+- Treats Markdown returned by language servers as untrusted ([#5280](https://github.com/microsoft/monaco-editor/pull/5280)).
+- Updates the editor core to the version used by `0.56.0-dev-20260625`.
+
 ## [0.55.1]
 
 - Fixes missing language exports (monaco.json/typescript/...) due to wrong "types" path - [#5123](https://github.com/microsoft/monaco-editor/issues/5123)

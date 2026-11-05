@@ -2,7 +2,6 @@ import * as monaco from 'monaco-editor-core';
 import {
     CodeActionKind,
     CodeActionTriggerKind,
-    Command,
     CompletionItemKind,
     CompletionItemTag,
     CompletionTriggerKind,
@@ -278,18 +277,14 @@ export function toLspSignatureHelpTriggerKind(monacoKind: monaco.languages.Signa
 }
 
 // ============================================================================
-// Command
+// Markdown
 // ============================================================================
 
-export function toMonacoCommand(command: Command | undefined): monaco.languages.Command | undefined {
-    if (!command) {
-        return undefined;
-    }
-    return {
-        id: command.command,
-        title: command.title,
-        arguments: command.arguments,
-    };
+/**
+ * Markdown from a language server is untrusted: `command:` links must not be executable.
+ */
+export function toUntrustedMarkdownString(value: string): monaco.IMarkdownString {
+    return { value, isTrusted: false, supportHtml: false };
 }
 
 // ============================================================================

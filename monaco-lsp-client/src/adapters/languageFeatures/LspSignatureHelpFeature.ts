@@ -3,7 +3,7 @@ import { capabilities, SignatureHelpRegistrationOptions, MarkupContent, MarkupKi
 import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
 import { toMonacoLanguageSelector } from './common';
-import { toLspSignatureHelpTriggerKind } from './common';
+import { toLspSignatureHelpTriggerKind, toUntrustedMarkdownString } from './common';
 
 export class LspSignatureHelpFeature extends Disposable {
     constructor(
@@ -94,7 +94,5 @@ function toMonacoDocumentation(
 ): string | monaco.IMarkdownString | undefined {
     if (!doc) return undefined;
     if (typeof doc === 'string') return doc;
-    return {
-        value: doc.value,
-    };
+    return toUntrustedMarkdownString(doc.value);
 }
