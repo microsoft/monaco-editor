@@ -1,0 +1,94 @@
+# A small coin-collecting game device for UEFN
+using { /Fortnite.com/Devices }
+using { /Verse.org/Simulation }
+using { /UnrealEngine.com/Temporary/Diagnostics }
+
+<# Block comments span lines
+   <# and they can nest #> #>
+
+<#>
+    An indented comment: every line indented
+    under the marker is part of the comment.
+
+coin_kind := enum:
+    Bronze
+    Silver
+    Gold
+
+coin_reward := struct:
+    Kind : coin_kind = coin_kind.Bronze
+    Points : int = 1
+
+collector<public> := interface:
+    Collect<public>(Reward:coin_reward)<transacts>:void
+
+wallet<public> := class<concrete>(collector):
+    var Coins<public> : int = 0
+    var Counts : [coin_kind]int = map{}
+
+    Collect<override>(Reward:coin_reward)<transacts>:void =
+        set Coins += Reward.Points
+        if (set Counts[Reward.Kind] += 1) {} else if (set Counts[Reward.Kind] = 1) {}
+
+    Spend<public>(Amount:int)<transacts><decides>:void =
+        Coins >= Amount
+        set Coins -= Amount
+
+Separator : char = '|'
+MaxCoins : int = 0x3E8
+IsTimed : logic = true
+
+PointsFor(Kind:coin_kind)<computes>:int =
+    case (Kind):
+        coin_kind.Gold => 10
+        coin_kind.Silver => 5
+        _ => 1
+
+Average(Values:[]int)<transacts><decides>:int =
+    var Sum : int = 0
+    for (Value : Values):
+        set Sum += Value
+    Floor(Sum / Values.Length)
+
+FindRichest(Wallets:[]wallet)<transacts>:?tuple(int, wallet) =
+    option{ first(Index -> Wallet : Wallets, Wallet.Coins >= 100). (Index, Wallet) }
+
+CountDown(Seconds:int)<suspends>:void =
+    defer:
+        Print("Go!\n")
+    for (I := 0..Seconds - 1):
+        Print("{Seconds - I}...")
+        Sleep(1.0)
+
+coin_game_device := class(creative_device):
+    @editable
+    CoinButton : button_device = button_device{}
+
+    @editable
+    RoundSeconds : float = 30.0
+
+    var Players : [player]wallet = map{}
+
+    OnBegin<override>()<suspends>:void =
+        CoinButton.InteractedWithEvent.Subscribe(OnPressed)
+        spawn{ CountDown(3) }
+        if (IsTimed?):
+            race:
+                Sleep(RoundSeconds)
+                WaitForWinner()
+        Print("Round over after {RoundSeconds} seconds")
+
+    OnPressed(Agent:agent):void =
+        Reward := coin_reward{Kind := coin_kind.Gold, Points := PointsFor(coin_kind.Gold)}
+        if (Player := player[Agent]):
+            if (Wallet := Players[Player]):
+                Wallet.Collect(Reward)
+            else if (set Players[Player] = wallet{}):
+                Print("New player joined")
+
+    WaitForWinner()<suspends>:void =
+        loop:
+            Sleep(0.5)
+            Leaders := for (Player -> Wallet : Players, Wallet.Coins >= MaxCoins) { Player }
+            if (Leaders.Length > 0):
+                break
