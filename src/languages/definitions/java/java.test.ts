@@ -230,6 +230,14 @@ testTokenization('java', [
 		}
 	],
 
+	// Markdown Javadoc
+	[
+		{
+			line: '/// Markdown Javadoc comment',
+			tokens: [{ startIndex: 0, type: 'comment.doc.java' }]
+		}
+	],
+
 	// Keywords
 	[
 		{
@@ -500,7 +508,7 @@ testTokenization('java', [
 			line: '3_.1415F',
 			tokens: [
 				{ startIndex: 0, type: 'number.java' },
-				{ startIndex: 1, type: 'identifier.java' },
+				{ startIndex: 1, type: 'keyword.-.java' },
 				{ startIndex: 2, type: 'delimiter.java' },
 				{ startIndex: 3, type: 'number.float.java' }
 			]
@@ -533,7 +541,7 @@ testTokenization('java', [
 			line: '52_',
 			tokens: [
 				{ startIndex: 0, type: 'number.java' },
-				{ startIndex: 2, type: 'identifier.java' }
+				{ startIndex: 2, type: 'keyword.-.java' }
 			]
 		}
 	],
@@ -563,7 +571,7 @@ testTokenization('java', [
 			line: '0x52_',
 			tokens: [
 				{ startIndex: 0, type: 'number.hex.java' },
-				{ startIndex: 4, type: 'identifier.java' }
+				{ startIndex: 4, type: 'keyword.-.java' }
 			]
 		}
 	],
@@ -573,7 +581,7 @@ testTokenization('java', [
 			line: '052_',
 			tokens: [
 				{ startIndex: 0, type: 'number.octal.java' },
-				{ startIndex: 3, type: 'identifier.java' }
+				{ startIndex: 3, type: 'keyword.-.java' }
 			]
 		}
 	],
@@ -872,6 +880,105 @@ testTokenization('java', [
 				{ startIndex: 9, type: 'delimiter.java' },
 				{ startIndex: 10, type: 'identifier.java' },
 				{ startIndex: 11, type: 'delimiter.java' }
+			]
+		}
+	],
+
+	// Type Inference - var
+	[
+		{
+			line: 'var x = 10;',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.var.java' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.java' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.java' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'number.java' },
+				{ startIndex: 10, type: 'delimiter.java' }
+			]
+		}
+	],
+
+	// Switch Pattern Matching and Arrow Operator
+	[
+		{
+			line: 'case String s when s.length() > 0 ->',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.case.java' },
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'identifier.java' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'identifier.java' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'keyword.when.java' },
+				{ startIndex: 18, type: '' },
+				{ startIndex: 19, type: 'identifier.java' },
+				{ startIndex: 20, type: 'delimiter.java' },
+				{ startIndex: 21, type: 'identifier.java' },
+				{ startIndex: 27, type: 'delimiter.parenthesis.java' },
+				{ startIndex: 29, type: '' },
+				{ startIndex: 30, type: 'delimiter.angle.java' },
+				{ startIndex: 31, type: '' },
+				{ startIndex: 32, type: 'number.java' },
+				{ startIndex: 33, type: '' },
+				{ startIndex: 34, type: 'delimiter.java' }
+			]
+		}
+	],
+
+	// Unnamed Variables and Patterns
+	[
+		{
+			line: 'catch (Exception _) {',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.catch.java' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.parenthesis.java' },
+				{ startIndex: 7, type: 'identifier.java' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'keyword.-.java' },
+				{ startIndex: 18, type: 'delimiter.parenthesis.java' },
+				{ startIndex: 19, type: '' },
+				{ startIndex: 20, type: 'delimiter.curly.java' }
+			]
+		}
+	],
+
+	// Module System
+	[
+		{
+			line: 'module my.api { requires java.base; }',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.module.java' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'identifier.java' },
+				{ startIndex: 9, type: 'delimiter.java' },
+				{ startIndex: 10, type: 'identifier.java' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'delimiter.curly.java' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'keyword.requires.java' },
+				{ startIndex: 24, type: '' },
+				{ startIndex: 25, type: 'identifier.java' },
+				{ startIndex: 29, type: 'delimiter.java' },
+				{ startIndex: 30, type: 'identifier.java' },
+				{ startIndex: 34, type: 'delimiter.java' },
+				{ startIndex: 35, type: '' },
+				{ startIndex: 36, type: 'delimiter.curly.java' }
+			]
+		}
+	],
+
+	// Method References
+	[
+		{
+			line: 'String::valueOf',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.java' },
+				{ startIndex: 6, type: 'delimiter.java' },
+				{ startIndex: 8, type: 'identifier.java' }
 			]
 		}
 	]
