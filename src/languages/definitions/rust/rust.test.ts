@@ -184,6 +184,12 @@ testTokenization('rust', [
 			tokens: [{ startIndex: 0, type: 'number.rust' }]
 		}
 	],
+	[
+		{
+			line: '0x01_02_0a_0b',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
 	// Exponent
 	[
 		{
