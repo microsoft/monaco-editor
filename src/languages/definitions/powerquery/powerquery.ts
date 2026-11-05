@@ -37,7 +37,10 @@ export const language = <languages.IMonarchLanguage>{
 	operatorKeywords: ['and', 'not', 'or'],
 
 	keywords: [
+		// Per m-spec-consolidated-grammar §Keywords, and May-2022 addition of `catch`
+		// (m-spec-error-handling, error-handling).
 		'as',
+		'catch',
 		'each',
 		'else',
 		'error',
@@ -131,7 +134,9 @@ export const language = <languages.IMonarchLanguage>{
 		'BinaryFormat.UnsignedInteger64',
 		'Byte.From',
 		'Character.FromNumber',
+		'Character.ToLower',
 		'Character.ToNumber',
+		'Character.ToUpper',
 		'Combiner.CombineTextByDelimiter',
 		'Combiner.CombineTextByEachDelimiter',
 		'Combiner.CombineTextByLengths',
@@ -257,6 +262,10 @@ export const language = <languages.IMonarchLanguage>{
 		'DateTimeZone.ZoneMinutes',
 		'Decimal.From',
 		'Diagnostics.ActivityId',
+		'Diagnostics.BeginTrace',
+		'Diagnostics.LogFailure',
+		'Diagnostics.LogValue',
+		'Diagnostics.LogValue2',
 		'Diagnostics.Trace',
 		'DirectQueryCapabilities.From',
 		'Double.From',
@@ -295,6 +304,10 @@ export const language = <languages.IMonarchLanguage>{
 		'HdInsight.Files',
 		'Hdfs.Contents',
 		'Hdfs.Files',
+		'Html.Table',
+		'Identity.From',
+		'Identity.IsMemberOf',
+		'IdentityProvider.Default',
 		'Informix.Database',
 		'Int16.From',
 		'Int32.From',
@@ -424,15 +437,18 @@ export const language = <languages.IMonarchLanguage>{
 		'Number.ToText',
 		'OData.Feed',
 		'Odbc.DataSource',
+		'Odbc.InferOptions',
 		'Odbc.Query',
 		'OleDb.DataSource',
 		'OleDb.Query',
 		'Oracle.Database',
+		'Pdf.Tables',
 		'Percentage.From',
 		'PostgreSQL.Database',
 		'RData.FromBinary',
 		'Record.AddField',
 		'Record.Combine',
+		'Record.CombineLists',
 		'Record.Field',
 		'Record.FieldCount',
 		'Record.FieldNames',
@@ -440,6 +456,7 @@ export const language = <languages.IMonarchLanguage>{
 		'Record.FieldValues',
 		'Record.FromList',
 		'Record.FromTable',
+		'Record.FromFields',
 		'Record.HasFields',
 		'Record.RemoveFields',
 		'Record.RenameFields',
@@ -476,9 +493,11 @@ export const language = <languages.IMonarchLanguage>{
 		'SqlExpression.ToExpression',
 		'Sybase.Database',
 		'Table.AddColumn',
+		'Table.AddFuzzyClusterColumn',
 		'Table.AddIndexColumn',
 		'Table.AddJoinColumn',
 		'Table.AddKey',
+		'Table.AddRankColumn',
 		'Table.AggregateTableColumn',
 		'Table.AlternateRows',
 		'Table.Buffer',
@@ -488,6 +507,8 @@ export const language = <languages.IMonarchLanguage>{
 		'Table.ColumnsOfType',
 		'Table.Combine',
 		'Table.CombineColumns',
+		'Table.CombineColumnsToRecord',
+		'Table.ConformToPageReader',
 		'Table.Contains',
 		'Table.ContainsAll',
 		'Table.ContainsAny',
@@ -510,6 +531,9 @@ export const language = <languages.IMonarchLanguage>{
 		'Table.FromRecords',
 		'Table.FromRows',
 		'Table.FromValue',
+		'Table.FuzzyGroup',
+		'Table.FuzzyJoin',
+		'Table.FuzzyNestedJoin',
 		'Table.Group',
 		'Table.HasColumns',
 		'Table.InsertRows',
@@ -560,6 +584,7 @@ export const language = <languages.IMonarchLanguage>{
 		'Table.Skip',
 		'Table.Sort',
 		'Table.SplitColumn',
+		'Table.StopFolding',
 		'Table.ToColumns',
 		'Table.ToList',
 		'Table.ToRecords',
@@ -606,6 +631,7 @@ export const language = <languages.IMonarchLanguage>{
 		'Text.Repeat',
 		'Text.Replace',
 		'Text.ReplaceRange',
+		'Text.Reverse',
 		'Text.Select',
 		'Text.Split',
 		'Text.SplitAny',
@@ -653,10 +679,12 @@ export const language = <languages.IMonarchLanguage>{
 		'Uri.EscapeDataString',
 		'Uri.Parts',
 		'Value.Add',
+		'Value.Alternates',
 		'Value.As',
 		'Value.Compare',
 		'Value.Divide',
 		'Value.Equals',
+		'Value.Expression',
 		'Value.Firewall',
 		'Value.FromText',
 		'Value.Is',
@@ -665,10 +693,14 @@ export const language = <languages.IMonarchLanguage>{
 		'Value.NativeQuery',
 		'Value.NullableEquals',
 		'Value.RemoveMetadata',
+		'Value.ReplaceFields',
 		'Value.ReplaceMetadata',
 		'Value.ReplaceType',
 		'Value.Subtract',
+		'Value.Traits',
 		'Value.Type',
+		'Value.VersionIdentity',
+		'Value.Versions',
 		'ValueAction.NativeStatement',
 		'ValueAction.Replace',
 		'Variable.Value',
@@ -836,15 +868,31 @@ export const language = <languages.IMonarchLanguage>{
 
 	tokenizer: {
 		root: [
-			// quoted identifier
+			// Verbatim text literal: #!"..." (m-spec-consolidated-grammar §Literal).
+			// Must precede the quoted-identifier rule so that #!"..." is not matched
+			// as a quoted identifier.
+			[/#!"/, { token: 'string', next: '@string' }],
+
+			// Quoted identifier (e.g., #"My Column")
 			[/#"[\w \.]+"/, 'identifier.quote'],
 
-			// numbers
+			// Hash literals / constructors (#nan, #infinity, #table, etc.)
+			[/#[\w]+/, {
+				cases: {
+					'@constants': 'constant',
+					'@constructors': 'constructor',
+					'@default': 'identifier'
+				}
+			}],
+
+			// Numbers
 			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
 			[/0[xX][0-9a-fA-F]+/, 'number.hex'],
 			[/\d+([eE][\-+]?\d+)?/, 'number'],
 
-			// keywords
+			// Keywords, type keywords, constructors, operator keywords.
+			// `as`, `catch`, `each`, `is`, `section`, `shared`, etc. are all lowercase
+			// and therefore fall into this rule under `ignoreCase: false`.
 			[
 				/(#?[a-z]+)\b/,
 				{
@@ -859,7 +907,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
-			// built-in types
+			// Built-in types: Table.Type, Text.Type, etc.
 			[
 				/\b([A-Z][a-zA-Z0-9]+\.Type)\b/,
 				{
@@ -870,7 +918,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
-			// other built-ins
+			// Built-in functions and constants: Table.First, Number.PI, etc.
 			[
 				/\b([A-Z][a-zA-Z0-9]+\.[A-Z][a-zA-Z0-9]+)\b/,
 				{
@@ -882,7 +930,7 @@ export const language = <languages.IMonarchLanguage>{
 				}
 			],
 
-			// other identifiers
+			// Other identifiers
 			[/\b([a-zA-Z_][\w\.]*)\b/, 'identifier'],
 
 			{ include: '@whitespace' },
@@ -890,7 +938,11 @@ export const language = <languages.IMonarchLanguage>{
 			{ include: '@strings' },
 
 			[/[{}()\[\]]/, '@brackets'],
-			[/([=\+<>\-\*&@\?\/!])|([<>]=)|(<>)|(=>)|(\.\.\.)|(\.\.)/, 'operators'],
+			// Operators. Multi-char alternatives come first so `??`, `=>`, `...`, `..`,
+			// `<=`, `>=`, `<>` are not split into single-char tokens.
+			// Per m-spec-operators and m-spec-consolidated-grammar §Operators:
+			//   , ; = < <= > >= <> + - * / & ( ) [ ] { } @ ? ?? => .. ...
+			[/\?\?|=>|\.\.\.|\.\.|<=|>=|<>|[=+<>\-*&@?\/!]/, 'operators'],
 			[/[,;]/, 'delimiter']
 		],
 
