@@ -1,0 +1,32 @@
+/* Sample SAS program: summarise classes by age */
+%let path = /tmp/reports;
+
+/* Read the raw data and derive a flag */
+data work.classification;
+    set sashelp.class (obs=100);
+
+    length status $ 8;
+    if age >= 15 then status = "ADULT";
+    else status = "CHILD";
+
+    bmi = weight / (height * height);
+    label bmi = "Body mass index";
+run;
+
+proc means data=work.classification noprint;
+    var age bmi;
+    class status;
+    output out=work.summary mean=;
+run;
+
+proc sql;
+    create table work.tall as
+    select status, count(*) as n
+    from work.classification
+    group by status;
+quit;
+
+ods csv file="&path/summary.csv";
+proc print data=work.summary noobs;
+run;
+ods csv close;
