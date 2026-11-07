@@ -86,6 +86,47 @@ testTokenization('pascal', [
 		}
 	],
 
+	// Comments - paren-star (* *)
+	[
+		{
+			line: '(* a comment *)',
+			tokens: [{ startIndex: 0, type: 'comment.pascal' }]
+		}
+	],
+
+	[
+		{
+			line: '(*sticky*)',
+			tokens: [{ startIndex: 0, type: 'comment.pascal' }]
+		}
+	],
+
+	[
+		{
+			line: '(* start of multiline comment ',
+			tokens: [{ startIndex: 0, type: 'comment.pascal' }]
+		},
+		{
+			line: 'a comment between parens',
+			tokens: [{ startIndex: 0, type: 'comment.pascal' }]
+		},
+		{
+			line: 'end of multiline comment *)',
+			tokens: [{ startIndex: 0, type: 'comment.pascal' }]
+		}
+	],
+
+	[
+		{
+			line: '(* c *) begin',
+			tokens: [
+				{ startIndex: 0, type: 'comment.pascal' },
+				{ startIndex: 7, type: 'white.pascal' },
+				{ startIndex: 8, type: 'keyword.begin.pascal' }
+			]
+		}
+	],
+
 	// Keywords
 	[
 		{
