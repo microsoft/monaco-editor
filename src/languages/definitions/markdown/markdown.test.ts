@@ -35,6 +35,56 @@ testTokenization('markdown', [
 
 	[
 		{
+			line: '_italic_ and __strong__',
+			tokens: [
+				{ startIndex: 0, type: 'emphasis.md' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 13, type: 'strong.md' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '$a_{1}$:expect normal but italic$b_{1}$',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 3, type: 'string.target.md' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 35, type: 'string.target.md' },
+				{ startIndex: 38, type: '' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '$α_{1}$:expect normal but italic$β_{1}$',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 3, type: 'string.target.md' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 35, type: 'string.target.md' },
+				{ startIndex: 38, type: '' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '$é_{1}$ and $变量_{2}$',
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 4, type: 'string.target.md' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 17, type: 'string.target.md' },
+				{ startIndex: 20, type: '' }
+			]
+		}
+	],
+
+	[
+		{
 			line: 'some ![link](http://link.com)',
 			tokens: [
 				{ startIndex: 0, type: '' },
