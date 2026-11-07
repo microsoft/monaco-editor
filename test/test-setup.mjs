@@ -6,6 +6,20 @@
 import { createRequire } from 'module';
 import { JSDOM } from 'jsdom';
 
+import { register } from 'node:module';
+
+try {
+	register(`data:text/javascript,
+export async function load(url, context, nextLoad) {
+  if (url.endsWith('.css')) {
+    return { format: 'module', shortCircuit: true, source: 'export default {};' };
+  }
+  return nextLoad(url, context);
+}`, import.meta.url);
+} catch (e) {
+	// fallback if register is not available
+}
+
 // Handle CSS imports from monaco-editor-core in CJS require context
 const require = createRequire(import.meta.url);
 require.extensions['.css'] = function (module, filename) {
@@ -20,6 +34,8 @@ const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
 
 global.window = dom.window;
 global.document = dom.window.document;
+global.document.queryCommandSupported = () => false;
+global.document.execCommand = () => false;
 Object.defineProperty(global, 'navigator', { value: dom.window.navigator, writable: true, configurable: true });
 global.HTMLElement = dom.window.HTMLElement;
 global.Node = dom.window.Node;
@@ -27,6 +43,8 @@ global.Element = dom.window.Element;
 global.Event = dom.window.Event;
 global.MouseEvent = dom.window.MouseEvent;
 global.KeyboardEvent = dom.window.KeyboardEvent;
+global.UIEvent = dom.window.UIEvent;
+global.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} };
 global.customElements = dom.window.customElements;
 
 global.CSS = {
