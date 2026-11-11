@@ -81,6 +81,7 @@ import './twig/register';
 import './typescript/register';
 import './typespec/register';
 import './vb/register';
+import './verse/register';
 import './wgsl/register';
 import './xml/register';
 import './yaml/register';
