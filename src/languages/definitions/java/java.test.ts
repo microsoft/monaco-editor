@@ -52,6 +52,105 @@ testTokenization('java', [
 
 	[
 		{
+			line: '// \\u000a int x = 1;',
+			tokens: [
+				{ startIndex: 0, type: 'comment.java' },
+				{ startIndex: 3, type: 'string.escape.java' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'keyword.int.java' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'identifier.java' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'delimiter.java' },
+				{ startIndex: 17, type: '' },
+				{ startIndex: 18, type: 'number.java' },
+				{ startIndex: 19, type: 'delimiter.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '// \\uu000d class',
+			tokens: [
+				{ startIndex: 0, type: 'comment.java' },
+				{ startIndex: 3, type: 'string.escape.java' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'keyword.class.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '// \\\\u000a int',
+			tokens: [{ startIndex: 0, type: 'comment.java' }]
+		}
+	],
+
+	[
+		{
+			line: '// \\u0048ello',
+			tokens: [
+				{ startIndex: 0, type: 'comment.java' },
+				{ startIndex: 3, type: 'string.escape.java' },
+				{ startIndex: 9, type: 'comment.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '// \\\\\\u000a int',
+			tokens: [
+				{ startIndex: 0, type: 'comment.java' },
+				{ startIndex: 5, type: 'string.escape.java' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'keyword.int.java' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '// ordinary comment',
+			tokens: [{ startIndex: 0, type: 'comment.java' }]
+		},
+		{
+			line: 'class Test {}',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.class.java' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'identifier.java' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'delimiter.curly.java' }
+			]
+		}
+	],
+
+	[
+		{ line: '//', tokens: [{ startIndex: 0, type: 'comment.java' }] },
+		{ line: 'int', tokens: [{ startIndex: 0, type: 'keyword.int.java' }] }
+	],
+
+	[
+		{ line: '// \\\\', tokens: [{ startIndex: 0, type: 'comment.java' }] },
+		{ line: 'int', tokens: [{ startIndex: 0, type: 'keyword.int.java' }] }
+	],
+
+	[
+		{
+			line: '// \\u0048',
+			tokens: [
+				{ startIndex: 0, type: 'comment.java' },
+				{ startIndex: 3, type: 'string.escape.java' }
+			]
+		},
+		{ line: 'int', tokens: [{ startIndex: 0, type: 'keyword.int.java' }] }
+	],
+
+	[
+		{
 			line: '/almost a comment',
 			tokens: [
 				{ startIndex: 0, type: 'delimiter.java' },
