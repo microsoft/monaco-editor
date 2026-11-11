@@ -243,7 +243,7 @@ export const language = {
 
 			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
 			[
-				/\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
+				/\/(?=((?:\\.|\[(?:\\.|[^\]])*\]|[^\\\/])+\/([dgimsuyv]*)(\s*)(\.|;|,|\)|\]|\}|$)))/,
 				{ token: 'regexp', bracket: '@open', next: '@regexp' }
 			],
 
@@ -306,7 +306,7 @@ export const language = {
 				['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']
 			],
 			[
-				/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
+				/(\[)(\^?)(?=(?:[^\]\\]|\\.)+)/,
 				['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]
 			],
 			[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
@@ -315,7 +315,7 @@ export const language = {
 			[/[^\\\/]/, 'regexp'],
 			[/@regexpesc/, 'regexp.escape'],
 			[/\\\./, 'regexp.invalid'],
-			[/(\/)([dgimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
+			[/(\/)([dgimsuyv]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
 		],
 
 		regexrange: [

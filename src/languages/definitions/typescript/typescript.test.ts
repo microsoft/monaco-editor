@@ -969,5 +969,125 @@ testTokenization('typescript', [
 				{ startIndex: 15, type: 'comment.ts' }
 			]
 		}
+	],
+	// `/` inside a character class does not end the regex (#5575)
+	[
+		{
+			line: "if (/[/]'/.test(s)) f();",
+			tokens: [
+				{ startIndex: 0, type: 'keyword.ts' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 4, type: 'regexp.ts' },
+				{ startIndex: 5, type: 'regexp.escape.control.ts' },
+				{ startIndex: 6, type: 'regexp.ts' },
+				{ startIndex: 7, type: 'regexp.escape.control.ts' },
+				{ startIndex: 8, type: 'regexp.ts' },
+				{ startIndex: 10, type: 'delimiter.ts' },
+				{ startIndex: 11, type: 'identifier.ts' },
+				{ startIndex: 15, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 16, type: 'identifier.ts' },
+				{ startIndex: 17, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 19, type: '' },
+				{ startIndex: 20, type: 'identifier.ts' },
+				{ startIndex: 21, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 23, type: 'delimiter.ts' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'if (/[a/b]/.test(s)) f();',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.ts' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 4, type: 'regexp.ts' },
+				{ startIndex: 5, type: 'regexp.escape.control.ts' },
+				{ startIndex: 6, type: 'regexp.ts' },
+				{ startIndex: 9, type: 'regexp.escape.control.ts' },
+				{ startIndex: 10, type: 'regexp.ts' },
+				{ startIndex: 11, type: 'delimiter.ts' },
+				{ startIndex: 12, type: 'identifier.ts' },
+				{ startIndex: 16, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 17, type: 'identifier.ts' },
+				{ startIndex: 18, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 20, type: '' },
+				{ startIndex: 21, type: 'identifier.ts' },
+				{ startIndex: 22, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 24, type: 'delimiter.ts' }
+			]
+		}
+	],
+
+	// the `v` flag is recognized as `keyword.other`
+	[
+		{
+			line: 'x = /a\\/b/v.test(s);',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ts' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.ts' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'regexp.ts' },
+				{ startIndex: 6, type: 'regexp.escape.ts' },
+				{ startIndex: 8, type: 'regexp.ts' },
+				{ startIndex: 10, type: 'keyword.other.ts' },
+				{ startIndex: 11, type: 'delimiter.ts' },
+				{ startIndex: 12, type: 'identifier.ts' },
+				{ startIndex: 16, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 17, type: 'identifier.ts' },
+				{ startIndex: 18, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 19, type: 'delimiter.ts' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'x = /[^/]+$/gv.test(s);',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ts' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.ts' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'regexp.ts' },
+				{ startIndex: 5, type: 'regexp.escape.control.ts' },
+				{ startIndex: 7, type: 'regexp.ts' },
+				{ startIndex: 8, type: 'regexp.escape.control.ts' },
+				{ startIndex: 11, type: 'regexp.ts' },
+				{ startIndex: 12, type: 'keyword.other.ts' },
+				{ startIndex: 14, type: 'delimiter.ts' },
+				{ startIndex: 15, type: 'identifier.ts' },
+				{ startIndex: 19, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 20, type: 'identifier.ts' },
+				{ startIndex: 21, type: 'delimiter.parenthesis.ts' },
+				{ startIndex: 22, type: 'delimiter.ts' }
+			]
+		}
+	],
+
+	// division is still tokenized as delimiters
+	[
+		{
+			line: 'x = a / b / c;',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ts' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.ts' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.ts' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.ts' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'identifier.ts' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'delimiter.ts' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'identifier.ts' },
+				{ startIndex: 13, type: 'delimiter.ts' }
+			]
+		}
 	]
 ]);
