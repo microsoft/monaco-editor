@@ -44,6 +44,43 @@ testTokenization('python', [
 		}
 	],
 
+	// Matrix multiplication is not a decorator.
+	[
+		{
+			line: 'a @b',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 1, type: 'white.python' },
+				{ startIndex: 2, type: '' },
+				{ startIndex: 3, type: 'identifier.python' }
+			]
+		}
+	],
+	[
+		{
+			line: 'a@b',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.python' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'identifier.python' }
+			]
+		}
+	],
+	[
+		{
+			line: '    @decorator(a@b)',
+			tokens: [
+				{ startIndex: 0, type: 'white.python' },
+				{ startIndex: 4, type: 'tag.python' },
+				{ startIndex: 14, type: 'delimiter.parenthesis.python' },
+				{ startIndex: 15, type: 'identifier.python' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'identifier.python' },
+				{ startIndex: 18, type: 'delimiter.parenthesis.python' }
+			]
+		}
+	],
+
 	// Comments
 	[
 		{
