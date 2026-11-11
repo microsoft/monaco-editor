@@ -215,7 +215,22 @@ export const language = <languages.IMonarchLanguage>{
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
 			[/\/\*/, 'comment', '@comment'],
-			[/\/\/.*$/, 'comment']
+			[
+				/\/\//,
+				{ cases: { '@eos': 'comment', '@default': { token: 'comment', next: '@lineComment' } } }
+			]
+		],
+
+		lineComment: [
+			// Java translates Unicode escapes before recognizing comments. An escaped CR/LF ends the comment.
+			[/\\\\/, { cases: { '@eos': { token: 'comment', next: '@pop' }, '@default': 'comment' } }],
+			[/\\u+000[aAdD]/, { token: 'string.escape', next: '@pop' }],
+			[
+				/\\u+[0-9a-fA-F]{4}/,
+				{ cases: { '@eos': { token: 'string.escape', next: '@pop' }, '@default': 'string.escape' } }
+			],
+			[/[^\\]+/, { cases: { '@eos': { token: 'comment', next: '@pop' }, '@default': 'comment' } }],
+			[/\\/, { cases: { '@eos': { token: 'comment', next: '@pop' }, '@default': 'comment' } }]
 		],
 
 		comment: [
