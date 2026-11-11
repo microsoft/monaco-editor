@@ -65,10 +65,18 @@ function findFiles(pattern) {
 	return glob.sync(pattern, { cwd: root });
 }
 
-export function getEntryPoints(includeFeatures = false, includeDeprecated = true) {
+export function getEntryPoints(
+	includeFeatures = false,
+	includeDeprecated = true,
+	includeDeprecatedWorkers = includeFeatures
+) {
 	const features = includeFeatures ? Object.fromEntries(findFiles('./src/**/register.*').filter(p => !p.includes('.d.ts')).map(v => [v, join(root, v)])) : {};
 
-	const deprecatedFiles = includeDeprecated ? findFiles('./src/deprecated/**/*.ts') : [];
+	// Deprecated .worker.ts shims are only needed in ESM for monaco-editor-webpack-plugin.
+	// In AMD, workers are already emitted as standalone IIFE bundles in vs/assets/*.worker-[hash].js.
+	const deprecatedFiles = includeDeprecated
+		? findFiles('./src/deprecated/**/*.ts').filter(p => includeDeprecatedWorkers || !p.endsWith('.worker.ts'))
+		: [];
 	const deprecatedEntryPoints = Object.fromEntries(
 		deprecatedFiles.map(v => {
 			let key = v.replace(/^src\/deprecated\//, '');
