@@ -329,6 +329,18 @@ testTokenization('perl', [
 		}
 	],
 
+	[
+		{
+			line: 'qr{\\\\W{1,10}}',
+			tokens: [
+				{ startIndex: 0, type: 'regexp.delim.perl' },
+				{ startIndex: 3, type: 'regexp.escape.perl' },
+				{ startIndex: 5, type: 'regexp.perl' },
+				{ startIndex: 12, type: 'regexp.delim.perl' }
+			]
+		}
+	],
+
 	// Operators
 	[
 		{
