@@ -1040,5 +1040,106 @@ testTokenization('javascript', [
 				{ startIndex: 13, type: 'delimiter.js' }
 			]
 		}
+	],
+	// nested subtraction (PR review #5576)
+	[
+		{
+			line: '/[[a]--[b]]/v;',
+			tokens: [
+				{ startIndex: 0, type: 'regexp.js' },
+				{ startIndex: 1, type: 'regexp.escape.control.js' },
+				{ startIndex: 3, type: 'regexp.js' },
+				{ startIndex: 4, type: 'regexp.escape.control.js' },
+				{ startIndex: 8, type: 'regexp.js' },
+				{ startIndex: 9, type: 'regexp.escape.control.js' },
+				{ startIndex: 11, type: 'regexp.js' },
+				{ startIndex: 12, type: 'keyword.other.js' },
+				{ startIndex: 13, type: 'delimiter.js' }
+			]
+		}
+	],
+	// nested intersection and subtraction with combined flags (PR review #5576)
+	[
+		{
+			line: '/[[[a]&&[b]]--[c]]/gv;',
+			tokens: [
+				{ startIndex: 0, type: 'regexp.js' },
+				{ startIndex: 1, type: 'regexp.escape.control.js' },
+				{ startIndex: 4, type: 'regexp.js' },
+				{ startIndex: 5, type: 'regexp.escape.control.js' },
+				{ startIndex: 6, type: 'regexp.js' },
+				{ startIndex: 8, type: 'regexp.escape.control.js' },
+				{ startIndex: 9, type: 'regexp.js' },
+				{ startIndex: 10, type: 'regexp.escape.control.js' },
+				{ startIndex: 15, type: 'regexp.js' },
+				{ startIndex: 16, type: 'regexp.escape.control.js' },
+				{ startIndex: 18, type: 'regexp.js' },
+				{ startIndex: 19, type: 'keyword.other.js' },
+				{ startIndex: 21, type: 'delimiter.js' }
+			]
+		}
+	],
+	// escaped brackets do not change nesting (PR review #5576)
+	[
+		{
+			line: '/[[\\[\\]]--[b]]/v;',
+			tokens: [
+				{ startIndex: 0, type: 'regexp.js' },
+				{ startIndex: 1, type: 'regexp.escape.control.js' },
+				{ startIndex: 3, type: 'regexp.escape.js' },
+				{ startIndex: 7, type: 'regexp.escape.control.js' },
+				{ startIndex: 11, type: 'regexp.js' },
+				{ startIndex: 12, type: 'regexp.escape.control.js' },
+				{ startIndex: 14, type: 'regexp.js' },
+				{ startIndex: 15, type: 'keyword.other.js' },
+				{ startIndex: 16, type: 'delimiter.js' }
+			]
+		}
+	],
+	// legacy literal opening bracket is not a nested class (PR review #5576)
+	[
+		{
+			line: '/[[]/;',
+			tokens: [
+				{ startIndex: 0, type: 'regexp.js' },
+				{ startIndex: 1, type: 'regexp.escape.control.js' },
+				{ startIndex: 2, type: 'regexp.js' },
+				{ startIndex: 3, type: 'regexp.escape.control.js' },
+				{ startIndex: 4, type: 'regexp.js' },
+				{ startIndex: 5, type: 'delimiter.js' }
+			]
+		}
+	],
+	// legacy global literal opening bracket is not a nested set (PR review #5576)
+	[
+		{
+			line: '/[[]/g;',
+			tokens: [
+				{ startIndex: 0, type: 'regexp.js' },
+				{ startIndex: 1, type: 'regexp.escape.control.js' },
+				{ startIndex: 2, type: 'regexp.js' },
+				{ startIndex: 3, type: 'regexp.escape.control.js' },
+				{ startIndex: 4, type: 'regexp.js' },
+				{ startIndex: 5, type: 'keyword.other.js' },
+				{ startIndex: 6, type: 'delimiter.js' }
+			]
+		}
+	],
+	// nested set negation stays in the set state
+	[
+		{
+			line: '/[[^a]--[b]]/v;',
+			tokens: [
+				{ startIndex: 0, type: 'regexp.js' },
+				{ startIndex: 1, type: 'regexp.escape.control.js' },
+				{ startIndex: 4, type: 'regexp.js' },
+				{ startIndex: 5, type: 'regexp.escape.control.js' },
+				{ startIndex: 9, type: 'regexp.js' },
+				{ startIndex: 10, type: 'regexp.escape.control.js' },
+				{ startIndex: 12, type: 'regexp.js' },
+				{ startIndex: 13, type: 'keyword.other.js' },
+				{ startIndex: 14, type: 'delimiter.js' }
+			]
+		}
 	]
 ]);
