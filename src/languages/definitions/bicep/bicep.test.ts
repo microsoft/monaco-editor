@@ -19,6 +19,116 @@ testTokenization('bicep', [
 */
 
 import { testTokenization } from '../test/testRunner';
+import * as assert from 'assert';
+import { test } from 'node:test';
+import { editor, Uri } from '../../../editor';
+
+test('bicep file extensions', () => {
+	for (const extension of ['.bicep', '.bicepparam']) {
+		const model = editor.createModel('', undefined, Uri.parse(`inmemory://model/main${extension}`));
+		try {
+			assert.strictEqual(model.getLanguageId(), 'bicep');
+		} finally {
+			model.dispose();
+		}
+	}
+});
+
+testTokenization('bicep', [
+	[
+		'metadata',
+		'import',
+		'as',
+		'type',
+		'with',
+		'using',
+		'extends',
+		'func',
+		'assert',
+		'extension'
+	].map((keyword) => ({
+		line: `${keyword} ${keyword}Value`,
+		tokens: [
+			{ startIndex: 0, type: 'keyword.bicep' },
+			{ startIndex: keyword.length, type: '' },
+			{ startIndex: keyword.length + 1, type: 'identifier.bicep' }
+		]
+	})),
+	[
+		{
+			line: '#disable-next-line BCP123',
+			tokens: [
+				{ startIndex: 0, type: 'directive.bicep' },
+				{ startIndex: 18, type: '' },
+				{ startIndex: 19, type: 'identifier.bicep' }
+			]
+		},
+		{
+			line: '// #disable-next-line BCP123',
+			tokens: [{ startIndex: 0, type: 'comment.bicep' }]
+		},
+		{
+			line: "'#disable-next-line'",
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.bicep' },
+				{ startIndex: 1, type: 'string.bicep' }
+			]
+		}
+	],
+	[
+		{ line: "$'''", tokens: [{ startIndex: 0, type: 'string.quote.bicep' }] },
+		{
+			line: 'hello ${name}',
+			tokens: [
+				{ startIndex: 0, type: 'string.bicep' },
+				{ startIndex: 6, type: 'delimiter.bracket.bicep' },
+				{ startIndex: 8, type: 'identifier.bicep' },
+				{ startIndex: 12, type: 'delimiter.bracket.bicep' }
+			]
+		},
+		{
+			line: '${{ value: 1 }}',
+			tokens: [
+				{ startIndex: 0, type: 'delimiter.bracket.bicep' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.bicep' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 11, type: 'number.bicep' },
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'delimiter.bracket.bicep' }
+			]
+		},
+		{ line: "'''", tokens: [{ startIndex: 0, type: 'string.quote.bicep' }] },
+		{ line: 'param', tokens: [{ startIndex: 0, type: 'keyword.bicep' }] }
+	],
+	[
+		{ line: "$$'''", tokens: [{ startIndex: 0, type: 'string.quote.bicep' }] },
+		{ line: 'literal ${name}', tokens: [{ startIndex: 0, type: 'string.bicep' }] },
+		{
+			line: 'hello $${name}',
+			tokens: [
+				{ startIndex: 0, type: 'string.bicep' },
+				{ startIndex: 6, type: 'delimiter.bracket.bicep' },
+				{ startIndex: 9, type: 'identifier.bicep' },
+				{ startIndex: 13, type: 'delimiter.bracket.bicep' }
+			]
+		},
+		{ line: "'''", tokens: [{ startIndex: 0, type: 'string.quote.bicep' }] },
+		{ line: 'param', tokens: [{ startIndex: 0, type: 'keyword.bicep' }] }
+	],
+	[
+		{ line: "'''", tokens: [{ startIndex: 0, type: 'string.quote.bicep' }] },
+		{ line: 'literal ${name}', tokens: [{ startIndex: 0, type: 'string.bicep' }] },
+		{
+			line: "''''",
+			tokens: [
+				{ startIndex: 0, type: '' },
+				{ startIndex: 1, type: 'string.quote.bicep' }
+			]
+		},
+		{ line: 'param', tokens: [{ startIndex: 0, type: 'keyword.bicep' }] }
+	]
+]);
 
 testTokenization('bicep', [
 	[
@@ -672,7 +782,7 @@ testTokenization('bicep', [
 			tokens: [
 				{ startIndex: 0, type: 'keyword.bicep' },
 				{ startIndex: 3, type: '' },
-				{ startIndex: 4, type: 'identifier.bicep' },
+				{ startIndex: 4, type: 'keyword.bicep' },
 				{ startIndex: 8, type: '' },
 				{ startIndex: 11, type: 'identifier.bicep' },
 				{ startIndex: 24, type: '' },
@@ -691,7 +801,7 @@ testTokenization('bicep', [
 				{ startIndex: 22, type: 'string.quote.bicep' },
 				{ startIndex: 23, type: 'string.bicep' },
 				{ startIndex: 57, type: '' },
-				{ startIndex: 59, type: 'identifier.bicep' },
+				{ startIndex: 59, type: 'keyword.bicep' },
 				{ startIndex: 63, type: '' }
 			]
 		},

@@ -4,12 +4,15 @@
 import type { languages } from '../../../editor';
 
 const bounded = (text: string) => `\\b${text}\\b`;
+const notBefore = (regex: string) => `(?!${regex})`;
 
 const identifierStart = '[_a-zA-Z]';
 const identifierContinue = '[_a-zA-Z0-9]';
 const identifier = bounded(`${identifierStart}${identifierContinue}*`);
+const directive = bounded(`[_a-zA-Z-0-9]+`);
 
 const keywords = [
+	'metadata',
 	'targetScope',
 	'resource',
 	'module',
@@ -19,7 +22,16 @@ const keywords = [
 	'for',
 	'in',
 	'if',
-	'existing'
+	'existing',
+	'import',
+	'as',
+	'type',
+	'with',
+	'using',
+	'extends',
+	'func',
+	'assert',
+	'extension'
 ];
 
 const namedLiterals = ['true', 'false', 'null'];
@@ -79,9 +91,21 @@ export const language = <languages.IMonarchLanguage>{
 	tokenizer: {
 		root: [{ include: '@expression' }, { include: '@whitespace' }],
 
-		stringVerbatim: [
+		multilineString: [
 			{ regex: `(|'|'')[^']`, action: { token: 'string' } },
-			{ regex: `'''`, action: { token: 'string.quote', next: '@pop' } }
+			{ regex: `'''${notBefore(`'`)}`, action: { token: 'string.quote', next: '@pop' } }
+		],
+
+		multilineString1Interpolation: [
+			{ regex: `\\\${`, action: { token: 'delimiter.bracket', next: '@bracketCounting' } },
+			{ regex: `(|'|'')[^']`, action: { token: 'string' } },
+			{ regex: `'''${notBefore(`'`)}`, action: { token: 'string.quote', next: '@pop' } }
+		],
+
+		multilineString2Interpolation: [
+			{ regex: `\\$\\\${`, action: { token: 'delimiter.bracket', next: '@bracketCounting' } },
+			{ regex: `(|'|'')[^']`, action: { token: 'string' } },
+			{ regex: `'''${notBefore(`'`)}`, action: { token: 'string.quote', next: '@pop' } }
 		],
 
 		stringLiteral: [
@@ -95,7 +119,7 @@ export const language = <languages.IMonarchLanguage>{
 		bracketCounting: [
 			{ regex: `{`, action: { token: 'delimiter.bracket', next: '@bracketCounting' } },
 			{ regex: `}`, action: { token: 'delimiter.bracket', next: '@pop' } },
-			{ include: 'expression' }
+			{ include: '@expression' }
 		],
 
 		comment: [
@@ -111,8 +135,16 @@ export const language = <languages.IMonarchLanguage>{
 		],
 
 		expression: [
-			{ regex: `'''`, action: { token: 'string.quote', next: '@stringVerbatim' } },
-			{ regex: `'`, action: { token: 'string.quote', next: '@stringLiteral' } },
+			{
+				regex: `\\$\\$'''`,
+				action: { token: 'string.quote', next: '@multilineString2Interpolation' }
+			},
+			{
+				regex: `\\$'''`,
+				action: { token: 'string.quote', next: '@multilineString1Interpolation' }
+			},
+			{ regex: `'''`, action: { token: 'string.quote', next: '@multilineString' } },
+			{ regex: `'${notBefore(`''`)}`, action: { token: 'string.quote', next: '@stringLiteral' } },
 			{ regex: numericLiteral, action: { token: 'number' } },
 			{
 				regex: identifier,
@@ -123,7 +155,8 @@ export const language = <languages.IMonarchLanguage>{
 						'@default': { token: 'identifier' }
 					}
 				}
-			}
+			},
+			{ regex: `#${directive}`, action: { token: 'directive' } }
 		]
 	}
 };
