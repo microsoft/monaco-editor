@@ -164,7 +164,12 @@ export interface DiagnosticsOptions {
 }
 
 export interface WorkerOptions {
-	/** A full HTTP path to a JavaScript file which adds a function `customTSWorkerFactory` to the self inside a web-worker */
+	/**
+	 * A full HTTP path to a JavaScript file which adds a function `customTSWorkerFactory` to the self inside a web-worker.
+	 *
+	 * The script runs with full privileges inside the TypeScript worker.
+	 * Never derive this value from untrusted input, such as URL parameters or user settings.
+	 */
 	customWorkerPath?: string;
 }
 

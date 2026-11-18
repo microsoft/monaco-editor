@@ -3,6 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import * as assert from 'assert';
+import { test } from 'node:test';
+import { editor } from '../../../editor';
+import { loadLanguage } from '../_.contribution';
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('elixir', [
@@ -100,6 +104,54 @@ testTokenization('elixir', [
 				{ startIndex: 7, type: 'white.elixir' },
 				{ startIndex: 8, type: 'identifier.elixir' },
 				{ startIndex: 13, type: 'delimiter.square.elixir' }
+			]
+		}
+	],
+	// Keyword list shorthand with interpolation
+	[
+		{
+			line: `["a#{"b"}c": 1, 'k#{x}': 2]`,
+			tokens: [
+				{ startIndex: 0, type: 'delimiter.square.elixir' },
+				{ startIndex: 1, type: 'constant.delimiter.elixir' },
+				{ startIndex: 2, type: 'constant.elixir' },
+				{ startIndex: 3, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 5, type: 'string.delimiter.elixir' },
+				{ startIndex: 6, type: 'string.elixir' },
+				{ startIndex: 7, type: 'string.delimiter.elixir' },
+				{ startIndex: 8, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 9, type: 'constant.elixir' },
+				{ startIndex: 10, type: 'constant.delimiter.elixir' },
+				{ startIndex: 12, type: 'white.elixir' },
+				{ startIndex: 13, type: 'number.elixir' },
+				{ startIndex: 14, type: 'punctuation.elixir' },
+				{ startIndex: 15, type: 'white.elixir' },
+				{ startIndex: 16, type: 'constant.delimiter.elixir' },
+				{ startIndex: 17, type: 'constant.elixir' },
+				{ startIndex: 18, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 20, type: 'identifier.elixir' },
+				{ startIndex: 21, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 22, type: 'constant.delimiter.elixir' },
+				{ startIndex: 24, type: 'white.elixir' },
+				{ startIndex: 25, type: 'number.elixir' },
+				{ startIndex: 26, type: 'delimiter.square.elixir' }
+			]
+		}
+	],
+	// Unterminated string with interpolations that is not a keyword
+	[
+		{
+			line: '"#{a}#{a}#{a}:',
+			tokens: [
+				{ startIndex: 0, type: 'string.delimiter.elixir' },
+				{ startIndex: 1, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 3, type: 'identifier.elixir' },
+				{ startIndex: 4, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 7, type: 'identifier.elixir' },
+				{ startIndex: 8, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 11, type: 'identifier.elixir' },
+				{ startIndex: 12, type: 'delimiter.bracket.embed.elixir' },
+				{ startIndex: 13, type: 'string.elixir' }
 			]
 		}
 	],
@@ -445,3 +497,20 @@ testTokenization('elixir', [
 		}
 	]
 ]);
+
+test('elixir tokenization of quoted keyword-like lines runs in linear time', async () => {
+	await loadLanguage('elixir');
+	for (const quote of ['"', "'"]) {
+		for (const count of [22, 2000]) {
+			const line = quote + '#{a}'.repeat(count) + ':';
+			const start = performance.now();
+			const tokens = editor.tokenize(line, 'elixir');
+			const elapsed = performance.now() - start;
+			assert.strictEqual(tokens[0][0].type, 'string.delimiter.elixir');
+			assert.ok(
+				elapsed < 1000,
+				`Tokenizing ${line.length} characters took ${elapsed.toFixed(0)}ms`
+			);
+		}
+	}
+});

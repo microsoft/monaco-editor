@@ -33,6 +33,27 @@ try {
 }
 `;
 
+function UrlContentNotice({ sources }: { sources: string[] }) {
+	return (
+		<div style={{ maxWidth: 480, marginBottom: 12 }}>
+			<p>
+				This page was opened from a link that sets what the preview
+				runs. Review the code before loading it.
+			</p>
+			{sources.length > 0 && (
+				<p>
+					The preview will load Monaco Editor from:
+					{sources.map((s) => (
+						<code key={s} style={{ display: "block", wordBreak: "break-all" }}>
+							{s}
+						</code>
+					))}
+				</p>
+			)}
+		</div>
+	);
+}
+
 @observer
 export class Preview extends React.Component<{
 	model: PlaygroundModel;
@@ -57,6 +78,11 @@ export class Preview extends React.Component<{
 						}}
 					>
 						<div>
+							{this.props.model.runRequiresConfirmation && (
+								<UrlContentNotice
+									sources={this.props.model.sourcesFromUrl}
+								/>
+							)}
 							Load{" "}
 							<Button
 								type="button"
@@ -112,7 +138,7 @@ export class Preview extends React.Component<{
 			if (data.kind === "update-code-string") {
 				this.props.model.setCodeString(data.codeStringName, data.value);
 			} else if (data.kind === "reload") {
-				this.props.model.reload();
+				this.props.model.reloadFromPreview();
 			}
 		});
 	};

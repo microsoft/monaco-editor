@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor-core';
 import { capabilities, HoverRegistrationOptions, MarkupContent, MarkedString, MarkupKind } from '../../../src/types';
 import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
-import { toMonacoLanguageSelector } from './common';
+import { toMonacoLanguageSelector, toUntrustedMarkdownString } from './common';
 
 export class LspHoverFeature extends Disposable {
     constructor(
@@ -68,12 +68,12 @@ function toMonacoMarkdownString(
 
 function toSingleMarkdownString(content: MarkupContent | MarkedString): monaco.IMarkdownString {
     if (typeof content === 'string') {
-        return { value: content };
+        return toUntrustedMarkdownString(content);
     }
     if ('kind' in content) {
         // MarkupContent
-        return { value: content.value };
+        return toUntrustedMarkdownString(content.value);
     }
     // MarkedString with language
-    return { value: `\`\`\`${content.language}\n${content.value}\n\`\`\`` };
+    return toUntrustedMarkdownString(`\`\`\`${content.language}\n${content.value}\n\`\`\``);
 }

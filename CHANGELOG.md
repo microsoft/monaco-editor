@@ -1,5 +1,16 @@
 # Monaco Editor Changelog
 
+## [0.57.1]
+
+### Breaking Changes
+
+- Markdown rendered by the editor (hovers, suggestion details, parameter hints, inline completion warnings, editor messages) no longer loads remote images by default. `data:` images are still shown. Use the new `markdownImages.allowedOrigins` editor option to allow images from specific origins (for example `['https://img.shields.io']`), or set it to `true` to allow all remote images as before.
+
+### Updates
+
+- Updates the editor core to VS Code commit `3bc96745d6414f97cd0c09e753ecf698b7829101`, validated in `0.58.0-dev-20261103`.
+- Updates bundled DOMPurify from 3.4.15 to 3.4.17.
+
 ## [0.57.0]
 
 ### New Features and APIs

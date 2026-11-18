@@ -48,6 +48,14 @@ export class PlaygroundModel {
 	@observable
 	public reloadKey = 0;
 
+	/**
+	 * Set when the URL provides code or a Monaco source.
+	 * Unless the user enabled auto-reload, the preview then only runs after an explicit user action,
+	 * so the user can review what will run.
+	 */
+	@observable
+	public runRequiresConfirmation = false;
+
 	private readonly webEditorClient = createJsonWebEditorClient(
 		vObj({
 			js: vString(),
@@ -68,8 +76,26 @@ export class PlaygroundModel {
 		this.webEditorClient === undefined
 	);
 
+	/**
+	 * Reloads the preview. Only call this for explicit user actions:
+	 * it also confirms running code that came from the URL.
+	 */
 	public reload(): void {
+		this.runRequiresConfirmation = false;
 		this.reloadKey++;
+	}
+
+	/** Reload requested by the running preview. Does not confirm code that came from the URL. */
+	public reloadFromPreview(): void {
+		this.reloadKey++;
+	}
+
+	/** Monaco sources that the URL asks the preview to load. */
+	public get sourcesFromUrl(): string[] {
+		return [
+			this.historyModel.sourceOverride,
+			this.historyModel.compareWith,
+		].flatMap((s) => (s ? [s.toString()] : []));
 	}
 
 	public get previewShouldBeFullScreen(): boolean {
@@ -198,6 +224,13 @@ export class PlaygroundModel {
 				() => ({ state: this.state }),
 				() => {
 					const state = this.state;
+					if (
+						this.runRequiresConfirmation &&
+						!this.settings.autoReload
+					) {
+						this.isDirty = true;
+						return;
+					}
 					if (!this.settings.autoReload) {
 						if (
 							(!lastState ||

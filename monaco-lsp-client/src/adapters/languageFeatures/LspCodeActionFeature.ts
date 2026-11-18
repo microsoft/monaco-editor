@@ -3,7 +3,7 @@ import { capabilities, CodeActionRegistrationOptions, Command, WorkspaceEdit, Co
 import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
 import { toMonacoLanguageSelector } from './common';
-import { lspCodeActionKindToMonacoCodeActionKind, toMonacoCodeActionKind, toLspDiagnosticSeverity, toLspCodeActionTriggerKind, toMonacoCommand } from './common';
+import { lspCodeActionKindToMonacoCodeActionKind, toMonacoCodeActionKind, toLspDiagnosticSeverity, toLspCodeActionTriggerKind } from './common';
 
 export class LspCodeActionFeature extends Disposable {
     constructor(
@@ -58,7 +58,7 @@ class LspCodeActionProvider implements monaco.languages.CodeActionProvider {
                         codeAction.edit = toMonacoWorkspaceEdit(resolved.edit, this._client);
                     }
                     if (resolved.command) {
-                        codeAction.command = toMonacoCommand(resolved.command);
+                        codeAction.command = this._client.commands.toMonacoCommand(resolved.command);
                     }
                 }
                 return codeAction;
@@ -94,15 +94,18 @@ class LspCodeActionProvider implements monaco.languages.CodeActionProvider {
         const actions = Array.isArray(result) ? result : [result];
 
         return {
-            actions: actions.map(action => {
+            actions: actions.flatMap((action): ExtendedCodeAction[] => {
                 if ('title' in action && !('kind' in action)) {
                     // Command
                     const cmd = action as Command;
-                    const monacoAction: ExtendedCodeAction = {
+                    const command = this._client.commands.toMonacoCommand(cmd);
+                    if (!command) {
+                        return [];
+                    }
+                    return [{
                         title: cmd.title,
-                        command: toMonacoCommand(cmd),
-                    };
-                    return monacoAction;
+                        command,
+                    }];
                 } else {
                     // CodeAction
                     const codeAction = action as CodeAction;
@@ -112,10 +115,10 @@ class LspCodeActionProvider implements monaco.languages.CodeActionProvider {
                         isPreferred: codeAction.isPreferred,
                         disabled: codeAction.disabled?.reason,
                         edit: codeAction.edit ? toMonacoWorkspaceEdit(codeAction.edit, this._client) : undefined,
-                        command: toMonacoCommand(codeAction.command),
+                        command: this._client.commands.toMonacoCommand(codeAction.command),
                         _lspAction: codeAction,
                     };
-                    return monacoAction;
+                    return [monacoAction];
                 }
             }),
             dispose: () => { },

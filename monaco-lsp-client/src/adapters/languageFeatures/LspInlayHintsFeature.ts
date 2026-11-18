@@ -4,7 +4,7 @@ import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
 import { toMonacoLanguageSelector } from './common';
 import { assertTargetTextModel } from '../ITextModelBridge';
-import { toMonacoCommand, toMonacoInlayHintKind } from './common';
+import { toMonacoInlayHintKind, toUntrustedMarkdownString } from './common';
 
 export class LspInlayHintsFeature extends Disposable {
     private readonly _providers = new Set<LspInlayHintsProvider>();
@@ -82,7 +82,7 @@ class LspInlayHintsProvider implements monaco.languages.InlayHintsProvider {
                 }
 
                 if (resolved.label !== hint._lspInlayHint.label) {
-                    hint.label = toLspInlayHintLabel(resolved.label);
+                    hint.label = toLspInlayHintLabel(resolved.label, this._client);
                 }
 
                 if (resolved.textEdits) {
@@ -128,7 +128,7 @@ class LspInlayHintsProvider implements monaco.languages.InlayHintsProvider {
         return {
             hints: result.map(hint => {
                 const monacoHint: ExtendedInlayHint = {
-                    label: toLspInlayHintLabel(hint.label),
+                    label: toLspInlayHintLabel(hint.label, this._client),
                     position: assertTargetTextModel(
                         this._client.bridge.translateBack(translated.textDocument, hint.position),
                         model
@@ -168,7 +168,7 @@ async function retryOnContentModified<T>(cb: () => Promise<T>): Promise<T> {
     }
 }
 
-function toLspInlayHintLabel(label: string | any[]): string | monaco.languages.InlayHintLabelPart[] {
+function toLspInlayHintLabel(label: string | any[], client: LspConnection): string | monaco.languages.InlayHintLabelPart[] {
     if (typeof label === 'string') {
         return label;
     }
@@ -177,7 +177,7 @@ function toLspInlayHintLabel(label: string | any[]): string | monaco.languages.I
         const monacoLabelPart: monaco.languages.InlayHintLabelPart = {
             label: part.value,
             tooltip: toMonacoTooltip(part.tooltip),
-            command: toMonacoCommand(part.command),
+            command: client.commands.toMonacoCommand(part.command),
         };
 
         if (part.location) {
@@ -205,7 +205,5 @@ function toMonacoTooltip(tooltip: string | MarkupContent | undefined): string | 
         return tooltip;
     }
 
-    return {
-        value: tooltip.value,
-    };
+    return toUntrustedMarkdownString(tooltip.value);
 }

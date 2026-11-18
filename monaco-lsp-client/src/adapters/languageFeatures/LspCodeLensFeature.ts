@@ -1,10 +1,9 @@
 import * as monaco from 'monaco-editor-core';
-import { capabilities, CodeLensRegistrationOptions, CodeLens } from '../../../src/types';
+import { capabilities, CodeLensRegistrationOptions, CodeLens, Command } from '../../../src/types';
 import { Disposable } from '../../utils';
 import { LspConnection } from '../LspConnection';
 import { toMonacoLanguageSelector } from './common';
 import { assertTargetTextModel } from '../ITextModelBridge';
-import { toMonacoCommand } from './common';
 
 export class LspCodeLensFeature extends Disposable {
     constructor(
@@ -57,7 +56,7 @@ class LspCodeLensProvider implements monaco.languages.CodeLensProvider {
             lenses: result.map(lens => {
                 const monacoLens: ExtendedCodeLens = {
                     range: assertTargetTextModel(this._client.bridge.translateBackRange(translated.textDocument, lens.range), model).range,
-                    command: toMonacoCommand(lens.command),
+                    command: toMonacoCodeLensCommand(lens.command, this._client),
                     _lspCodeLens: lens,
                 };
                 return monacoLens;
@@ -78,13 +77,19 @@ class LspCodeLensProvider implements monaco.languages.CodeLensProvider {
         const resolved = await this._client.server.codeLensResolve(codeLens._lspCodeLens);
 
         if (resolved.command) {
-            codeLens.command = {
-                id: resolved.command.command,
-                title: resolved.command.title,
-                arguments: resolved.command.arguments,
-            };
+            codeLens.command = toMonacoCodeLensCommand(resolved.command, this._client);
         }
 
         return codeLens;
     }
+}
+
+/**
+ * Keeps the title of commands that must not be executed, so that the code lens is still shown (but is not clickable).
+ */
+function toMonacoCodeLensCommand(command: Command | undefined, client: LspConnection): monaco.languages.Command | undefined {
+    if (!command) {
+        return undefined;
+    }
+    return client.commands.toMonacoCommand(command) ?? { id: '', title: command.title };
 }
