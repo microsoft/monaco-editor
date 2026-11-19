@@ -101,7 +101,20 @@ export const language = <languages.IMonarchLanguage>{
 		'record',
 		'sealed',
 		'non-sealed',
-		'permits'
+		'permits',
+		'var',
+		'when',
+		'_',
+		'exports',
+		'module',
+		'open',
+		'opens',
+		'provides',
+		'requires',
+		'to',
+		'transitive',
+		'uses',
+		'with'
 	],
 
 	operators: [
@@ -141,7 +154,9 @@ export const language = <languages.IMonarchLanguage>{
 		'%=',
 		'<<=',
 		'>>=',
-		'>>>='
+		'>>>=',
+		'->',
+		'::'
 	],
 
 	// we include these common regular expressions
@@ -214,6 +229,7 @@ export const language = <languages.IMonarchLanguage>{
 		whitespace: [
 			[/[ \t\r\n]+/, ''],
 			[/\/\*\*(?!\/)/, 'comment.doc', '@javadoc'],
+			[/\/\/\/.*$/, 'comment.doc'],
 			[/\/\*/, 'comment', '@comment'],
 			[/\/\/.*$/, 'comment']
 		],
