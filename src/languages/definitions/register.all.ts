@@ -64,6 +64,7 @@ import './redshift/register';
 import './restructuredtext/register';
 import './ruby/register';
 import './rust/register';
+import './sas/register';
 import './sb/register';
 import './scala/register';
 import './scheme/register';
