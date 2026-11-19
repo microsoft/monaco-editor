@@ -260,6 +260,7 @@ export const language = <languages.IMonarchLanguage>{
 			],
 
 			// numbers
+			[/[0-9][0-9_]*[eE][\-+]?[0-9][0-9_]*[fFdD]?/, 'number.float'],
 			[/[0-9_]*\.[0-9_]+([eE][\-+]?\d+)?[fFdD]?/, 'number.float'],
 			[/0[xX][0-9a-fA-F_]+/, 'number.hex'],
 			[/0[bB][01_]+/, 'number.hex'], // binary: use same theme style as hex
