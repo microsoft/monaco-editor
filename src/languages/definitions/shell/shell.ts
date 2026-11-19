@@ -192,11 +192,11 @@ export const language = <languages.IMonarchLanguage>{
 			[/"/, 'string', '@dblStringBody']
 		],
 		stringBody: [
-			[/'/, 'string', '@popall'],
+			[/'/, 'string', '@pop'],
 			[/./, 'string']
 		],
 		dblStringBody: [
-			[/"/, 'string', '@popall'],
+			[/"/, 'string', '@pop'],
 			[/./, 'string']
 		],
 
@@ -233,9 +233,11 @@ export const language = <languages.IMonarchLanguage>{
 			[/["]/, 'variable', '@pop']
 		],
 		parameterBodyParen: [
-			[/[^#:%*@\-!_)]+/, 'variable'],
-			[/[#:%*@\-!_]/, 'delimiter'],
-			[/[)]/, 'variable', '@pop']
+			[/[)]/, 'variable', '@pop'],
+			{ include: '@strings' },
+			{ include: '@parameters' },
+			[/[^#:%*@\-!_)'"]+/, 'variable'],
+			[/[#:%*@\-!_]/, 'delimiter']
 		],
 		parameterBodyCurlyBrace: [
 			[/[^#:%*@\-!_}]+/, 'variable'],
