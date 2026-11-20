@@ -114,7 +114,6 @@ export const language = {
 		'function',
 		'get',
 		'if',
-		'immediate',
 		'implements',
 		'import',
 		'in',
