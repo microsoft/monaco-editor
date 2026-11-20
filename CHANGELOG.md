@@ -1,14 +1,22 @@
 # Monaco Editor Changelog
 
-## [0.57.1]
+## [0.58.0]
 
 ### Breaking Changes
 
 - Markdown rendered by the editor (hovers, suggestion details, parameter hints, inline completion warnings, editor messages) no longer loads remote images by default. `data:` images are still shown. Use the new `markdownImages.allowedOrigins` editor option to allow images from specific origins (for example `['https://img.shields.io']`), or set it to `true` to allow all remote images as before.
 
+### Fixes
+
+- Fires configuration change events when tab focus mode is toggled, and keeps per-editor `tabFocusMode` overrides ([#4740](https://github.com/microsoft/monaco-editor/issues/4740), [microsoft/vscode#345251](https://github.com/microsoft/vscode/pull/345251), [microsoft/vscode#349316](https://github.com/microsoft/vscode/pull/349316)).
+- Bundles the `@vscode/diff` backend in the editor worker, so the `advanced-external` and `advanced-wasm` diff algorithms work in bundled applications, and falls back to the built-in diff when it fails ([microsoft/vscode#348527](https://github.com/microsoft/vscode/pull/348527), [microsoft/vscode#346266](https://github.com/microsoft/vscode/pull/346266)).
+- Fixes memory leaks in the word highlighter and color picker, and reduces idle CPU usage by disabling the native caret blink in EditContext.
+- Fixes `findWithArgs` ignoring empty search strings, UTF-16 column counts in text lengths, stale format-on-type requests, and auto-closed pair tracking for suggestion edits.
+- Fixes several minimap rendering issues (slider behavior with view zones, section headers, background, sizing on high-DPI screens).
+
 ### Updates
 
-- Updates the editor core to VS Code commit `3bc96745d6414f97cd0c09e753ecf698b7829101`, validated in `0.58.0-dev-20261103`.
+- Updates the editor core to VS Code commit `c132f72ae9f5ff80093e7d722c36f03755865b20`.
 - Updates bundled DOMPurify from 3.4.15 to 3.4.17.
 
 ## [0.57.0]
