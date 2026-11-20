@@ -93,6 +93,16 @@ function getPinnedPnpmVersion(): string | undefined {
 }
 
 /**
+ * Returns VS Code's lint script: newer commits replaced `eslint` with `oxlint`.
+ */
+function getLintScript(): string {
+	const packageJson = require(join(vscodePath, 'package.json')) as {
+		scripts?: Record<string, string>;
+	};
+	return packageJson.scripts?.oxlint ? 'oxlint' : 'eslint';
+}
+
+/**
  * Installs VS Code's JavaScript dependencies without running install scripts.
  * The editor build doesn't need VS Code's native modules, and compiling them for Electron
  * downloads Electron's headers, which the build agents' network isolation blocks.
@@ -143,7 +153,7 @@ async function buildAndTest() {
 	// Run checks and compilation
 	await run(`${pm} run gulp hygiene`, { cwd: vscodePath });
 	await run(`${pm} run valid-layers-check`, { cwd: vscodePath });
-	await run(`${pm} run eslint`, { cwd: vscodePath });
+	await run(`${pm} run ${getLintScript()}`, { cwd: vscodePath });
 	await run(`${pm} run monaco-compile-check`, { cwd: vscodePath });
 	// Only compile the client (gulp `compile` task); skip the `compile-copilot`
 	// step that `npm run compile` also triggers. The Copilot extension is not part
