@@ -115,7 +115,8 @@ function objectMergeThrowIfSet(
 	fieldName: string
 ): void {
 	for (const [key, value] of Object.entries(source)) {
-		if (key in target) {
+		// Equal values come from an earlier attempt of this step (the task is retried on failure).
+		if (key in target && target[key] !== value) {
 			throw new Error(
 				`Cannot merge ${fieldName}: property '${key}' already exists in target with value '${target[key]}', would be overridden with '${value}'`
 			);
