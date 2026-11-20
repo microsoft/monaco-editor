@@ -6,6 +6,117 @@
 import { testTokenization } from '../test/testRunner';
 
 testTokenization('rust', [
+	// Scientific notation with optional exponent signs
+	[
+		{
+			line: '1e3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1E3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1e+3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1E+3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1e-3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1E-3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1.5e3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1.5E3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1.5e+3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1.5e-3',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '2E10f64',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '2E+10f64',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '2E-10f64',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '2e10f32',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1_000e1_0',
+			tokens: [{ startIndex: 0, type: 'number.rust' }]
+		}
+	],
+	[
+		{
+			line: '1e3+2',
+			tokens: [
+				{ startIndex: 0, type: 'number.rust' },
+				{ startIndex: 3, type: 'operator.rust' },
+				{ startIndex: 4, type: 'number.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: '1..3',
+			tokens: [
+				{ startIndex: 0, type: 'number.rust' },
+				{ startIndex: 1, type: 'operator.rust' },
+				{ startIndex: 3, type: 'number.rust' }
+			]
+		}
+	],
 	// String
 	[
 		{
