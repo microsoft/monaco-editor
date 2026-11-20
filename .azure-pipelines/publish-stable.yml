@@ -37,6 +37,7 @@ extends:
       - name: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
         testPlatforms: []
+        timeoutInMinutes: 60 # SDL steps and tool installs vary; the default 30 left only a few minutes of headroom
         skipAPIScan: true # package build requires Linux
         buildSteps:
           - task: NodeTool@0
@@ -68,6 +69,7 @@ extends:
         dependsOn: monaco-editor-core
         workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
         testPlatforms: []
+        timeoutInMinutes: 60 # SDL steps and tool installs vary; the default 30 left only a few minutes of headroom
         skipAPIScan: true # package build requires Linux
         buildSteps:
           - task: NodeTool@0
