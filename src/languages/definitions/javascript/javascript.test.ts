@@ -794,6 +794,117 @@ testTokenization('javascript', [
 		}
 	],
 
+	// A regex in the first branch of a ternary is followed by `:`.
+	// Quotes inside it must stay regexp tokens so they do not open a string.
+	[
+		{
+			line: 'const x = true ? /^([^"]*)"/ : /^([^\']*)\'/',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.js' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'identifier.js' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'delimiter.js' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'keyword.js' },
+				{ startIndex: 14, type: '' },
+				{ startIndex: 15, type: 'delimiter.js' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'regexp.js' },
+				{ startIndex: 18, type: 'regexp.escape.control.js' },
+				{ startIndex: 22, type: 'regexp.js' },
+				{ startIndex: 23, type: 'regexp.escape.control.js' },
+				{ startIndex: 26, type: 'regexp.js' },
+				{ startIndex: 28, type: '' },
+				{ startIndex: 29, type: 'delimiter.js' },
+				{ startIndex: 30, type: '' },
+				{ startIndex: 31, type: 'regexp.js' },
+				{ startIndex: 32, type: 'regexp.escape.control.js' },
+				{ startIndex: 36, type: 'regexp.js' },
+				{ startIndex: 37, type: 'regexp.escape.control.js' },
+				{ startIndex: 40, type: 'regexp.js' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'true ? /a/ : /b/',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.js' },
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'delimiter.js' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'regexp.js' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'delimiter.js' },
+				{ startIndex: 12, type: '' },
+				{ startIndex: 13, type: 'regexp.js' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'true ? /foo/g : bar',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.js' },
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'delimiter.js' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'regexp.js' },
+				{ startIndex: 12, type: 'keyword.other.js' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'delimiter.js' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'identifier.js' }
+			]
+		}
+	],
+
+	// Division is unchanged when `/` is not a terminated regex before `:`.
+	[
+		{
+			line: 'c ? a / b / d : e',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.js' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.js' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.js' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.js' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'identifier.js' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'delimiter.js' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'identifier.js' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'delimiter.js' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'identifier.js' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'n / 2 : x',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.js' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.js' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'number.js' },
+				{ startIndex: 5, type: '' },
+				{ startIndex: 6, type: 'delimiter.js' },
+				{ startIndex: 7, type: '' },
+				{ startIndex: 8, type: 'identifier.js' }
+			]
+		}
+	],
+
 	[
 		{
 			line: '{ key: 123 }',
