@@ -74,6 +74,125 @@ testTokenization('rust', [
 			]
 		}
 	],
+	// Raw byte string
+	[
+		{
+			line: 'br"a\\nb" ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 3, type: 'string.rust' },
+				{ startIndex: 7, type: 'string.quote.rust' },
+				{ startIndex: 8, type: 'white.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'br#"a\\"b#c"# ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 4, type: 'string.rust' },
+				{ startIndex: 10, type: 'string.quote.rust' },
+				{ startIndex: 12, type: 'white.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'br##"This is multi-line',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 5, type: 'string.rust' }
+			]
+		},
+		{
+			line: 'raw "#string"## ',
+			tokens: [
+				{ startIndex: 0, type: 'string.rust' },
+				{ startIndex: 12, type: 'string.quote.rust' },
+				{ startIndex: 15, type: 'white.rust' }
+			]
+		}
+	],
+	// Raw C string
+	[
+		{
+			line: 'cr"a\\tb" ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 3, type: 'string.rust' },
+				{ startIndex: 7, type: 'string.quote.rust' },
+				{ startIndex: 8, type: 'white.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'cr#"x"y#z"# ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 4, type: 'string.rust' },
+				{ startIndex: 9, type: 'string.quote.rust' },
+				{ startIndex: 11, type: 'white.rust' }
+			]
+		}
+	],
+	// Raw string containing a backslash, a quote and a hash
+	[
+		{
+			line: 'r#"a\\"b#c"# ',
+			tokens: [
+				{ startIndex: 0, type: 'string.quote.rust' },
+				{ startIndex: 3, type: 'string.rust' },
+				{ startIndex: 9, type: 'string.quote.rust' },
+				{ startIndex: 11, type: 'white.rust' }
+			]
+		}
+	],
+	// Non-raw byte / C strings keep normal escape handling
+	[
+		{
+			line: 'b"a\\nb" ',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.rust' },
+				{ startIndex: 1, type: 'string.quote.rust' },
+				{ startIndex: 2, type: 'string.rust' },
+				{ startIndex: 3, type: 'string.escape.rust' },
+				{ startIndex: 5, type: 'string.rust' },
+				{ startIndex: 6, type: 'string.quote.rust' },
+				{ startIndex: 7, type: 'white.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'c"a\\nb" ',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.rust' },
+				{ startIndex: 1, type: 'string.quote.rust' },
+				{ startIndex: 2, type: 'string.rust' },
+				{ startIndex: 3, type: 'string.escape.rust' },
+				{ startIndex: 5, type: 'string.rust' },
+				{ startIndex: 6, type: 'string.quote.rust' },
+				{ startIndex: 7, type: 'white.rust' }
+			]
+		}
+	],
+	// An identifier that merely ends in "br" is not a raw string prefix
+	[
+		{
+			line: 'foobr"a\\nb" ',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.rust' },
+				{ startIndex: 5, type: 'string.quote.rust' },
+				{ startIndex: 6, type: 'string.rust' },
+				{ startIndex: 7, type: 'string.escape.rust' },
+				{ startIndex: 9, type: 'string.rust' },
+				{ startIndex: 10, type: 'string.quote.rust' },
+				{ startIndex: 11, type: 'white.rust' }
+			]
+		}
+	],
 	// Byte literal
 	[
 		{
