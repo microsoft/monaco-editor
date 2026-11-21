@@ -154,5 +154,118 @@ testTokenization('ruby', [
 				{ startIndex: 1, type: 'string.heredoc.delimiter.ruby' }
 			]
 		}
+	],
+
+	// 'if' after an operator is an expression closed by 'end', not a modifier.
+	// Trailing unmatched 'end' must not throw (#134)
+	[
+		{
+			line: 'x = if a',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ruby' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 4, type: 'keyword.if.ruby' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'identifier.ruby' }
+			]
+		},
+		{
+			line: 'else',
+			tokens: [{ startIndex: 0, type: 'keyword.ruby' }]
+		},
+		{
+			line: 'end',
+			tokens: [{ startIndex: 0, type: 'keyword.if.ruby' }]
+		},
+		{
+			line: 'end',
+			tokens: [{ startIndex: 0, type: 'keyword.ruby' }]
+		}
+	],
+
+	// 'while' after an operator
+	[
+		{
+			line: 'y = while a do',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.ruby' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 4, type: 'keyword.while.ruby' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'identifier.ruby' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'keyword.ruby' }
+			]
+		},
+		{
+			line: 'end',
+			tokens: [{ startIndex: 0, type: 'keyword.while.ruby' }]
+		}
+	],
+
+	// 'if|unless' after an opening bracket or a separator
+	[
+		{
+			line: 'def f',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.def.ruby' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.ruby' }
+			]
+		},
+		{
+			line: '  foo(if a',
+			tokens: [
+				{ startIndex: 0, type: 'white.ruby' },
+				{ startIndex: 2, type: 'identifier.ruby' },
+				{ startIndex: 5, type: 'delimiter.parenthesis.ruby' },
+				{ startIndex: 6, type: 'keyword.if.ruby' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'identifier.ruby' }
+			]
+		},
+		{
+			line: '  end, if b',
+			tokens: [
+				{ startIndex: 0, type: 'white.ruby' },
+				{ startIndex: 2, type: 'keyword.if.ruby' },
+				{ startIndex: 5, type: 'delimiter.ruby' },
+				{ startIndex: 6, type: '' },
+				{ startIndex: 7, type: 'keyword.if.ruby' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'identifier.ruby' }
+			]
+		},
+		{
+			line: '  end)',
+			tokens: [
+				{ startIndex: 0, type: 'white.ruby' },
+				{ startIndex: 2, type: 'keyword.if.ruby' },
+				{ startIndex: 5, type: 'delimiter.parenthesis.ruby' }
+			]
+		},
+		{
+			line: '  x; unless c',
+			tokens: [
+				{ startIndex: 0, type: 'white.ruby' },
+				{ startIndex: 2, type: 'identifier.ruby' },
+				{ startIndex: 3, type: 'delimiter.ruby' },
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'keyword.unless.ruby' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'identifier.ruby' }
+			]
+		},
+		{
+			line: '  end',
+			tokens: [
+				{ startIndex: 0, type: 'white.ruby' },
+				{ startIndex: 2, type: 'keyword.unless.ruby' }
+			]
+		},
+		{
+			line: 'end',
+			tokens: [{ startIndex: 0, type: 'keyword.def.ruby' }]
+		}
 	]
 ]);
