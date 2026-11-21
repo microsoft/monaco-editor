@@ -9,14 +9,15 @@
 ### Fixes
 
 - Fires configuration change events when tab focus mode is toggled, and keeps per-editor `tabFocusMode` overrides ([#4740](https://github.com/microsoft/monaco-editor/issues/4740), [microsoft/vscode#345251](https://github.com/microsoft/vscode/pull/345251), [microsoft/vscode#349316](https://github.com/microsoft/vscode/pull/349316)).
-- Bundles the `@vscode/diff` backend in the editor worker, so the `advanced-external` and `advanced-wasm` diff algorithms work in bundled applications, and falls back to the built-in diff when it fails ([microsoft/vscode#348527](https://github.com/microsoft/vscode/pull/348527), [microsoft/vscode#346266](https://github.com/microsoft/vscode/pull/346266)).
+- Bundles the `@vscode/diff` backend in the editor worker, so the `advanced-external` diff algorithm works in bundled applications (`advanced-wasm` uses the same TypeScript backend in the standalone editor), and falls back to the built-in diff when it fails ([microsoft/vscode#348527](https://github.com/microsoft/vscode/pull/348527), [microsoft/vscode#346266](https://github.com/microsoft/vscode/pull/346266)).
 - Fixes memory leaks in the word highlighter and color picker, and reduces idle CPU usage by disabling the native caret blink in EditContext.
 - Fixes `findWithArgs` ignoring empty search strings, UTF-16 column counts in text lengths, stale format-on-type requests, and auto-closed pair tracking for suggestion edits.
 - Fixes several minimap rendering issues (slider behavior with view zones, section headers, background, sizing on high-DPI screens).
 
 ### Updates
 
-- Updates the editor core to VS Code commit `c132f72ae9f5ff80093e7d722c36f03755865b20`.
+- Updates the editor core to VS Code commit `c132f72ae9f5ff80093e7d722c36f03755865b20`, validated in `0.58.0-rc.2`.
+- Adds `@vscode/diff` 0.0.2-145 as a dependency.
 - Updates bundled DOMPurify from 3.4.15 to 3.4.17.
 
 ## [0.57.0]
