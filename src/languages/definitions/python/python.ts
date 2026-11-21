@@ -202,6 +202,7 @@ export const language = <languages.IMonarchLanguage>{
 
 	tokenizer: {
 		root: [
+			[/^(\s*)(@[a-zA-Z_]\w*)/, ['white', 'tag']],
 			{ include: '@whitespace' },
 			{ include: '@numbers' },
 			{ include: '@strings' },
@@ -209,7 +210,6 @@ export const language = <languages.IMonarchLanguage>{
 			[/[,:;]/, 'delimiter'],
 			[/[{}\[\]()]/, '@brackets'],
 
-			[/@[a-zA-Z_]\w*/, 'tag'],
 			[
 				/[a-zA-Z_]\w*/,
 				{
