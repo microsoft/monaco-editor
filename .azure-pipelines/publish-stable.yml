@@ -51,13 +51,17 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: npx playwright install --with-deps
-            displayName: Install Playwright Dependencies
+          - script: npx playwright install-deps
+            displayName: Install Playwright OS Dependencies
 
           - task: NuGetAuthenticate@1
             displayName: Authenticate Foundry Local native dependencies
 
           - script: yarn ts-node ./scripts/ci/build-monaco-editor-core-pkg stable
+            env:
+              PLAYWRIGHT_BROWSERS_PATH: $(Agent.TempDirectory)/ms-playwright
+              npm_config_store_dir: $(Agent.TempDirectory)/pnpm-store
+            retryCountOnTaskFailure: 2
             displayName: Setup, Build & Test monaco-editor-core
 
         tag: latest
@@ -84,6 +88,7 @@ extends:
             displayName: Install Playwright Dependencies
 
           - script: yarn ts-node ./scripts/ci/build-monaco-editor-pkg stable
+            retryCountOnTaskFailure: 2
             displayName: Setup, Build & Test monaco-editor
 
         tag: latest

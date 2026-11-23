@@ -63,8 +63,8 @@ extends:
           - script: npm ci
             displayName: Install NPM dependencies
 
-          - script: npx playwright install --with-deps
-            displayName: Install Playwright Dependencies
+          - script: npx playwright install-deps
+            displayName: Install Playwright OS Dependencies
 
           - task: NuGetAuthenticate@1
             displayName: Authenticate Foundry Local native dependencies
@@ -73,6 +73,8 @@ extends:
             env:
               VSCODE_REF: ${{ parameters.vscodeRef }}
               PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
+              PLAYWRIGHT_BROWSERS_PATH: $(Agent.TempDirectory)/ms-playwright
+              npm_config_store_dir: $(Agent.TempDirectory)/pnpm-store
             retryCountOnTaskFailure: 2
             displayName: Setup, Build & Test monaco-editor-core
 
