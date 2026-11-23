@@ -57,6 +57,12 @@ extends:
               versionSource: fromFile
               versionFilePath: .nvmrc
 
+          - script: |
+              df -h /
+              sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /usr/share/swift
+              df -h /
+            displayName: Free disk space # the core build and its browser tests nearly fill the agent's disk
+
           - script: sudo apt install -y libkrb5-dev
             displayName: Install libkrb5-dev
 
