@@ -385,6 +385,8 @@ export const language = <languages.IMonarchLanguage>{
 
 		annotation: [
 			{ include: '@whitespace' },
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-terminated string
+			[/"/, 'string', '@string'],
 			[/using|alignas/, 'keyword'],
 			[/[a-zA-Z0-9_]+/, 'annotation'],
 			[/[,:]/, 'delimiter'],
