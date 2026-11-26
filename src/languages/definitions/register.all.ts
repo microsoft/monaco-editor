@@ -67,6 +67,7 @@ import './rust/register';
 import './sb/register';
 import './scala/register';
 import './scheme/register';
+import './scilab/register';
 import './scss/register';
 import './shell/register';
 import './solidity/register';
