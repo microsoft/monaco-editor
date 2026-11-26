@@ -17,6 +17,7 @@ import './csp/register';
 import './css/register';
 import './cypher/register';
 import './dart/register';
+import './diff/register';
 import './dockerfile/register';
 import './ecl/register';
 import './elixir/register';

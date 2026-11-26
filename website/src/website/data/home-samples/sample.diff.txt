@@ -1,0 +1,24 @@
+diff --git a/src/hello.js b/src/hello.js
+index 3b18e51..a2c4f0d 100644
+--- a/src/hello.js
++++ b/src/hello.js
+@@ -1,7 +1,8 @@
+ function hello(name) {
+-	console.log('Hello ' + name);
++	const greeting = `Hello ${name}`;
++	console.log(greeting);
+ }
+ 
+ hello('world');
+-hello('there');
++hello('Monaco');
+\ No newline at end of file
+diff --git a/README.md b/README.md
+index 9a1b2c3..d4e5f6a 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,3 @@
+ # Sample
+-An old description.
++A new description.
+ 
