@@ -1,0 +1,21 @@
+// Solve a linear system and print the residual
+function [x, r] = solve(A, b)
+    x = A \ b;
+    r = norm(A * x - b);
+endfunction
+
+A = [4 1; 2 3];
+b = [1; 2]';
+[x, r] = solve(A, b');
+
+/* the transpose of a matrix and a string */
+disp(A', "result:");
+if r < %eps then
+    printf('residual is tiny\n');
+else
+    error("residual too large");
+end
+
+for k = 1:3
+    s = sprintf("k = %d", k); // trailing comment
+end
