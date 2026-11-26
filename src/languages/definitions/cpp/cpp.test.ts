@@ -867,6 +867,19 @@ testTokenization('cpp', [
 	],
 	[
 		{
+			// Keywords inside a string literal argument are not highlighted as keywords
+			line: '[[nodiscard("using alignas")]]',
+			tokens: [
+				{ startIndex: 0, type: 'annotation.cpp' }, // [[nodiscard
+				{ startIndex: 11, type: 'delimiter.parenthesis.cpp' }, // (
+				{ startIndex: 12, type: 'string.cpp' }, // "using alignas"
+				{ startIndex: 27, type: 'delimiter.parenthesis.cpp' }, // )
+				{ startIndex: 28, type: 'annotation.cpp' } // ]]
+			]
+		}
+	],
+	[
+		{
 			// Example from http://eel.is/c++draft/dcl.attr
 			line: '[[using CC: opt(1), debug]]',
 			tokens: [
