@@ -68,7 +68,7 @@
 		"husky": "^7.0.4",
 		"jsdom": "^29.0.1",
 		"jsonc-parser": "^3.0.0",
-		"mocha": "^11.7.4",
+		"mocha": "^12.0.3",
 		"monaco-editor-core": "0.58.0-dev-20261103",
 		"parcel": "^2.7.0",
 		"pin-github-action": "^1.8.0",
