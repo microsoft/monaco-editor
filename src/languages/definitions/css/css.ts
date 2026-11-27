@@ -88,7 +88,8 @@ export const language = <languages.IMonarchLanguage>{
 		selectorbody: [
 			{ include: '@comments' },
 			['[*_]?@identifier@ws:(?=(\\s|\\d|[^{;}]*[;}]))', 'attribute.name', '@rulevalue'], // rule definition: to distinguish from a nested selector check for whitespace, number or a semicolon
-			['}', { token: 'delimiter.bracket', next: '@pop' }]
+			['}', { token: 'delimiter.bracket', next: '@pop' }],
+{ include: '@selector' } // nested selector, e.g. a rule inside @media
 		],
 
 		selectorname: [
