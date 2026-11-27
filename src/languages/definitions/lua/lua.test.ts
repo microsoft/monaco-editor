@@ -82,5 +82,118 @@ testTokenization('lua', [
 			line: '--[===[ text ]==] x',
 			tokens: [{ startIndex: 0, type: 'comment.lua' }]
 		}
+	],
+
+		// Long strings
+	[
+		{
+			line: 'x = [[Hello World]] y',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.lua' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.lua' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'string.lua' },
+				{ startIndex: 19, type: '' },
+				{ startIndex: 20, type: 'identifier.lua' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'x = [===[Hello ]] ]==] World]===] y',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.lua' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.lua' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'string.lua' },
+				{ startIndex: 33, type: '' },
+				{ startIndex: 34, type: 'identifier.lua' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 's = [==[ multi',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.lua' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.lua' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'string.lua' }
+			]
+		},
+		{
+			line: '  "q" \\n [[ ]=] z',
+			tokens: [{ startIndex: 0, type: 'string.lua' }]
+		},
+		{
+			line: 'end ]==] y',
+			tokens: [
+				{ startIndex: 0, type: 'string.lua' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'identifier.lua' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'a = t[b[1]] + t[ [[k]] ]',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.lua' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.lua' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.lua' },
+				{ startIndex: 5, type: 'delimiter.array.lua' },
+				{ startIndex: 6, type: 'identifier.lua' },
+				{ startIndex: 7, type: 'delimiter.array.lua' },
+				{ startIndex: 8, type: 'number.lua' },
+				{ startIndex: 9, type: 'delimiter.array.lua' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'delimiter.lua' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'identifier.lua' },
+				{ startIndex: 15, type: 'delimiter.array.lua' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'string.lua' },
+				{ startIndex: 22, type: '' },
+				{ startIndex: 23, type: 'delimiter.array.lua' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '--[[ c ]] [[s]] --[=[ c2 ]=] x',
+			tokens: [
+				{ startIndex: 0, type: 'comment.lua' },
+				{ startIndex: 9, type: '' },
+				{ startIndex: 10, type: 'string.lua' },
+				{ startIndex: 15, type: '' },
+				{ startIndex: 16, type: 'comment.lua' },
+				{ startIndex: 28, type: '' },
+				{ startIndex: 29, type: 'identifier.lua' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'x = "[[a]]" y',
+			tokens: [
+				{ startIndex: 0, type: 'identifier.lua' },
+				{ startIndex: 1, type: '' },
+				{ startIndex: 2, type: 'delimiter.lua' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'string.lua' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'identifier.lua' }
+			]
+		}
 	]
 ]);
