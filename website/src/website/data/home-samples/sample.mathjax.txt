@@ -1,0 +1,34 @@
+% Euler's identity
+e^{i\pi} + 1 = 0
+
+% Gaussian integral
+\int_{-\infty}^{\infty} e^{-x^2}\, dx = \sqrt{\pi}
+
+% Taylor series
+\sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!} (x - a)^n
+
+% Matrix norm
+\left\| A \right\|_2 = \sqrt{\lambda_{\max}(A^* A)}
+
+% Stokes' theorem
+\oint_{\partial \Omega} \omega = \int_{\Omega} d\omega
+
+% Cauchy-Schwarz inequality
+\left| \sum_{k=1}^{n} a_k b_k \right|^2
+  \leq \left( \sum_{k=1}^{n} a_k^2 \right)
+       \left( \sum_{k=1}^{n} b_k^2 \right)
+
+% Quadratic formula
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+
+% Greek letters and arrows
+\alpha, \beta, \gamma \in \mathbb{R}
+\quad \Rightarrow \quad
+f(\alpha) \leq f(\beta) + \nabla f(\beta)^\top (\alpha - \beta)
+
+% Matrix
+A = \begin{pmatrix}
+  a_{11} & a_{12} \\
+  a_{21} & a_{22}
+\end{pmatrix}, \quad
+\det(A) = a_{11}a_{22} - a_{12}a_{21}
