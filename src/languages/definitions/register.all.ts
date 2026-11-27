@@ -9,6 +9,8 @@ import './azcli/register';
 import './bat/register';
 import './bicep/register';
 import './cameligo/register';
+import './cedar/register';
+import './cedarschema/register';
 import './clojure/register';
 import './coffee/register';
 import './cpp/register';

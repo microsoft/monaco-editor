@@ -1,0 +1,19 @@
+@id("policy1")
+permit (
+    principal in Group::"admins",
+    action == Action::"viewDocument",
+    resource
+)
+when {
+    resource has owner &&
+    resource.owner == principal
+};
+
+forbid (
+    principal,
+    action == Action::"deleteDocument",
+    resource
+)
+unless {
+    principal in Group::"superadmins"
+};
