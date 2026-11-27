@@ -136,28 +136,33 @@ module.exports = {
 
 A full working sample is available at https://github.com/microsoft/monaco-editor/tree/main/samples/browser-esm-parcel
 
-When using parcel, we need to use the `getWorkerUrl` function and build the workers seperately from our main source. To simplify things, we can write a tiny bash script to build the workers for us.
+When using parcel, we need to use the `getWorkerUrl` function to map the workers we import as URLs.
 
 - `index.js`
 
 ```js
-import * as monaco from 'monaco-editor';
+import JSONWorker from 'url:monaco-editor/esm/vs/language/json/json.worker.js';
+import CSSWorker from 'url:monaco-editor/esm/vs/language/css/css.worker.js';
+import HTMLWorker from 'url:monaco-editor/esm/vs/language/html/html.worker.js';
+import TSWorker from 'url:monaco-editor/esm/vs/language/typescript/ts.worker.js';
+import EditorWorker from 'url:monaco-editor/esm/vs/editor/editor.worker.js';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js';
 
 self.MonacoEnvironment = {
 	getWorkerUrl: function (moduleId, label) {
 		if (label === 'json') {
-			return './json.worker.js';
+			return JSONWorker;
 		}
 		if (label === 'css' || label === 'scss' || label === 'less') {
-			return './css.worker.js';
+			return CSSWorker;
 		}
 		if (label === 'html' || label === 'handlebars' || label === 'razor') {
-			return './html.worker.js';
+			return HTMLWorker;
 		}
 		if (label === 'typescript' || label === 'javascript') {
-			return './ts.worker.js';
+			return TSWorker;
 		}
-		return './editor.worker.js';
+		return EditorWorker;
 	}
 };
 
@@ -166,23 +171,6 @@ monaco.editor.create(document.getElementById('container'), {
 	language: 'javascript'
 });
 ```
-
-- `build_workers.sh`
-
-```sh
-ROOT=$PWD/node_modules/monaco-editor/esm/vs
-OPTS="--no-source-maps --log-level 1"        # Parcel options - See: https://parceljs.org/cli.html
-
-parcel build $ROOT/language/json/json.worker.js $OPTS
-parcel build $ROOT/language/css/css.worker.js $OPTS
-parcel build $ROOT/language/html/html.worker.js $OPTS
-parcel build $ROOT/language/typescript/ts.worker.js $OPTS
-parcel build $ROOT/editor/editor.worker.js $OPTS
-```
-
-Then, simply run `sh ./build_workers.sh && parcel index.html`. This builds the workers into the same directory as your main bundle (usually `./dist`). If you want to change the `--out-dir` of the workers, you must change the paths in `index.js` to reflect their new location.
-
-_note - the `getWorkerUrl` paths are relative to the build directory of your src bundle_
 
 ---
 
