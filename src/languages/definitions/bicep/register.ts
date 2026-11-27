@@ -7,7 +7,7 @@ import { registerLanguage } from '../_.contribution';
 
 registerLanguage({
 	id: 'bicep',
-	extensions: ['.bicep'],
+	extensions: ['.bicep', '.bicepparam'],
 	aliases: ['Bicep'],
 	loader: () => import('./bicep')
 });
