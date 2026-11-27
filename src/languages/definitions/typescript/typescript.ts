@@ -242,8 +242,13 @@ export const language = {
 			{ include: '@whitespace' },
 
 			// regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
+			// Unicode sets can nest character classes; keep legacy classes non-nesting.
 			[
-				/\/(?=([^\\\/]|\\.)+\/([dgimsuy]*)(\s*)(\.|;|,|\)|\]|\}|$))/,
+				/\/(?=(?:\\.|\[(?:\\.|[^\]])*\]|[^\\\/])+\/[dgimsuy]*v[dgimsuyv]*(\s*)(\.|;|,|\)|\]|\}|$))/,
+				{ token: 'regexp', bracket: '@open', next: '@regexpV' }
+			],
+			[
+				/\/(?=((?:\\.|\[(?:\\.|[^\]])*\]|[^\\\/])+\/([dgimsuyv]*)(\s*)(\.|;|,|\)|\]|\}|$)))/,
 				{ token: 'regexp', bracket: '@open', next: '@regexp' }
 			],
 
@@ -306,7 +311,7 @@ export const language = {
 				['regexp.escape.control', 'regexp.escape.control', 'regexp.escape.control']
 			],
 			[
-				/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/,
+				/(\[)(\^?)(?=(?:[^\]\\]|\\.)+)/,
 				['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]
 			],
 			[/(\()(\?:|\?=|\?!)/, ['regexp.escape.control', 'regexp.escape.control']],
@@ -315,7 +320,23 @@ export const language = {
 			[/[^\\\/]/, 'regexp'],
 			[/@regexpesc/, 'regexp.escape'],
 			[/\\\./, 'regexp.invalid'],
-			[/(\/)([dgimsuy]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
+			[/(\/)([dgimsuyv]*)/, [{ token: 'regexp', bracket: '@close', next: '@pop' }, 'keyword.other']]
+		],
+
+		regexpV: [
+			[
+				/(\[)(\^?)(?=(?:[^\]\\]|\\.)+)/,
+				['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrangeV' }]
+			],
+			{ include: '@regexp' }
+		],
+
+		regexrangeV: [
+			[
+				/(\[)(\^?)/,
+				['regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrangeV' }]
+			],
+			{ include: '@regexrange' }
 		],
 
 		regexrange: [
