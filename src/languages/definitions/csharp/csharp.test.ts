@@ -842,6 +842,134 @@ testTokenization('csharp', [
 		}
 	],
 
+	// Scientific notation with and without a decimal point
+	[
+		{
+			line: '1e3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1E3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1e+3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1E+3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1e-3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1E-3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1e3f',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1e3F',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1E+3d',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1E-3D',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1_000e3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1e1_0',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1.0e3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1.0E+3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1.0e-3',
+			tokens: [{ startIndex: 0, type: 'number.float.cs' }]
+		}
+	],
+
+	[
+		{
+			line: '1e3+2',
+			tokens: [
+				{ startIndex: 0, type: 'number.float.cs' },
+				{ startIndex: 3, type: 'delimiter.cs' },
+				{ startIndex: 4, type: 'number.cs' }
+			]
+		}
+	],
+
+	[
+		{
+			line: '1e+',
+			tokens: [
+				{ startIndex: 0, type: 'number.cs' },
+				{ startIndex: 1, type: 'identifier.cs' },
+				{ startIndex: 2, type: 'delimiter.cs' }
+			]
+		}
+	],
+
 	// Strings
 	[
 		{
