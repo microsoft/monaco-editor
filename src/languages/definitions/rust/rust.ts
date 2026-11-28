@@ -109,7 +109,6 @@ export const language = <languages.IMonarchLanguage>{
 		'f80',
 		'f16',
 		'f128',
-		'int',
 		'uint',
 		'float',
 		'char',

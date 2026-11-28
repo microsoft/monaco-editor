@@ -162,6 +162,48 @@ testTokenization('rust', [
 			]
 		}
 	],
+	// `int` is not a Rust type (microsoft/monaco-editor#3123)
+	[
+		{
+			line: 'fn int() {}',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.rust' },
+				{ startIndex: 2, type: 'white.rust' },
+				{ startIndex: 3, type: 'identifier.rust' },
+				{ startIndex: 6, type: 'delimiter.parenthesis.rust' },
+				{ startIndex: 8, type: 'white.rust' },
+				{ startIndex: 9, type: 'delimiter.curly.rust' }
+			]
+		},
+		{
+			line: 'fn other() {}',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.rust' },
+				{ startIndex: 2, type: 'white.rust' },
+				{ startIndex: 3, type: 'identifier.rust' },
+				{ startIndex: 8, type: 'delimiter.parenthesis.rust' },
+				{ startIndex: 10, type: 'white.rust' },
+				{ startIndex: 11, type: 'delimiter.curly.rust' }
+			]
+		}
+	],
+	[
+		{
+			line: 'let value: int = 1',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.rust' },
+				{ startIndex: 3, type: 'white.rust' },
+				{ startIndex: 4, type: 'identifier.rust' },
+				{ startIndex: 9, type: 'operator.rust' },
+				{ startIndex: 10, type: 'white.rust' },
+				{ startIndex: 11, type: 'identifier.rust' },
+				{ startIndex: 14, type: 'white.rust' },
+				{ startIndex: 15, type: 'operator.rust' },
+				{ startIndex: 16, type: 'white.rust' },
+				{ startIndex: 17, type: 'number.rust' }
+			]
+		}
+	],
 	// Numbers
 	// Integer
 	[
