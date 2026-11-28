@@ -953,6 +953,86 @@ testTokenization('cpp', [
 	],
 
 	[
+		// microsoft/monaco-editor#3269 : alternative tokens are keywords
+		{
+			line: 'void f() { if (a and not b) { } }',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.void.cpp' },
+				{ startIndex: 4, type: '' },
+				{ startIndex: 5, type: 'identifier.cpp' },
+				{ startIndex: 6, type: 'delimiter.parenthesis.cpp' },
+				{ startIndex: 8, type: '' },
+				{ startIndex: 9, type: 'delimiter.curly.cpp' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'keyword.if.cpp' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'delimiter.parenthesis.cpp' },
+				{ startIndex: 15, type: 'identifier.cpp' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'keyword.and.cpp' },
+				{ startIndex: 20, type: '' },
+				{ startIndex: 21, type: 'keyword.not.cpp' },
+				{ startIndex: 24, type: '' },
+				{ startIndex: 25, type: 'identifier.cpp' },
+				{ startIndex: 26, type: 'delimiter.parenthesis.cpp' },
+				{ startIndex: 27, type: '' },
+				{ startIndex: 28, type: 'delimiter.curly.cpp' },
+				{ startIndex: 29, type: '' },
+				{ startIndex: 30, type: 'delimiter.curly.cpp' },
+				{ startIndex: 31, type: '' },
+				{ startIndex: 32, type: 'delimiter.curly.cpp' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'and and_eq bitand bitor compl not not_eq or or_eq xor xor_eq',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.and.cpp' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'keyword.and-eq.cpp' },
+				{ startIndex: 10, type: '' },
+				{ startIndex: 11, type: 'keyword.bitand.cpp' },
+				{ startIndex: 17, type: '' },
+				{ startIndex: 18, type: 'keyword.bitor.cpp' },
+				{ startIndex: 23, type: '' },
+				{ startIndex: 24, type: 'keyword.compl.cpp' },
+				{ startIndex: 29, type: '' },
+				{ startIndex: 30, type: 'keyword.not.cpp' },
+				{ startIndex: 33, type: '' },
+				{ startIndex: 34, type: 'keyword.not-eq.cpp' },
+				{ startIndex: 40, type: '' },
+				{ startIndex: 41, type: 'keyword.or.cpp' },
+				{ startIndex: 43, type: '' },
+				{ startIndex: 44, type: 'keyword.or-eq.cpp' },
+				{ startIndex: 49, type: '' },
+				{ startIndex: 50, type: 'keyword.xor.cpp' },
+				{ startIndex: 53, type: '' },
+				{ startIndex: 54, type: 'keyword.xor-eq.cpp' }
+			]
+		}
+	],
+
+	[
+		{
+			line: 'int android = 1; // not a keyword prefix',
+			tokens: [
+				{ startIndex: 0, type: 'keyword.int.cpp' },
+				{ startIndex: 3, type: '' },
+				{ startIndex: 4, type: 'identifier.cpp' },
+				{ startIndex: 11, type: '' },
+				{ startIndex: 12, type: 'delimiter.cpp' },
+				{ startIndex: 13, type: '' },
+				{ startIndex: 14, type: 'number.cpp' },
+				{ startIndex: 15, type: 'delimiter.cpp' },
+				{ startIndex: 16, type: '' },
+				{ startIndex: 17, type: 'comment.cpp' }
+			]
+		}
+	],
+
+	[
 		// microsoft/monaco-editor#2497 : comment continuation highlighting
 		{
 			line: '// this is a comment \\',

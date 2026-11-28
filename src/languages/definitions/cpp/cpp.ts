@@ -147,6 +147,19 @@ export const language = <languages.IMonarchLanguage>{
 		'where',
 		'while',
 
+		// Alternative tokens for operators ([lex.key])
+		'and',
+		'and_eq',
+		'bitand',
+		'bitor',
+		'compl',
+		'not',
+		'not_eq',
+		'or',
+		'or_eq',
+		'xor',
+		'xor_eq',
+
 		'_asm', // reserved word with one underscores
 		'_based',
 		'_cdecl',
